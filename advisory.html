@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advisory Platform — ReGenesis Impact</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #0a2e1a;
+    --moss: #1a5c35;
+    --leaf: #2d9e5f;
+    --lime: #7ed957;
+    --cream: #f5f0e8;
+    --sand: #e8dfc8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--forest);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.5rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(10,46,26,0.95), transparent);
+    backdrop-filter: blur(8px);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--lime);
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--cream); }
+
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+
+  .nav-links a {
+    color: rgba(245,240,232,0.7);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--lime); }
+
+  .nav-cta {
+    background: var(--lime);
+    color: var(--forest) !important;
+    padding: 0.6rem 1.4rem;
+    border-radius: 2rem;
+    font-weight: 600 !important;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10rem 4rem 6rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 70% 40%, rgba(45,158,95,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 10% 70%, rgba(126,217,87,0.06) 0%, transparent 60%);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(126,217,87,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(126,217,87,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(126,217,87,0.12);
+    border: 1px solid rgba(126,217,87,0.25);
+    color: var(--lime);
+    padding: 0.4rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.08em;
+    margin-bottom: 2rem;
+    width: fit-content;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    max-width: 800px;
+  }
+
+  .hero h1 em { font-style: italic; color: var(--lime); }
+
+  .hero-sub {
+    margin-top: 2rem;
+    font-size: 1.15rem;
+    font-weight: 300;
+    color: rgba(245,240,232,0.6);
+    max-width: 540px;
+    line-height: 1.7;
+  }
+
+  .btn-primary {
+    background: var(--lime);
+    color: var(--forest);
+    border: none;
+    padding: 1rem 2.2rem;
+    border-radius: 3rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(126,217,87,0.4);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--cream);
+    border: 1px solid rgba(245,240,232,0.25);
+    padding: 1rem 2.2rem;
+    border-radius: 3rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    text-decoration: none;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--lime);
+    background: rgba(126,217,87,0.05);
+  }
+
+  /* SECTIONS */
+  .section { padding: 7rem 4rem; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--lime);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.1;
+    max-width: 600px;
+  }
+
+  .section-title em { font-style: italic; color: var(--lime); }
+
+  /* SERVICES */
+  .services-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 4rem;
+  }
+
+  .service-card {
+    background: rgba(26,92,53,0.1);
+    border: 1px solid rgba(126,217,87,0.12);
+    border-radius: 1.5rem;
+    padding: 3rem;
+    transition: transform 0.3s, border-color 0.3s, background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(126,217,87,0.05) 0%, transparent 70%);
+  }
+
+  .service-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(126,217,87,0.3);
+    background: rgba(45,158,95,0.1);
+  }
+
+  .service-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .service-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .service-desc {
+    font-size: 0.9rem;
+    color: rgba(245,240,232,0.55);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+
+  .service-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    background: rgba(126,217,87,0.08);
+    border: 1px solid rgba(126,217,87,0.18);
+    color: var(--lime);
+    padding: 0.3rem 0.85rem;
+    border-radius: 2rem;
+    font-size: 0.72rem;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+
+  /* PROCESS */
+  .process-section {
+    padding: 7rem 4rem;
+    background: rgba(0,0,0,0.2);
+  }
+
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-top: 4rem;
+    position: relative;
+  }
+
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    top: 2rem;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(126,217,87,0.3), transparent);
+  }
+
+  .process-step { display: flex; flex-direction: column; gap: 1rem; }
+
+  .step-num {
+    width: 4rem;
+    height: 4rem;
+    background: var(--forest);
+    border: 1px solid rgba(126,217,87,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--lime);
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+  }
+
+  .step-desc {
+    font-size: 0.85rem;
+    color: rgba(245,240,232,0.5);
+    line-height: 1.6;
+  }
+
+  /* WHY SECTION */
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 4rem;
+  }
+
+  .why-card {
+    padding: 2rem;
+    border-left: 2px solid rgba(126,217,87,0.2);
+    transition: border-color 0.3s;
+  }
+
+  .why-card:hover { border-color: var(--lime); }
+
+  .why-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--lime);
+    opacity: 0.6;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .why-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .why-desc {
+    font-size: 0.85rem;
+    color: rgba(245,240,232,0.5);
+    line-height: 1.6;
+  }
+
+  /* CONTACT */
+  .contact-section {
+    padding: 7rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(45,158,95,0.1) 0%, transparent 70%);
+  }
+
+  .contact-form {
+    max-width: 560px;
+    margin: 3rem auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .form-input {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(126,217,87,0.15);
+    color: var(--cream);
+    padding: 1rem 1.25rem;
+    border-radius: 0.75rem;
+    font-size: 0.9rem;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+
+  .form-input::placeholder { color: rgba(245,240,232,0.25); }
+  .form-input:focus { border-color: var(--lime); }
+
+  textarea.form-input { resize: vertical; min-height: 120px; }
+
+  /* FOOTER */
+  footer {
+    padding: 3rem 4rem;
+    border-top: 1px solid rgba(126,217,87,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--lime);
+    text-decoration: none;
+  }
+
+  .footer-copy { font-size: 0.8rem; color: rgba(245,240,232,0.3); }
+
+  .footer-links { display: flex; gap: 2rem; list-style: none; }
+
+  .footer-links a {
+    font-size: 0.8rem;
+    color: rgba(245,240,232,0.4);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--lime); }
+
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-tag, .hero h1, .hero-sub, .hero-actions { animation: fadeUp 0.8s ease both; }
+  .hero h1 { animation-delay: 0.1s; }
+  .hero-sub { animation-delay: 0.2s; }
+  .hero-actions { animation-delay: 0.3s; }
+
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero, .section, .process-section, .contact-section { padding: 6rem 1.5rem 4rem; }
+    .services-grid, .process-steps, .why-grid, .form-row { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">ReGenesis<span> Impact</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#features">Platform</a></li>
+    <li><a href="index.html#advisory">Advisory</a></li>
+    <li><a href="index.html#pricing">Pricing</a></li>
+    <li><a href="#contact" class="nav-cta">Talk to an Advisor</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-tag">Advisory Platform</div>
+  <h1>Navigate sustainability with <em>expert</em> confidence</h1>
+  <p class="hero-sub">AI-powered guidance combined with deep regulatory and carbon market expertise. Custom-built for enterprises serious about their net-zero commitments.</p>
+  <div style="display:flex;gap:1rem;margin-top:2.5rem;">
+    <a href="#contact" class="btn-primary">Talk to an Advisor →</a>
+    <a href="index.html" class="btn-secondary">← Back to Platform</a>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="section-label">Our Services</div>
+  <h2 class="section-title fade-up">Three pillars of <em>advisory</em> excellence</h2>
+
+  <div class="services-grid fade-up">
+
+    <div class="service-card">
+      <div class="service-icon">⚖️</div>
+      <div class="service-title">Regulatory Compliance Guidance</div>
+      <div class="service-desc">The sustainability regulatory landscape is evolving fast. Our advisors keep your enterprise ahead of ISSB, GRI, TCFD, and emerging market-specific mandates — so you're never caught off-guard. We translate complex frameworks into clear, actionable reporting roadmaps tailored to your industry and geography.</div>
+      <div class="service-tags">
+        <span class="tag">ISSB IFRS S1 & S2</span>
+        <span class="tag">GRI Standards</span>
+        <span class="tag">TCFD</span>
+        <span class="tag">CDP Disclosure</span>
+        <span class="tag">BRSR (India)</span>
+        <span class="tag">SEC Climate Rules</span>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">🌍</div>
+      <div class="service-title">Carbon Credit Advisory</div>
+      <div class="service-desc">From sourcing to retirement, we guide you through every step of the carbon credit lifecycle. We help you identify high-integrity projects, evaluate quality against standards like Gold Standard and Verra, and integrate offsets into a credible, science-aligned net-zero strategy.</div>
+      <div class="service-tags">
+        <span class="tag">Voluntary Carbon Market</span>
+        <span class="tag">Article 6 (Paris)</span>
+        <span class="tag">Gold Standard</span>
+        <span class="tag">Verra VCS</span>
+        <span class="tag">Nature-based Solutions</span>
+        <span class="tag">SBTi Alignment</span>
+      </div>
+    </div>
+
+    <div class="service-card" style="grid-column: 1 / -1;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;">
+        <div>
+          <div class="service-icon">🤖</div>
+          <div class="service-title">AI-Powered Advisory</div>
+          <div class="service-desc">Our AI advisor is trained on global sustainability regulations, carbon market data, and ESG frameworks. Available 24/7, it answers your most complex questions instantly — from Scope 3 calculation methodologies to ISSB disclosure requirements — and escalates to human experts when needed.</div>
+          <div class="service-tags">
+            <span class="tag">24/7 Availability</span>
+            <span class="tag">Regulation Database</span>
+            <span class="tag">Scenario Modelling</span>
+            <span class="tag">Human Escalation</span>
+            <span class="tag">Multi-framework</span>
+          </div>
+        </div>
+        <div style="background:rgba(10,46,26,0.6);border:1px solid rgba(126,217,87,0.12);border-radius:1rem;padding:1.5rem;">
+          <div style="font-family:'DM Mono',monospace;font-size:0.7rem;color:rgba(126,217,87,0.5);margin-bottom:1rem;">AI ADVISOR — LIVE DEMO</div>
+          <div style="display:flex;flex-direction:column;gap:1rem;">
+            <div style="background:rgba(126,217,87,0.06);border-radius:0.75rem 0.75rem 0.75rem 0;padding:1rem;font-size:0.82rem;color:rgba(245,240,232,0.7);max-width:85%;">How do I calculate Scope 3 Category 11 emissions for our product portfolio?</div>
+            <div style="background:rgba(45,158,95,0.12);border:1px solid rgba(126,217,87,0.15);border-radius:0.75rem 0.75rem 0 0.75rem;padding:1rem;font-size:0.82rem;color:rgba(245,240,232,0.8);max-width:85%;align-self:flex-end;">Under GHG Protocol, Category 11 covers use-phase emissions. You'll need product lifetime energy data and regional emission factors. I can generate a calculation template for your specific product types...</div>
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+              <div style="width:6px;height:6px;background:var(--lime);border-radius:50%;animation:pulse 1.5s infinite;"></div>
+              <span style="font-size:0.75rem;color:rgba(245,240,232,0.3);font-family:'DM Mono',monospace;">AI Advisor is typing...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process-section" id="process">
+  <div class="section-label">How Advisory Works</div>
+  <h2 class="section-title fade-up">From first call to <em>lasting</em> impact</h2>
+  <div class="process-steps fade-up">
+    <div class="process-step">
+      <div class="step-num">01</div>
+      <div class="step-title">Discovery Call</div>
+      <div class="step-desc">We understand your current sustainability maturity, reporting obligations, and strategic goals in a focused 60-minute session.</div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">02</div>
+      <div class="step-title">Gap Analysis</div>
+      <div class="step-desc">Our AI and advisors assess your current disclosures, identify gaps against relevant frameworks, and benchmark you against peers.</div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">03</div>
+      <div class="step-title">Custom Roadmap</div>
+      <div class="step-desc">We deliver a tailored advisory plan covering compliance priorities, carbon strategy, and quick wins vs long-term initiatives.</div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">04</div>
+      <div class="step-title">Ongoing Support</div>
+      <div class="step-desc">Continued access to AI advisory, quarterly expert check-ins, and real-time regulatory updates as the landscape evolves.</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="section">
+  <div class="section-label">Why ReGenesis Advisory</div>
+  <h2 class="section-title fade-up">Built for <em>enterprise</em> complexity</h2>
+  <div class="why-grid fade-up">
+    <div class="why-card">
+      <div class="why-num">15+</div>
+      <div class="why-title">Regulatory Frameworks</div>
+      <div class="why-desc">Our AI is trained on ISSB, GRI, TCFD, CDP, BRSR, SEC climate rules, and more — across all major markets.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-num">24/7</div>
+      <div class="why-title">AI Advisory Access</div>
+      <div class="why-desc">Get instant answers any time. Our AI advisor never sleeps, never misses a regulatory update, and scales with your team.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-num">100%</div>
+      <div class="why-title">Custom Engagements</div>
+      <div class="why-desc">No cookie-cutter solutions. Every advisory engagement is scoped and delivered specifically for your enterprise context.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="section-label" style="text-align:center">Get in Touch</div>
+  <h2 class="section-title fade-up" style="margin:0 auto;text-align:center;">Start your advisory <em>journey</em> today</h2>
+  <p style="margin-top:1rem;color:rgba(245,240,232,0.5);font-size:1rem;position:relative;z-index:1;">Tell us about your needs and we'll get back within 24 hours.</p>
+
+  <div class="contact-form fade-up">
+    <div class="form-row">
+      <input type="text" class="form-input" placeholder="Your name">
+      <input type="text" class="form-input" placeholder="Company name">
+    </div>
+    <div class="form-row">
+      <input type="email" class="form-input" placeholder="Work email">
+      <input type="text" class="form-input" placeholder="Industry">
+    </div>
+    <select class="form-input">
+      <option value="" disabled selected style="background:#0a2e1a;">What do you need help with?</option>
+      <option style="background:#0a2e1a;">Regulatory Compliance (ISSB/GRI/TCFD)</option>
+      <option style="background:#0a2e1a;">Carbon Credit Advisory</option>
+      <option style="background:#0a2e1a;">AI-Powered Advisory Access</option>
+      <option style="background:#0a2e1a;">All of the above</option>
+    </select>
+    <textarea class="form-input" placeholder="Tell us more about your sustainability goals..."></textarea>
+    <button class="btn-primary" style="align-self:center;padding:1rem 3rem;" onclick="handleSubmit()">Send Message →</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="index.html" class="footer-logo">ReGenesis Impact</a>
+  <ul class="footer-links">
+    <li><a href="index.html#features">Platform</a></li>
+    <li><a href="index.html#pricing">Pricing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 ReGenesis Impact. All rights reserved.</div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  function handleSubmit() {
+    const btn = document.querySelector('.contact-form .btn-primary');
+    btn.textContent = '✓ Message Sent!';
+    btn.style.background = '#2d9e5f';
+    setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; }, 4000);
+  }
+</script>
+</body>
+</html>
