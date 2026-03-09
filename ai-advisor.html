@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sage — AI Sustainability Advisor · ReGenesis Impact</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--forest:#0a2e1a;--moss:#1a5c35;--leaf:#2d9e5f;--lime:#7ed957;--cream:#f5f0e8;--muted:rgba(245,240,232,0.55);--border:rgba(126,217,87,0.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--forest);color:var(--cream);font-family:'DM Sans',sans-serif;min-height:100vh;overflow:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:999}
+body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(126,217,87,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(126,217,87,0.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(10,46,26,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--lime);text-decoration:none}.nav-logo span{color:var(--cream)}
+.nav-badge{background:rgba(126,217,87,0.1);border:1px solid rgba(126,217,87,0.25);color:var(--lime);padding:.28rem .85rem;border-radius:2rem;font-size:.68rem;font-family:'DM Mono',monospace;letter-spacing:.1em;display:flex;align-items:center;gap:.4rem}
+.nav-badge::before{content:'';width:6px;height:6px;background:var(--lime);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(0.8)}}
+.nav-right{display:flex;align-items:center;gap:.6rem}
+.nav-btn{background:rgba(126,217,87,0.07);border:1px solid rgba(126,217,87,0.14);color:rgba(245,240,232,0.6);padding:.38rem .85rem;border-radius:2rem;font-size:.73rem;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
+.nav-btn:hover{background:rgba(126,217,87,0.14);color:var(--cream)}
+.nav-back{color:var(--muted);text-decoration:none;font-size:.78rem;transition:color .2s}.nav-back:hover{color:var(--lime)}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:272px 1fr;height:100vh;padding-top:3.8rem;position:relative;z-index:1}
+
+/* SIDEBAR */
+.sidebar{background:rgba(0,0,0,.28);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.sb-top{padding:1.4rem 1.2rem 1rem;border-bottom:1px solid var(--border)}
+.av-wrap{position:relative;width:48px;height:48px;margin-bottom:.85rem}
+.av{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--moss),var(--leaf));border:2px solid rgba(126,217,87,0.3);display:flex;align-items:center;justify-content:center;font-size:1.25rem}
+.av-ring{position:absolute;inset:-4px;border-radius:50%;border:1px solid transparent;border-top-color:var(--lime);animation:spin 4s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.av-dot{position:absolute;bottom:1px;right:1px;width:10px;height:10px;background:var(--lime);border-radius:50%;border:2px solid var(--forest)}
+.ai-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;margin-bottom:.12rem}
+.ai-name em{font-style:italic;color:var(--lime)}
+.ai-desc{font-size:.71rem;color:var(--muted);line-height:1.5}
+
+/* TABS */
+.sb-tabs{display:flex;border-bottom:1px solid var(--border)}
+.sb-tab{flex:1;padding:.65rem .4rem;text-align:center;font-size:.66rem;font-family:'DM Mono',monospace;letter-spacing:.06em;color:rgba(245,240,232,.3);cursor:pointer;transition:all .2s;border-bottom:2px solid transparent}
+.sb-tab.on{color:var(--lime);border-bottom-color:var(--lime)}
+.sb-tab:hover:not(.on){color:var(--muted)}
+
+/* PANELS */
+.sb-panel{display:none;flex:1;overflow-y:auto;padding:.9rem 1.1rem}
+.sb-panel.on{display:block}
+.sb-panel::-webkit-scrollbar{width:3px}.sb-panel::-webkit-scrollbar-thumb{background:rgba(126,217,87,.18);border-radius:2px}
+.plbl{font-family:'DM Mono',monospace;font-size:.59rem;letter-spacing:.12em;color:rgba(126,217,87,.45);text-transform:uppercase;margin-bottom:.6rem;margin-top:.7rem}
+.plbl:first-child{margin-top:0}
+.sug{background:rgba(126,217,87,.03);border:1px solid rgba(126,217,87,.08);border-radius:.5rem;padding:.6rem .8rem;margin-bottom:.38rem;cursor:pointer;transition:all .2s;font-size:.74rem;color:rgba(245,240,232,.55);line-height:1.4}
+.sug:hover{background:rgba(126,217,87,.07);border-color:rgba(126,217,87,.18);color:var(--cream)}
+.sug::before{content:'→ ';color:var(--lime);font-size:.66rem}
+.etags{display:flex;flex-wrap:wrap;gap:.32rem}
+.etag{background:rgba(126,217,87,.05);border:1px solid rgba(126,217,87,.11);color:rgba(245,240,232,.58);padding:.18rem .58rem;border-radius:2rem;font-size:.65rem;cursor:pointer;transition:all .2s}
+.etag:hover{background:rgba(126,217,87,.11);color:var(--cream)}
+.hist-item{background:rgba(126,217,87,.03);border:1px solid rgba(126,217,87,.07);border-radius:.5rem;padding:.6rem .8rem;margin-bottom:.38rem;cursor:pointer;transition:all .2s}
+.hist-item:hover{background:rgba(126,217,87,.06)}
+.hq{font-size:.73rem;color:rgba(245,240,232,.62);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:.15rem}
+.ht{font-size:.6rem;color:rgba(245,240,232,.22);font-family:'DM Mono',monospace}
+
+/* STATS */
+.sb-stats{padding:.85rem 1.2rem;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.st{background:rgba(126,217,87,.04);border:1px solid var(--border);border-radius:.45rem;padding:.5rem .6rem;text-align:center}
+.st-v{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--lime);line-height:1}
+.st-l{font-size:.59rem;color:rgba(245,240,232,.32);margin-top:.1rem;font-family:'DM Mono',monospace}
+
+/* CHAT */
+.chat{display:flex;flex-direction:column;height:100%;overflow:hidden}
+
+/* TOOLBAR */
+.toolbar{padding:.58rem 1.75rem;border-bottom:1px solid var(--border);background:rgba(0,0,0,.15);display:flex;align-items:center;gap:.55rem;flex-wrap:wrap}
+.tbtn{background:rgba(126,217,87,.05);border:1px solid rgba(126,217,87,.1);color:rgba(245,240,232,.52);padding:.32rem .75rem;border-radius:2rem;font-size:.68rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.3rem;font-family:'DM Sans',sans-serif}
+.tbtn:hover{background:rgba(126,217,87,.1);border-color:rgba(126,217,87,.2);color:var(--cream)}
+.tbtn.on{background:rgba(126,217,87,.12);border-color:rgba(126,217,87,.28);color:var(--lime)}
+.tsep{width:1px;height:16px;background:var(--border)}
+.flabel{background:rgba(126,217,87,.05);border:1px solid rgba(126,217,87,.1);color:rgba(245,240,232,.52);padding:.32rem .75rem;border-radius:2rem;font-size:.68rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.3rem}
+.flabel:hover{background:rgba(126,217,87,.1);color:var(--cream)}
+#file-in{display:none}
+.finfo{font-size:.66rem;color:var(--lime);font-family:'DM Mono',monospace;background:rgba(126,217,87,.08);border:1px solid rgba(126,217,87,.18);padding:.18rem .55rem;border-radius:2rem;display:none;align-items:center;gap:.3rem}
+.finfo.on{display:flex}
+.frm{cursor:pointer;color:rgba(245,240,232,.35);margin-left:.15rem}.frm:hover{color:var(--cream)}
+
+/* MESSAGES */
+.msgs{flex:1;overflow-y:auto;padding:1.6rem 2.25rem;display:flex;flex-direction:column;gap:1.1rem;scroll-behavior:smooth}
+.msgs::-webkit-scrollbar{width:4px}.msgs::-webkit-scrollbar-thumb{background:rgba(126,217,87,.18);border-radius:2px}
+
+/* WELCOME */
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;text-align:center;padding:2rem;animation:fi .5s ease}
+@keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.w-icon{font-size:2.6rem;margin-bottom:1.1rem;filter:drop-shadow(0 0 18px rgba(126,217,87,.28))}
+.welcome h2{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:700;line-height:1.2;margin-bottom:.55rem}
+.welcome h2 em{font-style:italic;color:var(--lime)}
+.welcome p{font-size:.85rem;color:var(--muted);line-height:1.7;max-width:440px;margin-bottom:1.6rem}
+.wcards{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;width:100%;max-width:500px}
+.wc{background:rgba(126,217,87,.04);border:1px solid rgba(126,217,87,.1);border-radius:.7rem;padding:.85rem;cursor:pointer;transition:all .2s;text-align:left}
+.wc:hover{background:rgba(126,217,87,.08);border-color:rgba(126,217,87,.22);transform:translateY(-2px)}
+.wc-ic{font-size:1.15rem;margin-bottom:.38rem}
+.wc-t{font-size:.78rem;font-weight:600;margin-bottom:.12rem}
+.wc-d{font-size:.68rem;color:var(--muted);line-height:1.35}
+
+/* BUBBLES */
+.msg{display:flex;gap:.85rem;animation:mi .28s ease}
+@keyframes mi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.msg.user{flex-direction:row-reverse}
+.mav{width:33px;height:33px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.82rem;margin-top:.12rem}
+.msg.ai .mav{background:linear-gradient(135deg,var(--moss),var(--leaf));border:1.5px solid rgba(126,217,87,.28)}
+.msg.user .mav{background:rgba(245,240,232,.07);border:1.5px solid rgba(245,240,232,.1);font-size:.7rem;font-weight:600}
+.mbody{max-width:76%;display:flex;flex-direction:column;gap:.28rem}
+.msg.user .mbody{align-items:flex-end}
+.mname{font-size:.6rem;font-family:'DM Mono',monospace;color:rgba(245,240,232,.25);letter-spacing:.04em}
+.mbub{padding:.82rem .98rem;border-radius:.85rem;font-size:.845rem;line-height:1.68}
+.msg.ai .mbub{background:rgba(255,255,255,.04);border:1px solid rgba(126,217,87,.1);border-radius:.2rem .85rem .85rem .85rem;color:var(--cream)}
+.msg.user .mbub{background:linear-gradient(135deg,var(--moss),var(--leaf));color:#fff;border-radius:.85rem .85rem .2rem .85rem}
+.mbub strong{color:var(--lime);font-weight:600}
+.msg.user .mbub strong{color:#d4f5b0}
+.mbub h3{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--lime);margin:.45rem 0 .28rem}
+.mbub ul,.mbub ol{padding-left:1.2rem;margin:.3rem 0}
+.mbub li{margin-bottom:.22rem}
+.mbub p{margin-bottom:.38rem}.mbub p:last-child{margin-bottom:0}
+.mbub code{background:rgba(126,217,87,.1);padding:.08rem .32rem;border-radius:.22rem;font-family:'DM Mono',monospace;font-size:.76rem;color:var(--lime)}
+.mtime{font-size:.58rem;color:rgba(245,240,232,.2);font-family:'DM Mono',monospace}
+
+/* SNIPPET CARD */
+.snip-card{background:rgba(10,46,26,.85);border:1px solid rgba(126,217,87,.22);border-radius:.7rem;padding:.9rem;margin-top:.65rem}
+.snip-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:.65rem}
+.snip-title{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--lime);letter-spacing:.09em}
+.snip-copy{background:rgba(126,217,87,.1);border:1px solid rgba(126,217,87,.2);color:var(--lime);padding:.22rem .6rem;border-radius:2rem;font-size:.63rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.snip-copy:hover{background:rgba(126,217,87,.2)}
+.snip-body{font-size:.76rem;color:rgba(245,240,232,.72);line-height:1.65;font-family:'DM Mono',monospace;border-left:2px solid rgba(126,217,87,.28);padding-left:.7rem;white-space:pre-wrap}
+
+/* FILE CARD */
+.fcard{background:rgba(126,217,87,.05);border:1px solid rgba(126,217,87,.14);border-radius:.6rem;padding:.75rem;margin-bottom:.65rem;display:flex;align-items:center;gap:.7rem}
+.fcard-ic{font-size:1.4rem}
+.fcard-info{flex:1}
+.fcard-nm{font-size:.78rem;font-weight:600;margin-bottom:.1rem}
+.fcard-sz{font-size:.65rem;color:var(--muted);font-family:'DM Mono',monospace}
+.fcard-badge{background:rgba(126,217,87,.1);border:1px solid rgba(126,217,87,.2);color:var(--lime);padding:.18rem .52rem;border-radius:2rem;font-size:.6rem;font-family:'DM Mono',monospace}
+
+/* TYPING */
+.typing{display:flex;gap:.85rem;align-items:flex-start;animation:mi .28s ease}
+.tdots{background:rgba(255,255,255,.04);border:1px solid rgba(126,217,87,.1);border-radius:.2rem .85rem .85rem .85rem;padding:.75rem .95rem;display:flex;gap:.28rem;align-items:center}
+.tdots span{width:6px;height:6px;background:rgba(126,217,87,.45);border-radius:50%;animation:td .9s infinite}
+.tdots span:nth-child(2){animation-delay:.15s}.tdots span:nth-child(3){animation-delay:.3s}
+@keyframes td{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
+
+/* INPUT */
+.input-area{padding:.9rem 2.25rem 1.1rem;border-top:1px solid var(--border);background:rgba(0,0,0,.17)}
+.tpills{display:flex;gap:.38rem;flex-wrap:wrap;margin-bottom:.65rem}
+.tp{background:rgba(126,217,87,.05);border:1px solid rgba(126,217,87,.1);color:rgba(245,240,232,.48);padding:.22rem .68rem;border-radius:2rem;font-size:.66rem;cursor:pointer;transition:all .2s;font-family:'DM Mono',monospace}
+.tp:hover{background:rgba(126,217,87,.1);border-color:rgba(126,217,87,.2);color:var(--cream)}
+.irow{display:flex;gap:.6rem;align-items:flex-end}
+.iwrap{flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(126,217,87,.15);border-radius:.85rem;display:flex;align-items:flex-end;gap:.55rem;padding:.6rem .85rem;transition:border-color .2s,box-shadow .2s}
+.iwrap:focus-within{border-color:rgba(126,217,87,.36);box-shadow:0 0 0 3px rgba(126,217,87,.05)}
+#msg-input{flex:1;background:none;border:none;color:var(--cream);font-family:'DM Sans',sans-serif;font-size:.845rem;line-height:1.6;outline:none;resize:none;max-height:108px;min-height:22px}
+#msg-input::placeholder{color:rgba(245,240,232,.17)}
+.ibtns{display:flex;align-items:center;gap:.38rem}
+.voice-btn{width:29px;height:29px;border-radius:50%;background:rgba(126,217,87,.05);border:1px solid rgba(126,217,87,.11);color:rgba(245,240,232,.38);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.78rem;transition:all .2s}
+.voice-btn:hover{background:rgba(126,217,87,.11);color:var(--lime)}
+.voice-btn.rec{background:rgba(220,50,50,.14);border-color:rgba(220,50,50,.28);color:#ff6b6b;animation:rp 1s infinite}
+@keyframes rp{0%,100%{box-shadow:0 0 0 0 rgba(220,50,50,.18)}50%{box-shadow:0 0 0 5px rgba(220,50,50,0)}}
+.send-btn{width:39px;height:39px;border-radius:50%;background:linear-gradient(135deg,var(--leaf),var(--lime));border:none;color:var(--forest);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .2s,box-shadow .2s,opacity .2s;font-size:.95rem}
+.send-btn:hover:not(:disabled){transform:scale(1.08);box-shadow:0 4px 14px rgba(126,217,87,.32)}
+.send-btn:disabled{opacity:.28;cursor:not-allowed}
+.ifooter{display:flex;justify-content:space-between;align-items:center;margin-top:.45rem;padding:0 .18rem}
+.ihint{font-size:.6rem;color:rgba(245,240,232,.17);font-family:'DM Mono',monospace}
+.cc{font-size:.6rem;color:rgba(245,240,232,.17);font-family:'DM Mono',monospace}
+.disc{text-align:center;font-size:.6rem;color:rgba(245,240,232,.14);margin-top:.3rem;font-family:'DM Mono',monospace}
+
+/* MODAL */
+.moverlay{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:500;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.moverlay.on{display:flex}
+.modal{background:#0d3820;border:1px solid rgba(126,217,87,.2);border-radius:.9rem;padding:1.85rem;width:100%;max-width:460px;animation:fi .3s ease}
+.modal-t{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:700;margin-bottom:.38rem}
+.modal-t em{color:var(--lime);font-style:italic}
+.modal-d{font-size:.8rem;color:var(--muted);line-height:1.6;margin-bottom:1.4rem}
+.mbtns{display:flex;gap:.65rem;justify-content:flex-end}
+.mbtn{padding:.65rem 1.4rem;border-radius:2rem;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;border:none}
+.mbtn.p{background:linear-gradient(135deg,var(--leaf),var(--lime));color:var(--forest)}
+.mbtn.p:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(126,217,87,.28)}
+.mbtn.s{background:transparent;color:var(--muted);border:1px solid var(--border)}
+.mbtn.s:hover{border-color:rgba(245,240,232,.18);color:var(--cream)}
+
+@media(max-width:768px){.layout{grid-template-columns:1fr}.sidebar{display:none}.msgs{padding:1.1rem}.input-area{padding:.8rem 1.1rem 1rem}.wcards{grid-template-columns:1fr}.toolbar{padding:.45rem .9rem}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">ReGenesis<span> Impact</span></a>
+  <span class="nav-badge">Sage · AI Advisor · Live</span>
+  <div class="nav-right">
+    <button class="nav-btn" onclick="showExport()">⬇ Export Chat</button>
+    <button class="nav-btn" onclick="clearChat()">↺ New Chat</button>
+    <a href="index.html" class="nav-back">← Platform</a>
+  </div>
+</nav>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-top">
+    <div class="av-wrap">
+      <div class="av">🌿</div>
+      <div class="av-ring"></div>
+      <div class="av-dot"></div>
+    </div>
+    <div class="ai-name">Sage — <em>AI Advisor</em></div>
+    <div class="ai-desc">Expert sustainability intelligence. Powered by advanced AI across 15+ ESG frameworks and global climate regulations.</div>
+  </div>
+
+  <div class="sb-tabs">
+    <div class="sb-tab on" onclick="stab('ask')">Ask</div>
+    <div class="sb-tab" onclick="stab('exp')">Expertise</div>
+    <div class="sb-tab" onclick="stab('hist')">History</div>
+  </div>
+
+  <div class="sb-panel on" id="sp-ask">
+    <div class="plbl">Suggested Questions</div>
+    <div class="sug" onclick="aq(this)">How do I calculate my Scope 3 emissions?</div>
+    <div class="sug" onclick="aq(this)">What are IFRS S2 scenario analysis requirements?</div>
+    <div class="sug" onclick="aq(this)">How do I set a science-based emissions target?</div>
+    <div class="sug" onclick="aq(this)">Explain BRSR reporting for Indian listed companies</div>
+    <div class="sug" onclick="aq(this)">What carbon credits should my company buy?</div>
+    <div class="sug" onclick="aq(this)">How do I build a Net-Zero transition plan?</div>
+    <div class="sug" onclick="aq(this)">What ESG rating agencies should I target?</div>
+    <div class="sug" onclick="aq(this)">How to disclose physical climate risks under IFRS S2?</div>
+    <div class="sug" onclick="aq(this)">Generate an IFRS S2 governance disclosure snippet</div>
+    <div class="sug" onclick="aq(this)">What is the difference between GRI and TCFD?</div>
+  </div>
+
+  <div class="sb-panel" id="sp-exp">
+    <div class="plbl">Climate Disclosure</div>
+    <div class="etags">
+      <span class="etag" onclick="askQ('Explain IFRS S1 and S2 requirements')">IFRS S1 & S2</span>
+      <span class="etag" onclick="askQ('Explain TCFD framework')">TCFD</span>
+      <span class="etag" onclick="askQ('Explain CSRD requirements for EU companies')">CSRD</span>
+      <span class="etag" onclick="askQ('Explain SEC climate disclosure rules')">SEC Rules</span>
+    </div>
+    <div class="plbl">India-Specific</div>
+    <div class="etags">
+      <span class="etag" onclick="askQ('Explain BRSR Core reporting requirements for top 150 listed Indian companies')">BRSR Core</span>
+      <span class="etag" onclick="askQ('Explain SEBI ESG mutual fund regulations')">SEBI ESG</span>
+    </div>
+    <div class="plbl">Carbon & Emissions</div>
+    <div class="etags">
+      <span class="etag" onclick="askQ('Explain Scope 1, 2 and 3 emissions with examples')">Scope 1/2/3</span>
+      <span class="etag" onclick="askQ('Explain the GHG Protocol corporate standard')">GHG Protocol</span>
+      <span class="etag" onclick="askQ('How does SBTi target validation work?')">SBTi</span>
+      <span class="etag" onclick="askQ('How do I build a net-zero transition plan?')">Net-Zero</span>
+    </div>
+    <div class="plbl">Carbon Markets</div>
+    <div class="etags">
+      <span class="etag" onclick="askQ('How do voluntary carbon markets work?')">Carbon Credits</span>
+      <span class="etag" onclick="askQ('Explain Verra VCS carbon standard')">Verra VCS</span>
+      <span class="etag" onclick="askQ('Explain Gold Standard carbon credits')">Gold Standard</span>
+      <span class="etag" onclick="askQ('Explain Article 6 of the Paris Agreement')">Article 6</span>
+    </div>
+    <div class="plbl">ESG Ratings</div>
+    <div class="etags">
+      <span class="etag" onclick="askQ('How does MSCI ESG rating work?')">MSCI ESG</span>
+      <span class="etag" onclick="askQ('How does Sustainalytics ESG risk rating work?')">Sustainalytics</span>
+      <span class="etag" onclick="askQ('How does S&P SAM corporate sustainability assessment work?')">S&P SAM</span>
+      <span class="etag" onclick="askQ('Explain CDP scoring methodology')">CDP</span>
+    </div>
+    <div class="plbl">Nature & Biodiversity</div>
+    <div class="etags">
+      <span class="etag" onclick="askQ('Explain TNFD nature-related financial disclosures framework')">TNFD</span>
+      <span class="etag" onclick="askQ('How do I measure biodiversity impact?')">Biodiversity</span>
+    </div>
+  </div>
+
+  <div class="sb-panel" id="sp-hist">
+    <div class="plbl">Recent Conversations</div>
+    <div id="hist-list"><div style="font-size:.73rem;color:rgba(245,240,232,.28);text-align:center;padding:1.4rem 0;">No history yet.<br>Start a conversation!</div></div>
+  </div>
+
+  <div class="sb-stats">
+    <div class="st"><div class="st-v">15+</div><div class="st-l">Frameworks</div></div>
+    <div class="st"><div class="st-v">24/7</div><div class="st-l">Available</div></div>
+    <div class="st"><div class="st-v">190+</div><div class="st-l">Countries</div></div>
+    <div class="st"><div class="st-v">AI</div><div class="st-l">Powered</div></div>
+  </div>
+</aside>
+
+<!-- CHAT -->
+<div class="chat">
+
+  <div class="toolbar">
+    <button class="tbtn" id="snip-btn" onclick="toggleSnip()">📋 IFRS Snippet Mode</button>
+    <div class="tsep"></div>
+    <label class="flabel" for="file-in">📄 Upload Report (PDF)</label>
+    <input type="file" id="file-in" accept=".pdf,.txt,.doc,.docx" onchange="handleFile(this)">
+    <div class="finfo" id="finfo">
+      <span id="fname"></span>
+      <span class="frm" onclick="rmFile()">✕</span>
+    </div>
+    <div class="tsep"></div>
+    <button class="tbtn" onclick="showExport()">⬇ Export PDF</button>
+  </div>
+
+  <div class="msgs" id="msgs">
+    <div class="welcome" id="welcome">
+      <div class="w-icon">🌿</div>
+      <h2>Meet <em>Sage</em>, Your AI<br>Sustainability Advisor</h2>
+      <p>Ask anything about ESG reporting, carbon accounting, climate frameworks, or net-zero strategy. Upload a report for instant AI-powered gap analysis.</p>
+      <div class="wcards">
+        <div class="wc" onclick="askQ('What are the key requirements of IFRS S2 and what are the most commonly missed disclosures?')">
+          <div class="wc-ic">📋</div><div class="wc-t">IFRS S2 Compliance</div>
+          <div class="wc-d">Key disclosure requirements explained</div>
+        </div>
+        <div class="wc" onclick="askQ('How do I calculate and reduce my Scope 3 value chain emissions across all 15 categories?')">
+          <div class="wc-ic">🔗</div><div class="wc-t">Scope 3 Emissions</div>
+          <div class="wc-d">Full value chain carbon footprint</div>
+        </div>
+        <div class="wc" onclick="askQ('How do carbon credits work and what types should I use for net-zero?')">
+          <div class="wc-ic">💚</div><div class="wc-t">Carbon Credits</div>
+          <div class="wc-d">Voluntary carbon markets guide</div>
+        </div>
+        <div class="wc" onclick="askQ('Generate a ready-to-use IFRS S2 climate governance disclosure snippet for our annual report')">
+          <div class="wc-ic">✨</div><div class="wc-t">Generate Disclosure</div>
+          <div class="wc-d">Ready-to-paste IFRS S2 snippets</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="input-area">
+    <div class="tpills">
+      <span class="tp" onclick="askQ('Explain IFRS S2 mandatory scenario analysis requirements in detail')">IFRS S2</span>
+      <span class="tp" onclick="askQ('How does BRSR Core reporting work for top 150 Indian listed companies?')">BRSR India</span>
+      <span class="tp" onclick="askQ('How do I get emissions targets validated by SBTi step by step?')">SBTi</span>
+      <span class="tp" onclick="askQ('What are the key differences between GRI and TCFD reporting?')">GRI vs TCFD</span>
+      <span class="tp" onclick="askQ('What are the best carbon offset project types available in 2025?')">Carbon Offsets</span>
+      <span class="tp" onclick="askQ('How do I measure and report biodiversity impact under TNFD?')">TNFD</span>
+    </div>
+    <div class="irow">
+      <div class="iwrap">
+        <textarea id="msg-input" placeholder="Ask about ESG frameworks, carbon accounting, net-zero strategy — or upload a PDF for instant analysis..." rows="1" onkeydown="hkey(event)" oninput="arz(this);ucc()"></textarea>
+        <div class="ibtns">
+          <button class="voice-btn" id="vbtn" onclick="toggleVoice()" title="Voice input">🎤</button>
+        </div>
+      </div>
+      <button class="send-btn" id="send-btn" onclick="send()" disabled>➤</button>
+    </div>
+    <div class="ifooter">
+      <span class="ihint">↵ Send · Shift+↵ New line · 🎤 Voice input</span>
+      <span class="cc" id="cc">0 / 1000</span>
+    </div>
+    <div class="disc">Sage provides guidance based on public ESG frameworks. Verify with qualified professionals for formal reporting.</div>
+  </div>
+</div>
+</div>
+
+<!-- EXPORT MODAL -->
+<div class="moverlay" id="exp-modal">
+  <div class="modal">
+    <div class="modal-t">Export <em>Chat Transcript</em></div>
+    <div class="modal-d">Download your full conversation with Sage as a formatted PDF — including all ESG guidance, IFRS S2 snippets, and strategic recommendations. Perfect for sharing with your sustainability team or board.</div>
+    <div class="mbtns">
+      <button class="mbtn s" onclick="hideExport()">Cancel</button>
+      <button class="mbtn p" onclick="doExport()">⬇ Download PDF</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SYS = `You are Sage, an expert AI sustainability advisor for ReGenesis Impact — a leading sustainability SaaS platform for large corporations. You are a world-class expert in:
+
+DISCLOSURE FRAMEWORKS: IFRS S1 & S2 (including December 2025 amendments — Para 29A-29C financed emissions, Para C1A measurement methods), GRI Standards (Universal, Economic, Environmental, Social Series), TCFD, BRSR & BRSR Core (India-specific, SEBI mandated), CDP, CSRD (EU Corporate Sustainability Reporting Directive), SEC Climate Disclosure Rules (US)
+
+CARBON & EMISSIONS: GHG Protocol Corporate Standard & Scope 3 Standard (all 15 categories), SBTi Corporate Net-Zero Standard & 1.5C pathway, Net-Zero transition planning (TPT Transition Plan Taskforce framework), GHG measurement, verification and assurance, ISO 14064
+
+CARBON MARKETS: Voluntary Carbon Markets (VCM), Article 6 Paris Agreement (6.2 bilateral & 6.4 mechanism), Gold Standard, Verra VCS, ACR, CAR registry standards, PCAF methodology for financed emissions, nature-based solutions (NBS), technology-based carbon removal (BECCS, DACCS), Integrity Council for Voluntary Carbon Markets (ICVCM)
+
+RISK & STRATEGY: Physical and transition climate risk assessment, scenario analysis (IEA NZE 2050, IPCC SSP pathways), TNFD nature-related disclosures, climate resilience assessment methodology, internal carbon pricing design, stranded asset analysis
+
+ESG RATINGS & INVESTOR RELATIONS: MSCI ESG ratings methodology, Sustainalytics ESG Risk Ratings, S&P SAM/DJSI Corporate Sustainability Assessment, ISS ESG, CDP scoring (A-D), investor engagement on climate (PRI, TCFD signatories), proxy voting implications
+
+INDIA-SPECIFIC: BRSR (Business Responsibility and Sustainability Reporting) mandatory for top 1000 listed companies, BRSR Core (top 150, assured disclosures), SEBI ESG regulations, Indian carbon market (CCTS) development, India NDC implications for corporates, BEE PAT scheme, RPO obligations
+
+Response guidelines:
+- Be authoritative, precise and actionable — not vague or generic
+- Always cite specific paragraph/section references (e.g. "IFRS S2 Para 29(a)(vi) requires...", "GRI 305-3 covers...", "BRSR Principle 6...")
+- Use **bold** for key terms and concepts
+- Use clear structure with headings for complex answers
+- Provide specific, actionable next steps
+- When relevant, note how ReGenesis Impact's platform tools can help (ISSB Report Generator covers all Para 5-37 requirements, GHG Calculator for Scope 1/2/3, ESG Dashboard for tracking)
+- End complex responses with a relevant follow-up question
+
+IFRS SNIPPET MODE: When user asks to generate a disclosure snippet OR snippet mode is active (indicated by [SNIPPET MODE ACTIVE]), generate professional, formal disclosure text ready to use in an annual report. Wrap it EXACTLY like this:
+[SNIPPET_START]
+[The formal disclosure text here — multiple paragraphs, professional tone, IFRS-compliant language]
+[SNIPPET_END]
+Include the IFRS S2 paragraph reference this snippet satisfies.
+
+DOCUMENT ANALYSIS MODE: When [DOCUMENT UPLOADED: filename] appears, the user has uploaded a sustainability report. Perform a thorough IFRS S2 gap analysis: identify what's covered, what's missing, what's incomplete, and provide a prioritised action plan. Be specific and reference actual IFRS S2 paragraphs.`;
+
+let hist = [], isLoading = false, snippetMode = false;
+let upFile = null, upContent = null;
+let recog = null, isRec = false;
+let chatHist = [];
+try { chatHist = JSON.parse(localStorage.getItem('sage-h') || '[]'); } catch(e){}
+
+const msgsEl = document.getElementById('msgs');
+const inp = document.getElementById('msg-input');
+const sb = document.getElementById('send-btn');
+const wel = document.getElementById('welcome');
+
+renderHist();
+
+// Greeting
+setTimeout(() => {
+  addMsg('ai', `**Welcome to ReGenesis Impact's AI Advisory Platform.**\n\nI'm **Sage** — your expert sustainability advisor with deep expertise across IFRS S1 & S2, GRI, TCFD, BRSR, SBTi, carbon markets, and net-zero strategy.\n\n**What I can do for you:**\n- 📋 **Generate IFRS S2 disclosure snippets** ready to paste into your annual report\n- 📄 **Analyse uploaded sustainability reports** for ESG gaps against IFRS S2\n- 🎤 **Accept voice questions** — just click the microphone\n- ⬇ **Export this conversation** as a formatted PDF for your team\n\n*What sustainability challenge can I help you tackle today?*`);
+}, 650);
+
+// Sidebar tabs
+function stab(t) {
+  document.querySelectorAll('.sb-tab').forEach((el,i) => el.classList.toggle('on', ['ask','exp','hist'][i]===t));
+  document.querySelectorAll('.sb-panel').forEach(p => p.classList.remove('on'));
+  document.getElementById('sp-'+t).classList.add('on');
+}
+
+// Snippet mode
+function toggleSnip() {
+  snippetMode = !snippetMode;
+  const b = document.getElementById('snip-btn');
+  b.classList.toggle('on', snippetMode);
+  b.textContent = snippetMode ? '✅ Snippet Mode ON' : '📋 IFRS Snippet Mode';
+}
+
+// File upload
+function handleFile(el) {
+  const f = el.files[0]; if (!f) return;
+  upFile = f;
+  document.getElementById('fname').textContent = '📄 ' + f.name;
+  document.getElementById('finfo').classList.add('on');
+  const r = new FileReader();
+  r.onload = e => { upContent = (e.target.result || '').substring(0, 9000); };
+  if (f.type === 'text/plain') r.readAsText(f);
+  else upContent = `[PDF: ${f.name}, ${Math.round(f.size/1024)}KB — analysing structure and content]`;
+}
+function rmFile() {
+  upFile = null; upContent = null;
+  document.getElementById('finfo').classList.remove('on');
+  document.getElementById('file-in').value = '';
+}
+
+// Voice
+function toggleVoice() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { alert('Voice input requires Chrome or Edge browser.'); return; }
+  if (isRec) { recog?.stop(); return; }
+  recog = new SR();
+  recog.continuous = false; recog.interimResults = true; recog.lang = 'en-US';
+  recog.onstart = () => { isRec = true; const b = document.getElementById('vbtn'); b.classList.add('rec'); b.textContent = '⏹'; };
+  recog.onresult = e => { inp.value = Array.from(e.results).map(r=>r[0].transcript).join(''); arz(inp); ucc(); };
+  recog.onend = () => { isRec = false; const b = document.getElementById('vbtn'); b.classList.remove('rec'); b.textContent = '🎤'; if(inp.value.trim()) send(); };
+  recog.onerror = () => { isRec = false; document.getElementById('vbtn').classList.remove('rec'); document.getElementById('vbtn').textContent = '🎤'; };
+  recog.start();
+}
+
+function ucc() { const l = inp.value.length; document.getElementById('cc').textContent = l+' / 1000'; sb.disabled = l===0||isLoading; }
+function arz(el) { el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,108)+'px'; }
+function hkey(e) { if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); if(!sb.disabled) send(); } }
+function gt() { return new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}); }
+
+function addMsg(role, content, fc=null) {
+  if(wel) wel.style.display='none';
+  const m = document.createElement('div');
+  m.className = 'msg '+role;
+  const av = role==='ai' ? '<div class="mav">🌿</div>' : '<div class="mav">S</div>';
+  const nm = role==='ai' ? 'SAGE · AI ADVISOR' : 'YOU';
+
+  // Extract snippet
+  let body = content, snipHTML = '';
+  const sm = content.match(/\[SNIPPET_START\]([\s\S]*?)\[SNIPPET_END\]/);
+  if (sm) {
+    const snip = sm[1].trim();
+    body = content.replace(/\[SNIPPET_START\][\s\S]*?\[SNIPPET_END\]/, '');
+    const escaped = snip.replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/\$/g,'\\$');
+    snipHTML = `<div class="snip-card"><div class="snip-hdr"><span class="snip-title">📋 IFRS S2 DISCLOSURE SNIPPET — READY TO USE</span><button class="snip-copy" onclick="cpSnip(this,\`${escaped}\`)">Copy</button></div><div class="snip-body">${snip.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div></div>`;
+  }
+
+  const fcHTML = fc ? `<div class="fcard"><div class="fcard-ic">📄</div><div class="fcard-info"><div class="fcard-nm">${fc.n}</div><div class="fcard-sz">${fc.s}</div></div><div class="fcard-badge">ANALYSING</div></div>` : '';
+  m.innerHTML = `${av}<div class="mbody"><div class="mname">${nm}</div>${fcHTML}<div class="mbub">${fmt(body)}${snipHTML}</div><div class="mtime">${gt()}</div></div>`;
+  msgsEl.appendChild(m);
+  msgsEl.scrollTop = msgsEl.scrollHeight;
+}
+
+function fmt(t) {
+  return t
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/^### (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^## (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^# (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^[-*] (.+)$/gm,'<li>$1</li>')
+    .replace(/`([^`]+)`/g,'<code>$1</code>')
+    .replace(/\n\n/g,'<br><br>')
+    .replace(/\n/g,'<br>');
+}
+
+function cpSnip(btn, txt) {
+  navigator.clipboard.writeText(txt).then(()=>{ btn.textContent='✓ Copied!'; setTimeout(()=>btn.textContent='Copy',2000); });
+}
+
+function showTyping() {
+  const el = document.createElement('div');
+  el.className = 'typing'; el.id = 'tind';
+  el.innerHTML = `<div class="mav" style="width:33px;height:33px;background:linear-gradient(135deg,#1a5c35,#2d9e5f);border:1.5px solid rgba(126,217,87,.28);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.82rem;">🌿</div><div class="tdots"><span></span><span></span><span></span></div>`;
+  msgsEl.appendChild(el); msgsEl.scrollTop = msgsEl.scrollHeight;
+}
+function hideTyping() { document.getElementById('tind')?.remove(); }
+
+async function send() {
+  const txt = inp.value.trim(); if(!txt||isLoading) return;
+  let userMsg = txt, fc = null;
+  if (upFile) {
+    userMsg = `[DOCUMENT UPLOADED: ${upFile.name}]\n\n${upContent||''}\n\nUser instruction: ${txt}`;
+    fc = { n: upFile.name, s: Math.round(upFile.size/1024)+' KB' };
+    rmFile();
+  }
+  if (snippetMode) userMsg = '[SNIPPET MODE ACTIVE — generate a professional IFRS S2 disclosure snippet]\n\n'+userMsg;
+
+  inp.value = ''; inp.style.height='auto'; ucc();
+  isLoading=true; sb.disabled=true;
+  addMsg('user', txt, fc);
+  hist.push({role:'user',content:userMsg});
+
+  // Save history
+  chatHist.unshift({q:txt.substring(0,58), t:gt()});
+  if(chatHist.length>20) chatHist.pop();
+  try{ localStorage.setItem('sage-h', JSON.stringify(chatHist)); }catch(e){}
+  renderHist();
+
+  showTyping();
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:SYS,messages:hist})
+    });
+    const d = await res.json(); hideTyping();
+    const reply = d.content?.[0]?.text || "I couldn't process that. Please try again.";
+    hist.push({role:'assistant',content:reply});
+    addMsg('ai', reply);
+  } catch(e) { hideTyping(); addMsg('ai',"Connection issue. Please check your internet and try again."); }
+  isLoading=false; sb.disabled=false; inp.focus();
+}
+
+function askQ(q) { inp.value=q; arz(inp); ucc(); send(); }
+function aq(el) { askQ(el.textContent.replace(/^→ /,'')); }
+
+function renderHist() {
+  const el = document.getElementById('hist-list');
+  if(!chatHist.length){ el.innerHTML='<div style="font-size:.72rem;color:rgba(245,240,232,.26);text-align:center;padding:1.3rem 0;">No history yet.<br>Start a conversation!</div>'; return; }
+  el.innerHTML = chatHist.map(h=>`<div class="hist-item" onclick="askQ(${JSON.stringify(h.q)})"><div class="hq">${h.q}${h.q.length>=58?'...':''}</div><div class="ht">${h.t}</div></div>`).join('');
+}
+
+function clearChat() {
+  hist = [];
+  while(msgsEl.firstChild) msgsEl.removeChild(msgsEl.firstChild);
+  wel.style.display='flex'; msgsEl.appendChild(wel);
+  setTimeout(()=>{ addMsg('ai',"**New conversation started.** How can I help with your sustainability journey today? 🌿"); },400);
+}
+
+// Export
+function showExport(){ document.getElementById('exp-modal').classList.add('on'); }
+function hideExport(){ document.getElementById('exp-modal').classList.remove('on'); }
+function doExport() {
+  hideExport();
+  const msgs = Array.from(document.querySelectorAll('.msg'));
+  let html = `<html><head><meta charset="UTF-8"><style>
+    body{font-family:Georgia,serif;max-width:780px;margin:40px auto;padding:0 28px;color:#1a1a1a;line-height:1.65}
+    h1{color:#0a2e1a;border-bottom:3px solid #2d9e5f;padding-bottom:10px;font-size:1.8rem}
+    .meta{font-size:11px;color:#999;margin:6px 0 28px;font-family:monospace}
+    .msg{margin-bottom:18px;padding:14px 16px;border-radius:8px}
+    .ai{background:#f0f8f4;border-left:4px solid #2d9e5f}
+    .user{background:#f5f5f5;border-left:4px solid #aaa}
+    .role{font-size:10px;font-weight:bold;text-transform:uppercase;letter-spacing:1px;margin-bottom:7px;color:#888}
+    .ai .role{color:#2d9e5f}
+    strong{color:#0a2e1a}
+    code{background:#e8f5ee;padding:2px 5px;border-radius:3px;font-family:monospace;font-size:12px}
+    .snip-card{background:#e8f5ee;border:1px solid #2d9e5f;border-radius:6px;padding:12px;margin-top:10px}
+    .snip-title{font-size:10px;font-family:monospace;color:#2d9e5f;display:block;margin-bottom:6px;font-weight:bold}
+    .snip-body{font-family:monospace;font-size:12px;color:#333;border-left:2px solid #2d9e5f;padding-left:10px}
+    .footer{margin-top:36px;padding-top:16px;border-top:1px solid #ddd;font-size:10px;color:#bbb;text-align:center}
+  </style></head><body>
+  <h1>🌿 ReGenesis Impact — Sage AI Advisor</h1>
+  <div class="meta">Chat Export · ${new Date().toLocaleDateString('en-GB',{weekday:'long',year:'numeric',month:'long',day:'numeric'})} · regenesisimpact.in</div>`;
+
+  msgs.forEach(m => {
+    const isAI = m.classList.contains('ai');
+    const bub = m.querySelector('.mbub');
+    if(!bub) return;
+    html += `<div class="msg ${isAI?'ai':'user'}"><div class="role">${isAI?'🌿 Sage — AI Sustainability Advisor':'You'}</div><div>${bub.innerHTML}</div></div>`;
+  });
+  html += `<div class="footer">Generated by ReGenesis Impact · regenesisimpact.in · Sage provides guidance based on public ESG frameworks. Always verify with qualified sustainability professionals for formal reporting.</div></body></html>`;
+
+  const w = window.open('','_blank');
+  w.document.write(html); w.document.close();
+  setTimeout(()=>w.print(), 500);
+}
+</script>
+</body>
+</html>

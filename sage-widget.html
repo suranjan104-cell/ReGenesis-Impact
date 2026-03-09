@@ -1,0 +1,152 @@
+<!-- 
+  SAGE WIDGET — Add this snippet before </body> on every page (index.html, advisory.html, issb-report.html)
+  It adds a floating chat button that opens a mini Sage panel
+-->
+
+<style>
+.sage-widget{position:fixed;bottom:1.75rem;right:1.75rem;z-index:1000;display:flex;flex-direction:column;align-items:flex-end;gap:.75rem}
+.sage-fab{width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,#1a5c35,#2d9e5f);border:2px solid rgba(126,217,87,.4);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.45rem;box-shadow:0 4px 24px rgba(126,217,87,.3);transition:transform .2s,box-shadow .2s;position:relative}
+.sage-fab:hover{transform:scale(1.08);box-shadow:0 6px 32px rgba(126,217,87,.4)}
+.sage-fab-badge{position:absolute;top:-2px;right:-2px;width:14px;height:14px;background:#7ed957;border-radius:50%;border:2px solid #0a2e1a;animation:spulse 2s infinite}
+@keyframes spulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.2);opacity:.7}}
+.sage-fab-label{background:rgba(10,46,26,.95);border:1px solid rgba(126,217,87,.25);color:#f5f0e8;padding:.4rem .9rem;border-radius:2rem;font-size:.72rem;font-family:'DM Mono',monospace;letter-spacing:.05em;white-space:nowrap;opacity:0;transform:translateX(8px);transition:all .2s;pointer-events:none}
+.sage-widget:hover .sage-fab-label{opacity:1;transform:translateX(0)}
+
+/* MINI PANEL */
+.sage-panel{position:fixed;bottom:5.5rem;right:1.75rem;width:340px;background:#0d3820;border:1px solid rgba(126,217,87,.2);border-radius:1rem;box-shadow:0 8px 40px rgba(0,0,0,.5);z-index:1000;display:none;flex-direction:column;overflow:hidden;animation:spop .25s ease}
+.sage-panel.on{display:flex}
+@keyframes spop{from{opacity:0;transform:scale(.95) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.sp-head{padding:.9rem 1rem;background:rgba(0,0,0,.3);border-bottom:1px solid rgba(126,217,87,.12);display:flex;align-items:center;justify-content:space-between}
+.sp-head-left{display:flex;align-items:center;gap:.6rem}
+.sp-av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#1a5c35,#2d9e5f);border:1.5px solid rgba(126,217,87,.3);display:flex;align-items:center;justify-content:center;font-size:.8rem}
+.sp-name{font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:700;color:#f5f0e8}
+.sp-name em{font-style:italic;color:#7ed957}
+.sp-dot{width:7px;height:7px;background:#7ed957;border-radius:50%;animation:spulse 2s infinite}
+.sp-head-right{display:flex;align-items:center;gap:.5rem}
+.sp-full{background:rgba(126,217,87,.08);border:1px solid rgba(126,217,87,.15);color:rgba(245,240,232,.6);padding:.22rem .6rem;border-radius:2rem;font-size:.63rem;cursor:pointer;text-decoration:none;transition:all .2s;font-family:'DM Sans',sans-serif}
+.sp-full:hover{background:rgba(126,217,87,.15);color:#f5f0e8}
+.sp-close{width:22px;height:22px;border-radius:50%;background:rgba(245,240,232,.06);border:none;color:rgba(245,240,232,.4);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.75rem;transition:all .2s}
+.sp-close:hover{background:rgba(245,240,232,.12);color:#f5f0e8}
+.sp-msgs{height:240px;overflow-y:auto;padding:.85rem 1rem;display:flex;flex-direction:column;gap:.75rem}
+.sp-msgs::-webkit-scrollbar{width:3px}.sp-msgs::-webkit-scrollbar-thumb{background:rgba(126,217,87,.18);border-radius:2px}
+.sp-msg{display:flex;gap:.55rem;animation:mi2 .25s ease}
+@keyframes mi2{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.sp-msg.user{flex-direction:row-reverse}
+.sp-mav{width:26px;height:26px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.7rem;margin-top:2px}
+.sp-msg.ai .sp-mav{background:linear-gradient(135deg,#1a5c35,#2d9e5f);border:1.5px solid rgba(126,217,87,.25)}
+.sp-msg.user .sp-mav{background:rgba(245,240,232,.07);border:1.5px solid rgba(245,240,232,.1);font-size:.62rem;font-weight:600;color:#f5f0e8}
+.sp-bub{padding:.6rem .75rem;border-radius:.7rem;font-size:.76rem;line-height:1.6;max-width:84%}
+.sp-msg.ai .sp-bub{background:rgba(255,255,255,.04);border:1px solid rgba(126,217,87,.1);border-radius:.15rem .7rem .7rem .7rem;color:#f5f0e8}
+.sp-msg.user .sp-bub{background:linear-gradient(135deg,#1a5c35,#2d9e5f);color:#fff;border-radius:.7rem .7rem .15rem .7rem}
+.sp-bub strong{color:#7ed957;font-weight:600}
+.sp-msg.user .sp-bub strong{color:#d4f5b0}
+.sp-typing{display:flex;gap:.55rem;align-items:flex-start}
+.sp-tdots{background:rgba(255,255,255,.04);border:1px solid rgba(126,217,87,.1);border-radius:.15rem .7rem .7rem .7rem;padding:.55rem .7rem;display:flex;gap:.25rem}
+.sp-tdots span{width:5px;height:5px;background:rgba(126,217,87,.45);border-radius:50%;animation:std .9s infinite}
+.sp-tdots span:nth-child(2){animation-delay:.15s}.sp-tdots span:nth-child(3){animation-delay:.3s}
+@keyframes std{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-4px);opacity:1}}
+.sp-qs{padding:.6rem 1rem;border-top:1px solid rgba(126,217,87,.08);display:flex;gap:.35rem;flex-wrap:wrap}
+.sp-q{background:rgba(126,217,87,.05);border:1px solid rgba(126,217,87,.1);color:rgba(245,240,232,.5);padding:.18rem .55rem;border-radius:2rem;font-size:.63rem;cursor:pointer;transition:all .2s;font-family:'DM Mono',monospace;white-space:nowrap}
+.sp-q:hover{background:rgba(126,217,87,.1);color:#f5f0e8}
+.sp-input{padding:.75rem 1rem;border-top:1px solid rgba(126,217,87,.1);display:flex;gap:.5rem;align-items:center;background:rgba(0,0,0,.15)}
+#sp-inp{flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(126,217,87,.14);border-radius:.6rem;padding:.5rem .7rem;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-size:.78rem;outline:none;transition:border-color .2s}
+#sp-inp::placeholder{color:rgba(245,240,232,.18)}
+#sp-inp:focus{border-color:rgba(126,217,87,.32)}
+.sp-send{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#2d9e5f,#7ed957);border:none;color:#0a2e1a;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;transition:transform .2s,opacity .2s}
+.sp-send:hover:not(:disabled){transform:scale(1.08)}
+.sp-send:disabled{opacity:.3;cursor:not-allowed}
+</style>
+
+<div class="sage-widget">
+  <span class="sage-fab-label">Ask Sage — AI Advisor</span>
+  <div class="sage-fab" onclick="toggleSagePanel()">
+    🌿
+    <div class="sage-fab-badge"></div>
+  </div>
+</div>
+
+<div class="sage-panel" id="sage-panel">
+  <div class="sp-head">
+    <div class="sp-head-left">
+      <div class="sp-av">🌿</div>
+      <div>
+        <div class="sp-name">Sage — <em>AI Advisor</em></div>
+      </div>
+      <div class="sp-dot"></div>
+    </div>
+    <div class="sp-head-right">
+      <a href="ai-advisor.html" class="sp-full">Full Chat →</a>
+      <button class="sp-close" onclick="toggleSagePanel()">✕</button>
+    </div>
+  </div>
+  <div class="sp-msgs" id="sp-msgs"></div>
+  <div class="sp-qs">
+    <span class="sp-q" onclick="spAsk('What is IFRS S2?')">IFRS S2</span>
+    <span class="sp-q" onclick="spAsk('How do I calculate Scope 3 emissions?')">Scope 3</span>
+    <span class="sp-q" onclick="spAsk('What are carbon credits?')">Carbon Credits</span>
+    <span class="sp-q" onclick="spAsk('Explain BRSR reporting for Indian companies')">BRSR India</span>
+  </div>
+  <div class="sp-input">
+    <input type="text" id="sp-inp" placeholder="Ask about ESG, IFRS S2, carbon..." onkeydown="if(event.key==='Enter')spSend()">
+    <button class="sp-send" id="sp-send" onclick="spSend()">➤</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  const SP_SYS = `You are Sage, a concise AI sustainability advisor for ReGenesis Impact. Answer ESG and climate questions briefly and helpfully. Focus on IFRS S2, GRI, TCFD, BRSR, carbon accounting, SBTi, carbon credits, and net-zero strategy. Use **bold** for key terms. Keep responses under 120 words. End with one follow-up suggestion. For complex topics, suggest the user visit the full Sage AI Advisor page.`;
+  let spHist = [], spLoading = false, panelOpen = false, spGreeted = false;
+  const msgsEl = () => document.getElementById('sp-msgs');
+  const inp = () => document.getElementById('sp-inp');
+  const sb = () => document.getElementById('sp-send');
+
+  window.toggleSagePanel = function() {
+    panelOpen = !panelOpen;
+    document.getElementById('sage-panel').classList.toggle('on', panelOpen);
+    if (panelOpen && !spGreeted) {
+      spGreeted = true;
+      spAddMsg('ai', "Hi! I'm **Sage**, your sustainability advisor. Ask me about IFRS S2, carbon credits, Scope 3 emissions, BRSR, or any ESG topic. How can I help?");
+    }
+    if (panelOpen) inp().focus();
+  };
+
+  window.spAsk = function(q) { inp().value = q; spSend(); };
+
+  window.spSend = async function() {
+    const txt = inp().value.trim(); if(!txt || spLoading) return;
+    inp().value = ''; spAddMsg('user', txt);
+    spHist.push({role:'user', content: txt});
+    spLoading = true; sb().disabled = true;
+    spShowTyping();
+    try {
+      const r = await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({model:'claude-sonnet-4-20250514', max_tokens:300, system:SP_SYS, messages:spHist})
+      });
+      const d = await r.json(); spHideTyping();
+      const reply = d.content?.[0]?.text || "Sorry, I couldn't respond. Try the full chat page.";
+      spHist.push({role:'assistant', content:reply});
+      if(spHist.length > 10) spHist = spHist.slice(-10);
+      spAddMsg('ai', reply);
+    } catch(e) { spHideTyping(); spAddMsg('ai',"Connection issue. Try the full Sage page for uninterrupted access."); }
+    spLoading = false; sb().disabled = false; inp().focus();
+  };
+
+  function spAddMsg(role, text) {
+    const m = document.createElement('div');
+    m.className = 'sp-msg '+role;
+    const av = role==='ai' ? '<div class="sp-mav">🌿</div>' : '<div class="sp-mav">S</div>';
+    const fmtd = text.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+    m.innerHTML = `${av}<div class="sp-bub">${fmtd}</div>`;
+    const el = msgsEl(); el.appendChild(m); el.scrollTop = el.scrollHeight;
+  }
+
+  function spShowTyping() {
+    const el = document.createElement('div');
+    el.className='sp-typing'; el.id='sp-tind';
+    el.innerHTML='<div class="sp-mav" style="width:26px;height:26px;background:linear-gradient(135deg,#1a5c35,#2d9e5f);border:1.5px solid rgba(126,217,87,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;">🌿</div><div class="sp-tdots"><span></span><span></span><span></span></div>';
+    const ms = msgsEl(); ms.appendChild(el); ms.scrollTop=ms.scrollHeight;
+  }
+  function spHideTyping() { document.getElementById('sp-tind')?.remove(); }
+})();
+</script>
