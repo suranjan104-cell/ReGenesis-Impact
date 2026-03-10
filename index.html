@@ -1,0 +1,2547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReGenesis Impact — AI-Powered Sustainability Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ===== SHARED BASE ===== */
+:root{--forest:#0a2e1a;--moss:#1a5c35;--leaf:#2d9e5f;--lime:#7ed957;--cream:#f5f0e8;--sand:#e8dfc8;--muted:rgba(245,240,232,0.55);--border:rgba(126,217,87,0.12);}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--forest);color:var(--cream);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:.4}
+/* PAGE SYSTEM */
+.page{display:none!important}.page.active{display:block!important}
+#page-advisor.active{display:flex!important;height:100vh;overflow:hidden}
+#page-issb{min-height:100vh}
+/* UNIFIED NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2.5rem;display:flex!important;align-items:center;justify-content:space-between;background:rgba(10,46,26,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;letter-spacing:.05em;color:var(--lime);cursor:pointer;text-decoration:none}
+.nav-logo span{color:var(--cream)}
+.nav-links{display:flex;gap:1.75rem;list-style:none;align-items:center}
+.nav-links a,.nav-links button{color:rgba(245,240,232,.7);text-decoration:none;font-size:.875rem;font-weight:500;letter-spacing:.04em;transition:color .2s;background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;padding:0}
+.nav-links a:hover,.nav-links button:hover{color:var(--lime)}
+.nav-links .nl-active{color:var(--lime)!important}
+.nav-cta{background:var(--lime)!important;color:var(--forest)!important;padding:.55rem 1.35rem!important;border-radius:2rem!important;font-weight:600!important;transition:transform .2s,box-shadow .2s!important}
+.nav-cta:hover{transform:translateY(-1px)!important;box-shadow:0 4px 18px rgba(126,217,87,.4)!important}
+.nav-badge-live{background:rgba(126,217,87,.1);border:1px solid rgba(126,217,87,.25);color:var(--lime);padding:.28rem .85rem;border-radius:2rem;font-size:.68rem;font-family:'DM Mono',monospace;letter-spacing:.1em;display:flex;align-items:center;gap:.4rem}
+.nav-badge-live::before{content:'';width:6px;height:6px;background:var(--lime);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+/* SAGE WIDGET */
+.sage-widget{position:fixed;bottom:1.75rem;right:1.75rem;z-index:400;display:flex;flex-direction:column;align-items:flex-end;gap:.65rem}
+.sage-fab{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#1a5c35,#2d9e5f);border:2px solid rgba(126,217,87,.4);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.35rem;box-shadow:0 4px 22px rgba(126,217,87,.28);transition:transform .2s,box-shadow .2s;position:relative}
+.sage-fab:hover{transform:scale(1.08);box-shadow:0 6px 30px rgba(126,217,87,.38)}
+.sage-fab-dot{position:absolute;top:-1px;right:-1px;width:13px;height:13px;background:#7ed957;border-radius:50%;border:2px solid #0a2e1a;animation:pulse 2s infinite}
+.sage-fab-tip{background:rgba(10,46,26,.96);border:1px solid rgba(126,217,87,.22);color:#f5f0e8;padding:.35rem .82rem;border-radius:2rem;font-size:.68rem;font-family:'DM Mono',monospace;white-space:nowrap;opacity:0;transform:translateX(8px);transition:all .2s;pointer-events:none}
+.sage-widget:hover .sage-fab-tip{opacity:1;transform:translateX(0)}
+/* ===== HOME CSS ===== */
+
+  :root {
+    --forest: #0a2e1a;
+    --moss: #1a5c35;
+    --leaf: #2d9e5f;
+    --lime: #7ed957;
+    --cream: #f5f0e8;
+    --sand: #e8dfc8;
+    --charcoal: #1a1a1a;
+    --mist: rgba(255,255,255,0.06);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--forest);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* NOISE TEXTURE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.5rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(10,46,26,0.95), transparent);
+    backdrop-filter: blur(8px);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--lime);
+  }
+
+  .nav-logo span { color: var(--cream); }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: rgba(245,240,232,0.7);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--lime); }
+
+  .nav-cta {
+    background: var(--lime);
+    color: var(--forest) !important;
+    padding: 0.6rem 1.4rem;
+    border-radius: 2rem;
+    font-weight: 600 !important;
+    transition: transform 0.2s, box-shadow 0.2s !important;
+  }
+
+  .nav-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(126,217,87,0.4) !important;
+    color: var(--forest) !important;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 60% 40%, rgba(45,158,95,0.15) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 10% 80%, rgba(126,217,87,0.08) 0%, transparent 60%);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(126,217,87,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(126,217,87,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(126,217,87,0.12);
+    border: 1px solid rgba(126,217,87,0.25);
+    color: var(--lime);
+    padding: 0.4rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.08em;
+    margin-bottom: 2rem;
+    width: fit-content;
+    animation: fadeUp 0.8s ease forwards;
+  }
+
+  .hero-tag::before {
+    content: '●';
+    font-size: 0.5rem;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 7vw, 6.5rem);
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    max-width: 900px;
+    animation: fadeUp 0.8s ease 0.1s both;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--lime);
+  }
+
+  .hero-sub {
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: rgba(245,240,232,0.65);
+    max-width: 560px;
+    line-height: 1.7;
+    animation: fadeUp 0.8s ease 0.2s both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 3rem;
+    animation: fadeUp 0.8s ease 0.3s both;
+  }
+
+  .btn-primary {
+    background: var(--lime);
+    color: var(--forest);
+    border: none;
+    padding: 1rem 2.2rem;
+    border-radius: 3rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(126,217,87,0.4);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--cream);
+    border: 1px solid rgba(245,240,232,0.25);
+    padding: 1rem 2.2rem;
+    border-radius: 3rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    text-decoration: none;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--lime);
+    background: rgba(126,217,87,0.05);
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 5rem;
+    padding-top: 3rem;
+    border-top: 1px solid rgba(245,240,232,0.08);
+    animation: fadeUp 0.8s ease 0.4s both;
+  }
+
+  .stat-item { display: flex; flex-direction: column; gap: 0.25rem; }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--lime);
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: rgba(245,240,232,0.5);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* SCROLLING TICKER */
+  .ticker {
+    background: var(--lime);
+    color: var(--forest);
+    padding: 0.75rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .ticker-inner {
+    display: inline-flex;
+    animation: ticker 25s linear infinite;
+    gap: 0;
+  }
+
+  .ticker-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    padding: 0 2rem;
+  }
+
+  .ticker-dot { width: 4px; height: 4px; background: var(--forest); border-radius: 50%; opacity: 0.4; }
+
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* FEATURES */
+  .section {
+    padding: 8rem 4rem;
+    position: relative;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--lime);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    max-width: 600px;
+  }
+
+  .section-title em { font-style: italic; color: var(--lime); }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    margin-top: 5rem;
+    background: rgba(126,217,87,0.1);
+    border: 1px solid rgba(126,217,87,0.1);
+    border-radius: 1.5rem;
+    overflow: hidden;
+  }
+
+  .feature-card {
+    background: var(--forest);
+    padding: 2.5rem;
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--lime), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .feature-card:hover { background: rgba(45,158,95,0.08); }
+  .feature-card:hover::before { opacity: 1; }
+
+  .feature-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(126,217,87,0.1);
+    border: 1px solid rgba(126,217,87,0.2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .feature-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  .feature-desc {
+    font-size: 0.9rem;
+    color: rgba(245,240,232,0.55);
+    line-height: 1.7;
+  }
+
+  /* HOW IT WORKS */
+  .how-section {
+    padding: 8rem 4rem;
+    background: rgba(0,0,0,0.2);
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-top: 5rem;
+    position: relative;
+  }
+
+  .steps::before {
+    content: '';
+    position: absolute;
+    top: 2rem;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(126,217,87,0.3), transparent);
+  }
+
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .step-num {
+    width: 4rem;
+    height: 4rem;
+    background: rgba(126,217,87,0.1);
+    border: 1px solid rgba(126,217,87,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--lime);
+    position: relative;
+    z-index: 1;
+    background: var(--forest);
+  }
+
+  .step-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .step-desc {
+    font-size: 0.875rem;
+    color: rgba(245,240,232,0.5);
+    line-height: 1.6;
+  }
+
+  /* PLATFORM PREVIEW */
+  .platform-section {
+    padding: 8rem 4rem;
+  }
+
+  .platform-card {
+    background: rgba(26,92,53,0.2);
+    border: 1px solid rgba(126,217,87,0.15);
+    border-radius: 2rem;
+    padding: 3rem;
+    margin-top: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .platform-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(126,217,87,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .dashboard-mock {
+    background: rgba(10,46,26,0.8);
+    border: 1px solid rgba(126,217,87,0.12);
+    border-radius: 1rem;
+    padding: 2rem;
+    margin-top: 2rem;
+  }
+
+  .mock-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(126,217,87,0.1);
+  }
+
+  .mock-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+  .mock-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .mock-metric {
+    background: rgba(126,217,87,0.05);
+    border: 1px solid rgba(126,217,87,0.1);
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+  }
+
+  .mock-metric-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--lime);
+    font-weight: 700;
+  }
+
+  .mock-metric-label {
+    font-size: 0.7rem;
+    color: rgba(245,240,232,0.4);
+    margin-top: 0.25rem;
+    letter-spacing: 0.05em;
+  }
+
+  .mock-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+    height: 80px;
+  }
+
+  .mock-bar {
+    flex: 1;
+    background: rgba(126,217,87,0.15);
+    border-radius: 4px 4px 0 0;
+    border: 1px solid rgba(126,217,87,0.2);
+    transition: background 0.3s;
+  }
+
+  .mock-bar.active { background: rgba(126,217,87,0.5); }
+
+  /* PRICING */
+  .pricing-section {
+    padding: 8rem 4rem;
+    background: rgba(0,0,0,0.15);
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 4rem;
+    max-width: 1000px;
+  }
+
+  .pricing-card {
+    background: rgba(26,92,53,0.1);
+    border: 1px solid rgba(126,217,87,0.12);
+    border-radius: 1.5rem;
+    padding: 2.5rem;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+
+  .pricing-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(126,217,87,0.3);
+  }
+
+  .pricing-card.featured {
+    background: rgba(45,158,95,0.15);
+    border-color: var(--lime);
+    position: relative;
+  }
+
+  .pricing-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--lime);
+    color: var(--forest);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 0.3rem 1rem;
+    border-radius: 2rem;
+    white-space: nowrap;
+  }
+
+  .pricing-tier {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--lime);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .pricing-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .pricing-price sup { font-size: 1.2rem; vertical-align: top; margin-top: 0.5rem; }
+  .pricing-price span { font-size: 1rem; font-family: 'DM Sans', sans-serif; font-weight: 300; color: rgba(245,240,232,0.5); }
+
+  .pricing-desc {
+    font-size: 0.875rem;
+    color: rgba(245,240,232,0.5);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  .pricing-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .pricing-features li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+    color: rgba(245,240,232,0.7);
+  }
+
+  .pricing-features li::before {
+    content: '✓';
+    color: var(--lime);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* WAITLIST */
+  .waitlist-section {
+    padding: 8rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .waitlist-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(45,158,95,0.12) 0%, transparent 70%);
+  }
+
+  .waitlist-section .section-title { margin: 0 auto; text-align: center; }
+
+  .waitlist-form {
+    display: flex;
+    gap: 0.75rem;
+    max-width: 480px;
+    margin: 3rem auto 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .waitlist-input {
+    flex: 1;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(126,217,87,0.2);
+    color: var(--cream);
+    padding: 1rem 1.5rem;
+    border-radius: 3rem;
+    font-size: 0.95rem;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .waitlist-input::placeholder { color: rgba(245,240,232,0.3); }
+  .waitlist-input:focus { border-color: var(--lime); }
+
+  .waitlist-note {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: rgba(245,240,232,0.3);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 3rem 4rem;
+    border-top: 1px solid rgba(126,217,87,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--lime);
+  }
+
+  .footer-copy {
+    font-size: 0.8rem;
+    color: rgba(245,240,232,0.3);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 0.8rem;
+    color: rgba(245,240,232,0.4);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--lime); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero, .section, .how-section, .platform-section, .pricing-section, .waitlist-section { padding: 6rem 1.5rem 4rem; }
+    .features-grid, .steps, .mock-metrics, .pricing-grid { grid-template-columns: 1fr; }
+    .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
+    .waitlist-form { flex-direction: column; }
+    footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+  }
+
+/* ===== ISSB CSS ===== */
+
+:root{--forest:#0a2e1a;--moss:#1a5c35;--leaf:#2d9e5f;--lime:#7ed957;--cream:#f5f0e8;--muted:rgba(245,240,232,0.55);--border:rgba(126,217,87,0.12)}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--forest);color:var(--cream);font-family:'DM Sans',sans-serif;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:999}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2.5rem;display:flex;align-items:center;justify-content:space-between;background:rgba(10,46,26,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--lime);text-decoration:none}.nav-logo span{color:var(--cream)}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.nav-badge{background:rgba(126,217,87,0.1);border:1px solid rgba(126,217,87,0.25);color:var(--lime);padding:.3rem .9rem;border-radius:2rem;font-size:.7rem;font-family:'DM Mono',monospace;letter-spacing:.1em}
+.nav-back{color:var(--muted);text-decoration:none;font-size:.8rem;transition:color .2s}.nav-back:hover{color:var(--lime)}
+.app{padding-top:4rem;display:grid;grid-template-columns:268px 1fr;min-height:100vh}
+.sidebar{background:rgba(0,0,0,.25);border-right:1px solid var(--border);padding:1.75rem 1.25rem;position:sticky;top:4rem;height:calc(100vh - 4rem);overflow-y:auto}
+.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-thumb{background:rgba(126,217,87,.2);border-radius:2px}
+.sidebar-label{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(245,240,232,.3);margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)}
+.step-list{display:flex;flex-direction:column;gap:.2rem}
+.step-item{display:flex;align-items:flex-start;gap:.65rem;padding:.65rem .75rem;border-radius:.6rem;cursor:pointer;transition:background .2s;border:1px solid transparent}
+.step-item:hover{background:rgba(126,217,87,.04)}.step-item.active{background:rgba(126,217,87,.07);border-color:rgba(126,217,87,.15)}
+.step-item.done .s-dot{background:var(--lime);border-color:var(--lime);color:var(--forest)}
+.s-dot{width:22px;height:22px;min-width:22px;border-radius:50%;border:1.5px solid rgba(126,217,87,.3);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-family:'DM Mono',monospace;color:var(--lime);transition:all .2s;margin-top:1px}
+.s-info{display:flex;flex-direction:column;gap:.1rem}
+.s-num{font-family:'DM Mono',monospace;font-size:.6rem;color:rgba(245,240,232,.3);letter-spacing:.05em}
+.s-name{font-size:.78rem;color:rgba(245,240,232,.55);line-height:1.3}
+.step-item.active .s-name{color:var(--cream);font-weight:500}.step-item.done .s-name{color:rgba(126,217,87,.75)}
+.prog-wrap{margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border)}
+.prog-row{display:flex;justify-content:space-between;font-size:.7rem;color:rgba(245,240,232,.35);font-family:'DM Mono',monospace;margin-bottom:.4rem}
+.prog-track{height:3px;background:rgba(126,217,87,.08);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--leaf),var(--lime));border-radius:2px;transition:width .5s ease}
+.issb-refs{margin-top:1.5rem;padding:1rem;background:rgba(126,217,87,.04);border:1px solid var(--border);border-radius:.75rem}
+.issb-refs-label{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--lime);letter-spacing:.1em;margin-bottom:.5rem}
+.issb-ref{font-size:.7rem;color:rgba(245,240,232,.4);line-height:1.6}
+.main{padding:2.5rem 3rem;max-width:860px}
+.step{display:none;animation:fadeUp .3s ease}.step.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.step-hdr{margin-bottom:2rem}
+.step-tag{display:inline-flex;align-items:center;background:rgba(126,217,87,.08);border:1px solid rgba(126,217,87,.2);color:var(--lime);padding:.25rem .75rem;border-radius:2rem;font-size:.68rem;font-family:'DM Mono',monospace;letter-spacing:.08em;margin-bottom:.75rem}
+.step-hdr h2{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:700;line-height:1.15;margin-bottom:.35rem}
+.step-hdr h2 em{font-style:italic;color:var(--lime)}
+.step-hdr p{font-size:.85rem;color:var(--muted);line-height:1.6}
+.para-ref{font-family:'DM Mono',monospace;font-size:.65rem;color:rgba(126,217,87,.5);margin-top:.25rem}
+.fg{display:flex;flex-direction:column;gap:.45rem}
+.fg label{font-size:.78rem;font-weight:500;color:rgba(245,240,232,.75)}
+.fg .hint{font-size:.68rem;color:rgba(245,240,232,.3);font-family:'DM Mono',monospace}
+.req{color:var(--lime)}
+input,select,textarea{background:rgba(255,255,255,.04);border:1px solid rgba(126,217,87,.14);color:var(--cream);padding:.75rem .9rem;border-radius:.5rem;font-size:.85rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s,background .2s;width:100%}
+input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.45);background:rgba(126,217,87,.03)}
+input::placeholder,textarea::placeholder{color:rgba(245,240,232,.18)}
+select option{background:#0a2e1a}
+textarea{resize:vertical;min-height:90px;line-height:1.6}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:.9rem}
+.full{grid-column:1/-1}
+.sec-div{display:flex;align-items:center;gap:.75rem;margin:1.75rem 0 1.25rem}
+.sec-div-label{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;white-space:nowrap}
+.sec-div-line{flex:1;height:1px;background:rgba(126,217,87,.1)}
+.sec-div-ref{font-family:'DM Mono',monospace;font-size:.6rem;color:rgba(126,217,87,.4);white-space:nowrap}
+.check-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.chk-card{background:rgba(126,217,87,.03);border:1px solid rgba(126,217,87,.1);border-radius:.65rem;padding:1rem 1rem 1rem 2.75rem;cursor:pointer;transition:all .2s;position:relative}
+.chk-card:hover{border-color:rgba(126,217,87,.2)}.chk-card.sel{border-color:var(--lime);background:rgba(126,217,87,.08)}
+.chk-card input[type=checkbox]{position:absolute;top:1rem;left:.9rem;width:15px;height:15px;accent-color:var(--lime);cursor:pointer}
+.chk-title{font-size:.82rem;font-weight:600;margin-bottom:.2rem}
+.chk-desc{font-size:.72rem;color:rgba(245,240,232,.4);line-height:1.45}
+.scope-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.5rem}
+.scope-card{background:rgba(126,217,87,.04);border:1px solid var(--border);border-radius:.65rem;padding:1rem}
+.scope-lbl{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--lime);letter-spacing:.1em;margin-bottom:.3rem}
+.scope-name{font-size:.82rem;font-weight:600;margin-bottom:.4rem}
+.scope-desc{font-size:.7rem;color:rgba(245,240,232,.38);line-height:1.45}
+.ghg-table{width:100%;border-collapse:collapse;margin-top:.5rem}
+.ghg-table th{font-family:'DM Mono',monospace;font-size:.65rem;color:rgba(126,217,87,.6);letter-spacing:.08em;padding:.5rem .75rem;text-align:left;border-bottom:1px solid var(--border)}
+.ghg-table td{padding:.35rem .5rem}
+.ghg-table input,.ghg-table select{padding:.4rem .5rem;font-size:.78rem}
+.info-box{background:rgba(126,217,87,.05);border:1px solid rgba(126,217,87,.15);border-left:3px solid var(--lime);border-radius:0 .5rem .5rem 0;padding:.9rem 1rem;margin-bottom:1.25rem;font-size:.8rem;color:rgba(245,240,232,.65);line-height:1.6}
+.info-box strong{color:var(--lime)}
+.step-actions{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;padding-top:1.75rem;border-top:1px solid var(--border)}
+.btn-p{background:var(--lime);color:var(--forest);border:none;padding:.8rem 1.9rem;border-radius:3rem;font-size:.875rem;font-weight:600;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.btn-p:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(126,217,87,.3)}
+.btn-s{background:transparent;color:rgba(245,240,232,.55);border:1px solid rgba(245,240,232,.12);padding:.8rem 1.6rem;border-radius:3rem;font-size:.875rem;cursor:pointer;transition:all .2s}
+.btn-s:hover{border-color:rgba(245,240,232,.25);color:var(--cream)}
+.btn-gen{background:linear-gradient(135deg,var(--leaf),var(--lime));color:var(--forest);border:none;padding:.9rem 2.5rem;border-radius:3rem;font-size:1rem;font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.btn-gen:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(126,217,87,.4)}
+/* REPORT */
+#rpt{display:none;background:#f7f4ee;color:#1a1a1a;font-family:'DM Sans',sans-serif}
+#rpt.on{display:block}
+.rpt-actions{position:fixed;top:.75rem;right:1rem;display:flex;gap:.6rem;z-index:300}
+.rpt-btn{padding:.55rem 1.1rem;border-radius:2rem;font-size:.78rem;font-weight:600;cursor:pointer;border:none;transition:transform .15s}
+.rpt-btn:hover{transform:translateY(-1px)}
+.rpt-btn.dark{background:#0a2e1a;color:#7ed957}.rpt-btn.light{background:#e8e2d8;color:#1a1a1a}
+.rpt-wrap{max-width:900px;margin:0 auto;padding:3.5rem 3rem}
+.rpt-header{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:1.75rem;border-bottom:3px solid #0a2e1a;margin-bottom:2.5rem}
+.rpt-logo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:#0a2e1a}
+.rpt-logo span{color:#2d9e5f}
+.rpt-meta{text-align:right}
+.rpt-badge{background:#0a2e1a;color:#7ed957;padding:.25rem .75rem;border-radius:2rem;font-size:.65rem;font-family:'DM Mono',monospace;letter-spacing:.1em;display:inline-block;margin-bottom:.4rem}
+.rpt-meta p{font-size:.75rem;color:#888;line-height:1.5}
+.rpt-title{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;color:#0a2e1a;line-height:1.1;margin-bottom:.4rem}
+.rpt-sub{font-size:.95rem;color:#666;margin-bottom:2.5rem}
+.rpt-sec{margin-bottom:2.75rem}
+.rpt-sec-hdr{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:#0a2e1a;padding-bottom:.5rem;border-bottom:2px solid #2d9e5f;margin-bottom:1.25rem;display:flex;align-items:center;gap:.65rem}
+.rpt-sec-num{background:#0a2e1a;color:#7ed957;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-family:'DM Mono',monospace;flex-shrink:0}
+.rpt-para-ref{font-family:'DM Mono',monospace;font-size:.6rem;color:#aaa;margin-left:auto}
+.rpt-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1rem}
+.rpt-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1rem}
+.rpt-grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:.9rem;margin-bottom:1rem}
+.rf label{font-size:.65rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#999;display:block;margin-bottom:.2rem}
+.rf p{font-size:.85rem;color:#222;line-height:1.5}
+.rpt-metric{background:#f0ece4;border:1px solid #ddd8ce;border-radius:.65rem;padding:1.1rem;text-align:center}
+.rpt-metric-val{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:700;color:#0a2e1a;line-height:1}
+.rpt-metric-label{font-size:.68rem;color:#888;margin-top:.2rem;line-height:1.3}
+.rpt-total{background:#e8f5ee;border:2px solid #2d9e5f;border-radius:.75rem;padding:1.25rem;text-align:center;margin:1rem 0}
+.rpt-total-val{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:700;color:#0a2e1a}
+.rpt-total-label{font-size:.85rem;color:#2d9e5f;font-weight:600;margin-top:.2rem}
+.tag{display:inline-block;background:rgba(45,158,95,.1);color:#1a5c35;border:1px solid rgba(45,158,95,.2);padding:.2rem .65rem;border-radius:2rem;font-size:.7rem;font-weight:500;margin:.15rem}
+.tag.red{background:rgba(220,50,50,.07);color:#8b0000;border-color:rgba(220,50,50,.15)}
+.tag.amber{background:rgba(200,120,0,.08);color:#7a4800;border-color:rgba(200,120,0,.15)}
+.rpt-table{width:100%;border-collapse:collapse;font-size:.82rem;margin-bottom:1rem}
+.rpt-table th{background:#0a2e1a;color:#7ed957;padding:.6rem .9rem;text-align:left;font-size:.68rem;letter-spacing:.05em;font-family:'DM Mono',monospace}
+.rpt-table td{padding:.6rem .9rem;border-bottom:1px solid #e8e2d8;color:#333}
+.rpt-table tr:hover td{background:#f0ece4}
+.dbox{background:#fff;border:1px solid #e0dbd0;border-radius:.65rem;padding:1.1rem;margin-top:.75rem}
+.dbox p{font-size:.83rem;color:#333;line-height:1.65}
+.rpt-disclaimer{margin-top:2.5rem;padding:1.25rem;background:#f0ece4;border-radius:.65rem;font-size:.75rem;color:#888;line-height:1.6;border-left:3px solid #2d9e5f}
+@media print{.rpt-actions,nav{display:none!important}body::before{display:none}}
+@media(max-width:768px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:1.5rem}.grid2,.grid3,.grid4,.scope-row,.check-grid{grid-template-columns:1fr}#rpt .rpt-wrap{padding:2rem 1rem}.rpt-grid,.rpt-grid3,.rpt-grid4{grid-template-columns:1fr}}
+
+/* ===== ADVISOR CSS ===== */
+
+:root{--forest:#0a2e1a;--moss:#1a5c35;--leaf:#2d9e5f;--lime:#7ed957;--cream:#f5f0e8;--muted:rgba(245,240,232,0.55);--border:rgba(126,217,87,0.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--forest);color:var(--cream);font-family:'DM Sans',sans-serif;min-height:100vh;overflow:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:999}
+body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(126,217,87,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(126,217,87,0.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(10,46,26,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--lime);text-decoration:none}.nav-logo span{color:var(--cream)}
+.nav-badge{background:rgba(126,217,87,0.1);border:1px solid rgba(126,217,87,0.25);color:var(--lime);padding:.28rem .85rem;border-radius:2rem;font-size:.68rem;font-family:'DM Mono',monospace;letter-spacing:.1em;display:flex;align-items:center;gap:.4rem}
+.nav-badge::before{content:'';width:6px;height:6px;background:var(--lime);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(0.8)}}
+.nav-right{display:flex;align-items:center;gap:.6rem}
+.nav-btn{background:rgba(126,217,87,0.07);border:1px solid rgba(126,217,87,0.14);color:rgba(245,240,232,0.6);padding:.38rem .85rem;border-radius:2rem;font-size:.73rem;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
+.nav-btn:hover{background:rgba(126,217,87,0.14);color:var(--cream)}
+.nav-back{color:var(--muted);text-decoration:none;font-size:.78rem;transition:color .2s}.nav-back:hover{color:var(--lime)}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:272px 1fr;height:100vh;padding-top:3.8rem;position:relative;z-index:1}
+
+/* SIDEBAR */
+.sidebar{background:rgba(0,0,0,.28);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.sb-top{padding:1.4rem 1.2rem 1rem;border-bottom:1px solid var(--border)}
+.av-wrap{position:relative;width:48px;height:48px;margin-bottom:.85rem}
+.av{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--moss),var(--leaf));border:2px solid rgba(126,217,87,0.3);display:flex;align-items:center;justify-content:center;font-size:1.25rem}
+.av-ring{position:absolute;inset:-4px;border-radius:50%;border:1px solid transparent;border-top-color:var(--lime);animation:spin 4s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.av-dot{position:absolute;bottom:1px;right:1px;width:10px;height:10px;background:var(--lime);border-radius:50%;border:2px solid var(--forest)}
+.ai-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;margin-bottom:.12rem}
+.ai-name em{font-style:italic;color:var(--lime)}
+.ai-desc{font-size:.71rem;color:var(--muted);line-height:1.5}
+
+/* TABS */
+.sb-tabs{display:flex;border-bottom:1px solid var(--border)}
+.sb-tab{flex:1;padding:.65rem .4rem;text-align:center;font-size:.66rem;font-family:'DM Mono',monospace;letter-spacing:.06em;color:rgba(245,240,232,.3);cursor:pointer;transition:all .2s;border-bottom:2px solid transparent}
+.sb-tab.on{color:var(--lime);border-bottom-color:var(--lime)}
+.sb-tab:hover:not(.on){color:var(--muted)}
+
+/* PANELS */
+.sb-panel{display:none;flex:1;overflow-y:auto;padding:.9rem 1.1rem}
+.sb-panel.on{display:block}
+.sb-panel::-webkit-scrollbar{width:3px}.sb-panel::-webkit-scrollbar-thumb{background:rgba(126,217,87,.18);border-radius:2px}
+.plbl{font-family:'DM Mono',monospace;font-size:.59rem;letter-spacing:.12em;color:rgba(126,217,87,.45);text-transform:uppercase;margin-bottom:.6rem;margin-top:.7rem}
+.plbl:first-child{margin-top:0}
+.sug{background:rgba(126,217,87,.03);border:1px solid rgba(126,217,87,.08);border-radius:.5rem;padding:.6rem .8rem;margin-bottom:.38rem;cursor:pointer;transition:all .2s;font-size:.74rem;color:rgba(245,240,232,.55);line-height:1.4}
+.sug:hover{background:rgba(126,217,87,.07);border-color:rgba(126,217,87,.18);color:var(--cream)}
+.sug::before{content:'→ ';color:var(--lime);font-size:.66rem}
+.etags{display:flex;flex-wrap:wrap;gap:.32rem}
+.etag{background:rgba(126,217,87,.05);border:1px solid rgba(126,217,87,.11);color:rgba(245,240,232,.58);padding:.18rem .58rem;border-radius:2rem;font-size:.65rem;cursor:pointer;transition:all .2s}
+.etag:hover{background:rgba(126,217,87,.11);color:var(--cream)}
+.hist-item{background:rgba(126,217,87,.03);border:1px solid rgba(126,217,87,.07);border-radius:.5rem;padding:.6rem .8rem;margin-bottom:.38rem;cursor:pointer;transition:all .2s}
+.hist-item:hover{background:rgba(126,217,87,.06)}
+.hq{font-size:.73rem;color:rgba(245,240,232,.62);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:.15rem}
+.ht{font-size:.6rem;color:rgba(245,240,232,.22);font-family:'DM Mono',monospace}
+
+/* STATS */
+.sb-stats{padding:.85rem 1.2rem;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.st{background:rgba(126,217,87,.04);border:1px solid var(--border);border-radius:.45rem;padding:.5rem .6rem;text-align:center}
+.st-v{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--lime);line-height:1}
+.st-l{font-size:.59rem;color:rgba(245,240,232,.32);margin-top:.1rem;font-family:'DM Mono',monospace}
+
+/* CHAT */
+.chat{display:flex;flex-direction:column;height:100%;overflow:hidden}
+
+/* TOOLBAR */
+.toolbar{padding:.58rem 1.75rem;border-bottom:1px solid var(--border);background:rgba(0,0,0,.15);display:flex;align-items:center;gap:.55rem;flex-wrap:wrap}
+.tbtn{background:rgba(126,217,87,.05);border:1px solid rgba(126,217,87,.1);color:rgba(245,240,232,.52);padding:.32rem .75rem;border-radius:2rem;font-size:.68rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.3rem;font-family:'DM Sans',sans-serif}
+.tbtn:hover{background:rgba(126,217,87,.1);border-color:rgba(126,217,87,.2);color:var(--cream)}
+.tbtn.on{background:rgba(126,217,87,.12);border-color:rgba(126,217,87,.28);color:var(--lime)}
+.tsep{width:1px;height:16px;background:var(--border)}
+.flabel{background:rgba(126,217,87,.05);border:1px solid rgba(126,217,87,.1);color:rgba(245,240,232,.52);padding:.32rem .75rem;border-radius:2rem;font-size:.68rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.3rem}
+.flabel:hover{background:rgba(126,217,87,.1);color:var(--cream)}
+#file-in{display:none}
+.finfo{font-size:.66rem;color:var(--lime);font-family:'DM Mono',monospace;background:rgba(126,217,87,.08);border:1px solid rgba(126,217,87,.18);padding:.18rem .55rem;border-radius:2rem;display:none;align-items:center;gap:.3rem}
+.finfo.on{display:flex}
+.frm{cursor:pointer;color:rgba(245,240,232,.35);margin-left:.15rem}.frm:hover{color:var(--cream)}
+
+/* MESSAGES */
+.msgs{flex:1;overflow-y:auto;padding:1.6rem 2.25rem;display:flex;flex-direction:column;gap:1.1rem;scroll-behavior:smooth}
+.msgs::-webkit-scrollbar{width:4px}.msgs::-webkit-scrollbar-thumb{background:rgba(126,217,87,.18);border-radius:2px}
+
+/* WELCOME */
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;text-align:center;padding:2rem;animation:fi .5s ease}
+@keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.w-icon{font-size:2.6rem;margin-bottom:1.1rem;filter:drop-shadow(0 0 18px rgba(126,217,87,.28))}
+.welcome h2{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:700;line-height:1.2;margin-bottom:.55rem}
+.welcome h2 em{font-style:italic;color:var(--lime)}
+.welcome p{font-size:.85rem;color:var(--muted);line-height:1.7;max-width:440px;margin-bottom:1.6rem}
+.wcards{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;width:100%;max-width:500px}
+.wc{background:rgba(126,217,87,.04);border:1px solid rgba(126,217,87,.1);border-radius:.7rem;padding:.85rem;cursor:pointer;transition:all .2s;text-align:left}
+.wc:hover{background:rgba(126,217,87,.08);border-color:rgba(126,217,87,.22);transform:translateY(-2px)}
+.wc-ic{font-size:1.15rem;margin-bottom:.38rem}
+.wc-t{font-size:.78rem;font-weight:600;margin-bottom:.12rem}
+.wc-d{font-size:.68rem;color:var(--muted);line-height:1.35}
+
+/* BUBBLES */
+.msg{display:flex;gap:.85rem;animation:mi .28s ease}
+@keyframes mi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.msg.user{flex-direction:row-reverse}
+.mav{width:33px;height:33px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.82rem;margin-top:.12rem}
+.msg.ai .mav{background:linear-gradient(135deg,var(--moss),var(--leaf));border:1.5px solid rgba(126,217,87,.28)}
+.msg.user .mav{background:rgba(245,240,232,.07);border:1.5px solid rgba(245,240,232,.1);font-size:.7rem;font-weight:600}
+.mbody{max-width:76%;display:flex;flex-direction:column;gap:.28rem}
+.msg.user .mbody{align-items:flex-end}
+.mname{font-size:.6rem;font-family:'DM Mono',monospace;color:rgba(245,240,232,.25);letter-spacing:.04em}
+.mbub{padding:.82rem .98rem;border-radius:.85rem;font-size:.845rem;line-height:1.68}
+.msg.ai .mbub{background:rgba(255,255,255,.04);border:1px solid rgba(126,217,87,.1);border-radius:.2rem .85rem .85rem .85rem;color:var(--cream)}
+.msg.user .mbub{background:linear-gradient(135deg,var(--moss),var(--leaf));color:#fff;border-radius:.85rem .85rem .2rem .85rem}
+.mbub strong{color:var(--lime);font-weight:600}
+.msg.user .mbub strong{color:#d4f5b0}
+.mbub h3{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--lime);margin:.45rem 0 .28rem}
+.mbub ul,.mbub ol{padding-left:1.2rem;margin:.3rem 0}
+.mbub li{margin-bottom:.22rem}
+.mbub p{margin-bottom:.38rem}.mbub p:last-child{margin-bottom:0}
+.mbub code{background:rgba(126,217,87,.1);padding:.08rem .32rem;border-radius:.22rem;font-family:'DM Mono',monospace;font-size:.76rem;color:var(--lime)}
+.mtime{font-size:.58rem;color:rgba(245,240,232,.2);font-family:'DM Mono',monospace}
+
+/* SNIPPET CARD */
+.snip-card{background:rgba(10,46,26,.85);border:1px solid rgba(126,217,87,.22);border-radius:.7rem;padding:.9rem;margin-top:.65rem}
+.snip-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:.65rem}
+.snip-title{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--lime);letter-spacing:.09em}
+.snip-copy{background:rgba(126,217,87,.1);border:1px solid rgba(126,217,87,.2);color:var(--lime);padding:.22rem .6rem;border-radius:2rem;font-size:.63rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.snip-copy:hover{background:rgba(126,217,87,.2)}
+.snip-body{font-size:.76rem;color:rgba(245,240,232,.72);line-height:1.65;font-family:'DM Mono',monospace;border-left:2px solid rgba(126,217,87,.28);padding-left:.7rem;white-space:pre-wrap}
+
+/* FILE CARD */
+.fcard{background:rgba(126,217,87,.05);border:1px solid rgba(126,217,87,.14);border-radius:.6rem;padding:.75rem;margin-bottom:.65rem;display:flex;align-items:center;gap:.7rem}
+.fcard-ic{font-size:1.4rem}
+.fcard-info{flex:1}
+.fcard-nm{font-size:.78rem;font-weight:600;margin-bottom:.1rem}
+.fcard-sz{font-size:.65rem;color:var(--muted);font-family:'DM Mono',monospace}
+.fcard-badge{background:rgba(126,217,87,.1);border:1px solid rgba(126,217,87,.2);color:var(--lime);padding:.18rem .52rem;border-radius:2rem;font-size:.6rem;font-family:'DM Mono',monospace}
+
+/* TYPING */
+.typing{display:flex;gap:.85rem;align-items:flex-start;animation:mi .28s ease}
+.tdots{background:rgba(255,255,255,.04);border:1px solid rgba(126,217,87,.1);border-radius:.2rem .85rem .85rem .85rem;padding:.75rem .95rem;display:flex;gap:.28rem;align-items:center}
+.tdots span{width:6px;height:6px;background:rgba(126,217,87,.45);border-radius:50%;animation:td .9s infinite}
+.tdots span:nth-child(2){animation-delay:.15s}.tdots span:nth-child(3){animation-delay:.3s}
+@keyframes td{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
+
+/* INPUT */
+.input-area{padding:.9rem 2.25rem 1.1rem;border-top:1px solid var(--border);background:rgba(0,0,0,.17)}
+.tpills{display:flex;gap:.38rem;flex-wrap:wrap;margin-bottom:.65rem}
+.tp{background:rgba(126,217,87,.05);border:1px solid rgba(126,217,87,.1);color:rgba(245,240,232,.48);padding:.22rem .68rem;border-radius:2rem;font-size:.66rem;cursor:pointer;transition:all .2s;font-family:'DM Mono',monospace}
+.tp:hover{background:rgba(126,217,87,.1);border-color:rgba(126,217,87,.2);color:var(--cream)}
+.irow{display:flex;gap:.6rem;align-items:flex-end}
+.iwrap{flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(126,217,87,.15);border-radius:.85rem;display:flex;align-items:flex-end;gap:.55rem;padding:.6rem .85rem;transition:border-color .2s,box-shadow .2s}
+.iwrap:focus-within{border-color:rgba(126,217,87,.36);box-shadow:0 0 0 3px rgba(126,217,87,.05)}
+#msg-input{flex:1;background:none;border:none;color:var(--cream);font-family:'DM Sans',sans-serif;font-size:.845rem;line-height:1.6;outline:none;resize:none;max-height:108px;min-height:22px}
+#msg-input::placeholder{color:rgba(245,240,232,.17)}
+.ibtns{display:flex;align-items:center;gap:.38rem}
+.voice-btn{width:29px;height:29px;border-radius:50%;background:rgba(126,217,87,.05);border:1px solid rgba(126,217,87,.11);color:rgba(245,240,232,.38);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.78rem;transition:all .2s}
+.voice-btn:hover{background:rgba(126,217,87,.11);color:var(--lime)}
+.voice-btn.rec{background:rgba(220,50,50,.14);border-color:rgba(220,50,50,.28);color:#ff6b6b;animation:rp 1s infinite}
+@keyframes rp{0%,100%{box-shadow:0 0 0 0 rgba(220,50,50,.18)}50%{box-shadow:0 0 0 5px rgba(220,50,50,0)}}
+.send-btn{width:39px;height:39px;border-radius:50%;background:linear-gradient(135deg,var(--leaf),var(--lime));border:none;color:var(--forest);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .2s,box-shadow .2s,opacity .2s;font-size:.95rem}
+.send-btn:hover:not(:disabled){transform:scale(1.08);box-shadow:0 4px 14px rgba(126,217,87,.32)}
+.send-btn:disabled{opacity:.28;cursor:not-allowed}
+.ifooter{display:flex;justify-content:space-between;align-items:center;margin-top:.45rem;padding:0 .18rem}
+.ihint{font-size:.6rem;color:rgba(245,240,232,.17);font-family:'DM Mono',monospace}
+.cc{font-size:.6rem;color:rgba(245,240,232,.17);font-family:'DM Mono',monospace}
+.disc{text-align:center;font-size:.6rem;color:rgba(245,240,232,.14);margin-top:.3rem;font-family:'DM Mono',monospace}
+
+/* MODAL */
+.moverlay{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:500;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.moverlay.on{display:flex}
+.modal{background:#0d3820;border:1px solid rgba(126,217,87,.2);border-radius:.9rem;padding:1.85rem;width:100%;max-width:460px;animation:fi .3s ease}
+.modal-t{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:700;margin-bottom:.38rem}
+.modal-t em{color:var(--lime);font-style:italic}
+.modal-d{font-size:.8rem;color:var(--muted);line-height:1.6;margin-bottom:1.4rem}
+.mbtns{display:flex;gap:.65rem;justify-content:flex-end}
+.mbtn{padding:.65rem 1.4rem;border-radius:2rem;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;border:none}
+.mbtn.p{background:linear-gradient(135deg,var(--leaf),var(--lime));color:var(--forest)}
+.mbtn.p:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(126,217,87,.28)}
+.mbtn.s{background:transparent;color:var(--muted);border:1px solid var(--border)}
+.mbtn.s:hover{border-color:rgba(245,240,232,.18);color:var(--cream)}
+
+@media(max-width:768px){.layout{grid-template-columns:1fr}.sidebar{display:none}.msgs{padding:1.1rem}.input-area{padding:.8rem 1.1rem 1rem}.wcards{grid-template-columns:1fr}.toolbar{padding:.45rem .9rem}}
+
+/* ADVISOR page layout fix */
+#page-advisor .layout{height:calc(100vh - 3.7rem);padding-top:3.7rem}
+#page-issb .app{padding-top:3.8rem}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo" onclick="showPage('home')">ReGenesis<span> Impact</span></span>
+  <ul class="nav-links" id="nl-home">
+    <li><button onclick="navTo('features')">Platform</button></li>
+    <li><button onclick="navTo('advisory')">Advisory</button></li>
+    <li><button onclick="navTo('how')">How it works</button></li>
+    <li><button onclick="navTo('pricing')">Pricing</button></li>
+    <li><button onclick="showPage('issb')" id="nb-issb">ISSB Report</button></li>
+    <li><button onclick="showPage('advisor')" id="nb-advisor">🌿 Sage AI</button></li>
+    <li><button onclick="navTo('waitlist')" class="nav-cta">Get Early Access</button></li>
+  </ul>
+  <div id="nl-advisor" style="display:none"><span class="nav-badge-live">Sage · AI Advisor · Live</span>&nbsp;&nbsp;<button onclick="showPage('home')" style="background:none;border:none;color:rgba(245,240,232,.5);font-size:.78rem;cursor:pointer;font-family:'DM Sans',sans-serif">← Back</button></div>
+  <div id="nl-issb" style="display:none"><span style="font-size:.75rem;color:rgba(245,240,232,.4);font-family:'DM Mono',monospace;">IFRS S2 · 2025 EDITION</span>&nbsp;&nbsp;<button onclick="showPage('home')" style="background:none;border:none;color:rgba(245,240,232,.5);font-size:.78rem;cursor:pointer;font-family:'DM Sans',sans-serif">← Back</button></div>
+</nav>
+
+<!-- ===== HOME PAGE ===== -->
+<div class="page active" id="page-home">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-tag">AI-Powered Sustainability Intelligence</div>
+  <h1>The future of <em>sustainable</em> enterprise is here</h1>
+  <p class="hero-sub">ReGenesis Impact transforms how corporations measure, report, and act on their environmental commitments — powered by AI.</p>
+  <div class="hero-actions">
+    <a href="#waitlist" class="btn-primary">Get Early Access →</a>
+    <a href="#features" class="btn-secondary">See the Platform</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <span class="stat-num">Scope 1–3</span>
+      <span class="stat-label">GHG Coverage</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">ISSB</span>
+      <span class="stat-label">Compliant Reports</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">AI</span>
+      <span class="stat-label">Transition Planning</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">Real-time</span>
+      <span class="stat-label">Carbon Tracking</span>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item">ESG Reporting <span class="ticker-dot"></span></span>
+    <span class="ticker-item">GHG Inventory <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Carbon Credits <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Transition Planning <span class="ticker-dot"></span></span>
+    <span class="ticker-item">AI Recommendations <span class="ticker-dot"></span></span>
+    <span class="ticker-item">ISSB Compliance <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Net-Zero Roadmaps <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Scope 1, 2 & 3 <span class="ticker-dot"></span></span>
+    <span class="ticker-item">ESG Reporting <span class="ticker-dot"></span></span>
+    <span class="ticker-item">GHG Inventory <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Carbon Credits <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Transition Planning <span class="ticker-dot"></span></span>
+    <span class="ticker-item">AI Recommendations <span class="ticker-dot"></span></span>
+    <span class="ticker-item">ISSB Compliance <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Net-Zero Roadmaps <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Scope 1, 2 & 3 <span class="ticker-dot"></span></span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="section-label">The Platform</div>
+  <h2 class="section-title fade-up">Everything your enterprise needs to <em>lead</em> on sustainability</h2>
+  <div class="features-grid fade-up">
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <div class="feature-title">ESG Reporting</div>
+      <div class="feature-desc">Auto-generate ISSB (IFRS S1 & S2), GRI, and TCFD-compliant sustainability reports from your data. Export-ready in minutes, not months.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌱</div>
+      <div class="feature-title">GHG & Carbon Inventory</div>
+      <div class="feature-desc">Calculate Scope 1, 2, and 3 emissions with precision. Track carbon credits, offsets, and reductions in real-time.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🗺️</div>
+      <div class="feature-title">Transition Planning</div>
+      <div class="feature-desc">AI-generated net-zero roadmaps tailored to your industry, size, and current emissions profile. Clear milestones, measurable goals.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🤖</div>
+      <div class="feature-title">AI Recommendations</div>
+      <div class="feature-desc">Powered by advanced AI, get actionable insights on where to reduce emissions, which initiatives deliver highest ROI, and regulatory risks.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📈</div>
+      <div class="feature-title">Live Dashboard</div>
+      <div class="feature-desc">A single pane of glass for all your sustainability KPIs. Track progress, benchmark against peers, and report to stakeholders instantly.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🏆</div>
+      <div class="feature-title">Carbon Credits</div>
+      <div class="feature-desc">Identify, verify, and manage carbon credit portfolios. Integrate offset projects directly into your transition strategy.</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="section-label">How it works</div>
+  <h2 class="section-title fade-up">From data to <em>action</em> in four steps</h2>
+  <div class="steps fade-up">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-title">Connect your data</div>
+      <div class="step-desc">Upload existing reports, connect ERPs, or manually input your operational data. We handle any format.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-title">AI analyses everything</div>
+      <div class="step-desc">Our AI calculates your full GHG inventory, identifies gaps, risks, and benchmarks you against industry peers.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-title">Get your roadmap</div>
+      <div class="step-desc">Receive a tailored transition plan with clear milestones, initiative recommendations, and projected impact.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-title">Report & act</div>
+      <div class="step-desc">Generate board-ready ESG reports, share with stakeholders, and track real progress toward net-zero.</div>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD PREVIEW -->
+<section class="platform-section">
+  <div class="section-label">Platform Preview</div>
+  <h2 class="section-title fade-up">Built for <em>clarity</em> at the enterprise scale</h2>
+  <div class="platform-card fade-up">
+    <div class="dashboard-mock">
+      <div class="mock-header">
+        <div class="mock-dot" style="background:#ff5f57"></div>
+        <div class="mock-dot" style="background:#febc2e"></div>
+        <div class="mock-dot" style="background:#28c840"></div>
+        <span style="margin-left:1rem;font-family:'DM Mono',monospace;font-size:0.75rem;color:rgba(245,240,232,0.3)">ReGenesis Impact — Dashboard</span>
+      </div>
+      <div class="mock-metrics">
+        <div class="mock-metric">
+          <div class="mock-metric-val">12,450</div>
+          <div class="mock-metric-label">tCO₂e Total Emissions</div>
+        </div>
+        <div class="mock-metric">
+          <div class="mock-metric-val">-23%</div>
+          <div class="mock-metric-label">YoY Reduction</div>
+        </div>
+        <div class="mock-metric">
+          <div class="mock-metric-val">847</div>
+          <div class="mock-metric-label">Carbon Credits</div>
+        </div>
+        <div class="mock-metric">
+          <div class="mock-metric-val">78/100</div>
+          <div class="mock-metric-label">ESG Score</div>
+        </div>
+      </div>
+      <div style="font-family:'DM Mono',monospace;font-size:0.7rem;color:rgba(126,217,87,0.5);margin-bottom:0.75rem;">SCOPE 1-2-3 BREAKDOWN — 2024</div>
+      <div class="mock-bars">
+        <div class="mock-bar" style="height:40%"></div>
+        <div class="mock-bar active" style="height:70%"></div>
+        <div class="mock-bar" style="height:55%"></div>
+        <div class="mock-bar" style="height:35%"></div>
+        <div class="mock-bar active" style="height:80%"></div>
+        <div class="mock-bar" style="height:60%"></div>
+        <div class="mock-bar" style="height:45%"></div>
+        <div class="mock-bar active" style="height:90%"></div>
+        <div class="mock-bar" style="height:50%"></div>
+        <div class="mock-bar" style="height:65%"></div>
+        <div class="mock-bar active" style="height:75%"></div>
+        <div class="mock-bar" style="height:30%"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="section-label">Pricing</div>
+  <h2 class="section-title fade-up">Simple pricing for <em>serious</em> impact</h2>
+  <div class="pricing-grid fade-up">
+    <div class="pricing-card">
+      <div class="pricing-tier">Starter</div>
+      <div class="pricing-price"><sup>$</sup>499<span>/mo</span></div>
+      <div class="pricing-desc">For companies beginning their sustainability journey.</div>
+      <ul class="pricing-features">
+        <li>Scope 1 & 2 GHG Calculator</li>
+        <li>Basic ESG Dashboard</li>
+        <li>1 Annual Report</li>
+        <li>AI Insights (limited)</li>
+        <li>Email Support</li>
+      </ul>
+      <a href="#waitlist" class="btn-secondary" style="display:block;text-align:center;padding:0.875rem;">Get Started</a>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pricing-badge">MOST POPULAR</div>
+      <div class="pricing-tier">Professional</div>
+      <div class="pricing-price"><sup>$</sup>1,499<span>/mo</span></div>
+      <div class="pricing-desc">Full platform for enterprises serious about net-zero.</div>
+      <ul class="pricing-features">
+        <li>Scope 1, 2 & 3 Full Inventory</li>
+        <li>Unlimited ESG Reports</li>
+        <li>AI Transition Planning</li>
+        <li>Carbon Credits Management</li>
+        <li>ISSB / GRI Compliance</li>
+        <li>Priority Support</li>
+      </ul>
+      <a href="#waitlist" class="btn-primary" style="display:block;text-align:center;padding:0.875rem;">Get Early Access</a>
+    </div>
+    <div class="pricing-card">
+      <div class="pricing-tier">Enterprise</div>
+      <div class="pricing-price">Custom</div>
+      <div class="pricing-desc">For large corporations with complex reporting needs.</div>
+      <ul class="pricing-features">
+        <li>Everything in Professional</li>
+        <li>Custom Integrations (ERP/SAP)</li>
+        <li>Dedicated Account Manager</li>
+        <li>White-label Reports</li>
+        <li>SLA & Custom Contracts</li>
+      </ul>
+      <a href="#waitlist" class="btn-secondary" style="display:block;text-align:center;padding:0.875rem;">Contact Sales</a>
+    </div>
+  </div>
+</section>
+
+<!-- ADVISORY -->
+<section class="section" id="advisory" style="background:rgba(0,0,0,0.2)">
+  <div class="section-label">Advisory Platform</div>
+  <h2 class="section-title fade-up">Expert guidance for your <em>net-zero</em> journey</h2>
+  <p style="margin-top:1.5rem;color:rgba(245,240,232,0.55);font-size:1.05rem;max-width:560px;line-height:1.7;" class="fade-up">Combine the power of AI with deep expertise. Our advisory platform connects your team with regulatory specialists and carbon market experts — all in one place.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:4rem;" class="fade-up">
+
+    <div style="background:rgba(126,217,87,0.05);border:1px solid rgba(126,217,87,0.15);border-radius:1.5rem;padding:2.5rem;transition:transform 0.3s,border-color 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(126,217,87,0.4)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(126,217,87,0.15)'">
+      <div style="font-size:2rem;margin-bottom:1.25rem;">⚖️</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;margin-bottom:0.75rem;">Regulatory Compliance</div>
+      <div style="font-size:0.875rem;color:rgba(245,240,232,0.55);line-height:1.7;margin-bottom:1.5rem;">Stay ahead of ISSB, GRI, TCFD, and emerging regulations. Our advisors ensure your reports meet every standard — in every market you operate.</div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+        <span style="background:rgba(126,217,87,0.1);border:1px solid rgba(126,217,87,0.2);color:var(--lime);padding:0.25rem 0.75rem;border-radius:2rem;font-size:0.7rem;font-family:'DM Mono',monospace;">ISSB</span>
+        <span style="background:rgba(126,217,87,0.1);border:1px solid rgba(126,217,87,0.2);color:var(--lime);padding:0.25rem 0.75rem;border-radius:2rem;font-size:0.7rem;font-family:'DM Mono',monospace;">GRI</span>
+        <span style="background:rgba(126,217,87,0.1);border:1px solid rgba(126,217,87,0.2);color:var(--lime);padding:0.25rem 0.75rem;border-radius:2rem;font-size:0.7rem;font-family:'DM Mono',monospace;">TCFD</span>
+        <span style="background:rgba(126,217,87,0.1);border:1px solid rgba(126,217,87,0.2);color:var(--lime);padding:0.25rem 0.75rem;border-radius:2rem;font-size:0.7rem;font-family:'DM Mono',monospace;">CDP</span>
+      </div>
+    </div>
+
+    <div style="background:rgba(126,217,87,0.05);border:1px solid rgba(126,217,87,0.15);border-radius:1.5rem;padding:2.5rem;transition:transform 0.3s,border-color 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(126,217,87,0.4)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(126,217,87,0.15)'">
+      <div style="font-size:2rem;margin-bottom:1.25rem;">🌍</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;margin-bottom:0.75rem;">Carbon Credit Advisory</div>
+      <div style="font-size:0.875rem;color:rgba(245,240,232,0.55);line-height:1.7;margin-bottom:1.5rem;">Navigate voluntary and compliance carbon markets with confidence. We help you source, verify, and retire high-quality credits aligned with your net-zero strategy.</div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+        <span style="background:rgba(126,217,87,0.1);border:1px solid rgba(126,217,87,0.2);color:var(--lime);padding:0.25rem 0.75rem;border-radius:2rem;font-size:0.7rem;font-family:'DM Mono',monospace;">VCM</span>
+        <span style="background:rgba(126,217,87,0.1);border:1px solid rgba(126,217,87,0.2);color:var(--lime);padding:0.25rem 0.75rem;border-radius:2rem;font-size:0.7rem;font-family:'DM Mono',monospace;">Article 6</span>
+        <span style="background:rgba(126,217,87,0.1);border:1px solid rgba(126,217,87,0.2);color:var(--lime);padding:0.25rem 0.75rem;border-radius:2rem;font-size:0.7rem;font-family:'DM Mono',monospace;">Gold Standard</span>
+      </div>
+    </div>
+
+    <div style="background:rgba(126,217,87,0.05);border:1px solid rgba(126,217,87,0.15);border-radius:1.5rem;padding:2.5rem;transition:transform 0.3s,border-color 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(126,217,87,0.4)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(126,217,87,0.15)'">
+      <div style="font-size:2rem;margin-bottom:1.25rem;">🤖</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;margin-bottom:0.75rem;">AI-Powered Advisory</div>
+      <div style="font-size:0.875rem;color:rgba(245,240,232,0.55);line-height:1.7;margin-bottom:1.5rem;">Get instant answers to complex sustainability questions. Our AI advisor is trained on global regulations, carbon markets, and ESG frameworks — available 24/7.</div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+        <span style="background:rgba(126,217,87,0.1);border:1px solid rgba(126,217,87,0.2);color:var(--lime);padding:0.25rem 0.75rem;border-radius:2rem;font-size:0.7rem;font-family:'DM Mono',monospace;">24/7 AI</span>
+        <span style="background:rgba(126,217,87,0.1);border:1px solid rgba(126,217,87,0.2);color:var(--lime);padding:0.25rem 0.75rem;border-radius:2rem;font-size:0.7rem;font-family:'DM Mono',monospace;">Instant</span>
+        <span style="background:rgba(126,217,87,0.1);border:1px solid rgba(126,217,87,0.2);color:var(--lime);padding:0.25rem 0.75rem;border-radius:2rem;font-size:0.7rem;font-family:'DM Mono',monospace;">Context-aware</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="margin-top:3rem;background:linear-gradient(135deg,rgba(45,158,95,0.2),rgba(126,217,87,0.08));border:1px solid rgba(126,217,87,0.2);border-radius:1.5rem;padding:3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:2rem;" class="fade-up">
+    <div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:0.5rem;">Ready to talk to an advisor?</div>
+      <div style="font-size:0.9rem;color:rgba(245,240,232,0.5);">Custom engagements tailored to your industry, size, and sustainability goals.</div>
+    </div>
+    <a href="#" onclick="showPage('advisor')" class="btn-primary" style="white-space:nowrap;">Explore Advisory →</a>
+  </div>
+</section>
+
+<!-- WAITLIST -->
+<section class="waitlist-section" id="waitlist">
+  <div class="section-label" style="text-align:center">Early Access</div>
+  <h2 class="section-title fade-up">Be first to <em>transform</em> your sustainability strategy</h2>
+  <p style="margin-top:1rem;color:rgba(245,240,232,0.5);font-size:1rem;position:relative;z-index:1;">Join the waitlist and get 3 months free when we launch.</p>
+  <div class="waitlist-form">
+    <input type="email" class="waitlist-input" placeholder="Enter your work email">
+    <button class="btn-primary" onclick="handleWaitlist()">Join →</button>
+  </div>
+  <p class="waitlist-note">No spam. Unsubscribe anytime. 🌱</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">ReGenesis Impact</div>
+  <ul class="footer-links">
+    <li><a href="#features">Platform</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="/cdn-cgi/l/email-protection#066e636a6a6946746361636863756f756f6b76676572286f68">Contact</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 ReGenesis Impact. All rights reserved.</div>
+</footer>
+
+
+</div>
+
+<!-- ===== ISSB PAGE ===== -->
+<div class="page" id="page-issb">
+<div class="app" id="app">
+<aside class="sidebar">
+  <div class="sidebar-label">IFRS S2 Sections</div>
+  <div class="step-list">
+    <div class="step-item active" onclick="issb_go(1)" id="si-1"><div class="s-dot">1</div><div class="s-info"><div class="s-num">SECTION 1</div><div class="s-name">Company &amp; Entity Overview</div></div></div>
+    <div class="step-item" onclick="issb_go(2)" id="si-2"><div class="s-dot">2</div><div class="s-info"><div class="s-num">SECTION 2 · Para 5–7</div><div class="s-name">Governance</div></div></div>
+    <div class="step-item" onclick="issb_go(3)" id="si-3"><div class="s-dot">3</div><div class="s-info"><div class="s-num">SECTION 3 · Para 8–12</div><div class="s-name">Strategy — Risks &amp; Opportunities</div></div></div>
+    <div class="step-item" onclick="issb_go(4)" id="si-4"><div class="s-dot">4</div><div class="s-info"><div class="s-num">SECTION 4 · Para 13–14</div><div class="s-name">Business Model &amp; Transition Plan</div></div></div>
+    <div class="step-item" onclick="issb_go(5)" id="si-5"><div class="s-dot">5</div><div class="s-info"><div class="s-num">SECTION 5 · Para 15–21</div><div class="s-name">Financial Position &amp; Effects</div></div></div>
+    <div class="step-item" onclick="issb_go(6)" id="si-6"><div class="s-dot">6</div><div class="s-info"><div class="s-num">SECTION 6 · Para 22 · B1–B18</div><div class="s-name">Climate Resilience &amp; Scenario Analysis</div></div></div>
+    <div class="step-item" onclick="issb_go(7)" id="si-7"><div class="s-dot">7</div><div class="s-info"><div class="s-num">SECTION 7 · Para 24–26</div><div class="s-name">Risk Management Integration</div></div></div>
+    <div class="step-item" onclick="issb_go(8)" id="si-8"><div class="s-dot">8</div><div class="s-info"><div class="s-num">SECTION 8 · Para 29(a)</div><div class="s-name">GHG Emissions — All Scopes</div></div></div>
+    <div class="step-item" onclick="issb_go(9)" id="si-9"><div class="s-dot">9</div><div class="s-info"><div class="s-num">SECTION 9 · Para 29(b–g)</div><div class="s-name">Cross-Industry Metrics</div></div></div>
+    <div class="step-item" onclick="issb_go(10)" id="si-10"><div class="s-dot">10</div><div class="s-info"><div class="s-num">SECTION 10 · Para 33–37</div><div class="s-name">Climate Targets &amp; Performance</div></div></div>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog-row"><span>Completion</span><span id="pct">0%</span></div>
+    <div class="prog-track"><div class="prog-fill" id="pfill" style="width:0%"></div></div>
+  </div>
+  <div class="issb-refs">
+    <div class="issb-refs-label">STANDARD REFERENCE</div>
+    <div class="issb-ref">IFRS S2 Climate-related Disclosures<br>Effective: 1 Jan 2024<br>Amended: Dec 2025 (GHG Emissions)<br>GHG Protocol Scope 3 Standard 2011</div>
+  </div>
+</aside>
+
+<main class="main">
+
+<!-- S1 -->
+<div class="step active" id="s-1">
+  <div class="step-hdr">
+    <div class="step-tag">Section 1 of 10 · Entity Overview</div>
+    <h2>Company &amp; <em>Entity Details</em></h2>
+    <p>Core entity information required for ISSB reporting identification and context.</p>
+  </div>
+  <div class="grid2">
+    <div class="fg"><label>Legal Entity Name <span class="req">*</span></label><input id="c-name" placeholder="e.g. Tata Consultancy Services Ltd"></div>
+    <div class="fg"><label>LEI / Registration Number</label><input id="c-lei" placeholder="Legal Entity Identifier or Reg. No."></div>
+    <div class="fg"><label>Industry Sector <span class="req">*</span></label>
+      <select id="c-industry"><option value="">Select sector</option><option>Energy &amp; Utilities</option><option>Oil &amp; Gas</option><option>Mining &amp; Metals</option><option>Manufacturing</option><option>Chemicals</option><option>Construction &amp; Real Estate</option><option>Transportation &amp; Logistics</option><option>Agriculture &amp; Food</option><option>Financial Services — Banking</option><option>Financial Services — Insurance</option><option>Financial Services — Asset Management</option><option>Technology</option><option>Healthcare &amp; Pharmaceuticals</option><option>Retail &amp; Consumer</option><option>Other</option></select>
+    </div>
+    <div class="fg"><label>Reporting Period <span class="req">*</span></label>
+      <select id="c-period"><option value="">Select</option><option>FY 2024 (Jan–Dec 2024)</option><option>FY 2024–25 (Apr 2024–Mar 2025)</option><option>FY 2023 (Jan–Dec 2023)</option><option>FY 2023–24 (Apr 2023–Mar 2024)</option></select>
+    </div>
+    <div class="fg"><label>Headquarters Country</label><input id="c-hq" placeholder="e.g. India"></div>
+    <div class="fg"><label>Operating Countries</label><input id="c-ops" placeholder="e.g. India, UK, USA, Singapore"></div>
+    <div class="fg"><label>Employees</label><select id="c-emp"><option value="">Select</option><option>Under 500</option><option>500–2,000</option><option>2,000–10,000</option><option>10,000–50,000</option><option>50,000+</option></select></div>
+    <div class="fg"><label>Annual Revenue (USD)</label><select id="c-rev"><option value="">Select</option><option>Under $10M</option><option>$10M–$100M</option><option>$100M–$1B</option><option>$1B–$10B</option><option>$10B+</option></select></div>
+    <div class="fg full"><label>Business Description</label><textarea id="c-desc" placeholder="Primary business activities, products, services, and key markets..."></textarea></div>
+    <div class="fg"><label>Reporting Framework</label><select id="c-framework"><option>IFRS S2 (standalone)</option><option>IFRS S1 + S2 (combined)</option><option>IFRS S2 + TCFD aligned</option><option>IFRS S2 + GRI aligned</option></select></div>
+    <div class="fg"><label>Prior Year Comparative?</label><select id="c-comparative"><option value="">Select</option><option>Yes — prior year data available</option><option>No — first year of application</option><option>Transition relief applied (Para C4)</option></select></div>
+  </div>
+  <div class="step-actions"><div></div><button class="btn-p" onclick="issb_nxt(1)">Next: Governance →</button></div>
+</div>
+
+<!-- S2 GOVERNANCE -->
+<div class="step" id="s-2">
+  <div class="step-hdr">
+    <div class="step-tag">Section 2 of 10 · IFRS S2 Para 5–7</div>
+    <h2>Governance of <em>Climate Risks</em></h2>
+    <p>Governance processes, controls and procedures to monitor, manage and oversee climate-related risks and opportunities.</p>
+    <div class="para-ref">Para 6(a): Board oversight · Para 6(a)(iii): Frequency · Para 6(a)(v) &amp; 29(g): Remuneration · Para 6(b): Management role</div>
+  </div>
+  <div class="info-box"><strong>Para 6(a):</strong> Identify the governance body and disclose how responsibilities are in mandates, how skills are assessed, how often they are informed, how they consider climate in strategy and trade-offs, and how they oversee target-setting and progress.</div>
+  <div class="sec-div"><div class="sec-div-label">Board &amp; Governance Body</div><div class="sec-div-line"></div><div class="sec-div-ref">Para 6(a)</div></div>
+  <div class="grid2">
+    <div class="fg"><label>Governance Body Responsible <span class="req">*</span></label><select id="g-body"><option value="">Select</option><option>Full Board of Directors</option><option>Dedicated Sustainability/ESG Committee</option><option>Audit &amp; Risk Committee</option><option>Remuneration Committee</option><option>Executive Leadership Team</option><option>No formal body yet</option></select></div>
+    <div class="fg"><label>How Often Board is Informed (Para 6(a)(iii))</label><select id="g-freq"><option value="">Select</option><option>At every board meeting</option><option>Quarterly</option><option>Semi-annually</option><option>Annually</option><option>Ad hoc / as needed</option></select></div>
+    <div class="fg full"><label>How Responsibilities Reflected in Mandates (Para 6(a)(i))</label><textarea id="g-mandate" placeholder="Describe how climate responsibilities are documented in board charters, committee terms of reference, or role descriptions..."></textarea></div>
+    <div class="fg full"><label>How Board Assesses Climate Skills &amp; Competencies (Para 6(a)(ii))</label><textarea id="g-skills" placeholder="Describe how the board determines whether appropriate climate skills are available or being developed..."></textarea></div>
+    <div class="fg full"><label>How Board Considers Climate in Strategy &amp; Major Transactions (Para 6(a)(iv))</label><textarea id="g-strategy-oversight" placeholder="Describe how climate risks are considered in strategic decisions, major transactions, and trade-offs..."></textarea></div>
+  </div>
+  <div class="sec-div"><div class="sec-div-label">Executive Remuneration Linkage</div><div class="sec-div-line"></div><div class="sec-div-ref">Para 6(a)(v) &amp; 29(g)</div></div>
+  <div class="grid2">
+    <div class="fg"><label>Climate Linked to Executive Remuneration?</label><select id="g-rem"><option value="">Select</option><option>Yes — formal KPIs in remuneration policy</option><option>Yes — discretionary consideration</option><option>No — planned for next cycle</option><option>No</option></select></div>
+    <div class="fg"><label>% Executive Remuneration Linked to Climate (Para 29(g)(ii))</label><input id="g-rem-pct" type="number" placeholder="e.g. 15" min="0" max="100"><div class="hint">% of total executive compensation</div></div>
+    <div class="fg full"><label>Description of Climate Remuneration Metrics</label><textarea id="g-rem-desc" placeholder="Describe specific climate KPIs linked to remuneration (e.g. emissions reduction targets, renewable energy %, TCFD quality)..." style="min-height:70px;"></textarea></div>
+  </div>
+  <div class="sec-div"><div class="sec-div-label">Management's Role</div><div class="sec-div-line"></div><div class="sec-div-ref">Para 6(b)</div></div>
+  <div class="grid2">
+    <div class="fg"><label>Management Role Structure</label><select id="g-mgmt"><option value="">Select</option><option>Dedicated CSO / Chief Sustainability Officer</option><option>Combined role (e.g. CFO/CSO)</option><option>Sustainability team reporting to CEO</option><option>Cross-functional sustainability committee</option><option>No dedicated structure</option></select></div>
+    <div class="fg"><label>Controls &amp; Procedures Integrated? (Para 6(b)(ii))</label><select id="g-controls"><option value="">Select</option><option>Yes — fully integrated with ERM</option><option>Yes — partially integrated</option><option>No — standalone process</option><option>In development</option></select></div>
+    <div class="fg full"><label>How Management Monitors &amp; Manages Climate Risks (Para 6(b))</label><textarea id="g-mgmt-desc" placeholder="Describe management's role, oversight of sustainability team, and how controls integrate with other internal functions..."></textarea></div>
+  </div>
+  <div class="step-actions"><button class="btn-s" onclick="issb_prv(2)">← Back</button><button class="btn-p" onclick="issb_nxt(2)">Next: Strategy →</button></div>
+</div>
+
+<!-- S3 STRATEGY RISKS -->
+<div class="step" id="s-3">
+  <div class="step-hdr">
+    <div class="step-tag">Section 3 of 10 · IFRS S2 Para 8–12</div>
+    <h2>Strategy — Climate Risks &amp; <em>Opportunities</em></h2>
+    <p>Identify all material climate-related risks and opportunities across short, medium and long-term horizons.</p>
+    <div class="para-ref">Para 10: Identify risks/opportunities · Para 10(c–d): Time horizons · Para 11: Reasonable information · Para 12: Industry-based topics</div>
+  </div>
+  <div class="sec-div"><div class="sec-div-label">Time Horizon Definitions</div><div class="sec-div-line"></div><div class="sec-div-ref">Para 10(d) — linked to planning horizons</div></div>
+  <div class="grid3">
+    <div class="fg"><label>Short-term <span class="req">*</span></label><input id="r-st" placeholder="e.g. 0–2 years"></div>
+    <div class="fg"><label>Medium-term <span class="req">*</span></label><input id="r-mt" placeholder="e.g. 2–5 years"></div>
+    <div class="fg"><label>Long-term <span class="req">*</span></label><input id="r-lt" placeholder="e.g. 5–10+ years"></div>
+  </div>
+  <div class="sec-div"><div class="sec-div-label">Physical Risks Identified</div><div class="sec-div-line"></div><div class="sec-div-ref">Para 10(b)(i) · Acute &amp; Chronic</div></div>
+  <div class="check-grid" id="phys-risks">
+    <div class="chk-card" onclick="issb_tog(this)"><input type="checkbox"><div class="chk-title">Extreme Weather Events</div><div class="chk-desc">Acute — storms, floods, droughts, heatwaves</div></div>
+    <div class="chk-card" onclick="issb_tog(this)"><input type="checkbox"><div class="chk-title">Sea Level Rise</div><div class="chk-desc">Chronic — coastal asset exposure and flooding risk</div></div>
+    <div class="chk-card" onclick="issb_tog(this)"><input type="checkbox"><div class="chk-title">Water Stress</div><div class="chk-desc">Chronic — reduced water availability for operations</div></div>
+    <div class="chk-card" onclick="issb_tog(this)"><input type="checkbox"><div class="chk-title">Temperature Changes</div><div class="chk-desc">Chronic — energy demand shifts, worker productivity</div></div>
+    <div class="chk-card" onclick="issb_tog(this)"><input type="checkbox"><div class="chk-title">Biodiversity Loss</div><div class="chk-desc">Chronic — ecosystem degradation, supply chain inputs</div></div>
+    <div class="chk-card" onclick="issb_tog(this)"><input type="checkbox"><div class="chk-title">Supply Chain Disruption</div><div class="chk-desc">Acute — climate events disrupting suppliers/logistics</div></div>
+  </div>
+  <div class="fg" style="margin-top:1rem;"><label>Where Physical Risks are Concentrated (Para 13(b))</label><input id="r-phys-conc" placeholder="e.g. Manufacturing facilities in coastal Southeast Asia, agricultural supply chain in South India"></div>
+  <div class="sec-div"><div class="sec-div-label">Transition Risks Identified</div><div class="sec-div-line"></div><div class="sec-div-ref">Para 10(b)(ii) · Policy, Legal, Technology, Market, Reputational</div></div>
+  <div class="check-grid" id="trans-risks">
+    <div class="chk-card" onclick="issb_tog(this)"><input type="checkbox"><div class="chk-title">Carbon Pricing</div><div class="chk-desc">Carbon taxes and emissions trading scheme exposure</div></div>
+    <div class="chk-card" onclick="issb_tog(this)"><input type="checkbox"><div class="chk-title">Regulatory Changes</div><div class="chk-desc">New climate disclosure mandates, emission standards</div></div>
+    <div class="chk-card" onclick="issb_tog(this)"><input type="checkbox"><div class="chk-title">Stranded Assets</div><div class="chk-desc">Assets devalued due to transition to clean technologies</div></div>
+    <div class="chk-card" onclick="issb_tog(this)"><input type="checkbox"><div class="chk-title">Market Demand Shifts</div><div class="chk-desc">Customer preferences shifting toward low-carbon</div></div>
+    <div class="chk-card" onclick="issb_tog(this)"><input type="checkbox"><div class="chk-title">Reputational Risk</div><div class="chk-desc">Stakeholder concerns about climate performance</div></div>
+    <div class="chk-card" onclick="issb_tog(this)"><input type="checkbox"><div class="chk-title">Legal Liability</div><div class="chk-desc">Litigation risk from disclosures or greenwashing claims</div></div>
+  </div>
+  <div class="fg" style="margin-top:1rem;"><label>Where Transition Risks are Concentrated (Para 13(b))</label><input id="r-trans-conc" placeholder="e.g. High-carbon product lines, coal-dependent energy procurement"></div>
+  <div class="sec-div"><div class="sec-div-label">Climate Opportunities</div><div class="sec-div-line"></div><div class="sec-div-ref">Para 3(b) &amp; 29(d)</div></div>
+  <div class="check-grid" id="opps">
+    <div class="chk-card" onclick="issb_tog(this)"><input type="checkbox"><div class="chk-title">Resource Efficiency</div><div class="chk-desc">Energy and material efficiency reducing costs and emissions</div></div>
+    <div class="chk-card" onclick="issb_tog(this)"><input type="checkbox"><div class="chk-title">Green Products/Services</div><div class="chk-desc">New revenue from low-carbon products, green finance</div></div>
+    <div class="chk-card" onclick="issb_tog(this)"><input type="checkbox"><div class="chk-title">Renewable Energy</div><div class="chk-desc">Transitioning to renewables reducing energy costs</div></div>
+    <div class="chk-card" onclick="issb_tog(this)"><input type="checkbox"><div class="chk-title">New Markets</div><div class="chk-desc">New markets driven by climate-aligned growth</div></div>
+  </div>
+  <div class="fg" style="margin-top:1rem;"><label>Where Opportunities are Concentrated (Para 29(d))</label><input id="r-opp-conc" placeholder="e.g. EV transition advisory, green building retrofits, sustainable agriculture"></div>
+  <div class="step-actions"><button class="btn-s" onclick="issb_prv(3)">← Back</button><button class="btn-p" onclick="issb_nxt(3)">Next: Business Model →</button></div>
+</div>
+
+<!-- S4 BUSINESS MODEL -->
+<div class="step" id="s-4">
+  <div class="step-hdr">
+    <div class="step-tag">Section 4 of 10 · IFRS S2 Para 13–14</div>
+    <h2>Business Model &amp; <em>Transition Plan</em></h2>
+    <p>Effects on business model, value chain, and climate transition plan including key assumptions and dependencies.</p>
+    <div class="para-ref">Para 13: Business model &amp; value chain · Para 14(a)(i–iii): Strategy responses · Para 14(a)(iv): Transition plan · Para 14(b–c): Resources &amp; progress</div>
+  </div>
+  <div class="sec-div"><div class="sec-div-label">Business Model &amp; Value Chain Impact (Para 13)</div><div class="sec-div-line"></div><div class="sec-div-ref">Para 13(a–b)</div></div>
+  <div class="grid2">
+    <div class="fg full"><label>Current &amp; Anticipated Effects on Business Model (Para 13(a))</label><textarea id="bm-effects" placeholder="Describe how climate risks/opportunities affect the entity's business model, value creation and cash flows..."></textarea></div>
+    <div class="fg full"><label>Where in Value Chain Risks/Opportunities are Concentrated (Para 13(b))</label><textarea id="bm-vc" placeholder="Upstream suppliers, own operations, downstream distribution, customer use phase..." style="min-height:70px;"></textarea></div>
+  </div>
+  <div class="sec-div"><div class="sec-div-label">Strategy &amp; Decision-Making Response (Para 14)</div><div class="sec-div-line"></div><div class="sec-div-ref">Para 14(a)</div></div>
+  <div class="grid2">
+    <div class="fg full"><label>Current &amp; Anticipated Business Model Changes (Para 14(a)(i))</label><textarea id="bm-changes" placeholder="Resource reallocation, decommissioning carbon-intensive operations, capex plans, R&amp;D investments, acquisitions/divestments..." style="min-height:70px;"></textarea></div>
+    <div class="fg"><label>Direct Mitigation &amp; Adaptation (Para 14(a)(ii))</label><textarea id="bm-direct" placeholder="Changes in production processes, equipment upgrades, facility relocation, workforce adjustments..." style="min-height:70px;"></textarea></div>
+    <div class="fg"><label>Indirect Mitigation &amp; Adaptation (Para 14(a)(iii))</label><textarea id="bm-indirect" placeholder="Supplier engagement, customer incentives, supply chain decarbonisation partnerships..." style="min-height:70px;"></textarea></div>
+    <div class="fg"><label>Resources Allocated (Para 14(b))</label><input id="bm-resources" placeholder="e.g. $5M capex, 20-person sustainability team"></div>
+    <div class="fg"><label>Progress vs Prior Year Plans (Para 14(c))</label><textarea id="bm-progress" placeholder="Progress made against plans disclosed in prior reporting period..." style="min-height:70px;"></textarea></div>
+  </div>
+  <div class="sec-div"><div class="sec-div-label">Climate Transition Plan (Para 14(a)(iv))</div><div class="sec-div-line"></div><div class="sec-div-ref">TPT Framework</div></div>
+  <div class="info-box"><strong>Para 14(a)(iv):</strong> Disclose any climate-related transition plan, key assumptions used in developing it, and dependencies the plan relies on.</div>
+  <div class="grid2">
+    <div class="fg"><label>Transition Plan Status</label><select id="tp-status"><option value="">Select</option><option>Published formal transition plan</option><option>In development</option><option>Committed — no plan yet</option><option>Not yet committed</option></select></div>
+    <div class="fg"><label>Framework Aligned</label><select id="tp-framework"><option value="">Select</option><option>TPT (Transition Plan Taskforce)</option><option>SBTi Corporate Net-Zero Standard</option><option>IEA Net Zero by 2050</option><option>Entity-specific framework</option><option>Not yet aligned</option></select></div>
+    <div class="fg full"><label>Key Assumptions in Transition Plan (Para 14(a)(iv))</label><textarea id="tp-assumptions" placeholder="Carbon price assumptions, technology availability (green hydrogen, CCS), policy trajectory, energy mix projections..." style="min-height:70px;"></textarea></div>
+    <div class="fg full"><label>Key Dependencies the Plan Relies On (Para 14(a)(iv))</label><textarea id="tp-dependencies" placeholder="Government policy support, grid decarbonisation, supplier capability development, technology cost reductions..." style="min-height:70px;"></textarea></div>
+  </div>
+  <div class="step-actions"><button class="btn-s" onclick="issb_prv(4)">← Back</button><button class="btn-p" onclick="issb_nxt(4)">Next: Financial Effects →</button></div>
+</div>
+
+<!-- S5 FINANCIAL -->
+<div class="step" id="s-5">
+  <div class="step-hdr">
+    <div class="step-tag">Section 5 of 10 · IFRS S2 Para 15–21</div>
+    <h2>Financial Position &amp; <em>Climate Effects</em></h2>
+    <p>Quantify and describe current and anticipated financial effects of climate-related risks and opportunities.</p>
+    <div class="para-ref">Para 16(a): Current effects · Para 16(b): Significant risk of adjustment · Para 16(c–d): Anticipated effects · Para 29(f): Internal carbon price</div>
+  </div>
+  <div class="sec-div"><div class="sec-div-label">Current Period Financial Effects</div><div class="sec-div-line"></div><div class="sec-div-ref">Para 16(a)</div></div>
+  <div class="grid2">
+    <div class="fg"><label>Climate Investment (Capex) This Period</label><input id="fi-capex" placeholder="e.g. $2.5M in renewable energy assets"></div>
+    <div class="fg"><label>Climate-related Opex This Period</label><input id="fi-opex" placeholder="e.g. $500K in energy efficiency programs"></div>
+    <div class="fg"><label>Revenue from Climate-aligned Products/Services</label><input id="fi-rev-green" placeholder="e.g. $8M from sustainable product lines"></div>
+    <div class="fg"><label>Cost Savings from Climate Initiatives</label><input id="fi-savings" placeholder="e.g. $1.2M energy cost savings"></div>
+    <div class="fg full"><label>How Climate Affected Financial Position This Period (Para 16(a))</label><textarea id="fi-current" placeholder="Actual financial effects — asset impairments, stranded assets, insurance costs, physical damage, green revenue..."></textarea></div>
+  </div>
+  <div class="sec-div"><div class="sec-div-label">Assets at Significant Climate Risk</div><div class="sec-div-line"></div><div class="sec-div-ref">Para 16(b) · Para 29(b–c)</div></div>
+  <div class="grid2">
+    <div class="fg"><label>Assets Vulnerable to Physical Risks (USD)</label><input id="fi-phys-assets" placeholder="e.g. $50M coastal and flood-prone facilities"></div>
+    <div class="fg"><label>Assets Vulnerable to Transition Risks (USD)</label><input id="fi-trans-assets" placeholder="e.g. $30M fossil fuel-dependent equipment"></div>
+    <div class="fg"><label>% of Total Assets at Physical Risk (Para 29(c))</label><input id="fi-phys-pct" type="number" placeholder="e.g. 12" min="0" max="100"><div class="hint">%</div></div>
+    <div class="fg"><label>% of Total Assets at Transition Risk (Para 29(b))</label><input id="fi-trans-pct" type="number" placeholder="e.g. 8" min="0" max="100"><div class="hint">%</div></div>
+  </div>
+  <div class="sec-div"><div class="sec-div-label">Anticipated Financial Effects</div><div class="sec-div-line"></div><div class="sec-div-ref">Para 16(c–d)</div></div>
+  <div class="grid2">
+    <div class="fg full"><label>How Financial Position Expected to Change — Short/Medium/Long Term (Para 16(c))</label><textarea id="fi-anticipated" placeholder="Anticipated changes in assets, liabilities, investments and disposal plans..."></textarea></div>
+    <div class="fg full"><label>How Financial Performance &amp; Cash Flows Expected to Change (Para 16(d))</label><textarea id="fi-cashflow" placeholder="Increased green product revenue, costs from physical damage, climate adaptation/mitigation expenses..." style="min-height:70px;"></textarea></div>
+  </div>
+  <div class="sec-div"><div class="sec-div-label">Internal Carbon Price</div><div class="sec-div-line"></div><div class="sec-div-ref">Para 29(f)</div></div>
+  <div class="grid2">
+    <div class="fg"><label>Internal Carbon Price Applied? (Para 29(f)(i))</label><select id="fi-icp"><option value="">Select</option><option>Yes — shadow price in investment decisions</option><option>Yes — internal tax/fee charged to business units</option><option>Yes — both shadow price and internal tax</option><option>No — under consideration</option><option>No</option></select></div>
+    <div class="fg"><label>Internal Carbon Price ($/tCO2e) (Para 29(f)(ii))</label><input id="fi-icp-val" type="number" placeholder="e.g. 75"></div>
+    <div class="fg"><label>External Carbon Price Assumption ($/tCO2e)</label><input id="fi-carbon-price" type="number" placeholder="e.g. 50"></div>
+    <div class="fg"><label>Potential Annual Carbon Cost Exposure</label><input id="fi-carbon-cost" placeholder="e.g. $750K annually by 2030"></div>
+    <div class="fg full"><label>How Internal Carbon Price Applied in Decision-Making (Para 29(f)(i))</label><textarea id="fi-icp-desc" placeholder="Describe use in investment decisions, transfer pricing, scenario analysis, project NPV calculations..." style="min-height:70px;"></textarea></div>
+  </div>
+  <div class="step-actions"><button class="btn-s" onclick="issb_prv(5)">← Back</button><button class="btn-p" onclick="issb_nxt(5)">Next: Climate Resilience →</button></div>
+</div>
+
+<!-- S6 RESILIENCE -->
+<div class="step" id="s-6">
+  <div class="step-hdr">
+    <div class="step-tag">Section 6 of 10 · IFRS S2 Para 22 · B1–B18</div>
+    <h2>Climate Resilience &amp; <em>Scenario Analysis</em></h2>
+    <p>Mandatory scenario analysis to assess climate resilience. Para 22(a) resilience assessment must be updated every reporting period.</p>
+    <div class="para-ref">Para 22: Climate resilience (mandatory) · B2–B7: Circumstances · B8–B15: Approach · B18: Frequency</div>
+  </div>
+  <div class="info-box"><strong>Para 22 (Mandatory):</strong> Use climate-related scenario analysis commensurate with your circumstances. Resilience assessment (Para 22(a)) updated annually. Scenario inputs and approach (Para 22(b)) can follow strategic planning cycle (every 3–5 years).</div>
+  <div class="sec-div"><div class="sec-div-label">Scenario Analysis Inputs &amp; Approach</div><div class="sec-div-line"></div><div class="sec-div-ref">Para 22(b) · B8–B15</div></div>
+  <div class="grid2">
+    <div class="fg"><label>Scenarios Used (Para 22(b)(i)(1))</label><select id="sc-scenarios"><option value="">Select</option><option>IEA Net Zero by 2050 (NZE)</option><option>IPCC 1.5C (SSP1-1.9)</option><option>IPCC 2C (SSP1-2.6)</option><option>IEA Stated Policies Scenario (STEPS)</option><option>Multiple scenarios including 1.5C aligned</option><option>Entity-specific scenarios</option><option>Not yet conducted</option></select></div>
+    <div class="fg"><label>Analysis Approach (B14–B15)</label><select id="sc-approach"><option value="">Select</option><option>Quantitative modelling</option><option>Qualitative scenario narratives</option><option>Combined quantitative &amp; qualitative</option><option>Basic qualitative (early stage)</option></select></div>
+    <div class="fg"><label>Time Horizons Used (Para 22(b)(i)(6))</label><input id="sc-horizons" placeholder="e.g. 2030, 2040, 2050"></div>
+    <div class="fg"><label>Scope of Operations (Para 22(b)(i)(7))</label><input id="sc-scope" placeholder="e.g. All global operations, or specific regions/business units"></div>
+    <div class="fg"><label>Last Conducted (Para B18)</label><input id="sc-date" placeholder="e.g. Q3 2024"></div>
+    <div class="fg"><label>Frequency (Para B18)</label><select id="sc-freq"><option value="">Select</option><option>Annually</option><option>Every 2 years</option><option>Every 3 years (aligned to strategic planning)</option><option>Every 5 years</option><option>First analysis</option></select></div>
+    <div class="fg"><label>1.5C Scenario Included? (Para 22(b)(i)(4))</label><select id="sc-paris"><option value="">Select</option><option>Yes — IEA NZE 2050 (1.5C aligned)</option><option>Yes — IPCC SSP1-1.9</option><option>Yes — entity-specific 1.5C pathway</option><option>No</option></select></div>
+    <div class="fg"><label>Diversity of Scenarios (Para 22(b)(i)(2))</label><select id="sc-diversity"><option value="">Select</option><option>Yes — diverse range including transition and physical</option><option>Partially — primarily transition scenarios</option><option>Partially — primarily physical scenarios</option><option>Single scenario only</option></select></div>
+  </div>
+  <div class="sec-div"><div class="sec-div-label">Key Assumptions Used (Para 22(b)(ii))</div><div class="sec-div-line"></div><div class="sec-div-ref">Para 22(b)(ii)(1–5)</div></div>
+  <div class="grid2">
+    <div class="fg"><label>Climate Policy Assumptions (Para 22(b)(ii)(1))</label><textarea id="sc-policy" placeholder="Carbon price trajectory, net-zero commitments in operating jurisdictions, regulatory environment..." style="min-height:70px;"></textarea></div>
+    <div class="fg"><label>Technology Assumptions (Para 22(b)(ii)(5))</label><textarea id="sc-tech" placeholder="Rate of renewable energy deployment, EV adoption, CCS availability, green hydrogen cost trajectory..." style="min-height:70px;"></textarea></div>
+    <div class="fg"><label>Macroeconomic Assumptions (Para 22(b)(ii)(2))</label><textarea id="sc-macro" placeholder="GDP growth, commodity prices, demand shifts, supply chain evolution..." style="min-height:70px;"></textarea></div>
+    <div class="fg"><label>Energy Mix Assumptions (Para 22(b)(ii)(4))</label><textarea id="sc-energy" placeholder="Grid decarbonisation rate, fuel mix evolution, energy price scenarios..." style="min-height:70px;"></textarea></div>
+  </div>
+  <div class="sec-div"><div class="sec-div-label">Resilience Assessment — Updated This Period (Para 22(a))</div><div class="sec-div-line"></div><div class="sec-div-ref">Annual update required</div></div>
+  <div class="grid2">
+    <div class="fg full"><label>Assessment of Climate Resilience as at Reporting Date <span class="req">*</span></label><textarea id="sc-resilience" placeholder="Describe your entity's resilience: implications for strategy and business model, significant areas of uncertainty, and capacity to adapt over short/medium/long term..."></textarea></div>
+    <div class="fg"><label>Financial Resources Available to Respond (Para 22(a)(iii)(1))</label><textarea id="sc-fin-flex" placeholder="Flexibility in existing financial resources to respond to scenario outcomes..." style="min-height:70px;"></textarea></div>
+    <div class="fg"><label>Asset Redeployment Capacity (Para 22(a)(iii)(2))</label><textarea id="sc-assets" placeholder="Capacity to redeploy, repurpose, upgrade or decommission existing assets..." style="min-height:70px;"></textarea></div>
+  </div>
+  <div class="step-actions"><button class="btn-s" onclick="issb_prv(6)">← Back</button><button class="btn-p" onclick="issb_nxt(6)">Next: Risk Management →</button></div>
+</div>
+
+<!-- S7 RISK MANAGEMENT -->
+<div class="step" id="s-7">
+  <div class="step-hdr">
+    <div class="step-tag">Section 7 of 10 · IFRS S2 Para 24–26</div>
+    <h2>Risk Management <em>Integration</em></h2>
+    <p>Processes for identifying, assessing, prioritising and monitoring climate risks integrated with overall ERM.</p>
+    <div class="para-ref">Para 25(a): Risk identification · Para 25(b): Opportunity identification · Para 25(c): ERM integration · Para 26: Avoid duplication with IFRS S1</div>
+  </div>
+  <div class="grid2">
+    <div class="fg"><label>Data Sources &amp; Inputs (Para 25(a)(i))</label><textarea id="rm-inputs" placeholder="IPCC reports, IEA scenarios, physical risk data providers, regulatory trackers, internal operational data..." style="min-height:70px;"></textarea></div>
+    <div class="fg"><label>Scope of Operations Covered (Para 25(a)(i))</label><textarea id="rm-scope" placeholder="All consolidated subsidiaries, specific geographies, certain asset classes..." style="min-height:70px;"></textarea></div>
+    <div class="fg"><label>How Scenario Analysis Informs Risk ID (Para 25(a)(ii))</label><textarea id="rm-scenario" placeholder="Describe how scenario analysis outputs inform the identification and prioritisation of climate risks..." style="min-height:70px;"></textarea></div>
+    <div class="fg"><label>How Likelihood &amp; Magnitude Assessed (Para 25(a)(iii))</label><textarea id="rm-assess" placeholder="Qualitative risk registers, quantitative financial impact thresholds, probability-weighted analysis..." style="min-height:70px;"></textarea></div>
+    <div class="fg"><label>How Climate Risks Prioritised vs Other Risks (Para 25(a)(iv))</label><textarea id="rm-priority" placeholder="How climate risks rank relative to other enterprise risks — risk appetite, materiality thresholds..." style="min-height:70px;"></textarea></div>
+    <div class="fg"><label>How Climate Risks are Monitored (Para 25(a)(v))</label><textarea id="rm-monitor" placeholder="Quarterly risk reviews, KPI dashboards, regulatory watch, physical risk monitoring systems..." style="min-height:70px;"></textarea></div>
+    <div class="fg"><label>Changes vs Prior Period (Para 25(a)(vi))</label><textarea id="rm-changes" placeholder="Any changes to climate risk processes compared to previous reporting period..." style="min-height:70px;"></textarea></div>
+    <div class="fg"><label>ERM Integration (Para 25(c))</label><textarea id="rm-erm" placeholder="Extent to which climate risk processes are integrated into overall ERM framework, risk committees, board reporting..." style="min-height:70px;"></textarea></div>
+  </div>
+  <div class="step-actions"><button class="btn-s" onclick="issb_prv(7)">← Back</button><button class="btn-p" onclick="issb_nxt(7)">Next: GHG Emissions →</button></div>
+</div>
+
+<!-- S8 GHG -->
+<div class="step" id="s-8">
+  <div class="step-hdr">
+    <div class="step-tag">Section 8 of 10 · IFRS S2 Para 29(a) · Dec 2025 Amendment</div>
+    <h2>GHG Emissions — <em>All Scopes</em></h2>
+    <p>Absolute gross GHG emissions per GHG Protocol. All 7 Kyoto gases. All 15 Scope 3 categories. December 2025 amendments incorporated.</p>
+    <div class="para-ref">Para 29(a)(i): Absolute gross emissions · Para 29(a)(iii): Measurement approach · Para 29(a)(iv): Consolidated vs investees · Para 29(a)(vi): All 15 Scope 3 categories · Para 29A–29C: Dec 2025 Cat 15 amendment</div>
+  </div>
+  <div class="info-box"><strong>Dec 2025 Amendment (Para C1A):</strong> Para 29(a)(ii) amended — entities may use measurement methods required by jurisdictional authority. Para 29A–29C added: Scope 3 Category 15 financed emissions limitation now permitted. Effective 1 Jan 2027, early application permitted.</div>
+  <div class="scope-row">
+    <div class="scope-card"><div class="scope-lbl">SCOPE 1</div><div class="scope-name">Direct Emissions</div><div class="scope-desc">Sources owned or controlled by entity — combustion, vehicles, on-site processes</div></div>
+    <div class="scope-card"><div class="scope-lbl">SCOPE 2</div><div class="scope-name">Indirect Energy</div><div class="scope-desc">Purchased electricity, steam, heat and cooling — location-based AND market-based required</div></div>
+    <div class="scope-card"><div class="scope-lbl">SCOPE 3</div><div class="scope-name">Value Chain</div><div class="scope-desc">All 15 categories upstream and downstream — GHG Protocol Corporate Value Chain Standard 2011</div></div>
+  </div>
+  <div class="sec-div"><div class="sec-div-label">Measurement Approach &amp; Methodology</div><div class="sec-div-line"></div><div class="sec-div-ref">Para 29(a)(ii–iii) · B26–B29</div></div>
+  <div class="grid2">
+    <div class="fg"><label>Measurement Standard <span class="req">*</span></label><select id="gh-std"><option>GHG Protocol Corporate Standard (2004)</option><option>ISO 14064</option><option>Jurisdictional requirement</option><option>Other</option></select></div>
+    <div class="fg"><label>Organisational Boundary Approach (Para B27)</label><select id="gh-boundary"><option value="">Select</option><option>Equity share approach</option><option>Financial control approach</option><option>Operational control approach</option></select></div>
+    <div class="fg"><label>Base Year <span class="req">*</span></label><input id="gh-base" placeholder="e.g. 2019"></div>
+    <div class="fg"><label>Emission Factor Sources (Para B29)</label><input id="gh-factors" placeholder="e.g. IPCC AR6, IEA, national grid factors, supplier-specific"></div>
+    <div class="fg"><label>GWP Values Used (Para B20–B22)</label><input id="gas-gwp" placeholder="e.g. IPCC AR6 100-year GWP values"></div>
+    <div class="fg"><label>Third-party Verification</label><select id="gh-verify"><option value="">Select</option><option>Limited assurance — Big 4 auditor</option><option>Reasonable assurance — Big 4 auditor</option><option>Third-party verified — specialist firm</option><option>Internal review only</option><option>Not verified</option></select></div>
+    <div class="fg full"><label>Measurement Approach Rationale (Para B27(b))</label><textarea id="gh-reason" placeholder="Explain why this approach was chosen and how it relates to the disclosure objective..." style="min-height:60px;"></textarea></div>
+  </div>
+  <div class="sec-div"><div class="sec-div-label">Scope 1 — Direct Emissions</div><div class="sec-div-line"></div><div class="sec-div-ref">Para 29(a)(i)(1) &amp; 29(a)(iv)</div></div>
+  <div class="grid2">
+    <div class="fg"><label>Scope 1 — Consolidated Group (tCO2e) <span class="req">*</span></label><input id="s1-group" type="number" placeholder="0"><div class="hint">Para 29(a)(iv)(1) — parent + consolidated subsidiaries</div></div>
+    <div class="fg"><label>Scope 1 — Other Investees (tCO2e)</label><input id="s1-other" type="number" placeholder="0"><div class="hint">Para 29(a)(iv)(2) — associates, JVs, unconsolidated subsidiaries</div></div>
+  </div>
+  <div class="sec-div"><div class="sec-div-label">Scope 2 — Indirect Energy</div><div class="sec-div-line"></div><div class="sec-div-ref">Para 29(a)(i)(2) &amp; 29(a)(v) · B30–B31</div></div>
+  <div class="grid2">
+    <div class="fg"><label>Scope 2 — Location-based (tCO2e) <span class="req">*</span></label><input id="s2-loc" type="number" placeholder="0"><div class="hint">Para 29(a)(v) — mandatory disclosure</div></div>
+    <div class="fg"><label>Scope 2 — Market-based (tCO2e)</label><input id="s2-mkt" type="number" placeholder="0"><div class="hint">Disclose if contractual instruments exist (RECs, PPAs)</div></div>
+    <div class="fg full"><label>Contractual Instruments Description (Para 29(a)(v) · B31)</label><input id="s2-contracts" placeholder="e.g. PPAs covering 30% of electricity, 500 RECs retired — or 'No contractual instruments'"></div>
+  </div>
+  <div class="sec-div"><div class="sec-div-label">Scope 3 — All 15 Categories</div><div class="sec-div-line"></div><div class="sec-div-ref">Para 29(a)(i)(3) &amp; 29(a)(vi) · B32–B57</div></div>
+  <div class="info-box"><strong>Para 29(a)(vi):</strong> Disclose which of the 15 Scope 3 categories are included. Consider entire value chain upstream and downstream. Estimation using secondary data is permitted (Para B57). Disclose measurement approach for each included category.</div>
+  <table class="ghg-table">
+    <thead><tr><th>#</th><th>Category</th><th>tCO2e</th><th>Status</th><th>Method</th></tr></thead>
+    <tbody id="s3-tbody"></tbody>
+  </table>
+  <div class="sec-div"><div class="sec-div-label">GHG Species Breakdown — All 7 Kyoto Gases</div><div class="sec-div-line"></div><div class="sec-div-ref">Para 29(a)(i) · Appendix A</div></div>
+  <div class="grid4">
+    <div class="fg"><label>CO2 (tCO2e)</label><input id="gas-co2" type="number" placeholder="0"></div>
+    <div class="fg"><label>CH4 (tCO2e)</label><input id="gas-ch4" type="number" placeholder="0"></div>
+    <div class="fg"><label>N2O (tCO2e)</label><input id="gas-n2o" type="number" placeholder="0"></div>
+    <div class="fg"><label>HFCs (tCO2e)</label><input id="gas-hfc" type="number" placeholder="0"></div>
+    <div class="fg"><label>PFCs (tCO2e)</label><input id="gas-pfc" type="number" placeholder="0"></div>
+    <div class="fg"><label>SF6 (tCO2e)</label><input id="gas-sf6" type="number" placeholder="0"></div>
+    <div class="fg"><label>NF3 (tCO2e)</label><input id="gas-nf3" type="number" placeholder="0"></div>
+  </div>
+  <div class="step-actions"><button class="btn-s" onclick="issb_prv(8)">← Back</button><button class="btn-p" onclick="issb_nxt(8)">Next: Cross-Industry Metrics →</button></div>
+</div>
+
+<!-- S9 CROSS INDUSTRY METRICS -->
+<div class="step" id="s-9">
+  <div class="step-hdr">
+    <div class="step-tag">Section 9 of 10 · IFRS S2 Para 29(b–g)</div>
+    <h2>Cross-Industry <em>Metrics</em></h2>
+    <p>Six mandatory cross-industry metric categories required for all entities regardless of industry.</p>
+    <div class="para-ref">Para 29(b): Transition risk assets · Para 29(c): Physical risk assets · Para 29(d): Opportunity assets · Para 29(e): Capital deployment · Para 29(f): Internal carbon price · Para 29(g): Remuneration</div>
+  </div>
+  <div class="grid2">
+    <div class="fg"><label>Assets at Transition Risk — Amount (Para 29(b))</label><input id="m-trans-amt" placeholder="e.g. $30M of fossil fuel assets"></div>
+    <div class="fg"><label>Assets at Transition Risk — % (Para 29(b))</label><input id="m-trans-pct" type="number" placeholder="e.g. 8" min="0" max="100"><div class="hint">% of total assets or business activities</div></div>
+    <div class="fg"><label>Assets at Physical Risk — Amount (Para 29(c))</label><input id="m-phys-amt" placeholder="e.g. $50M coastal and flood-prone assets"></div>
+    <div class="fg"><label>Assets at Physical Risk — % (Para 29(c))</label><input id="m-phys-pct" type="number" placeholder="e.g. 12" min="0" max="100"><div class="hint">% of total assets or business activities</div></div>
+    <div class="fg"><label>Assets Aligned to Opportunities — Amount (Para 29(d))</label><input id="m-opp-amt" placeholder="e.g. $15M in green product lines"></div>
+    <div class="fg"><label>Assets Aligned to Opportunities — % (Para 29(d))</label><input id="m-opp-pct" type="number" placeholder="e.g. 20" min="0" max="100"></div>
+    <div class="fg"><label>Capital Deployed to Climate (Para 29(e))</label><input id="m-capex" placeholder="e.g. $8M capex + $2M financing in FY2024"></div>
+    <div class="fg"><label>Total Energy Consumption (MWh)</label><input id="m-energy" type="number" placeholder="e.g. 50000"></div>
+    <div class="fg"><label>Renewable Energy (MWh)</label><input id="m-re" type="number" placeholder="e.g. 15000"></div>
+    <div class="fg"><label>Renewable Energy %</label><input id="m-re-pct" type="number" placeholder="e.g. 30" min="0" max="100"></div>
+    <div class="fg"><label>Water Consumption (megalitres)</label><input id="m-water" placeholder="e.g. 450 ML"></div>
+    <div class="fg"><label>Waste Generated (tonnes)</label><input id="m-waste" placeholder="e.g. 1200 tonnes"></div>
+  </div>
+  <div class="step-actions"><button class="btn-s" onclick="issb_prv(9)">← Back</button><button class="btn-p" onclick="issb_nxt(9)">Next: Climate Targets →</button></div>
+</div>
+
+<!-- S10 TARGETS -->
+<div class="step" id="s-10">
+  <div class="step-hdr">
+    <div class="step-tag">Section 10 of 10 · IFRS S2 Para 33–37</div>
+    <h2>Climate Targets &amp; <em>Performance</em></h2>
+    <p>Quantitative and qualitative climate targets including GHG emissions targets with mandatory gross vs net distinction.</p>
+    <div class="para-ref">Para 33: Target characteristics (a–h) · Para 34: Review approach · Para 35: Performance · Para 36: GHG-specific · Para 36(c): Gross vs net · Para 36(e): Carbon credits</div>
+  </div>
+  <div class="sec-div"><div class="sec-div-label">Primary GHG / Net-Zero Target</div><div class="sec-div-line"></div><div class="sec-div-ref">Para 33 &amp; 36</div></div>
+  <div class="grid2">
+    <div class="fg"><label>Net-Zero Target Year <span class="req">*</span></label><select id="t-netzero"><option value="">Select</option><option>2030</option><option>2035</option><option>2040</option><option>2045</option><option>2050</option><option>Not yet committed</option></select></div>
+    <div class="fg"><label>Target Type (Para 33(g))</label><select id="t-type"><option value="">Select</option><option>Absolute target (total tCO2e)</option><option>Intensity target (tCO2e per unit)</option><option>Both absolute and intensity targets</option></select></div>
+    <div class="fg"><label>Gross GHG Emissions Target (Para 36(c)) <span class="req">*</span></label><input id="t-gross" placeholder="e.g. Reduce gross Scope 1+2 by 50% by 2030 vs 2019 baseline"></div>
+    <div class="fg"><label>Net GHG Emissions Target (Para 36(c))</label><input id="t-net" placeholder="e.g. Net-zero across all scopes by 2050 (after offsets)"><div class="hint">If net target disclosed, gross target must also be separately disclosed</div></div>
+    <div class="fg"><label>GHG Species Covered (Para 36(a))</label><input id="t-gases" placeholder="e.g. All 7 Kyoto gases, or CO2 and CH4 only"></div>
+    <div class="fg"><label>Scopes Covered (Para 36(b))</label><select id="t-scopes"><option value="">Select</option><option>Scope 1 only</option><option>Scope 1 &amp; 2</option><option>Scope 1, 2 &amp; 3</option><option>All scopes with phased approach</option></select></div>
+    <div class="fg"><label>Base Period (Para 33(e))</label><input id="t-base" placeholder="e.g. 2019"></div>
+    <div class="fg"><label>Sectoral Decarbonisation? (Para 36(d))</label><select id="t-sda"><option value="">Select</option><option>Yes — SDA methodology applied</option><option>No — absolute contraction approach</option><option>No — intensity-based approach</option></select></div>
+    <div class="fg full"><label>Milestones &amp; Interim Targets (Para 33(f))</label><textarea id="t-milestones" placeholder="e.g. 2025: 20% Scope 1+2 reduction; 2030: 50% reduction; 2035: 70% reduction; 2050: Net-zero all scopes..."></textarea></div>
+  </div>
+  <div class="sec-div"><div class="sec-div-label">Science-Based Target &amp; Paris Alignment</div><div class="sec-div-line"></div><div class="sec-div-ref">Para 33(b) &amp; 33(h)</div></div>
+  <div class="grid2">
+    <div class="fg"><label>SBTi Status</label><select id="t-sbti"><option value="">Select</option><option>Approved — 1.5C pathway</option><option>Approved — Well below 2C</option><option>Committed — target in submission</option><option>Planning to commit</option><option>Not pursuing SBTi</option></select></div>
+    <div class="fg"><label>Target Objective (Para 33(b))</label><select id="t-objective"><option value="">Select</option><option>Mitigation</option><option>Adaptation</option><option>Both mitigation and adaptation</option><option>Conformance with science-based initiative</option></select></div>
+    <div class="fg full"><label>How Paris Agreement Informed Target (Para 33(h))</label><textarea id="t-paris" placeholder="Describe how the Paris Agreement and jurisdictional commitments informed your target-setting..." style="min-height:70px;"></textarea></div>
+  </div>
+  <div class="sec-div"><div class="sec-div-label">Carbon Credits — Planned Use (Para 36(e))</div><div class="sec-div-line"></div><div class="sec-div-ref">B70–B71</div></div>
+  <div class="grid2">
+    <div class="fg full"><label>Extent of Reliance on Carbon Credits (Para 36(e)(i))</label><textarea id="t-credits-extent" placeholder="Describe the extent to which achieving your net target relies on carbon credits vs actual emissions reductions..." style="min-height:70px;"></textarea></div>
+    <div class="fg"><label>Carbon Credit Scheme(s) (Para 36(e)(ii))</label><input id="t-credits-scheme" placeholder="e.g. Verra VCS, Gold Standard, ACR, CAR"></div>
+    <div class="fg"><label>Credit Type (Para 36(e)(iii))</label><select id="t-credits-type"><option value="">Select</option><option>Nature-based solutions (NBS)</option><option>Technology-based carbon removal</option><option>Carbon reduction credits</option><option>Mix of nature-based and technology</option><option>Not yet determined</option></select></div>
+    <div class="fg"><label>Reduction vs Removal (Para 36(e)(iii))</label><select id="t-credits-rr"><option value="">Select</option><option>Primarily reduction credits</option><option>Primarily removal credits</option><option>Equal mix</option><option>Not yet determined</option></select></div>
+  </div>
+  <div class="sec-div"><div class="sec-div-label">Target Review &amp; Performance</div><div class="sec-div-line"></div><div class="sec-div-ref">Para 34–35</div></div>
+  <div class="grid2">
+    <div class="fg"><label>Third-party Validation? (Para 34(a))</label><select id="t-validated"><option value="">Select</option><option>Yes — SBTi validated</option><option>Yes — independent third party</option><option>No — internal validation only</option><option>Planned</option></select></div>
+    <div class="fg"><label>Target Review Process (Para 34(b))</label><input id="t-review" placeholder="e.g. Annual board review, linked to strategic planning cycle"></div>
+    <div class="fg full"><label>Performance Against Targets This Period (Para 35)</label><textarea id="t-performance" placeholder="Actual performance vs targets — % achieved, trends, changes in trajectory, explanation of variances..."></textarea></div>
+    <div class="fg full"><label>Target Revisions &amp; Explanation (Para 34(d))</label><textarea id="t-revisions" placeholder="Any revisions to targets since last reporting period and rationale..." style="min-height:60px;"></textarea></div>
+  </div>
+  <div class="step-actions">
+    <button class="btn-s" onclick="issb_prv(10)">&#8592; Back</button>
+    <button class="btn-gen" onclick="generate()">&#10022; Generate IFRS S2 Report</button>
+  </div>
+</div>
+
+</main>
+</div>
+
+
+<!-- REPORT -->
+
+<div id="rpt">
+  <div class="rpt-actions">
+    <button class="rpt-btn light" onclick="issb_backToForm()">&#8592; Edit Form</button>
+    <button class="rpt-btn dark" onclick="window.print()">&#11015; Download PDF</button>
+  </div>
+  <div class="rpt-wrap" id="rpt-content"></div>
+</div>
+
+
+</div>
+
+<!-- ===== ADVISOR PAGE ===== -->
+<div class="page" id="page-advisor">
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-top">
+    <div class="av-wrap">
+      <div class="av">🌿</div>
+      <div class="av-ring"></div>
+      <div class="av-dot"></div>
+    </div>
+    <div class="ai-name">Sage — <em>AI Advisor</em></div>
+    <div class="ai-desc">Expert sustainability intelligence. Powered by advanced AI across 15+ ESG frameworks and global climate regulations.</div>
+  </div>
+
+  <div class="sb-tabs">
+    <div class="sb-tab on" onclick="stab('ask')">Ask</div>
+    <div class="sb-tab" onclick="stab('exp')">Expertise</div>
+    <div class="sb-tab" onclick="stab('hist')">History</div>
+  </div>
+
+  <div class="sb-panel on" id="sp-ask">
+    <div class="plbl">Suggested Questions</div>
+    <div class="sug" onclick="aq(this)">How do I calculate my Scope 3 emissions?</div>
+    <div class="sug" onclick="aq(this)">What are IFRS S2 scenario analysis requirements?</div>
+    <div class="sug" onclick="aq(this)">How do I set a science-based emissions target?</div>
+    <div class="sug" onclick="aq(this)">Explain BRSR reporting for Indian listed companies</div>
+    <div class="sug" onclick="aq(this)">What carbon credits should my company buy?</div>
+    <div class="sug" onclick="aq(this)">How do I build a Net-Zero transition plan?</div>
+    <div class="sug" onclick="aq(this)">What ESG rating agencies should I target?</div>
+    <div class="sug" onclick="aq(this)">How to disclose physical climate risks under IFRS S2?</div>
+    <div class="sug" onclick="aq(this)">Generate an IFRS S2 governance disclosure snippet</div>
+    <div class="sug" onclick="aq(this)">What is the difference between GRI and TCFD?</div>
+  </div>
+
+  <div class="sb-panel" id="sp-exp">
+    <div class="plbl">Climate Disclosure</div>
+    <div class="etags">
+      <span class="etag" onclick="askQ('Explain IFRS S1 and S2 requirements')">IFRS S1 & S2</span>
+      <span class="etag" onclick="askQ('Explain TCFD framework')">TCFD</span>
+      <span class="etag" onclick="askQ('Explain CSRD requirements for EU companies')">CSRD</span>
+      <span class="etag" onclick="askQ('Explain SEC climate disclosure rules')">SEC Rules</span>
+    </div>
+    <div class="plbl">India-Specific</div>
+    <div class="etags">
+      <span class="etag" onclick="askQ('Explain BRSR Core reporting requirements for top 150 listed Indian companies')">BRSR Core</span>
+      <span class="etag" onclick="askQ('Explain SEBI ESG mutual fund regulations')">SEBI ESG</span>
+    </div>
+    <div class="plbl">Carbon & Emissions</div>
+    <div class="etags">
+      <span class="etag" onclick="askQ('Explain Scope 1, 2 and 3 emissions with examples')">Scope 1/2/3</span>
+      <span class="etag" onclick="askQ('Explain the GHG Protocol corporate standard')">GHG Protocol</span>
+      <span class="etag" onclick="askQ('How does SBTi target validation work?')">SBTi</span>
+      <span class="etag" onclick="askQ('How do I build a net-zero transition plan?')">Net-Zero</span>
+    </div>
+    <div class="plbl">Carbon Markets</div>
+    <div class="etags">
+      <span class="etag" onclick="askQ('How do voluntary carbon markets work?')">Carbon Credits</span>
+      <span class="etag" onclick="askQ('Explain Verra VCS carbon standard')">Verra VCS</span>
+      <span class="etag" onclick="askQ('Explain Gold Standard carbon credits')">Gold Standard</span>
+      <span class="etag" onclick="askQ('Explain Article 6 of the Paris Agreement')">Article 6</span>
+    </div>
+    <div class="plbl">ESG Ratings</div>
+    <div class="etags">
+      <span class="etag" onclick="askQ('How does MSCI ESG rating work?')">MSCI ESG</span>
+      <span class="etag" onclick="askQ('How does Sustainalytics ESG risk rating work?')">Sustainalytics</span>
+      <span class="etag" onclick="askQ('How does S&P SAM corporate sustainability assessment work?')">S&P SAM</span>
+      <span class="etag" onclick="askQ('Explain CDP scoring methodology')">CDP</span>
+    </div>
+    <div class="plbl">Nature & Biodiversity</div>
+    <div class="etags">
+      <span class="etag" onclick="askQ('Explain TNFD nature-related financial disclosures framework')">TNFD</span>
+      <span class="etag" onclick="askQ('How do I measure biodiversity impact?')">Biodiversity</span>
+    </div>
+  </div>
+
+  <div class="sb-panel" id="sp-hist">
+    <div class="plbl">Recent Conversations</div>
+    <div id="hist-list"><div style="font-size:.73rem;color:rgba(245,240,232,.28);text-align:center;padding:1.4rem 0;">No history yet.<br>Start a conversation!</div></div>
+  </div>
+
+  <div class="sb-stats">
+    <div class="st"><div class="st-v">15+</div><div class="st-l">Frameworks</div></div>
+    <div class="st"><div class="st-v">24/7</div><div class="st-l">Available</div></div>
+    <div class="st"><div class="st-v">190+</div><div class="st-l">Countries</div></div>
+    <div class="st"><div class="st-v">AI</div><div class="st-l">Powered</div></div>
+  </div>
+</aside>
+
+<!-- CHAT -->
+<div class="chat">
+
+  <div class="toolbar">
+    <button class="tbtn" id="snip-btn" onclick="toggleSnip()">📋 IFRS Snippet Mode</button>
+    <div class="tsep"></div>
+    <label class="flabel" for="file-in">📄 Upload Report (PDF)</label>
+    <input type="file" id="file-in" accept=".pdf,.txt,.doc,.docx" onchange="handleFile(this)">
+    <div class="finfo" id="finfo">
+      <span id="fname"></span>
+      <span class="frm" onclick="rmFile()">✕</span>
+    </div>
+    <div class="tsep"></div>
+    <button class="tbtn" onclick="showExport()">⬇ Export PDF</button>
+  </div>
+
+  <div class="msgs" id="msgs">
+    <div class="welcome" id="welcome">
+      <div class="w-icon">🌿</div>
+      <h2>Meet <em>Sage</em>, Your AI<br>Sustainability Advisor</h2>
+      <p>Ask anything about ESG reporting, carbon accounting, climate frameworks, or net-zero strategy. Upload a report for instant AI-powered gap analysis.</p>
+      <div class="wcards">
+        <div class="wc" onclick="askQ('What are the key requirements of IFRS S2 and what are the most commonly missed disclosures?')">
+          <div class="wc-ic">📋</div><div class="wc-t">IFRS S2 Compliance</div>
+          <div class="wc-d">Key disclosure requirements explained</div>
+        </div>
+        <div class="wc" onclick="askQ('How do I calculate and reduce my Scope 3 value chain emissions across all 15 categories?')">
+          <div class="wc-ic">🔗</div><div class="wc-t">Scope 3 Emissions</div>
+          <div class="wc-d">Full value chain carbon footprint</div>
+        </div>
+        <div class="wc" onclick="askQ('How do carbon credits work and what types should I use for net-zero?')">
+          <div class="wc-ic">💚</div><div class="wc-t">Carbon Credits</div>
+          <div class="wc-d">Voluntary carbon markets guide</div>
+        </div>
+        <div class="wc" onclick="askQ('Generate a ready-to-use IFRS S2 climate governance disclosure snippet for our annual report')">
+          <div class="wc-ic">✨</div><div class="wc-t">Generate Disclosure</div>
+          <div class="wc-d">Ready-to-paste IFRS S2 snippets</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="input-area">
+    <div class="tpills">
+      <span class="tp" onclick="askQ('Explain IFRS S2 mandatory scenario analysis requirements in detail')">IFRS S2</span>
+      <span class="tp" onclick="askQ('How does BRSR Core reporting work for top 150 Indian listed companies?')">BRSR India</span>
+      <span class="tp" onclick="askQ('How do I get emissions targets validated by SBTi step by step?')">SBTi</span>
+      <span class="tp" onclick="askQ('What are the key differences between GRI and TCFD reporting?')">GRI vs TCFD</span>
+      <span class="tp" onclick="askQ('What are the best carbon offset project types available in 2025?')">Carbon Offsets</span>
+      <span class="tp" onclick="askQ('How do I measure and report biodiversity impact under TNFD?')">TNFD</span>
+    </div>
+    <div class="irow">
+      <div class="iwrap">
+        <textarea id="msg-input" placeholder="Ask about ESG frameworks, carbon accounting, net-zero strategy — or upload a PDF for instant analysis..." rows="1" onkeydown="hkey(event)" oninput="arz(this);ucc()"></textarea>
+        <div class="ibtns">
+          <button class="voice-btn" id="vbtn" onclick="toggleVoice()" title="Voice input">🎤</button>
+        </div>
+      </div>
+      <button class="send-btn" id="send-btn" onclick="send()" disabled>➤</button>
+    </div>
+    <div class="ifooter">
+      <span class="ihint">↵ Send · Shift+↵ New line · 🎤 Voice input</span>
+      <span class="cc" id="cc">0 / 1000</span>
+    </div>
+    <div class="disc">Sage provides guidance based on public ESG frameworks. Verify with qualified professionals for formal reporting.</div>
+  </div>
+</div>
+</div>
+
+<!-- EXPORT MODAL -->
+<div class="moverlay" id="exp-modal">
+  <div class="modal">
+    <div class="modal-t">Export <em>Chat Transcript</em></div>
+    <div class="modal-d">Download your full conversation with Sage as a formatted PDF — including all ESG guidance, IFRS S2 snippets, and strategic recommendations. Perfect for sharing with your sustainability team or board.</div>
+    <div class="mbtns">
+      <button class="mbtn s" onclick="hideExport()">Cancel</button>
+      <button class="mbtn p" onclick="doExport()">⬇ Download PDF</button>
+    </div>
+  </div>
+</div>
+
+
+</div>
+
+<!-- ===== SAGE WIDGET ===== -->
+<div class="sage-widget" id="sage-widget">
+  <span class="sage-fab-tip">Ask Sage — AI Advisor</span>
+  <div class="sage-fab" onclick="showPage('advisor')">🌿<div class="sage-fab-dot"></div></div>
+</div>
+
+<script>
+// PAGE ROUTER
+var _sageInited = false;
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.getElementById('nl-home').style.display = (page==='home'||page==='issb') ? 'flex' : 'none';
+  document.getElementById('nl-advisor').style.display = page==='advisor' ? 'flex' : 'none';
+  document.getElementById('nl-issb').style.display = 'none';
+  ['nb-issb','nb-advisor'].forEach(id => document.getElementById(id)?.classList.remove('nl-active'));
+  if(page==='issb') document.getElementById('nb-issb').classList.add('nl-active');
+  if(page==='advisor') document.getElementById('nb-advisor').classList.add('nl-active');
+  document.getElementById('sage-widget').style.display = page==='advisor' ? 'none' : 'flex';
+  if(page !== 'advisor') window.scrollTo(0,0);
+  if(page==='advisor' && !_sageInited) { _sageInited=true; setTimeout(()=>{ if(typeof initSage==='function') initSage(); },100); }
+}
+function navTo(anchor) {
+  if(!document.getElementById('page-home').classList.contains('active')) showPage('home');
+  setTimeout(()=>{ const el=document.getElementById(anchor); if(el) el.scrollIntoView({behavior:'smooth'}); },60);
+}
+
+// HOME SCRIPTS
+// Fade-up IntersectionObserver - makes sections visible on scroll
+(function(){
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  },{threshold:0.08});
+  function run(){ document.querySelectorAll('.fade-up').forEach(function(el){ obs.observe(el); }); }
+  if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded',run); } else { run(); }
+  // Re-run when switching to home page
+  var _origShow = window.showPage;
+})();
+
+function handleWaitlist(){
+  var el=document.getElementById('waitlist-email');
+  if(el&&el.value.trim()){el.value='';alert('Thank you! You are on the early access list. We will be in touch soon. 🌿');}
+  else{alert('Please enter your email address.');}
+}
+
+
+// ISSB SCRIPTS
+
+const S3CATS=['Purchased goods & services','Capital goods','Fuel & energy-related activities','Upstream transportation & distribution','Waste generated in operations','Business travel','Employee commuting','Upstream leased assets','Downstream transportation & distribution','Processing of sold products','Use of sold products','End-of-life treatment of sold products','Downstream leased assets','Franchises','Investments (financed emissions)'];
+const S3METHODS=['Spend-based / supplier-specific','Spend-based / physical units','Activity-based','Distance / spend-based','Waste-type specific factors','Distance-based','Survey / average factors','Asset-specific data','Distance / spend-based','Activity-based','Lifetime energy use factors','Waste composition factors','Asset-specific data','Franchisee-reported data','PCAF methodology / financed emissions'];
+
+(function(){
+  const tb=document.getElementById('s3-tbody');
+  S3CATS.forEach((cat,i)=>{
+    const n=i+1;
+    const tr=document.createElement('tr');
+    const isLast=n===15;
+    tr.innerHTML='<td style="color:#aaa;font-family:monospace;font-size:.75rem;">'+n+'</td>'+
+      '<td style="font-size:.8rem;">'+cat+'</td>'+
+      '<td><input id="s3c'+n+'" type="number" placeholder="0"></td>'+
+      '<td><select id="s3c'+n+'i"><option>Yes — included</option><option>No — not material</option><option>No — data unavailable</option>'+(isLast?'<option>Dec 2025 limitation applied</option>':'')+'</select></td>'+
+      '<td><input id="s3c'+n+'m" placeholder="'+S3METHODS[i]+'"></td>';
+    tb.appendChild(tr);
+  });
+})();
+
+let cur=1,total=10;const done=new Set();
+const v=id=>{const e=document.getElementById(id);return e?(e.value||'—'):'—'};
+const n=id=>parseFloat(document.getElementById(id)?.value)||0;
+const checks=id=>Array.from(document.querySelectorAll('#'+id+' .chk-card.sel')).map(e=>e.querySelector('.chk-title').textContent);
+
+function issb_go(i){
+  document.getElementById('s-'+cur).classList.remove('active');
+  document.getElementById('si-'+cur).classList.remove('active');
+  cur=i;
+  document.getElementById('s-'+cur).classList.add('active');
+  document.getElementById('si-'+cur).classList.add('active');
+  document.getElementById('si-'+cur).scrollIntoView({behavior:'smooth',block:'nearest'});
+  window.scrollTo(0,0);issb_upd();
+}
+function issb_nxt(i){done.add(i);const si=document.getElementById('si-'+i);si.classList.add('done');si.querySelector('.s-dot').textContent='✓';issb_go(i+1);}
+function issb_prv(i){go(i-1);}
+function issb_upd(){const p=Math.round(done.size/total*100);document.getElementById('pct').textContent=p+'%';document.getElementById('pfill').style.width=p+'%';}
+function issb_tog(el){el.classList.toggle('sel');el.querySelector('input').checked=el.classList.contains('sel');}
+function s3total(){let t=0;for(let i=1;i<=15;i++)t+=n('s3c'+i);return t;}
+function ghgTotal(){const s1=n('s1-group')+n('s1-other');const s2=n('s2-loc');const s3=s3total();return{s1,s2,s3,total:s1+s2+s3};}
+
+function s3rows(){
+  return S3CATS.map((cat,i)=>{
+    const num=i+1,amt=n('s3c'+num),inc=v('s3c'+num+'i'),meth=v('s3c'+num+'m');
+    const tag=inc.startsWith('Yes')?'<span class="tag">'+inc+'</span>':'<span class="tag red">'+inc+'</span>';
+    return '<tr><td style="color:#999;font-size:.75rem;">'+num+'</td><td>'+cat+'</td><td><strong>'+(amt>0?amt.toLocaleString():'—')+'</strong></td><td>'+tag+'</td><td style="font-size:.75rem;color:#666;">'+meth+'</td></tr>';
+  }).join('');
+}
+
+function df(id,label){return '<div class="rf"><label>'+label+'</label><p>'+v(id)+'</p></div>';}
+function dbox(id,label){return '<div class="dbox"><div class="rf"><label>'+label+'</label><p>'+v(id)+'</p></div></div>';}
+
+function generate(){
+  done.add(10);document.getElementById('si-10').classList.add('done');document.getElementById('si-10').querySelector('.s-dot').textContent='✓';issb_upd();
+  const g=ghgTotal();
+  const today=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+  const pr=checks('phys-risks'),tr2=checks('trans-risks'),op=checks('opps');
+
+  const html=`
+  <div class="rpt-header">
+    <div>
+      <div class="rpt-logo">ReGenesis<span> Impact</span></div>
+      <div style="font-size:.68rem;color:#999;font-family:'DM Mono',monospace;margin-top:.2rem;">IFRS S2 CLIMATE-RELATED DISCLOSURES · DECEMBER 2025 EDITION · ALL PILLARS</div>
+    </div>
+    <div class="rpt-meta">
+      <div class="rpt-badge">IFRS S2 · DEC 2025 AMENDMENTS INCORPORATED</div>
+      <p>Generated: ${today}</p><p>Period: ${v('c-period')}</p><p>Framework: ${v('c-framework')}</p>
+    </div>
+  </div>
+  <div class="rpt-title">${v('c-name')}</div>
+  <div class="rpt-sub">Climate-Related Financial Disclosures — IFRS S2 · ${v('c-period')}</div>
+
+  <div class="rpt-sec">
+    <div class="rpt-sec-hdr"><div class="rpt-sec-num">1</div>Entity Overview<span class="rpt-para-ref">Entity Information</span></div>
+    <div class="rpt-grid">${df('c-name','Legal Entity')}${df('c-lei','LEI / Registration')}${df('c-industry','Industry Sector')}${df('c-period','Reporting Period')}${df('c-hq','Headquarters')}${df('c-ops','Operating Countries')}${df('c-emp','Employees')}${df('c-rev','Annual Revenue')}</div>
+    <div class="dbox"><div class="rf"><label>Business Description</label><p>${v('c-desc')}</p></div></div>
+    <div class="rpt-grid" style="margin-top:.75rem;">${df('c-framework','Reporting Framework')}${df('c-comparative','Comparative Information')}</div>
+  </div>
+
+  <div class="rpt-sec">
+    <div class="rpt-sec-hdr"><div class="rpt-sec-num">2</div>Governance<span class="rpt-para-ref">IFRS S2 Para 5–7</span></div>
+    <div class="rpt-grid">${df('g-body','Governance Body (Para 6(a))')}${df('g-freq','Frequency Informed (Para 6(a)(iii))')}</div>
+    ${dbox('g-mandate','Responsibilities in Mandates & Terms of Reference (Para 6(a)(i))')}
+    ${dbox('g-skills','Climate Skills & Competencies Assessment (Para 6(a)(ii))')}
+    ${dbox('g-strategy-oversight','Board Oversight of Strategy, Transactions & Trade-offs (Para 6(a)(iv))')}
+    <div style="background:#e8f5ee;border:1px solid #2d9e5f;border-radius:.65rem;padding:1.1rem;margin-top:.75rem;">
+      <div style="font-size:.8rem;font-weight:700;color:#0a2e1a;margin-bottom:.5rem;">Executive Remuneration Linkage (Para 6(a)(v) & 29(g))</div>
+      <div class="rpt-grid">${df('g-rem','Climate-linked Remuneration (Para 29(g)(i))')}${df('g-rem-pct','% Executive Remuneration Linked (Para 29(g)(ii))')}</div>
+      <div class="rf" style="margin-top:.5rem;"><label>Climate Remuneration Metrics Description</label><p>${v('g-rem-desc')}</p></div>
+    </div>
+    <div class="rpt-grid" style="margin-top:.75rem;">${df('g-mgmt','Management Role (Para 6(b))')}${df('g-controls','Controls Integration (Para 6(b)(ii))')}</div>
+    ${dbox('g-mgmt-desc','Management Monitoring Description (Para 6(b))')}
+  </div>
+
+  <div class="rpt-sec">
+    <div class="rpt-sec-hdr"><div class="rpt-sec-num">3</div>Strategy — Climate Risks & Opportunities<span class="rpt-para-ref">IFRS S2 Para 8–12</span></div>
+    <div class="rpt-grid3">${df('r-st','Short-term (Para 10(d))')}${df('r-mt','Medium-term (Para 10(d))')}${df('r-lt','Long-term (Para 10(d))')}</div>
+    <p style="font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#999;margin-bottom:.4rem;">Physical Risks Identified (Para 10(b)(i))</p>
+    <div style="margin-bottom:.5rem;">${pr.length?pr.map(r=>'<span class="tag red">'+r+'</span>').join(''):'<span style="font-size:.83rem;color:#666;">None identified</span>'}</div>
+    <div class="rf" style="margin-bottom:1rem;"><label>Concentration in Value Chain (Para 13(b))</label><p>${v('r-phys-conc')}</p></div>
+    <p style="font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#999;margin-bottom:.4rem;">Transition Risks Identified (Para 10(b)(ii))</p>
+    <div style="margin-bottom:.5rem;">${tr2.length?tr2.map(r=>'<span class="tag amber">'+r+'</span>').join(''):'<span style="font-size:.83rem;color:#666;">None identified</span>'}</div>
+    <div class="rf" style="margin-bottom:1rem;"><label>Concentration in Value Chain (Para 13(b))</label><p>${v('r-trans-conc')}</p></div>
+    <p style="font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#999;margin-bottom:.4rem;">Climate Opportunities (Para 3(b) & 29(d))</p>
+    <div style="margin-bottom:.5rem;">${op.length?op.map(r=>'<span class="tag">'+r+'</span>').join(''):'<span style="font-size:.83rem;color:#666;">None identified</span>'}</div>
+    <div class="rf"><label>Opportunity Concentration</label><p>${v('r-opp-conc')}</p></div>
+  </div>
+
+  <div class="rpt-sec">
+    <div class="rpt-sec-hdr"><div class="rpt-sec-num">4</div>Business Model & Transition Plan<span class="rpt-para-ref">IFRS S2 Para 13–14</span></div>
+    ${dbox('bm-effects','Effects on Business Model & Value Chain (Para 13(a))')}
+    ${dbox('bm-vc','Where Risks/Opportunities Concentrated in Value Chain (Para 13(b))')}
+    ${dbox('bm-changes','Current & Anticipated Business Model Changes (Para 14(a)(i))')}
+    <div class="rpt-grid">
+      <div class="dbox"><div class="rf"><label>Direct Mitigation & Adaptation (Para 14(a)(ii))</label><p>${v('bm-direct')}</p></div></div>
+      <div class="dbox"><div class="rf"><label>Indirect Mitigation & Adaptation (Para 14(a)(iii))</label><p>${v('bm-indirect')}</p></div></div>
+      <div class="rf"><label>Resources Allocated (Para 14(b))</label><p>${v('bm-resources')}</p></div>
+      <div class="rf"><label>Progress vs Prior Period Plans (Para 14(c))</label><p>${v('bm-progress')}</p></div>
+    </div>
+    <div style="background:#e8f5ee;border:1px solid #2d9e5f;border-radius:.65rem;padding:1.1rem;margin-top:1rem;">
+      <div style="font-size:.8rem;font-weight:700;color:#0a2e1a;margin-bottom:.75rem;">Climate Transition Plan (Para 14(a)(iv))</div>
+      <div class="rpt-grid">${df('tp-status','Status')}${df('tp-framework','Framework Aligned')}</div>
+      <div class="rf" style="margin-top:.5rem;"><label>Key Assumptions (Para 14(a)(iv))</label><p>${v('tp-assumptions')}</p></div>
+      <div class="rf" style="margin-top:.5rem;"><label>Key Dependencies (Para 14(a)(iv))</label><p>${v('tp-dependencies')}</p></div>
+    </div>
+  </div>
+
+  <div class="rpt-sec">
+    <div class="rpt-sec-hdr"><div class="rpt-sec-num">5</div>Financial Position & Climate Effects<span class="rpt-para-ref">IFRS S2 Para 15–21</span></div>
+    <div class="rpt-grid4">
+      <div class="rpt-metric"><div class="rpt-metric-val">${v('fi-capex')}</div><div class="rpt-metric-label">Climate Capex</div></div>
+      <div class="rpt-metric"><div class="rpt-metric-val">${v('fi-rev-green')}</div><div class="rpt-metric-label">Green Revenue</div></div>
+      <div class="rpt-metric"><div class="rpt-metric-val">${v('fi-savings')}</div><div class="rpt-metric-label">Cost Savings</div></div>
+      <div class="rpt-metric"><div class="rpt-metric-val">${v('fi-carbon-cost')}</div><div class="rpt-metric-label">Carbon Cost Exposure</div></div>
+    </div>
+    <div class="rpt-grid">
+      <div class="rf"><label>Assets at Physical Risk (Para 29(c))</label><p>${v('fi-phys-assets')} — ${v('fi-phys-pct')}% of total assets</p></div>
+      <div class="rf"><label>Assets at Transition Risk (Para 29(b))</label><p>${v('fi-trans-assets')} — ${v('fi-trans-pct')}% of total assets</p></div>
+      <div class="rf"><label>External Carbon Price Assumption</label><p>$${v('fi-carbon-price')}/tCO2e</p></div>
+      <div class="rf"><label>Internal Carbon Price (Para 29(f)(ii))</label><p>${v('fi-icp')} — $${v('fi-icp-val')}/tCO2e</p></div>
+    </div>
+    ${dbox('fi-current','Current Financial Effects — This Reporting Period (Para 16(a))')}
+    ${dbox('fi-anticipated','Anticipated Financial Position Changes — Short/Medium/Long Term (Para 16(c))')}
+    ${dbox('fi-cashflow','Anticipated Financial Performance & Cash Flow Changes (Para 16(d))')}
+    ${dbox('fi-icp-desc','Internal Carbon Price Application in Decision-Making (Para 29(f)(i))')}
+  </div>
+
+  <div class="rpt-sec">
+    <div class="rpt-sec-hdr"><div class="rpt-sec-num">6</div>Climate Resilience & Scenario Analysis<span class="rpt-para-ref">IFRS S2 Para 22 · B1–B18</span></div>
+    <div class="rpt-grid">
+      ${df('sc-scenarios','Scenarios Used (Para 22(b)(i)(1))')}
+      ${df('sc-approach','Analysis Approach (B14–B15)')}
+      ${df('sc-horizons','Time Horizons (Para 22(b)(i)(6))')}
+      ${df('sc-scope','Scope of Operations (Para 22(b)(i)(7))')}
+      ${df('sc-date','Last Conducted (Para B18)')}
+      ${df('sc-freq','Frequency (Para B18)')}
+      ${df('sc-paris','1.5C Scenario Included? (Para 22(b)(i)(4))')}
+      ${df('sc-diversity','Diversity of Scenarios (Para 22(b)(i)(2))')}
+    </div>
+    <div class="dbox" style="border-left:3px solid #2d9e5f;"><div class="rf"><label>Climate Resilience Assessment as at Reporting Date (Para 22(a)) — UPDATED THIS PERIOD</label><p>${v('sc-resilience')}</p></div></div>
+    <div class="rpt-grid" style="margin-top:.75rem;">
+      <div class="dbox"><div class="rf"><label>Policy Assumptions (Para 22(b)(ii)(1))</label><p>${v('sc-policy')}</p></div></div>
+      <div class="dbox"><div class="rf"><label>Technology Assumptions (Para 22(b)(ii)(5))</label><p>${v('sc-tech')}</p></div></div>
+      <div class="dbox"><div class="rf"><label>Macroeconomic Assumptions (Para 22(b)(ii)(2))</label><p>${v('sc-macro')}</p></div></div>
+      <div class="dbox"><div class="rf"><label>Energy Mix Assumptions (Para 22(b)(ii)(4))</label><p>${v('sc-energy')}</p></div></div>
+      <div class="dbox"><div class="rf"><label>Financial Resources to Respond (Para 22(a)(iii)(1))</label><p>${v('sc-fin-flex')}</p></div></div>
+      <div class="dbox"><div class="rf"><label>Asset Redeployment Capacity (Para 22(a)(iii)(2))</label><p>${v('sc-assets')}</p></div></div>
+    </div>
+  </div>
+
+  <div class="rpt-sec">
+    <div class="rpt-sec-hdr"><div class="rpt-sec-num">7</div>Risk Management Integration<span class="rpt-para-ref">IFRS S2 Para 24–26</span></div>
+    <div class="rpt-grid">
+      <div class="dbox"><div class="rf"><label>Data Sources & Inputs (Para 25(a)(i))</label><p>${v('rm-inputs')}</p></div></div>
+      <div class="dbox"><div class="rf"><label>Scope of Operations (Para 25(a)(i))</label><p>${v('rm-scope')}</p></div></div>
+      <div class="dbox"><div class="rf"><label>Scenario Analysis in Risk Identification (Para 25(a)(ii))</label><p>${v('rm-scenario')}</p></div></div>
+      <div class="dbox"><div class="rf"><label>Assessment of Likelihood & Magnitude (Para 25(a)(iii))</label><p>${v('rm-assess')}</p></div></div>
+      <div class="dbox"><div class="rf"><label>Prioritisation vs Other Risks (Para 25(a)(iv))</label><p>${v('rm-priority')}</p></div></div>
+      <div class="dbox"><div class="rf"><label>Monitoring Processes (Para 25(a)(v))</label><p>${v('rm-monitor')}</p></div></div>
+      <div class="dbox"><div class="rf"><label>Changes vs Prior Period (Para 25(a)(vi))</label><p>${v('rm-changes')}</p></div></div>
+      <div class="dbox"><div class="rf"><label>Enterprise Risk Management Integration (Para 25(c))</label><p>${v('rm-erm')}</p></div></div>
+    </div>
+  </div>
+
+  <div class="rpt-sec">
+    <div class="rpt-sec-hdr"><div class="rpt-sec-num">8</div>GHG Emissions — All Scopes<span class="rpt-para-ref">IFRS S2 Para 29(a) · Dec 2025 Amendment</span></div>
+    <div class="rpt-grid3">
+      <div class="rpt-metric"><div class="rpt-metric-val">${g.s1.toLocaleString()}</div><div class="rpt-metric-label">Scope 1 (tCO2e)<br>Direct — Consolidated Group</div></div>
+      <div class="rpt-metric"><div class="rpt-metric-val">${g.s2.toLocaleString()}</div><div class="rpt-metric-label">Scope 2 — Location-based (tCO2e)<br>Purchased Energy</div></div>
+      <div class="rpt-metric"><div class="rpt-metric-val">${g.s3.toLocaleString()}</div><div class="rpt-metric-label">Scope 3 (tCO2e)<br>All 15 Value Chain Categories</div></div>
+    </div>
+    <div class="rpt-total">
+      <div class="rpt-total-val">${g.total.toLocaleString()} tCO2e</div>
+      <div class="rpt-total-label">Total Absolute Gross GHG Emissions — ${v('c-period')}</div>
+    </div>
+    <div class="rpt-grid" style="margin-top:1rem;">
+      ${df('gh-std','Measurement Standard (Para 29(a)(ii))')}
+      ${df('gh-boundary','Organisational Boundary (Para B27)')}
+      ${df('gh-base','Base Year')}
+      ${df('gh-factors','Emission Factors (Para B29)')}
+      ${df('gas-gwp','GWP Values Used (Para B20–B22)')}
+      ${df('gh-verify','Third-party Verification')}
+      <div class="rf"><label>Scope 2 Market-based (Para 29(a)(v))</label><p>${v('s2-mkt')} tCO2e</p></div>
+      ${df('s2-contracts','Contractual Instruments (Para B31)')}
+      <div class="rf"><label>Scope 1 Other Investees (Para 29(a)(iv)(2))</label><p>${n('s1-other').toLocaleString()} tCO2e</p></div>
+    </div>
+    ${dbox('gh-reason','Measurement Approach Rationale (Para B27(b))')}
+    <div style="margin-top:1.25rem;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#999;margin-bottom:.5rem;">Scope 3 — All 15 Categories (Para 29(a)(vi))</div>
+    <table class="rpt-table">
+      <thead><tr><th>#</th><th>Category</th><th>tCO2e</th><th>Status</th><th>Method</th></tr></thead>
+      <tbody>${s3rows()}</tbody>
+      <tfoot><tr style="background:#e8f5ee;font-weight:700;"><td colspan="2" style="padding:.6rem .9rem;">Total Scope 3</td><td style="padding:.6rem .9rem;">${g.s3.toLocaleString()}</td><td colspan="2" style="font-size:.75rem;color:#2d9e5f;">Per Para 29(a)(i)(3)</td></tr></tfoot>
+    </table>
+    <div style="font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#999;margin-bottom:.5rem;margin-top:1rem;">GHG Species Breakdown — All 7 Kyoto Gases</div>
+    <div class="rpt-grid4">
+      <div class="rf"><label>CO2</label><p>${v('gas-co2')} tCO2e</p></div>
+      <div class="rf"><label>CH4</label><p>${v('gas-ch4')} tCO2e</p></div>
+      <div class="rf"><label>N2O</label><p>${v('gas-n2o')} tCO2e</p></div>
+      <div class="rf"><label>HFCs</label><p>${v('gas-hfc')} tCO2e</p></div>
+      <div class="rf"><label>PFCs</label><p>${v('gas-pfc')} tCO2e</p></div>
+      <div class="rf"><label>SF6</label><p>${v('gas-sf6')} tCO2e</p></div>
+      <div class="rf"><label>NF3</label><p>${v('gas-nf3')} tCO2e</p></div>
+      <div class="rf"><label>GWP Values</label><p>${v('gas-gwp')}</p></div>
+    </div>
+  </div>
+
+  <div class="rpt-sec">
+    <div class="rpt-sec-hdr"><div class="rpt-sec-num">9</div>Cross-Industry Metric Categories<span class="rpt-para-ref">IFRS S2 Para 29(b–g)</span></div>
+    <div class="rpt-grid4">
+      <div class="rpt-metric"><div class="rpt-metric-val">${v('m-trans-pct')}%</div><div class="rpt-metric-label">Assets at Transition Risk (Para 29(b))</div></div>
+      <div class="rpt-metric"><div class="rpt-metric-val">${v('m-phys-pct')}%</div><div class="rpt-metric-label">Assets at Physical Risk (Para 29(c))</div></div>
+      <div class="rpt-metric"><div class="rpt-metric-val">${v('m-opp-pct')}%</div><div class="rpt-metric-label">Assets at Climate Opportunities (Para 29(d))</div></div>
+      <div class="rpt-metric"><div class="rpt-metric-val">${v('m-re-pct')}%</div><div class="rpt-metric-label">Renewable Energy Share</div></div>
+    </div>
+    <div class="rpt-grid">
+      ${df('m-trans-amt','Transition Risk Asset Amount (Para 29(b))')}
+      ${df('m-phys-amt','Physical Risk Asset Amount (Para 29(c))')}
+      ${df('m-opp-amt','Climate Opportunity Asset Amount (Para 29(d))')}
+      ${df('m-capex','Capital Deployed to Climate (Para 29(e))')}
+      <div class="rf"><label>Total Energy Consumption</label><p>${v('m-energy')} MWh</p></div>
+      <div class="rf"><label>Renewable Energy</label><p>${v('m-re')} MWh</p></div>
+      ${df('m-water','Water Consumption')}
+      ${df('m-waste','Waste Generated')}
+    </div>
+  </div>
+
+  <div class="rpt-sec">
+    <div class="rpt-sec-hdr"><div class="rpt-sec-num">10</div>Climate Targets & Performance<span class="rpt-para-ref">IFRS S2 Para 33–37</span></div>
+    <div class="rpt-grid">
+      ${df('t-netzero','Net-Zero Target Year (Para 33)')}
+      ${df('t-type','Target Type (Para 33(g))')}
+      ${df('t-scopes','Scopes Covered (Para 36(b))')}
+      ${df('t-gases','GHG Species Covered (Para 36(a))')}
+      ${df('t-base','Base Period (Para 33(e))')}
+      ${df('t-objective','Target Objective (Para 33(b))')}
+      ${df('t-sda','Sectoral Decarbonisation (Para 36(d))')}
+      ${df('t-sbti','SBTi Status')}
+    </div>
+    <div style="background:#e8f5ee;border:1px solid #2d9e5f;border-radius:.65rem;padding:1.1rem;margin-top:.75rem;">
+      <div style="font-size:.8rem;font-weight:700;color:#0a2e1a;margin-bottom:.5rem;">Gross vs Net GHG Target Disclosure (Para 36(c))</div>
+      <div class="rpt-grid">
+        <div class="rf"><label>Gross GHG Emissions Target</label><p>${v('t-gross')}</p></div>
+        <div class="rf"><label>Net GHG Emissions Target</label><p>${v('t-net')}</p></div>
+      </div>
+    </div>
+    ${dbox('t-milestones','Milestones & Interim Targets (Para 33(f))')}
+    ${dbox('t-paris','How Paris Agreement Informed Target (Para 33(h))')}
+    <div style="background:#fff8f0;border:1px solid #e0b060;border-radius:.65rem;padding:1.1rem;margin-top:.75rem;">
+      <div style="font-size:.8rem;font-weight:700;color:#7a4800;margin-bottom:.5rem;">Carbon Credits — Planned Use (Para 36(e) · B70–B71)</div>
+      <div class="rpt-grid">
+        ${df('t-credits-scheme','Credit Scheme(s) (Para 36(e)(ii))')}
+        ${df('t-credits-type','Credit Type (Para 36(e)(iii))')}
+        ${df('t-credits-rr','Reduction vs Removal (Para 36(e)(iii))')}
+      </div>
+      <div class="rf" style="margin-top:.5rem;"><label>Extent of Reliance on Credits (Para 36(e)(i))</label><p>${v('t-credits-extent')}</p></div>
+    </div>
+    <div class="rpt-grid" style="margin-top:.75rem;">
+      ${df('t-validated','Third-party Validation (Para 34(a))')}
+      ${df('t-review','Target Review Process (Para 34(b))')}
+    </div>
+    ${dbox('t-performance','Performance Against Targets This Period (Para 35)')}
+    ${dbox('t-revisions','Target Revisions & Explanation (Para 34(d))')}
+  </div>
+
+  <div class="rpt-disclaimer">
+    <strong>IFRS S2 Compliance Statement:</strong> This report has been prepared in accordance with IFRS S2 Climate-related Disclosures (June 2023, effective 1 Jan 2024) incorporating December 2025 Amendments to Greenhouse Gas Emissions Disclosures (effective 1 Jan 2027, early application permitted). All four IFRS S2 pillars are covered: Governance (Para 5–7), Strategy (Para 8–23), Risk Management (Para 24–26), and Metrics & Targets (Para 27–37), including all six cross-industry metric categories (Para 29(b–g)), all 15 Scope 3 categories per the GHG Protocol Corporate Value Chain Standard (2011), mandatory climate resilience and scenario analysis (Para 22), and the gross vs net GHG target distinction (Para 36(c)). Generated: ${today}. This report should be reviewed by qualified sustainability professionals and legal counsel before external publication.
+  </div>`;
+
+  document.getElementById('rpt-content').innerHTML=html;
+  document.getElementById('app').style.display='none';
+  document.getElementById('rpt').classList.add('on');
+  window.scrollTo(0,0);
+}
+
+function issb_backToForm(){
+  document.getElementById('app').style.display='grid';
+  document.getElementById('rpt').classList.remove('on');
+}
+
+// ADVISOR SCRIPTS
+
+const SYS = `You are Sage, an expert AI sustainability advisor for ReGenesis Impact — a leading sustainability SaaS platform for large corporations. You are a world-class expert in:
+
+DISCLOSURE FRAMEWORKS: IFRS S1 & S2 (including December 2025 amendments — Para 29A-29C financed emissions, Para C1A measurement methods), GRI Standards (Universal, Economic, Environmental, Social Series), TCFD, BRSR & BRSR Core (India-specific, SEBI mandated), CDP, CSRD (EU Corporate Sustainability Reporting Directive), SEC Climate Disclosure Rules (US)
+
+CARBON & EMISSIONS: GHG Protocol Corporate Standard & Scope 3 Standard (all 15 categories), SBTi Corporate Net-Zero Standard & 1.5C pathway, Net-Zero transition planning (TPT Transition Plan Taskforce framework), GHG measurement, verification and assurance, ISO 14064
+
+CARBON MARKETS: Voluntary Carbon Markets (VCM), Article 6 Paris Agreement (6.2 bilateral & 6.4 mechanism), Gold Standard, Verra VCS, ACR, CAR registry standards, PCAF methodology for financed emissions, nature-based solutions (NBS), technology-based carbon removal (BECCS, DACCS), Integrity Council for Voluntary Carbon Markets (ICVCM)
+
+RISK & STRATEGY: Physical and transition climate risk assessment, scenario analysis (IEA NZE 2050, IPCC SSP pathways), TNFD nature-related disclosures, climate resilience assessment methodology, internal carbon pricing design, stranded asset analysis
+
+ESG RATINGS & INVESTOR RELATIONS: MSCI ESG ratings methodology, Sustainalytics ESG Risk Ratings, S&P SAM/DJSI Corporate Sustainability Assessment, ISS ESG, CDP scoring (A-D), investor engagement on climate (PRI, TCFD signatories), proxy voting implications
+
+INDIA-SPECIFIC: BRSR (Business Responsibility and Sustainability Reporting) mandatory for top 1000 listed companies, BRSR Core (top 150, assured disclosures), SEBI ESG regulations, Indian carbon market (CCTS) development, India NDC implications for corporates, BEE PAT scheme, RPO obligations
+
+Response guidelines:
+- Be authoritative, precise and actionable — not vague or generic
+- Always cite specific paragraph/section references (e.g. "IFRS S2 Para 29(a)(vi) requires...", "GRI 305-3 covers...", "BRSR Principle 6...")
+- Use **bold** for key terms and concepts
+- Use clear structure with headings for complex answers
+- Provide specific, actionable next steps
+- When relevant, note how ReGenesis Impact's platform tools can help (ISSB Report Generator covers all Para 5-37 requirements, GHG Calculator for Scope 1/2/3, ESG Dashboard for tracking)
+- End complex responses with a relevant follow-up question
+
+IFRS SNIPPET MODE: When user asks to generate a disclosure snippet OR snippet mode is active (indicated by [SNIPPET MODE ACTIVE]), generate professional, formal disclosure text ready to use in an annual report. Wrap it EXACTLY like this:
+[SNIPPET_START]
+[The formal disclosure text here — multiple paragraphs, professional tone, IFRS-compliant language]
+[SNIPPET_END]
+Include the IFRS S2 paragraph reference this snippet satisfies.
+
+DOCUMENT ANALYSIS MODE: When [DOCUMENT UPLOADED: filename] appears, the user has uploaded a sustainability report. Perform a thorough IFRS S2 gap analysis: identify what's covered, what's missing, what's incomplete, and provide a prioritised action plan. Be specific and reference actual IFRS S2 paragraphs.`;
+
+let hist = [], isLoading = false, snippetMode = false;
+let upFile = null, upContent = null;
+let recog = null, isRec = false;
+let chatHist = [];
+try { chatHist = JSON.parse(localStorage.getItem('sage-h') || '[]'); } catch(e){}
+
+function msgsEl() { return document.getElementById('msgs'); }
+function inp() { return document.getElementById('msg-input'); }
+function sb() { return document.getElementById('send-btn'); }
+function wel() { return document.getElementById('welcome'); }
+
+function initSage() {
+renderHist();
+setTimeout(() => {
+  addMsg('ai', `**Welcome to ReGenesis Impact's AI Advisory Platform.**\n\nI'm **Sage** — your expert sustainability advisor with deep expertise across IFRS S1 & S2, GRI, TCFD, BRSR, SBTi, carbon markets, and net-zero strategy.\n\n**What I can do for you:**\n- 📋 **Generate IFRS S2 disclosure snippets** ready to paste into your annual report\n- 📄 **Analyse uploaded sustainability reports** for ESG gaps against IFRS S2\n- 🎤 **Accept voice questions** — just click the microphone\n- ⬇ **Export this conversation** as a formatted PDF for your team\n\n*What sustainability challenge can I help you tackle today?*`);
+}, 650);
+}
+
+// Sidebar tabs
+function stab(t) {
+  document.querySelectorAll('.sb-tab').forEach((el,i) => el.classList.toggle('on', ['ask','exp','hist'][i]===t));
+  document.querySelectorAll('.sb-panel').forEach(p => p.classList.remove('on'));
+  document.getElementById('sp-'+t).classList.add('on');
+}
+
+// Snippet mode
+function toggleSnip() {
+  snippetMode = !snippetMode;
+  const b = document.getElementById('snip-btn');
+  b.classList.toggle('on', snippetMode);
+  b.textContent = snippetMode ? '✅ Snippet Mode ON' : '📋 IFRS Snippet Mode';
+}
+
+// File upload
+function handleFile(el) {
+  const f = el.files[0]; if (!f) return;
+  upFile = f;
+  document.getElementById('fname').textContent = '📄 ' + f.name;
+  document.getElementById('finfo').classList.add('on');
+  const r = new FileReader();
+  r.onload = e => { upContent = (e.target.result || '').substring(0, 9000); };
+  if (f.type === 'text/plain') r.readAsText(f);
+  else upContent = `[PDF: ${f.name}, ${Math.round(f.size/1024)}KB — analysing structure and content]`;
+}
+function rmFile() {
+  upFile = null; upContent = null;
+  document.getElementById('finfo').classList.remove('on');
+  document.getElementById('file-in').value = '';
+}
+
+// Voice
+function toggleVoice() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { alert('Voice input requires Chrome or Edge browser.'); return; }
+  if (isRec) { recog?.stop(); return; }
+  recog = new SR();
+  recog.continuous = false; recog.interimResults = true; recog.lang = 'en-US';
+  recog.onstart = () => { isRec = true; const b = document.getElementById('vbtn'); b.classList.add('rec'); b.textContent = '⏹'; };
+  recog.onresult = e => { inp().value = Array.from(e.results).map(r=>r[0].transcript).join(''); arz(inp()); ucc(); };
+  recog.onend = () => { isRec = false; const b = document.getElementById('vbtn'); b.classList.remove('rec'); b.textContent = '🎤'; if(inp().value.trim()) send(); };
+  recog.onerror = () => { isRec = false; document.getElementById('vbtn').classList.remove('rec'); document.getElementById('vbtn').textContent = '🎤'; };
+  recog.start();
+}
+
+function ucc() { const l = inp().value.length; document.getElementById('cc').textContent = l+' / 1000'; sb().disabled = l===0||isLoading; }
+function arz(el) { el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,108)+'px'; }
+function hkey(e) { if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); if(!sb().disabled) send(); } }
+function gt() { return new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}); }
+
+function addMsg(role, content, fc=null) {
+  if(wel()) wel().style.display='none';
+  const m = document.createElement('div');
+  m.className = 'msg '+role;
+  const av = role==='ai' ? '<div class="mav">🌿</div>' : '<div class="mav">S</div>';
+  const nm = role==='ai' ? 'SAGE · AI ADVISOR' : 'YOU';
+
+  // Extract snippet
+  let body = content, snipHTML = '';
+  const sm = content.match(/\[SNIPPET_START\]([\s\S]*?)\[SNIPPET_END\]/);
+  if (sm) {
+    const snip = sm[1].trim();
+    body = content.replace(/\[SNIPPET_START\][\s\S]*?\[SNIPPET_END\]/, '');
+    const escaped = snip.replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/\$/g,'\\$');
+    snipHTML = `<div class="snip-card"><div class="snip-hdr"><span class="snip-title">📋 IFRS S2 DISCLOSURE SNIPPET — READY TO USE</span><button class="snip-copy" onclick="cpSnip(this,\`${escaped}\`)">Copy</button></div><div class="snip-body">${snip.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div></div>`;
+  }
+
+  const fcHTML = fc ? `<div class="fcard"><div class="fcard-ic">📄</div><div class="fcard-info"><div class="fcard-nm">${fc.n}</div><div class="fcard-sz">${fc.s}</div></div><div class="fcard-badge">ANALYSING</div></div>` : '';
+  m.innerHTML = `${av}<div class="mbody"><div class="mname">${nm}</div>${fcHTML}<div class="mbub">${fmt(body)}${snipHTML}</div><div class="mtime">${gt()}</div></div>`;
+  msgsEl().appendChild(m);
+  msgsEl().scrollTop = msgsEl().scrollHeight;
+}
+
+function fmt(t) {
+  return t
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/^### (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^## (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^# (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^[-*] (.+)$/gm,'<li>$1</li>')
+    .replace(/`([^`]+)`/g,'<code>$1</code>')
+    .replace(/\n\n/g,'<br><br>')
+    .replace(/\n/g,'<br>');
+}
+
+function cpSnip(btn, txt) {
+  navigator.clipboard.writeText(txt).then(()=>{ btn.textContent='✓ Copied!'; setTimeout(()=>btn.textContent='Copy',2000); });
+}
+
+function showTyping() {
+  const el = document.createElement('div');
+  el.className = 'typing'; el.id = 'tind';
+  el.innerHTML = `<div class="mav" style="width:33px;height:33px;background:linear-gradient(135deg,#1a5c35,#2d9e5f);border:1.5px solid rgba(126,217,87,.28);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.82rem;">🌿</div><div class="tdots"><span></span><span></span><span></span></div>`;
+  msgsEl().appendChild(el); msgsEl().scrollTop = msgsEl().scrollHeight;
+}
+function hideTyping() { document.getElementById('tind')?.remove(); }
+
+async function send() {
+  const txt = inp().value.trim(); if(!txt||isLoading) return;
+  let userMsg = txt, fc = null;
+  if (upFile) {
+    userMsg = `[DOCUMENT UPLOADED: ${upFile.name}]\n\n${upContent||''}\n\nUser instruction: ${txt}`;
+    fc = { n: upFile.name, s: Math.round(upFile.size/1024)+' KB' };
+    rmFile();
+  }
+  if (snippetMode) userMsg = '[SNIPPET MODE ACTIVE — generate a professional IFRS S2 disclosure snippet]\n\n'+userMsg;
+
+  inp().value = ''; inp().style.height='auto'; ucc();
+  isLoading=true; sb().disabled=true;
+  addMsg('user', txt, fc);
+  hist.push({role:'user',content:userMsg});
+
+  // Save history
+  chatHist.unshift({q:txt.substring(0,58), t:gt()});
+  if(chatHist.length>20) chatHist.pop();
+  try{ localStorage.setItem('sage-h', JSON.stringify(chatHist)); }catch(e){}
+  renderHist();
+
+  showTyping();
+  try {
+    const res = await fetch('https://sageai.suranjan104.workers.dev',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:SYS,messages:hist})
+    });
+    const d = await res.json(); hideTyping();
+    const reply = d.content?.[0]?.text || "I couldn't process that. Please try again.";
+    hist.push({role:'assistant',content:reply});
+    addMsg('ai', reply);
+  } catch(e) { hideTyping(); addMsg('ai',"Connection issue. Please check your internet and try again."); }
+  isLoading=false; sb().disabled=false; inp().focus();
+}
+
+function askQ(q) { inp().value=q; arz(inp()); ucc(); send(); }
+function aq(el) { askQ(el.textContent.replace(/^→ /,'')); }
+
+function renderHist() {
+  const el = document.getElementById('hist-list');
+  if(!chatHist.length){ el.innerHTML='<div style="font-size:.72rem;color:rgba(245,240,232,.26);text-align:center;padding:1.3rem 0;">No history yet.<br>Start a conversation!</div>'; return; }
+  el.innerHTML = chatHist.map(h=>`<div class="hist-item" onclick="askQ(${JSON.stringify(h.q)})"><div class="hq">${h.q}${h.q.length>=58?'...':''}</div><div class="ht">${h.t}</div></div>`).join('');
+}
+
+function clearChat() {
+  hist = [];
+  while(msgsEl().firstChild) msgsEl().removeChild(msgsEl().firstChild);
+  wel().style.display='flex'; msgsEl().appendChild(wel);
+  setTimeout(()=>{ addMsg('ai',"**New conversation started.** How can I help with your sustainability journey today? 🌿"); },400);
+}
+
+// Export
+function showExport(){ document.getElementById('exp-modal').classList.add('on'); }
+function hideExport(){ document.getElementById('exp-modal').classList.remove('on'); }
+function doExport() {
+  hideExport();
+  const msgs = Array.from(document.querySelectorAll('.msg'));
+  let html = `<html><head><meta charset="UTF-8"><style>
+    body{font-family:Georgia,serif;max-width:780px;margin:40px auto;padding:0 28px;color:#1a1a1a;line-height:1.65}
+    h1{color:#0a2e1a;border-bottom:3px solid #2d9e5f;padding-bottom:10px;font-size:1.8rem}
+    .meta{font-size:11px;color:#999;margin:6px 0 28px;font-family:monospace}
+    .msg{margin-bottom:18px;padding:14px 16px;border-radius:8px}
+    .ai{background:#f0f8f4;border-left:4px solid #2d9e5f}
+    .user{background:#f5f5f5;border-left:4px solid #aaa}
+    .role{font-size:10px;font-weight:bold;text-transform:uppercase;letter-spacing:1px;margin-bottom:7px;color:#888}
+    .ai .role{color:#2d9e5f}
+    strong{color:#0a2e1a}
+    code{background:#e8f5ee;padding:2px 5px;border-radius:3px;font-family:monospace;font-size:12px}
+    .snip-card{background:#e8f5ee;border:1px solid #2d9e5f;border-radius:6px;padding:12px;margin-top:10px}
+    .snip-title{font-size:10px;font-family:monospace;color:#2d9e5f;display:block;margin-bottom:6px;font-weight:bold}
+    .snip-body{font-family:monospace;font-size:12px;color:#333;border-left:2px solid #2d9e5f;padding-left:10px}
+    .footer{margin-top:36px;padding-top:16px;border-top:1px solid #ddd;font-size:10px;color:#bbb;text-align:center}
+  </style></head><body>
+  <h1>🌿 ReGenesis Impact — Sage AI Advisor</h1>
+  <div class="meta">Chat Export · ${new Date().toLocaleDateString('en-GB',{weekday:'long',year:'numeric',month:'long',day:'numeric'})} · regenesisimpact.in</div>`;
+
+  msgs.forEach(m => {
+    const isAI = m.classList.contains('ai');
+    const bub = m.querySelector('.mbub');
+    if(!bub) return;
+    html += `<div class="msg ${isAI?'ai':'user'}"><div class="role">${isAI?'🌿 Sage — AI Sustainability Advisor':'You'}</div><div>${bub.innerHTML}</div></div>`;
+  });
+  html += `<div class="footer">Generated by ReGenesis Impact · regenesisimpact.in · Sage provides guidance based on public ESG frameworks. Always verify with qualified sustainability professionals for formal reporting.</div></body></html>`;
+
+  const w = window.open('','_blank');
+  w.document.write(html); w.document.close();
+  setTimeout(()=>w.print(), 500);
+}
+
+</script>
+</body>
+</html>
