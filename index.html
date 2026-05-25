@@ -1338,12 +1338,133 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
 
 
 .trial-section{text-align:center}.trial-inner{max-width:860px;margin:0 auto}.trial-sub{font-size:.95rem;color:rgba(245,240,232,.55);line-height:1.75;max-width:600px;margin:0 auto 3rem}.trial-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-bottom:3rem;text-align:left}.trial-card{background:rgba(0,0,0,.3);border:1px solid rgba(45,158,95,.15);border-radius:.5rem;padding:1.75rem;transition:border-color .2s}.trial-card:hover{border-color:rgba(126,217,87,.3)}.trial-card-icon{font-size:1.75rem;margin-bottom:.75rem}.trial-card-title{font-weight:600;font-size:.9rem;color:#f5f0e8;margin-bottom:.5rem}.trial-card-desc{font-size:.78rem;color:rgba(245,240,232,.5);line-height:1.65}.trial-cta-wrap{display:flex;flex-direction:column;align-items:center;gap:1rem}.trial-cta-note{font-size:.78rem;color:rgba(245,240,232,.4)}.trial-cta-note a{text-decoration:none}.trial-cta-note a:hover{text-decoration:underline}
+
+/* ===== AGENTIC LEAD SYSTEM STYLES ===== */
+
+/* — Regulatory Alert Bar — */
+#reg-alert-bar{position:fixed;top:64px;left:0;right:0;z-index:190;transform:translateY(-100%);transition:transform .4s cubic-bezier(.16,1,.3,1);pointer-events:none}
+#reg-alert-bar.visible{transform:translateY(0);pointer-events:all}
+.rab-inner{display:flex;align-items:center;justify-content:space-between;padding:.55rem 2.5rem;gap:1rem;flex-wrap:wrap}
+.rab-alerts{display:flex;align-items:center;gap:0;overflow:hidden;position:relative;flex:1;min-height:32px}
+.rab-item{position:absolute;inset:0;display:flex;align-items:center;gap:.75rem;opacity:0;transition:opacity .5s;pointer-events:none}
+.rab-item.rab-active{opacity:1;pointer-events:all}
+.rab-flag{font-size:1rem;flex-shrink:0}
+.rab-text{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.04em;color:rgba(240,237,232,.85);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rab-text strong{color:#00e87a;font-weight:700}
+.rab-cta{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;color:#00e87a;border:1px solid rgba(0,232,122,.25);padding:.3rem .8rem;border-radius:2rem;background:rgba(0,232,122,.06);cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0}
+.rab-cta:hover{background:rgba(0,232,122,.12);border-color:rgba(0,232,122,.4)}
+.rab-dismiss{background:none;border:none;color:rgba(240,237,232,.3);font-size:.9rem;cursor:pointer;padding:.25rem .5rem;flex-shrink:0;transition:color .2s}
+.rab-dismiss:hover{color:rgba(240,237,232,.6)}
+.rab-dot{width:5px;height:5px;border-radius:50%;background:#00e87a;animation:pulse 2s infinite;flex-shrink:0}
+
+/* — Proactive Sage Chat — */
+#sage-lead-chat{position:fixed;bottom:6rem;right:1.75rem;z-index:410;width:340px;max-height:520px;background:rgba(4,12,6,0.97);border:1px solid rgba(0,232,122,.18);border-radius:1rem;box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 40px rgba(0,232,122,.06);display:flex;flex-direction:column;overflow:hidden;transition:all .35s cubic-bezier(.16,1,.3,1);transform:scale(.92) translateY(12px);opacity:0;pointer-events:none}
+#sage-lead-chat.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all}
+.slc-header{display:flex;align-items:center;gap:.75rem;padding:.9rem 1.1rem;border-bottom:1px solid rgba(0,232,122,.1);background:rgba(0,232,122,.04);flex-shrink:0}
+.slc-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#0a1f0f,#00e87a20);border:1.5px solid rgba(0,232,122,.3);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.slc-title{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.08em;color:#00e87a}
+.slc-sub{font-size:.65rem;color:rgba(240,237,232,.4);margin-top:.1rem}
+.slc-close{background:none;border:none;color:rgba(240,237,232,.3);font-size:1rem;cursor:pointer;margin-left:auto;padding:.25rem;transition:color .2s}
+.slc-close:hover{color:rgba(240,237,232,.7)}
+#slc-messages{flex:1;overflow-y:auto;padding:.9rem 1rem;display:flex;flex-direction:column;gap:.6rem;scroll-behavior:smooth}
+#slc-messages::-webkit-scrollbar{width:3px}
+#slc-messages::-webkit-scrollbar-track{background:transparent}
+#slc-messages::-webkit-scrollbar-thumb{background:rgba(0,232,122,.2);border-radius:2px}
+.slc-msg{max-width:85%;padding:.6rem .85rem;border-radius:.65rem;font-size:.82rem;line-height:1.55;animation:fadeUp .3s ease}
+.slc-msg-sage{background:rgba(0,232,122,.07);border:1px solid rgba(0,232,122,.12);color:rgba(240,237,232,.9);border-radius:.65rem .65rem .65rem 0;align-self:flex-start}
+.slc-msg-user{background:rgba(0,232,122,.12);border:1px solid rgba(0,232,122,.2);color:rgba(240,237,232,.95);border-radius:.65rem .65rem 0 .65rem;align-self:flex-end}
+.slc-typing{display:flex;gap:.3rem;align-items:center;padding:.6rem .85rem;background:rgba(0,232,122,.07);border:1px solid rgba(0,232,122,.12);border-radius:.65rem .65rem .65rem 0;align-self:flex-start;width:fit-content}
+.slc-typing span{width:6px;height:6px;background:#00e87a;border-radius:50%;animation:slcBounce 1.2s ease-in-out infinite}
+.slc-typing span:nth-child(2){animation-delay:.2s}
+.slc-typing span:nth-child(3){animation-delay:.4s}
+@keyframes slcBounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+#slc-options{padding:.6rem 1rem;display:flex;flex-wrap:wrap;gap:.45rem;flex-shrink:0;border-top:1px solid rgba(0,232,122,.06)}
+.slc-opt{background:rgba(0,232,122,.06);border:1px solid rgba(0,232,122,.18);color:rgba(240,237,232,.8);font-size:.75rem;font-family:'DM Mono',monospace;letter-spacing:.04em;padding:.45rem .85rem;border-radius:.4rem;cursor:pointer;transition:all .2s;text-align:left}
+.slc-opt:hover{background:rgba(0,232,122,.12);border-color:rgba(0,232,122,.35);color:#00e87a}
+#slc-input-wrap{padding:.75rem 1rem;border-top:1px solid rgba(0,232,122,.08);display:none;gap:.5rem;align-items:center}
+#slc-input-wrap.show{display:flex}
+#slc-email-input{flex:1;background:rgba(0,0,0,.4);border:1px solid rgba(0,232,122,.2);border-radius:.4rem;padding:.5rem .75rem;color:#f0ede8;font-family:'DM Sans',sans-serif;font-size:.82rem;outline:none}
+#slc-email-input:focus{border-color:rgba(0,232,122,.4)}
+#slc-send-btn{background:#00e87a;color:#030a06;border:none;padding:.5rem .9rem;border-radius:.4rem;font-family:'DM Mono',monospace;font-size:.7rem;font-weight:700;cursor:pointer;transition:all .2s}
+#slc-send-btn:hover{background:#00ff8c}
+.slc-progress{height:2px;background:rgba(0,232,122,.08);flex-shrink:0}
+.slc-progress-fill{height:100%;background:linear-gradient(90deg,#00e87a,#0affdb);transition:width .4s ease}
+
+/* — Smart Lead Modal — */
+#lead-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:9998;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+#lead-modal.open{display:flex}
+.lm-box{background:#040d08;border:1px solid rgba(0,232,122,.2);border-radius:1rem;padding:2.5rem;width:100%;max-width:520px;position:relative;max-height:90vh;overflow-y:auto}
+.lm-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:rgba(240,237,232,.3);font-size:1.2rem;cursor:pointer;transition:color .2s}
+.lm-close:hover{color:rgba(240,237,232,.7)}
+.lm-step{display:none;animation:fadeUp .3s ease}
+.lm-step.active{display:block}
+.lm-eyebrow{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.15em;color:#00e87a;text-transform:uppercase;margin-bottom:.5rem}
+.lm-title{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;color:#f0ede8;margin-bottom:.35rem}
+.lm-sub{font-size:.85rem;color:rgba(240,237,232,.5);margin-bottom:1.75rem;line-height:1.6}
+.lm-progress{display:flex;gap:.4rem;margin-bottom:2rem}
+.lm-progress-dot{flex:1;height:3px;border-radius:2px;background:rgba(0,232,122,.15);transition:background .3s}
+.lm-progress-dot.done{background:#00e87a}
+.lm-progress-dot.active{background:rgba(0,232,122,.5)}
+.lm-market-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.75rem}
+.lm-market-tile{background:rgba(5,15,7,.7);border:1px solid rgba(0,232,122,.12);border-radius:.6rem;padding:1.25rem 1rem;cursor:pointer;transition:all .25s;text-align:center}
+.lm-market-tile:hover{border-color:rgba(0,232,122,.3);background:rgba(0,232,122,.06)}
+.lm-market-tile.selected{border-color:#00e87a;background:rgba(0,232,122,.1);box-shadow:0 0 16px rgba(0,232,122,.1)}
+.lm-market-flag{font-size:1.75rem;margin-bottom:.5rem}
+.lm-market-name{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:600;color:#f0ede8;margin-bottom:.2rem}
+.lm-market-sub{font-size:.68rem;color:rgba(240,237,232,.4);font-family:'DM Mono',monospace}
+.lm-check-grid{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.75rem}
+.lm-check-item{display:flex;align-items:center;gap:.75rem;padding:.7rem .9rem;border:1px solid rgba(0,232,122,.1);border-radius:.5rem;cursor:pointer;transition:all .2s}
+.lm-check-item:hover{border-color:rgba(0,232,122,.25);background:rgba(0,232,122,.04)}
+.lm-check-item.selected{border-color:rgba(0,232,122,.35);background:rgba(0,232,122,.08)}
+.lm-check-item input{display:none}
+.lm-check-box{width:16px;height:16px;border:1px solid rgba(0,232,122,.3);border-radius:.25rem;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.65rem;color:#00e87a;transition:all .2s}
+.lm-check-item.selected .lm-check-box{background:#00e87a;color:#030a06;border-color:#00e87a}
+.lm-check-label{font-size:.85rem;color:rgba(240,237,232,.8);flex:1}
+.lm-check-tag{font-family:'DM Mono',monospace;font-size:.62rem;color:rgba(240,237,232,.35);letter-spacing:.04em}
+.lm-field{margin-bottom:1rem}
+.lm-field label{display:block;font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.1em;color:rgba(240,237,232,.5);text-transform:uppercase;margin-bottom:.4rem}
+.lm-field input,.lm-field select{width:100%;background:rgba(0,0,0,.4);border:1px solid rgba(0,232,122,.15);border-radius:.4rem;padding:.7rem .9rem;color:#f0ede8;font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;transition:border .2s;box-sizing:border-box}
+.lm-field input:focus,.lm-field select:focus{border-color:rgba(0,232,122,.4)}
+.lm-field select{cursor:pointer}
+.lm-field select option{background:#040d08}
+.lm-nav{display:flex;justify-content:space-between;align-items:center;margin-top:.5rem}
+.lm-back{background:none;border:1px solid rgba(240,237,232,.1);color:rgba(240,237,232,.4);padding:.6rem 1.25rem;border-radius:.35rem;font-family:'DM Mono',monospace;font-size:.72rem;cursor:pointer;transition:all .2s}
+.lm-back:hover{border-color:rgba(240,237,232,.25);color:rgba(240,237,232,.7)}
+.lm-next{background:#00e87a;color:#030a06;border:none;padding:.7rem 1.75rem;border-radius:.35rem;font-family:'DM Mono',monospace;font-size:.75rem;font-weight:700;letter-spacing:.06em;cursor:pointer;transition:all .2s}
+.lm-next:hover{background:#00ff8c;transform:translateY(-1px)}
+.lm-success-icon{font-size:3rem;text-align:center;margin-bottom:1rem}
+.lm-score-bar{height:6px;background:rgba(0,232,122,.1);border-radius:3px;margin:1rem 0;overflow:hidden}
+.lm-score-fill{height:100%;background:linear-gradient(90deg,#00e87a,#0affdb);border-radius:3px;transition:width 1s ease}
+.lm-score-label{display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:.65rem;color:rgba(240,237,232,.4)}
 </style>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
+<!-- REGULATORY ALERT BAR -->
+<div id="reg-alert-bar">
+  <div class="rab-inner" style="background:rgba(3,10,6,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,232,122,0.1)">
+    <div class="rab-dot"></div>
+    <div class="rab-alerts" id="rab-alerts">
+      <div class="rab-item rab-active" data-market="au">
+        <span class="rab-flag">🇦🇺</span>
+        <span class="rab-text"><strong>AASB S2 Mandatory</strong> — Group 1 entities (>$500M) must report from 1 Jan 2025. Are you compliant?</span>
+      </div>
+      <div class="rab-item" data-market="sg">
+        <span class="rab-flag">🇸🇬</span>
+        <span class="rab-text"><strong>SGX Climate Reporting</strong> — ISSB S2 mandatory for large-cap SGX-listed companies from FY2024. Deadline active.</span>
+      </div>
+      <div class="rab-item" data-market="in">
+        <span class="rab-flag">🇮🇳</span>
+        <span class="rab-text"><strong>SEBI BRSR Core</strong> — Assurance required for top 150 listed companies from FY2023-24. Top 1000 from FY2022-23.</span>
+      </div>
+    </div>
+    <button class="rab-cta" onclick="openLeadModal('regulatory_alert')">Check Compliance →</button>
+    <button class="rab-dismiss" onclick="dismissRegAlertBar()" title="Dismiss">✕</button>
+  </div>
+</div>
+
 <!-- BIOPUNK AMBIENT -->
 <canvas class="mycelium-canvas" id="mycelium-canvas"></canvas>
 <div class="bio-blob bio-blob-1"></div>
