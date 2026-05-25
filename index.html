@@ -25,7 +25,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.regenesisimpact.in/">
 <meta property="og:title" content="ReGenesis Impact — AI-Powered ESG & Climate Reporting Platform">
-<meta property="og:description" content="Generate ISSB S2 disclosures, GHG inventories, TCFD scenario analysis and tokenise carbon credits. India's most comprehensive sustainability intelligence platform.">
+<meta property="og:description" content="AI-powered ESG & climate reporting platform for Singapore (MAS · SGX), Australia (AASB S2 · APRA) and India (BRSR · ISSB S2). Generate disclosures, GHG inventories, TCFD scenario analysis and tokenise carbon credits.">
 <meta property="og:image" content="https://www.regenesisimpact.in/og-image.png">
 <meta property="og:site_name" content="ReGenesis Impact">
 <meta property="og:locale" content="en_IN">
@@ -147,7 +147,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2.5rem;display
 .nav-dropdown-wrap{position:relative}
 .nav-dropdown-btn{color:rgba(245,240,232,.7);text-decoration:none;font-size:.875rem;font-weight:500;letter-spacing:.04em;transition:color .2s;background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;padding:0}
 .nav-dropdown-btn:hover,.nav-dropdown-btn.open{color:var(--lime)}
-.nav-dropdown-menu{display:none;position:absolute;top:calc(100% + .75rem);left:50%;transform:translateX(-50%);background:rgba(10,46,26,0.98);border:1px solid rgba(126,217,87,0.2);border-radius:.6rem;padding:.5rem;min-width:210px;z-index:500;box-shadow:0 12px 40px rgba(0,0,0,.5);list-style:none;backdrop-filter:blur(12px)}
+.nav-dropdown-menu{display:none;position:absolute;top:calc(100% + .75rem);left:50%;transform:translateX(-50%);background:rgba(3,10,6,0.98);border:1px solid rgba(0,232,122,0.2);border-radius:.6rem;padding:.5rem;min-width:210px;z-index:500;box-shadow:0 12px 40px rgba(0,0,0,.5);list-style:none;backdrop-filter:blur(12px)}
 .nav-dropdown-menu.open{display:block;animation:fadeUp .15s ease}
 .nav-dropdown-menu li button{display:flex;width:100%;text-align:left;padding:.6rem .9rem;border-radius:.4rem;background:none;border:none;color:rgba(245,240,232,.7);font-size:.82rem;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .2s;gap:.5rem;align-items:center;white-space:nowrap}
 .nav-dropdown-menu li button:hover{background:rgba(0,232,122,.08);color:var(--bio)}
@@ -612,11 +612,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2.5rem;display
 
 /* ===== ISSB CSS ===== */
 
-:root{--forest:#0a2e1a;--moss:#1a5c35;--leaf:#2d9e5f;--lime:#7ed957;--cream:#f5f0e8;--muted:rgba(245,240,232,0.55);--border:rgba(126,217,87,0.12)}
+:root{--forest:#030a06;--moss:#0a1f0f;--leaf:#00e87a;--lime:#00e87a;--cream:#f0ede8;--muted:rgba(240,237,232,0.55);--border:rgba(0,232,122,0.15)}
 *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
 body{background:var(--forest);color:var(--cream);font-family:'DM Sans',sans-serif;min-height:100vh}
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:999}
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2.5rem;display:flex;align-items:center;justify-content:space-between;background:rgba(10,46,26,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2.5rem;display:flex;align-items:center;justify-content:space-between;background:rgba(3,10,6,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
 .nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--lime);text-decoration:none}.nav-logo span{color:var(--cream)}
 .nav-right{display:flex;align-items:center;gap:1rem}
 .nav-badge{background:rgba(126,217,87,0.1);border:1px solid rgba(126,217,87,0.25);color:var(--lime);padding:.3rem .9rem;border-radius:2rem;font-size:.7rem;font-family:'DM Mono',monospace;letter-spacing:.1em}
@@ -657,7 +657,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2.5rem;display:
 input,select,textarea{background:rgba(255,255,255,.04);border:1px solid rgba(126,217,87,.14);color:var(--cream);padding:.75rem .9rem;border-radius:.5rem;font-size:.85rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s,background .2s;width:100%}
 input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.45);background:rgba(126,217,87,.03)}
 input::placeholder,textarea::placeholder{color:rgba(245,240,232,.18)}
-select option{background:#0a2e1a}
+select option{background:#030a06}
 textarea{resize:vertical;min-height:90px;line-height:1.6}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem}
 .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
@@ -727,7 +727,7 @@ textarea{resize:vertical;min-height:90px;line-height:1.6}
 .tip-wrap{position:relative;display:inline-flex;align-items:center;gap:.3rem}
 .tip-icon{width:14px;height:14px;border-radius:50%;background:rgba(126,217,87,.1);border:1px solid rgba(126,217,87,.25);display:inline-flex;align-items:center;justify-content:center;font-size:.52rem;color:rgba(126,217,87,.7);cursor:help;flex-shrink:0;transition:all .15s}
 .tip-icon:hover{background:rgba(126,217,87,.2);border-color:rgba(126,217,87,.5);color:var(--lime)}
-.tip-body{position:absolute;left:0;top:calc(100% + 6px);z-index:99;background:#0e2316;border:1px solid rgba(126,217,87,.2);border-radius:.45rem;padding:.55rem .75rem;font-size:.69rem;line-height:1.55;color:rgba(245,240,232,.75);width:240px;pointer-events:none;opacity:0;transform:translateY(-4px);transition:all .15s;box-shadow:0 8px 24px rgba(0,0,0,.4);font-family:'DM Sans',sans-serif;font-weight:400}
+.tip-body{position:absolute;left:0;top:calc(100% + 6px);z-index:99;background:#050f07;border:1px solid rgba(126,217,87,.2);border-radius:.45rem;padding:.55rem .75rem;font-size:.69rem;line-height:1.55;color:rgba(245,240,232,.75);width:240px;pointer-events:none;opacity:0;transform:translateY(-4px);transition:all .15s;box-shadow:0 8px 24px rgba(0,0,0,.4);font-family:'DM Sans',sans-serif;font-weight:400}
 .tip-wrap:hover .tip-body,.tip-icon:focus + .tip-body{opacity:1;transform:translateY(0)}
 
 /* Live step completion chip */
@@ -850,14 +850,14 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
 
 /* ===== ADVISOR CSS ===== */
 
-:root{--forest:#0a2e1a;--moss:#1a5c35;--leaf:#2d9e5f;--lime:#7ed957;--cream:#f5f0e8;--muted:rgba(245,240,232,0.55);--border:rgba(126,217,87,0.12)}
+:root{--forest:#030a06;--moss:#0a1f0f;--leaf:#00e87a;--lime:#00e87a;--cream:#f0ede8;--muted:rgba(240,237,232,0.55);--border:rgba(0,232,122,0.15)}
 *{margin:0;padding:0;box-sizing:border-box}
 /* advisor body rule removed - handled by global */
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:999}
 body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(126,217,87,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(126,217,87,0.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(10,46,26,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(3,10,6,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
 .nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--lime);text-decoration:none}.nav-logo span{color:var(--cream)}
 .nav-badge{background:rgba(126,217,87,0.1);border:1px solid rgba(126,217,87,0.25);color:var(--lime);padding:.28rem .85rem;border-radius:2rem;font-size:.68rem;font-family:'DM Mono',monospace;letter-spacing:.1em;display:flex;align-items:center;gap:.4rem}
 .nav-badge::before{content:'';width:6px;height:6px;background:var(--lime);border-radius:50%;animation:pulse 2s infinite}
@@ -968,7 +968,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
 .mtime{font-size:.58rem;color:rgba(245,240,232,.2);font-family:'DM Mono',monospace}
 
 /* SNIPPET CARD */
-.snip-card{background:rgba(10,46,26,.85);border:1px solid rgba(126,217,87,.22);border-radius:.7rem;padding:.9rem;margin-top:.65rem}
+.snip-card{background:rgba(3,10,6,.85);border:1px solid rgba(0,232,122,.22);border-radius:.7rem;padding:.9rem;margin-top:.65rem}
 .snip-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:.65rem}
 .snip-title{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--lime);letter-spacing:.09em}
 .snip-copy{background:rgba(126,217,87,.1);border:1px solid rgba(126,217,87,.2);color:var(--lime);padding:.22rem .6rem;border-radius:2rem;font-size:.63rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
@@ -1524,34 +1524,34 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
 <div class="scan-line"></div>
 <!-- LOGIN MODAL -->
 <div id="login-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9999;align-items:center;justify-content:center;">
-  <div style="background:#0c1a12;border:1px solid rgba(126,217,87,0.25);border-radius:0.75rem;padding:2.5rem;width:100%;max-width:400px;position:relative;">
+  <div style="background:#050f07;border:1px solid rgba(0,232,122,0.2);border-radius:0.75rem;padding:2.5rem;width:100%;max-width:400px;position:relative;">
     <button onclick="closeLoginModal()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:rgba(245,240,232,0.4);font-size:1.2rem;cursor:pointer;">✕</button>
 
     <!-- Mode tabs -->
-    <div style="display:flex;gap:0;margin-bottom:1.75rem;border:1px solid rgba(126,217,87,0.2);border-radius:0.4rem;overflow:hidden;">
+    <div style="display:flex;gap:0;margin-bottom:1.75rem;border:1px solid rgba(0,232,122,0.2);border-radius:0.4rem;overflow:hidden;">
       <button id="tab-signin" onclick="authSetMode('signin')" style="flex:1;padding:0.6rem;font-family:'DM Mono',monospace;font-size:0.7rem;font-weight:700;letter-spacing:0.08em;border:none;cursor:pointer;background:#00e87a;color:#030a06;">SIGN IN</button>
       <button id="tab-signup" onclick="authSetMode('signup')" style="flex:1;padding:0.6rem;font-family:'DM Mono',monospace;font-size:0.7rem;font-weight:700;letter-spacing:0.08em;border:none;cursor:pointer;background:transparent;color:rgba(245,240,232,0.5);">SIGN UP</button>
     </div>
 
-    <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.2em;color:#7ed957;text-transform:uppercase;margin-bottom:0.5rem;">🔐 ReGenesis Impact</div>
+    <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.2em;color:#00e87a;text-transform:uppercase;margin-bottom:0.5rem;">🔐 ReGenesis Impact</div>
     <h3 id="modal-title" style="font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:0.4rem;">Access the Platform</h3>
     <p id="modal-subtitle" style="font-size:0.8rem;color:rgba(245,240,232,0.5);margin-bottom:1.5rem;">Sign in to your account to continue.</p>
 
-    <input id="modal-user" type="email" placeholder="Email address" onkeydown="if(event.key==='Enter')doModalLogin()" style="width:100%;background:rgba(0,0,0,0.4);border:1px solid rgba(126,217,87,0.2);border-radius:0.35rem;padding:0.75rem 1rem;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;margin-bottom:0.75rem;box-sizing:border-box;">
-    <input id="modal-pass" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')doModalLogin()" style="width:100%;background:rgba(0,0,0,0.4);border:1px solid rgba(126,217,87,0.2);border-radius:0.35rem;padding:0.75rem 1rem;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;margin-bottom:0.5rem;box-sizing:border-box;">
+    <input id="modal-user" type="email" placeholder="Email address" onkeydown="if(event.key==='Enter')doModalLogin()" style="width:100%;background:rgba(0,0,0,0.4);border:1px solid rgba(0,232,122,0.2);border-radius:0.35rem;padding:0.75rem 1rem;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;margin-bottom:0.75rem;box-sizing:border-box;">
+    <input id="modal-pass" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')doModalLogin()" style="width:100%;background:rgba(0,0,0,0.4);border:1px solid rgba(0,232,122,0.2);border-radius:0.35rem;padding:0.75rem 1rem;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;margin-bottom:0.5rem;box-sizing:border-box;">
 
     <div id="modal-forgot" style="text-align:right;margin-bottom:0.75rem;">
-      <button onclick="authForgotPassword()" style="background:none;border:none;color:rgba(126,217,87,0.6);font-size:0.72rem;cursor:pointer;padding:0;">Forgot password?</button>
+      <button onclick="authForgotPassword()" style="background:none;border:none;color:rgba(0,232,122,0.7);font-size:0.72rem;cursor:pointer;padding:0;">Forgot password?</button>
     </div>
 
     <div id="modal-error" style="display:none;font-size:0.75rem;color:#ff5a3c;margin-bottom:0.75rem;padding:0.5rem 0.75rem;background:rgba(255,90,60,0.1);border-radius:0.3rem;border-left:2px solid #ff5a3c;"></div>
-    <div id="modal-success" style="display:none;font-size:0.75rem;color:#7ed957;margin-bottom:0.75rem;padding:0.5rem 0.75rem;background:rgba(126,217,87,0.08);border-radius:0.3rem;border-left:2px solid #7ed957;"></div>
+    <div id="modal-success" style="display:none;font-size:0.75rem;color:#00e87a;margin-bottom:0.75rem;padding:0.5rem 0.75rem;background:rgba(0,232,122,0.08);border-radius:0.3rem;border-left:2px solid #00e87a;"></div>
 
-    <button id="modal-btn" onclick="doModalLogin()" style="width:100%;background:#7ed957;color:#0a2e1a;padding:0.85rem;border-radius:0.35rem;font-family:'DM Mono',monospace;font-size:0.8rem;font-weight:700;letter-spacing:0.06em;border:none;cursor:pointer;">Sign In →</button>
+    <button id="modal-btn" onclick="doModalLogin()" style="width:100%;background:#00e87a;color:#030a06;padding:0.85rem;border-radius:0.35rem;font-family:'DM Mono',monospace;font-size:0.8rem;font-weight:700;letter-spacing:0.06em;border:none;cursor:pointer;">Sign In →</button>
 
     <p style="font-size:0.72rem;color:rgba(245,240,232,0.3);text-align:center;margin-top:1.25rem;">
-      By continuing you agree to our <a href="#" style="color:#7ed957;">Terms of Service</a><br>
-      Questions? <a href="mailto:info@regenesisimpact.in" style="color:#7ed957;">info@regenesisimpact.in</a>
+      By continuing you agree to our <a href="#" style="color:#00e87a;">Terms of Service</a><br>
+      Questions? <a href="mailto:info@regenesisimpact.in" style="color:#00e87a;">info@regenesisimpact.in</a>
     </p>
   </div>
 </div>
@@ -2276,7 +2276,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
     </div>
   </div>
   <button onclick="openLeadModal('book_trial')" class="btn-primary" style="font-size:0.85rem;padding:0.9rem 2.5rem">Book a Trial Session →</button>
-  <p style="margin-top:1rem;font-size:0.8rem;color:rgba(245,240,232,0.3)">Or email us at <a href="mailto:info@regenesisimpact.in" style="color:#7ed957;">info@regenesisimpact.in</a></p>
+  <p style="margin-top:1rem;font-size:0.8rem;color:rgba(245,240,232,0.3)">Or email us at <a href="mailto:info@regenesisimpact.in" style="color:#00e87a;">info@regenesisimpact.in</a></p>
 </section>
 
 <!-- FAQ SECTION -->
@@ -6621,14 +6621,24 @@ function cipCallSage(prompt, onOk, onErr) {
   .catch(function(e) { if (onErr) onErr(e); });
 }
 
+function _sanitizeAiHtml(html) {
+  // Strip script/iframe tags and all inline event handlers before injecting AI output
+  return html
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '')
+    .replace(/\s+on\w+\s*=\s*["'][^"']*["']/gi, '')
+    .replace(/javascript\s*:/gi, '');
+}
+
 function cipFmt(text) {
-  return String(text)
+  var html = String(text)
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
     .replace(/\*([^*]+)\*/g, '<em>$1</em>')
     .replace(/^#{1,3}\s+(.+)$/gm, '<div style="font-weight:600;color:var(--g2);margin:.6rem 0 .2rem">$1</div>')
     .replace(/^(\d+)\.\s+/gm, '<strong style="color:var(--g)">$1.</strong> ')
     .replace(/\n\n/g, '<br><br>')
     .replace(/\n/g, '<br>');
+  return _sanitizeAiHtml(html);
 }
 
 function cipRunSage(type, org, sec, outKey) {
@@ -7286,6 +7296,10 @@ function showPage(page) {
   var sw = document.getElementById('sage-widget');
   if (sw) sw.style.display = (page === 'advisor' || page === 'tools') ? 'none' : 'flex';
 
+  // Mycelium canvas: run only on home page to save CPU on tool pages
+  if (page === 'home') { if (window._myceliumStart) window._myceliumStart(); }
+  else { if (window._myceliumStop) window._myceliumStop(); }
+
   window.scrollTo(0, 0);
   if (page === 'advisor' && !_sageInited) {
     _sageInited = true;
@@ -7420,9 +7434,11 @@ function lmToggleCheck(el, fw) {
   if (idx === -1) _leadData.frameworks.push(fw); else _leadData.frameworks.splice(idx,1);
 }
 
+function _isValidEmail(e){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e); }
+
 async function lmSubmit() {
   var email = (document.getElementById('lm-email')||{}).value||'';
-  if (!email || !email.includes('@')) {
+  if (!email || !_isValidEmail(email)) {
     var f=document.getElementById('lm-email');
     if(f){ f.style.borderColor='rgba(255,80,80,.5)'; setTimeout(function(){ f.style.borderColor=''; },2000); }
     return;
@@ -7553,7 +7569,7 @@ function slcSelectOpt(opt, idx) {
 async function slcSubmitEmail() {
   var inp=document.getElementById('slc-email-input'); if(!inp) return;
   var email=inp.value.trim();
-  if(!email||!email.includes('@')){ inp.style.borderColor='rgba(255,80,80,.5)'; setTimeout(function(){ inp.style.borderColor=''; },2000); return; }
+  if(!email||!_isValidEmail(email)){ inp.style.borderColor='rgba(255,80,80,.5)'; setTimeout(function(){ inp.style.borderColor=''; },2000); return; }
   _slcData.email=email;
   var pf=document.getElementById('slc-progress-fill'); if(pf) pf.style.width='100%';
   var msgs=document.getElementById('slc-messages');
@@ -7593,6 +7609,23 @@ window.addEventListener('scroll', function() {
 document.addEventListener('DOMContentLoaded', function(){
   initRegAlertBar();
   setTimeout(function(){ if(!_currentUser) initProactiveSageChat(); }, 800);
+
+  // Close lead modal on backdrop click
+  var lm = document.getElementById('lead-modal');
+  if (lm) {
+    lm.addEventListener('click', function(e){
+      if (e.target === lm) closeLeadModal();
+    });
+  }
+
+  // Close lead modal + login modal on ESC
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') {
+      closeLeadModal();
+      closeLoginModal();
+      closeSageLeadChat();
+    }
+  });
 });
 
 // Legacy alias
@@ -7625,6 +7658,7 @@ var _currentUser = null;
 function _onSignedIn(user) {
   _currentUser = user;
   closeSageLeadChat();
+  closeLeadModal();
   // Show user email + sign out in nav
   var wrap = document.getElementById('nav-user-wrap');
   var emailEl = document.getElementById('nav-user-email');
@@ -8943,8 +8977,10 @@ window.issb_backToForm = function() {
  html += '<div class="msg ' + (isAI?'ai':'user') + '"><strong>' + (isAI?'Sage':'You') + ':</strong> ' + bub.innerHTML + '</div>';
  });
  html += '<hr><small>Generated by ReGenesis Impact</small>' + _eb + '</html>';
- var w = window.open('', '_blank');
- if(w) { w.document.write(html); w.document.close(); setTimeout(function(){w.print();},500); }
+ var blob = new Blob([html], {type:'text/html'});
+ var burl = URL.createObjectURL(blob);
+ var w = window.open(burl, '_blank');
+ if(w) { setTimeout(function(){ w.print(); URL.revokeObjectURL(burl); }, 600); }
  };
 
  // ── TOOLS functions ──────────────────────────────────────────
@@ -9961,7 +9997,7 @@ setTimeout(function(){ ciDrawDonut(12500,8200,145000,165700); ciDrawDcPathway(16
 .cr-field label{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;color:rgba(126,217,87,.55);text-transform:uppercase}
 .cr-field input,.cr-field select{background:rgba(255,255,255,.04);border:1px solid rgba(126,217,87,.18);border-radius:.5rem;padding:.65rem .9rem;color:var(--cream);font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;transition:border .2s}
 .cr-field input:focus,.cr-field select:focus{border-color:rgba(126,217,87,.45)}
-.cr-field select option{background:#0a2e1a}
+.cr-field select option{background:#030a06}
 .cr-retire-impact{background:rgba(126,217,87,.05);border:1px solid rgba(126,217,87,.15);border-left:3px solid var(--lime);border-radius:0 .5rem .5rem 0;padding:.9rem 1rem;margin-bottom:1.5rem;font-size:.78rem;color:rgba(245,240,232,.65);line-height:1.65}
 .cr-retire-impact strong{color:var(--lime)}
 .cr-retire-btn{background:linear-gradient(135deg,var(--leaf),var(--lime));color:var(--forest);border:none;padding:.85rem 2rem;border-radius:2rem;font-family:'DM Mono',monospace;font-size:.8rem;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.06em}
@@ -11114,6 +11150,8 @@ document.addEventListener('DOMContentLoaded', function(){
   }
   function loop(){ draw(); update(); animId=requestAnimationFrame(loop); }
   window.addEventListener('resize', ()=>{ resize(); });
+  window._myceliumStart = function(){ if(!animId){ loop(); } };
+  window._myceliumStop  = function(){ if(animId){ cancelAnimationFrame(animId); animId=null; } };
   init(); loop();
 })();
 
@@ -11124,12 +11162,12 @@ document.addEventListener('DOMContentLoaded', function(){
 <!-- PURCHASE MODAL -->
 <!-- ══════════════════════════════════════════════════ -->
 <div id="buy-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);align-items:center;justify-content:center">
-  <div style="background:#0e2316;border:1px solid rgba(126,217,87,.2);border-radius:1rem;padding:2rem;max-width:460px;width:90%;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6)">
+  <div style="background:#050f07;border:1px solid rgba(0,232,122,.2);border-radius:1rem;padding:2rem;max-width:460px;width:90%;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6)">
     <button onclick="document.getElementById('buy-modal').style.display='none'" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:rgba(245,240,232,.4);font-size:1.2rem;cursor:pointer;line-height:1">✕</button>
     <div id="buy-modal-badge" style="font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.12em;color:var(--lime);margin-bottom:.6rem;text-transform:uppercase">Purchase Credits</div>
     <div id="buy-modal-name" style="font-size:1.1rem;font-weight:700;color:var(--cream);margin-bottom:.3rem"></div>
     <div id="buy-modal-meta" style="font-size:.72rem;color:rgba(245,240,232,.45);margin-bottom:1.25rem;font-family:'DM Mono',monospace"></div>
-    <div style="background:rgba(126,217,87,.04);border:1px solid rgba(126,217,87,.1);border-radius:.5rem;padding:.85rem 1rem;margin-bottom:1.25rem">
+    <div style="background:rgba(0,232,122,.04);border:1px solid rgba(0,232,122,.1);border-radius:.5rem;padding:.85rem 1rem;margin-bottom:1.25rem">
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;text-align:center">
         <div><div id="buy-modal-price" style="font-size:1rem;font-weight:700;color:var(--lime);font-family:'DM Mono',monospace"></div><div style="font-size:.6rem;color:rgba(245,240,232,.35);margin-top:.15rem">Price / unit</div></div>
         <div><div id="buy-modal-avail" style="font-size:1rem;font-weight:700;color:var(--cream);font-family:'DM Mono',monospace"></div><div style="font-size:.6rem;color:rgba(245,240,232,.35);margin-top:.15rem">Available</div></div>
@@ -11138,11 +11176,11 @@ document.addEventListener('DOMContentLoaded', function(){
     </div>
     <div style="margin-bottom:1rem">
       <label style="font-size:.72rem;color:rgba(245,240,232,.55);display:block;margin-bottom:.4rem">Quantity (<span id="buy-modal-unit">tCO₂e</span>)</label>
-      <input id="buy-modal-qty" type="number" min="1" step="1" placeholder="Enter quantity..." oninput="crUpdateOrderTotal()" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(126,217,87,.2);border-radius:.45rem;padding:.7rem .9rem;color:var(--cream);font-size:.9rem;font-family:'DM Sans',sans-serif;outline:none">
+      <input id="buy-modal-qty" type="number" min="1" step="1" placeholder="Enter quantity..." oninput="crUpdateOrderTotal()" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(0,232,122,.2);border-radius:.45rem;padding:.7rem .9rem;color:var(--cream);font-size:.9rem;font-family:'DM Sans',sans-serif;outline:none">
     </div>
     <div style="margin-bottom:1.25rem">
       <label style="font-size:.72rem;color:rgba(245,240,232,.55);display:block;margin-bottom:.4rem">Offset against (scope)</label>
-      <select id="buy-modal-scope" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(126,217,87,.2);border-radius:.45rem;padding:.7rem .9rem;color:var(--cream);font-size:.85rem;font-family:'DM Sans',sans-serif;outline:none">
+      <select id="buy-modal-scope" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(0,232,122,.2);border-radius:.45rem;padding:.7rem .9rem;color:var(--cream);font-size:.85rem;font-family:'DM Sans',sans-serif;outline:none">
         <option value="s1">Scope 1 — Direct emissions</option>
         <option value="s2">Scope 2 — Electricity & heat</option>
         <option value="s3" selected>Scope 3 — Value chain</option>
@@ -11159,7 +11197,7 @@ document.addEventListener('DOMContentLoaded', function(){
 </div>
 
 <!-- PURCHASE SUCCESS TOAST -->
-<div id="buy-toast" style="display:none;position:fixed;bottom:2rem;right:2rem;z-index:10000;background:#0e2316;border:1px solid rgba(126,217,87,.35);border-radius:.75rem;padding:1rem 1.4rem;box-shadow:0 12px 32px rgba(0,0,0,.5);max-width:340px;animation:fadeUp .3s ease">
+<div id="buy-toast" style="display:none;position:fixed;bottom:2rem;right:2rem;z-index:10000;background:#050f07;border:1px solid rgba(0,232,122,.35);border-radius:.75rem;padding:1rem 1.4rem;box-shadow:0 12px 32px rgba(0,0,0,.5);max-width:340px;animation:fadeUp .3s ease">
   <div style="font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--lime);margin-bottom:.3rem">✓ PURCHASE CONFIRMED</div>
   <div id="buy-toast-msg" style="font-size:.82rem;color:var(--cream);line-height:1.5"></div>
   <div id="buy-toast-tx" style="font-family:'DM Mono',monospace;font-size:.58rem;color:rgba(245,240,232,.3);margin-top:.35rem;word-break:break-all"></div>
