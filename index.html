@@ -172,103 +172,52 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2.5rem;display
 .sage-fab-dot{position:absolute;top:-1px;right:-1px;width:13px;height:13px;background:#7ed957;border-radius:50%;border:2px solid #0a2e1a;animation:pulse 2s infinite}
 .sage-fab-tip{background:rgba(10,46,26,.96);border:1px solid rgba(126,217,87,.22);color:#f5f0e8;padding:.35rem .82rem;border-radius:2rem;font-size:.68rem;font-family:'DM Mono',monospace;white-space:nowrap;opacity:0;transform:translateX(8px);transition:all .2s;pointer-events:none}
 .sage-widget:hover .sage-fab-tip{opacity:1;transform:translateX(0)}
+/* ===== BIOPUNK SYSTEM ===== */
+.bio-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55}
+.bio-blob{position:absolute;border-radius:50%;filter:blur(80px);animation:blobFloat 18s ease-in-out infinite;pointer-events:none}
+.bio-blob-1{width:600px;height:400px;background:radial-gradient(ellipse,rgba(0,232,122,0.07) 0%,transparent 70%);top:-100px;left:-100px;animation-delay:0s}
+.bio-blob-2{width:500px;height:500px;background:radial-gradient(ellipse,rgba(10,255,219,0.05) 0%,transparent 70%);bottom:-150px;right:-50px;animation-delay:-6s}
+.bio-blob-3{width:350px;height:350px;background:radial-gradient(ellipse,rgba(157,78,255,0.04) 0%,transparent 70%);top:40%;left:60%;animation-delay:-12s}
+@keyframes blobFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-20px) scale(1.05)}66%{transform:translate(-20px,15px) scale(.97)}}
+.mycelium-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+/* Organic section dividers */
+.organic-divider{width:100%;height:80px;position:relative;overflow:hidden;margin:-1px 0}
+/* Glow lines */
+.glow-line{height:1px;background:linear-gradient(90deg,transparent,var(--bio),rgba(10,255,219,0.5),var(--bio),transparent);opacity:.25;margin:0}
+/* Biopunk cards */
+.bio-card{background:rgba(5,15,7,0.7);border:1px solid rgba(0,232,122,0.12);border-radius:.75rem;padding:2rem;backdrop-filter:blur(12px);transition:all .3s;position:relative;overflow:hidden}
+.bio-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(0,232,122,0.04) 0%,transparent 70%);pointer-events:none}
+.bio-card:hover{border-color:rgba(0,232,122,0.3);box-shadow:0 0 30px rgba(0,232,122,0.08),0 20px 60px rgba(0,0,0,0.3);transform:translateY(-3px)}
+/* Biopunk badges */
+.bio-badge{display:inline-flex;align-items:center;gap:.4rem;font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;padding:.3rem .8rem;border-radius:2rem;border:1px solid rgba(0,232,122,0.2);color:rgba(0,232,122,.8);background:rgba(0,232,122,.06)}
+.bio-badge-phosphor{border-color:rgba(10,255,219,0.2);color:rgba(10,255,219,.8);background:rgba(10,255,219,.05)}
+.bio-badge-amber{border-color:rgba(255,159,71,0.2);color:rgba(255,159,71,.8);background:rgba(255,159,71,.05)}
+.bio-badge-spore{border-color:rgba(157,78,255,0.2);color:rgba(157,78,255,.8);background:rgba(157,78,255,.05)}
+/* Market section */
+.markets-section{padding:7rem 4rem;position:relative;overflow:hidden}
+.markets-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:3rem;max-width:1100px;margin-left:auto;margin-right:auto}
+.market-card{background:rgba(5,15,7,0.6);border:1px solid rgba(0,232,122,0.1);border-radius:1rem;padding:2.5rem;backdrop-filter:blur(16px);position:relative;overflow:hidden;transition:all .35s}
+.market-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--market-color,var(--bio)),transparent);opacity:.5;transition:opacity .3s}
+.market-card:hover{border-color:rgba(0,232,122,0.25);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,0.35),0 0 40px rgba(0,232,122,0.06)}
+.market-card:hover::after{opacity:1}
+.market-flag{font-size:2.5rem;margin-bottom:1.25rem}
+.market-name{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:700;margin-bottom:.4rem;color:var(--cream)}
+.market-tagline{font-size:.85rem;color:rgba(240,237,232,0.5);margin-bottom:1.75rem;line-height:1.6}
+.market-frameworks{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.75rem}
+.market-fw{display:flex;align-items:flex-start;gap:.75rem;font-size:.82rem;line-height:1.5}
+.market-fw-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:.35rem}
+.market-fw-name{font-family:'DM Mono',monospace;font-size:.72rem;color:var(--bio);letter-spacing:.04em;margin-bottom:.1rem}
+.market-fw-desc{font-size:.78rem;color:rgba(240,237,232,0.45)}
+.market-cta{display:inline-flex;align-items:center;gap:.5rem;font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--bio);text-decoration:none;border:1px solid rgba(0,232,122,0.2);padding:.5rem 1.2rem;border-radius:2rem;transition:all .2s;background:none;cursor:pointer}
+.market-cta:hover{background:rgba(0,232,122,0.08);border-color:rgba(0,232,122,0.4)}
+@media(max-width:768px){.markets-grid{grid-template-columns:1fr}}
+/* Org scanner animation */
+@keyframes scanLine{0%{transform:translateY(-100%)}100%{transform:translateY(100vh)}}
+.scan-line{position:fixed;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,232,122,0.15),transparent);animation:scanLine 8s linear infinite;z-index:2;pointer-events:none}
+
 /* ===== HOME CSS ===== */
 
- :root {
- --forest: #0a2e1a;
- --moss: #1a5c35;
- --leaf: #2d9e5f;
- --lime: #7ed957;
- --cream: #f5f0e8;
- --sand: #e8dfc8;
- --charcoal: #1a1a1a;
- --mist: rgba(255,255,255,0.06);
- }
-
- * { margin: 0; padding: 0; box-sizing: border-box; }
-
- html { scroll-behavior: smooth; }
-
- body {
- background: var(--forest);
- color: var(--cream);
- font-family: 'DM Sans', sans-serif;
- overflow-x: hidden;
- }
-
- /* NOISE TEXTURE OVERLAY */
- body::before {
- content: '';
- position: fixed;
- inset: 0;
- background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
- pointer-events: none;
- z-index: 1000;
- opacity: 0.4;
- }
-
- /* NAV */
- nav {
- position: fixed;
- top: 0; left: 0; right: 0;
- z-index: 100;
- height: 64px;
- padding: 0 3rem;
- display: flex;
- align-items: center;
- justify-content: space-between;
- background: rgba(10,46,26,0.97);
- backdrop-filter: blur(12px);
- border-bottom: 1px solid rgba(126,217,87,0.1);
- }
-
- .nav-logo {
- font-family: 'Playfair Display', serif;
- font-size: 1.2rem;
- font-weight: 700;
- letter-spacing: 0.05em;
- color: var(--lime);
- cursor: pointer;
- flex-shrink: 0;
- }
-
- .nav-logo span { color: var(--cream); }
- /* HERO */-lime);
- }
-
- .nav-logo span { color: var(--cream); }
-
- .nav-links {
- display: flex;
- gap: 2.5rem;
- list-style: none;
- }
-
- .nav-links a {
- color: rgba(245,240,232,0.7);
- text-decoration: none;
- font-size: 0.875rem;
- font-weight: 500;
- letter-spacing: 0.05em;
- transition: color 0.2s;
- }
-
- .nav-links a:hover { color: var(--lime); }
-
- .nav-cta {
- background: var(--lime);
- color: var(--forest) !important;
- padding: 0.6rem 1.4rem;
- border-radius: 2rem;
- font-weight: 600 !important;
- transition: transform 0.2s, box-shadow 0.2s !important;
- }
-
- .nav-cta:hover {
- transform: translateY(-1px);
- box-shadow: 0 4px 20px rgba(126,217,87,0.4) !important;
- color: var(--forest) !important;
- }
+ /* HOME CSS vars merged into root above */
 
  /* HERO */
 
@@ -286,68 +235,79 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2.5rem;display
 
 .hero {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 8rem 4rem 4rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 8rem 4rem 5rem;
   position: relative;
   overflow: hidden;
-  background: var(--forest);
+  gap: 4rem;
+  background: var(--void);
 }
 .hero-bg {
   position: absolute; inset: 0;
   background:
-    radial-gradient(ellipse 80% 60% at 60% 40%, rgba(45,158,95,0.15) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 40% at 10% 80%, rgba(126,217,87,0.08) 0%, transparent 60%);
+    radial-gradient(ellipse 70% 50% at 30% 30%, rgba(0,232,122,0.08) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 80% 70%, rgba(10,255,219,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 30% 30% at 70% 20%, rgba(157,78,255,0.04) 0%, transparent 50%);
 }
 .hero-grid {
   position: absolute; inset: 0;
   background-image:
-    linear-gradient(rgba(126,217,87,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(126,217,87,0.04) 1px, transparent 1px);
-  background-size: 60px 60px;
-  mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+    linear-gradient(rgba(0,232,122,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,232,122,0.03) 1px, transparent 1px);
+  background-size: 70px 70px;
+  mask-image: radial-gradient(ellipse at 40% 50%, black 20%, transparent 75%);
 }
 .hero-tag {
   display: inline-flex; align-items: center; gap: 0.5rem;
-  background: rgba(126,217,87,0.12);
-  border: 1px solid rgba(126,217,87,0.25);
-  color: var(--lime);
+  background: rgba(0,232,122,0.06);
+  border: 1px solid rgba(0,232,122,0.2);
+  color: var(--bio);
   padding: 0.4rem 1rem; border-radius: 2rem;
-  font-size: 0.8rem; font-family: 'DM Mono', monospace;
-  letter-spacing: 0.08em; margin-bottom: 2rem;
+  font-size: 0.72rem; font-family: 'DM Mono', monospace;
+  letter-spacing: 0.1em; margin-bottom: 2rem;
   width: fit-content; animation: fadeUp 0.8s ease forwards;
+  box-shadow: 0 0 20px rgba(0,232,122,0.08);
 }
-.hero-tag::before { content: '●'; font-size: 0.5rem; animation: pulse 2s infinite; }
+.hero-tag::before { content: '◉'; font-size: 0.5rem; animation: pulse 2s infinite; color: var(--bio); }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 .hero h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(3rem, 7vw, 6.5rem);
-  font-weight: 900; line-height: 1.0;
-  letter-spacing: -0.02em; max-width: 900px;
+  font-family: 'Space Grotesk', 'Playfair Display', serif;
+  font-size: clamp(2.8rem, 5.5vw, 5.5rem);
+  font-weight: 700; line-height: 1.05;
+  letter-spacing: -0.03em; max-width: 640px;
   animation: fadeUp 0.8s ease 0.1s both;
 }
-.hero h1 em { font-style: italic; color: var(--lime); }
+.hero h1 em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--bio), var(--phosphor));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 .hero-sub {
-  margin-top: 2rem; font-size: 1.2rem; font-weight: 300;
-  color: rgba(245,240,232,0.65); max-width: 560px;
-  line-height: 1.7; animation: fadeUp 0.8s ease 0.2s both;
+  margin-top: 1.75rem; font-size: 1.05rem; font-weight: 300;
+  color: rgba(240,237,232,0.6); max-width: 520px;
+  line-height: 1.75; animation: fadeUp 0.8s ease 0.2s both;
+  font-family: 'DM Sans', sans-serif;
 }
 .hero-actions {
   display: flex; gap: 1rem; margin-top: 3rem;
   animation: fadeUp 0.8s ease 0.3s both; flex-wrap: wrap;
 }
 .hero-stats {
-  display: flex; gap: 3rem; margin-top: 4rem;
-  border-top: 1px solid rgba(126,217,87,0.12); padding-top: 2.5rem;
-  animation: fadeUp 0.8s ease 0.4s both;
+  display: flex; gap: 2.5rem; margin-top: 3.5rem;
+  border-top: 1px solid rgba(0,232,122,0.1); padding-top: 2.5rem;
+  animation: fadeUp 0.8s ease 0.4s both; flex-wrap: wrap;
 }
 .stat-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2.5rem; font-weight: 700;
-  color: var(--lime); line-height: 1;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 2.2rem; font-weight: 700;
+  color: var(--bio); line-height: 1;
+  text-shadow: 0 0 20px rgba(0,232,122,0.3);
 }
-.stat-label { font-size: 0.8rem; color: rgba(245,240,232,0.5); margin-top: 0.3rem; }
+.stat-label { font-size: 0.75rem; color: rgba(240,237,232,0.45); margin-top: 0.3rem; letter-spacing: .03em; }
 @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
 /* NAV CTA */
@@ -381,11 +341,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2.5rem;display
 .btn-secondary:hover { border-color: rgba(245,240,232,0.5); }
 
 /* SECTIONS */
-.section { padding: 6rem 4rem; }
-.section-dark { background: rgba(0,0,0,0.25); }
+.section { padding: 7rem 4rem; }
+.section-dark { background: rgba(0,0,0,0.2); border-top: 1px solid rgba(0,232,122,0.05); border-bottom: 1px solid rgba(0,232,122,0.05); }
 .section-label {
-  font-family: 'DM Mono', monospace; font-size: 0.7rem;
-  letter-spacing: 0.2em; color: var(--lime); text-transform: uppercase;
+  font-family: 'DM Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 0.2em; color: var(--bio); text-transform: uppercase;
   margin-bottom: 1rem;
 }
 .section-title {
@@ -394,11 +354,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2.5rem;display
   font-weight: 700; line-height: 1.15;
   margin-bottom: 1rem;
 }
-.section-title em { font-style: italic; color: var(--lime); }
-.section-sub {
-  font-size: 1rem; color: rgba(245,240,232,0.6);
-  max-width: 560px; line-height: 1.7; margin-bottom: 3rem;
-}
+.section-title em { font-style: normal; background: linear-gradient(135deg, var(--bio), var(--phosphor)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.section-sub { font-size: 1rem; color: rgba(240,237,232,0.55); max-width: 560px; line-height: 1.75; margin-bottom: 3rem; }
 
 /* FEATURES GRID */
 .features-grid {
@@ -505,8 +462,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2.5rem;display
 .hp-section { padding: 6rem 4rem; }
 .hp-section-dark { background: rgba(0,0,0,0.25); }
 .hp-section-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; color: var(--lime); text-transform: uppercase; margin-bottom: 1rem; }
-.hp-section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem,4vw,3.2rem); font-weight: 700; line-height: 1.15; margin-bottom: 1rem; }
-.hp-section-title em { font-style: italic; color: var(--lime); }
+.hp-section-title { font-family:'Space Grotesk',sans-serif; font-size: clamp(2rem,4vw,3.2rem); font-weight: 700; line-height: 1.15; margin-bottom: 1rem; }
+.hp-section-title em { font-style: normal; background: linear-gradient(135deg, var(--bio), var(--phosphor)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .hp-section-sub { font-size: 1rem; color: rgba(245,240,232,0.6); max-width: 560px; line-height: 1.7; margin-bottom: 3rem; }
 
 /* TOOL CARDS */
@@ -1387,6 +1344,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
+<!-- BIOPUNK AMBIENT -->
+<canvas class="mycelium-canvas" id="mycelium-canvas"></canvas>
+<div class="bio-blob bio-blob-1"></div>
+<div class="bio-blob bio-blob-2"></div>
+<div class="bio-blob bio-blob-3"></div>
+<div class="scan-line"></div>
 <!-- LOGIN MODAL -->
 <div id="login-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9999;align-items:center;justify-content:center;">
   <div style="background:#0c1a12;border:1px solid rgba(126,217,87,0.25);border-radius:0.75rem;padding:2.5rem;width:100%;max-width:400px;position:relative;">
@@ -1438,6 +1401,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
         <li><button onclick="closeNavDropdown();requireLogin('credits')" id="nb-credits">🪙 Carbon Credits</button></li>
       </ul>
     </li>
+    <li class="nav-dropdown-wrap">
+      <button class="nav-dropdown-btn" onclick="toggleNavDropdown(event)" id="nb-markets-drop">Markets ▾</button>
+      <ul class="nav-dropdown-menu" id="nav-markets-menu">
+        <li><button onclick="closeNavDropdown();navTo('markets')">🇸🇬 Singapore — MAS · SGX</button></li>
+        <li><button onclick="closeNavDropdown();navTo('markets')">🇦🇺 Australia — AASB S2 · APRA</button></li>
+        <li><button onclick="closeNavDropdown();navTo('markets')">🇮🇳 India — BRSR · ISSB S2</button></li>
+      </ul>
+    </li>
     <li><button onclick="showPage('advisor')" id="nb-advisor">🌿 Sage AI</button></li>
     <li id="nav-user-wrap" style="display:none;align-items:center;gap:0.5rem">
       <span id="nav-user-email" style="font-size:0.7rem;color:rgba(126,217,87,0.7);font-family:'DM Mono',monospace;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
@@ -1483,18 +1454,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
 
   <!-- LEFT: copy -->
   <div class="hero-copy">
-    <div class="hero-tag">AI-Powered Sustainability Intelligence</div>
-    <h1>The future of <em>sustainable</em> enterprise is here</h1>
-    <p class="hero-sub">ReGenesis Impact transforms how corporations measure, report and act on climate risk — with institutional-grade tools, built for India and beyond.</p>
+    <div class="hero-tag">◉ AI-Powered Sustainability Intelligence · Asia-Pacific</div>
+    <h1>Where <em>climate data</em> becomes decisive action</h1>
+    <p class="hero-sub">ReGenesis Impact is the institutional-grade ESG and climate reporting platform built for Singapore, Australia and India — MAS taxonomy, AASB S2, APRA CPS 229, ISSB S2 and beyond, all in one living system.</p>
     <div class="hero-actions">
       <a href="#" onclick="navTo('features')" class="btn-primary">Explore the Platform →</a>
-      <a href="#" onclick="navTo('waitlist')" class="btn-secondary">Get Early Access</a>
+      <a href="#" onclick="navTo('markets')" class="btn-secondary">View Markets ↓</a>
     </div>
     <div class="hero-stats">
-      <div><div class="stat-num">6</div><div class="stat-label">Integrated Tools</div></div>
-      <div><div class="stat-num">15+</div><div class="stat-label">Global Frameworks</div></div>
-      <div><div class="stat-num">100%</div><div class="stat-label">ISSB S2 Compliant</div></div>
-      <div><div class="stat-num">AI</div><div class="stat-label">Powered by Sage</div></div>
+      <div><div class="stat-num">3</div><div class="stat-label">Markets — SG · AU · IN</div></div>
+      <div><div class="stat-num">18+</div><div class="stat-label">Regulatory Frameworks</div></div>
+      <div><div class="stat-num">100%</div><div class="stat-label">ISSB S2 Aligned</div></div>
+      <div><div class="stat-num">AI</div><div class="stat-label">Sage Intelligence</div></div>
     </div>
   </div>
 
@@ -1666,6 +1637,115 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
   </div>
 </section>
 
+<!-- MARKETS SECTION -->
+<section class="section markets-section" id="markets">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="section-label">Our Markets</div>
+    <h2 class="section-title fade-up" style="max-width:700px">Built for <em>Singapore, Australia</em> and India</h2>
+    <p class="section-sub fade-up" style="max-width:640px">Purpose-built regulatory intelligence for the markets that matter — covering every mandatory disclosure framework across Asia-Pacific's three most active ESG jurisdictions.</p>
+    <div class="markets-grid fade-up">
+
+      <!-- SINGAPORE -->
+      <div class="market-card" style="--market-color:var(--amber)">
+        <div class="market-flag">🇸🇬</div>
+        <div class="market-name">Singapore</div>
+        <div class="market-tagline">MAS Environmental Risk · SGX Climate Reporting · Green Finance Action Plan 2025</div>
+        <div class="market-frameworks">
+          <div class="market-fw">
+            <div>
+              <div class="market-fw-name">MAS Environmental Risk Guidelines</div>
+              <div class="market-fw-desc">Full compliance with MAS Notice 645 and Guidelines on Environmental Risk Management for banks, insurers and asset managers — physical and transition risk integration.</div>
+            </div>
+          </div>
+          <div class="market-fw">
+            <div>
+              <div class="market-fw-name">SGX Climate Reporting / ISSB S2</div>
+              <div class="market-fw-desc">SGX mandatory climate-related disclosures aligned with ISSB S2 — mandatory for SGX-listed companies from FY2024 (large-cap) and FY2025 (mid-cap).</div>
+            </div>
+          </div>
+          <div class="market-fw">
+            <div>
+              <div class="market-fw-name">Singapore-Asia Taxonomy (MAS)</div>
+              <div class="market-fw-desc">Green Finance Action Plan taxonomy classification for sustainable activities — traffic-light system mapping to EU taxonomy and ASEAN standards.</div>
+            </div>
+          </div>
+          <div class="market-fw">
+            <div>
+              <div class="market-fw-name">NGFS Scenario Analysis</div>
+              <div class="market-fw-desc">MAS Climate Resilience Hackathon-grade NGFS Phase V scenario modelling for Singapore's financial system stress testing and TCFD disclosures.</div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.75rem">
+          <span class="bio-badge">MAS 645</span>
+          <span class="bio-badge">SGX S2</span>
+          <span class="bio-badge bio-badge-amber">SA-Taxonomy</span>
+          <span class="bio-badge bio-badge-phosphor">TCFD</span>
+        </div>
+        <button class="market-cta" onclick="navTo('waitlist')">Get Singapore Access →</button>
+      </div>
+
+      <!-- AUSTRALIA -->
+      <div class="market-card" style="--market-color:#0070c9">
+        <div class="market-flag">🇦🇺</div>
+        <div class="market-name">Australia</div>
+        <div class="market-tagline">AASB S2 Mandatory · APRA CPS 229 · ASIC Climate Guidance · Treasury Framework</div>
+        <div class="market-frameworks">
+          <div class="market-fw">
+            <div>
+              <div class="market-fw-name">AASB S2 / ASRS (Mandatory FY25)</div>
+              <div class="market-fw-desc">Australia's mandatory climate disclosure standard — AASB S2 aligned with ISSB S2 — required for Group 1 entities from 1 Jan 2025. Full scenario analysis, Scope 1-2-3 and transition planning.</div>
+            </div>
+          </div>
+          <div class="market-fw">
+            <div>
+              <div class="market-fw-name">APRA CPS 229 Climate Vulnerability</div>
+              <div class="market-fw-desc">APRA's Climate Vulnerability Assessment (CVA) framework for ADIs and insurers — physical risk modelling, scenario analysis and financial impact quantification (CVaR).</div>
+            </div>
+          </div>
+          <div class="market-fw">
+            <div>
+              <div class="market-fw-name">ASIC RG 247 Climate Disclosures</div>
+              <div class="market-fw-desc">ASIC regulatory guidance on climate-related financial disclosure obligations for listed entities and managed investment schemes under the Corporations Act.</div>
+            </div>
+          </div>
+          <div class="market-fw">
+            <div>
+              <div class="market-fw-name">Treasury Sustainable Finance Roadmap</div>
+              <div class="market-fw-desc">Australia's Sustainable Finance Strategy — taxonomy alignment, ISSB adoption roadmap, and the new mandatory reporting regime phased from 2025 to 2027.</div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.75rem">
+          <span class="bio-badge">AASB S2</span>
+          <span class="bio-badge bio-badge-amber">APRA CPS 229</span>
+          <span class="bio-badge bio-badge-phosphor">ASIC RG 247</span>
+          <span class="bio-badge bio-badge-spore">Treasury</span>
+        </div>
+        <button class="market-cta" onclick="navTo('waitlist')">Get Australia Access →</button>
+      </div>
+
+    </div>
+
+    <!-- India row -->
+    <div class="fade-up" style="margin-top:2rem;padding:2rem 2.5rem;background:rgba(5,15,7,0.5);border:1px solid rgba(0,232,122,0.1);border-radius:.75rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem">
+      <div style="display:flex;align-items:center;gap:1.25rem">
+        <span style="font-size:2rem">🇮🇳</span>
+        <div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.1rem;color:var(--cream)">India — SEBI BRSR &amp; ISSB S2</div>
+          <div style="font-size:.82rem;color:rgba(240,237,232,.45);margin-top:.25rem">SEBI BRSR Core · ISSB S2 · GHG Protocol India Grid · PCAF Financed Emissions · SBTi India</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+        <span class="bio-badge">BRSR Core</span>
+        <span class="bio-badge bio-badge-amber">SEBI Top 1000</span>
+        <span class="bio-badge bio-badge-phosphor">ISSB S2</span>
+        <button class="market-cta" onclick="navTo('waitlist')" style="margin-left:.5rem">India Access →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ADVISORY SECTION -->
 <section class="section section-dark" id="advisory">
   <div class="section-label">Advisory</div>
@@ -1703,14 +1783,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
   <h2 class="section-title fade-up">Built for <em>clarity</em> at the enterprise scale</h2>
   <div class="pricing-grid fade-up">
     <div class="pricing-card">
-      <div class="pricing-tier">ISSB / IFRS</div>
+      <div class="pricing-tier">ISSB / IFRS · AASB S2</div>
       <div class="pricing-price" style="font-size:2rem">S1 &amp; S2</div>
-      <div class="pricing-desc">Climate-related financial disclosures. 2025 edition with Dec amendments. Full TCFD alignment.</div>
+      <div class="pricing-desc">Climate-related financial disclosures for IFRS S2 and Australia's AASB S2 mandatory standard (Group 1 from FY2025). Full TCFD alignment.</div>
       <div class="pricing-features">
         <div class="pricing-feat">Governance disclosures</div>
         <div class="pricing-feat">Strategy &amp; scenario analysis</div>
         <div class="pricing-feat">Risk management framework</div>
-        <div class="pricing-feat">Metrics &amp; targets</div>
+        <div class="pricing-feat">AASB S2 Australia mandatory</div>
         <div class="pricing-feat">Dec 2025 amendments included</div>
       </div>
     </div>
@@ -1724,6 +1804,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
         <div class="pricing-feat">WACI intensity metrics</div>
         <div class="pricing-feat">Sector-specific emission factors</div>
         <div class="pricing-feat">India grid emission factors</div>
+      </div>
+    </div>
+    <div class="pricing-card">
+      <div class="pricing-tier">Singapore &amp; Australia</div>
+      <div class="pricing-price" style="font-size:1.5rem">MAS · APRA</div>
+      <div class="pricing-desc">Full regulatory coverage for MAS Environmental Risk Guidelines, SGX climate reporting, APRA CPS 229 CVA, and ASIC RG 247 obligations.</div>
+      <div class="pricing-features">
+        <div class="pricing-feat">MAS Notice 645 compliance</div>
+        <div class="pricing-feat">SGX mandatory ISSB S2 disclosures</div>
+        <div class="pricing-feat">APRA CPS 229 CVaR modelling</div>
+        <div class="pricing-feat">ASIC RG 247 disclosure pack</div>
+        <div class="pricing-feat">Singapore-Asia Taxonomy mapping</div>
       </div>
     </div>
     <div class="pricing-card">
@@ -10190,6 +10282,64 @@ document.addEventListener('DOMContentLoaded', function(){
     setTimeout(crUpdateSidebarPosition, 500);
   }
 });
+
+// ===== MYCELIUM NETWORK CANVAS =====
+(function(){
+  const canvas = document.getElementById('mycelium-canvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, nodes = [], animId;
+  const NODE_COUNT = 60, MAX_DIST = 180, SPEED = 0.25;
+  function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  function mkNode(){
+    return {
+      x: Math.random()*W, y: Math.random()*H,
+      vx: (Math.random()-.5)*SPEED, vy: (Math.random()-.5)*SPEED,
+      r: Math.random()*1.5+0.5,
+      hue: Math.random()<0.7 ? 150 : (Math.random()<0.5 ? 180 : 270)
+    };
+  }
+  function init(){ resize(); nodes=[]; for(let i=0;i<NODE_COUNT;i++) nodes.push(mkNode()); }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // edges
+    for(let i=0;i<nodes.length;i++){
+      for(let j=i+1;j<nodes.length;j++){
+        const dx=nodes[i].x-nodes[j].x, dy=nodes[i].y-nodes[j].y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<MAX_DIST){
+          const a=(1-d/MAX_DIST)*0.18;
+          const hue=nodes[i].hue;
+          ctx.strokeStyle=`hsla(${hue},100%,60%,${a})`;
+          ctx.lineWidth=0.6;
+          ctx.beginPath(); ctx.moveTo(nodes[i].x,nodes[i].y); ctx.lineTo(nodes[j].x,nodes[j].y); ctx.stroke();
+        }
+      }
+    }
+    // nodes
+    for(const n of nodes){
+      ctx.beginPath();
+      ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+      ctx.fillStyle=`hsla(${n.hue},100%,70%,0.5)`;
+      ctx.fill();
+      // glow
+      ctx.beginPath();
+      ctx.arc(n.x,n.y,n.r*3,0,Math.PI*2);
+      ctx.fillStyle=`hsla(${n.hue},100%,60%,0.04)`;
+      ctx.fill();
+    }
+  }
+  function update(){
+    for(const n of nodes){
+      n.x+=n.vx; n.y+=n.vy;
+      if(n.x<0||n.x>W) n.vx*=-1;
+      if(n.y<0||n.y>H) n.vy*=-1;
+    }
+  }
+  function loop(){ draw(); update(); animId=requestAnimationFrame(loop); }
+  window.addEventListener('resize', ()=>{ resize(); });
+  init(); loop();
+})();
 
 
 </script>
