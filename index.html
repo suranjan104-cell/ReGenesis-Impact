@@ -140,8 +140,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2.5rem;display
 .nav-links .nl-active{color:var(--lime)!important}
 .nav-cta{background:var(--lime)!important;color:var(--forest)!important;padding:.55rem 1.35rem!important;border-radius:2rem!important;font-weight:600!important;transition:transform .2s,box-shadow .2s!important}
 .nav-cta:hover{transform:translateY(-1px)!important;box-shadow:0 4px 18px rgba(0,232,122,.35)!important}
-.nav-badge-live{background:rgba(126,217,87,.1);border:1px solid rgba(126,217,87,.25);color:var(--lime);padding:.28rem .85rem;border-radius:2rem;font-size:.68rem;font-family:'DM Mono',monospace;letter-spacing:.1em;display:flex;align-items:center;gap:.4rem}
-.nav-badge-live::before{content:'';width:6px;height:6px;background:var(--lime);border-radius:50%;animation:pulse 2s infinite}
+.nav-badge-live{background:rgba(0,232,122,.08);border:1px solid rgba(0,232,122,.2);color:var(--bio);padding:.28rem .85rem;border-radius:2rem;font-size:.68rem;font-family:'DM Mono',monospace;letter-spacing:.1em;display:flex;align-items:center;gap:.4rem}
+.nav-badge-live::before{content:'';width:6px;height:6px;background:var(--bio);border-radius:50%;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
 /* NAV DROPDOWN */
 .nav-dropdown-wrap{position:relative}
@@ -158,12 +158,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2.5rem;display
 .nav-hamburger.open span:nth-child(2){opacity:0}
 .nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 /* MOBILE MENU */
-.nav-mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(10,46,26,0.98);z-index:250;padding:5rem 2rem 2rem;flex-direction:column;gap:.5rem;overflow-y:auto}
+.nav-mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(3,10,6,0.98);backdrop-filter:blur(20px);z-index:250;padding:5rem 2rem 2rem;flex-direction:column;gap:.5rem;overflow-y:auto}
 .nav-mobile-menu.open{display:flex}
-.nav-mobile-menu button,.nav-mobile-menu a{background:none;border:none;color:rgba(245,240,232,.75);font-size:1.1rem;font-family:'DM Sans',sans-serif;font-weight:500;padding:.85rem 1rem;cursor:pointer;text-align:left;text-decoration:none;border-bottom:1px solid rgba(126,217,87,.07);transition:color .2s}
-.nav-mobile-menu button:hover,.nav-mobile-menu a:hover{color:var(--lime)}
-.nav-mobile-menu .mob-section{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.15em;color:rgba(126,217,87,.5);text-transform:uppercase;padding:.75rem 1rem .3rem;margin-top:.5rem}
-.nav-mobile-menu .mob-cta{background:var(--lime)!important;color:var(--forest)!important;border-radius:.4rem;font-weight:700!important;text-align:center!important;margin-top:1rem}
+.nav-mobile-menu button,.nav-mobile-menu a{background:none;border:none;color:rgba(240,237,232,.7);font-size:1rem;font-family:'DM Sans',sans-serif;font-weight:500;padding:.85rem 1rem;cursor:pointer;text-align:left;text-decoration:none;border-bottom:1px solid rgba(0,232,122,.07);transition:color .2s}
+.nav-mobile-menu button:hover,.nav-mobile-menu a:hover{color:var(--bio)}
+.nav-mobile-menu .mob-section{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.15em;color:rgba(0,232,122,.45);text-transform:uppercase;padding:.75rem 1rem .3rem;margin-top:.5rem}
+.nav-mobile-menu .mob-cta{background:var(--bio)!important;color:#030a06!important;border-radius:.4rem;font-weight:700!important;text-align:center!important;margin-top:1rem;box-shadow:0 0 20px rgba(0,232,122,.2)!important}
 @media(max-width:768px){.nav-hamburger{display:flex}}
 /* SAGE WIDGET */
 .sage-widget{position:fixed;bottom:1.75rem;right:1.75rem;z-index:400;display:flex;flex-direction:column;align-items:flex-end;gap:.65rem}
@@ -459,18 +459,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2.5rem;display
 /* FOOTER */
 .footer { padding: 4rem 4rem 2rem; background: rgba(0,0,0,0.5); border-top: 1px solid rgba(0,232,122,0.08); }
 .footer-top { display: flex; justify-content: space-between; gap: 2rem; flex-wrap: wrap; margin-bottom: 3rem; }
-.footer-logo { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
-.footer-tagline { font-size: 0.8rem; color: rgba(245,240,232,0.4); max-width: 240px; line-height: 1.6; }
-.footer-col-title { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--lime); margin-bottom: 1rem; }
-.footer-links-col { display: flex; flex-direction: column; gap: 0.6rem; }
-.footer-links-col a { font-size: 0.82rem; color: rgba(245,240,232,0.45); text-decoration: none; transition: color 0.2s; cursor: pointer; }
-.footer-links-col a:hover { color: var(--lime); }
-.footer-bottom { border-top: 1px solid rgba(45,158,95,0.1); padding-top: 1.5rem; display: flex; justify-content: space-between; font-size: 0.75rem; color: rgba(245,240,232,0.25); flex-wrap: wrap; gap: 0.5rem; }
+.footer-logo { font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--bio); letter-spacing:.01em; }
+.footer-tagline { font-size: 0.8rem; color: rgba(240,237,232,0.38); max-width: 240px; line-height: 1.65; }
+.footer-col-title { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(0,232,122,.55); margin-bottom: 1rem; }
+.footer-links-col { display: flex; flex-direction: column; gap: 0.55rem; }
+.footer-links-col a { font-size: 0.8rem; color: rgba(240,237,232,0.4); text-decoration: none; transition: color 0.2s; cursor: pointer; }
+.footer-links-col a:hover { color: var(--bio); }
+.footer-bottom { border-top: 1px solid rgba(0,232,122,0.07); padding-top: 1.5rem; display: flex; justify-content: space-between; font-size: 0.72rem; color: rgba(240,237,232,0.2); flex-wrap: wrap; gap: 0.5rem; }
 
 /* HP SECTION helpers (for tool cards / framework / hiw using newer classes) */
 .hp-section { padding: 6rem 4rem; }
 .hp-section-dark { background: rgba(0,0,0,0.25); }
-.hp-section-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; color: var(--lime); text-transform: uppercase; margin-bottom: 1rem; }
+.hp-section-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.18em; color: var(--bio); text-transform: uppercase; margin-bottom: 1rem; }
 .hp-section-title { font-family:'Space Grotesk',sans-serif; font-size: clamp(2rem,4vw,3.2rem); font-weight: 700; line-height: 1.15; margin-bottom: 1rem; }
 .hp-section-title em { font-style: normal; background: linear-gradient(135deg, var(--bio), var(--phosphor)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .hp-section-sub { font-size: 1rem; color: rgba(245,240,232,0.6); max-width: 560px; line-height: 1.7; margin-bottom: 3rem; }
@@ -1329,13 +1329,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
 .footer { background:rgba(0,0,0,0.5); border-top:1px solid rgba(45,158,95,0.12); padding:3rem 4rem 1.5rem; }
 .footer-top { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:2rem; margin-bottom:2.5rem; }
 @media(max-width:800px){ .footer-top { grid-template-columns:1fr 1fr; } }
-.footer-logo { font-family:'Playfair Display',serif; font-size:1.1rem; color:#f5f0e8; margin-bottom:0.5rem; }
-.footer-tagline { font-size:0.75rem; color:rgba(245,240,232,0.4); line-height:1.6; }
-.footer-col-title { font-family:'DM Mono',monospace; font-size:0.62rem; color:#7ed957; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:0.75rem; }
-.footer-links-col { display:flex; flex-direction:column; gap:0.5rem; }
-.footer-links-col a { font-size:0.78rem; color:rgba(245,240,232,0.45); text-decoration:none; transition:color 0.2s; cursor:pointer; }
-.footer-links-col a:hover { color:#7ed957; }
-.footer-bottom { border-top:1px solid rgba(45,158,95,0.1); padding-top:1.25rem; display:flex; justify-content:space-between; align-items:center; font-size:0.72rem; color:rgba(245,240,232,0.25); }
+/* footer-logo/tagline/col — canonical in shared base above */
 
 /* ── BUTTONS (ensure consistent) ────────────── */
 .btn-primary { background:#7ed957; color:#060d0a; padding:0.75rem 1.75rem; border-radius:0.35rem; text-decoration:none; font-family:'DM Mono',monospace; font-size:0.75rem; letter-spacing:0.06em; font-weight:700; transition:all 0.2s; display:inline-block; border:none; cursor:pointer; }
@@ -1353,6 +1347,27 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
 
 
 .trial-section{text-align:center}.trial-inner{max-width:860px;margin:0 auto}.trial-sub{font-size:.95rem;color:rgba(245,240,232,.55);line-height:1.75;max-width:600px;margin:0 auto 3rem}.trial-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-bottom:3rem;text-align:left}.trial-card{background:rgba(0,0,0,.3);border:1px solid rgba(45,158,95,.15);border-radius:.5rem;padding:1.75rem;transition:border-color .2s}.trial-card:hover{border-color:rgba(126,217,87,.3)}.trial-card-icon{font-size:1.75rem;margin-bottom:.75rem}.trial-card-title{font-weight:600;font-size:.9rem;color:#f5f0e8;margin-bottom:.5rem}.trial-card-desc{font-size:.78rem;color:rgba(245,240,232,.5);line-height:1.65}.trial-cta-wrap{display:flex;flex-direction:column;align-items:center;gap:1rem}.trial-cta-note{font-size:.78rem;color:rgba(245,240,232,.4)}.trial-cta-note a{text-decoration:none}.trial-cta-note a:hover{text-decoration:underline}
+
+/* ===== FRAMEWORK TICKER ===== */
+@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+#fw-ticker:hover{animation-play-state:paused}
+
+/* ===== SCROLL-TO-TOP ===== */
+#scroll-top{position:fixed;bottom:1.75rem;left:1.75rem;z-index:390;width:40px;height:40px;border-radius:50%;background:rgba(5,15,7,0.85);border:1px solid rgba(0,232,122,0.2);color:rgba(0,232,122,0.7);font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:all .3s;backdrop-filter:blur(8px);pointer-events:none}
+#scroll-top.visible{opacity:1;pointer-events:all}
+#scroll-top:hover{border-color:rgba(0,232,122,0.4);color:var(--bio);transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,232,122,0.12)}
+
+/* ===== FAQ SECTION ===== */
+.faq-grid{display:flex;flex-direction:column;gap:.75rem;margin-top:3rem;max-width:820px;margin-left:auto;margin-right:auto}
+.faq-item{background:rgba(5,15,7,0.6);border:1px solid rgba(0,232,122,0.1);border-radius:.65rem;overflow:hidden;transition:border-color .2s}
+.faq-item.open{border-color:rgba(0,232,122,0.25)}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 1.5rem;cursor:pointer;gap:1rem}
+.faq-q-text{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:500;color:rgba(240,237,232,.85);line-height:1.4}
+.faq-chevron{color:rgba(0,232,122,.5);font-size:.75rem;flex-shrink:0;transition:transform .3s}
+.faq-item.open .faq-chevron{transform:rotate(180deg);color:var(--bio)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .3s}
+.faq-item.open .faq-a{max-height:300px}
+.faq-a-inner{padding:0 1.5rem 1.25rem;font-size:.85rem;color:rgba(240,237,232,.5);line-height:1.75;border-top:1px solid rgba(0,232,122,.06)}
 
 /* ===== AGENTIC LEAD SYSTEM STYLES ===== */
 
@@ -1499,6 +1514,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
   </div>
 </div>
 
+<!-- SCROLL TO TOP -->
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
 <!-- BIOPUNK AMBIENT -->
 <canvas class="mycelium-canvas" id="mycelium-canvas"></canvas>
 <div class="bio-blob bio-blob-1"></div>
@@ -1651,8 +1668,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
   <span class="nav-logo" onclick="showPage('home')">ReGenesis<span> Impact</span></span>
   <ul class="nav-links" id="nl-home">
     <li><button onclick="navTo('features')">Platform</button></li>
-    <li><button onclick="navTo('advisory')">Advisory</button></li>
-    <li><button onclick="navTo('pricing')">Pricing</button></li>
+    <li><button onclick="navTo('how-it-works')">How It Works</button></li>
+    <li><button onclick="navTo('faq')">FAQ</button></li>
     <li class="nav-dropdown-wrap">
       <button class="nav-dropdown-btn" onclick="toggleNavDropdown(event)" id="nb-tools-drop">Tools ▾</button>
       <ul class="nav-dropdown-menu" id="nav-tools-menu">
@@ -1673,7 +1690,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
     </li>
     <li><button onclick="showPage('advisor')" id="nb-advisor">🌿 Sage AI</button></li>
     <li id="nav-user-wrap" style="display:none;align-items:center;gap:0.5rem">
-      <span id="nav-user-email" style="font-size:0.7rem;color:rgba(126,217,87,0.7);font-family:'DM Mono',monospace;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
+      <span id="nav-user-email" style="font-size:0.7rem;color:rgba(0,232,122,0.7);font-family:'DM Mono',monospace;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
       <button onclick="authSignOut()" style="background:rgba(255,90,60,0.15);border:1px solid rgba(255,90,60,0.3);color:rgba(255,90,60,0.8);padding:0.3rem 0.75rem;border-radius:2rem;font-size:0.68rem;cursor:pointer;font-family:'DM Mono',monospace">Sign Out</button>
     </li>
     <li id="nav-login-wrap"><button onclick="requireLogin('home')" class="nav-cta">Sign In</button></li>
@@ -1692,17 +1709,22 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
 <!-- MOBILE MENU -->
 <div class="nav-mobile-menu" id="nav-mobile-menu">
   <div class="mob-section">Navigate</div>
-  <button onclick="closeMobileMenu();navTo('features')">Platform</button>
-  <button onclick="closeMobileMenu();navTo('advisory')">Advisory</button>
-  <button onclick="closeMobileMenu();navTo('pricing')">Pricing</button>
+  <button onclick="closeMobileMenu();navTo('features')">Platform Overview</button>
+  <button onclick="closeMobileMenu();navTo('how-it-works')">How It Works</button>
+  <button onclick="closeMobileMenu();navTo('markets')">Our Markets</button>
+  <button onclick="closeMobileMenu();navTo('traction')">Why Us</button>
+  <div class="mob-section">Markets</div>
+  <button onclick="closeMobileMenu();navTo('markets')">🇸🇬 Singapore — MAS · SGX</button>
+  <button onclick="closeMobileMenu();navTo('markets')">🇦🇺 Australia — AASB S2 · APRA</button>
+  <button onclick="closeMobileMenu();navTo('markets')">🇮🇳 India — BRSR · ISSB S2</button>
   <div class="mob-section">Tools</div>
   <button onclick="closeMobileMenu();requireLogin('issb')">📋 Sustainability Report</button>
   <button onclick="closeMobileMenu();requireLogin('ghg')">⚖️ GHG Inventory</button>
   <button onclick="closeMobileMenu();requireLogin('climate')">🌍 Climate Intelligence</button>
   <button onclick="closeMobileMenu();requireLogin('tools')">🔍 ESG Due Diligence</button>
-  <button onclick="closeMobileMenu();showPage('advisor')">🌿 Sage AI Advisor</button>
-  <button onclick="closeMobileMenu();requireLogin('credits')">🪙 Carbon &amp; Plastic Credits</button>
-  <button class="mob-cta" onclick="closeMobileMenu();navTo('waitlist')">Get Early Access →</button>
+  <button onclick="closeMobileMenu();showPage('advisor')">🌿 Sage AI</button>
+  <button onclick="closeMobileMenu();requireLogin('credits')">🪙 Carbon Credits Exchange</button>
+  <button class="mob-cta" onclick="closeMobileMenu();openLeadModal('mobile_cta')">Get Early Access →</button>
 </div>
 
 <!-- ===== HOME PAGE ===== -->
@@ -1816,6 +1838,46 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
   </div>
 </section>
 
+
+<!-- FRAMEWORK TICKER -->
+<div style="overflow:hidden;border-top:1px solid rgba(0,232,122,0.07);border-bottom:1px solid rgba(0,232,122,0.07);background:rgba(0,0,0,0.2);padding:.65rem 0;position:relative;z-index:2">
+  <div id="fw-ticker" style="display:flex;gap:2.5rem;white-space:nowrap;width:max-content;animation:tickerScroll 35s linear infinite">
+    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(0,232,122,.6)">ISSB S2 / IFRS S2</span>
+    <span style="color:rgba(0,232,122,.2)">·</span>
+    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(240,237,232,.3)">AASB S2 · Australia Mandatory FY2025</span>
+    <span style="color:rgba(0,232,122,.2)">·</span>
+    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(0,232,122,.6)">MAS Environmental Risk Guidelines</span>
+    <span style="color:rgba(0,232,122,.2)">·</span>
+    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(240,237,232,.3)">SGX Climate Reporting · FY2024</span>
+    <span style="color:rgba(0,232,122,.2)">·</span>
+    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(10,255,219,.5)">APRA CPS 229 · Climate Vulnerability</span>
+    <span style="color:rgba(0,232,122,.2)">·</span>
+    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(240,237,232,.3)">ASIC RG 247 · Climate Disclosures</span>
+    <span style="color:rgba(0,232,122,.2)">·</span>
+    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(0,232,122,.6)">SEBI BRSR Core · India Top 1000</span>
+    <span style="color:rgba(0,232,122,.2)">·</span>
+    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(240,237,232,.3)">GHG Protocol · Scope 1-2-3 · PCAF</span>
+    <span style="color:rgba(0,232,122,.2)">·</span>
+    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(157,78,255,.6)">TCFD · NGFS v5 · IPCC AR6</span>
+    <span style="color:rgba(0,232,122,.2)">·</span>
+    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(240,237,232,.3)">SBTi 1.5°C · TNFD v1.0 · GRI Standards</span>
+    <span style="color:rgba(0,232,122,.2)">·</span>
+    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(255,159,71,.6)">CDP Climate Change · GFANZ</span>
+    <span style="color:rgba(0,232,122,.2)">·</span>
+    <!-- duplicate for seamless loop -->
+    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(0,232,122,.6)">ISSB S2 / IFRS S2</span>
+    <span style="color:rgba(0,232,122,.2)">·</span>
+    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(240,237,232,.3)">AASB S2 · Australia Mandatory FY2025</span>
+    <span style="color:rgba(0,232,122,.2)">·</span>
+    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(0,232,122,.6)">MAS Environmental Risk Guidelines</span>
+    <span style="color:rgba(0,232,122,.2)">·</span>
+    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(240,237,232,.3)">SGX Climate Reporting · FY2024</span>
+    <span style="color:rgba(0,232,122,.2)">·</span>
+    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(10,255,219,.5)">APRA CPS 229 · Climate Vulnerability</span>
+    <span style="color:rgba(0,232,122,.2)">·</span>
+    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(240,237,232,.3)">ASIC RG 247 · Climate Disclosures</span>
+  </div>
+</div>
 
 <!-- PLATFORM FEATURES -->
 <section class="section" id="features">
@@ -2215,6 +2277,45 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
   </div>
   <button onclick="openLeadModal('book_trial')" class="btn-primary" style="font-size:0.85rem;padding:0.9rem 2.5rem">Book a Trial Session →</button>
   <p style="margin-top:1rem;font-size:0.8rem;color:rgba(245,240,232,0.3)">Or email us at <a href="mailto:info@regenesisimpact.in" style="color:#7ed957;">info@regenesisimpact.in</a></p>
+</section>
+
+<!-- FAQ SECTION -->
+<section class="section section-dark" id="faq">
+  <div class="section-label" style="text-align:center">FAQ</div>
+  <h2 class="section-title fade-up" style="text-align:center;max-width:600px;margin-left:auto;margin-right:auto">Everything you need to <em>know</em></h2>
+  <div class="faq-grid fade-up">
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span class="faq-q-text">Is ReGenesis Impact compliant with AASB S2 and the Australian mandatory reporting regime?</span><span class="faq-chevron">▼</span></div>
+      <div class="faq-a"><div class="faq-a-inner">Yes. Our platform generates AASB S2-compliant climate disclosures aligned with the Australian Sustainability Reporting Standards (ASRS). We cover Group 1 requirements (entities with >$500M consolidated revenue or >$1B assets) mandatory from 1 January 2025, including quantitative climate scenario analysis, Scope 1-2-3 GHG inventory, transition planning, and physical risk CVaR — all requirements under ASIC's regulatory guidance RG 247.</div></div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span class="faq-q-text">How does the platform address MAS Environmental Risk and SGX climate reporting requirements?</span><span class="faq-chevron">▼</span></div>
+      <div class="faq-a"><div class="faq-a-inner">ReGenesis Impact is purpose-built for Singapore's regulatory environment. We cover MAS Notice 645 and the Guidelines on Environmental Risk Management (ERM) for banks, insurers, and asset managers — including board governance structures, risk appetite integration, and portfolio-level climate risk measurement. For SGX-listed companies, we produce ISSB S2-aligned climate disclosures that satisfy mandatory reporting requirements from FY2024 (large-cap) and FY2025 (mid-cap), including the Singapore-Asia Taxonomy classification.</div></div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span class="faq-q-text">What climate scenarios does the TCFD analysis use?</span><span class="faq-chevron">▼</span></div>
+      <div class="faq-a"><div class="faq-a-inner">We use NGFS Phase V (2024) scenarios — Net Zero 2050, Orderly 2°C, Disorderly Transition, and Hot House World — fully aligned with IFRS S2, AASB S2, and APRA CPS 229 mandatory dual-scenario analysis requirements. Physical risk modelling uses IPCC AR6 RCP/SSP pathways with asset-level geospatial hazard mapping for flood, heat stress, drought, sea-level rise, and cyclone risk. Transition risk quantification includes carbon pricing, policy exposure, and stranded-asset analysis.</div></div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span class="faq-q-text">Can the platform calculate PCAF financed emissions for banks and asset managers?</span><span class="faq-chevron">▼</span></div>
+      <div class="faq-a"><div class="faq-a-inner">Yes. Our GHG Inventory module covers all 15 Scope 3 categories including Category 15 (financed emissions) using the PCAF (Partnership for Carbon Accounting Financials) standard. We support corporate loans, listed equity, bonds, project finance, mortgages, and motor vehicle loans — with PCAF data quality scores (1–5), weighted average carbon intensity (WACI), and portfolio temperature alignment. This satisfies APRA's financed emissions disclosure requirements and TCFD Category 15 reporting for Australian and Singapore financial institutions.</div></div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span class="faq-q-text">How does the AI (Sage) work and is it reliable for regulatory disclosure?</span><span class="faq-chevron">▼</span></div>
+      <div class="faq-a"><div class="faq-a-inner">Sage AI uses large language models (Llama 3.3-70B) trained with extensive ESG and climate regulation context — covering ISSB, AASB S2, MAS ERM, BRSR, TCFD, GHG Protocol, and more. For report generation, Sage drafts structured disclosure language based on your input data, following each framework's exact requirements. All AI-generated content is editable and reviewable before export. We recommend a qualified sustainability professional review final disclosures, as regulatory liability remains with the reporting entity.</div></div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span class="faq-q-text">Is there a free tier? What does onboarding look like?</span><span class="faq-chevron">▼</span></div>
+      <div class="faq-a"><div class="faq-a-inner">Yes — Sage AI (our advisory chatbot) is free with no login required. We are currently onboarding enterprise clients on a personal basis: our team joins a 45-minute call, configures your reporting setup for your specific market and framework requirements, and walks through your first report together. Early-access pricing is locked in for clients onboarded before our public launch. Click "Get Early Access" to start the process — no credit card required.</div></div>
+    </div>
+
+  </div>
 </section>
 
 <!-- SEO CONTENT SECTION — keyword-rich, crawlable by Google -->
@@ -7475,6 +7576,19 @@ async function slcSubmitEmail() {
   }, 1000);
 }
 
+// ── FAQ toggle ────────────────────────────────────────────────
+function toggleFaq(item) {
+  var isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(function(el){ el.classList.remove('open'); });
+  if (!isOpen) item.classList.add('open');
+}
+
+// ── Scroll-to-top visibility ──────────────────────────────────
+window.addEventListener('scroll', function() {
+  var btn = document.getElementById('scroll-top');
+  if (btn) btn.classList.toggle('visible', window.scrollY > 400);
+}, {passive:true});
+
 // ── Init on load ──────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function(){
   initRegAlertBar();
@@ -9723,7 +9837,7 @@ setTimeout(function(){ ciDrawDonut(12500,8200,145000,165700); ciDrawDcPathway(16
       </div>
     </div>
 
-    <div style="background:rgba(0,0,0,0.3);border:1px solid rgba(45,158,95,0.2);border-radius:0.75rem;padding:2.5rem;margin-bottom:2rem">
+    <div style="background:rgba(5,15,7,0.6);border:1px solid rgba(0,232,122,0.12);border-radius:0.75rem;padding:2.5rem;margin-bottom:2rem">
       <div class="hp-section-eyebrow" style="margin-bottom:1rem">What to expect</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
         <div>
@@ -9747,7 +9861,7 @@ setTimeout(function(){ ciDrawDonut(12500,8200,145000,165700); ciDrawDcPathway(16
 
     <div class="trial-cta-wrap">
       <button onclick="openLeadModal('book_trial')" class="btn-primary" style="font-size:0.85rem;padding:0.9rem 2.5rem">Book a Trial Session →</button>
-      <p style="margin-top:1rem;font-size:0.8rem;color:rgba(245,240,232,0.3)">Or email us at <a href="mailto:info@regenesisimpact.in" style="color:#7ed957;">info@regenesisimpact.in</a></p>
+      <p style="margin-top:1rem;font-size:0.8rem;color:rgba(240,237,232,0.3)">Or email us at <a href="mailto:info@regenesisimpact.in" style="color:#00e87a;">info@regenesisimpact.in</a></p>
     </div>
   </div>
 </div>
@@ -9757,7 +9871,7 @@ setTimeout(function(){ ciDrawDonut(12500,8200,145000,165700); ciDrawDcPathway(16
 <div class="page" id="page-credits">
 <style>
 /* CREDITS PAGE */
-#page-credits{min-height:100vh;background:var(--forest);padding-top:3.8rem}
+#page-credits{min-height:100vh;background:var(--void);padding-top:3.8rem}
 .cr-wrap{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 3.8rem)}
 .cr-side{background:rgba(0,0,0,.3);border-right:1px solid rgba(126,217,87,.12);padding:1.75rem 0;position:sticky;top:3.8rem;height:calc(100vh - 3.8rem);overflow-y:auto}
 .cr-side-title{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.18em;color:rgba(126,217,87,.5);text-transform:uppercase;padding:0 1.4rem;margin-bottom:1rem}
