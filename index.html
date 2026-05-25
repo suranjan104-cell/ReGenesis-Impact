@@ -1465,6 +1465,25 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
   </div>
 </div>
 
+<!-- PROACTIVE SAGE LEAD CHAT -->
+<div id="sage-lead-chat">
+  <div class="slc-progress"><div class="slc-progress-fill" id="slc-progress-fill" style="width:0%"></div></div>
+  <div class="slc-header">
+    <div class="slc-avatar">🌿</div>
+    <div>
+      <div class="slc-title">SAGE AI · ReGenesis Impact</div>
+      <div class="slc-sub">ESG Intelligence Advisor · Online</div>
+    </div>
+    <button class="slc-close" onclick="closeSageLeadChat()">✕</button>
+  </div>
+  <div id="slc-messages"></div>
+  <div id="slc-options"></div>
+  <div id="slc-input-wrap">
+    <input id="slc-email-input" type="email" placeholder="your@company.com">
+    <button id="slc-send-btn" onclick="slcSubmitEmail()">→</button>
+  </div>
+</div>
+
 <!-- BIOPUNK AMBIENT -->
 <canvas class="mycelium-canvas" id="mycelium-canvas"></canvas>
 <div class="bio-blob bio-blob-1"></div>
@@ -1502,6 +1521,113 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
       By continuing you agree to our <a href="#" style="color:#7ed957;">Terms of Service</a><br>
       Questions? <a href="mailto:info@regenesisimpact.in" style="color:#7ed957;">info@regenesisimpact.in</a>
     </p>
+  </div>
+</div>
+
+<!-- SMART LEAD MODAL -->
+<div id="lead-modal">
+  <div class="lm-box">
+    <button class="lm-close" onclick="closeLeadModal()">✕</button>
+    <div class="lm-progress">
+      <div class="lm-progress-dot active" id="lm-dot-1"></div>
+      <div class="lm-progress-dot" id="lm-dot-2"></div>
+      <div class="lm-progress-dot" id="lm-dot-3"></div>
+    </div>
+    <!-- Step 1: Market -->
+    <div class="lm-step active" id="lm-step-1">
+      <div class="lm-eyebrow">Step 1 of 3 · Your Market</div>
+      <div class="lm-title">Where are you reporting?</div>
+      <div class="lm-sub">We'll tailor your experience to your jurisdiction's mandatory frameworks and deadlines.</div>
+      <div class="lm-market-grid">
+        <div class="lm-market-tile" onclick="lmSelectMarket(this,'sg')">
+          <div class="lm-market-flag">🇸🇬</div>
+          <div class="lm-market-name">Singapore</div>
+          <div class="lm-market-sub">MAS · SGX · SA-Taxonomy</div>
+        </div>
+        <div class="lm-market-tile" onclick="lmSelectMarket(this,'au')">
+          <div class="lm-market-flag">🇦🇺</div>
+          <div class="lm-market-name">Australia</div>
+          <div class="lm-market-sub">AASB S2 · APRA · ASIC</div>
+        </div>
+        <div class="lm-market-tile" onclick="lmSelectMarket(this,'in')">
+          <div class="lm-market-flag">🇮🇳</div>
+          <div class="lm-market-name">India</div>
+          <div class="lm-market-sub">BRSR · SEBI · ISSB S2</div>
+        </div>
+        <div class="lm-market-tile" onclick="lmSelectMarket(this,'other')">
+          <div class="lm-market-flag">🌐</div>
+          <div class="lm-market-name">Other / Global</div>
+          <div class="lm-market-sub">ISSB S2 · GRI · TCFD</div>
+        </div>
+      </div>
+      <div class="lm-nav" style="justify-content:flex-end">
+        <button class="lm-next" onclick="lmGoStep(2)" id="lm-next-1" disabled style="opacity:.4;cursor:not-allowed">Select a market →</button>
+      </div>
+    </div>
+    <!-- Step 2: Needs -->
+    <div class="lm-step" id="lm-step-2">
+      <div class="lm-eyebrow">Step 2 of 3 · Your Needs</div>
+      <div class="lm-title">What do you need to report on?</div>
+      <div class="lm-sub">Select all that apply — we'll show you exactly which tools cover each obligation.</div>
+      <div class="lm-check-grid">
+        <div class="lm-check-item" onclick="lmToggleCheck(this,'climate_disclosure')"><div class="lm-check-box">✓</div><div class="lm-check-label">Climate Disclosure</div><div class="lm-check-tag">ISSB S2 / AASB S2 / BRSR</div></div>
+        <div class="lm-check-item" onclick="lmToggleCheck(this,'ghg_inventory')"><div class="lm-check-box">✓</div><div class="lm-check-label">GHG Inventory (Scope 1-2-3)</div><div class="lm-check-tag">GHG Protocol / PCAF</div></div>
+        <div class="lm-check-item" onclick="lmToggleCheck(this,'tcfd_scenario')"><div class="lm-check-box">✓</div><div class="lm-check-label">TCFD Scenario Analysis</div><div class="lm-check-tag">NGFS v5 / Physical Risk CVaR</div></div>
+        <div class="lm-check-item" onclick="lmToggleCheck(this,'esg_dd')"><div class="lm-check-box">✓</div><div class="lm-check-label">ESG Due Diligence</div><div class="lm-check-tag">PRI / ICMA GBP / Basel</div></div>
+        <div class="lm-check-item" onclick="lmToggleCheck(this,'carbon_credits')"><div class="lm-check-box">✓</div><div class="lm-check-label">Carbon / Blue Credits</div><div class="lm-check-tag">Verra / Gold Standard / EPR</div></div>
+        <div class="lm-check-item" onclick="lmToggleCheck(this,'apra_cps')"><div class="lm-check-box">✓</div><div class="lm-check-label">APRA CPS 229 / MAS CVA</div><div class="lm-check-tag">Bank / Insurer Climate Risk</div></div>
+      </div>
+      <div class="lm-nav"><button class="lm-back" onclick="lmGoStep(1)">← Back</button><button class="lm-next" onclick="lmGoStep(3)">Continue →</button></div>
+    </div>
+    <!-- Step 3: Contact -->
+    <div class="lm-step" id="lm-step-3">
+      <div class="lm-eyebrow">Step 3 of 3 · Your Details</div>
+      <div class="lm-title">Let's set up your account</div>
+      <div class="lm-sub">Our team will reach out within 24 hours with a tailored onboarding plan for your market and frameworks.</div>
+      <div class="lm-field"><label>Full Name</label><input type="text" id="lm-name" placeholder="Jane Smith"></div>
+      <div class="lm-field"><label>Company / Organisation</label><input type="text" id="lm-company" placeholder="Acme Holdings"></div>
+      <div class="lm-field"><label>Work Email</label><input type="email" id="lm-email" placeholder="jane@company.com"></div>
+      <div class="lm-field"><label>Your Role</label>
+        <select id="lm-role">
+          <option value="">Select your role...</option>
+          <option value="cfo">CFO / Finance Director</option>
+          <option value="sustainability_head">Head of Sustainability / ESG</option>
+          <option value="risk_officer">Chief Risk Officer</option>
+          <option value="compliance">Compliance / Legal</option>
+          <option value="investor_relations">Investor Relations</option>
+          <option value="consultant">ESG Consultant / Advisor</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="lm-field"><label>Organisation Type</label>
+        <select id="lm-org-type">
+          <option value="">Select type...</option>
+          <option value="listed">Listed Company (ASX / SGX / NSE / BSE)</option>
+          <option value="bank">Bank / Financial Institution</option>
+          <option value="asset_manager">Asset Manager / Private Equity</option>
+          <option value="insurer">Insurance / Re-insurance</option>
+          <option value="corporate">Corporate / MNC</option>
+          <option value="government">Government / Regulator</option>
+          <option value="consultant">Consulting Firm</option>
+        </select>
+      </div>
+      <div class="lm-nav"><button class="lm-back" onclick="lmGoStep(2)">← Back</button><button class="lm-next" onclick="lmSubmit()" id="lm-submit-btn">Get Access →</button></div>
+    </div>
+    <!-- Step 4: Success -->
+    <div class="lm-step" id="lm-step-4">
+      <div class="lm-success-icon">✅</div>
+      <div class="lm-eyebrow">You're in the pipeline</div>
+      <div class="lm-title">We'll be in touch shortly</div>
+      <div class="lm-sub" id="lm-success-sub">Your details have been saved. Our team will reach out within 24 hours.</div>
+      <div style="margin:1.25rem 0">
+        <div class="lm-score-label"><span>Your Lead Score</span><span id="lm-score-num">—</span></div>
+        <div class="lm-score-bar"><div class="lm-score-fill" id="lm-score-fill" style="width:0%"></div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:.6rem;margin-top:1.5rem">
+        <button onclick="closeLeadModal();showPage('advisor')" style="background:rgba(0,232,122,.08);border:1px solid rgba(0,232,122,.2);color:#00e87a;padding:.7rem;border-radius:.4rem;cursor:pointer;font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.06em;transition:all .2s">💬 Chat with Sage AI now →</button>
+        <button onclick="closeLeadModal();navTo('features')" style="background:none;border:1px solid rgba(240,237,232,.1);color:rgba(240,237,232,.5);padding:.65rem;border-radius:.4rem;cursor:pointer;font-family:'DM Mono',monospace;font-size:.72rem;transition:all .2s">Explore the platform</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1967,13 +2093,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
 </section>
 
 <!-- WAITLIST -->
-<section class="section section-dark waitlist-section" id="waitlist">
+<section class="section section-dark waitlist-section" id="waitlist" style="text-align:center">
   <div class="section-label" style="text-align:center">Early Access</div>
   <h2 class="section-title fade-up">Be first to <em>transform</em> your sustainability strategy</h2>
-  <p style="margin-top:1rem;color:rgba(245,240,232,0.5);font-size:1rem;position:relative;z-index:1;">Join the waitlist and get early access when we launch.</p>
-  <div class="waitlist-form">
-    <input type="email" id="waitlist-email" class="waitlist-input" placeholder="Enter your work email">
-    <button class="btn-primary" onclick="handleWaitlist()">Get Early Access →</button>
+  <p class="fade-up" style="margin-top:1rem;color:rgba(240,237,232,0.5);font-size:1rem;position:relative;z-index:1;max-width:520px;margin:1rem auto 2.5rem;line-height:1.7">Join enterprise clients from Singapore, Australia and India already on the platform. Personalised onboarding included.</p>
+  <div class="fade-up" style="display:flex;flex-direction:column;align-items:center;gap:1rem;position:relative;z-index:1">
+    <button class="btn-primary" onclick="openLeadModal('waitlist')" style="font-size:.9rem;padding:1rem 2.75rem">Get Early Access — Free →</button>
+    <div style="display:flex;align-items:center;gap:.75rem;font-size:.78rem;color:rgba(240,237,232,.35)">
+      <span>🇸🇬 Singapore</span><span style="opacity:.3">·</span>
+      <span>🇦🇺 Australia</span><span style="opacity:.3">·</span>
+      <span>🇮🇳 India</span><span style="opacity:.3">·</span>
+      <span>No credit card · Cancel anytime</span>
+    </div>
   </div>
 </section>
 
@@ -1999,7 +2130,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
       <div class="feature-desc">See how Sage answers your sustainability questions in real time — TCFD, ISSB, SBTi and more.</div>
     </div>
   </div>
-  <a href="mailto:info@regenesisimpact.in" class="btn-primary" style="font-size:0.85rem;padding:0.9rem 2.5rem">Book a Trial Session →</a>
+  <button onclick="openLeadModal('book_trial')" class="btn-primary" style="font-size:0.85rem;padding:0.9rem 2.5rem">Book a Trial Session →</button>
   <p style="margin-top:1rem;font-size:0.8rem;color:rgba(245,240,232,0.3)">Or email us at <a href="mailto:info@regenesisimpact.in" style="color:#7ed957;">info@regenesisimpact.in</a></p>
 </section>
 
@@ -2046,6 +2177,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
         <button onclick="requireLogin('issb')" style="margin-top:1rem;background:none;border:1px solid rgba(126,217,87,.3);color:var(--lime);padding:.4rem 1rem;border-radius:2rem;font-size:.7rem;cursor:pointer">Open Disclosure Hub →</button>
       </article>
 
+      <article style="background:rgba(255,255,255,.03);border:1px solid rgba(0,232,122,.1);border-radius:.75rem;padding:1.5rem">
+        <h3 style="font-size:.95rem;color:#00e87a;margin-bottom:.5rem">AASB S2 Mandatory Climate Reporting — Australia 2025</h3>
+        <p style="font-size:.75rem;color:rgba(240,237,232,.5);line-height:1.7">Australia's AASB S2 (Australian Sustainability Reporting Standard) aligns with ISSB S2 and is mandatory for Group 1 entities (consolidated revenue &gt; AUD $500M or total assets &gt; $1B) from annual periods beginning 1 January 2025. Group 2 follows from 2026 and Group 3 from 2027. APRA simultaneously requires Climate Vulnerability Assessments (CVA) under CPS 229 for ADIs and insurers — covering physical risk to balance sheets and transition risk stress testing. ASIC's RG 247 provides enforcement guidance on misleading climate statements. Our platform generates AASB S2-compliant reports, runs APRA CVA modelling, and aligns with ASIC's disclosure obligations in a single workflow.</p>
+        <button onclick="openLeadModal('seo_au')" style="margin-top:1rem;background:none;border:1px solid rgba(0,232,122,.3);color:#00e87a;padding:.4rem 1rem;border-radius:2rem;font-size:.7rem;cursor:pointer">Get Australia Access →</button>
+      </article>
+
+      <article style="background:rgba(255,255,255,.03);border:1px solid rgba(0,232,122,.1);border-radius:.75rem;padding:1.5rem">
+        <h3 style="font-size:.95rem;color:#00e87a;margin-bottom:.5rem">MAS Environmental Risk &amp; SGX Climate Reporting — Singapore</h3>
+        <p style="font-size:.75rem;color:rgba(240,237,232,.5);line-height:1.7">The Monetary Authority of Singapore (MAS) requires all banks, insurers and asset managers under MAS Notice 645 and the Guidelines on Environmental Risk Management (ERM) to integrate climate risk into governance, strategy and risk appetite. SGX-listed companies must report climate-related disclosures aligned with ISSB S2 — mandatory for large-cap from FY2024 and mid-cap from FY2025. Singapore's Green Finance Action Plan (GFAP) 2.0 sets out the roadmap for the Singapore-Asia Taxonomy and alignment with international standards. ReGenesis Impact covers MAS ERM requirements, SGX ISSB S2 disclosures, and the Singapore-Asia Taxonomy classification in one integrated platform.</p>
+        <button onclick="openLeadModal('seo_sg')" style="margin-top:1rem;background:none;border:1px solid rgba(0,232,122,.3);color:#00e87a;padding:.4rem 1rem;border-radius:2rem;font-size:.7rem;cursor:pointer">Get Singapore Access →</button>
+      </article>
+
     </div>
   </div>
 </section>
@@ -2069,12 +2212,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
     </div>
     <div class="footer-links-col">
       <div class="footer-col-title">Frameworks</div>
-      <a href="#" onclick="requireLogin('issb');return false">ISSB S2 · GRI · BRSR</a>
-      <a href="#" onclick="requireLogin('climate');return false">TCFD</a>
-      <a href="#" onclick="requireLogin('climate');return false">NGFS Scenarios</a>
-      <a href="#" onclick="requireLogin('ghg');return false">GHG Protocol</a>
-      <a href="#" onclick="requireLogin('climate');return false">SBTi</a>
-      <a href="#" onclick="requireLogin('issb');return false">ASSB · CDP · BRSR</a>
+      <a href="#" onclick="requireLogin('issb');return false">ISSB S2 · AASB S2 · GRI</a>
+      <a href="#" onclick="requireLogin('climate');return false">TCFD · NGFS v5</a>
+      <a href="#" onclick="requireLogin('ghg');return false">GHG Protocol · PCAF</a>
+      <a href="#" onclick="requireLogin('climate');return false">SBTi · TNFD</a>
+      <a href="#" onclick="navTo('markets');return false">MAS ERM · SGX · APRA</a>
+      <a href="#" onclick="requireLogin('issb');return false">BRSR Core · CDP</a>
+    </div>
+    <div class="footer-links-col">
+      <div class="footer-col-title">Markets</div>
+      <a href="#" onclick="navTo('markets');return false">🇸🇬 Singapore</a>
+      <a href="#" onclick="navTo('markets');return false">🇦🇺 Australia</a>
+      <a href="#" onclick="navTo('markets');return false">🇮🇳 India</a>
     </div>
     <div class="footer-links-col">
       <div class="footer-col-title">Company</div>
@@ -2086,7 +2235,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
   </div>
   <div class="footer-bottom">
     <span>© 2026 ReGenesis Impact. All rights reserved.</span>
-    <span>Built in India 🇮🇳</span>
+    <span>Singapore 🇸🇬 · Australia 🇦🇺 · India 🇮🇳</span>
   </div>
 </footer>
 
@@ -6971,11 +7120,286 @@ function navTo(anchor) {
  }, 60);
 }
 
-function handleWaitlist() {
- var el = document.getElementById('waitlist-email');
- if (el && el.value.trim()) { el.value = ''; alert('Thank you! You are on the early access list.'); }
- else { alert('Please enter your email address.'); }
+// ============================================================
+// AGENTIC LEAD SYSTEM
+// ============================================================
+
+var _leadData = { market: null, frameworks: [], org_type: null };
+
+function calculateLeadScore(lead) {
+  var score = 10;
+  if (lead.email) score += 20;
+  if (lead.company) score += 15;
+  if (lead.name) score += 10;
+  if (lead.role && lead.role !== '') score += 8;
+  if (lead.market === 'sg' || lead.market === 'au') score += 20;
+  else if (lead.market === 'in') score += 10;
+  else if (lead.market) score += 5;
+  if (lead.org_type === 'bank' || lead.org_type === 'listed' || lead.org_type === 'asset_manager' || lead.org_type === 'insurer') score += 15;
+  else if (lead.org_type) score += 7;
+  if (lead.frameworks && lead.frameworks.length >= 3) score += 12;
+  else if (lead.frameworks && lead.frameworks.length >= 1) score += 6;
+  return Math.min(score, 100);
 }
+
+async function storeLead(leadData) {
+  if (!_supabase) return false;
+  try {
+    var r = await _supabase.from('leads').insert([{
+      email: leadData.email || '',
+      name: leadData.name || null,
+      company: leadData.company || null,
+      role: leadData.role || null,
+      market: leadData.market || null,
+      company_type: leadData.org_type || null,
+      frameworks: leadData.frameworks || [],
+      lead_score: calculateLeadScore(leadData),
+      source: leadData.source || 'website',
+      page_path: window.location.href
+    }]);
+    if (r.error) console.warn('Lead insert:', r.error.message);
+    return true;
+  } catch(e) { console.warn('storeLead:', e); return false; }
+}
+
+async function notifyLeadByEmail(leadData) {
+  // Replace the placeholder below with your Web3Forms access key from web3forms.com
+  var KEY = 'REPLACE_WITH_WEB3FORMS_KEY';
+  if (!KEY || KEY === 'REPLACE_WITH_WEB3FORMS_KEY') { console.info('[ReGenesis Lead]', JSON.stringify(leadData)); return; }
+  var mkt = {sg:'Singapore 🇸🇬',au:'Australia 🇦🇺',in:'India 🇮🇳',other:'Global 🌐'};
+  try {
+    await fetch('https://api.web3forms.com/submit', {
+      method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body: JSON.stringify({
+        access_key: KEY,
+        subject: '🌿 New Lead: ' + (mkt[leadData.market]||'Unknown') + ' · ' + (leadData.company||leadData.email||'Unknown'),
+        to_email: 'info@regenesisimpact.in',
+        from_name: 'ReGenesis Lead Bot',
+        message: ['New lead from ReGenesis Impact','','Name: '+(leadData.name||'—'),'Email: '+(leadData.email||'—'),'Company: '+(leadData.company||'—'),'Role: '+(leadData.role||'—'),'Market: '+(mkt[leadData.market]||'—'),'Org Type: '+(leadData.org_type||'—'),'Frameworks: '+(leadData.frameworks||[]).join(', '),'Lead Score: '+calculateLeadScore(leadData)+'/100','Source: '+(leadData.source||'website'),'Time: '+new Date().toISOString()].join('\n'),
+        botcheck:''
+      })
+    });
+  } catch(e) { console.warn('Email notify:', e); }
+}
+
+async function captureLead(leadData) {
+  await Promise.all([storeLead(leadData), notifyLeadByEmail(leadData)]);
+}
+
+// ── Smart Lead Modal ──────────────────────────────────────────
+var _lmSource = 'website';
+
+function openLeadModal(source) {
+  _lmSource = source || 'website';
+  _leadData = { market: null, frameworks: [], org_type: null };
+  document.querySelectorAll('.lm-step').forEach(function(s){ s.classList.remove('active'); });
+  var s1 = document.getElementById('lm-step-1'); if (s1) s1.classList.add('active');
+  document.querySelectorAll('.lm-market-tile').forEach(function(t){ t.classList.remove('selected'); });
+  document.querySelectorAll('.lm-check-item').forEach(function(t){ t.classList.remove('selected'); });
+  var btn = document.getElementById('lm-next-1');
+  if (btn) { btn.disabled = true; btn.style.opacity='.4'; btn.style.cursor='not-allowed'; btn.textContent='Select a market →'; }
+  [1,2,3].forEach(function(i){ var d=document.getElementById('lm-dot-'+i); if(d){ d.classList.remove('active','done'); if(i===1) d.classList.add('active'); } });
+  var modal = document.getElementById('lead-modal');
+  if (modal) { modal.classList.add('open'); document.body.style.overflow='hidden'; }
+}
+
+function closeLeadModal() {
+  var m = document.getElementById('lead-modal');
+  if (m) { m.classList.remove('open'); document.body.style.overflow=''; }
+}
+
+function lmGoStep(step) {
+  var cur = document.querySelector('.lm-step.active');
+  if (cur) cur.classList.remove('active');
+  var nxt = document.getElementById('lm-step-'+step);
+  if (nxt) nxt.classList.add('active');
+  [1,2,3].forEach(function(i){
+    var d = document.getElementById('lm-dot-'+i);
+    if (!d) return;
+    d.classList.remove('active','done');
+    if (i < step) d.classList.add('done');
+    else if (i === step) d.classList.add('active');
+  });
+}
+
+function lmSelectMarket(el, market) {
+  document.querySelectorAll('.lm-market-tile').forEach(function(t){ t.classList.remove('selected'); });
+  el.classList.add('selected');
+  _leadData.market = market;
+  var btn = document.getElementById('lm-next-1');
+  if (btn) { btn.disabled=false; btn.style.opacity='1'; btn.style.cursor='pointer'; btn.textContent='Continue →'; }
+}
+
+function lmToggleCheck(el, fw) {
+  el.classList.toggle('selected');
+  var idx = _leadData.frameworks.indexOf(fw);
+  if (idx === -1) _leadData.frameworks.push(fw); else _leadData.frameworks.splice(idx,1);
+}
+
+async function lmSubmit() {
+  var email = (document.getElementById('lm-email')||{}).value||'';
+  if (!email || !email.includes('@')) {
+    var f=document.getElementById('lm-email');
+    if(f){ f.style.borderColor='rgba(255,80,80,.5)'; setTimeout(function(){ f.style.borderColor=''; },2000); }
+    return;
+  }
+  var btn = document.getElementById('lm-submit-btn');
+  if (btn) { btn.textContent='Saving...'; btn.disabled=true; }
+  var leadData = {
+    email: email,
+    name: (document.getElementById('lm-name')||{}).value||'',
+    company: (document.getElementById('lm-company')||{}).value||'',
+    role: (document.getElementById('lm-role')||{}).value||'',
+    org_type: (document.getElementById('lm-org-type')||{}).value||'',
+    market: _leadData.market, frameworks: _leadData.frameworks, source: _lmSource
+  };
+  await captureLead(leadData);
+  var score = calculateLeadScore(leadData);
+  lmGoStep(4);
+  var mktNames = {sg:'Singapore (MAS · SGX)',au:'Australia (AASB S2 · APRA)',in:'India (BRSR · ISSB S2)',other:'Global'};
+  var sub = document.getElementById('lm-success-sub');
+  if (sub) sub.textContent = 'Your '+(mktNames[leadData.market]||'')+" access request is saved. Our team will reach out within 24 hours with a tailored onboarding plan.";
+  var sn = document.getElementById('lm-score-num'); if(sn) sn.textContent = score+'/100';
+  var sf = document.getElementById('lm-score-fill'); setTimeout(function(){ if(sf) sf.style.width=score+'%'; },200);
+  if (btn) { btn.textContent='Get Access →'; btn.disabled=false; }
+}
+
+// ── Regulatory Alert Bar ──────────────────────────────────────
+var _rabTimer=null, _rabIdx=0, _rabItems=[];
+
+function initRegAlertBar() {
+  if (localStorage.getItem('rab_dismissed')) return;
+  _rabItems = Array.from(document.querySelectorAll('.rab-item'));
+  if (!_rabItems.length) return;
+  setTimeout(function(){
+    var bar = document.getElementById('reg-alert-bar');
+    if (bar) bar.classList.add('visible');
+    _rabTimer = setInterval(rotateRabAlert, 5000);
+  }, 2000);
+}
+
+function rotateRabAlert() {
+  if (!_rabItems.length) return;
+  _rabItems.forEach(function(el){ el.classList.remove('rab-active'); });
+  _rabIdx = (_rabIdx+1) % _rabItems.length;
+  _rabItems[_rabIdx].classList.add('rab-active');
+}
+
+function dismissRegAlertBar() {
+  var bar = document.getElementById('reg-alert-bar');
+  if (bar) bar.classList.remove('visible');
+  if (_rabTimer) clearInterval(_rabTimer);
+  localStorage.setItem('rab_dismissed','1');
+}
+
+// ── Proactive Sage Lead Chat ──────────────────────────────────
+var _slcData={}, _slcStep=0;
+
+var _slcFlow=[
+  { msg:"Hi! I'm Sage 🌿 — ReGenesis Impact's AI sustainability advisor.\n\nQuick question to personalise your experience — which market is your primary reporting jurisdiction?",
+    opts:[{label:'🇸🇬 Singapore (MAS · SGX)',val:'sg'},{label:'🇦🇺 Australia (AASB S2 · APRA)',val:'au'},{label:'🇮🇳 India (BRSR · ISSB S2)',val:'in'},{label:'🌐 Other / Global',val:'other'}],
+    key:'market', progress:15 },
+  { msg:null,
+    opts:[{label:'Climate Disclosure Report',val:'climate_disclosure'},{label:'GHG Inventory (Scope 1-2-3)',val:'ghg'},{label:'TCFD Scenario Analysis',val:'tcfd'},{label:'ESG Due Diligence',val:'esg_dd'}],
+    key:'framework', progress:55 },
+  { msg:"Last step 👋 — what's your work email? I'll save your personalised setup and our team will reach out within 24h with tailored guidance.",
+    opts:[], key:'email', progress:85, showInput:true }
+];
+
+var _mktMsgs={
+  sg:"Great 🇸🇬! Singapore has active ESG mandates — MAS ERM, SGX mandatory ISSB S2 from FY2024, and the Singapore-Asia Taxonomy.\n\nWhat's your primary compliance need?",
+  au:"Australia is moving fast 🇦🇺! AASB S2 is mandatory for Group 1 from 1 Jan 2025, with APRA CPS 229 CVA for banks and insurers.\n\nWhat's your primary compliance need?",
+  in:"India has strong ESG requirements 🇮🇳! SEBI BRSR Core for top 150 listed companies, ISSB S2 adoption, Scope 1-2-3 reporting.\n\nWhat's your primary compliance need?",
+  other:"Global frameworks are converging 🌐! ISSB S2 is adopted in 40+ jurisdictions. Let me help you navigate.\n\nWhat's your primary compliance need?"
+};
+
+function initProactiveSageChat() {
+  if (localStorage.getItem('slc_shown') || _currentUser) return;
+  setTimeout(function(){
+    if (_currentUser) return;
+    openSageLeadChat();
+    localStorage.setItem('slc_shown','1');
+  }, 6000);
+}
+
+function openSageLeadChat() {
+  var chat = document.getElementById('sage-lead-chat');
+  if (!chat) return;
+  _slcData={}; _slcStep=0;
+  var msgs=document.getElementById('slc-messages'); if(msgs) msgs.innerHTML='';
+  var opts=document.getElementById('slc-options'); if(opts) opts.innerHTML='';
+  var iw=document.getElementById('slc-input-wrap'); if(iw) iw.classList.remove('show');
+  chat.classList.add('open');
+  setTimeout(function(){ slcShowStep(0); }, 300);
+}
+
+function closeSageLeadChat() {
+  var chat=document.getElementById('sage-lead-chat'); if(chat) chat.classList.remove('open');
+}
+
+function slcShowStep(idx) {
+  var step=_slcFlow[idx]; if(!step) return;
+  var pf=document.getElementById('slc-progress-fill'); if(pf) pf.style.width=step.progress+'%';
+  var msgs=document.getElementById('slc-messages'); if(!msgs) return;
+  var typing=document.createElement('div'); typing.className='slc-typing';
+  typing.innerHTML='<span></span><span></span><span></span>'; msgs.appendChild(typing); msgs.scrollTop=msgs.scrollHeight;
+  var msgText = step.msg;
+  if (idx===1 && _slcData.market) msgText = _mktMsgs[_slcData.market]||step.msg||'What is your primary compliance need?';
+  setTimeout(function(){
+    typing.remove();
+    if (msgText){ var m=document.createElement('div'); m.className='slc-msg slc-msg-sage'; m.style.whiteSpace='pre-line'; m.textContent=msgText; msgs.appendChild(m); msgs.scrollTop=msgs.scrollHeight; }
+    var opts=document.getElementById('slc-options'); if(opts) opts.innerHTML='';
+    (step.opts||[]).forEach(function(opt){
+      var btn=document.createElement('button'); btn.className='slc-opt'; btn.textContent=opt.label;
+      btn.onclick=function(){ slcSelectOpt(opt,idx); }; if(opts) opts.appendChild(btn);
+    });
+    var iw=document.getElementById('slc-input-wrap');
+    if(iw){ if(step.showInput) iw.classList.add('show'); else iw.classList.remove('show'); }
+  }, 900);
+}
+
+function slcSelectOpt(opt, idx) {
+  var step=_slcFlow[idx]; _slcData[step.key]=opt.val;
+  var msgs=document.getElementById('slc-messages');
+  if(msgs){ var m=document.createElement('div'); m.className='slc-msg slc-msg-user'; m.textContent=opt.label; msgs.appendChild(m); msgs.scrollTop=msgs.scrollHeight; }
+  var opts=document.getElementById('slc-options'); if(opts) opts.innerHTML='';
+  var nxt=idx+1; if(nxt<_slcFlow.length) setTimeout(function(){ slcShowStep(nxt); },400);
+}
+
+async function slcSubmitEmail() {
+  var inp=document.getElementById('slc-email-input'); if(!inp) return;
+  var email=inp.value.trim();
+  if(!email||!email.includes('@')){ inp.style.borderColor='rgba(255,80,80,.5)'; setTimeout(function(){ inp.style.borderColor=''; },2000); return; }
+  _slcData.email=email;
+  var pf=document.getElementById('slc-progress-fill'); if(pf) pf.style.width='100%';
+  var msgs=document.getElementById('slc-messages');
+  if(msgs){ var m=document.createElement('div'); m.className='slc-msg slc-msg-user'; m.textContent=email; msgs.appendChild(m); msgs.scrollTop=msgs.scrollHeight; }
+  var iw=document.getElementById('slc-input-wrap'); if(iw) iw.classList.remove('show');
+  var opts=document.getElementById('slc-options'); if(opts) opts.innerHTML='';
+  await captureLead({ email:_slcData.email, market:_slcData.market, frameworks:_slcData.framework?[_slcData.framework]:[], source:'sage_chat' });
+  var typing2=document.createElement('div'); typing2.className='slc-typing'; typing2.innerHTML='<span></span><span></span><span></span>';
+  if(msgs){ msgs.appendChild(typing2); msgs.scrollTop=msgs.scrollHeight; }
+  setTimeout(function(){
+    typing2.remove();
+    var mktN={sg:'Singapore',au:'Australia',in:'India',other:'global'};
+    var s=document.createElement('div'); s.className='slc-msg slc-msg-sage';
+    s.textContent='✅ Got it! I\'ve saved your '+(mktN[_slcData.market]||'')+' setup. Our team will reach out at '+email+' within 24 hours.\n\nIn the meantime, feel free to explore the platform or ask me any ESG questions!';
+    if(msgs){ msgs.appendChild(s); msgs.scrollTop=msgs.scrollHeight; }
+    if(opts){
+      var eb=document.createElement('button'); eb.className='slc-opt'; eb.textContent='💬 Chat with Sage AI →'; eb.onclick=function(){ closeSageLeadChat(); showPage('advisor'); }; opts.appendChild(eb);
+      var pb=document.createElement('button'); pb.className='slc-opt'; pb.textContent='Explore the platform'; pb.onclick=function(){ closeSageLeadChat(); navTo('features'); }; opts.appendChild(pb);
+    }
+  }, 1000);
+}
+
+// ── Init on load ──────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function(){
+  initRegAlertBar();
+  setTimeout(function(){ if(!_currentUser) initProactiveSageChat(); }, 800);
+});
+
+// Legacy alias
+function handleWaitlist() { openLeadModal('waitlist'); }
 
 // ── SUPABASE AUTH ──────────────────────────────────────────────
 var _supabase = null;
@@ -7003,6 +7427,7 @@ var _currentUser = null;
 
 function _onSignedIn(user) {
   _currentUser = user;
+  closeSageLeadChat();
   // Show user email + sign out in nav
   var wrap = document.getElementById('nav-user-wrap');
   var emailEl = document.getElementById('nav-user-email');
@@ -9238,7 +9663,7 @@ setTimeout(function(){ ciDrawDonut(12500,8200,145000,165700); ciDrawDcPathway(16
     </div>
 
     <div class="trial-cta-wrap">
-      <a href="mailto:info@regenesisimpact.in" class="btn-primary" style="font-size:0.85rem;padding:0.9rem 2.5rem">Book a Trial Session →</a>
+      <button onclick="openLeadModal('book_trial')" class="btn-primary" style="font-size:0.85rem;padding:0.9rem 2.5rem">Book a Trial Session →</button>
       <p style="margin-top:1rem;font-size:0.8rem;color:rgba(245,240,232,0.3)">Or email us at <a href="mailto:info@regenesisimpact.in" style="color:#7ed957;">info@regenesisimpact.in</a></p>
     </div>
   </div>
