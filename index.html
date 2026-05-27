@@ -4425,7 +4425,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
 </div>
 <button class="btn-ghg-p" onclick="ghg_generate()">⚡ Generate AI Inventory Report</button>
  <div id="ghg-ai-report" style="display:none;margin-top:1.25rem;background:rgba(255,178,60,.04);border:1px solid rgba(255,178,60,.15);border-radius:.45rem;padding:1.1rem 1.25rem;">
-  <div style="font-family:var(--mono);font-size:.55rem;letter-spacing:.1em;color:#ffb23c;text-transform:uppercase;margin-bottom:.75rem">🌿 Sage AI — GHG Inventory Report</div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem">
+    <div style="font-family:var(--mono);font-size:.55rem;letter-spacing:.1em;color:#ffb23c;text-transform:uppercase">🌿 Sage AI — GHG Inventory Report</div>
+    <div style="display:flex;gap:.5rem">
+      <button onclick="ghgCopyReport()" style="background:rgba(255,178,60,.1);border:1px solid rgba(255,178,60,.25);color:#ffb23c;padding:.25rem .65rem;border-radius:2rem;font-size:.62rem;font-family:var(--mono);cursor:pointer;letter-spacing:.06em" id="ghg-copy-btn">Copy</button>
+      <button onclick="ghgExportReport()" style="background:rgba(255,178,60,.1);border:1px solid rgba(255,178,60,.25);color:#ffb23c;padding:.25rem .65rem;border-radius:2rem;font-size:.62rem;font-family:var(--mono);cursor:pointer;letter-spacing:.06em">Export PDF</button>
+    </div>
+  </div>
   <div id="ghg-ai-report-text" style="font-size:.8rem;line-height:1.75;color:rgba(245,240,232,.85)">Calculating emissions and generating report...</div>
  </div>
  </div>
@@ -7455,6 +7461,7 @@ async function lmSubmit() {
     market: _leadData.market, frameworks: _leadData.frameworks, source: _lmSource
   };
   await captureLead(leadData);
+  if (leadData.market) localStorage.setItem('rg_market', leadData.market);
   var score = calculateLeadScore(leadData);
   lmGoStep(4);
   var mktNames = {sg:'Singapore (MAS · SGX)',au:'Australia (AASB S2 · APRA)',in:'India (BRSR · ISSB S2)',other:'Global'};
@@ -7470,12 +7477,24 @@ var _rabTimer=null, _rabIdx=0, _rabItems=[];
 
 function initRegAlertBar() {
   if (localStorage.getItem('rab_dismissed')) return;
+  var savedMarket = localStorage.getItem('rg_market');
   _rabItems = Array.from(document.querySelectorAll('.rab-item'));
   if (!_rabItems.length) return;
+
+  // Filter to user's market if known — show only their alerts
+  if (savedMarket && savedMarket !== 'other') {
+    _rabItems.forEach(function(el){
+      if (el.dataset.market !== savedMarket) el.style.display = 'none';
+    });
+    _rabItems = _rabItems.filter(function(el){ return el.dataset.market === savedMarket; });
+  }
+
+  if (_rabItems[0]) _rabItems[0].classList.add('rab-active');
+
   setTimeout(function(){
     var bar = document.getElementById('reg-alert-bar');
     if (bar) bar.classList.add('visible');
-    _rabTimer = setInterval(rotateRabAlert, 5000);
+    if (_rabItems.length > 1) _rabTimer = setInterval(rotateRabAlert, 5000);
   }, 2000);
 }
 
@@ -7578,6 +7597,7 @@ async function slcSubmitEmail() {
   var iw=document.getElementById('slc-input-wrap'); if(iw) iw.classList.remove('show');
   var opts=document.getElementById('slc-options'); if(opts) opts.innerHTML='';
   await captureLead({ email:_slcData.email, market:_slcData.market, frameworks:_slcData.framework?[_slcData.framework]:[], source:'sage_chat' });
+  if (_slcData.market) localStorage.setItem('rg_market', _slcData.market);
   var typing2=document.createElement('div'); typing2.className='slc-typing'; typing2.innerHTML='<span></span><span></span><span></span>';
   if(msgs){ msgs.appendChild(typing2); msgs.scrollTop=msgs.scrollHeight; }
   setTimeout(function(){
@@ -7947,26 +7967,76 @@ window.ghg_live = function() {
 };
 
  window.ghg_generate = async function() {
- ghg_calc();
- var org = ghg_str('g-entity') !== '—' ? ghg_str('g-entity') : 'the organisation';
- var period = ghg_str('g-period');
- var sector = ghg_sel('g-sector') !== '—' ? ghg_sel('g-sector') : 'financial services';
- var s1 = document.getElementById('ghg-r-s1') ? document.getElementById('ghg-r-s1').textContent : '0';
- var s2 = document.getElementById('ghg-r-s2') ? document.getElementById('ghg-r-s2').textContent : '0';
- var s3 = document.getElementById('ghg-r-s3') ? document.getElementById('ghg-r-s3').textContent : '0';
- var total = document.getElementById('ghg-r-total') ? document.getElementById('ghg-r-total').textContent : '0';
- var intensity = document.getElementById('ghg-r-intensity') ? document.getElementById('ghg-r-intensity').textContent : '—';
- var prompt = 'Generate a formal, audit-ready GHG Inventory Report for ' + org + ' (' + sector + '), reporting period: ' + period + '.\n\n' +
-   'Emissions Data:\n' +
-   '• Scope 1 (Direct): ' + s1 + ' tCO₂e\n' +
-   '• Scope 2 (Location-based): ' + s2 + ' tCO₂e\n' +
-   '• Scope 3 (Indirect): ' + s3 + ' tCO₂e\n' +
-   '• TOTAL: ' + total + ' tCO₂e\n' +
-   '• Intensity: ' + intensity + ' tCO₂e / ₹ Cr AUM\n\n' +
-   'Include:\n1. Executive Summary\n2. Methodology (GHG Protocol Corporate Standard, IPCC AR6 GWP100)\n3. Scope-by-scope breakdown with key emission sources\n4. Data quality and verification statement\n5. Intensity metrics and year-on-year commentary\n6. Audit trail note\n\nTone: Professional, board-ready. Format with clear section headers. ~400 words.';
- call_sage_ai('ghg-ai-report', 'ghg-ai-report-text', prompt);
- var rp = document.getElementById('ghg-results');
- if (rp) { rp.style.display = 'block'; rp.scrollIntoView({behavior:'smooth', block:'nearest'}); }
+   ghg_calc();
+   var org    = ghg_str('g-entity') !== '—' ? ghg_str('g-entity') : 'the organisation';
+   var period = ghg_str('g-period') || 'FY2024';
+   var sector = ghg_sel('g-sector') !== '—' ? ghg_sel('g-sector') : 'financial services';
+   var s1     = (document.getElementById('ghg-r-s1')||{}).textContent || '0';
+   var s2     = (document.getElementById('ghg-r-s2')||{}).textContent || '0';
+   var s3     = (document.getElementById('ghg-r-s3')||{}).textContent || '0';
+   var total  = (document.getElementById('ghg-r-total')||{}).textContent || '0';
+   var intens = (document.getElementById('ghg-r-intensity')||{}).textContent || '—';
+
+   var mkt = localStorage.getItem('rg_market') || 'in';
+   var mktFramework = {
+     sg: 'MAS Environmental Risk Management (ERM), SGX Climate Reporting (IFRS S2 mandatory from FY2024), Singapore Green Finance Action Plan',
+     au: 'AASB S2 (mandatory for Group 1 from 1 Jan 2025), APRA CPS 229 Climate Vulnerability Assessment, ASIC RG 247',
+     in: 'SEBI BRSR Core (mandatory for top 150 listed companies, FY2023-24), IFRS S2 adoption pathway, GHG Protocol India',
+     other: 'IFRS S2 / ISSB, GHG Protocol Corporate Standard, TCFD recommendations'
+   }[mkt] || 'IFRS S2, GHG Protocol';
+
+   var prompt = 'Generate a formal, audit-ready GHG Inventory Report for ' + org + ' (' + sector + '), reporting period: ' + period + '.\n\n' +
+     'Emissions Data:\n' +
+     '• Scope 1 (Direct):         ' + s1    + ' tCO₂e\n' +
+     '• Scope 2 (Location-based): ' + s2    + ' tCO₂e\n' +
+     '• Scope 3 (Value chain):    ' + s3    + ' tCO₂e\n' +
+     '• TOTAL:                    ' + total + ' tCO₂e\n' +
+     '• GHG Intensity:            ' + intens + '\n\n' +
+     'Applicable regulatory frameworks: ' + mktFramework + '\n\n' +
+     'Include these sections:\n' +
+     '1. **Executive Summary** — headline inventory, key trends, net-zero commitment\n' +
+     '2. **Methodology** — GHG Protocol Corporate Standard, IPCC AR6 GWP100, consolidation approach\n' +
+     '3. **Scope-by-Scope Breakdown** — sources, calculation approach, data quality\n' +
+     '4. **Regulatory Alignment** — how this inventory satisfies the applicable frameworks above, specific paragraph references\n' +
+     '5. **Intensity & Benchmarks** — intensity metric, sector comparison, year-on-year commentary\n' +
+     '6. **Data Quality & Verification** — assurance level, third-party verification status, audit trail\n' +
+     '7. **Next Steps** — top 3 emission reduction priorities\n\n' +
+     'Tone: Professional, board-ready. ~500 words. Bold section headers.';
+
+   call_sage_ai('ghg-ai-report', 'ghg-ai-report-text', prompt);
+   var rpt = document.getElementById('ghg-ai-report');
+   if (rpt) { rpt.style.display = 'block'; setTimeout(function(){ rpt.scrollIntoView({behavior:'smooth',block:'nearest'}); }, 200); }
+ };
+
+ window.ghgCopyReport = function() {
+   var el = document.getElementById('ghg-ai-report-text'); if (!el) return;
+   navigator.clipboard.writeText(el.innerText || el.textContent).then(function(){
+     var btn = document.getElementById('ghg-copy-btn');
+     if (btn) { btn.textContent = '✓ Copied'; setTimeout(function(){ btn.textContent = 'Copy'; }, 2000); }
+   });
+ };
+
+ window.ghgExportReport = function() {
+   var el = document.getElementById('ghg-ai-report-text'); if (!el) return;
+   var org = ghg_str('g-entity') !== '—' ? ghg_str('g-entity') : 'Organisation';
+   var period = ghg_str('g-period') || 'FY2024';
+   var date = new Date().toLocaleDateString('en-GB',{year:'numeric',month:'long',day:'numeric'});
+   var content = el.innerHTML.replace(/<br>/g,'\n').replace(/<[^>]+>/g,'');
+   var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' + org + ' GHG Inventory ' + period + '</title>' +
+     '<style>body{font-family:Georgia,serif;max-width:750px;margin:3cm auto;color:#1a1a1a;font-size:11pt;line-height:1.7}' +
+     'h1{font-size:2rem;color:#030a06;border-bottom:3px solid #00a85a;padding-bottom:.5rem;margin-bottom:.3rem}' +
+     '.sub{color:#666;font-size:.9rem;margin-bottom:2rem}.badge{background:#030a06;color:#00e87a;padding:.2rem .7rem;border-radius:2rem;font-size:.65rem;font-family:monospace;display:inline-block;margin-bottom:1.5rem}' +
+     'strong{font-weight:700}p{margin-bottom:.8rem}' +
+     '@page{size:A4;margin:2cm}@media print{body{margin:0}}</style></head><body>' +
+     '<div class="badge">GHG Protocol · IFRS S2 · ' + period + '</div>' +
+     '<h1>' + org + '</h1><div class="sub">GHG Inventory Report · ' + period + ' · Generated ' + date + ' by ReGenesis Impact</div>' +
+     '<div>' + el.innerHTML + '</div>' +
+     '<p style="margin-top:2rem;font-size:.75rem;color:#aaa;border-top:1px solid #eee;padding-top:.75rem">Generated by ReGenesis Impact AI Engine · regenesisimpact.in · For review by a qualified sustainability professional before submission.</p>' +
+     '</body></html>';
+   var blob = new Blob([html], {type:'text/html'});
+   var url = URL.createObjectURL(blob);
+   var w = window.open(url,'_blank');
+   if (w) w.onload = function(){ setTimeout(function(){ w.print(); URL.revokeObjectURL(url); },500); };
  };
 
  // ── ISSB functions ───────────────────────────────────────────
