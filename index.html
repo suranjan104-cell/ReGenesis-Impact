@@ -923,7 +923,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
 .flabel{background:rgba(126,217,87,.05);border:1px solid rgba(126,217,87,.1);color:rgba(245,240,232,.52);padding:.32rem .75rem;border-radius:2rem;font-size:.68rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.3rem}
 .flabel:hover{background:rgba(126,217,87,.1);color:var(--cream)}
 #file-in{display:none}
-.finfo{font-size:.66rem;color:var(--lime);font-family:'DM Mono',monospace;background:rgba(126,217,87,.08);border:1px solid rgba(126,217,87,.18);padding:.18rem .55rem;border-radius:2rem;display:none;align-items:center;gap:.3rem}
+.finfo{font-size:.66rem;color:var(--lime);font-family:'DM Mono',monospace;background:rgba(0,232,122,.08);border:1px solid rgba(0,232,122,.2);padding:.18rem .55rem;border-radius:2rem;display:none;align-items:center;gap:.3rem}
 .finfo.on{display:flex}
 .frm{cursor:pointer;color:rgba(245,240,232,.35);margin-left:.15rem}.frm:hover{color:var(--cream)}
 
@@ -1470,6 +1470,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body>
 <!-- REGULATORY ALERT BAR -->
@@ -8971,15 +8972,83 @@ window.issb_backToForm = function() {
  if(b) b.classList.toggle('on');
  };
 
+ var _fileContext = null; // extracted report text, injected into AI system prompt
+
  window.handleFile = function(e) {
- var f = e.target.files[0]; if(!f) return;
- var fn = document.getElementById('fname'); if(fn) fn.textContent = f.name;
- var fi = document.getElementById('finfo'); if(fi) fi.classList.add('on');
+   var f = e.target.files[0]; if(!f) return;
+   var fn = document.getElementById('fname'); if(fn) fn.textContent = f.name;
+   var fi = document.getElementById('finfo'); if(fi) fi.classList.add('on');
+
+   var w = window.wel(); if(w) w.style.display='none';
+   var uploadMsg = addMsg('user', '📎 <strong>' + f.name + '</strong> — Analysing report…');
+
+   var ext = f.name.split('.').pop().toLowerCase();
+
+   function onText(raw) {
+     var text = raw.replace(/\s+/g,' ').trim();
+     // Keep first ~5000 chars to stay within AI context
+     _fileContext = text.length > 5000 ? text.substring(0, 5000) + '… [truncated]' : text;
+     _hist.push({role:'user', content:'[UPLOADED REPORT — ' + f.name + ']\n\n' + _fileContext});
+     sendGapAnalysis(f.name);
+   }
+
+   if (ext === 'pdf') {
+     if (typeof pdfjsLib === 'undefined') { addMsg('ai', 'PDF library not loaded. Try refreshing.'); return; }
+     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+     var reader = new FileReader();
+     reader.onload = function(ev) {
+       pdfjsLib.getDocument({data: new Uint8Array(ev.target.result)}).promise.then(function(pdf) {
+         var pages = [], total = Math.min(pdf.numPages, 20); // cap at 20 pages
+         for (var i = 1; i <= total; i++) { pages.push(i); }
+         Promise.all(pages.map(function(pg){
+           return pdf.getPage(pg).then(function(p){ return p.getTextContent(); }).then(function(tc){
+             return tc.items.map(function(it){ return it.str; }).join(' ');
+           });
+         })).then(function(texts){ onText(texts.join('\n')); });
+       }).catch(function(){ addMsg('ai', '⚠️ Could not extract text from this PDF. Try copy-pasting the text instead.'); });
+     };
+     reader.readAsArrayBuffer(f);
+   } else {
+     var r = new FileReader();
+     r.onload = function(ev){ onText(ev.target.result); };
+     r.readAsText(f);
+   }
  };
 
+ function sendGapAnalysis(filename) {
+   var typing = showTyping();
+   var prompt = 'You have been given the contents of a sustainability/ESG report called "' + filename + '". ' +
+     'Provide a structured ESG Gap Analysis with these exact sections:\n\n' +
+     '**1. Framework Identification** — Which ESG/climate frameworks are referenced or used (e.g. GRI, TCFD, IFRS S2, BRSR, AASB S2, CDP).\n\n' +
+     '**2. Coverage Assessment** — What is disclosed well vs what appears to be missing.\n\n' +
+     '**3. Top 5 Material Gaps** — Specific missing disclosures vs IFRS S2 / TCFD / GRI requirements, with paragraph references.\n\n' +
+     '**4. Quick Wins** — 3 concrete disclosures to add immediately that would most improve compliance and investor confidence.\n\n' +
+     '**5. Regulatory Deadlines** — Based on the apparent market/sector, list the next mandatory reporting deadlines the company faces.\n\n' +
+     'Be specific, professional, and reference exact framework paragraphs where possible.';
+
+   fetch('https://sageai.suranjan104.workers.dev', {
+     method:'POST', headers:{'Content-Type':'application/json'},
+     body: JSON.stringify({
+       model:'llama-3.3-70b-versatile',
+       max_tokens:1400,
+       system: 'You are Sage, an expert AI sustainability advisor for ReGenesis Impact. The user has uploaded an ESG/sustainability report for gap analysis. Analyse it thoroughly and provide actionable, framework-specific recommendations. Cite IFRS S2, GRI, TCFD, BRSR, AASB S2 paragraph numbers where relevant.',
+       messages: _hist.slice(-4) // last 4 messages (includes the uploaded text)
+     })
+   }).then(function(r){ return r.json(); }).then(function(d) {
+     hideTyping(typing);
+     var reply = (d.choices&&d.choices[0]&&d.choices[0].message&&d.choices[0].message.content) || 'Could not analyse the report.';
+     _hist.push({role:'assistant', content:reply});
+     addMsg('ai', fmt(reply));
+   }).catch(function(){
+     hideTyping(typing);
+     addMsg('ai', '<span style="color:#ff6c3e">Could not reach Sage AI for analysis.</span>');
+   });
+ }
+
  window.rmFile = function() {
- var fi = document.getElementById('finfo'); if(fi) fi.classList.remove('on');
- var fu = document.getElementById('file-upload'); if(fu) fu.value = '';
+   var fi = document.getElementById('finfo'); if(fi) fi.classList.remove('on');
+   var fu = document.getElementById('file-in'); if(fu) fu.value = '';
+   _fileContext = null;
  };
 
  window.ucc = function(c) {
@@ -9040,7 +9109,7 @@ window.issb_backToForm = function() {
  body: JSON.stringify({
  model:'llama-3.3-70b-versatile',
  max_tokens:1000,
- system:'You are Sage, an expert AI sustainability advisor for ReGenesis Impact. You have deep expertise in ESG frameworks (GRI, SASB, TCFD, ISSB IFRS S1/S2), climate risk, GHG Protocol, PCAF, net-zero strategies, and corporate sustainability reporting. Be concise, professional, and specific. Always cite relevant frameworks.',
+ system: 'You are Sage, an expert AI sustainability advisor for ReGenesis Impact. You have deep expertise in ESG frameworks (GRI, SASB, TCFD, ISSB IFRS S1/S2), climate risk, GHG Protocol, PCAF, net-zero strategies, and corporate sustainability reporting. Be concise, professional, and specific. Always cite relevant frameworks.' + (_fileContext ? '\n\nThe user has uploaded a report for analysis. Report extract:\n' + _fileContext.substring(0,2000) : ''),
  messages: _hist
  })
  });
