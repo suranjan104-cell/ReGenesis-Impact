@@ -5464,7 +5464,7 @@ canvas { display:block; max-width:100%; }
     </div>
     <div class="cip-org-block">
       <label class="cip-label">Organisation</label>
-      <input id="cip-org" class="cip-input" value="" placeholder="Enter your organisation…">
+      <input id="cip-org" class="cip-input" value="" placeholder="Enter your organisation…" oninput="var t=document.getElementById('cip-tcfd-org');if(t&&!t._manual)t.value=this.value;">
       <label class="cip-label" style="margin-top:.6rem">Sector</label>
       <select id="cip-sector" class="cip-input cip-select">
         <option value="">Select sector…</option>
@@ -5593,6 +5593,18 @@ canvas { display:block; max-width:100%; }
         </div>
       </div>
 
+      <!-- ── Auto Narrative Panel ──────────────────────────────── -->
+      <div id="cip-narrative-panel" style="background:rgba(110,224,74,.04);border:1px solid rgba(110,224,74,.15);border-radius:.5rem;padding:1rem 1.1rem;margin-bottom:1.25rem;display:none">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem">
+          <span style="font-family:var(--mono);font-size:.55rem;letter-spacing:.1em;color:var(--g);text-transform:uppercase" id="cip-narrative-label">🌿 Sage AI · Scenario Narrative</span>
+          <div style="display:flex;gap:.5rem">
+            <button class="cip-sage-btn" id="cip-narrative-copy-btn" onclick="cipCopyNarrative()">Copy</button>
+            <button class="cip-sage-btn" onclick="cipRegenerateNarrative()">↺ Regenerate</button>
+          </div>
+        </div>
+        <div id="cip-narrative-text" style="font-size:.82rem;line-height:1.75;color:var(--tx)"></div>
+      </div>
+
       <div class="cip-grid2" style="margin-bottom:1.25rem">
         <div>
           <div class="cip-st">Transition Risks</div>
@@ -5644,6 +5656,9 @@ canvas { display:block; max-width:100%; }
           <div class="cip-form-group"><label class="cip-label">Annual Revenue (₹ Cr)</label><input class="cip-fi" id="csa-revenue" type="number" value="85000" placeholder="85000"></div>
           <div class="cip-form-group"><label class="cip-label">Primary Geography</label>
             <select class="cip-fi cip-select" id="csa-geo">
+              <option>Singapore</option>
+              <option>Australia — Coastal</option>
+              <option>Australia — Inland</option>
               <option>India — Coastal</option>
               <option>India — Inland</option>
               <option>India — Himalayan</option>
@@ -5692,15 +5707,47 @@ canvas { display:block; max-width:100%; }
 
       <div class="cip-sage" style="margin-top:1.25rem">
         <div class="cip-sage-hdr">
-          <span class="cip-sage-title">🌿 Sage AI — Scenario Analysis</span>
+          <span class="cip-sage-title">🌿 Sage AI — Deep Analysis</span>
           <div class="cip-sage-btns">
             <button class="cip-sage-btn" onclick="cipAsk('scenario','sc')">Risk Overview</button>
             <button class="cip-sage-btn" onclick="cipAsk('scenario-financial','sc')">Financial Impact</button>
             <button class="cip-sage-btn" onclick="cipAsk('scenario-opportunities','sc')">Opportunities</button>
           </div>
         </div>
-        <div class="cip-sage-out" id="cipo-sc">Click a button above to generate AI analysis for this scenario.</div>
+        <div class="cip-sage-out" id="cipo-sc">Select a scenario above — narrative auto-generates, or use the buttons for deeper analysis.</div>
         <div class="cip-sage-info" id="cipinfo-sc"></div>
+      </div>
+
+      <!-- ── Full TCFD Climate Disclosure Generator ─────────────── -->
+      <div style="margin-top:1.25rem;background:var(--bg2);border:1px solid var(--bdr);border-radius:.5rem;padding:1.1rem">
+        <div style="font-family:var(--mono);font-size:.55rem;letter-spacing:.1em;color:var(--tx3);text-transform:uppercase;margin-bottom:.75rem">Generate Full TCFD / IFRS S2 Climate Disclosure</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem">
+          <div>
+            <label class="cip-label">Organisation</label>
+            <input class="cip-fi" id="cip-tcfd-org" placeholder="Company name" value="">
+          </div>
+          <div>
+            <label class="cip-label">Framework</label>
+            <select class="cip-fi" id="cip-tcfd-fw">
+              <option value="ifrs2">IFRS S2 (ISSB)</option>
+              <option value="aasb2">AASB S2 (Australia)</option>
+              <option value="mas">MAS ERM (Singapore)</option>
+              <option value="tcfd">TCFD Recommendations</option>
+              <option value="brsr">BRSR (India)</option>
+            </select>
+          </div>
+        </div>
+        <button class="cip-btn" onclick="cipGenerateTCFD()" style="width:100%;padding:.65rem;margin-bottom:.75rem">📄 Generate Full Climate Disclosure →</button>
+        <div id="cip-tcfd-out" style="display:none">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem">
+            <span style="font-family:var(--mono);font-size:.55rem;letter-spacing:.1em;color:var(--g);text-transform:uppercase" id="cip-tcfd-label">TCFD Disclosure Draft</span>
+            <div style="display:flex;gap:.5rem">
+              <button class="cip-sage-btn" id="cip-tcfd-copy-btn" onclick="cipCopyTCFD()">Copy</button>
+              <button class="cip-sage-btn" onclick="cipExportTCFDPdf()">Export PDF</button>
+            </div>
+          </div>
+          <div id="cip-tcfd-text" class="cip-sage-out" style="min-height:80px"></div>
+        </div>
       </div>
     </div><!-- /csap-scenario sub-panel -->
 
@@ -6569,7 +6616,6 @@ window.cipScenario = function(key) {
   set('cipk-sc', sc.label); cls('cipk-temp', sc.tc); set('cipk-temp', sc.temp);
   cls('cipk-tr', sc.trc); set('cipk-tr', sc.tr);
   cls('cipk-pr', sc.prc); set('cipk-pr', sc.pr);
-  // Update risk bars
   Object.keys(sc.risks).forEach(function(k){
     var fill = el('crf-' + k); var val = el('crv-' + k);
     var d = sc.risks[k];
@@ -6577,6 +6623,128 @@ window.cipScenario = function(key) {
     if (val)  { val.className = 'cip-risk-val ' + d[1]; val.textContent = d[1]==='r'?'HIGH':d[1]==='a'?'MED':d[1]==='g'?'LOW':'CRIT'; }
   });
   cipDrawPathway();
+  cipAutoNarrative(key, sc);
+};
+
+// ── Auto-narrative on scenario change ──────────────────────────────
+function cipAutoNarrative(key, sc) {
+  var panel = document.getElementById('cip-narrative-panel');
+  var textEl = document.getElementById('cip-narrative-text');
+  var label  = document.getElementById('cip-narrative-label');
+  if (!panel || !textEl) return;
+  panel.style.display = 'block';
+  if (label) label.textContent = '🌿 Sage AI · ' + sc.label + ' Narrative';
+  textEl.innerHTML = '<em style="color:var(--tx3)">Generating scenario narrative…</em>';
+  var org = (document.getElementById('cip-org')||{}).value || 'your organisation';
+  var sec = (document.getElementById('cip-sector')||{}).value || 'corporate';
+  var mkt = localStorage.getItem('rg_market') || 'other';
+  var mktCtx = {
+    sg: 'Operating under MAS Environmental Risk Management guidelines and SGX mandatory IFRS S2 climate disclosures.',
+    au: 'Subject to mandatory AASB S2 climate disclosures (Group 1 from Jan 2025) and APRA CPS 229 Climate Vulnerability Assessment.',
+    in: 'Reporting under SEBI BRSR Core mandatory KPIs and IFRS S2 adoption pathway.',
+    other: 'Reporting under IFRS S2 / ISSB and TCFD recommendations.'
+  }[mkt] || '';
+
+  var prompt = 'Write a concise 3-paragraph NGFS scenario narrative for ' + org + ' (' + sec + ') under the ' + sc.label + ' (' + sc.temp + ') climate scenario. ' +
+    mktCtx + '\n\n' +
+    'Paragraph 1 — Scenario Overview: Describe the ' + sc.label + ' pathway, temperature trajectory, key assumptions and global policy context.\n' +
+    'Paragraph 2 — Transition & Physical Risks: Specific risks for ' + sec + ' under this scenario (transition risk: ' + sc.tr + ', physical risk: ' + sc.pr + '). Include stranded assets, policy costs, supply chain disruption, acute/chronic physical impacts.\n' +
+    'Paragraph 3 — Strategic Response: Concrete actions the organisation should prioritise under this scenario — capital allocation, hedging, disclosure priorities, and regulatory deadlines.\n\n' +
+    'Tone: Board-ready, TCFD-aligned. ~250 words. Use bold for key terms.';
+
+  cipCallSage(prompt, function(reply) {
+    textEl.innerHTML = cipFmt(reply);
+  }, function() {
+    textEl.innerHTML = '<em style="color:var(--rd)">Could not generate narrative — check AI connection.</em>';
+  });
+}
+
+window.cipCopyNarrative = function() {
+  var el = document.getElementById('cip-narrative-text'); if (!el) return;
+  navigator.clipboard.writeText(el.innerText || el.textContent).then(function(){
+    var btn = document.getElementById('cip-narrative-copy-btn');
+    if (btn) { btn.textContent = '✓ Copied'; setTimeout(function(){ btn.textContent = 'Copy'; }, 2000); }
+  });
+};
+
+window.cipRegenerateNarrative = function() {
+  var sc = _SC_DATA[_CIP_SC]; if (sc) cipAutoNarrative(_CIP_SC, sc);
+};
+
+// ── Full TCFD / IFRS S2 Climate Disclosure Generator ───────────────
+window.cipGenerateTCFD = function() {
+  var org = (document.getElementById('cip-tcfd-org')||{}).value || (document.getElementById('cip-org')||{}).value || 'the organisation';
+  var fw  = (document.getElementById('cip-tcfd-fw')||{}).value || 'ifrs2';
+  var sec = (document.getElementById('cip-sector')||{}).value || 'corporate';
+  var sc  = _SC_DATA[_CIP_SC] || _SC_DATA.nze;
+  var out = document.getElementById('cip-tcfd-out');
+  var textEl = document.getElementById('cip-tcfd-text');
+  var label  = document.getElementById('cip-tcfd-label');
+  if (!textEl) return;
+
+  var fwLabels = { ifrs2:'IFRS S2 (ISSB)', aasb2:'AASB S2 (Australia)', mas:'MAS ERM (Singapore)', tcfd:'TCFD Recommendations', brsr:'BRSR (India)' };
+  var fwLabel = fwLabels[fw] || 'IFRS S2';
+
+  if (out) out.style.display = 'block';
+  if (label) label.textContent = fwLabel + ' · ' + sc.label + ' Scenario · Draft';
+  textEl.innerHTML = '<em style="color:var(--tx3)">Generating full climate disclosure…</em>';
+
+  var fwContext = {
+    ifrs2:  'Follow IFRS S2 structure: Governance (Para 6-9), Strategy (Para 10-17), Risk Management (Para 25-27), Metrics & Targets (Para 29-33). Include quantitative climate scenario analysis per Para 14.',
+    aasb2:  'Follow AASB S2 (Australian Sustainability Reporting Standard) structure, mandatory for Group 1 entities from 1 January 2025. Reference ASIC RG 247 for materiality guidance.',
+    mas:    'Follow MAS Environmental Risk Management (ERM) guidelines: governance (Board oversight), risk identification, scenario analysis (MAS 2-degree and 4-degree pathways), measurement and monitoring.',
+    tcfd:   'Follow TCFD four-pillar structure: Governance, Strategy (including 2°C scenario analysis), Risk Management, Metrics & Targets. Reference CDP alignment.',
+    brsr:   'Follow SEBI BRSR Core mandatory KPIs: Principle 6 (Environment), Scope 1/2/3 GHG, water intensity, energy intensity, physical risk assessment, transition planning.'
+  }[fw] || '';
+
+  var prompt = 'Draft a complete ' + fwLabel + ' climate-related financial disclosure for ' + org + ' (' + sec + ').\n\n' +
+    'Selected NGFS Scenario: ' + sc.label + ' (' + sc.temp + ') — Transition risk: ' + sc.tr + ', Physical risk: ' + sc.pr + '.\n\n' +
+    fwContext + '\n\n' +
+    'Structure the disclosure with these four sections using bold headers:\n\n' +
+    '**A. Governance** — Board oversight of climate risks, management role, committee structure, expertise, how climate is integrated into executive remuneration and strategy.\n\n' +
+    '**B. Strategy** — How climate-related risks and opportunities affect the business model, strategy and financial planning over short (1-3yr), medium (3-10yr) and long (10yr+) horizons. Include scenario analysis findings under ' + sc.label + '.\n\n' +
+    '**C. Risk Management** — Process for identifying, assessing and managing climate risks. Integration with enterprise risk management. Priority risks for ' + sec + ' under ' + sc.label + '.\n\n' +
+    '**D. Metrics & Targets** — Scope 1, 2, 3 emissions disclosure, climate targets, progress indicators, carbon pricing exposure, and transition capex.\n\n' +
+    'Tone: Board-ready, suitable for annual report. ~450 words. Reference specific ' + fwLabel + ' paragraph numbers.';
+
+  cipCallSage(prompt, function(reply) {
+    textEl.innerHTML = cipFmt(reply);
+  }, function() {
+    textEl.innerHTML = '<em style="color:var(--rd)">Could not generate disclosure — check AI connection.</em>';
+  });
+};
+
+window.cipCopyTCFD = function() {
+  var el = document.getElementById('cip-tcfd-text'); if (!el) return;
+  navigator.clipboard.writeText(el.innerText || el.textContent).then(function(){
+    var btn = document.getElementById('cip-tcfd-copy-btn');
+    if (btn) { btn.textContent = '✓ Copied'; setTimeout(function(){ btn.textContent = 'Copy'; }, 2000); }
+  });
+};
+
+window.cipExportTCFDPdf = function() {
+  var el = document.getElementById('cip-tcfd-text'); if (!el || !el.innerHTML.trim()) return;
+  var org  = (document.getElementById('cip-tcfd-org')||{}).value || 'Organisation';
+  var fw   = (document.getElementById('cip-tcfd-fw')||{}).value || 'ifrs2';
+  var fwLabels = { ifrs2:'IFRS S2 (ISSB)', aasb2:'AASB S2', mas:'MAS ERM', tcfd:'TCFD', brsr:'BRSR' };
+  var sc   = _SC_DATA[_CIP_SC] || _SC_DATA.nze;
+  var date = new Date().toLocaleDateString('en-GB',{year:'numeric',month:'long',day:'numeric'});
+  var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' + org + ' Climate Disclosure</title>' +
+    '<style>body{font-family:Georgia,serif;max-width:750px;margin:3cm auto;color:#1a1a1a;font-size:11pt;line-height:1.7}' +
+    'h1{font-size:2rem;color:#030a06;border-bottom:3px solid #00a85a;padding-bottom:.5rem}' +
+    '.meta{font-size:.8rem;color:#888;margin-bottom:2rem}.badge{background:#030a06;color:#00e87a;padding:.2rem .7rem;border-radius:2rem;font-size:.65rem;font-family:monospace;display:inline-block;margin-bottom:1rem}' +
+    'strong{font-weight:700}p{margin-bottom:.8rem}br{line-height:2}' +
+    '@page{size:A4;margin:2cm}@media print{body{margin:0}}</style></head><body>' +
+    '<div class="badge">' + (fwLabels[fw]||'IFRS S2') + ' · ' + sc.label + ' · DRAFT</div>' +
+    '<h1>' + org + '</h1>' +
+    '<div class="meta">Climate-Related Financial Disclosure · ' + (fwLabels[fw]||'IFRS S2') + ' · Generated ' + date + ' by ReGenesis Impact</div>' +
+    '<div>' + el.innerHTML + '</div>' +
+    '<p style="margin-top:2rem;font-size:.75rem;color:#aaa;border-top:1px solid #eee;padding-top:.75rem">Generated by ReGenesis Impact AI Engine · regenesisimpact.in · Review by a qualified sustainability professional before publication.</p>' +
+    '</body></html>';
+  var blob = new Blob([html],{type:'text/html'});
+  var url = URL.createObjectURL(blob);
+  var w = window.open(url,'_blank');
+  if (w) w.onload = function(){ setTimeout(function(){ w.print(); URL.revokeObjectURL(url); },500); };
 };
 
 // ── Report sub-tabs ─────────────────────────────────────────────────
@@ -7314,6 +7482,17 @@ function showPage(page) {
   }
   if (page === 'issb') {
     setTimeout(function() { if (typeof srShowLanding === 'function') srShowLanding(); }, 50);
+  }
+  if (page === 'climate') {
+    setTimeout(function() {
+      // Sync org name from CI org input to TCFD org input
+      var cipOrg  = document.getElementById('cip-org');
+      var tcfdOrg = document.getElementById('cip-tcfd-org');
+      if (cipOrg && tcfdOrg && !tcfdOrg.value) tcfdOrg.value = cipOrg.value;
+      // Auto-generate narrative for the currently active scenario
+      var sc = typeof _SC_DATA !== 'undefined' && _CIP_SC ? _SC_DATA[_CIP_SC] : null;
+      if (sc && typeof cipAutoNarrative === 'function') cipAutoNarrative(_CIP_SC, sc);
+    }, 300);
   }
 }
 
