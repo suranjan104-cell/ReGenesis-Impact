@@ -277,7 +277,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2.5rem;display
   font-size: clamp(2.8rem, 5.5vw, 5.5rem);
   font-weight: 700; line-height: 1.05;
   letter-spacing: -0.03em; max-width: 640px;
-  animation: fadeUp 0.8s ease 0.1s both;
+  animation: fadeUp 0.8s ease 0.1s forwards;
 }
 .hero h1 em {
   font-style: normal;
@@ -289,17 +289,17 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2.5rem;display
 .hero-sub {
   margin-top: 1.75rem; font-size: 1.05rem; font-weight: 300;
   color: rgba(240,237,232,0.6); max-width: 520px;
-  line-height: 1.75; animation: fadeUp 0.8s ease 0.2s both;
+  line-height: 1.75; animation: fadeUp 0.8s ease 0.2s forwards;
   font-family: 'DM Sans', sans-serif;
 }
 .hero-actions {
   display: flex; gap: 1rem; margin-top: 3rem;
-  animation: fadeUp 0.8s ease 0.3s both; flex-wrap: wrap;
+  animation: fadeUp 0.8s ease 0.3s forwards; flex-wrap: wrap;
 }
 .hero-stats {
   display: flex; gap: 2.5rem; margin-top: 3.5rem;
   border-top: 1px solid rgba(0,232,122,0.1); padding-top: 2.5rem;
-  animation: fadeUp 0.8s ease 0.4s both; flex-wrap: wrap;
+  animation: fadeUp 0.8s ease 0.4s forwards; flex-wrap: wrap;
 }
 .stat-num {
   font-family: 'Space Grotesk', monospace;
@@ -309,6 +309,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2.5rem;display
 }
 .stat-label { font-size: 0.75rem; color: rgba(240,237,232,0.45); margin-top: 0.3rem; letter-spacing: .03em; }
 @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+/* Ensure content is always visible — never stuck at opacity:0 */
+.hero-copy h1,.hero-copy .hero-sub,.hero-copy .hero-actions,.hero-copy .hero-stats,.hero-tag,.hero-cit-preview{opacity:1}
+@media(prefers-reduced-motion:reduce){.hero-copy h1,.hero-copy .hero-sub,.hero-copy .hero-actions,.hero-copy .hero-stats,.hero-tag,.hero-cit-preview{animation:none!important;opacity:1!important;transform:none!important}}
 
 /* NAV CTA */
 .nav-cta {
@@ -548,10 +551,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2.5rem;display
 }
 .hero-copy { position: relative; z-index: 2; }
 .hero-copy .hero-tag { margin-bottom: 1.5rem; }
-.hero-copy h1 { font-family:'Space Grotesk',sans-serif; font-size:clamp(2.4rem,4.5vw,4rem); font-weight:700; line-height:1.05; letter-spacing:-0.03em; animation: fadeUp 0.8s ease 0.1s both; }
-.hero-copy .hero-sub { margin-top:1.5rem; font-size:1rem; font-weight:300; color:rgba(240,237,232,0.6); max-width:480px; line-height:1.75; animation: fadeUp 0.8s ease 0.2s both; }
-.hero-copy .hero-actions { margin-top:2rem; animation: fadeUp 0.8s ease 0.3s both; }
-.hero-copy .hero-stats { margin-top:2.5rem; padding-top:2rem; border-top:1px solid rgba(0,232,122,0.1); animation: fadeUp 0.8s ease 0.4s both; }
+.hero-copy h1 { font-family:'Space Grotesk',sans-serif; font-size:clamp(2.4rem,4.5vw,4rem); font-weight:700; line-height:1.05; letter-spacing:-0.03em; animation: fadeUp 0.8s ease 0.1s forwards; }
+.hero-copy .hero-sub { margin-top:1.5rem; font-size:1rem; font-weight:300; color:rgba(240,237,232,0.6); max-width:480px; line-height:1.75; animation: fadeUp 0.8s ease 0.2s forwards; }
+.hero-copy .hero-actions { margin-top:2rem; animation: fadeUp 0.8s ease 0.3s forwards; }
+.hero-copy .hero-stats { margin-top:2.5rem; padding-top:2rem; border-top:1px solid rgba(0,232,122,0.1); animation: fadeUp 0.8s ease 0.4s forwards; }
 
 /* Climate Intelligence Preview Panel */
 .hero-cit-preview {
@@ -563,7 +566,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2.5rem;display
   font-family: 'DM Mono', monospace;
   font-size: 0.72rem;
   box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 40px rgba(0,232,122,0.06), 0 0 0 1px rgba(0,232,122,0.06);
-  animation: fadeUp 0.8s ease 0.3s both;
+  animation: fadeUp 0.8s ease 0.3s forwards;
 }
 .hcit-bar {
   display: flex; align-items: center; gap: 0.4rem;
