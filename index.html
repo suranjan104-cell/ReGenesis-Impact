@@ -1466,6 +1466,20 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
 .lm-score-bar{height:6px;background:rgba(0,232,122,.1);border-radius:3px;margin:1rem 0;overflow:hidden}
 .lm-score-fill{height:100%;background:linear-gradient(90deg,#00e87a,#0affdb);border-radius:3px;transition:width 1s ease}
 .lm-score-label{display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:.65rem;color:rgba(240,237,232,.4)}
+
+/* ── Mobile Bottom Nav ────────────────────────────────── */
+#mobile-bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:380;background:rgba(3,10,6,.97);border-top:1px solid rgba(0,232,122,.12);backdrop-filter:blur(16px);padding:.5rem 0 calc(.5rem + env(safe-area-inset-bottom));padding-bottom:calc(.6rem + env(safe-area-inset-bottom))}
+.mbn-inner{display:flex;justify-content:space-around;align-items:center}
+.mbn-btn{display:flex;flex-direction:column;align-items:center;gap:.2rem;background:none;border:none;cursor:pointer;padding:.3rem .5rem;min-width:56px;transition:all .2s}
+.mbn-ico{font-size:1.2rem;line-height:1}
+.mbn-lbl{font-family:'DM Mono',monospace;font-size:.48rem;letter-spacing:.07em;color:rgba(240,237,232,.4);text-transform:uppercase;transition:color .2s}
+.mbn-btn.active .mbn-lbl,.mbn-btn:hover .mbn-lbl{color:#00e87a}
+.mbn-btn.active .mbn-ico{filter:drop-shadow(0 0 6px rgba(0,232,122,.5))}
+@media(max-width:768px){
+  #mobile-bottom-nav{display:block}
+  body{padding-bottom:72px}
+  #scroll-top{bottom:5.5rem}
+}
 </style>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -1699,6 +1713,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
   <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
+  <div class="nl-tool" id="nl-dashboard"><span class="nl-pill" style="background:linear-gradient(135deg,rgba(0,232,122,.15),rgba(10,255,219,.08));color:#00e87a">⚡ ReGenesis Impact · Dashboard</span><button class="nl-back" onclick="authSignOut()" style="color:rgba(255,90,60,.7);border-color:rgba(255,90,60,.2)">Sign Out</button></div>
   <div class="nl-tool" id="nl-advisor"><span class="nl-pill">🌿 Sage AI · Live</span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
   <div class="nl-tool" id="nl-issb"><span class="nl-pill nl-blue">Sustainability Report · IFRS S2 · GRI · BRSR · ASSB · CDP</span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
   <div class="nl-tool" id="nl-ghg"><span class="nl-pill nl-amber">GHG Inventory · PCAF Protocol</span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
@@ -1727,6 +1742,152 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2rem;display:f
   <button onclick="closeMobileMenu();requireLogin('credits')">🪙 Carbon Credits Exchange</button>
   <button class="mob-cta" onclick="closeMobileMenu();openLeadModal('mobile_cta')">Get Early Access →</button>
 </div>
+
+<!-- DASHBOARD PAGE -->
+<div class="page" id="page-dashboard">
+<style>
+/* ── Dashboard ─────────────────────────────────────── */
+.db-wrap{max-width:1100px;margin:0 auto;padding:2rem 1.5rem;padding-top:calc(64px + 2rem)}
+.db-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem}
+.db-welcome{font-family:'Playfair Display',serif;font-size:1.6rem;color:#f0ede8}
+.db-welcome span{color:#00e87a}
+.db-meta{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
+.db-market-badge{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .85rem;border-radius:2rem;border:1px solid rgba(0,232,122,.3);color:#00e87a;background:rgba(0,232,122,.08)}
+.db-signout{background:none;border:1px solid rgba(255,90,60,.25);color:rgba(255,90,60,.7);padding:.3rem .8rem;border-radius:2rem;font-size:.65rem;font-family:'DM Mono',monospace;cursor:pointer;letter-spacing:.06em}
+.db-signout:hover{background:rgba(255,90,60,.08);border-color:rgba(255,90,60,.4)}
+
+/* Deadline banner */
+.db-deadline{background:rgba(0,232,122,.05);border:1px solid rgba(0,232,122,.15);border-radius:.65rem;padding:1rem 1.25rem;margin-bottom:2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.db-dl-flag{font-size:1.4rem}
+.db-dl-body{flex:1}
+.db-dl-title{font-size:.82rem;font-weight:600;color:#f0ede8;margin-bottom:.15rem}
+.db-dl-sub{font-size:.72rem;color:rgba(240,237,232,.5);font-family:'DM Mono',monospace}
+.db-dl-countdown{font-family:'DM Mono',monospace;font-size:1.1rem;font-weight:700;color:#00e87a;text-align:right;white-space:nowrap}
+.db-dl-countdown span{display:block;font-size:.55rem;color:rgba(240,237,232,.35);font-weight:400;letter-spacing:.08em;text-transform:uppercase;text-align:center;margin-top:.1rem}
+
+/* Tool grid */
+.db-section-label{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.3);margin-bottom:.85rem}
+.db-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem}
+.db-card{background:rgba(5,15,7,.8);border:1px solid rgba(0,232,122,.1);border-radius:.75rem;padding:1.25rem;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:.5rem}
+.db-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(0,232,122,.05),transparent 60%);pointer-events:none}
+.db-card:hover{border-color:rgba(0,232,122,.3);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,232,122,.08)}
+.db-card-ico{font-size:1.4rem;margin-bottom:.1rem}
+.db-card-name{font-size:.92rem;font-weight:700;color:#f0ede8}
+.db-card-desc{font-size:.72rem;color:rgba(240,237,232,.45);line-height:1.55;flex:1}
+.db-card-tags{display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.25rem}
+.db-card-tag{font-family:'DM Mono',monospace;font-size:.48rem;letter-spacing:.06em;padding:.15rem .45rem;border-radius:.2rem;background:rgba(0,232,122,.08);border:1px solid rgba(0,232,122,.15);color:rgba(0,232,122,.7)}
+.db-card-open{margin-top:.75rem;background:none;border:1px solid rgba(0,232,122,.2);color:#00e87a;padding:.4rem .85rem;border-radius:2rem;font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.07em;cursor:pointer;transition:all .2s;align-self:flex-start}
+.db-card-open:hover{background:rgba(0,232,122,.1);border-color:rgba(0,232,122,.4)}
+.db-card.sage-card{background:linear-gradient(135deg,rgba(0,232,122,.07),rgba(10,255,219,.04));border-color:rgba(0,232,122,.2)}
+
+/* Quick actions */
+.db-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:2rem}
+.db-action{background:rgba(5,15,7,.6);border:1px solid rgba(240,237,232,.07);border-radius:.6rem;padding:.9rem 1rem;cursor:pointer;transition:all .2s;text-align:center}
+.db-action:hover{border-color:rgba(0,232,122,.2);background:rgba(0,232,122,.04)}
+.db-action-ico{font-size:1.1rem;margin-bottom:.3rem}
+.db-action-lbl{font-size:.7rem;color:rgba(240,237,232,.6);font-family:'DM Mono',monospace;letter-spacing:.05em}
+
+/* Responsive */
+@media(max-width:768px){
+  .db-grid{grid-template-columns:1fr 1fr}
+  .db-actions{grid-template-columns:repeat(3,1fr)}
+  .db-wrap{padding:1rem;padding-top:calc(64px + 1rem)}
+  .db-header{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:480px){
+  .db-grid{grid-template-columns:1fr}
+  .db-actions{grid-template-columns:1fr}
+}
+</style>
+
+<div class="db-wrap">
+  <div class="db-header">
+    <div>
+      <div style="font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.15em;color:rgba(0,232,122,.5);text-transform:uppercase;margin-bottom:.3rem">ReGenesis Impact · Platform</div>
+      <div class="db-welcome">Welcome back, <span id="db-user-name">–</span></div>
+    </div>
+    <div class="db-meta">
+      <div class="db-market-badge" id="db-market-badge">🌐 Global</div>
+      <button class="db-signout" onclick="authSignOut()">Sign Out</button>
+    </div>
+  </div>
+
+  <!-- Regulatory deadline banner — swaps based on market -->
+  <div class="db-deadline" id="db-deadline-banner">
+    <div class="db-dl-flag" id="db-dl-flag">🇦🇺</div>
+    <div class="db-dl-body">
+      <div class="db-dl-title" id="db-dl-title">AASB S2 — Group 1 Mandatory Reporting</div>
+      <div class="db-dl-sub" id="db-dl-sub">Annual period from 1 Jan 2025 · APRA CPS 229 CVA applies to banks & insurers</div>
+    </div>
+    <div class="db-dl-countdown" id="db-dl-countdown">–<span>days remaining</span></div>
+  </div>
+
+  <!-- Tools -->
+  <div class="db-section-label">Your Tools</div>
+  <div class="db-grid">
+    <div class="db-card" onclick="showPage('issb')">
+      <div class="db-card-ico">📋</div>
+      <div class="db-card-name">Sustainability Report</div>
+      <div class="db-card-desc">Generate board-ready reports across IFRS S2, GRI, BRSR, AASB S2 and CDP with AI-drafted disclosure language.</div>
+      <div class="db-card-tags"><span class="db-card-tag">IFRS S2</span><span class="db-card-tag">GRI</span><span class="db-card-tag">BRSR</span><span class="db-card-tag">AASB S2</span><span class="db-card-tag">CDP</span></div>
+      <button class="db-card-open">Open Tool →</button>
+    </div>
+    <div class="db-card" onclick="showPage('ghg')">
+      <div class="db-card-ico">⚖️</div>
+      <div class="db-card-name">GHG Inventory</div>
+      <div class="db-card-desc">Calculate Scope 1, 2 and all 15 Scope 3 categories. PCAF financed emissions for banks. AI-generated audit-ready report.</div>
+      <div class="db-card-tags"><span class="db-card-tag">GHG Protocol</span><span class="db-card-tag">PCAF</span><span class="db-card-tag">Scope 3</span></div>
+      <button class="db-card-open">Open Tool →</button>
+    </div>
+    <div class="db-card" onclick="showPage('climate')">
+      <div class="db-card-ico">🌍</div>
+      <div class="db-card-name">Climate Intelligence</div>
+      <div class="db-card-desc">NGFS scenario analysis, TCFD narrative generator, physical risk mapping, decarbonisation pathways. Auto-narrated by Sage AI.</div>
+      <div class="db-card-tags"><span class="db-card-tag">TCFD</span><span class="db-card-tag">NGFS v5</span><span class="db-card-tag">IFRS S2</span></div>
+      <button class="db-card-open">Open Tool →</button>
+    </div>
+    <div class="db-card" onclick="showPage('tools')">
+      <div class="db-card-ico">🔍</div>
+      <div class="db-card-name">ESG Due Diligence</div>
+      <div class="db-card-desc">Asset manager ESG scoring (PRI), bank SPO + ESG credit risk (ICMA GBP). Grade A–E output with AI commentary.</div>
+      <div class="db-card-tags"><span class="db-card-tag">PRI</span><span class="db-card-tag">ICMA GBP</span><span class="db-card-tag">ESG Rating</span></div>
+      <button class="db-card-open">Open Tool →</button>
+    </div>
+    <div class="db-card" onclick="showPage('credits')">
+      <div class="db-card-ico">🪙</div>
+      <div class="db-card-name">Carbon Credit Exchange</div>
+      <div class="db-card-desc">Browse, buy and retire VCS/Gold Standard carbon, blue carbon and plastic credits. ERC-1155 on Polygon, instant settlement.</div>
+      <div class="db-card-tags"><span class="db-card-tag">VCS</span><span class="db-card-tag">Polygon</span><span class="db-card-tag">Blue Carbon</span></div>
+      <button class="db-card-open">Open Exchange →</button>
+    </div>
+    <div class="db-card sage-card" onclick="showPage('advisor')">
+      <div class="db-card-ico">🌿</div>
+      <div class="db-card-name">Sage AI Advisor</div>
+      <div class="db-card-desc">Ask anything — ESG frameworks, carbon accounting, net-zero strategy. Upload your annual report for instant gap analysis.</div>
+      <div class="db-card-tags"><span class="db-card-tag">15+ Frameworks</span><span class="db-card-tag">PDF Upload</span><span class="db-card-tag">24/7</span></div>
+      <button class="db-card-open">Chat with Sage →</button>
+    </div>
+  </div>
+
+  <!-- Quick actions -->
+  <div class="db-section-label">Quick Actions</div>
+  <div class="db-actions">
+    <div class="db-action" onclick="showPage('advisor');setTimeout(function(){document.getElementById('file-in')&&document.getElementById('file-in').click()},400)">
+      <div class="db-action-ico">📎</div>
+      <div class="db-action-lbl">Upload Report<br>for Gap Analysis</div>
+    </div>
+    <div class="db-action" onclick="openLeadModal('dashboard_trial')">
+      <div class="db-action-ico">📅</div>
+      <div class="db-action-lbl">Book Onboarding<br>Call</div>
+    </div>
+    <div class="db-action" onclick="showPage('climate');setTimeout(function(){if(typeof cipGenerateTCFD==='function')cipGenerateTCFD()},500)">
+      <div class="db-action-ico">📄</div>
+      <div class="db-action-lbl">Generate TCFD<br>Disclosure</div>
+    </div>
+  </div>
+</div>
+</div>
+<!-- END DASHBOARD PAGE -->
 
 <!-- ===== HOME PAGE ===== -->
 <div class="page active" id="page-home">
@@ -7455,7 +7616,7 @@ function showPage(page) {
   if (nlh) nlh.style.display = page === 'home' ? 'flex' : 'none';
 
   // Tool pill bars — show matching one, hide the rest
-  ['advisor','issb','ghg','climate','tools','credits'].forEach(function(t) {
+  ['dashboard','advisor','issb','ghg','climate','tools','credits'].forEach(function(t) {
     var el = document.getElementById('nl-' + t);
     if (el) el.style.display = (page === t) ? 'flex' : 'none';
   });
@@ -7494,6 +7655,17 @@ function showPage(page) {
       if (sc && typeof cipAutoNarrative === 'function') cipAutoNarrative(_CIP_SC, sc);
     }, 300);
   }
+  if (page === 'tools') {
+    // Auto-open tools if logged in
+    var gate=document.getElementById('tools-gate');
+    var dash=document.getElementById('tools-dash');
+    if (_currentUser && gate && dash) { gate.style.display='none'; dash.classList.add('visible'); }
+    else if (gate) { gate.style.display='flex'; if(dash) dash.classList.remove('visible'); }
+  }
+  // Sync mobile bottom nav
+  document.querySelectorAll('.mbn-btn').forEach(function(b){ b.classList.remove('active'); });
+  var mbnActive = document.getElementById('mbn-' + (page === 'issb'||page==='ghg'||page==='climate'||page==='tools'||page==='credits' ? 'dashboard' : page));
+  if (mbnActive) mbnActive.classList.add('active');
 }
 
 function navTo(anchor) {
@@ -7502,6 +7674,24 @@ function navTo(anchor) {
  var el = document.getElementById(anchor);
  if (el) el.scrollIntoView({ behavior: 'smooth' });
  }, 60);
+}
+
+function mbnGo(page) {
+  document.querySelectorAll('.mbn-btn').forEach(function(b){ b.classList.remove('active'); });
+  var btn = document.getElementById('mbn-' + page);
+  if (btn) btn.classList.add('active');
+  if (page === 'dashboard' && !_currentUser) { requireLogin('dashboard'); return; }
+  showPage(page);
+}
+
+function mbnAccount() {
+  if (_currentUser) {
+    showPage('dashboard');
+    document.querySelectorAll('.mbn-btn').forEach(function(b){ b.classList.remove('active'); });
+    var btn = document.getElementById('mbn-dashboard'); if (btn) btn.classList.add('active');
+  } else {
+    requireLogin('dashboard');
+  }
 }
 
 // ============================================================
@@ -7859,6 +8049,10 @@ function _onSignedIn(user) {
   _currentUser = user;
   closeSageLeadChat();
   closeLeadModal();
+  // Update dashboard with user info
+  var dbName = document.getElementById('db-user-name');
+  if (dbName) dbName.textContent = user.email.split('@')[0];
+  dbUpdateMarket();
   // Show user email + sign out in nav
   var wrap = document.getElementById('nav-user-wrap');
   var emailEl = document.getElementById('nav-user-email');
@@ -7871,6 +8065,28 @@ function _onSignedIn(user) {
   _pendingPage = null;
   closeLoginModal();
   if (dest && dest !== 'home') showPage(dest);
+  else showPage('dashboard');
+}
+
+function dbUpdateMarket() {
+  var mkt = localStorage.getItem('rg_market') || 'other';
+  var badges = { sg:'🇸🇬 Singapore · MAS/SGX', au:'🇦🇺 Australia · AASB S2', in:'🇮🇳 India · BRSR', other:'🌐 Global' };
+  var mb = document.getElementById('db-market-badge');
+  if (mb) mb.textContent = badges[mkt] || '🌐 Global';
+
+  // Deadline countdown
+  var deadlines = {
+    sg: { flag:'🇸🇬', title:'SGX ISSB S2 — Large-Cap Mandatory', sub:'FY2024 reports due · MAS ERM guidelines active', date:'2025-06-30' },
+    au: { flag:'🇦🇺', title:'AASB S2 — Group 1 Mandatory Reporting', sub:'Annual period from 1 Jan 2025 · APRA CPS 229 CVA applies', date:'2025-12-31' },
+    in: { flag:'🇮🇳', title:'SEBI BRSR Core — Top 150 Companies', sub:'FY2023-24 assured disclosures mandatory · Top 1000 BRSR', date:'2025-09-30' },
+    other: { flag:'🌐', title:'IFRS S2 — Global Adoption Milestone', sub:'40+ jurisdictions now require ISSB S2 disclosures', date:'2025-12-31' }
+  };
+  var dl = deadlines[mkt] || deadlines.other;
+  var flag = document.getElementById('db-dl-flag'); if (flag) flag.textContent = dl.flag;
+  var title = document.getElementById('db-dl-title'); if (title) title.textContent = dl.title;
+  var sub = document.getElementById('db-dl-sub'); if (sub) sub.textContent = dl.sub;
+  var days = Math.max(0, Math.ceil((new Date(dl.date) - new Date()) / 86400000));
+  var cd = document.getElementById('db-dl-countdown'); if (cd) cd.innerHTML = days + '<span>days remaining</span>';
 }
 
 function _onSignedOut() {
@@ -9416,14 +9632,8 @@ window.issb_backToForm = function() {
 
  // ── TOOLS functions ──────────────────────────────────────────
  window.tools_login = function() {
- var u = document.getElementById('gate-user'); var p = document.getElementById('gate-pass');
- if(!u||!p) return;
- if(u.value.trim()===_TOOLS_USER && p.value.trim()===_TOOLS_PASS) {
- var gate=document.getElementById('tools-gate'); if(gate) gate.style.display='none';
- var dash=document.getElementById('tools-dash'); if(dash) dash.classList.add('visible');
- } else {
- var err=document.getElementById('gate-error'); if(err) err.style.display='block';
- }
+  var gate=document.getElementById('tools-gate'); if(gate) gate.style.display='none';
+  var dash=document.getElementById('tools-dash'); if(dash) dash.classList.add('visible');
  };
 
  window.tools_logout = function() {
@@ -11644,6 +11854,28 @@ document.addEventListener('DOMContentLoaded', function(){
     <div id="demo-cards" style="display:flex;gap:.75rem;overflow-x:auto;padding-bottom:.25rem"></div>
   </div>
 </div>
+
+<!-- MOBILE BOTTOM NAV -->
+<nav id="mobile-bottom-nav">
+  <div class="mbn-inner">
+    <button class="mbn-btn active" id="mbn-home" onclick="mbnGo('home')">
+      <span class="mbn-ico">🏠</span>
+      <span class="mbn-lbl">Home</span>
+    </button>
+    <button class="mbn-btn" id="mbn-dashboard" onclick="mbnGo('dashboard')">
+      <span class="mbn-ico">⚡</span>
+      <span class="mbn-lbl">Dashboard</span>
+    </button>
+    <button class="mbn-btn" id="mbn-advisor" onclick="mbnGo('advisor')">
+      <span class="mbn-ico">🌿</span>
+      <span class="mbn-lbl">Sage AI</span>
+    </button>
+    <button class="mbn-btn" id="mbn-account" onclick="mbnAccount()">
+      <span class="mbn-ico">👤</span>
+      <span class="mbn-lbl">Account</span>
+    </button>
+  </div>
+</nav>
 
 </body>
 </html>
