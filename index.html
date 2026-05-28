@@ -125,10 +125,10 @@
 :root{--void:#030a06;--deep:#050f07;--bio:#00e87a;--phosphor:#0affdb;--amber:#ff9f47;--spore:#9d4eff;--forest:#030a06;--moss:#0a1f0f;--leaf:#00e87a;--lime:#00e87a;--cream:#f0ede8;--sand:#e0dac8;--muted:rgba(240,237,232,0.55);--border:rgba(0,232,122,0.15);--glow:rgba(0,232,122,0.2);--sg:#e8a020;--au:#00518a;}
 *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
 body{background:var(--void);color:var(--cream);font-family:'DM Sans',sans-serif;overflow-x:hidden;background-image:radial-gradient(ellipse 80% 50% at 15% 20%,rgba(0,232,122,0.04) 0%,transparent 60%),radial-gradient(ellipse 60% 60% at 85% 80%,rgba(10,255,219,0.03) 0%,transparent 55%)}
-body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:.5}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:-1;opacity:.5}
 /* PAGE SYSTEM */
-.page{display:none!important}.page.active{display:block!important}
-#page-advisor.active{display:flex!important;height:100vh;overflow:hidden}
+.page{display:none!important}.page.active{display:block!important;position:relative;z-index:1}
+#page-advisor.active{display:flex!important;height:100vh;overflow:hidden;z-index:1}
 #page-issb{min-height:100vh}
 /* UNIFIED NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2.5rem;display:flex!important;align-items:center;justify-content:space-between;background:rgba(3,10,6,0.96);backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid rgba(0,232,122,0.12);box-shadow:0 1px 0 rgba(0,232,122,0.05),0 4px 30px rgba(0,0,0,0.4)}
