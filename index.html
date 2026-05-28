@@ -4751,6 +4751,7 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
 
  <!-- TAB 3: ESG Assessment -->
  <div class="tab-panel" id="am-esg">
+ <div style="font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.08em;color:rgba(0,232,122,.6);background:rgba(0,232,122,.06);border:1px solid rgba(0,232,122,.15);border-radius:.4rem;padding:.35rem .75rem;margin-bottom:.85rem" id="am-weight-label">Loading market weights…</div>
  <div class="t-section-title"><span>🌍</span> ENVIRONMENTAL PILLAR — PRI MODULE E</div>
  <div class="t-card">
  <div style="font-size:.72rem;color:rgba(245,240,232,0.4);margin-bottom:1rem;">Rate each factor 0–100. These are weighted to produce the E pillar score.</div>
@@ -4956,6 +4957,7 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
  </div>
  <div class="t-section-title"><span>🌍</span> ESG RISK FACTORS — INTEGRATED CREDIT ASSESSMENT</div>
  <div class="t-card">
+ <div style="font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.08em;color:rgba(0,232,122,.6);background:rgba(0,232,122,.06);border:1px solid rgba(0,232,122,.15);border-radius:.4rem;padding:.35rem .75rem;margin-bottom:.75rem" id="bk-weight-label">Loading market weights…</div>
  <div style="font-size:.72rem;color:rgba(245,240,232,0.4);margin-bottom:1rem;">Rate ESG risk factors 0–100 (higher = lower risk / better ESG performance). These adjust the credit risk score.</div>
  <div class="slider-row"><span class="slider-name">Climate transition risk exposure</span><input type="range" class="esg-slider" id="bk-e1" min="0" max="100" value="50" oninput="bk_score_update()"><span class="slider-val" id="bk-e1-v">50</span></div>
  <div class="slider-row"><span class="slider-name">Physical climate risk (assets/ops)</span><input type="range" class="esg-slider" id="bk-e2" min="0" max="100" value="50" oninput="bk_score_update()"><span class="slider-val" id="bk-e2-v">50</span></div>
@@ -7642,6 +7644,8 @@ function showPage(page) {
     var dash=document.getElementById('tools-dash');
     if (_currentUser && gate && dash) { gate.style.display='none'; dash.classList.add('visible'); }
     else if (gate) { gate.style.display='flex'; if(dash) dash.classList.remove('visible'); }
+    // Initialise market-aware weight badges
+    setTimeout(function(){ if(typeof _updateWeightBadge==='function'){ _updateWeightBadge('am'); _updateWeightBadge('bk'); } }, 100);
   }
   // Sync mobile bottom nav
   document.querySelectorAll('.mbn-btn').forEach(function(b){ b.classList.remove('active'); });
@@ -9744,11 +9748,28 @@ window.issb_backToForm = function() {
  return sum / ids.length;
  }
 
+ var _ESG_WEIGHTS = {
+   sg:    {e:0.40, s:0.25, g:0.35, label:'MAS ERM / SGX Climate Disclosure'},
+   au:    {e:0.40, s:0.25, g:0.35, label:'AASB S2 / APRA CPS 229'},
+   in:    {e:0.30, s:0.40, g:0.30, label:'SEBI BRSR Core'},
+   other: {e:0.35, s:0.30, g:0.35, label:'PRI DDQ / ICMA GBP'}
+ };
+ function _mktWeights() {
+   var mkt = localStorage.getItem('rg_market') || 'other';
+   return _ESG_WEIGHTS[mkt] || _ESG_WEIGHTS.other;
+ }
+ function _updateWeightBadge(prefix) {
+   var w = _mktWeights();
+   var el = document.getElementById(prefix+'-weight-label');
+   if (el) el.textContent = w.label + ' · E:' + Math.round(w.e*100) + '% S:' + Math.round(w.s*100) + '% G:' + Math.round(w.g*100) + '%';
+ }
+
  window.am_score_update = function() {
+ var w = _mktWeights(); _updateWeightBadge('am');
  var eS = slider_avg('am-',['e1','e2','e3','e4','e5']);
  var sS = slider_avg('am-',['s1','s2','s3','s4','s5']);
  var gS = slider_avg('am-',['g1','g2','g3','g4','g5']);
- var comp = Math.round(eS*0.35+sS*0.3+gS*0.35);
+ var comp = Math.round(eS*w.e+sS*w.s+gS*w.g);
  var grade = window.get_grade(comp);
  ['e1','e2','e3','e4','e5','s1','s2','s3','s4','s5','g1','g2','g3','g4','g5'].forEach(function(id){
  var v=document.getElementById('am-'+id+'-v'); var el=document.getElementById('am-'+id);
@@ -9765,10 +9786,11 @@ window.issb_backToForm = function() {
  };
 
  window.bk_score_update = function() {
+ var w = _mktWeights(); _updateWeightBadge('bk');
  var eS = slider_avg('bk-',['e1','e2','e3']);
  var sS = slider_avg('bk-',['s1','s2']);
  var gS = slider_avg('bk-',['g1','g2']);
- var comp = Math.round(eS*0.35+sS*0.3+gS*0.35);
+ var comp = Math.round(eS*w.e+sS*w.s+gS*w.g);
  var grade = window.get_grade(comp);
  ['e1','e2','e3','s1','s2','g1','g2'].forEach(function(id){
  var v=document.getElementById('bk-'+id+'-v'); var el=document.getElementById('bk-'+id);
