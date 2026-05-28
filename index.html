@@ -1464,7 +1464,7 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
 </style>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.50.0"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body>
@@ -3509,7 +3509,7 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
  <label style="display:flex;gap:.4rem;align-items:center;font-size:.78rem"><input type="checkbox" id="brsr-p2-policy" style="width:auto"> P2 — Sustainable Products</label>
  <label style="display:flex;gap:.4rem;align-items:center;font-size:.78rem"><input type="checkbox" id="brsr-p3-policy" style="width:auto"> P3 — Employee Wellbeing</label>
  <label style="display:flex;gap:.4rem;align-items:center;font-size:.78rem"><input type="checkbox" id="brsr-p4-policy" style="width:auto"> P4 — Stakeholder Engagement</label>
- <label style="display:flex;gap:.4rem;align-items:center;font-size:.78rem"><input type="checkbox" id="brsr-p5-policy" style="width:auto"> P5 — Human Rights</label>
+ <label style="display:flex;gap:.4rem;align-items:center;font-size:.78rem"><input type="checkbox" id="brsr-p5-policy-cb" style="width:auto"> P5 — Human Rights</label>
  <label style="display:flex;gap:.4rem;align-items:center;font-size:.78rem"><input type="checkbox" id="brsr-p6-policy" style="width:auto"> P6 — Environmental Stewardship</label>
  <label style="display:flex;gap:.4rem;align-items:center;font-size:.78rem"><input type="checkbox" id="brsr-p7-policy" style="width:auto"> P7 — Regulatory Advocacy</label>
  <label style="display:flex;gap:.4rem;align-items:center;font-size:.78rem"><input type="checkbox" id="brsr-p8-policy" style="width:auto"> P8 — Inclusive Growth</label>
@@ -3612,47 +3612,47 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
  <div class="info-box"><strong>BRSR Core — Mandatory Assured KPIs:</strong> 6 Environmental (E1–E6) · 3 Social (S1–S3) · 2 Governance (G1–G2). Assurance by accredited assurer under ISAE 3000.</div>
  <div class="sec-div"><div class="sec-div-label">Environmental KPIs</div><div class="sec-div-line"></div><div class="sec-div-ref">E1–E6</div></div>
  <div class="grid2">
- <div class="fg"><label>E1 · GHG Intensity (tCO₂e / ₹ Cr turnover) <span class="req">*</span></label><input id="brsr-ghg-intensity-rev" type="number" step="0.01" placeholder="e.g. 2.45"></div>
- <div class="fg"><label>E1 · GHG Total Scope 1+2 (tCO₂e) <span class="req">*</span></label><input id="brsr-ghg-total" type="number" placeholder="e.g. 12500"></div>
- <div class="fg"><label>E2 · Energy Intensity (GJ / ₹ Cr turnover) <span class="req">*</span></label><input id="brsr-energy-intensity" type="number" step="0.01" placeholder="e.g. 8.2"></div>
- <div class="fg"><label>E2 · Total Energy Consumption (GJ) <span class="req">*</span></label><input id="brsr-energy-total" type="number" placeholder="e.g. 45000"></div>
- <div class="fg"><label>E3 · Water Intensity (kL / ₹ Cr turnover) <span class="req">*</span></label><input id="brsr-water-intensity" type="number" step="0.01" placeholder="e.g. 1.8"></div>
- <div class="fg"><label>E3 · Water Withdrawal (kL) <span class="req">*</span></label><input id="brsr-water-withdrawal" type="number" placeholder="e.g. 9500"></div>
- <div class="fg"><label>E4 · Waste Generated (tonnes)</label><input id="brsr-waste-total" type="number" placeholder="e.g. 3800"></div>
- <div class="fg"><label>E4 · Waste Intensity (kg / ₹ Cr)</label><input id="brsr-waste-intensity" type="number" step="0.01" placeholder="e.g. 7.2"></div>
- <div class="fg"><label>E5 · Renewable Energy (%)</label><input id="brsr-energy-renewable" type="number" placeholder="e.g. 28"></div>
- <div class="fg"><label>E6 · Biodiversity / EPR Compliance</label><select id="brsr-biodiversity"><option value="">Select</option><option>Full EPR compliance</option><option>Partial compliance</option><option>Not applicable</option></select></div>
+ <div class="fg"><label>E1 · GHG Intensity (tCO₂e / ₹ Cr turnover) <span class="req">*</span></label><input id="brsrb-ghg-intensity-rev" type="number" step="0.01" placeholder="e.g. 2.45"></div>
+ <div class="fg"><label>E1 · GHG Total Scope 1+2 (tCO₂e) <span class="req">*</span></label><input id="brsrb-ghg-total" type="number" placeholder="e.g. 12500"></div>
+ <div class="fg"><label>E2 · Energy Intensity (GJ / ₹ Cr turnover) <span class="req">*</span></label><input id="brsrb-energy-intensity" type="number" step="0.01" placeholder="e.g. 8.2"></div>
+ <div class="fg"><label>E2 · Total Energy Consumption (GJ) <span class="req">*</span></label><input id="brsrb-energy-total" type="number" placeholder="e.g. 45000"></div>
+ <div class="fg"><label>E3 · Water Intensity (kL / ₹ Cr turnover) <span class="req">*</span></label><input id="brsrb-water-intensity" type="number" step="0.01" placeholder="e.g. 1.8"></div>
+ <div class="fg"><label>E3 · Water Withdrawal (kL) <span class="req">*</span></label><input id="brsrb-water-withdrawal" type="number" placeholder="e.g. 9500"></div>
+ <div class="fg"><label>E4 · Waste Generated (tonnes)</label><input id="brsrb-waste-total" type="number" placeholder="e.g. 3800"></div>
+ <div class="fg"><label>E4 · Waste Intensity (kg / ₹ Cr)</label><input id="brsrb-waste-intensity" type="number" step="0.01" placeholder="e.g. 7.2"></div>
+ <div class="fg"><label>E5 · Renewable Energy (%)</label><input id="brsrb-energy-renewable" type="number" placeholder="e.g. 28"></div>
+ <div class="fg"><label>E6 · Biodiversity / EPR Compliance</label><select id="brsrb-biodiversity"><option value="">Select</option><option>Full EPR compliance</option><option>Partial compliance</option><option>Not applicable</option></select></div>
  </div>
  <div class="sec-div"><div class="sec-div-label">Social KPIs</div><div class="sec-div-line"></div><div class="sec-div-ref">S1–S3</div></div>
  <div class="grid2">
- <div class="fg"><label>S1 · Employees covered by PF (%)</label><input id="brsr-emp-pf" type="number" placeholder="e.g. 100"></div>
- <div class="fg"><label>S1 · Workers covered by PF (%)</label><input id="brsr-wkr-pf" type="number" placeholder="e.g. 85"></div>
- <div class="fg"><label>S2 · Employees above Min Wage (%)</label><input id="brsr-min-wage-emp" type="number" placeholder="e.g. 100"></div>
- <div class="fg"><label>S3 · Employee Turnover (%)</label><input id="brsr-turnover" type="number" step="0.1" placeholder="e.g. 18.5"></div>
+ <div class="fg"><label>S1 · Employees covered by PF (%)</label><input id="brsrb-emp-pf" type="number" placeholder="e.g. 100"></div>
+ <div class="fg"><label>S1 · Workers covered by PF (%)</label><input id="brsrb-wkr-pf" type="number" placeholder="e.g. 85"></div>
+ <div class="fg"><label>S2 · Employees above Min Wage (%)</label><input id="brsrb-min-wage-emp" type="number" placeholder="e.g. 100"></div>
+ <div class="fg"><label>S3 · Employee Turnover (%)</label><input id="brsrb-turnover" type="number" step="0.1" placeholder="e.g. 18.5"></div>
  </div>
  <div class="sec-div"><div class="sec-div-label">Governance KPIs</div><div class="sec-div-line"></div><div class="sec-div-ref">G1–G2</div></div>
  <div class="grid2">
- <div class="fg"><label>G1 · Women on Board (%)</label><input id="brsr-board-women" type="number" placeholder="e.g. 33"></div>
- <div class="fg"><label>G1 · Independent Directors (%)</label><input id="brsr-board-ind" type="number" placeholder="e.g. 55"></div>
- <div class="fg"><label>G2 · Environmental Complaints (FY)</label><input id="brsr-env-complaints" type="number" placeholder="Count received"></div>
- <div class="fg"><label>G2 · Complaints Resolved (%)</label><input id="brsr-env-resolved" type="number" placeholder="e.g. 95"></div>
+ <div class="fg"><label>G1 · Women on Board (%)</label><input id="brsrb-board-women" type="number" placeholder="e.g. 33"></div>
+ <div class="fg"><label>G1 · Independent Directors (%)</label><input id="brsrb-board-ind" type="number" placeholder="e.g. 55"></div>
+ <div class="fg"><label>G2 · Environmental Complaints (FY)</label><input id="brsrb-env-complaints" type="number" placeholder="Count received"></div>
+ <div class="fg"><label>G2 · Complaints Resolved (%)</label><input id="brsrb-env-resolved" type="number" placeholder="e.g. 95"></div>
  </div>
  <div class="sec-div"><div class="sec-div-label">Assurance Details</div><div class="sec-div-line"></div><div class="sec-div-ref">ISAE 3000</div></div>
  <div class="grid2">
- <div class="fg"><label>Name of Assurer</label><input id="brsr-assurer" placeholder="e.g. Deloitte Haskins &amp; Sells LLP"></div>
- <div class="fg"><label>Assurance Standard</label><select id="brsr-standard"><option value="">Select</option><option>ISAE 3000 (Revised)</option><option>AA1000AS v3</option><option>ICAI Guidance Note</option></select></div>
- <div class="fg"><label>Assurance Level</label><select id="brsr-assurance-level"><option value="">Select</option><option>Reasonable assurance</option><option>Limited assurance</option></select></div>
- <div class="fg"><label>Assurance Date</label><input id="brsr-assurance-date" type="date"></div>
+ <div class="fg"><label>Name of Assurer</label><input id="brsrb-assurer" placeholder="e.g. Deloitte Haskins &amp; Sells LLP"></div>
+ <div class="fg"><label>Assurance Standard</label><select id="brsrb-standard"><option value="">Select</option><option>ISAE 3000 (Revised)</option><option>AA1000AS v3</option><option>ICAI Guidance Note</option></select></div>
+ <div class="fg"><label>Assurance Level</label><select id="brsrb-assurance-level"><option value="">Select</option><option>Reasonable assurance</option><option>Limited assurance</option></select></div>
+ <div class="fg"><label>Assurance Date</label><input id="brsrb-assurance-date" type="date"></div>
  </div>
- <div id="brsr-sb5-sage-wrap" style="display:none;margin:1rem 0;background:rgba(255,178,60,.04);border:1px solid rgba(255,178,60,.15);border-left:3px solid #ffb23c;border-radius:0 .4rem .4rem 0;padding:.9rem 1.1rem">
+ <div id="brsrb-sb5-sage-wrap" style="display:none;margin:1rem 0;background:rgba(255,178,60,.04);border:1px solid rgba(255,178,60,.15);border-left:3px solid #ffb23c;border-radius:0 .4rem .4rem 0;padding:.9rem 1.1rem">
  <div style="font-family:var(--mono);font-size:.52rem;color:#ffb23c;margin-bottom:.5rem">🇮🇳 SAGE AI — BRSR CORE DRAFT</div>
- <div id="brsr-sage-text" style="font-size:.79rem;line-height:1.75;color:rgba(245,240,232,.85)"></div>
+ <div id="brsrb-sage-text" style="font-size:.79rem;line-height:1.75;color:rgba(245,240,232,.85)"></div>
  </div>
  <div id="brsr-sb5-sage-text" style="font-size:.79rem;line-height:1.75;color:rgba(245,240,232,.85)"></div>
  <button class="btn-s" onclick="sr_go_brsr(4)">← Back</button>
  <div style="display:flex;gap:.6rem;flex-wrap:wrap">
- <button class="btn-s" onclick="brsrDraftAI('brsr-sb5-sage-wrap','brsr-sb5-sage-text')" style="background:rgba(255,178,60,.08);border-color:rgba(255,178,60,.25);color:#ffb23c">🇮🇳 Draft BRSR Core Disclosures</button>
- <button class="btn-s" onclick="brsrScorecard('brsr-sb5-scorecard-out')" style="background:rgba(126,217,87,.08);border-color:rgba(126,217,87,.25);color:#7ed957">✦ Generate BRSR Scorecard</button>
+ <button class="btn-s" onclick="brsrDraftAI('brsr-sb5-sage-wrap','brsr-sb5-sage-text','brsrb-')" style="background:rgba(255,178,60,.08);border-color:rgba(255,178,60,.25);color:#ffb23c">🇮🇳 Draft BRSR Core Disclosures</button>
+ <button class="btn-s" onclick="brsrScorecard('brsr-sb5-scorecard-out','brsrb-')" style="background:rgba(126,217,87,.08);border-color:rgba(126,217,87,.25);color:#7ed957">✦ Generate BRSR Scorecard</button>
  <button class="btn-p" onclick="srGenerateReport('brsr')" style="background:linear-gradient(135deg,#b45309,#ffb23c);color:#0a2e1a;border:none;padding:.8rem 1.9rem;border-radius:3rem;font-weight:700;cursor:pointer">🇮🇳 Generate BRSR Report</button>
  </div>
  </div>
@@ -6565,12 +6565,12 @@ canvas { display:block; max-width:100%; }
             <div class="cip-sage-hdr">
               <span class="cip-sage-title">🌿 Sage AI — Himalaya Capital Analysis</span>
               <div class="cip-sage-btns">
-                <button class="cip-sage-btn" onclick="cipAskFixed('full-report','Himalaya Capital Management','Asset Management','cs')">Full IFRS S2 Report</button>
-                <button class="cip-sage-btn" onclick="cipAskFixed('tcfd-strategy','Himalaya Capital Management','Asset Management','cs')">TCFD Strategy</button>
+                <button class="cip-sage-btn" onclick="cipAskFixed('full-report','Himalaya Capital Management','Asset Management','cs2')">Full IFRS S2 Report</button>
+                <button class="cip-sage-btn" onclick="cipAskFixed('tcfd-strategy','Himalaya Capital Management','Asset Management','cs2')">TCFD Strategy</button>
               </div>
             </div>
-            <div class="cip-sage-out" id="cipo-cs">Generate AI analysis for Himalaya Capital above.</div>
-            <div class="cip-sage-info" id="cipinfo-cs"></div>
+            <div class="cip-sage-out" id="cipo-cs2">Generate AI analysis for Himalaya Capital above.</div>
+            <div class="cip-sage-info" id="cipinfo-cs2"></div>
           </div>
         </div>
 
@@ -8488,13 +8488,14 @@ window.issb_ask = async function(section, promptType) {
 var issb_sel = function(id) { var e=document.getElementById(id); if(!e) return '—'; if(e.selectedIndex>=0&&e.options[e.selectedIndex]) return e.options[e.selectedIndex].text||'—'; return e.value||'—'; };
 
 // ── BRSR CORE FUNCTIONS ────────────────────────────────────────────────────
-window.brsrDraftAI = async function(wrapId, textId) {
+window.brsrDraftAI = async function(wrapId, textId, pfx) {
+  var p = pfx || '';
   var org = issb_v('c-name') !== '—' ? issb_v('c-name') : 'the organisation';
   var sector = issb_sel('c-industry');
-  var ghgInt = issb_v('brsr-ghg-intensity-rev');
-  var energyInt = issb_v('brsr-energy-intensity');
-  var waterInt = issb_v('brsr-water-intensity');
-  var renew = issb_v('brsr-energy-renewable');
+  var ghgInt = issb_v(p+'brsr-ghg-intensity-rev');
+  var energyInt = issb_v(p+'brsr-energy-intensity');
+  var waterInt = issb_v(p+'brsr-water-intensity');
+  var renew = issb_v(p+'brsr-energy-renewable');
   var wrap = document.getElementById(wrapId||'brsr-sage-wrap');
   var out = document.getElementById(textId||'brsr-sage-text');
   if (!wrap || !out) return;
@@ -8504,9 +8505,10 @@ window.brsrDraftAI = async function(wrapId, textId) {
   call_sage_ai(wrapId||'brsr-sage-wrap', textId||'brsr-sage-text', prompt);
 };
 
-window.brsrScorecard = function(outId) {
+window.brsrScorecard = function(outId, pfx) {
+  var p = pfx || '';
   var org = issb_v('c-name') !== '—' ? issb_v('c-name') : 'Organisation';
-  var v = issb_v;
+  var v = function(id){ return issb_v(p+id); };
   var score = 0;
   var fields = ['brsr-energy-total','brsr-energy-intensity','brsr-energy-renewable','brsr-ghg-total','brsr-ghg-intensity-rev','brsr-water-withdrawal','brsr-water-intensity','brsr-waste-total','brsr-waste-intensity','brsr-turnover'];
   fields.forEach(function(f){ if(v(f) !== '—' && v(f) !== '') score++; });
@@ -9579,6 +9581,44 @@ window.issb_backToForm = function() {
 
  window.askQ = function(q) {
  var inpEl = window.inp(); if(inpEl) { inpEl.value = q; window.send(); }
+ };
+
+ /* aq() — advisor suggestion chip click handler */
+ window.aq = function(el) {
+   var q = el ? el.textContent.trim() : '';
+   if (!q) return;
+   var inpEl = window.inp();
+   if (inpEl) { inpEl.value = q; if (typeof arz === 'function') arz(inpEl); if (typeof ucc === 'function') ucc(); }
+   if (typeof showPage === 'function') showPage('advisor');
+   setTimeout(function(){ if (typeof window.send === 'function') window.send(); }, 80);
+ };
+
+ /* toggleVoice() — Web Speech API voice input */
+ window.toggleVoice = function() {
+   var btn = document.getElementById('vbtn');
+   if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+     if (btn) { btn.style.opacity = '.35'; btn.title = 'Voice not supported in this browser'; }
+     return;
+   }
+   if (window._voiceRec && window._voiceRec.active) {
+     window._voiceRec.stop(); window._voiceRec.active = false;
+     if (btn) btn.classList.remove('voice-active');
+     return;
+   }
+   var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+   var rec = new SR();
+   rec.lang = 'en-US'; rec.interimResults = false; rec.maxAlternatives = 1;
+   rec.active = true;
+   window._voiceRec = rec;
+   if (btn) btn.classList.add('voice-active');
+   rec.onresult = function(e) {
+     var text = e.results[0][0].transcript;
+     var inpEl = window.inp();
+     if (inpEl) { inpEl.value = (inpEl.value ? inpEl.value + ' ' : '') + text; if (typeof arz === 'function') arz(inpEl); if (typeof ucc === 'function') ucc(); }
+   };
+   rec.onend = function() { rec.active = false; if (btn) btn.classList.remove('voice-active'); };
+   rec.onerror = function() { rec.active = false; if (btn) btn.classList.remove('voice-active'); };
+   rec.start();
  };
 
  window.clearChat = function() {
