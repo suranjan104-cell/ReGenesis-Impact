@@ -1,0 +1,8 @@
+{
+  "name": "regenesisaimpact",
+  "compatibility_date": "2025-05-28",
+  "assets": {
+    "directory": ".",
+    "not_found_handling": "single-page-application"
+  }
+}
