@@ -19,5 +19,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: .
           publish_branch: gh-pages
-          exclude_assets: '.github,*.sql,*.jsonc,README.md,.gitignore'
+          exclude_assets: '.github,*.sql,README.md,.gitignore'
           force_orphan: false
