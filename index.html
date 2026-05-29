@@ -126,9 +126,10 @@
 *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
 body{background:#030a06;color:#f0ede8;font-family:'DM Sans',sans-serif;overflow-x:hidden;background-image:radial-gradient(ellipse 80% 50% at 15% 20%,rgba(0,232,122,0.04) 0%,transparent 60%),radial-gradient(ellipse 60% 60% at 85% 80%,rgba(10,255,219,0.03) 0%,transparent 55%)}
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:-1;opacity:.5}
-/* PAGE SYSTEM */
-.page{display:none!important}.page.active{display:block!important}
-#page-advisor.active{display:flex!important;height:100vh;overflow:hidden}
+/* PAGE SYSTEM — visibility controlled by JS style.display, not CSS */
+.page{display:none}
+#page-home{display:block}
+#page-advisor.active{height:100vh;overflow:hidden}
 /* FORCE VISIBILITY — hero content always visible, no animations */
 #page-home{color:#f0ede8}
 #page-home h1,#page-home h2,#page-home h3,#page-home p,#page-home .hero-sub,#page-home .hero-tag,#page-home .stat-num,#page-home .stat-label,#page-home .hero-actions,#page-home .hero-stats,#page-home .hero-copy,#page-home .hero-cit-preview{opacity:1!important;visibility:visible!important;animation:none!important}
@@ -1733,7 +1734,7 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
 </div>
 
 <!-- DASHBOARD PAGE -->
-<div class="page" id="page-dashboard">
+<div class="page" id="page-dashboard" style="display:none">
 <style>
 /* ── Dashboard ─────────────────────────────────────── */
 .db-wrap{max-width:1100px;margin:0 auto;padding:2rem 1.5rem;padding-top:calc(64px + 2rem)}
@@ -1879,7 +1880,7 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
 <!-- END DASHBOARD PAGE -->
 
 <!-- ===== HOME PAGE ===== -->
-<div class="page active" id="page-home">
+<div class="page active" id="page-home" style="display:block">
 
 
 <!-- HERO -->
@@ -2577,7 +2578,7 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
 </div>
 <!-- END page-home -->
 
-<div class="page" id="page-issb">
+<div class="page" id="page-issb" style="display:none">
 
 <!-- ── FRAMEWORK CHOOSER LANDING ── -->
 <div id="sr-landing">
@@ -3988,7 +3989,7 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
 </div>
 
 <!-- ===== GHG INVENTORY PAGE ===== -->
-<div class="page" id="page-ghg">
+<div class="page" id="page-ghg" style="display:none">
 <div class="ghg-app" id="ghg-app">
 
 <!-- SIDEBAR -->
@@ -4592,7 +4593,7 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
 </div><!-- /page-ghg -->
 
 <!-- ===== TOOLS PAGE ===== -->
-<div class="page" id="page-tools">
+<div class="page" id="page-tools" style="display:none">
 
  <!-- LOGIN GATE -->
  <div class="tools-gate" id="tools-gate" style="display:none">
@@ -5207,7 +5208,7 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
 <!-- ===== END TOOLS PAGE ===== -->
 
 <!-- ===== ADVISOR PAGE ===== -->
-<div class="page" id="page-advisor">
+<div class="page" id="page-advisor" style="display:none">
 <div class="layout">
 
 <!-- SIDEBAR -->
@@ -5390,7 +5391,7 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
 </div>
 
 <!-- ===== CLIMATE INTELLIGENCE PAGE ===== -->
-<div class="page" id="page-climate">
+<div class="page" id="page-climate" style="display:none">
 <style>
 /* ═══ CLIMATE INTELLIGENCE v5.0 — CLEAN REBUILD ═══════════════════ */
 #page-climate {
@@ -7597,9 +7598,14 @@ var S3METHODS = ['Spend-based / supplier-specific','Spend-based / physical units
 
 // ── PAGE ROUTER ───────────────────────────────────────────────
 function showPage(page) {
-  document.querySelectorAll('.page').forEach(function(pg) { pg.classList.remove('active'); });
+  // Hide all pages via direct style (bypasses CSS specificity issues)
+  document.querySelectorAll('.page').forEach(function(pg) {
+    pg.style.display = 'none';
+    pg.classList.remove('active');
+  });
   var target = document.getElementById('page-' + page);
   if (!target) return;
+  target.style.display = (page === 'advisor') ? 'flex' : 'block';
   target.classList.add('active');
 
   // Home nav links — only show on home page
@@ -10540,7 +10546,7 @@ setTimeout(function(){ ciDrawDonut(12500,8200,145000,165700); ciDrawDcPathway(16
 
 
 <!-- ===== BOOK A TRIAL PAGE ===== -->
-<div class="page" id="page-trial">
+<div class="page" id="page-trial" style="display:none">
 <div class="trial-page">
   <div class="trial-page-inner">
     <div class="hp-section-eyebrow">Get Started</div>
@@ -10596,7 +10602,7 @@ setTimeout(function(){ ciDrawDonut(12500,8200,145000,165700); ciDrawDcPathway(16
 </div><!-- /page-trial -->
 
 <!-- ===== CARBON & BLUE CREDITS EXCHANGE PAGE ===== -->
-<div class="page" id="page-credits">
+<div class="page" id="page-credits" style="display:none">
 <style>
 /* CREDITS PAGE */
 #page-credits{min-height:100vh;background:var(--void);padding-top:3.8rem}
