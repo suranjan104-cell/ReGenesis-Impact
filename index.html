@@ -1207,8 +1207,8 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
    Matching ReGenesis design system: forest/moss/lime/cream
    ============================================================ */
 
-.hero-bg { position:absolute; inset:0; background:radial-gradient(ellipse 80% 60% at 60% 40%, rgba(45,158,95,0.12) 0%, transparent 70%), radial-gradient(ellipse 50% 50% at 20% 80%, rgba(126,217,87,0.06) 0%, transparent 60%), #060d0a; z-index:0; }
-.hero-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(126,217,87,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(126,217,87,0.04) 1px, transparent 1px); background-size:60px 60px; z-index:0; }
+.hero-bg { position:absolute; inset:0; background:radial-gradient(ellipse 80% 60% at 60% 40%, rgba(45,158,95,0.08) 0%, transparent 70%), radial-gradient(ellipse 50% 50% at 20% 80%, rgba(126,217,87,0.04) 0%, transparent 60%); z-index:-1; pointer-events:none; }
+.hero-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(126,217,87,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(126,217,87,0.03) 1px, transparent 1px); background-size:60px 60px; z-index:-1; pointer-events:none; }
 .hero-content, .hero-visual { position:relative; z-index:1; }
 .hero-eyebrow { font-family:'DM Mono',monospace; font-size:0.65rem; color:#7ed957; letter-spacing:0.14em; text-transform:uppercase; margin-bottom:1.25rem; display:flex; align-items:center; gap:0.6rem; }
 .hero-eyebrow::before { content:''; width:24px; height:1px; background:#7ed957; }
@@ -1888,19 +1888,19 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
   <div class="hero-grid"></div>
 
   <!-- LEFT: copy -->
-  <div class="hero-copy">
-    <div class="hero-tag">◉ AI-Powered Sustainability Intelligence · Asia-Pacific</div>
-    <h1>Where <em>climate data</em> becomes decisive action</h1>
-    <p class="hero-sub">ReGenesis Impact is the institutional-grade ESG and climate reporting platform built for Singapore, Australia and India — MAS taxonomy, AASB S2, APRA CPS 229, ISSB S2 and beyond, all in one living system.</p>
-    <div class="hero-actions">
+  <div class="hero-copy" style="opacity:1;visibility:visible;position:relative;z-index:2">
+    <div class="hero-tag" style="opacity:1;visibility:visible;color:#00e87a;display:inline-flex">◉ AI-Powered Sustainability Intelligence · Asia-Pacific</div>
+    <h1 style="opacity:1;visibility:visible;color:#f0ede8">Where <em style="-webkit-text-fill-color:transparent;background:linear-gradient(135deg,#00e87a,#0affdb);-webkit-background-clip:text;background-clip:text">climate data</em> becomes decisive action</h1>
+    <p class="hero-sub" style="opacity:1;visibility:visible;color:rgba(240,237,232,0.65)">ReGenesis Impact is the institutional-grade ESG and climate reporting platform built for Singapore, Australia and India — MAS taxonomy, AASB S2, APRA CPS 229, ISSB S2 and beyond, all in one living system.</p>
+    <div class="hero-actions" style="opacity:1;visibility:visible;display:flex">
       <a href="#" onclick="navTo('features')" class="btn-primary">Explore the Platform →</a>
       <a href="#" onclick="navTo('markets')" class="btn-secondary">View Markets ↓</a>
     </div>
-    <div class="hero-stats">
-      <div><div class="stat-num">3</div><div class="stat-label">Markets — SG · AU · IN</div></div>
-      <div><div class="stat-num">18+</div><div class="stat-label">Regulatory Frameworks</div></div>
-      <div><div class="stat-num">100%</div><div class="stat-label">ISSB S2 Aligned</div></div>
-      <div><div class="stat-num">AI</div><div class="stat-label">Sage Intelligence</div></div>
+    <div class="hero-stats" style="opacity:1;visibility:visible;display:flex">
+      <div><div class="stat-num" style="color:#00e87a">3</div><div class="stat-label">Markets — SG · AU · IN</div></div>
+      <div><div class="stat-num" style="color:#00e87a">18+</div><div class="stat-label">Regulatory Frameworks</div></div>
+      <div><div class="stat-num" style="color:#00e87a">100%</div><div class="stat-label">ISSB S2 Aligned</div></div>
+      <div><div class="stat-num" style="color:#00e87a">AI</div><div class="stat-label">Sage Intelligence</div></div>
     </div>
   </div>
 
