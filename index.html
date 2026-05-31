@@ -540,7 +540,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2.5rem;display
   .fw-grid { grid-template-columns: repeat(2,1fr); }
   .hiw-arrow { display: none; }
   .lm-market-grid { grid-template-columns: 1fr 1fr; }
-  #sage-lead-chat { width: calc(100vw - 2rem); right: 1rem; }
 }
 
 
@@ -1469,39 +1468,6 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
 .rab-dismiss:hover{color:rgba(240,237,232,.6)}
 .rab-dot{width:5px;height:5px;border-radius:50%;background:#00e87a;animation:pulse 2s infinite;flex-shrink:0}
 
-/* — Proactive Sage Chat — */
-#sage-lead-chat{position:fixed;bottom:6rem;right:1.75rem;z-index:410;width:340px;max-height:520px;background:rgba(4,12,6,0.97);border:1px solid rgba(0,232,122,.18);border-radius:1rem;box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 40px rgba(0,232,122,.06);display:flex;flex-direction:column;overflow:hidden;transition:all .35s cubic-bezier(.16,1,.3,1);transform:scale(.92) translateY(12px);opacity:0;pointer-events:none}
-#sage-lead-chat.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all}
-.slc-header{display:flex;align-items:center;gap:.75rem;padding:.9rem 1.1rem;border-bottom:1px solid rgba(0,232,122,.1);background:rgba(0,232,122,.04);flex-shrink:0}
-.slc-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#0a1f0f,#00e87a20);border:1.5px solid rgba(0,232,122,.3);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
-.slc-title{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.08em;color:#00e87a}
-.slc-sub{font-size:.65rem;color:rgba(240,237,232,.4);margin-top:.1rem}
-.slc-close{background:none;border:none;color:rgba(240,237,232,.3);font-size:1rem;cursor:pointer;margin-left:auto;padding:.25rem;transition:color .2s}
-.slc-close:hover{color:rgba(240,237,232,.7)}
-#slc-messages{flex:1;overflow-y:auto;padding:.9rem 1rem;display:flex;flex-direction:column;gap:.6rem;scroll-behavior:smooth}
-#slc-messages::-webkit-scrollbar{width:3px}
-#slc-messages::-webkit-scrollbar-track{background:transparent}
-#slc-messages::-webkit-scrollbar-thumb{background:rgba(0,232,122,.2);border-radius:2px}
-.slc-msg{max-width:85%;padding:.6rem .85rem;border-radius:.65rem;font-size:.82rem;line-height:1.55;animation:fadeUp .3s ease}
-.slc-msg-sage{background:rgba(0,232,122,.07);border:1px solid rgba(0,232,122,.12);color:rgba(240,237,232,.9);border-radius:.65rem .65rem .65rem 0;align-self:flex-start}
-.slc-msg-user{background:rgba(0,232,122,.12);border:1px solid rgba(0,232,122,.2);color:rgba(240,237,232,.95);border-radius:.65rem .65rem 0 .65rem;align-self:flex-end}
-.slc-typing{display:flex;gap:.3rem;align-items:center;padding:.6rem .85rem;background:rgba(0,232,122,.07);border:1px solid rgba(0,232,122,.12);border-radius:.65rem .65rem .65rem 0;align-self:flex-start;width:fit-content}
-.slc-typing span{width:6px;height:6px;background:#00e87a;border-radius:50%;animation:slcBounce 1.2s ease-in-out infinite}
-.slc-typing span:nth-child(2){animation-delay:.2s}
-.slc-typing span:nth-child(3){animation-delay:.4s}
-@keyframes slcBounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
-#slc-options{padding:.6rem 1rem;display:flex;flex-wrap:wrap;gap:.45rem;flex-shrink:0;border-top:1px solid rgba(0,232,122,.06)}
-.slc-opt{background:rgba(0,232,122,.06);border:1px solid rgba(0,232,122,.18);color:rgba(240,237,232,.8);font-size:.75rem;font-family:'DM Mono',monospace;letter-spacing:.04em;padding:.45rem .85rem;border-radius:.4rem;cursor:pointer;transition:all .2s;text-align:left}
-.slc-opt:hover{background:rgba(0,232,122,.12);border-color:rgba(0,232,122,.35);color:#00e87a}
-#slc-input-wrap{padding:.75rem 1rem;border-top:1px solid rgba(0,232,122,.08);display:none;gap:.5rem;align-items:center}
-#slc-input-wrap.show{display:flex}
-#slc-email-input{flex:1;background:rgba(0,0,0,.4);border:1px solid rgba(0,232,122,.2);border-radius:.4rem;padding:.5rem .75rem;color:#f0ede8;font-family:'DM Sans',sans-serif;font-size:.82rem;outline:none}
-#slc-email-input:focus{border-color:rgba(0,232,122,.4)}
-#slc-send-btn{background:#00e87a;color:#030a06;border:none;padding:.5rem .9rem;border-radius:.4rem;font-family:'DM Mono',monospace;font-size:.7rem;font-weight:700;cursor:pointer;transition:all .2s}
-#slc-send-btn:hover{background:#00ff8c}
-.slc-progress{height:2px;background:rgba(0,232,122,.08);flex-shrink:0}
-.slc-progress-fill{height:100%;background:linear-gradient(90deg,#00e87a,#0affdb);transition:width .4s ease}
-
 /* — Smart Lead Modal — */
 #lead-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:9998;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
 #lead-modal.open{display:flex}
@@ -1589,25 +1555,6 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
     </div>
     <button class="rab-cta" onclick="openLeadModal('regulatory_alert')">Check Compliance →</button>
     <button class="rab-dismiss" onclick="dismissRegAlertBar()" title="Dismiss">✕</button>
-  </div>
-</div>
-
-<!-- PROACTIVE SAGE LEAD CHAT -->
-<div id="sage-lead-chat">
-  <div class="slc-progress"><div class="slc-progress-fill" id="slc-progress-fill" style="width:0%"></div></div>
-  <div class="slc-header">
-    <div class="slc-avatar">🌿</div>
-    <div>
-      <div class="slc-title">SAGE AI · ReGenesis Impact</div>
-      <div class="slc-sub">ESG Intelligence Advisor · Online</div>
-    </div>
-    <button class="slc-close" onclick="closeSageLeadChat()">✕</button>
-  </div>
-  <div id="slc-messages"></div>
-  <div id="slc-options"></div>
-  <div id="slc-input-wrap">
-    <input id="slc-email-input" type="email" placeholder="your@company.com">
-    <button id="slc-send-btn" onclick="slcSubmitEmail()">→</button>
   </div>
 </div>
 
@@ -7919,106 +7866,8 @@ function dismissRegAlertBar() {
   localStorage.setItem('rab_dismissed','1');
 }
 
-// ── Proactive Sage Lead Chat ──────────────────────────────────
-var _slcData={}, _slcStep=0;
-
-var _slcFlow=[
-  { msg:"Hi! I'm Sage 🌿 — ReGenesis Impact's AI sustainability advisor.\n\nQuick question to personalise your experience — which market is your primary reporting jurisdiction?",
-    opts:[{label:'🇸🇬 Singapore (MAS · SGX)',val:'sg'},{label:'🇦🇺 Australia (AASB S2 · APRA)',val:'au'},{label:'🇮🇳 India (BRSR · ISSB S2)',val:'in'},{label:'🌐 Other / Global',val:'other'}],
-    key:'market', progress:15 },
-  { msg:null,
-    opts:[{label:'Climate Disclosure Report',val:'climate_disclosure'},{label:'GHG Inventory (Scope 1-2-3)',val:'ghg'},{label:'TCFD Scenario Analysis',val:'tcfd'},{label:'ESG Due Diligence',val:'esg_dd'}],
-    key:'framework', progress:55 },
-  { msg:"Last step 👋 — what's your work email? I'll save your personalised setup and our team will reach out within 24h with tailored guidance.",
-    opts:[], key:'email', progress:85, showInput:true }
-];
-
-var _mktMsgs={
-  sg:"Great 🇸🇬! Singapore has active ESG mandates — MAS ERM, SGX mandatory ISSB S2 from FY2024, and the Singapore-Asia Taxonomy.\n\nWhat's your primary compliance need?",
-  au:"Australia is moving fast 🇦🇺! AASB S2 is mandatory for Group 1 from 1 Jan 2025, with APRA CPS 229 CVA for banks and insurers.\n\nWhat's your primary compliance need?",
-  in:"India has strong ESG requirements 🇮🇳! SEBI BRSR Core for top 150 listed companies, ISSB S2 adoption, Scope 1-2-3 reporting.\n\nWhat's your primary compliance need?",
-  other:"Global frameworks are converging 🌐! ISSB S2 is adopted in 40+ jurisdictions. Let me help you navigate.\n\nWhat's your primary compliance need?"
-};
-
-function initProactiveSageChat() {
-  if (localStorage.getItem('slc_shown') || _currentUser) return;
-  setTimeout(function(){
-    if (_currentUser) return;
-    openSageLeadChat();
-    localStorage.setItem('slc_shown','1');
-  }, 6000);
-}
-
-function openSageLeadChat() {
-  var chat = document.getElementById('sage-lead-chat');
-  if (!chat) return;
-  _slcData={}; _slcStep=0;
-  var msgs=document.getElementById('slc-messages'); if(msgs) msgs.innerHTML='';
-  var opts=document.getElementById('slc-options'); if(opts) opts.innerHTML='';
-  var iw=document.getElementById('slc-input-wrap'); if(iw) iw.classList.remove('show');
-  chat.classList.add('open');
-  setTimeout(function(){ slcShowStep(0); }, 300);
-}
-
-function closeSageLeadChat() {
-  var chat=document.getElementById('sage-lead-chat'); if(chat) chat.classList.remove('open');
-}
-
-function slcShowStep(idx) {
-  var step=_slcFlow[idx]; if(!step) return;
-  var pf=document.getElementById('slc-progress-fill'); if(pf) pf.style.width=step.progress+'%';
-  var msgs=document.getElementById('slc-messages'); if(!msgs) return;
-  var typing=document.createElement('div'); typing.className='slc-typing';
-  typing.innerHTML='<span></span><span></span><span></span>'; msgs.appendChild(typing); msgs.scrollTop=msgs.scrollHeight;
-  var msgText = step.msg;
-  if (idx===1 && _slcData.market) msgText = _mktMsgs[_slcData.market]||step.msg||'What is your primary compliance need?';
-  setTimeout(function(){
-    typing.remove();
-    if (msgText){ var m=document.createElement('div'); m.className='slc-msg slc-msg-sage'; m.style.whiteSpace='pre-line'; m.textContent=msgText; msgs.appendChild(m); msgs.scrollTop=msgs.scrollHeight; }
-    var opts=document.getElementById('slc-options'); if(opts) opts.innerHTML='';
-    (step.opts||[]).forEach(function(opt){
-      var btn=document.createElement('button'); btn.className='slc-opt'; btn.textContent=opt.label;
-      btn.onclick=function(){ slcSelectOpt(opt,idx); }; if(opts) opts.appendChild(btn);
-    });
-    var iw=document.getElementById('slc-input-wrap');
-    if(iw){ if(step.showInput) iw.classList.add('show'); else iw.classList.remove('show'); }
-  }, 900);
-}
-
-function slcSelectOpt(opt, idx) {
-  var step=_slcFlow[idx]; _slcData[step.key]=opt.val;
-  var msgs=document.getElementById('slc-messages');
-  if(msgs){ var m=document.createElement('div'); m.className='slc-msg slc-msg-user'; m.textContent=opt.label; msgs.appendChild(m); msgs.scrollTop=msgs.scrollHeight; }
-  var opts=document.getElementById('slc-options'); if(opts) opts.innerHTML='';
-  var nxt=idx+1; if(nxt<_slcFlow.length) setTimeout(function(){ slcShowStep(nxt); },400);
-}
-
-async function slcSubmitEmail() {
-  var inp=document.getElementById('slc-email-input'); if(!inp) return;
-  var email=inp.value.trim();
-  if(!email||!_isValidEmail(email)){ inp.style.borderColor='rgba(255,80,80,.5)'; setTimeout(function(){ inp.style.borderColor=''; },2000); return; }
-  _slcData.email=email;
-  var pf=document.getElementById('slc-progress-fill'); if(pf) pf.style.width='100%';
-  var msgs=document.getElementById('slc-messages');
-  if(msgs){ var m=document.createElement('div'); m.className='slc-msg slc-msg-user'; m.textContent=email; msgs.appendChild(m); msgs.scrollTop=msgs.scrollHeight; }
-  var iw=document.getElementById('slc-input-wrap'); if(iw) iw.classList.remove('show');
-  var opts=document.getElementById('slc-options'); if(opts) opts.innerHTML='';
-  await captureLead({ email:_slcData.email, market:_slcData.market, frameworks:_slcData.framework?[_slcData.framework]:[], source:'sage_chat' });
-  if (_slcData.market) localStorage.setItem('rg_market', _slcData.market);
-  var typing2=document.createElement('div'); typing2.className='slc-typing'; typing2.innerHTML='<span></span><span></span><span></span>';
-  if(msgs){ msgs.appendChild(typing2); msgs.scrollTop=msgs.scrollHeight; }
-  setTimeout(function(){
-    typing2.remove();
-    var mktN={sg:'Singapore',au:'Australia',in:'India',other:'global'};
-    var s=document.createElement('div'); s.className='slc-msg slc-msg-sage';
-    s.textContent='✅ Got it! I\'ve saved your '+(mktN[_slcData.market]||'')+' setup. Our team will reach out at '+email+' within 24 hours.\n\nIn the meantime, feel free to explore the platform or ask me any ESG questions!';
-    if(msgs){ msgs.appendChild(s); msgs.scrollTop=msgs.scrollHeight; }
-    if(opts){
-      var eb=document.createElement('button'); eb.className='slc-opt'; eb.textContent='💬 Chat with Sage AI →'; eb.onclick=function(){ closeSageLeadChat(); showPage('advisor'); }; opts.appendChild(eb);
-      var pb=document.createElement('button'); pb.className='slc-opt'; pb.textContent='Explore the platform'; pb.onclick=function(){ closeSageLeadChat(); navTo('features'); }; opts.appendChild(pb);
-    }
-  }, 1000);
-}
+function closeSageLeadChat() {}
+function openSageLeadChat() {}
 
 // ── FAQ toggle ────────────────────────────────────────────────
 function toggleFaq(item) {
@@ -8036,8 +7885,6 @@ window.addEventListener('scroll', function() {
 // ── Init on load ──────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function(){
   initRegAlertBar();
-  // Sage lead chat is available via button click only — not auto-opened
-  // setTimeout(function(){ if(!_currentUser) initProactiveSageChat(); }, 800);
 
   // Close lead modal on backdrop click
   var lm = document.getElementById('lead-modal');
