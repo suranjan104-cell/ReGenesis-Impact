@@ -940,7 +940,7 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
 @media(max-width:768px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:1.5rem}.grid2,.grid3,.grid4,.scope-row,.check-grid{grid-template-columns:1fr}#rpt .rpt-wrap{padding:2rem 1rem}.rpt-grid,.rpt-grid3,.rpt-grid4{grid-template-columns:1fr}}
 
 /* ===== ADVISOR CSS ===== */
-.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--lime);text-decoration:none}.nav-logo span{color:var(--cream)}
+/* nav-logo style defined in main nav CSS above — no override needed */
 .nav-badge{background:rgba(126,217,87,0.1);border:1px solid rgba(126,217,87,0.25);color:var(--lime);padding:.28rem .85rem;border-radius:2rem;font-size:.68rem;font-family:'DM Mono',monospace;letter-spacing:.1em;display:flex;align-items:center;gap:.4rem}
 .nav-badge::before{content:'';width:6px;height:6px;background:var(--lime);border-radius:50%;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(0.8)}}
@@ -8036,7 +8036,8 @@ window.addEventListener('scroll', function() {
 // ── Init on load ──────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function(){
   initRegAlertBar();
-  setTimeout(function(){ if(!_currentUser) initProactiveSageChat(); }, 800);
+  // Sage lead chat is available via button click only — not auto-opened
+  // setTimeout(function(){ if(!_currentUser) initProactiveSageChat(); }, 800);
 
   // Close lead modal on backdrop click
   var lm = document.getElementById('lead-modal');
@@ -8098,12 +8099,12 @@ function _onSignedIn(user) {
   if (wrap) wrap.style.display = 'flex';
   if (emailEl) emailEl.textContent = user.email;
   if (loginWrap) loginWrap.style.display = 'none';
-  // Navigate to pending page
+  // Navigate to pending page only if user clicked to access a specific tool
   var dest = _pendingPage;
   _pendingPage = null;
   closeLoginModal();
   if (dest && dest !== 'home') showPage(dest);
-  else showPage('dashboard');
+  // Don't force-redirect to dashboard on session restore — let home page stay visible
 }
 
 function dbUpdateMarket() {
