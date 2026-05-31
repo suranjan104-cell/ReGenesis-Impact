@@ -1976,108 +1976,55 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
 
 
 <!-- HERO -->
-<section class="hero hero-split">
+<section class="hero-v2">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
 
-  <!-- LEFT: copy -->
-  <div class="hero-copy" style="opacity:1;visibility:visible;position:relative;z-index:2">
-    <div class="hero-tag" style="opacity:1;visibility:visible;color:#00e87a;display:inline-flex">◉ AI-Powered Sustainability Intelligence · Asia-Pacific</div>
-    <h1 style="opacity:1;visibility:visible;color:#f0ede8">Where <em style="-webkit-text-fill-color:transparent;background:linear-gradient(135deg,#00e87a,#0affdb);-webkit-background-clip:text;background-clip:text">climate data</em> becomes decisive action</h1>
-    <p class="hero-sub" style="opacity:1;visibility:visible;color:rgba(240,237,232,0.65)">ReGenesis Impact is the institutional-grade ESG and climate reporting platform built for Singapore, Australia and India — MAS taxonomy, AASB S2, APRA CPS 229, ISSB S2 and beyond, all in one living system.</p>
-    <div class="hero-actions" style="opacity:1;visibility:visible;display:flex">
-      <a href="#" onclick="navTo('features')" class="btn-primary">Explore the Platform →</a>
-      <a href="#" onclick="navTo('markets')" class="btn-secondary">View Markets ↓</a>
-    </div>
-    <div class="hero-stats" style="opacity:1;visibility:visible;display:flex">
-      <div><div class="stat-num" style="color:#00e87a">3</div><div class="stat-label">Markets — SG · AU · IN</div></div>
-      <div><div class="stat-num" style="color:#00e87a">18+</div><div class="stat-label">Regulatory Frameworks</div></div>
-      <div><div class="stat-num" style="color:#00e87a">100%</div><div class="stat-label">ISSB S2 Aligned</div></div>
-      <div><div class="stat-num" style="color:#00e87a">AI</div><div class="stat-label">Sage Intelligence</div></div>
-    </div>
-  </div>
-
-  <!-- RIGHT: Climate Intelligence preview -->
-  <div class="hero-cit-preview">
-    <div class="hcit-bar">
-      <span class="hcit-dot" style="background:#ff5f57"></span>
-      <span class="hcit-dot" style="background:#ffbd2e"></span>
-      <span class="hcit-dot" style="background:#28ca41"></span>
-      <span class="hcit-title">Climate Intelligence Suite · ReGenesis Impact</span>
+  <div class="hero-center">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      AI-Powered ESG Intelligence · Singapore · Australia · India
     </div>
 
-    <!-- Scenario selector row -->
-    <div class="hcit-tabs">
-      <span class="hcit-tab active">NZE 2050</span>
-      <span class="hcit-tab">Orderly 2°C</span>
-      <span class="hcit-tab">Disorderly</span>
-      <span class="hcit-tab">Hot House</span>
+    <h1>Where <span class="text-gradient">climate data</span><br>becomes decisive action</h1>
+
+    <p class="hero-sub" style="opacity:1;visibility:visible;color:rgba(240,237,232,0.6)">
+      The institutional-grade platform for ISSB S2, MAS taxonomy, AASB S2, APRA CPS 229 and SEBI BRSR — all in one living system built for Asia-Pacific.
+    </p>
+
+    <div class="hero-actions" style="opacity:1;visibility:visible">
+      <button class="btn-glow" onclick="showPage('advisor')">Start with Sage AI →</button>
+      <button class="btn-outline" onclick="navTo('features')">Explore Tools ↓</button>
     </div>
 
-    <!-- Risk meters -->
-    <div class="hcit-section-label">SCENARIO RISK ASSESSMENT — NGFS PHASE V 2024</div>
-    <div class="hcit-meters">
-      <div class="hcit-meter-row">
-        <span class="hcit-meter-label">Transition Risk</span>
-        <div class="hcit-meter-track"><div class="hcit-meter-fill" style="width:28%;background:#7ed957"></div></div>
-        <span class="hcit-meter-val" style="color:#7ed957">Low</span>
+    <div class="hero-stats-bar" style="opacity:1;visibility:visible">
+      <div class="hero-stat">
+        <div class="hero-stat-num">3</div>
+        <div class="hero-stat-lbl">Markets</div>
       </div>
-      <div class="hcit-meter-row">
-        <span class="hcit-meter-label">Physical Risk</span>
-        <div class="hcit-meter-track"><div class="hcit-meter-fill" style="width:42%;background:#ffb23c"></div></div>
-        <span class="hcit-meter-val" style="color:#ffb23c">Medium</span>
+      <div class="hero-stat-sep"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">18+</div>
+        <div class="hero-stat-lbl">Frameworks</div>
       </div>
-      <div class="hcit-meter-row">
-        <span class="hcit-meter-label">Stranded Asset</span>
-        <div class="hcit-meter-track"><div class="hcit-meter-fill" style="width:18%;background:#7ed957"></div></div>
-        <span class="hcit-meter-val" style="color:#7ed957">Low</span>
+      <div class="hero-stat-sep"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">100%</div>
+        <div class="hero-stat-lbl">ISSB S2</div>
       </div>
-      <div class="hcit-meter-row">
-        <span class="hcit-meter-label">Policy Exposure</span>
-        <div class="hcit-meter-track"><div class="hcit-meter-fill" style="width:35%;background:#ffb23c"></div></div>
-        <span class="hcit-meter-val" style="color:#ffb23c">Medium</span>
+      <div class="hero-stat-sep"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">AI</div>
+        <div class="hero-stat-lbl">Sage Intelligence</div>
       </div>
     </div>
 
-    <!-- Decarbonisation target -->
-    <div class="hcit-section-label" style="margin-top:0.9rem">DECARBONISATION TARGET — SBTi 1.5°C</div>
-    <div class="hcit-target-row">
-      <div class="hcit-target-block">
-        <div class="hcit-target-num" style="color:#7ed957">−50%</div>
-        <div class="hcit-target-sub">Required by 2030</div>
-      </div>
-      <div class="hcit-target-block">
-        <div class="hcit-target-num" style="color:#ffb23c">−18%</div>
-        <div class="hcit-target-sub">Achieved to date</div>
-      </div>
-      <div class="hcit-target-block">
-        <div class="hcit-target-num" style="color:#f05252">−32%</div>
-        <div class="hcit-target-sub">Gap to close</div>
-      </div>
-    </div>
-
-    <!-- MACC mini chart -->
-    <div class="hcit-section-label" style="margin-top:0.9rem">MACC ABATEMENT LEVERS — TOP OPPORTUNITIES</div>
-    <div class="hcit-macc">
-      <div class="hcit-macc-bar" style="--h:72%;--c:#7ed957" title="Renewable Energy"><span>Solar PV</span></div>
-      <div class="hcit-macc-bar" style="--h:58%;--c:#7ed957" title="Energy Efficiency"><span>Efficiency</span></div>
-      <div class="hcit-macc-bar" style="--h:46%;--c:#3cb9ff" title="Fleet Electrification"><span>Fleet EV</span></div>
-      <div class="hcit-macc-bar" style="--h:35%;--c:#3cb9ff" title="Supply Chain"><span>Supply</span></div>
-      <div class="hcit-macc-bar" style="--h:22%;--c:#ffb23c" title="Offset"><span>Offset</span></div>
-    </div>
-
-    <!-- CVaR row -->
-    <div class="hcit-section-label" style="margin-top:0.9rem">PHYSICAL RISK CVaR</div>
-    <div class="hcit-cvar-row">
-      <div class="hcit-cvar-chip" style="border-color:rgba(126,217,87,0.3)"><span style="color:#7ed957">Flood</span> 2.1% AEL</div>
-      <div class="hcit-cvar-chip" style="border-color:rgba(255,178,60,0.3)"><span style="color:#ffb23c">Heat</span> 4.8% AEL</div>
-      <div class="hcit-cvar-chip" style="border-color:rgba(240,82,82,0.3)"><span style="color:#f05252">Drought</span> 6.2% AEL</div>
-      <div class="hcit-cvar-chip" style="border-color:rgba(79,170,255,0.3)"><span style="color:#4faaff">Sea Level</span> 1.3% AEL</div>
-    </div>
-
-    <div class="hcit-footer-bar">
-      <span>TCFD · NGFS v5 · IEA NZE · IPCC AR6 · SBTi 1.5°C</span>
-      <span style="color:#7ed957;cursor:pointer" onclick="requireLogin('climate')">Open Full Suite →</span>
+    <div class="hero-market-chips">
+      <span class="hero-chip hero-chip-sg" onclick="localStorage.setItem('rg_market','sg');showPage('advisor')">🇸🇬 MAS · SGX Disclosure</span>
+      <span class="hero-chip hero-chip-au" onclick="localStorage.setItem('rg_market','au');showPage('advisor')">🇦🇺 AASB S2 · APRA CPS 229</span>
+      <span class="hero-chip hero-chip-in" onclick="localStorage.setItem('rg_market','in');showPage('advisor')">🇮🇳 SEBI BRSR · ISSB S2</span>
     </div>
   </div>
 </section>
