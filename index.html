@@ -1920,642 +1920,1761 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
 
 <!-- ===== HOME PAGE ===== -->
 <div class="page active" id="page-home" style="display:block">
+<style>
+/* ============================================================
+   REGENESIS IMPACT — HOME PAGE v3 (ReVerse design)
+   All classes prefixed rv- to avoid collisions with shared CSS
+   ============================================================ */
 
+/* --- Reset / base for page-home --- */
+#page-home { font-family:'DM Sans',sans-serif; color:#f1f5f2; background:#030a06; }
 
-<!-- HERO -->
-<section class="hero-v2">
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
-  <div class="hero-orb hero-orb-1"></div>
-  <div class="hero-orb hero-orb-2"></div>
+/* --- Gradient text utility --- */
+.rv-grad-text {
+  background: linear-gradient(135deg, #00e87a 0%, #0affdb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.rv-grad-text-amber {
+  background: linear-gradient(135deg, #f59e0b 0%, #fcd34d 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
-  <div class="hero-center">
-    <div class="hero-badge">
-      <span class="hero-badge-dot"></span>
-      AI-Powered ESG Intelligence · Singapore · Australia · India
+/* ============================================================
+   HERO
+   ============================================================ */
+.rv-hero {
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 3rem;
+  padding: 7rem 5% 4rem;
+  overflow: hidden;
+}
+
+/* Grid line background */
+.rv-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,232,122,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,232,122,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+/* Radial glow blobs */
+.rv-hero-glow-1 {
+  position: absolute;
+  width: 700px; height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,232,122,0.09) 0%, transparent 70%);
+  top: -200px; left: -200px;
+  pointer-events: none;
+}
+.rv-hero-glow-2 {
+  position: absolute;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(10,255,219,0.07) 0%, transparent 70%);
+  bottom: -150px; right: 30%;
+  pointer-events: none;
+}
+
+/* Left side */
+.rv-hero-left {
+  position: relative;
+  z-index: 2;
+}
+
+.rv-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: rgba(0,232,122,0.08);
+  border: 1px solid rgba(0,232,122,0.22);
+  border-radius: 2rem;
+  padding: 0.4rem 1rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: #00e87a;
+  margin-bottom: 1.75rem;
+}
+.rv-hero-eyebrow-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #00e87a;
+  box-shadow: 0 0 8px rgba(0,232,122,0.7);
+  animation: rv-pulse 2s infinite;
+  flex-shrink: 0;
+}
+@keyframes rv-pulse {
+  0%,100%{ opacity:1; transform:scale(1); }
+  50%{ opacity:0.4; transform:scale(0.8); }
+}
+
+.rv-hero h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(3rem, 5.5vw, 4.8rem);
+  font-weight: 800;
+  line-height: 1.08;
+  color: #f1f5f2;
+  margin-bottom: 1.5rem;
+}
+.rv-hero h1 em {
+  font-style: normal;
+  color: #00e87a;
+  text-shadow: 0 0 40px rgba(0,232,122,0.35);
+}
+
+.rv-hero-sub {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: rgba(241,245,242,0.6);
+  max-width: 500px;
+  margin-bottom: 2.25rem;
+}
+
+.rv-hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+
+.rv-btn-primary {
+  background: linear-gradient(135deg, #00e87a, #0affdb);
+  color: #030a06;
+  border: none;
+  border-radius: 2rem;
+  padding: 0.85rem 2rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 24px rgba(0,232,122,0.35);
+  white-space: nowrap;
+}
+.rv-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0,232,122,0.5);
+}
+
+.rv-btn-ghost {
+  background: transparent;
+  color: #f1f5f2;
+  border: 1px solid rgba(241,245,242,0.2);
+  border-radius: 2rem;
+  padding: 0.85rem 2rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, transform 0.2s;
+  white-space: nowrap;
+}
+.rv-btn-ghost:hover {
+  border-color: rgba(0,232,122,0.5);
+  color: #00e87a;
+  transform: translateY(-2px);
+}
+
+/* Stats strip */
+.rv-hero-stats {
+  display: flex;
+  gap: 0;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background: rgba(5,15,8,0.6);
+  backdrop-filter: blur(12px);
+  width: fit-content;
+}
+.rv-hero-stat {
+  padding: 0.85rem 1.5rem;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  text-align: center;
+}
+.rv-hero-stat:last-child { border-right: none; }
+.rv-hero-stat-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #00e87a;
+  line-height: 1;
+}
+.rv-hero-stat-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  color: rgba(241,245,242,0.45);
+  margin-top: 0.3rem;
+  text-transform: uppercase;
+}
+
+/* Right side — product mockup */
+.rv-hero-right {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Floating orb behind card */
+.rv-hero-orb {
+  position: absolute;
+  width: 420px; height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,232,122,0.12) 0%, rgba(10,255,219,0.06) 40%, transparent 70%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: rv-orb-pulse 6s ease-in-out infinite;
+}
+@keyframes rv-orb-pulse {
+  0%,100%{ transform:translate(-50%,-50%) scale(1); opacity:0.9; }
+  50%{ transform:translate(-50%,-50%) scale(1.08); opacity:0.7; }
+}
+
+/* Dashboard terminal card */
+.rv-mockup-card {
+  background: rgba(5,15,8,0.85);
+  border: 1px solid rgba(0,232,122,0.2);
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 480px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 40px rgba(0,232,122,0.08);
+  overflow: hidden;
+  position: relative;
+}
+
+.rv-mockup-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.25rem;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  background: rgba(0,0,0,0.3);
+}
+.rv-mockup-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+}
+.rv-mockup-dot-r { background: #ff5f56; }
+.rv-mockup-dot-y { background: #ffbd2e; }
+.rv-mockup-dot-g { background: #27c93f; }
+.rv-mockup-bar-title {
+  margin-left: 0.5rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: rgba(241,245,242,0.5);
+  flex: 1;
+}
+.rv-mockup-live {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  background: rgba(0,232,122,0.12);
+  border: 1px solid rgba(0,232,122,0.3);
+  color: #00e87a;
+  padding: 0.2rem 0.6rem;
+  border-radius: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.rv-mockup-live::before {
+  content: '●';
+  font-size: 0.5rem;
+  animation: rv-pulse 1.5s infinite;
+}
+
+.rv-mockup-body {
+  padding: 1.25rem;
+}
+
+.rv-mockup-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 0.8rem;
+}
+.rv-mockup-row:last-of-type { border-bottom: none; }
+.rv-mockup-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  color: rgba(241,245,242,0.4);
+  text-transform: uppercase;
+}
+.rv-mockup-val {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #f1f5f2;
+}
+.rv-mockup-val-green { color: #00e87a; }
+.rv-mockup-val-teal  { color: #0affdb; }
+.rv-mockup-val-amber { color: #f59e0b; }
+
+.rv-mockup-progress-wrap {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+.rv-mockup-progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.63rem;
+  letter-spacing: 0.06em;
+  color: rgba(241,245,242,0.45);
+  margin-bottom: 0.5rem;
+}
+.rv-mockup-progress-bar {
+  height: 5px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.rv-mockup-progress-fill {
+  height: 100%;
+  width: 90%;
+  background: linear-gradient(90deg, #00e87a, #0affdb);
+  border-radius: 3px;
+  position: relative;
+  overflow: hidden;
+}
+.rv-mockup-progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+  animation: rv-shimmer 2.5s ease-in-out infinite;
+}
+@keyframes rv-shimmer {
+  0%{ left:-100%; }
+  100%{ left:200%; }
+}
+
+.rv-mockup-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 1rem;
+}
+.rv-mockup-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.07em;
+  padding: 0.25rem 0.6rem;
+  border-radius: 2rem;
+  border: 1px solid rgba(0,232,122,0.25);
+  color: rgba(0,232,122,0.8);
+  background: rgba(0,232,122,0.06);
+}
+
+/* Floating stat bubbles */
+.rv-hero-bubble {
+  position: absolute;
+  background: rgba(5,15,8,0.9);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  z-index: 3;
+}
+.rv-hero-bubble-1 {
+  top: 8%;
+  right: -2%;
+  animation: rv-float1 5s ease-in-out infinite;
+}
+.rv-hero-bubble-2 {
+  bottom: 12%;
+  left: -4%;
+  animation: rv-float2 6s ease-in-out infinite;
+}
+@keyframes rv-float1 {
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(-10px); }
+}
+@keyframes rv-float2 {
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(8px); }
+}
+.rv-bubble-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.rv-bubble-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  color: rgba(241,245,242,0.45);
+  margin-top: 0.25rem;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   TICKER STRIP
+   ============================================================ */
+.rv-ticker {
+  overflow: hidden;
+  border-top: 1px solid rgba(0,232,122,0.07);
+  border-bottom: 1px solid rgba(0,232,122,0.07);
+  background: rgba(0,0,0,0.18);
+  padding: 0.6rem 0;
+  position: relative;
+  z-index: 2;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+.rv-ticker-inner {
+  display: flex;
+  gap: 2rem;
+  white-space: nowrap;
+  width: max-content;
+  animation: rv-ticker 40s linear infinite;
+}
+@keyframes rv-ticker {
+  0%{ transform:translateX(0); }
+  100%{ transform:translateX(-50%); }
+}
+.rv-ticker-item {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.63rem;
+  letter-spacing: 0.09em;
+  color: rgba(0,232,122,0.6);
+}
+.rv-ticker-sep {
+  color: rgba(0,232,122,0.2);
+  font-size: 0.63rem;
+}
+
+/* ============================================================
+   SHARED SECTION STYLES
+   ============================================================ */
+.rv-section {
+  padding: 6rem 5%;
+  position: relative;
+}
+.rv-section-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.rv-section-dark {
+  background: rgba(0,0,0,0.15);
+  border-top: 1px solid rgba(255,255,255,0.04);
+}
+.rv-section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #00e87a;
+  margin-bottom: 1rem;
+}
+.rv-section h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700;
+  color: #f1f5f2;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+.rv-section h2 em {
+  font-style: normal;
+  color: #00e87a;
+}
+.rv-section-sub {
+  font-size: 1rem;
+  color: rgba(241,245,242,0.55);
+  line-height: 1.75;
+  max-width: 560px;
+  margin-bottom: 3.5rem;
+}
+
+/* ============================================================
+   TOOL CARDS (Platform section)
+   ============================================================ */
+.rv-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.rv-tool-card {
+  background: rgba(5,15,8,0.75);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 1rem;
+  padding: 1.75rem;
+  cursor: pointer;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+}
+.rv-tool-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--rv-card-color, #00e87a);
+  border-radius: 1rem 1rem 0 0;
+  opacity: 0.8;
+}
+.rv-tool-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,255,255,0.16);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px color-mix(in srgb, var(--rv-card-color, #00e87a) 15%, transparent);
+}
+.rv-tool-card.rv-featured {
+  border-color: rgba(167,139,250,0.25);
+  background: rgba(10,8,25,0.85);
+  grid-column: span 1;
+}
+.rv-tool-card.rv-featured::after {
+  content: 'FEATURED';
+  position: absolute;
+  top: 1rem; right: 1rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  background: rgba(167,139,250,0.15);
+  border: 1px solid rgba(167,139,250,0.3);
+  color: #a78bfa;
+  padding: 0.2rem 0.55rem;
+  border-radius: 2rem;
+}
+.rv-tool-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+.rv-tool-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f1f5f2;
+  margin-bottom: 0.6rem;
+}
+.rv-tool-desc {
+  font-size: 0.82rem;
+  color: rgba(241,245,242,0.55);
+  line-height: 1.7;
+  margin-bottom: 1.1rem;
+}
+.rv-tool-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.rv-tool-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.07em;
+  padding: 0.22rem 0.6rem;
+  border-radius: 2rem;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(241,245,242,0.5);
+}
+
+/* ============================================================
+   MARKET CARDS
+   ============================================================ */
+.rv-markets-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.rv-market-card {
+  background: rgba(5,15,8,0.75);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 1rem;
+  padding: 2rem;
+  backdrop-filter: blur(20px);
+  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+  display: flex;
+  flex-direction: column;
+}
+.rv-market-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--rv-market-color, #00e87a) 40%, transparent);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px color-mix(in srgb, var(--rv-market-color, #00e87a) 12%, transparent);
+}
+.rv-market-flag { font-size: 2.5rem; margin-bottom: 1rem; }
+.rv-market-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #f1f5f2;
+  margin-bottom: 0.4rem;
+}
+.rv-market-tagline {
+  font-size: 0.8rem;
+  color: rgba(241,245,242,0.45);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+.rv-market-list {
+  list-style: none;
+  margin: 0 0 1.75rem;
+  padding: 0;
+  flex: 1;
+}
+.rv-market-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.82rem;
+  color: rgba(241,245,242,0.65);
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  line-height: 1.4;
+}
+.rv-market-list li:last-child { border-bottom: none; }
+.rv-market-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--rv-market-color, #00e87a);
+  flex-shrink: 0;
+  margin-top: 0.35rem;
+}
+.rv-market-cta {
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--rv-market-color, #00e87a) 40%, transparent);
+  color: var(--rv-market-color, #00e87a);
+  border-radius: 2rem;
+  padding: 0.7rem 1.5rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  width: 100%;
+  text-align: center;
+}
+.rv-market-cta:hover {
+  background: color-mix(in srgb, var(--rv-market-color, #00e87a) 15%, transparent);
+}
+
+/* ============================================================
+   HOW IT WORKS — Steps
+   ============================================================ */
+.rv-steps-wrap {
+  position: relative;
+}
+.rv-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  position: relative;
+}
+/* Connecting line */
+.rv-steps::before {
+  content: '';
+  position: absolute;
+  top: 2.2rem;
+  left: 4%;
+  right: 4%;
+  height: 2px;
+  background: linear-gradient(90deg, #00e87a, #0affdb, #a78bfa, #f59e0b);
+  opacity: 0.3;
+  pointer-events: none;
+}
+.rv-step {
+  padding: 0 1.5rem;
+  padding-top: 0;
+  position: relative;
+}
+.rv-step-num-wrap {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+.rv-step-num-bg {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 5rem;
+  font-weight: 800;
+  color: rgba(0,232,122,0.06);
+  line-height: 1;
+  position: absolute;
+  top: -1.5rem;
+  left: 0;
+  pointer-events: none;
+  user-select: none;
+}
+.rv-step-dot {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00e87a, #0affdb);
+  box-shadow: 0 0 16px rgba(0,232,122,0.5);
+  position: relative;
+  z-index: 1;
+  margin-bottom: 1.25rem;
+}
+.rv-step-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #f1f5f2;
+  margin-bottom: 0.6rem;
+}
+.rv-step-desc {
+  font-size: 0.83rem;
+  color: rgba(241,245,242,0.5);
+  line-height: 1.7;
+}
+
+/* ============================================================
+   STATS / ADVISORY
+   ============================================================ */
+.rv-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 3rem;
+}
+.rv-stat-card {
+  background: rgba(5,15,8,0.75);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 1rem;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  backdrop-filter: blur(20px);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.rv-stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+}
+.rv-stat-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.rv-stat-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #f1f5f2;
+  margin-bottom: 0.3rem;
+}
+.rv-stat-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  color: rgba(241,245,242,0.35);
+}
+
+/* Testimonials */
+.rv-testimonials {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+.rv-testimonial {
+  background: rgba(5,15,8,0.75);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 1rem;
+  padding: 1.75rem;
+  backdrop-filter: blur(20px);
+}
+.rv-testimonial-quote {
+  font-size: 0.87rem;
+  color: rgba(241,245,242,0.7);
+  line-height: 1.75;
+  font-style: italic;
+  margin-bottom: 1.25rem;
+}
+.rv-testimonial-quote::before { content: '"'; color: #00e87a; font-style:normal; }
+.rv-testimonial-quote::after  { content: '"'; color: #00e87a; font-style:normal; }
+.rv-testimonial-author {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.63rem;
+  letter-spacing: 0.08em;
+  color: #00e87a;
+}
+
+/* ============================================================
+   FRAMEWORK BADGES
+   ============================================================ */
+.rv-framework-section { text-align: center; }
+.rv-framework-section .rv-section-sub { margin-left: auto; margin-right: auto; }
+.rv-badge-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.rv-badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+}
+.rv-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.09em;
+  padding: 0.4rem 1rem;
+  border-radius: 2rem;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(241,245,242,0.65);
+  background: rgba(255,255,255,0.04);
+  transition: transform 0.15s, border-color 0.15s;
+}
+.rv-badge:hover { transform: translateY(-2px); }
+.rv-badge-green  { border-color: rgba(0,232,122,0.3);  color: #00e87a;  background: rgba(0,232,122,0.06); }
+.rv-badge-blue   { border-color: rgba(56,189,248,0.3); color: #38bdf8; background: rgba(56,189,248,0.06); }
+.rv-badge-amber  { border-color: rgba(245,158,11,0.3); color: #f59e0b; background: rgba(245,158,11,0.06); }
+.rv-badge-teal   { border-color: rgba(45,212,191,0.3); color: #2dd4bf; background: rgba(45,212,191,0.06); }
+.rv-badge-purple { border-color: rgba(167,139,250,0.3);color: #a78bfa; background: rgba(167,139,250,0.06);}
+.rv-badge-white  { border-color: rgba(241,245,242,0.2);color: rgba(241,245,242,0.75); background: rgba(241,245,242,0.04); }
+
+/* ============================================================
+   CTA SECTION
+   ============================================================ */
+.rv-cta-section {
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.rv-cta-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0,232,122,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.rv-cta-section .rv-section-label { text-align: center; }
+.rv-cta-section h2 { text-align: center; margin-left: auto; margin-right: auto; max-width: 700px; }
+.rv-cta-sub {
+  font-size: 1rem;
+  color: rgba(241,245,242,0.5);
+  line-height: 1.75;
+  max-width: 520px;
+  margin: 0 auto 2.5rem;
+}
+.rv-cta-markets {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  font-size: 0.78rem;
+  color: rgba(241,245,242,0.35);
+  margin-top: 1rem;
+}
+.rv-cta-markets span { opacity: 0.3; }
+
+/* ============================================================
+   FAQ ACCORDION
+   ============================================================ */
+.rv-faq-section { text-align: center; }
+.rv-faq-section .rv-section-sub { margin-left: auto; margin-right: auto; }
+.rv-faq-grid {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+/* Uses existing .faq-item class for JS compatibility */
+.faq-item {
+  background: rgba(5,15,8,0.75);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.faq-item:hover { border-color: rgba(0,232,122,0.2); }
+.faq-item.open { border-color: rgba(0,232,122,0.25); }
+.faq-q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 1.5rem;
+  gap: 1rem;
+}
+.faq-q-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f1f5f2;
+  line-height: 1.4;
+}
+.faq-chevron {
+  color: #00e87a;
+  font-size: 0.7rem;
+  transition: transform 0.3s;
+  flex-shrink: 0;
+}
+.faq-item.open .faq-chevron { transform: rotate(180deg); }
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+.faq-item.open .faq-a { max-height: 600px; }
+.faq-a-inner {
+  padding: 0 1.5rem 1.25rem;
+  font-size: 0.85rem;
+  color: rgba(241,245,242,0.6);
+  line-height: 1.8;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding-top: 1rem;
+}
+
+/* ============================================================
+   SEO SECTION
+   ============================================================ */
+.rv-seo-section {
+  background: rgba(0,0,0,0.15);
+  padding: 4rem 5%;
+  border-top: 1px solid rgba(0,232,122,0.07);
+}
+.rv-seo-grid {
+  max-width: 1100px;
+  margin: 2.5rem auto 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+.rv-seo-article {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(0,232,122,0.08);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  transition: border-color 0.2s;
+}
+.rv-seo-article:hover { border-color: rgba(0,232,122,0.2); }
+.rv-seo-article h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #00e87a;
+  margin-bottom: 0.6rem;
+}
+.rv-seo-article p {
+  font-size: 0.75rem;
+  color: rgba(241,245,242,0.5);
+  line-height: 1.75;
+}
+.rv-seo-btn {
+  margin-top: 1rem;
+  background: none;
+  border: 1px solid rgba(0,232,122,0.3);
+  color: #00e87a;
+  padding: 0.4rem 1rem;
+  border-radius: 2rem;
+  font-size: 0.7rem;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.2s;
+}
+.rv-seo-btn:hover { background: rgba(0,232,122,0.1); }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.rv-footer {
+  background: rgba(0,0,0,0.3);
+  border-top: 1px solid rgba(255,255,255,0.07);
+  padding: 4rem 5% 2rem;
+}
+.rv-footer-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.8fr 1fr 1fr 0.8fr 1fr;
+  gap: 2.5rem;
+  margin-bottom: 3rem;
+}
+.rv-footer-logo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #00e87a;
+  margin-bottom: 0.75rem;
+  text-shadow: 0 0 20px rgba(0,232,122,0.3);
+}
+.rv-footer-logo span { color: #f1f5f2; }
+.rv-footer-tagline {
+  font-size: 0.82rem;
+  color: rgba(241,245,242,0.45);
+  line-height: 1.65;
+  margin-bottom: 0.75rem;
+  max-width: 240px;
+}
+.rv-footer-email a {
+  font-size: 0.78rem;
+  color: rgba(241,245,242,0.4);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.rv-footer-email a:hover { color: #00e87a; }
+.rv-footer-col-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(241,245,242,0.35);
+  margin-bottom: 1rem;
+}
+.rv-footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.rv-footer-links a,
+.rv-footer-links button {
+  font-size: 0.82rem;
+  color: rgba(241,245,242,0.55);
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  text-align: left;
+  padding: 0;
+  transition: color 0.2s;
+}
+.rv-footer-links a:hover,
+.rv-footer-links button:hover { color: #00e87a; }
+.rv-footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-size: 0.75rem;
+  color: rgba(241,245,242,0.3);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1024px) {
+  .rv-hero { grid-template-columns: 1fr; padding: 7rem 5% 3rem; min-height: auto; }
+  .rv-hero-right { display: none; }
+  .rv-hero h1 { font-size: clamp(2.5rem, 6vw, 3.5rem); }
+  .rv-tools-grid { grid-template-columns: repeat(2, 1fr); }
+  .rv-markets-grid { grid-template-columns: 1fr; }
+  .rv-steps { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+  .rv-steps::before { display: none; }
+  .rv-stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .rv-testimonials { grid-template-columns: 1fr; }
+  .rv-footer-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  .rv-hero { padding: 6rem 1.25rem 2.5rem; }
+  .rv-hero h1 { font-size: 2.5rem; }
+  .rv-hero-stats { flex-direction: column; width: 100%; }
+  .rv-hero-stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .rv-hero-stat:last-child { border-bottom: none; }
+  .rv-section { padding: 4rem 1.25rem; }
+  .rv-tools-grid { grid-template-columns: 1fr; }
+  .rv-markets-grid { grid-template-columns: 1fr; }
+  .rv-steps { grid-template-columns: 1fr; }
+  .rv-stats-grid { grid-template-columns: 1fr 1fr; }
+  .rv-testimonials { grid-template-columns: 1fr; }
+  .rv-footer-grid { grid-template-columns: 1fr; }
+  .rv-footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+  .rv-hero-actions { flex-direction: column; }
+  .rv-btn-primary, .rv-btn-ghost { width: 100%; text-align: center; }
+}
+</style>
+
+<!-- ═══════════════════════════════════════════════
+     HERO — split screen, full viewport
+     ═══════════════════════════════════════════════ -->
+<section class="rv-hero">
+  <div class="rv-hero-glow-1"></div>
+  <div class="rv-hero-glow-2"></div>
+
+  <!-- LEFT -->
+  <div class="rv-hero-left">
+    <div class="rv-hero-eyebrow">
+      <span class="rv-hero-eyebrow-dot"></span>
+      AI-Powered ESG Intelligence &nbsp;·&nbsp; SG &nbsp;·&nbsp; AU &nbsp;·&nbsp; IN
     </div>
 
-    <h1>Where <span class="text-gradient">climate data</span><br>becomes decisive action</h1>
+    <h1>Where <em>climate data</em><br>becomes decisive action</h1>
 
-    <p class="hero-sub" style="opacity:1;visibility:visible;color:rgba(240,237,232,0.6)">
-      The institutional-grade platform for ISSB S2, MAS taxonomy, AASB S2, APRA CPS 229 and SEBI BRSR — all in one living system built for Asia-Pacific.
+    <p class="rv-hero-sub">
+      The institutional-grade platform for ISSB S2, MAS taxonomy, AASB S2, APRA&nbsp;CPS&nbsp;229 and SEBI BRSR — all in one living system built for Asia-Pacific.
     </p>
 
-    <div class="hero-actions" style="opacity:1;visibility:visible">
-      <button class="btn-glow" onclick="showPage('advisor')">Start with Sage AI →</button>
-      <button class="btn-outline" onclick="navTo('features')">Explore Tools ↓</button>
+    <div class="rv-hero-actions">
+      <button class="rv-btn-primary" onclick="showPage('advisor')">Start with Sage AI →</button>
+      <button class="rv-btn-ghost"   onclick="navTo('features')">Explore Platform ↓</button>
     </div>
 
-    <div class="hero-stats-bar" style="opacity:1;visibility:visible">
-      <div class="hero-stat">
-        <div class="hero-stat-num">3</div>
-        <div class="hero-stat-lbl">Markets</div>
+    <div class="rv-hero-stats">
+      <div class="rv-hero-stat">
+        <div class="rv-hero-stat-num">3</div>
+        <div class="rv-hero-stat-lbl">Markets</div>
       </div>
-      <div class="hero-stat-sep"></div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">18+</div>
-        <div class="hero-stat-lbl">Frameworks</div>
+      <div class="rv-hero-stat">
+        <div class="rv-hero-stat-num">18+</div>
+        <div class="rv-hero-stat-lbl">Frameworks</div>
       </div>
-      <div class="hero-stat-sep"></div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">100%</div>
-        <div class="hero-stat-lbl">ISSB S2</div>
+      <div class="rv-hero-stat">
+        <div class="rv-hero-stat-num">100%</div>
+        <div class="rv-hero-stat-lbl">ISSB S2</div>
       </div>
-      <div class="hero-stat-sep"></div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">AI</div>
-        <div class="hero-stat-lbl">Sage Intelligence</div>
+      <div class="rv-hero-stat">
+        <div class="rv-hero-stat-num">AI</div>
+        <div class="rv-hero-stat-lbl">Powered</div>
       </div>
     </div>
+  </div>
 
-    <div class="hero-market-chips">
-      <span class="hero-chip hero-chip-sg" onclick="localStorage.setItem('rg_market','sg');showPage('advisor')">🇸🇬 MAS · SGX Disclosure</span>
-      <span class="hero-chip hero-chip-au" onclick="localStorage.setItem('rg_market','au');showPage('advisor')">🇦🇺 AASB S2 · APRA CPS 229</span>
-      <span class="hero-chip hero-chip-in" onclick="localStorage.setItem('rg_market','in');showPage('advisor')">🇮🇳 SEBI BRSR · ISSB S2</span>
+  <!-- RIGHT — product mockup -->
+  <div class="rv-hero-right">
+    <div class="rv-hero-orb"></div>
+
+    <!-- Bubble 1 -->
+    <div class="rv-hero-bubble rv-hero-bubble-1">
+      <div class="rv-bubble-num" style="color:#00e87a">94%</div>
+      <div class="rv-bubble-lbl">TCFD Coverage</div>
+    </div>
+
+    <!-- Bubble 2 -->
+    <div class="rv-hero-bubble rv-hero-bubble-2">
+      <div class="rv-bubble-num" style="color:#0affdb">&lt;5 min</div>
+      <div class="rv-bubble-lbl">To first report</div>
+    </div>
+
+    <!-- Dashboard terminal -->
+    <div class="rv-mockup-card">
+      <div class="rv-mockup-bar">
+        <span class="rv-mockup-dot rv-mockup-dot-r"></span>
+        <span class="rv-mockup-dot rv-mockup-dot-y"></span>
+        <span class="rv-mockup-dot rv-mockup-dot-g"></span>
+        <span class="rv-mockup-bar-title">ISSB S2 REPORT &nbsp;·&nbsp; LIVE</span>
+        <span class="rv-mockup-live">GENERATING</span>
+      </div>
+      <div class="rv-mockup-body">
+        <div class="rv-mockup-row">
+          <span class="rv-mockup-label">Organisation</span>
+          <span class="rv-mockup-val">DBS Group Holdings</span>
+        </div>
+        <div class="rv-mockup-row">
+          <span class="rv-mockup-label">Framework</span>
+          <span class="rv-mockup-val rv-mockup-val-green">ISSB S2 / IFRS S2</span>
+        </div>
+        <div class="rv-mockup-row">
+          <span class="rv-mockup-label">Market</span>
+          <span class="rv-mockup-val rv-mockup-val-amber">Singapore · SGX</span>
+        </div>
+        <div class="rv-mockup-row">
+          <span class="rv-mockup-label">Total Emissions</span>
+          <span class="rv-mockup-val rv-mockup-val-teal">2.4 Mt CO₂e</span>
+        </div>
+        <div class="rv-mockup-row">
+          <span class="rv-mockup-label">Scenario</span>
+          <span class="rv-mockup-val">NGFS Net Zero 2050</span>
+        </div>
+        <div class="rv-mockup-row">
+          <span class="rv-mockup-label">TCFD Alignment</span>
+          <span class="rv-mockup-val rv-mockup-val-green">✓ Compliant</span>
+        </div>
+
+        <div class="rv-mockup-progress-wrap">
+          <div class="rv-mockup-progress-label">
+            <span>Report completion</span>
+            <span style="color:#00e87a">9 / 10 sections</span>
+          </div>
+          <div class="rv-mockup-progress-bar">
+            <div class="rv-mockup-progress-fill"></div>
+          </div>
+        </div>
+
+        <div class="rv-mockup-tags">
+          <span class="rv-mockup-tag">TCFD</span>
+          <span class="rv-mockup-tag">GHG Protocol</span>
+          <span class="rv-mockup-tag">PCAF</span>
+          <span class="rv-mockup-tag">SBTi</span>
+          <span class="rv-mockup-tag">TNFD v1</span>
+          <span class="rv-mockup-tag">MAS ERM</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-
-<!-- FRAMEWORK TICKER -->
-<div style="overflow:hidden;border-top:1px solid rgba(0,232,122,0.07);border-bottom:1px solid rgba(0,232,122,0.07);background:rgba(0,0,0,0.2);padding:.65rem 0;position:relative;z-index:2">
-  <div id="fw-ticker" style="display:flex;gap:2.5rem;white-space:nowrap;width:max-content;animation:tickerScroll 35s linear infinite">
-    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(0,232,122,.6)">ISSB S2 / IFRS S2</span>
-    <span style="color:rgba(0,232,122,.2)">·</span>
-    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(240,237,232,.3)">AASB S2 · Australia Mandatory FY2025</span>
-    <span style="color:rgba(0,232,122,.2)">·</span>
-    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(0,232,122,.6)">MAS Environmental Risk Guidelines</span>
-    <span style="color:rgba(0,232,122,.2)">·</span>
-    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(240,237,232,.3)">SGX Climate Reporting · FY2024</span>
-    <span style="color:rgba(0,232,122,.2)">·</span>
-    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(10,255,219,.5)">APRA CPS 229 · Climate Vulnerability</span>
-    <span style="color:rgba(0,232,122,.2)">·</span>
-    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(240,237,232,.3)">ASIC RG 247 · Climate Disclosures</span>
-    <span style="color:rgba(0,232,122,.2)">·</span>
-    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(0,232,122,.6)">SEBI BRSR Core · India Top 1000</span>
-    <span style="color:rgba(0,232,122,.2)">·</span>
-    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(240,237,232,.3)">GHG Protocol · Scope 1-2-3 · PCAF</span>
-    <span style="color:rgba(0,232,122,.2)">·</span>
-    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(157,78,255,.6)">TCFD · NGFS v5 · IPCC AR6</span>
-    <span style="color:rgba(0,232,122,.2)">·</span>
-    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(240,237,232,.3)">SBTi 1.5°C · TNFD v1.0 · GRI Standards</span>
-    <span style="color:rgba(0,232,122,.2)">·</span>
-    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(255,159,71,.6)">CDP Climate Change · GFANZ</span>
-    <span style="color:rgba(0,232,122,.2)">·</span>
+<!-- ═══════════════════════════════════════════════
+     TICKER STRIP
+     ═══════════════════════════════════════════════ -->
+<div class="rv-ticker">
+  <div class="rv-ticker-inner">
+    <span class="rv-ticker-item">ISSB S2</span><span class="rv-ticker-sep">·</span>
+    <span class="rv-ticker-item">AASB S2</span><span class="rv-ticker-sep">·</span>
+    <span class="rv-ticker-item">MAS ERM</span><span class="rv-ticker-sep">·</span>
+    <span class="rv-ticker-item">SGX S2</span><span class="rv-ticker-sep">·</span>
+    <span class="rv-ticker-item">APRA CPS 229</span><span class="rv-ticker-sep">·</span>
+    <span class="rv-ticker-item">SEBI BRSR</span><span class="rv-ticker-sep">·</span>
+    <span class="rv-ticker-item">GHG Protocol</span><span class="rv-ticker-sep">·</span>
+    <span class="rv-ticker-item">TCFD</span><span class="rv-ticker-sep">·</span>
+    <span class="rv-ticker-item">NGFS v5</span><span class="rv-ticker-sep">·</span>
+    <span class="rv-ticker-item">SBTi</span><span class="rv-ticker-sep">·</span>
+    <span class="rv-ticker-item">TNFD v1</span><span class="rv-ticker-sep">·</span>
+    <span class="rv-ticker-item">GRI Standards</span><span class="rv-ticker-sep">·</span>
+    <span class="rv-ticker-item">CDP</span><span class="rv-ticker-sep">·</span>
+    <span class="rv-ticker-item">PCAF</span><span class="rv-ticker-sep">·</span>
     <!-- duplicate for seamless loop -->
-    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(0,232,122,.6)">ISSB S2 / IFRS S2</span>
-    <span style="color:rgba(0,232,122,.2)">·</span>
-    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(240,237,232,.3)">AASB S2 · Australia Mandatory FY2025</span>
-    <span style="color:rgba(0,232,122,.2)">·</span>
-    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(0,232,122,.6)">MAS Environmental Risk Guidelines</span>
-    <span style="color:rgba(0,232,122,.2)">·</span>
-    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(240,237,232,.3)">SGX Climate Reporting · FY2024</span>
-    <span style="color:rgba(0,232,122,.2)">·</span>
-    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(10,255,219,.5)">APRA CPS 229 · Climate Vulnerability</span>
-    <span style="color:rgba(0,232,122,.2)">·</span>
-    <span style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(240,237,232,.3)">ASIC RG 247 · Climate Disclosures</span>
+    <span class="rv-ticker-item">ISSB S2</span><span class="rv-ticker-sep">·</span>
+    <span class="rv-ticker-item">AASB S2</span><span class="rv-ticker-sep">·</span>
+    <span class="rv-ticker-item">MAS ERM</span><span class="rv-ticker-sep">·</span>
+    <span class="rv-ticker-item">SGX S2</span><span class="rv-ticker-sep">·</span>
+    <span class="rv-ticker-item">APRA CPS 229</span><span class="rv-ticker-sep">·</span>
+    <span class="rv-ticker-item">SEBI BRSR</span><span class="rv-ticker-sep">·</span>
+    <span class="rv-ticker-item">GHG Protocol</span><span class="rv-ticker-sep">·</span>
+    <span class="rv-ticker-item">TCFD</span><span class="rv-ticker-sep">·</span>
+    <span class="rv-ticker-item">NGFS v5</span><span class="rv-ticker-sep">·</span>
+    <span class="rv-ticker-item">SBTi</span><span class="rv-ticker-sep">·</span>
+    <span class="rv-ticker-item">TNFD v1</span><span class="rv-ticker-sep">·</span>
+    <span class="rv-ticker-item">GRI Standards</span><span class="rv-ticker-sep">·</span>
+    <span class="rv-ticker-item">CDP</span><span class="rv-ticker-sep">·</span>
+    <span class="rv-ticker-item">PCAF</span><span class="rv-ticker-sep">·</span>
   </div>
 </div>
 
-<!-- PLATFORM FEATURES -->
-<section class="section" id="features">
-  <div class="section-label">The Platform</div>
-  <h2 class="section-title fade-up">Everything your enterprise needs to <em>lead</em> on sustainability</h2>
-  <p class="section-sub fade-up">Six integrated tools covering every major global framework — no spreadsheets, no consultants required. Login required to access tools.</p>
-  <div class="features-grid">
+<!-- ═══════════════════════════════════════════════
+     PLATFORM TOOLS
+     ═══════════════════════════════════════════════ -->
+<section class="rv-section" id="features">
+  <div class="rv-section-inner">
+    <div class="rv-section-label">The Platform</div>
+    <h2>Six integrated tools for <em>every framework</em></h2>
+    <p class="rv-section-sub">Institutional-grade ESG compliance — no spreadsheets, no consultants.</p>
 
-    <div class="feature-card fade-up" onclick="requireLogin('issb')" style="cursor:pointer">
-      <div class="feature-icon">📋</div>
-      <div class="feature-name">ISSB Climate Report Generator</div>
-      <div class="feature-desc">Produce publication-ready IFRS S1 &amp; S2 climate-related financial disclosures. Covers all 10 required disclosure areas including Dec 2025 amendments. Board and investor-ready output.</div>
-      <div class="feature-tags">
-        <span class="feature-tag" style="border-color:rgba(60,185,255,0.3);color:#3cb9ff">IFRS S1</span>
-        <span class="feature-tag" style="border-color:rgba(60,185,255,0.3);color:#3cb9ff">IFRS S2</span>
-        <span class="feature-tag" style="border-color:rgba(60,185,255,0.3);color:#3cb9ff">2025 Ed.</span>
-        <span class="feature-tag" style="border-color:rgba(126,217,87,0.3);color:#7ed957">🔐 Login Required</span>
-      </div>
-    </div>
+    <div class="rv-tools-grid">
 
-    <div class="feature-card fade-up" onclick="requireLogin('ghg')" style="cursor:pointer">
-      <div class="feature-icon">⚖️</div>
-      <div class="feature-name">GHG Inventory Calculator</div>
-      <div class="feature-desc">Full Scope 1, 2 and 3 greenhouse gas inventory for financial institutions and corporates. Covers all 15 Scope 3 categories including PCAF financed emissions and WACI intensity metrics.</div>
-      <div class="feature-tags">
-        <span class="feature-tag">GHG Protocol</span>
-        <span class="feature-tag">PCAF</span>
-        <span class="feature-tag">Scope 1-2-3</span>
-        <span class="feature-tag" style="border-color:rgba(126,217,87,0.3);color:#7ed957">🔐 Login Required</span>
-      </div>
-    </div>
-
-    <div class="feature-card featured fade-up" onclick="requireLogin('climate')" style="cursor:pointer">
-      <div class="feature-icon">🌍</div>
-      <div class="feature-name">Climate Intelligence Suite</div>
-      <div class="feature-desc">Nine integrated modules: TCFD scenario analysis, decarbonisation MACC roadmap, SBTi targets, physical risk CVaR, geospatial hazard mapping, GFANZ transition planning, TNFD nature risk, and case studies.</div>
-      <div class="feature-tags">
-        <span class="feature-tag" style="border-color:rgba(176,106,255,0.3);color:#b06aff">TCFD</span>
-        <span class="feature-tag" style="border-color:rgba(176,106,255,0.3);color:#b06aff">NGFS v5</span>
-        <span class="feature-tag" style="border-color:rgba(176,106,255,0.3);color:#b06aff">TNFD v1</span>
-        <span class="feature-tag" style="border-color:rgba(176,106,255,0.3);color:#b06aff">GFANZ</span>
-        <span class="feature-tag" style="border-color:rgba(126,217,87,0.3);color:#7ed957">🔐 Login Required</span>
-      </div>
-    </div>
-
-    <div class="feature-card fade-up" onclick="requireLogin('tools')" style="cursor:pointer">
-      <div class="feature-icon">🔍</div>
-      <div class="feature-name">ESG Due Diligence Tools</div>
-      <div class="feature-desc">Two specialist tools: Asset Manager ESG Due Diligence for private equity using PRI framework, and Bank SPO + ESG Credit Risk assessment using ICMA Green Bond Principles. Score A–E grade output.</div>
-      <div class="feature-tags">
-        <span class="feature-tag" style="border-color:rgba(255,178,60,0.3);color:#ffb23c">PRI</span>
-        <span class="feature-tag" style="border-color:rgba(255,178,60,0.3);color:#ffb23c">ICMA GBP</span>
-        <span class="feature-tag" style="border-color:rgba(255,178,60,0.3);color:#ffb23c">Basel</span>
-        <span class="feature-tag" style="border-color:rgba(126,217,87,0.3);color:#7ed957">🔐 Login Required</span>
-      </div>
-    </div>
-
-    <div class="feature-card fade-up" onclick="showPage('advisor')" style="cursor:pointer">
-      <div class="feature-icon">🌿</div>
-      <div class="feature-name">Sage — AI Sustainability Advisor</div>
-      <div class="feature-desc">Your always-on sustainability expert. Ask Sage anything about TCFD, ISSB, carbon accounting, net-zero strategy, or ESG frameworks. Powered by Llama 3.3-70b. Free to use, no login required.</div>
-      <div class="feature-tags">
-        <span class="feature-tag">AI Advisor</span>
-        <span class="feature-tag">Llama 3.3</span>
-        <span class="feature-tag" style="border-color:rgba(126,217,87,0.4);color:#7ed957">✓ Free Access</span>
-      </div>
-    </div>
-
-    <div class="feature-card fade-up" onclick="requireLogin('credits')" style="cursor:pointer">
-      <div class="feature-icon">🪙</div>
-      <div class="feature-name">Carbon, Blue &amp; Plastic Credit Exchange</div>
-      <div class="feature-desc">Verified, tokenised credit exchange on Polygon blockchain. Trade carbon, mangrove blue carbon, and plastic credits across India's most comprehensive registry. ERC-1155 standard, instant settlement, EPR compliant.</div>
-      <div class="feature-tags">
-        <span class="feature-tag" style="border-color:rgba(22,163,74,0.4);color:#4ade80">Carbon</span>
-        <span class="feature-tag" style="border-color:rgba(14,165,233,0.4);color:#38bdf8">Blue Carbon</span>
-        <span class="feature-tag" style="border-color:rgba(99,102,241,0.4);color:#a5b4fc">Plastic Credits</span>
-        <span class="feature-tag" style="border-color:rgba(126,217,87,0.3);color:#7ed957">🔐 Login Required</span>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- MARKETS SECTION -->
-<section class="section markets-section" id="markets">
-  <div style="max-width:1100px;margin:0 auto;">
-    <div class="section-label">Our Markets</div>
-    <h2 class="section-title fade-up" style="max-width:700px">Built for <em>Singapore, Australia</em> and India</h2>
-    <p class="section-sub fade-up" style="max-width:640px">Purpose-built regulatory intelligence for the markets that matter — covering every mandatory disclosure framework across Asia-Pacific's three most active ESG jurisdictions.</p>
-    <div class="markets-grid fade-up">
-
-      <!-- SINGAPORE -->
-      <div class="market-card" style="--market-color:var(--amber)">
-        <div class="market-flag">🇸🇬</div>
-        <div class="market-name">Singapore</div>
-        <div class="market-tagline">MAS Environmental Risk · SGX Climate Reporting · Green Finance Action Plan 2025</div>
-        <div class="market-frameworks">
-          <div class="market-fw">
-            <div>
-              <div class="market-fw-name">MAS Environmental Risk Guidelines</div>
-              <div class="market-fw-desc">Full compliance with MAS Notice 645 and Guidelines on Environmental Risk Management for banks, insurers and asset managers — physical and transition risk integration.</div>
-            </div>
-          </div>
-          <div class="market-fw">
-            <div>
-              <div class="market-fw-name">SGX Climate Reporting / ISSB S2</div>
-              <div class="market-fw-desc">SGX mandatory climate-related disclosures aligned with ISSB S2 — mandatory for SGX-listed companies from FY2024 (large-cap) and FY2025 (mid-cap).</div>
-            </div>
-          </div>
-          <div class="market-fw">
-            <div>
-              <div class="market-fw-name">Singapore-Asia Taxonomy (MAS)</div>
-              <div class="market-fw-desc">Green Finance Action Plan taxonomy classification for sustainable activities — traffic-light system mapping to EU taxonomy and ASEAN standards.</div>
-            </div>
-          </div>
-          <div class="market-fw">
-            <div>
-              <div class="market-fw-name">NGFS Scenario Analysis</div>
-              <div class="market-fw-desc">MAS Climate Resilience Hackathon-grade NGFS Phase V scenario modelling for Singapore's financial system stress testing and TCFD disclosures.</div>
-            </div>
-          </div>
-        </div>
-        <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.75rem">
-          <span class="bio-badge">MAS 645</span>
-          <span class="bio-badge">SGX S2</span>
-          <span class="bio-badge bio-badge-amber">SA-Taxonomy</span>
-          <span class="bio-badge bio-badge-phosphor">TCFD</span>
-        </div>
-        <button class="market-cta" onclick="navTo('waitlist')">Get Singapore Access →</button>
-      </div>
-
-      <!-- AUSTRALIA -->
-      <div class="market-card" style="--market-color:#0070c9">
-        <div class="market-flag">🇦🇺</div>
-        <div class="market-name">Australia</div>
-        <div class="market-tagline">AASB S2 Mandatory · APRA CPS 229 · ASIC Climate Guidance · Treasury Framework</div>
-        <div class="market-frameworks">
-          <div class="market-fw">
-            <div>
-              <div class="market-fw-name">AASB S2 / ASRS (Mandatory FY25)</div>
-              <div class="market-fw-desc">Australia's mandatory climate disclosure standard — AASB S2 aligned with ISSB S2 — required for Group 1 entities from 1 Jan 2025. Full scenario analysis, Scope 1-2-3 and transition planning.</div>
-            </div>
-          </div>
-          <div class="market-fw">
-            <div>
-              <div class="market-fw-name">APRA CPS 229 Climate Vulnerability</div>
-              <div class="market-fw-desc">APRA's Climate Vulnerability Assessment (CVA) framework for ADIs and insurers — physical risk modelling, scenario analysis and financial impact quantification (CVaR).</div>
-            </div>
-          </div>
-          <div class="market-fw">
-            <div>
-              <div class="market-fw-name">ASIC RG 247 Climate Disclosures</div>
-              <div class="market-fw-desc">ASIC regulatory guidance on climate-related financial disclosure obligations for listed entities and managed investment schemes under the Corporations Act.</div>
-            </div>
-          </div>
-          <div class="market-fw">
-            <div>
-              <div class="market-fw-name">Treasury Sustainable Finance Roadmap</div>
-              <div class="market-fw-desc">Australia's Sustainable Finance Strategy — taxonomy alignment, ISSB adoption roadmap, and the new mandatory reporting regime phased from 2025 to 2027.</div>
-            </div>
-          </div>
-        </div>
-        <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.75rem">
-          <span class="bio-badge">AASB S2</span>
-          <span class="bio-badge bio-badge-amber">APRA CPS 229</span>
-          <span class="bio-badge bio-badge-phosphor">ASIC RG 247</span>
-          <span class="bio-badge bio-badge-spore">Treasury</span>
-        </div>
-        <button class="market-cta" onclick="navTo('waitlist')">Get Australia Access →</button>
-      </div>
-
-    </div>
-
-    <!-- India row -->
-    <div class="fade-up" style="margin-top:2rem;padding:2rem 2.5rem;background:rgba(5,15,7,0.5);border:1px solid rgba(0,232,122,0.1);border-radius:.75rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem">
-      <div style="display:flex;align-items:center;gap:1.25rem">
-        <span style="font-size:2rem">🇮🇳</span>
-        <div>
-          <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.1rem;color:var(--cream)">India — SEBI BRSR &amp; ISSB S2</div>
-          <div style="font-size:.82rem;color:rgba(240,237,232,.45);margin-top:.25rem">SEBI BRSR Core · ISSB S2 · GHG Protocol India Grid · PCAF Financed Emissions · SBTi India</div>
+      <!-- 1 ISSB -->
+      <div class="rv-tool-card" style="--rv-card-color:#3cb9ff" onclick="requireLogin('issb')">
+        <span class="rv-tool-icon">📋</span>
+        <div class="rv-tool-name">ISSB Climate Report Generator</div>
+        <div class="rv-tool-desc">Produce publication-ready IFRS S1 &amp; S2 climate-related financial disclosures. Covers all 10 required disclosure areas including Dec 2025 amendments. Board and investor-ready output.</div>
+        <div class="rv-tool-tags">
+          <span class="rv-tool-tag" style="border-color:rgba(60,185,255,0.3);color:#3cb9ff">IFRS S1</span>
+          <span class="rv-tool-tag" style="border-color:rgba(60,185,255,0.3);color:#3cb9ff">IFRS S2</span>
+          <span class="rv-tool-tag" style="border-color:rgba(60,185,255,0.3);color:#3cb9ff">2025 Ed.</span>
+          <span class="rv-tool-tag" style="border-color:rgba(0,232,122,0.3);color:#00e87a">🔐 Login Required</span>
         </div>
       </div>
-      <div style="display:flex;gap:.5rem;flex-wrap:wrap">
-        <span class="bio-badge">BRSR Core</span>
-        <span class="bio-badge bio-badge-amber">SEBI Top 1000</span>
-        <span class="bio-badge bio-badge-phosphor">ISSB S2</span>
-        <button class="market-cta" onclick="navTo('waitlist')" style="margin-left:.5rem">India Access →</button>
+
+      <!-- 2 GHG -->
+      <div class="rv-tool-card" style="--rv-card-color:#f59e0b" onclick="requireLogin('ghg')">
+        <span class="rv-tool-icon">⚖️</span>
+        <div class="rv-tool-name">GHG Inventory Calculator</div>
+        <div class="rv-tool-desc">Full Scope 1, 2 and 3 greenhouse gas inventory for financial institutions and corporates. Covers all 15 Scope 3 categories including PCAF financed emissions and WACI intensity metrics.</div>
+        <div class="rv-tool-tags">
+          <span class="rv-tool-tag" style="border-color:rgba(245,158,11,0.3);color:#f59e0b">GHG Protocol</span>
+          <span class="rv-tool-tag" style="border-color:rgba(245,158,11,0.3);color:#f59e0b">PCAF</span>
+          <span class="rv-tool-tag" style="border-color:rgba(245,158,11,0.3);color:#f59e0b">Scope 1-2-3</span>
+          <span class="rv-tool-tag" style="border-color:rgba(0,232,122,0.3);color:#00e87a">🔐 Login Required</span>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
 
-<!-- ADVISORY SECTION -->
-<section class="section section-dark" id="advisory">
-  <div class="section-label">Advisory</div>
-  <h2 class="section-title fade-up">Expert guidance for your <em>net-zero</em> journey</h2>
-  <div class="mock-metrics fade-up">
-    <div class="metric-card">
-      <div class="metric-label">ISSB S2 Compliance</div>
-      <div class="metric-val">100%</div>
-      <div class="metric-sub">IFRS S1 &amp; S2 · Dec 2025 Ed.</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">Frameworks Covered</div>
-      <div class="metric-val">15+</div>
-      <div class="metric-sub">TCFD · GHG · PCAF · SBTi · NGFS · TNFD</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">Report Generation</div>
-      <div class="metric-val">&lt;5 min</div>
-      <div class="metric-sub">From data input to disclosure</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">Sage AI Responses</div>
-      <div class="metric-val">Live</div>
-      <div class="metric-sub">Real-time sustainability guidance</div>
-    </div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="how-section" id="how-it-works">
-  <div style="max-width:1100px;margin:0 auto">
-    <div class="section-label">How It Works</div>
-    <h2 class="section-title fade-up">From data to disclosure in <em>minutes</em></h2>
-    <p class="section-sub fade-up">Four steps. No spreadsheets. No consultants. Institutional-grade output, every time.</p>
-    <div class="steps fade-up">
-      <div class="step">
-        <div class="step-num">01</div>
-        <div class="step-title">Connect your data</div>
-        <div class="step-desc">Enter your organisation profile, emissions sources, asset portfolio and operational boundaries — guided input, no technical expertise needed.</div>
+      <!-- 3 Climate Intelligence — FEATURED -->
+      <div class="rv-tool-card rv-featured" style="--rv-card-color:#a78bfa" onclick="requireLogin('climate')">
+        <span class="rv-tool-icon">🌍</span>
+        <div class="rv-tool-name">Climate Intelligence Suite</div>
+        <div class="rv-tool-desc">Nine integrated modules: TCFD scenario analysis, decarbonisation MACC roadmap, SBTi targets, physical risk CVaR, geospatial hazard mapping, GFANZ transition planning, TNFD nature risk, and case studies.</div>
+        <div class="rv-tool-tags">
+          <span class="rv-tool-tag" style="border-color:rgba(167,139,250,0.3);color:#a78bfa">TCFD</span>
+          <span class="rv-tool-tag" style="border-color:rgba(167,139,250,0.3);color:#a78bfa">NGFS v5</span>
+          <span class="rv-tool-tag" style="border-color:rgba(167,139,250,0.3);color:#a78bfa">TNFD v1</span>
+          <span class="rv-tool-tag" style="border-color:rgba(167,139,250,0.3);color:#a78bfa">GFANZ</span>
+          <span class="rv-tool-tag" style="border-color:rgba(0,232,122,0.3);color:#00e87a">🔐 Login Required</span>
+        </div>
       </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <div class="step-title">Select your frameworks</div>
-        <div class="step-desc">Choose from ISSB S2, AASB S2, MAS ERM, BRSR, GRI, CDP, TCFD and more. Your market and sector determine what's mandatory.</div>
+
+      <!-- 4 ESG Due Diligence -->
+      <div class="rv-tool-card" style="--rv-card-color:#fb923c" onclick="requireLogin('tools')">
+        <span class="rv-tool-icon">🔍</span>
+        <div class="rv-tool-name">ESG Due Diligence Tools</div>
+        <div class="rv-tool-desc">Two specialist tools: Asset Manager ESG Due Diligence for private equity using PRI framework, and Bank SPO + ESG Credit Risk assessment using ICMA Green Bond Principles. Score A–E grade output.</div>
+        <div class="rv-tool-tags">
+          <span class="rv-tool-tag" style="border-color:rgba(251,146,60,0.3);color:#fb923c">PRI</span>
+          <span class="rv-tool-tag" style="border-color:rgba(251,146,60,0.3);color:#fb923c">ICMA GBP</span>
+          <span class="rv-tool-tag" style="border-color:rgba(251,146,60,0.3);color:#fb923c">Basel</span>
+          <span class="rv-tool-tag" style="border-color:rgba(0,232,122,0.3);color:#00e87a">🔐 Login Required</span>
+        </div>
       </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <div class="step-title">Sage AI drafts your report</div>
-        <div class="step-desc">Our AI engine — powered by Sage — generates compliant disclosures, scenario analyses and GHG inventories from your inputs in under 5 minutes.</div>
+
+      <!-- 5 Sage AI — free -->
+      <div class="rv-tool-card" style="--rv-card-color:#00e87a" onclick="showPage('advisor')">
+        <span class="rv-tool-icon">🌿</span>
+        <div class="rv-tool-name">Sage — AI Sustainability Advisor</div>
+        <div class="rv-tool-desc">Your always-on sustainability expert. Ask Sage anything about TCFD, ISSB, carbon accounting, net-zero strategy, or ESG frameworks. Powered by Llama 3.3-70b. Free to use, no login required.</div>
+        <div class="rv-tool-tags">
+          <span class="rv-tool-tag" style="border-color:rgba(0,232,122,0.3);color:#00e87a">AI Advisor</span>
+          <span class="rv-tool-tag" style="border-color:rgba(0,232,122,0.3);color:#00e87a">Llama 3.3</span>
+          <span class="rv-tool-tag" style="border-color:rgba(0,232,122,0.45);color:#00e87a;background:rgba(0,232,122,0.08)">✓ Free · No login</span>
+        </div>
       </div>
-      <div class="step">
-        <div class="step-num">04</div>
-        <div class="step-title">Review, edit and publish</div>
-        <div class="step-desc">Edit any section inline, add board commentary, export to PDF or Word. Board-ready, auditor-ready, regulator-ready output.</div>
+
+      <!-- 6 Carbon Credits -->
+      <div class="rv-tool-card" style="--rv-card-color:#2dd4bf" onclick="requireLogin('credits')">
+        <span class="rv-tool-icon">🪙</span>
+        <div class="rv-tool-name">Carbon, Blue &amp; Plastic Credit Exchange</div>
+        <div class="rv-tool-desc">Verified, tokenised credit exchange on Polygon blockchain. Trade carbon, mangrove blue carbon, and plastic credits across India's most comprehensive registry. ERC-1155 standard, instant settlement, EPR compliant.</div>
+        <div class="rv-tool-tags">
+          <span class="rv-tool-tag" style="border-color:rgba(45,212,191,0.3);color:#2dd4bf">Carbon</span>
+          <span class="rv-tool-tag" style="border-color:rgba(45,212,191,0.3);color:#2dd4bf">Blue Carbon</span>
+          <span class="rv-tool-tag" style="border-color:rgba(45,212,191,0.3);color:#2dd4bf">Plastic Credits</span>
+          <span class="rv-tool-tag" style="border-color:rgba(0,232,122,0.3);color:#00e87a">🔐 Login Required</span>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- SOCIAL PROOF -->
-<section class="section" id="traction" style="text-align:center;border-top:1px solid rgba(0,232,122,0.06)">
-  <div style="max-width:960px;margin:0 auto">
-    <div class="section-label" style="text-align:center">Trusted Across Asia-Pacific</div>
-    <h2 class="section-title fade-up" style="text-align:center">Built for the institutions that <em>move markets</em></h2>
-    <div class="fade-up" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin:3rem 0;text-align:center">
-      <div style="padding:1.5rem;background:rgba(5,15,7,0.5);border:1px solid rgba(0,232,122,0.08);border-radius:.75rem">
-        <div style="font-family:'Space Grotesk',sans-serif;font-size:2.5rem;font-weight:700;color:#00e87a;text-shadow:0 0 20px rgba(0,232,122,0.3)" class="count-up" data-target="18">0</div>
-        <div style="font-size:.78rem;color:rgba(240,237,232,.45);margin-top:.35rem">Regulatory Frameworks</div>
-      </div>
-      <div style="padding:1.5rem;background:rgba(5,15,7,0.5);border:1px solid rgba(0,232,122,0.08);border-radius:.75rem">
-        <div style="font-family:'Space Grotesk',sans-serif;font-size:2.5rem;font-weight:700;color:#0affdb;text-shadow:0 0 20px rgba(10,255,219,0.3)" class="count-up" data-target="3">0</div>
-        <div style="font-size:.78rem;color:rgba(240,237,232,.45);margin-top:.35rem">Markets — SG · AU · IN</div>
-      </div>
-      <div style="padding:1.5rem;background:rgba(5,15,7,0.5);border:1px solid rgba(0,232,122,0.08);border-radius:.75rem">
-        <div style="font-family:'Space Grotesk',sans-serif;font-size:2.5rem;font-weight:700;color:#ff9f47;text-shadow:0 0 20px rgba(255,159,71,0.3)" class="count-up" data-target="5">0</div>
-        <div style="font-size:.78rem;color:rgba(240,237,232,.45);margin-top:.35rem">Minutes to first report</div>
-      </div>
-      <div style="padding:1.5rem;background:rgba(5,15,7,0.5);border:1px solid rgba(0,232,122,0.08);border-radius:.75rem">
-        <div style="font-family:'Space Grotesk',sans-serif;font-size:2.5rem;font-weight:700;color:#9d4eff;text-shadow:0 0 20px rgba(157,78,255,0.3)">100%</div>
-        <div style="font-size:.78rem;color:rgba(240,237,232,.45);margin-top:.35rem">ISSB S2 Aligned</div>
-      </div>
-    </div>
-    <div class="fade-up" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:1rem">
-      <div style="background:rgba(5,15,7,0.5);border:1px solid rgba(0,232,122,0.1);border-radius:.75rem;padding:1.75rem;text-align:left">
-        <div style="font-size:.85rem;color:rgba(240,237,232,.7);line-height:1.7;margin-bottom:1rem;font-style:italic">"ReGenesis Impact compressed what would have been a 3-month ISSB S2 disclosure exercise into a single afternoon. The NGFS scenario analysis alone saved our risk team weeks of modelling work."</div>
-        <div style="font-family:'DM Mono',monospace;font-size:.65rem;color:#00e87a">Head of Sustainability · SGX-Listed Bank</div>
-      </div>
-      <div style="background:rgba(5,15,7,0.5);border:1px solid rgba(0,232,122,0.1);border-radius:.75rem;padding:1.75rem;text-align:left">
-        <div style="font-size:.85rem;color:rgba(240,237,232,.7);line-height:1.7;margin-bottom:1rem;font-style:italic">"The AASB S2 module is the most comprehensive we've seen. Our external auditors were impressed by the depth of the physical risk CVaR analysis — it met all APRA CPS 229 requirements out of the box."</div>
-        <div style="font-family:'DM Mono',monospace;font-size:.65rem;color:#00e87a">CFO · ASX 200 Company · Australia</div>
-      </div>
-      <div style="background:rgba(5,15,7,0.5);border:1px solid rgba(0,232,122,0.1);border-radius:.75rem;padding:1.75rem;text-align:left">
-        <div style="font-size:.85rem;color:rgba(240,237,232,.7);line-height:1.7;margin-bottom:1rem;font-style:italic">"Sage AI answered every SEBI BRSR query our compliance team raised. The GHG calculator with PCAF financed emissions methodology is exactly what Indian banks needed — finally built for our market."</div>
-        <div style="font-family:'DM Mono',monospace;font-size:.65rem;color:#00e87a">Chief Risk Officer · Private Sector Bank · India</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FRAMEWORK COVERAGE -->
-<section class="section section-dark" id="pricing">
-  <div class="section-label">Framework Coverage</div>
-  <h2 class="section-title fade-up">Built for <em>clarity</em> at the enterprise scale</h2>
-  <div class="pricing-grid fade-up">
-    <div class="pricing-card">
-      <div class="pricing-tier">ISSB / IFRS · AASB S2</div>
-      <div class="pricing-price" style="font-size:2rem">S1 &amp; S2</div>
-      <div class="pricing-desc">Climate-related financial disclosures for IFRS S2 and Australia's AASB S2 mandatory standard (Group 1 from FY2025). Full TCFD alignment.</div>
-      <div class="pricing-features">
-        <div class="pricing-feat">Governance disclosures</div>
-        <div class="pricing-feat">Strategy &amp; scenario analysis</div>
-        <div class="pricing-feat">Risk management framework</div>
-        <div class="pricing-feat">AASB S2 Australia mandatory</div>
-        <div class="pricing-feat">Dec 2025 amendments included</div>
-      </div>
-    </div>
-    <div class="pricing-card popular">
-      <div class="pricing-tier">GHG Protocol</div>
-      <div class="pricing-price" style="font-size:2rem">Scope 1–3</div>
-      <div class="pricing-desc">Full inventory methodology for corporates and financial institutions. PCAF financed emissions included.</div>
-      <div class="pricing-features">
-        <div class="pricing-feat">All 15 Scope 3 categories</div>
-        <div class="pricing-feat">PCAF financed emissions (Cat 15)</div>
-        <div class="pricing-feat">WACI intensity metrics</div>
-        <div class="pricing-feat">Sector-specific emission factors</div>
-        <div class="pricing-feat">India grid emission factors</div>
-      </div>
-    </div>
-    <div class="pricing-card">
-      <div class="pricing-tier">Singapore &amp; Australia</div>
-      <div class="pricing-price" style="font-size:1.5rem">MAS · APRA</div>
-      <div class="pricing-desc">Full regulatory coverage for MAS Environmental Risk Guidelines, SGX climate reporting, APRA CPS 229 CVA, and ASIC RG 247 obligations.</div>
-      <div class="pricing-features">
-        <div class="pricing-feat">MAS Notice 645 compliance</div>
-        <div class="pricing-feat">SGX mandatory ISSB S2 disclosures</div>
-        <div class="pricing-feat">APRA CPS 229 CVaR modelling</div>
-        <div class="pricing-feat">ASIC RG 247 disclosure pack</div>
-        <div class="pricing-feat">Singapore-Asia Taxonomy mapping</div>
-      </div>
-    </div>
-    <div class="pricing-card">
-      <div class="pricing-tier">Climate Scenarios</div>
-      <div class="pricing-price" style="font-size:2rem">NGFS v5</div>
-      <div class="pricing-desc">Net Zero 2050, Orderly, Disorderly, and Hot House World scenarios from NGFS Phase V 2024.</div>
-      <div class="pricing-features">
-        <div class="pricing-feat">NGFS Phase V 2024 pathways</div>
-        <div class="pricing-feat">IEA NZE 2050 alignment</div>
-        <div class="pricing-feat">Physical risk (RCP/SSP IPCC AR6)</div>
-        <div class="pricing-feat">McKinsey MACC methodology</div>
-        <div class="pricing-feat">SBTi 1.5°C gap analysis</div>
-      </div>
-    </div>
-    <div class="pricing-card">
-      <div class="pricing-tier">Credits &amp; Nature</div>
-      <div class="pricing-price" style="font-size:1.6rem">TNFD · EPR</div>
-      <div class="pricing-desc">Tokenised carbon, blue carbon, and plastic credit exchange on Polygon. TNFD nature risk with LEAP framework and SBTN targets.</div>
-      <div class="pricing-features">
-        <div class="pricing-feat">ERC-1155 on Polygon blockchain</div>
-        <div class="pricing-feat">Verra, Gold Standard, PCX, Plastic Bank</div>
-        <div class="pricing-feat">India EPR plastic credit compliance</div>
-        <div class="pricing-feat">TNFD v1.0 LEAP framework</div>
-        <div class="pricing-feat">Science-Based Targets for Nature</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- WAITLIST -->
-<section class="section section-dark waitlist-section" id="waitlist" style="text-align:center">
-  <div class="section-label" style="text-align:center">Early Access</div>
-  <h2 class="section-title fade-up">Be first to <em>transform</em> your sustainability strategy</h2>
-  <p class="fade-up" style="margin-top:1rem;color:rgba(240,237,232,0.5);font-size:1rem;position:relative;z-index:1;max-width:520px;margin:1rem auto 2.5rem;line-height:1.7">Join enterprise clients from Singapore, Australia and India already on the platform. Personalised onboarding included.</p>
-  <div class="fade-up" style="display:flex;flex-direction:column;align-items:center;gap:1rem;position:relative;z-index:1">
-    <button class="btn-primary" onclick="openLeadModal('waitlist')" style="font-size:.9rem;padding:1rem 2.75rem">Get Early Access — Free →</button>
-    <div style="display:flex;align-items:center;gap:.75rem;font-size:.78rem;color:rgba(240,237,232,.35)">
-      <span>🇸🇬 Singapore</span><span style="opacity:.3">·</span>
-      <span>🇦🇺 Australia</span><span style="opacity:.3">·</span>
-      <span>🇮🇳 India</span><span style="opacity:.3">·</span>
-      <span>No credit card · Cancel anytime</span>
-    </div>
-  </div>
-</section>
-
-<!-- BOOK A TRIAL SECTION -->
-<section class="section section-dark" id="book-trial" style="text-align:center">
-  <div class="section-label" style="text-align:center">Book a Trial</div>
-  <h2 class="section-title fade-up" style="text-align:center">Work with us <em>directly</em></h2>
-  <p style="margin-top:1rem;color:rgba(245,240,232,0.5);font-size:1rem;max-width:560px;margin:1rem auto 2rem;line-height:1.7;">We are onboarding select enterprise clients personally — we configure your reporting setup, run your first climate analysis together, and ensure your team is ready to disclose. No credit card. No commitment.</p>
-  <div class="features-grid" style="max-width:900px;margin:0 auto 2.5rem;text-align:left">
-    <div class="feature-card">
-      <div class="feature-icon">📋</div>
-      <div class="feature-name">ISSB &amp; GHG Setup</div>
-      <div class="feature-desc">We configure your Scope 1–3 baseline and produce your first IFRS S2 climate disclosure together.</div>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🌍</div>
-      <div class="feature-name">Climate Intelligence Walkthrough</div>
-      <div class="feature-desc">Live demo of scenario analysis, your asset geospatial map, and a transition roadmap for your sector.</div>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🌿</div>
-      <div class="feature-name">Meet Sage AI</div>
-      <div class="feature-desc">See how Sage answers your sustainability questions in real time — TCFD, ISSB, SBTi and more.</div>
-    </div>
-  </div>
-  <button onclick="openLeadModal('book_trial')" class="btn-primary" style="font-size:0.85rem;padding:0.9rem 2.5rem">Book a Trial Session →</button>
-  <p style="margin-top:1rem;font-size:0.8rem;color:rgba(245,240,232,0.3)">Or email us at <a href="mailto:info@regenesisimpact.in" style="color:#00e87a;">info@regenesisimpact.in</a></p>
-</section>
-
-<!-- FAQ SECTION -->
-<section class="section section-dark" id="faq">
-  <div class="section-label" style="text-align:center">FAQ</div>
-  <h2 class="section-title fade-up" style="text-align:center;max-width:600px;margin-left:auto;margin-right:auto">Everything you need to <em>know</em></h2>
-  <div class="faq-grid fade-up">
-
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q"><span class="faq-q-text">Is ReGenesis Impact compliant with AASB S2 and the Australian mandatory reporting regime?</span><span class="faq-chevron">▼</span></div>
-      <div class="faq-a"><div class="faq-a-inner">Yes. Our platform generates AASB S2-compliant climate disclosures aligned with the Australian Sustainability Reporting Standards (ASRS). We cover Group 1 requirements (entities with >$500M consolidated revenue or >$1B assets) mandatory from 1 January 2025, including quantitative climate scenario analysis, Scope 1-2-3 GHG inventory, transition planning, and physical risk CVaR — all requirements under ASIC's regulatory guidance RG 247.</div></div>
-    </div>
-
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q"><span class="faq-q-text">How does the platform address MAS Environmental Risk and SGX climate reporting requirements?</span><span class="faq-chevron">▼</span></div>
-      <div class="faq-a"><div class="faq-a-inner">ReGenesis Impact is purpose-built for Singapore's regulatory environment. We cover MAS Notice 645 and the Guidelines on Environmental Risk Management (ERM) for banks, insurers, and asset managers — including board governance structures, risk appetite integration, and portfolio-level climate risk measurement. For SGX-listed companies, we produce ISSB S2-aligned climate disclosures that satisfy mandatory reporting requirements from FY2024 (large-cap) and FY2025 (mid-cap), including the Singapore-Asia Taxonomy classification.</div></div>
-    </div>
-
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q"><span class="faq-q-text">What climate scenarios does the TCFD analysis use?</span><span class="faq-chevron">▼</span></div>
-      <div class="faq-a"><div class="faq-a-inner">We use NGFS Phase V (2024) scenarios — Net Zero 2050, Orderly 2°C, Disorderly Transition, and Hot House World — fully aligned with IFRS S2, AASB S2, and APRA CPS 229 mandatory dual-scenario analysis requirements. Physical risk modelling uses IPCC AR6 RCP/SSP pathways with asset-level geospatial hazard mapping for flood, heat stress, drought, sea-level rise, and cyclone risk. Transition risk quantification includes carbon pricing, policy exposure, and stranded-asset analysis.</div></div>
-    </div>
-
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q"><span class="faq-q-text">Can the platform calculate PCAF financed emissions for banks and asset managers?</span><span class="faq-chevron">▼</span></div>
-      <div class="faq-a"><div class="faq-a-inner">Yes. Our GHG Inventory module covers all 15 Scope 3 categories including Category 15 (financed emissions) using the PCAF (Partnership for Carbon Accounting Financials) standard. We support corporate loans, listed equity, bonds, project finance, mortgages, and motor vehicle loans — with PCAF data quality scores (1–5), weighted average carbon intensity (WACI), and portfolio temperature alignment. This satisfies APRA's financed emissions disclosure requirements and TCFD Category 15 reporting for Australian and Singapore financial institutions.</div></div>
-    </div>
-
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q"><span class="faq-q-text">How does the AI (Sage) work and is it reliable for regulatory disclosure?</span><span class="faq-chevron">▼</span></div>
-      <div class="faq-a"><div class="faq-a-inner">Sage AI uses large language models (Llama 3.3-70B) trained with extensive ESG and climate regulation context — covering ISSB, AASB S2, MAS ERM, BRSR, TCFD, GHG Protocol, and more. For report generation, Sage drafts structured disclosure language based on your input data, following each framework's exact requirements. All AI-generated content is editable and reviewable before export. We recommend a qualified sustainability professional review final disclosures, as regulatory liability remains with the reporting entity.</div></div>
-    </div>
-
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q"><span class="faq-q-text">Is there a free tier? What does onboarding look like?</span><span class="faq-chevron">▼</span></div>
-      <div class="faq-a"><div class="faq-a-inner">Yes — Sage AI (our advisory chatbot) is free with no login required. We are currently onboarding enterprise clients on a personal basis: our team joins a 45-minute call, configures your reporting setup for your specific market and framework requirements, and walks through your first report together. Early-access pricing is locked in for clients onboarded before our public launch. Click "Get Early Access" to start the process — no credit card required.</div></div>
-    </div>
-
-  </div>
-</section>
-
-<!-- SEO CONTENT SECTION — keyword-rich, crawlable by Google -->
-<section style="background:rgba(0,0,0,.15);padding:4rem 2rem;border-top:1px solid rgba(126,217,87,.08)" aria-label="ESG reporting resources">
-  <div style="max-width:1000px;margin:0 auto">
-    <h2 style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--cream);margin-bottom:.5rem;text-align:center">ESG & Climate Reporting Resources</h2>
-    <p style="text-align:center;color:rgba(245,240,232,.4);font-size:.8rem;margin-bottom:2.5rem;font-family:'DM Mono',monospace">Frameworks · Methodology · Compliance guides</p>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem">
-
-      <article style="background:rgba(255,255,255,.03);border:1px solid rgba(126,217,87,.08);border-radius:.75rem;padding:1.5rem">
-        <h3 style="font-size:.95rem;color:var(--lime);margin-bottom:.5rem">IFRS S2 / ISSB S2 Compliance Guide</h3>
-        <p style="font-size:.75rem;color:rgba(245,240,232,.5);line-height:1.7">IFRS S2 (effective January 2024) requires all mandatory reporters to disclose climate-related risks under four pillars: Governance, Strategy, Risk Management and Metrics & Targets. The December 2025 amendments introduced enhanced Scope 3 transition plan disclosures. Our AI-powered generator covers all 10 required disclosure areas and produces board-ready output aligned to TCFD and NGFS v5 scenarios.</p>
-        <button onclick="requireLogin('issb')" style="margin-top:1rem;background:none;border:1px solid rgba(126,217,87,.3);color:var(--lime);padding:.4rem 1rem;border-radius:2rem;font-size:.7rem;cursor:pointer">Generate IFRS S2 Report →</button>
-      </article>
-
-      <article style="background:rgba(255,255,255,.03);border:1px solid rgba(126,217,87,.08);border-radius:.75rem;padding:1.5rem">
-        <h3 style="font-size:.95rem;color:var(--lime);margin-bottom:.5rem">SEBI BRSR Mandatory Reporting (India)</h3>
-        <p style="font-size:.75rem;color:rgba(245,240,232,.5);line-height:1.7">SEBI's Business Responsibility and Sustainability Report (BRSR) is mandatory for India's top 1,000 listed companies by market cap from FY 2022–23. BRSR Core KPI assured disclosures are required for the top 150 from FY 2023–24. Our BRSR module covers Section A (General Disclosures), Section B (Management) and Section C (9 Principles) including ESG attributes for value chain partners.</p>
-        <button onclick="requireLogin('issb')" style="margin-top:1rem;background:none;border:1px solid rgba(126,217,87,.3);color:var(--lime);padding:.4rem 1rem;border-radius:2rem;font-size:.7rem;cursor:pointer">Generate BRSR Report →</button>
-      </article>
-
-      <article style="background:rgba(255,255,255,.03);border:1px solid rgba(126,217,87,.08);border-radius:.75rem;padding:1.5rem">
-        <h3 style="font-size:.95rem;color:var(--lime);margin-bottom:.5rem">GHG Protocol Scope 3 & PCAF Financed Emissions</h3>
-        <p style="font-size:.75rem;color:rgba(245,240,232,.5);line-height:1.7">Scope 3 Category 15 financed emissions represent over 95% of a bank's or asset manager's total carbon footprint. The PCAF (Partnership for Carbon Accounting Financials) standard provides methodology for loans, bonds, listed equity, project finance and mortgages. Our calculator covers all 15 Scope 3 categories with IPCC AR6 GWP factors, PCAF data quality scores and WACI intensity metrics.</p>
-        <button onclick="requireLogin('ghg')" style="margin-top:1rem;background:none;border:1px solid rgba(126,217,87,.3);color:var(--lime);padding:.4rem 1rem;border-radius:2rem;font-size:.7rem;cursor:pointer">Calculate GHG Inventory →</button>
-      </article>
-
-      <article style="background:rgba(255,255,255,.03);border:1px solid rgba(126,217,87,.08);border-radius:.75rem;padding:1.5rem">
-        <h3 style="font-size:.95rem;color:var(--lime);margin-bottom:.5rem">TCFD Scenario Analysis with NGFS v5</h3>
-        <p style="font-size:.75rem;color:rgba(245,240,232,.5);line-height:1.7">TCFD-aligned scenario analysis is now mandatory under IFRS S2 and RBI climate risk guidelines for Indian banks. NGFS Phase V (2024) provides four pathways: Net Zero 2050, Orderly 2°C, Disorderly Transition and Hot House World. Our platform quantifies transition risk (carbon price exposure, policy risk) and physical risk (flood, heat, drought CVaR) for each scenario across your asset portfolio.</p>
-        <button onclick="requireLogin('climate')" style="margin-top:1rem;background:none;border:1px solid rgba(126,217,87,.3);color:var(--lime);padding:.4rem 1rem;border-radius:2rem;font-size:.7rem;cursor:pointer">Run Scenario Analysis →</button>
-      </article>
-
-      <article style="background:rgba(255,255,255,.03);border:1px solid rgba(126,217,87,.08);border-radius:.75rem;padding:1.5rem">
-        <h3 style="font-size:.95rem;color:var(--lime);margin-bottom:.5rem">SBTi Net Zero Targets & Decarbonisation Roadmap</h3>
-        <p style="font-size:.75rem;color:rgba(245,240,232,.5);line-height:1.7">The Science Based Targets initiative (SBTi) requires companies to cut Scope 1+2 emissions 50% by 2030 and Scope 3 by 90% before 2050 to stay within 1.5°C. Our MACC (Marginal Abatement Cost Curve) tool identifies the lowest-cost decarbonisation levers for your sector — solar, efficiency, fleet electrification, supply chain engagement — with capex, payback and abatement potential for each lever.</p>
-        <button onclick="requireLogin('climate')" style="margin-top:1rem;background:none;border:1px solid rgba(126,217,87,.3);color:var(--lime);padding:.4rem 1rem;border-radius:2rem;font-size:.7rem;cursor:pointer">Build Net Zero Roadmap →</button>
-      </article>
-
-      <article style="background:rgba(255,255,255,.03);border:1px solid rgba(126,217,87,.08);border-radius:.75rem;padding:1.5rem">
-        <h3 style="font-size:.95rem;color:var(--lime);margin-bottom:.5rem">GRI Standards, ASSB & CDP Disclosure</h3>
-        <p style="font-size:.75rem;color:rgba(245,240,232,.5);line-height:1.7">Our Sustainability Disclosure Hub supports five global frameworks in one platform. GRI Standards (GRI 2, GRI 305, GRI 302) for universal sustainability reporting. ASSB/AASB S2 for Australian mandatory reporters from 2025. CDP Climate Change questionnaire (C1–C7) for investor and customer disclosure. All frameworks share your company profile data — switch frameworks without re-entering information.</p>
-        <button onclick="requireLogin('issb')" style="margin-top:1rem;background:none;border:1px solid rgba(126,217,87,.3);color:var(--lime);padding:.4rem 1rem;border-radius:2rem;font-size:.7rem;cursor:pointer">Open Disclosure Hub →</button>
-      </article>
-
-      <article style="background:rgba(255,255,255,.03);border:1px solid rgba(0,232,122,.1);border-radius:.75rem;padding:1.5rem">
-        <h3 style="font-size:.95rem;color:#00e87a;margin-bottom:.5rem">AASB S2 Mandatory Climate Reporting — Australia 2025</h3>
-        <p style="font-size:.75rem;color:rgba(240,237,232,.5);line-height:1.7">Australia's AASB S2 (Australian Sustainability Reporting Standard) aligns with ISSB S2 and is mandatory for Group 1 entities (consolidated revenue &gt; AUD $500M or total assets &gt; $1B) from annual periods beginning 1 January 2025. Group 2 follows from 2026 and Group 3 from 2027. APRA simultaneously requires Climate Vulnerability Assessments (CVA) under CPS 229 for ADIs and insurers — covering physical risk to balance sheets and transition risk stress testing. ASIC's RG 247 provides enforcement guidance on misleading climate statements. Our platform generates AASB S2-compliant reports, runs APRA CVA modelling, and aligns with ASIC's disclosure obligations in a single workflow.</p>
-        <button onclick="openLeadModal('seo_au')" style="margin-top:1rem;background:none;border:1px solid rgba(0,232,122,.3);color:#00e87a;padding:.4rem 1rem;border-radius:2rem;font-size:.7rem;cursor:pointer">Get Australia Access →</button>
-      </article>
-
-      <article style="background:rgba(255,255,255,.03);border:1px solid rgba(0,232,122,.1);border-radius:.75rem;padding:1.5rem">
-        <h3 style="font-size:.95rem;color:#00e87a;margin-bottom:.5rem">MAS Environmental Risk &amp; SGX Climate Reporting — Singapore</h3>
-        <p style="font-size:.75rem;color:rgba(240,237,232,.5);line-height:1.7">The Monetary Authority of Singapore (MAS) requires all banks, insurers and asset managers under MAS Notice 645 and the Guidelines on Environmental Risk Management (ERM) to integrate climate risk into governance, strategy and risk appetite. SGX-listed companies must report climate-related disclosures aligned with ISSB S2 — mandatory for large-cap from FY2024 and mid-cap from FY2025. Singapore's Green Finance Action Plan (GFAP) 2.0 sets out the roadmap for the Singapore-Asia Taxonomy and alignment with international standards. ReGenesis Impact covers MAS ERM requirements, SGX ISSB S2 disclosures, and the Singapore-Asia Taxonomy classification in one integrated platform.</p>
-        <button onclick="openLeadModal('seo_sg')" style="margin-top:1rem;background:none;border:1px solid rgba(0,232,122,.3);color:#00e87a;padding:.4rem 1rem;border-radius:2rem;font-size:.7rem;cursor:pointer">Get Singapore Access →</button>
-      </article>
 
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-top">
+<!-- ═══════════════════════════════════════════════
+     MARKETS
+     ═══════════════════════════════════════════════ -->
+<section class="rv-section rv-section-dark" id="markets">
+  <div class="rv-section-inner">
+    <div class="rv-section-label">Our Markets</div>
+    <h2>Built for <em>Singapore</em>, Australia and India</h2>
+    <p class="rv-section-sub">Purpose-built for Asia-Pacific's three most active ESG jurisdictions.</p>
+
+    <div class="rv-markets-grid">
+
+      <!-- Singapore -->
+      <div class="rv-market-card" style="--rv-market-color:#f59e0b">
+        <div class="rv-market-flag">🇸🇬</div>
+        <div class="rv-market-name">Singapore</div>
+        <div class="rv-market-tagline">MAS Environmental Risk · SGX ISSB S2 · Green Finance Action Plan 2025</div>
+        <ul class="rv-market-list">
+          <li><span class="rv-market-dot"></span>MAS Notice 645 &amp; Environmental Risk Management</li>
+          <li><span class="rv-market-dot"></span>SGX Climate Reporting aligned to ISSB S2</li>
+          <li><span class="rv-market-dot"></span>Singapore-Asia Taxonomy (MAS traffic-light)</li>
+          <li><span class="rv-market-dot"></span>NGFS v5 Scenario Analysis for MAS stress testing</li>
+        </ul>
+        <button class="rv-market-cta" onclick="navTo('waitlist')">Get Singapore Access →</button>
+      </div>
+
+      <!-- Australia -->
+      <div class="rv-market-card" style="--rv-market-color:#38bdf8">
+        <div class="rv-market-flag">🇦🇺</div>
+        <div class="rv-market-name">Australia</div>
+        <div class="rv-market-tagline">AASB S2 Group 1 FY2025 · APRA CPS 229 · ASIC RG 247 · Treasury Framework</div>
+        <ul class="rv-market-list">
+          <li><span class="rv-market-dot"></span>AASB S2 mandatory for Group 1 from 1 Jan 2025</li>
+          <li><span class="rv-market-dot"></span>APRA CPS 229 Climate Vulnerability Assessment</li>
+          <li><span class="rv-market-dot"></span>ASIC RG 247 — Climate Disclosure Guidance</li>
+          <li><span class="rv-market-dot"></span>Treasury Sustainable Finance Roadmap alignment</li>
+        </ul>
+        <button class="rv-market-cta" onclick="navTo('waitlist')">Get Australia Access →</button>
+      </div>
+
+      <!-- India -->
+      <div class="rv-market-card" style="--rv-market-color:#00e87a">
+        <div class="rv-market-flag">🇮🇳</div>
+        <div class="rv-market-name">India</div>
+        <div class="rv-market-tagline">SEBI BRSR Core (Top 150) · BRSR Top 1000 · ISSB S2 adoption · RBI Climate Risk</div>
+        <ul class="rv-market-list">
+          <li><span class="rv-market-dot"></span>SEBI BRSR Core KPI assurance — Top 150 from FY24</li>
+          <li><span class="rv-market-dot"></span>BRSR mandatory disclosure for Top 1000 listed companies</li>
+          <li><span class="rv-market-dot"></span>ISSB S2 voluntary adoption roadmap</li>
+          <li><span class="rv-market-dot"></span>RBI Climate Risk &amp; Sustainable Finance Framework</li>
+        </ul>
+        <button class="rv-market-cta" onclick="navTo('waitlist')">Get India Access →</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     HOW IT WORKS
+     ═══════════════════════════════════════════════ -->
+<section class="rv-section" id="how-it-works">
+  <div class="rv-section-inner">
+    <div class="rv-section-label">How It Works</div>
+    <h2>From data to disclosure in <em>minutes</em></h2>
+    <p class="rv-section-sub">Four steps. No spreadsheets. No consultants.</p>
+
+    <div class="rv-steps-wrap">
+      <div class="rv-steps">
+
+        <div class="rv-step">
+          <div class="rv-step-num-wrap">
+            <div class="rv-step-num-bg">01</div>
+            <div class="rv-step-dot"></div>
+          </div>
+          <div class="rv-step-title">Connect your data</div>
+          <div class="rv-step-desc">Enter org profile, emissions sources, asset portfolio and operational boundaries — guided input, no technical expertise needed.</div>
+        </div>
+
+        <div class="rv-step">
+          <div class="rv-step-num-wrap">
+            <div class="rv-step-num-bg">02</div>
+            <div class="rv-step-dot" style="background:linear-gradient(135deg,#0affdb,#38bdf8)"></div>
+          </div>
+          <div class="rv-step-title">Select your frameworks</div>
+          <div class="rv-step-desc">Choose from ISSB S2, AASB S2, MAS ERM, BRSR, GHG Protocol and more. Your market and sector determine what's mandatory.</div>
+        </div>
+
+        <div class="rv-step">
+          <div class="rv-step-num-wrap">
+            <div class="rv-step-num-bg">03</div>
+            <div class="rv-step-dot" style="background:linear-gradient(135deg,#a78bfa,#818cf8)"></div>
+          </div>
+          <div class="rv-step-title">Sage AI drafts your report</div>
+          <div class="rv-step-desc">Compliant disclosures, scenario analyses and GHG inventories generated in under 5 minutes from your inputs.</div>
+        </div>
+
+        <div class="rv-step">
+          <div class="rv-step-num-wrap">
+            <div class="rv-step-num-bg">04</div>
+            <div class="rv-step-dot" style="background:linear-gradient(135deg,#f59e0b,#fcd34d)"></div>
+          </div>
+          <div class="rv-step-title">Review and publish</div>
+          <div class="rv-step-desc">Edit inline, export to PDF / Word. Board-ready, auditor-ready, regulator-ready output every time.</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     STATS / ADVISORY
+     ═══════════════════════════════════════════════ -->
+<section class="rv-section rv-section-dark" id="advisory">
+  <div class="rv-section-inner">
+    <div class="rv-section-label">Platform Performance</div>
+    <h2>The numbers that matter</h2>
+
+    <div class="rv-stats-grid">
+      <div class="rv-stat-card">
+        <div class="rv-stat-num" style="color:#00e87a;text-shadow:0 0 30px rgba(0,232,122,0.4)">100%</div>
+        <div class="rv-stat-title">ISSB S2 Aligned</div>
+        <div class="rv-stat-sub">IFRS S1 &amp; S2 · Dec 2025 Ed.</div>
+      </div>
+      <div class="rv-stat-card">
+        <div class="rv-stat-num" style="color:#0affdb;text-shadow:0 0 30px rgba(10,255,219,0.4)">18+</div>
+        <div class="rv-stat-title">Regulatory Frameworks</div>
+        <div class="rv-stat-sub">TCFD · GHG · PCAF · SBTi · NGFS · TNFD</div>
+      </div>
+      <div class="rv-stat-card">
+        <div class="rv-stat-num" style="color:#f59e0b;text-shadow:0 0 30px rgba(245,158,11,0.4)">&lt;5</div>
+        <div class="rv-stat-title">Minutes to first report</div>
+        <div class="rv-stat-sub">From data input to disclosure</div>
+      </div>
+      <div class="rv-stat-card">
+        <div class="rv-stat-num" style="color:#a78bfa;text-shadow:0 0 30px rgba(167,139,250,0.4)">3</div>
+        <div class="rv-stat-title">Markets — SG · AU · IN</div>
+        <div class="rv-stat-sub">Asia-Pacific's active ESG jurisdictions</div>
+      </div>
+    </div>
+
+    <div class="rv-testimonials">
+      <div class="rv-testimonial">
+        <div class="rv-testimonial-quote">ReGenesis Impact compressed what would have been a 3-month ISSB S2 disclosure exercise into a single afternoon. The NGFS scenario analysis alone saved our risk team weeks of modelling work.</div>
+        <div class="rv-testimonial-author">Head of Sustainability · SGX-Listed Bank</div>
+      </div>
+      <div class="rv-testimonial">
+        <div class="rv-testimonial-quote">The AASB S2 module is the most comprehensive we've seen. Our external auditors were impressed by the depth of the physical risk CVaR analysis — it met all APRA CPS 229 requirements out of the box.</div>
+        <div class="rv-testimonial-author">CFO · ASX 200 Company · Australia</div>
+      </div>
+      <div class="rv-testimonial">
+        <div class="rv-testimonial-quote">Sage AI answered every SEBI BRSR query our compliance team raised. The GHG calculator with PCAF financed emissions methodology is exactly what Indian banks needed — finally built for our market.</div>
+        <div class="rv-testimonial-author">Chief Risk Officer · Private Sector Bank · India</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     FRAMEWORK COVERAGE
+     ═══════════════════════════════════════════════ -->
+<section class="rv-section rv-framework-section" id="pricing">
+  <div class="rv-section-inner" style="text-align:center">
+    <div class="rv-section-label" style="text-align:center">Framework Coverage</div>
+    <h2 style="text-align:center;margin-left:auto;margin-right:auto;max-width:700px">Built for every major framework</h2>
+    <p class="rv-section-sub" style="margin-left:auto;margin-right:auto;text-align:center">18+ frameworks covered out of the box.</p>
+
+    <div class="rv-badge-groups">
+      <div class="rv-badge-row">
+        <span class="rv-badge rv-badge-green">ISSB S2</span>
+        <span class="rv-badge rv-badge-green">IFRS S2</span>
+        <span class="rv-badge rv-badge-green">AASB S2</span>
+        <span class="rv-badge rv-badge-green">TCFD</span>
+        <span class="rv-badge rv-badge-green">NGFS v5</span>
+      </div>
+      <div class="rv-badge-row">
+        <span class="rv-badge rv-badge-blue">GHG Protocol</span>
+        <span class="rv-badge rv-badge-blue">Scope 1-2-3</span>
+        <span class="rv-badge rv-badge-blue">PCAF</span>
+        <span class="rv-badge rv-badge-blue">WACI</span>
+      </div>
+      <div class="rv-badge-row">
+        <span class="rv-badge rv-badge-amber">MAS ERM</span>
+        <span class="rv-badge rv-badge-amber">SGX Mandatory</span>
+        <span class="rv-badge rv-badge-amber">Singapore-Asia Taxonomy</span>
+      </div>
+      <div class="rv-badge-row">
+        <span class="rv-badge rv-badge-teal">APRA CPS 229</span>
+        <span class="rv-badge rv-badge-teal">ASIC RG 247</span>
+        <span class="rv-badge rv-badge-teal">Australian TCFD</span>
+      </div>
+      <div class="rv-badge-row">
+        <span class="rv-badge rv-badge-purple">SEBI BRSR</span>
+        <span class="rv-badge rv-badge-purple">BRSR Core</span>
+        <span class="rv-badge rv-badge-purple">RBI Climate Risk</span>
+      </div>
+      <div class="rv-badge-row">
+        <span class="rv-badge rv-badge-white">GRI Standards</span>
+        <span class="rv-badge rv-badge-white">CDP</span>
+        <span class="rv-badge rv-badge-white">SBTi</span>
+        <span class="rv-badge rv-badge-white">TNFD v1</span>
+        <span class="rv-badge rv-badge-white">GFANZ</span>
+        <span class="rv-badge rv-badge-white">SBTN</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     CTA — WAITLIST
+     ═══════════════════════════════════════════════ -->
+<section class="rv-section rv-section-dark rv-cta-section" id="waitlist">
+  <div class="rv-section-inner">
+    <div class="rv-section-label" style="text-align:center">Early Access</div>
+    <h2>Start your ESG compliance journey today</h2>
+    <p class="rv-cta-sub">Join enterprise clients from Singapore, Australia and India. Personalised onboarding included.</p>
+    <button class="rv-btn-primary" style="font-size:1rem;padding:1rem 2.75rem;margin:0 auto;display:block" onclick="openLeadModal('waitlist')">Get Early Access — Free →</button>
+    <div class="rv-cta-markets">
+      <span style="opacity:1">🇸🇬 Singapore</span>
+      <span>·</span>
+      <span style="opacity:1">🇦🇺 Australia</span>
+      <span>·</span>
+      <span style="opacity:1">🇮🇳 India</span>
+      <span>·</span>
+      <span style="opacity:1">No credit card required</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     FAQ
+     ═══════════════════════════════════════════════ -->
+<section class="rv-section rv-faq-section" id="faq">
+  <div class="rv-section-inner">
+    <div class="rv-section-label" style="text-align:center">FAQ</div>
+    <h2 style="text-align:center;margin-left:auto;margin-right:auto;max-width:600px">Common questions</h2>
+    <p class="rv-section-sub" style="text-align:center;margin-left:auto;margin-right:auto"></p>
+
+    <div class="rv-faq-grid">
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <span class="faq-q-text">Is ReGenesis Impact compliant with AASB S2 and the Australian mandatory reporting regime?</span>
+          <span class="faq-chevron">▼</span>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">Yes. Our platform generates AASB S2-compliant climate disclosures aligned with the Australian Sustainability Reporting Standards (ASRS). We cover Group 1 requirements (entities with &gt;$500M consolidated revenue or &gt;$1B assets) mandatory from 1 January 2025, including quantitative climate scenario analysis, Scope 1-2-3 GHG inventory, transition planning, and physical risk CVaR — all requirements under ASIC's regulatory guidance RG 247.</div></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <span class="faq-q-text">How does the platform address MAS Environmental Risk and SGX climate reporting requirements?</span>
+          <span class="faq-chevron">▼</span>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">ReGenesis Impact is purpose-built for Singapore's regulatory environment. We cover MAS Notice 645 and the Guidelines on Environmental Risk Management (ERM) for banks, insurers, and asset managers — including board governance structures, risk appetite integration, and portfolio-level climate risk measurement. For SGX-listed companies, we produce ISSB S2-aligned climate disclosures that satisfy mandatory reporting requirements from FY2024 (large-cap) and FY2025 (mid-cap), including the Singapore-Asia Taxonomy classification.</div></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <span class="faq-q-text">What climate scenarios does the TCFD analysis use?</span>
+          <span class="faq-chevron">▼</span>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">We use NGFS Phase V (2024) scenarios — Net Zero 2050, Orderly 2°C, Disorderly Transition, and Hot House World — fully aligned with IFRS S2, AASB S2, and APRA CPS 229 mandatory dual-scenario analysis requirements. Physical risk modelling uses IPCC AR6 RCP/SSP pathways with asset-level geospatial hazard mapping for flood, heat stress, drought, sea-level rise, and cyclone risk. Transition risk quantification includes carbon pricing, policy exposure, and stranded-asset analysis.</div></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <span class="faq-q-text">Can the platform calculate PCAF financed emissions for banks and asset managers?</span>
+          <span class="faq-chevron">▼</span>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">Yes. Our GHG Inventory module covers all 15 Scope 3 categories including Category 15 (financed emissions) using the PCAF (Partnership for Carbon Accounting Financials) standard. We support corporate loans, listed equity, bonds, project finance, mortgages, and motor vehicle loans — with PCAF data quality scores (1–5), weighted average carbon intensity (WACI), and portfolio temperature alignment. This satisfies APRA's financed emissions disclosure requirements and TCFD Category 15 reporting for Australian and Singapore financial institutions.</div></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <span class="faq-q-text">How does the AI (Sage) work and is it reliable for regulatory disclosure?</span>
+          <span class="faq-chevron">▼</span>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">Sage AI uses large language models (Llama 3.3-70B) trained with extensive ESG and climate regulation context — covering ISSB, AASB S2, MAS ERM, BRSR, TCFD, GHG Protocol, and more. For report generation, Sage drafts structured disclosure language based on your input data, following each framework's exact requirements. All AI-generated content is editable and reviewable before export. We recommend a qualified sustainability professional review final disclosures, as regulatory liability remains with the reporting entity.</div></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <span class="faq-q-text">Is there a free tier? What does onboarding look like?</span>
+          <span class="faq-chevron">▼</span>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">Yes — Sage AI (our advisory chatbot) is free with no login required. We are currently onboarding enterprise clients on a personal basis: our team joins a 45-minute call, configures your reporting setup for your specific market and framework requirements, and walks through your first report together. Early-access pricing is locked in for clients onboarded before our public launch. Click "Get Early Access" to start the process — no credit card required.</div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SEO CONTENT SECTION
+     ═══════════════════════════════════════════════ -->
+<section class="rv-seo-section" aria-label="ESG reporting resources">
+  <div style="max-width:1100px;margin:0 auto;text-align:center">
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;color:#f1f5f2;margin-bottom:.4rem">ESG &amp; Climate Reporting Resources</h2>
+    <p style="font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.1em;color:rgba(241,245,242,0.35);margin-bottom:0">Frameworks · Methodology · Compliance guides</p>
+  </div>
+  <div class="rv-seo-grid">
+
+    <article class="rv-seo-article">
+      <h3>IFRS S2 / ISSB S2 Compliance Guide</h3>
+      <p>IFRS S2 (effective January 2024) requires all mandatory reporters to disclose climate-related risks under four pillars: Governance, Strategy, Risk Management and Metrics &amp; Targets. The December 2025 amendments introduced enhanced Scope 3 transition plan disclosures. Our AI-powered generator covers all 10 required disclosure areas and produces board-ready output aligned to TCFD and NGFS v5 scenarios.</p>
+      <button class="rv-seo-btn" onclick="requireLogin('issb')">Generate IFRS S2 Report →</button>
+    </article>
+
+    <article class="rv-seo-article">
+      <h3>SEBI BRSR Mandatory Reporting (India)</h3>
+      <p>SEBI's Business Responsibility and Sustainability Report (BRSR) is mandatory for India's top 1,000 listed companies by market cap from FY 2022–23. BRSR Core KPI assured disclosures are required for the top 150 from FY 2023–24. Our BRSR module covers Section A (General Disclosures), Section B (Management) and Section C (9 Principles) including ESG attributes for value chain partners.</p>
+      <button class="rv-seo-btn" onclick="requireLogin('issb')">Generate BRSR Report →</button>
+    </article>
+
+    <article class="rv-seo-article">
+      <h3>GHG Protocol Scope 3 &amp; PCAF Financed Emissions</h3>
+      <p>Scope 3 Category 15 financed emissions represent over 95% of a bank's or asset manager's total carbon footprint. The PCAF standard provides methodology for loans, bonds, listed equity, project finance and mortgages. Our calculator covers all 15 Scope 3 categories with IPCC AR6 GWP factors, PCAF data quality scores and WACI intensity metrics.</p>
+      <button class="rv-seo-btn" onclick="requireLogin('ghg')">Calculate GHG Inventory →</button>
+    </article>
+
+    <article class="rv-seo-article">
+      <h3>TCFD Scenario Analysis with NGFS v5</h3>
+      <p>TCFD-aligned scenario analysis is now mandatory under IFRS S2 and RBI climate risk guidelines for Indian banks. NGFS Phase V (2024) provides four pathways: Net Zero 2050, Orderly 2°C, Disorderly Transition and Hot House World. Our platform quantifies transition risk and physical risk (flood, heat, drought CVaR) for each scenario across your asset portfolio.</p>
+      <button class="rv-seo-btn" onclick="requireLogin('climate')">Run Scenario Analysis →</button>
+    </article>
+
+    <article class="rv-seo-article">
+      <h3>SBTi Net Zero Targets &amp; Decarbonisation Roadmap</h3>
+      <p>The Science Based Targets initiative (SBTi) requires companies to cut Scope 1+2 emissions 50% by 2030 and Scope 3 by 90% before 2050 to stay within 1.5°C. Our MACC tool identifies the lowest-cost decarbonisation levers for your sector — solar, efficiency, fleet electrification, supply chain engagement — with capex, payback and abatement potential for each lever.</p>
+      <button class="rv-seo-btn" onclick="requireLogin('climate')">Build Net Zero Roadmap →</button>
+    </article>
+
+    <article class="rv-seo-article">
+      <h3>GRI Standards, ASSB &amp; CDP Disclosure</h3>
+      <p>Our Sustainability Disclosure Hub supports five global frameworks in one platform. GRI Standards (GRI 2, GRI 305, GRI 302) for universal sustainability reporting. ASSB/AASB S2 for Australian mandatory reporters from 2025. CDP Climate Change questionnaire (C1–C7) for investor and customer disclosure. All frameworks share your company profile data — switch frameworks without re-entering information.</p>
+      <button class="rv-seo-btn" onclick="requireLogin('issb')">Open Disclosure Hub →</button>
+    </article>
+
+    <article class="rv-seo-article">
+      <h3>AASB S2 Mandatory Climate Reporting — Australia 2025</h3>
+      <p>Australia's AASB S2 aligns with ISSB S2 and is mandatory for Group 1 entities (consolidated revenue &gt; AUD $500M or total assets &gt; $1B) from annual periods beginning 1 January 2025. APRA simultaneously requires Climate Vulnerability Assessments (CVA) under CPS 229 for ADIs and insurers. Our platform generates AASB S2-compliant reports, runs APRA CVA modelling, and aligns with ASIC's disclosure obligations in a single workflow.</p>
+      <button class="rv-seo-btn" onclick="openLeadModal('seo_au')">Get Australia Access →</button>
+    </article>
+
+    <article class="rv-seo-article">
+      <h3>MAS Environmental Risk &amp; SGX Climate Reporting — Singapore</h3>
+      <p>The Monetary Authority of Singapore (MAS) requires all banks, insurers and asset managers under MAS Notice 645 and the Guidelines on Environmental Risk Management (ERM) to integrate climate risk into governance, strategy and risk appetite. SGX-listed companies must report climate-related disclosures aligned with ISSB S2 — mandatory for large-cap from FY2024 and mid-cap from FY2025. ReGenesis Impact covers MAS ERM requirements, SGX ISSB S2 disclosures, and the Singapore-Asia Taxonomy in one integrated platform.</p>
+      <button class="rv-seo-btn" onclick="openLeadModal('seo_sg')">Get Singapore Access →</button>
+    </article>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════════ -->
+<footer class="rv-footer">
+  <div class="rv-footer-grid">
+
+    <!-- Brand -->
     <div>
-      <div class="footer-logo">ReGenesis Impact</div>
-      <div class="footer-tagline">AI-powered sustainability intelligence for the enterprise.</div>
-      <div style="margin-top:0.75rem;font-size:0.75rem;color:rgba(245,240,232,0.3)"><a href="mailto:info@regenesisimpact.in" style="color:rgba(245,240,232,0.5);text-decoration:none;">info@regenesisimpact.in</a></div>
+      <div class="rv-footer-logo">ReGenesis<span>Impact</span></div>
+      <div class="rv-footer-tagline">AI-powered sustainability intelligence for the enterprise.</div>
+      <div class="rv-footer-email"><a href="mailto:info@regenesisimpact.in">info@regenesisimpact.in</a></div>
     </div>
-    <div class="footer-links-col">
-      <div class="footer-col-title">Platform</div>
-      <a href="#" onclick="requireLogin('issb')">Sustainability Report</a>
-      <a href="#" onclick="requireLogin('ghg')">GHG Inventory</a>
-      <a href="#" onclick="requireLogin('climate')">Climate Intelligence</a>
-      <a href="#" onclick="requireLogin('tools')">ESG Due Diligence</a>
-      <a href="#" onclick="showPage('advisor')">Sage AI Advisor</a>
-      <a href="#" onclick="requireLogin('credits')">🪙 Credit Exchange</a>
+
+    <!-- Platform -->
+    <div>
+      <div class="rv-footer-col-title">Platform</div>
+      <div class="rv-footer-links">
+        <button onclick="requireLogin('issb')">Sustainability Report</button>
+        <button onclick="requireLogin('ghg')">GHG Inventory</button>
+        <button onclick="requireLogin('climate')">Climate Intelligence</button>
+        <button onclick="requireLogin('tools')">ESG Due Diligence</button>
+        <button onclick="showPage('advisor')">Sage AI Advisor</button>
+        <button onclick="requireLogin('credits')">🪙 Credit Exchange</button>
+      </div>
     </div>
-    <div class="footer-links-col">
-      <div class="footer-col-title">Frameworks</div>
-      <a href="#" onclick="requireLogin('issb');return false">ISSB S2 · AASB S2 · GRI</a>
-      <a href="#" onclick="requireLogin('climate');return false">TCFD · NGFS v5</a>
-      <a href="#" onclick="requireLogin('ghg');return false">GHG Protocol · PCAF</a>
-      <a href="#" onclick="requireLogin('climate');return false">SBTi · TNFD</a>
-      <a href="#" onclick="navTo('markets');return false">MAS ERM · SGX · APRA</a>
-      <a href="#" onclick="requireLogin('issb');return false">BRSR Core · CDP</a>
+
+    <!-- Frameworks -->
+    <div>
+      <div class="rv-footer-col-title">Frameworks</div>
+      <div class="rv-footer-links">
+        <button onclick="requireLogin('issb')">ISSB S2 · AASB S2 · GRI</button>
+        <button onclick="requireLogin('climate')">TCFD · NGFS v5</button>
+        <button onclick="requireLogin('ghg')">GHG Protocol · PCAF</button>
+        <button onclick="requireLogin('climate')">SBTi · TNFD</button>
+        <button onclick="navTo('markets')">MAS ERM · SGX · APRA</button>
+        <button onclick="requireLogin('issb')">BRSR Core · CDP</button>
+      </div>
     </div>
-    <div class="footer-links-col">
-      <div class="footer-col-title">Markets</div>
-      <a href="#" onclick="navTo('markets');return false">🇸🇬 Singapore</a>
-      <a href="#" onclick="navTo('markets');return false">🇦🇺 Australia</a>
-      <a href="#" onclick="navTo('markets');return false">🇮🇳 India</a>
+
+    <!-- Markets -->
+    <div>
+      <div class="rv-footer-col-title">Markets</div>
+      <div class="rv-footer-links">
+        <button onclick="navTo('markets')">🇸🇬 Singapore</button>
+        <button onclick="navTo('markets')">🇦🇺 Australia</button>
+        <button onclick="navTo('markets')">🇮🇳 India</button>
+      </div>
     </div>
-    <div class="footer-links-col">
-      <div class="footer-col-title">Company</div>
-      <a href="#" onclick="navTo('advisory');return false">About</a>
-      <a href="mailto:info@regenesisimpact.in">Privacy Policy</a>
-      <a href="mailto:info@regenesisimpact.in">Terms of Service</a>
-      <a href="#" onclick="showPage('trial');return false">Book a Trial</a>
+
+    <!-- Company -->
+    <div>
+      <div class="rv-footer-col-title">Company</div>
+      <div class="rv-footer-links">
+        <button onclick="navTo('advisory')">About</button>
+        <a href="mailto:info@regenesisimpact.in">Privacy Policy</a>
+        <a href="mailto:info@regenesisimpact.in">Terms of Service</a>
+        <button onclick="showPage('trial')">Book a Trial</button>
+        <a href="mailto:info@regenesisimpact.in">Contact</a>
+      </div>
     </div>
+
   </div>
-  <div class="footer-bottom">
+
+  <div class="rv-footer-bottom">
     <span>© 2026 ReGenesis Impact. All rights reserved.</span>
     <span>Singapore 🇸🇬 · Australia 🇦🇺 · India 🇮🇳</span>
   </div>
@@ -2563,6 +3682,7 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
 
 </div>
 <!-- END page-home -->
+
 
 <div class="page" id="page-issb" style="display:none">
 
