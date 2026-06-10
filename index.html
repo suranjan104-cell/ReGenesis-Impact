@@ -1527,19 +1527,9 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
 .lm-score-fill{height:100%;background:linear-gradient(90deg,#00e87a,#0affdb);border-radius:3px;transition:width 1s ease}
 .lm-score-label{display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:.65rem;color:rgba(240,237,232,.4)}
 
-/* ── Mobile Bottom Nav ────────────────────────────────── */
-#mobile-bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:380;background:rgba(3,10,6,.97);border-top:1px solid rgba(0,232,122,.12);backdrop-filter:blur(16px);padding:.5rem 0 calc(.5rem + env(safe-area-inset-bottom));padding-bottom:calc(.6rem + env(safe-area-inset-bottom))}
-.mbn-inner{display:flex;justify-content:space-around;align-items:center}
-.mbn-btn{display:flex;flex-direction:column;align-items:center;gap:.2rem;background:none;border:none;cursor:pointer;padding:.3rem .5rem;min-width:56px;transition:all .2s}
-.mbn-ico{font-size:1.2rem;line-height:1}
-.mbn-lbl{font-family:'DM Mono',monospace;font-size:.48rem;letter-spacing:.07em;color:rgba(240,237,232,.4);text-transform:uppercase;transition:color .2s}
-.mbn-btn.active .mbn-lbl,.mbn-btn:hover .mbn-lbl{color:#00e87a}
-.mbn-btn.active .mbn-ico{filter:drop-shadow(0 0 6px rgba(0,232,122,.5))}
-@media(max-width:768px){
-  #mobile-bottom-nav{display:block}
-  body{padding-bottom:72px}
-  #scroll-top{bottom:5.5rem}
-}
+/* Mobile bottom nav removed — the global nav{} rule forced top:0 +
+   display:flex!important onto it, stretching it into a full-screen opaque
+   overlay that buried the whole homepage. Hamburger menu handles mobile nav. */
 </style>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -13046,28 +13036,6 @@ document.addEventListener('DOMContentLoaded', function(){
     <div id="demo-cards" style="display:flex;gap:.75rem;overflow-x:auto;padding-bottom:.25rem"></div>
   </div>
 </div>
-
-<!-- MOBILE BOTTOM NAV -->
-<nav id="mobile-bottom-nav">
-  <div class="mbn-inner">
-    <button class="mbn-btn active" id="mbn-home" onclick="mbnGo('home')">
-      <span class="mbn-ico">🏠</span>
-      <span class="mbn-lbl">Home</span>
-    </button>
-    <button class="mbn-btn" id="mbn-dashboard" onclick="mbnGo('dashboard')">
-      <span class="mbn-ico">⚡</span>
-      <span class="mbn-lbl">Dashboard</span>
-    </button>
-    <button class="mbn-btn" id="mbn-advisor" onclick="mbnGo('advisor')">
-      <span class="mbn-ico">🌿</span>
-      <span class="mbn-lbl">Sage AI</span>
-    </button>
-    <button class="mbn-btn" id="mbn-account" onclick="mbnAccount()">
-      <span class="mbn-ico">👤</span>
-      <span class="mbn-lbl">Account</span>
-    </button>
-  </div>
-</nav>
 
 </body>
 </html>
