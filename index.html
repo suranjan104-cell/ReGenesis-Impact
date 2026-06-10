@@ -1594,7 +1594,7 @@ function loadPdfJs(){
       </div>
     </div>
     <button class="rab-cta" onclick="openLeadModal('regulatory_alert')">Check Compliance →</button>
-    <button class="rab-dismiss" onclick="dismissRegAlertBar()" title="Dismiss">✕</button>
+    <button class="rab-dismiss" onclick="dismissRegAlertBar()" aria-label="Dismiss alert">✕</button>
   </div>
 </div>
 
@@ -1607,9 +1607,9 @@ function loadPdfJs(){
 <div class="bio-blob bio-blob-3"></div>
 <div class="scan-line"></div>
 <!-- LOGIN MODAL -->
-<div id="login-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9999;align-items:center;justify-content:center;">
+<div id="login-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9999;align-items:center;justify-content:center;">
   <div style="background:#050f07;border:1px solid rgba(0,232,122,0.2);border-radius:0.75rem;padding:2.5rem;width:100%;max-width:400px;position:relative;">
-    <button onclick="closeLoginModal()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:rgba(245,240,232,0.4);font-size:1.2rem;cursor:pointer;">✕</button>
+    <button onclick="closeLoginModal()" aria-label="Close sign-in dialog" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:rgba(245,240,232,0.4);font-size:1.2rem;cursor:pointer;">✕</button>
 
     <!-- Mode tabs -->
     <div style="display:flex;gap:0;margin-bottom:1.75rem;border:1px solid rgba(0,232,122,0.2);border-radius:0.4rem;overflow:hidden;">
@@ -1621,8 +1621,8 @@ function loadPdfJs(){
     <h3 id="modal-title" style="font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:0.4rem;">Access the Platform</h3>
     <p id="modal-subtitle" style="font-size:0.8rem;color:rgba(245,240,232,0.5);margin-bottom:1.5rem;">Sign in to your account to continue.</p>
 
-    <input id="modal-user" type="email" placeholder="Email address" onkeydown="if(event.key==='Enter')doModalLogin()" style="width:100%;background:rgba(0,0,0,0.4);border:1px solid rgba(0,232,122,0.2);border-radius:0.35rem;padding:0.75rem 1rem;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;margin-bottom:0.75rem;box-sizing:border-box;">
-    <input id="modal-pass" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')doModalLogin()" style="width:100%;background:rgba(0,0,0,0.4);border:1px solid rgba(0,232,122,0.2);border-radius:0.35rem;padding:0.75rem 1rem;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;margin-bottom:0.5rem;box-sizing:border-box;">
+    <input id="modal-user" type="email" placeholder="Email address" aria-label="Email address" onkeydown="if(event.key==='Enter')doModalLogin()" style="width:100%;background:rgba(0,0,0,0.4);border:1px solid rgba(0,232,122,0.2);border-radius:0.35rem;padding:0.75rem 1rem;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;margin-bottom:0.75rem;box-sizing:border-box;">
+    <input id="modal-pass" type="password" placeholder="Password" aria-label="Password" onkeydown="if(event.key==='Enter')doModalLogin()" style="width:100%;background:rgba(0,0,0,0.4);border:1px solid rgba(0,232,122,0.2);border-radius:0.35rem;padding:0.75rem 1rem;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;margin-bottom:0.5rem;box-sizing:border-box;">
 
     <div id="modal-forgot" style="text-align:right;margin-bottom:0.75rem;">
       <button onclick="authForgotPassword()" style="background:none;border:none;color:rgba(0,232,122,0.7);font-size:0.72rem;cursor:pointer;padding:0;">Forgot password?</button>
@@ -1641,9 +1641,9 @@ function loadPdfJs(){
 </div>
 
 <!-- SMART LEAD MODAL -->
-<div id="lead-modal">
+<div id="lead-modal" role="dialog" aria-modal="true" aria-label="Get started with ReGenesis Impact">
   <div class="lm-box">
-    <button class="lm-close" onclick="closeLeadModal()">✕</button>
+    <button class="lm-close" onclick="closeLeadModal()" aria-label="Close">✕</button>
     <div class="lm-progress">
       <div class="lm-progress-dot active" id="lm-dot-1"></div>
       <div class="lm-progress-dot" id="lm-dot-2"></div>
@@ -6689,7 +6689,7 @@ function loadPdfJs(){
  </div>
  <div class="irow">
  <div class="iwrap">
- <textarea id="msg-input" placeholder="Ask about ESG frameworks, carbon accounting, net-zero strategy — or upload a PDF for instant analysis..." rows="1" onkeydown="hkey(event)" oninput="arz(this);ucc()"></textarea>
+ <textarea id="msg-input" aria-label="Ask Sage AI a question about ESG, climate risk, or sustainability" placeholder="Ask about ESG frameworks, carbon accounting, net-zero strategy — or upload a PDF for instant analysis..." rows="1" onkeydown="hkey(event)" oninput="arz(this);ucc()"></textarea>
  <div class="ibtns">
  <button class="voice-btn" id="vbtn" onclick="toggleVoice()" title="Voice input"></button>
  </div>
@@ -6706,9 +6706,9 @@ function loadPdfJs(){
 </div>
 
 <!-- EXPORT MODAL -->
-<div class="moverlay" id="exp-modal">
+<div class="moverlay" id="exp-modal" role="dialog" aria-modal="true" aria-labelledby="exp-modal-title">
  <div class="modal">
- <div class="modal-t">Export <em>Chat Transcript</em></div>
+ <div class="modal-t" id="exp-modal-title">Export <em>Chat Transcript</em></div>
  <div class="modal-d">Download your full conversation with Sage as a formatted PDF — including all ESG guidance, IFRS S2 snippets, and strategic recommendations. Perfect for sharing with your sustainability team or board.</div>
  <div class="mbtns">
  <button class="mbtn s" onclick="hideExport()">Cancel</button>
@@ -14111,9 +14111,9 @@ document.addEventListener('DOMContentLoaded', function(){
 <!-- ══════════════════════════════════════════════════ -->
 <!-- PURCHASE MODAL -->
 <!-- ══════════════════════════════════════════════════ -->
-<div id="buy-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);align-items:center;justify-content:center">
+<div id="buy-modal" role="dialog" aria-modal="true" aria-labelledby="buy-modal-badge" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);align-items:center;justify-content:center">
   <div style="background:#050f07;border:1px solid rgba(0,232,122,.2);border-radius:1rem;padding:2rem;max-width:460px;width:90%;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6)">
-    <button onclick="document.getElementById('buy-modal').style.display='none'" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:rgba(245,240,232,.4);font-size:1.2rem;cursor:pointer;line-height:1">✕</button>
+    <button onclick="document.getElementById('buy-modal').style.display='none'" aria-label="Close purchase dialog" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:rgba(245,240,232,.4);font-size:1.2rem;cursor:pointer;line-height:1">✕</button>
     <div id="buy-modal-badge" style="font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.12em;color:var(--lime);margin-bottom:.6rem;text-transform:uppercase">Purchase Credits</div>
     <div id="buy-modal-name" style="font-size:1.1rem;font-weight:700;color:var(--cream);margin-bottom:.3rem"></div>
     <div id="buy-modal-meta" style="font-size:.72rem;color:rgba(245,240,232,.45);margin-bottom:1.25rem;font-family:'DM Mono',monospace"></div>
@@ -14158,7 +14158,7 @@ document.addEventListener('DOMContentLoaded', function(){
   <div id="demo-inner" style="pointer-events:all;max-width:900px;margin:0 auto">
     <div style="display:flex;align-items:center;justify-content:space-between;padding:.75rem 0 .6rem">
       <div style="font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;color:rgba(126,217,87,.7)">📁 SAVED DEMO PROJECTS — Click to load</div>
-      <button onclick="document.getElementById('demo-drawer').style.display='none'" style="background:none;border:none;color:rgba(245,240,232,.3);cursor:pointer;font-size:.85rem">✕</button>
+      <button onclick="document.getElementById('demo-drawer').style.display='none'" aria-label="Close demo projects drawer" style="background:none;border:none;color:rgba(245,240,232,.3);cursor:pointer;font-size:.85rem">✕</button>
     </div>
     <div id="demo-cards" style="display:flex;gap:.75rem;overflow-x:auto;padding-bottom:.25rem"></div>
   </div>
