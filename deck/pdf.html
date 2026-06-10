@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: 1080px 1350px; margin: 0; }
+  * { margin:0; padding:0; }
+  html,body { background:#020806; }
+  .pg {
+    width:1080px; height:1350px;
+    page-break-after:always; break-after:page;
+    overflow:hidden; display:block;
+  }
+  .pg:last-child { page-break-after:auto; break-after:auto; }
+  .pg img { width:1080px; height:1350px; display:block; object-fit:cover; }
+</style>
+</head>
+<body>
+  <div class="pg"><img src="regenesis-slide-01.png"></div>
+  <div class="pg"><img src="regenesis-slide-02.png"></div>
+  <div class="pg"><img src="regenesis-slide-03.png"></div>
+  <div class="pg"><img src="regenesis-slide-04.png"></div>
+  <div class="pg"><img src="regenesis-slide-05.png"></div>
+  <div class="pg"><img src="regenesis-slide-06.png"></div>
+  <div class="pg"><img src="regenesis-slide-07.png"></div>
+</body>
+</html>

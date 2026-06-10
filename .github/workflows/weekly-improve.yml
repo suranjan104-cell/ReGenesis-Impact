@@ -1,0 +1,61 @@
+name: Weekly self-improvement
+
+# Every Sunday Claude audits the platform and opens ONE focused
+# improvement PR. You review and merge — or enable auto-merge to go
+# fully hands-off.
+#
+# REQUIRES: ANTHROPIC_API_KEY repository secret (same as claude-auto.yml)
+
+on:
+  schedule:
+    - cron: '0 2 * * 0'   # Sundays 02:00 UTC = 07:30 IST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  id-token: write
+  actions: read
+
+jobs:
+  improve:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run Claude improvement audit
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            You are the weekly maintenance engineer for ReGenesis Impact —
+            a single-file ESG/climate platform (index.html, ~14k lines).
+
+            1. Audit the platform for ONE high-impact improvement this week.
+               Rotate focus areas across weeks: performance, accessibility
+               (aria-labels, keyboard nav), mobile UX, calculation accuracy
+               (emission factors, materiality thresholds), SEO, error
+               handling, or content freshness (regulatory dates, standards).
+            2. Implement it on a new branch named improve/<topic>-<date>.
+            3. Verify with the smoke test: npm install puppeteer --no-save
+               && node deck/smoke.js — homeVisible must be true with zero
+               pageErrors before you push.
+            4. Open a PR to main titled "Weekly improvement: <topic>" with
+               a clear summary of what changed and why it matters.
+
+            Constraints:
+            - ONE focused improvement, not a grab-bag. Keep the diff small
+              and reviewable.
+            - Never remove existing features or change the visual design
+              language (dark HUD aesthetic, #00e87a green).
+            - Never touch auth/Supabase keys or the Sage AI worker URL.
+            - If the smoke test fails after your change, fix it or revert.
+          claude_args: |
+            --allowedTools "Bash(npm install*),Bash(node*),Bash(git*),Bash(gh pr create*),Read,Edit,Write,Glob,Grep"

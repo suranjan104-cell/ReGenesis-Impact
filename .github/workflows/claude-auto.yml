@@ -1,0 +1,46 @@
+name: Claude auto-fix
+
+# Responds to:
+#  1. Any issue labeled `auto-improve` (incl. those filed by the nightly
+#     health check) — Claude investigates and opens a fix PR.
+#  2. Any @claude mention in issues or comments — interactive helper.
+#
+# REQUIRES one-time setup: add ANTHROPIC_API_KEY in
+# Settings → Secrets and variables → Actions → New repository secret
+
+on:
+  issues:
+    types: [opened, labeled]
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  id-token: write
+  actions: read
+
+jobs:
+  claude:
+    # Run when: issue labeled auto-improve, or @claude mentioned anywhere
+    if: |
+      (github.event_name == 'issues' && contains(github.event.issue.labels.*.name, 'auto-improve')) ||
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'issues' && contains(github.event.issue.body, '@claude'))
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run Claude
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_args: |
+            --allowedTools "Bash(npm install*),Bash(node*),Bash(git*),Read,Edit,Write,Glob,Grep"

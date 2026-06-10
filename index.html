@@ -10,6 +10,11 @@
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#030a06">
 <link rel="canonical" href="https://www.regenesisimpact.in/">
+<!-- App icons & install -->
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <!-- Geo targeting -->
 <meta name="geo.region" content="IN, SG, AU">
 <meta name="geo.placename" content="India, Singapore, Australia">
@@ -27,6 +32,9 @@
 <meta property="og:title" content="ReGenesis Impact — AI-Powered ESG & Climate Reporting Platform">
 <meta property="og:description" content="AI-powered ESG & climate reporting platform for Singapore (MAS · SGX), Australia (AASB S2 · APRA) and India (BRSR · ISSB S2). Generate disclosures, GHG inventories, TCFD scenario analysis and tokenise carbon credits.">
 <meta property="og:image" content="https://www.regenesisimpact.in/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ReGenesis Impact — Climate mission control, open to everyone">
 <meta property="og:site_name" content="ReGenesis Impact">
 <meta property="og:locale" content="en_IN">
 <!-- Twitter Card -->
@@ -247,6 +255,10 @@ nav::after{content:'';position:absolute;bottom:-1px;left:0;width:180px;height:1p
 .nl-pill.nl-amber  { border-color:rgba(245,200,66,.25);  color:rgba(245,200,66,.8);  background:rgba(245,200,66,.07); }
 .nl-pill.nl-teal   { border-color:rgba(80,220,200,.25);  color:rgba(80,220,200,.8);  background:rgba(80,220,200,.07); }
 .nl-pill.nl-purple { border-color:rgba(176,154,255,.25); color:rgba(176,154,255,.8); background:rgba(176,154,255,.07); }
+.nl-prog-wrap { display:flex; align-items:center; gap:8px; height:18px; }
+.nl-prog-bar { display:block; width:90px; height:4px; background:rgba(0,232,122,.15); border-radius:2px; overflow:hidden; position:relative; }
+.nl-prog-bar::after { content:''; position:absolute; left:0; top:0; bottom:0; width:var(--w,0%); background:#00e87a; border-radius:2px; transition:width .4s ease; box-shadow:0 0 6px rgba(0,232,122,.5); }
+.nl-prog-label { font-family:'DM Mono',monospace; font-size:.6rem; letter-spacing:.1em; color:rgba(0,232,122,.7); min-width:28px; }
 .nl-back { background:none; border:1px solid rgba(245,240,232,.15); color:rgba(245,240,232,.5); font-size:.75rem; font-family:'DM Sans',sans-serif; padding:.3rem .85rem; border-radius:.3rem; cursor:pointer; transition:all .2s; }
 .nl-back:hover { border-color:rgba(126,217,87,.35); color:var(--lime); }
 
@@ -1531,10 +1543,36 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
    display:flex!important onto it, stretching it into a full-screen opaque
    overlay that buried the whole homepage. Hamburger menu handles mobile nav. */
 </style>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.50.0"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+// Lazy loaders — fire once, return a Promise that resolves when ready
+var _leafletReady = null;
+function loadLeaflet(){
+  if(_leafletReady) return _leafletReady;
+  _leafletReady = new Promise(function(res){
+    var lnk=document.createElement('link');lnk.rel='stylesheet';
+    lnk.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';document.head.appendChild(lnk);
+    var s=document.createElement('script');
+    s.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+    s.onload=res; document.head.appendChild(s);
+  });
+  return _leafletReady;
+}
+var _pdfjsReady = null;
+function loadPdfJs(){
+  if(_pdfjsReady) return _pdfjsReady;
+  _pdfjsReady = new Promise(function(res){
+    var s=document.createElement('script');
+    s.src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    s.onload=function(){
+      pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      res();
+    };
+    document.head.appendChild(s);
+  });
+  return _pdfjsReady;
+}
+</script>
 </head>
 <body>
 <!-- REGULATORY ALERT BAR -->
@@ -1747,12 +1785,12 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
   </button>
   <div class="nl-tool" id="nl-dashboard"><span class="nl-pill" style="background:linear-gradient(135deg,rgba(0,232,122,.15),rgba(10,255,219,.08));color:#00e87a">⚡ ReGenesis Impact · Dashboard</span><button class="nl-back" onclick="authSignOut()" style="color:rgba(255,90,60,.7);border-color:rgba(255,90,60,.2)">Sign Out</button></div>
   <div class="nl-tool" id="nl-advisor"><span class="nl-pill">🌿 Sage AI · Live</span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
-  <div class="nl-tool" id="nl-issb"><span class="nl-pill nl-blue">Sustainability Report · IFRS S2 · GRI · BRSR · ASSB · CDP</span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
-  <div class="nl-tool" id="nl-ghg"><span class="nl-pill nl-amber">GHG Inventory · PCAF Protocol</span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
-  <div class="nl-tool" id="nl-climate"><span class="nl-pill nl-teal">Climate Intelligence · TCFD · NGFS v5</span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
-  <div class="nl-tool" id="nl-tools"><span class="nl-pill nl-purple">ESG Due Diligence Suite</span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
+  <div class="nl-tool" id="nl-issb"><span class="nl-pill nl-blue">Sustainability Report · IFRS S2 · GRI · BRSR · ASSB · CDP</span><span class="nl-prog-wrap" id="prog-issb"><span class="nl-prog-bar" id="prog-issb-fill"></span><span class="nl-prog-label" id="prog-issb-label">0%</span></span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
+  <div class="nl-tool" id="nl-ghg"><span class="nl-pill nl-amber">GHG Inventory · PCAF Protocol</span><span class="nl-prog-wrap" id="prog-ghg"><span class="nl-prog-bar" id="prog-ghg-fill"></span><span class="nl-prog-label" id="prog-ghg-label">0%</span></span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
+  <div class="nl-tool" id="nl-climate"><span class="nl-pill nl-teal">Climate Intelligence · TCFD · NGFS v5</span><span class="nl-prog-wrap" id="prog-climate"><span class="nl-prog-bar" id="prog-climate-fill"></span><span class="nl-prog-label" id="prog-climate-label">0%</span></span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
+  <div class="nl-tool" id="nl-tools"><span class="nl-pill nl-purple">ESG Due Diligence Suite</span><span class="nl-prog-wrap" id="prog-tools"><span class="nl-prog-bar" id="prog-tools-fill"></span><span class="nl-prog-label" id="prog-tools-label">0%</span></span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
   <div class="nl-tool" id="nl-credits"><span class="nl-pill" style="background:linear-gradient(90deg,#16a34a,#0ea5e9)">🪙 Carbon Credit Exchange · ERC-1155 · Polygon</span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
-  <div class="nl-tool" id="nl-assurance"><span class="nl-pill" style="background:linear-gradient(90deg,rgba(0,232,122,.18),rgba(10,255,219,.1));color:#00e87a">🛡️ Assurance Studio · ISSA 5000 · AASB S2</span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
+  <div class="nl-tool" id="nl-assurance"><span class="nl-pill" style="background:linear-gradient(90deg,rgba(0,232,122,.18),rgba(10,255,219,.1));color:#00e87a">🛡️ Assurance Studio · ISSA 5000 · AASB S2</span><span class="nl-prog-wrap" id="prog-assurance"><span class="nl-prog-bar" id="prog-assurance-fill"></span><span class="nl-prog-label" id="prog-assurance-label">0%</span></span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
 </nav>
 
 <!-- MOBILE MENU -->
@@ -1926,6 +1964,51 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
       <div class="db-action-lbl">Generate TCFD<br>Disclosure</div>
     </div>
   </div>
+
+  <!-- ===== INSIGHTS — owner analytics (visitors, queries, leads) ===== -->
+  <div class="db-section-label" style="margin-top:2.5rem">Platform Insights <span style="font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:rgba(0,232,122,.6);margin-left:.5rem">LAST 30 DAYS</span>
+    <button onclick="dbLoadInsights()" style="float:right;background:rgba(0,232,122,.1);border:1px solid rgba(0,232,122,.3);color:#00e87a;padding:.3rem .9rem;border-radius:.3rem;font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.08em;cursor:pointer">↻ REFRESH</button>
+  </div>
+  <div id="db-insights">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.85rem;margin-bottom:1.25rem" id="db-ins-kpis">
+      <div class="db-ins-kpi"><div class="db-ins-v" id="ins-visitors">—</div><div class="db-ins-k">Unique visitors</div></div>
+      <div class="db-ins-kpi"><div class="db-ins-v" id="ins-views">—</div><div class="db-ins-k">Page views</div></div>
+      <div class="db-ins-kpi"><div class="db-ins-v" id="ins-queries">—</div><div class="db-ins-k">Sage queries</div></div>
+      <div class="db-ins-kpi"><div class="db-ins-v" id="ins-leads">—</div><div class="db-ins-k">Leads captured</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem" id="db-ins-panels">
+      <div class="db-ins-panel">
+        <div class="db-ins-title">🔥 Tool usage</div>
+        <div id="ins-tools" class="db-ins-list"><span style="color:rgba(240,237,232,.35)">Press Refresh to load…</span></div>
+      </div>
+      <div class="db-ins-panel">
+        <div class="db-ins-title">💬 Recent Sage questions</div>
+        <div id="ins-recent-q" class="db-ins-list"><span style="color:rgba(240,237,232,.35)">Press Refresh to load…</span></div>
+      </div>
+      <div class="db-ins-panel">
+        <div class="db-ins-title">🎯 Recent leads</div>
+        <div id="ins-recent-l" class="db-ins-list"><span style="color:rgba(240,237,232,.35)">Press Refresh to load…</span></div>
+      </div>
+      <div class="db-ins-panel">
+        <div class="db-ins-title">📡 Traffic sources</div>
+        <div id="ins-sources" class="db-ins-list"><span style="color:rgba(240,237,232,.35)">Press Refresh to load…</span></div>
+      </div>
+    </div>
+    <div id="ins-setup-note" style="display:none;margin-top:.9rem;padding:.8rem 1rem;border:1px solid rgba(255,181,71,.3);border-radius:.5rem;background:rgba(255,181,71,.06);font-size:.78rem;color:rgba(255,181,71,.9)">
+      ⚠️ Analytics tables not found. Run the ANALYTICS block in <code>supabase-setup.sql</code> in your Supabase SQL editor once, then refresh.
+    </div>
+  </div>
+  <style>
+    .db-ins-kpi{background:rgba(3,16,10,.6);border:1px solid rgba(0,232,122,.15);border-radius:.65rem;padding:1rem;text-align:center}
+    .db-ins-v{font-family:'Space Grotesk',sans-serif;font-size:1.7rem;font-weight:700;color:#00e87a}
+    .db-ins-k{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.1em;color:rgba(240,237,232,.5);text-transform:uppercase;margin-top:.25rem}
+    .db-ins-panel{background:rgba(3,16,10,.6);border:1px solid rgba(0,232,122,.12);border-radius:.65rem;padding:1rem 1.15rem;min-height:120px}
+    .db-ins-title{font-size:.8rem;font-weight:700;color:#f0ede8;margin-bottom:.6rem}
+    .db-ins-list{font-size:.74rem;line-height:1.7;color:rgba(240,237,232,.7)}
+    .db-ins-row{display:flex;justify-content:space-between;gap:.75rem;border-bottom:1px solid rgba(0,232,122,.06);padding:.2rem 0}
+    .db-ins-row b{color:#00e87a;font-family:'DM Mono',monospace;font-size:.7rem;flex-shrink:0}
+    @media(max-width:768px){#db-ins-kpis{grid-template-columns:1fr 1fr!important}#db-ins-panels{grid-template-columns:1fr!important}}
+  </style>
 </div>
 </div>
 <!-- END DASHBOARD PAGE -->
@@ -8179,6 +8262,7 @@ window.cipDcCalc = function() {
 
 // ── Sage AI ─────────────────────────────────────────────────────────
 function cipCallSage(prompt, onOk, onErr) {
+  if (typeof rgLogQuery === 'function') rgLogQuery('climate', prompt);
   fetch('https://sageai.suranjan104.workers.dev', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -8872,6 +8956,15 @@ function showPage(page) {
     if (el) el.style.display = (page === t) ? 'flex' : 'none';
   });
 
+  // Refresh tool completion progress bar for the newly shown page
+  if (window._progRefresh) window._progRefresh(page);
+
+  // Analytics: record tool opens (not home — page_view covers that)
+  if (page !== 'home' && typeof rgTrack === 'function') rgTrack('tool_open', page);
+
+  // Owner insights auto-load on dashboard open
+  if (page === 'dashboard' && typeof dbLoadInsights === 'function') setTimeout(dbLoadInsights, 300);
+
   // Nav button highlights
   ['nb-issb','nb-ghg','nb-tools','nb-climate','nb-advisor','nb-credits','nb-assurance'].forEach(function(id) {
     var el = document.getElementById(id); if (el) el.classList.remove('nl-active');
@@ -8988,9 +9081,9 @@ async function storeLead(leadData) {
       source: leadData.source || 'website',
       page_path: window.location.href
     }]);
-    if (r.error) console.warn('Lead insert:', r.error.message);
+    // silenced in production
     return true;
-  } catch(e) { console.warn('storeLead:', e); return false; }
+  } catch(e) { return false; }
 }
 
 async function notifyLeadByEmail(leadData) {
@@ -9010,7 +9103,7 @@ async function notifyLeadByEmail(leadData) {
         botcheck:''
       })
     });
-  } catch(e) { console.warn('Email notify:', e); }
+  } catch(e) { /* silent */ }
 }
 
 async function captureLead(leadData) {
@@ -9197,11 +9290,112 @@ var _currentUser = null;
   });
   // Listen for auth state changes
   _supabase.auth.onAuthStateChange(function(event, session) {
-    if (event === 'SIGNED_IN' && session) { _onSignedIn(session.user); }
+    if (event === 'SIGNED_IN' && session) { _onSignedIn(session.user); rgTrack('signin', session.user.email); }
     if (event === 'SIGNED_OUT') { _onSignedOut(); }
     if (event === 'PASSWORD_RECOVERY') { authSetMode('reset'); requireLogin('home'); }
   });
+  // First-load page view (after client ready)
+  rgTrack('page_view', 'home');
 })();
+
+// ── ANALYTICS — anonymous session tracking into Supabase ──────────────
+// Fire-and-forget; never blocks the UI, never throws.
+function rgSession() {
+  try {
+    var s = localStorage.getItem('rg_session');
+    if (!s) { s = 'S' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8); localStorage.setItem('rg_session', s); }
+    return s;
+  } catch(e) { return 'S-anon'; }
+}
+function rgUtm(name) {
+  try { return new URLSearchParams(location.search).get(name) || null; } catch(e) { return null; }
+}
+function rgTrack(type, page) {
+  try {
+    if (!_supabase) return;
+    _supabase.from('events').insert([{
+      session_id: rgSession(),
+      event_type: type,
+      page: page || null,
+      user_email: _currentUser ? _currentUser.email : null,
+      referrer: document.referrer ? document.referrer.slice(0, 300) : null,
+      utm_source: rgUtm('utm_source'),
+      utm_medium: rgUtm('utm_medium'),
+      utm_campaign: rgUtm('utm_campaign'),
+      user_agent: navigator.userAgent.slice(0, 200)
+    }]).then(function(){}, function(){});
+  } catch(e) { /* analytics must never break the app */ }
+}
+function rgLogQuery(tool, prompt) {
+  try {
+    if (!_supabase || !prompt) return;
+    _supabase.from('queries').insert([{
+      session_id: rgSession(),
+      tool: tool || 'advisor',
+      prompt: String(prompt).slice(0, 2000),
+      user_email: _currentUser ? _currentUser.email : null
+    }]).then(function(){}, function(){});
+  } catch(e) { /* silent */ }
+}
+
+// ── INSIGHTS — owner dashboard analytics (requires signed-in user) ─────
+async function dbLoadInsights() {
+  if (!_supabase) return;
+  var since = new Date(Date.now() - 30*24*3600*1000).toISOString();
+  var setNote = function(show){ var n=document.getElementById('ins-setup-note'); if(n) n.style.display = show?'block':'none'; };
+  var put = function(id, v){ var e=document.getElementById(id); if(e) e.textContent = v; };
+  var esc = function(s){ var d=document.createElement('div'); d.textContent=s||''; return d.innerHTML; };
+  try {
+    var ev = await _supabase.from('events').select('session_id,event_type,page,referrer,utm_source,created_at').gte('created_at', since).limit(5000);
+    if (ev.error) { setNote(true); return; }
+    setNote(false);
+    var rows = ev.data || [];
+    var sessions = {}; var views = 0; var tools = {}; var sources = {};
+    rows.forEach(function(r){
+      sessions[r.session_id] = 1;
+      if (r.event_type === 'page_view') views++;
+      if (r.event_type === 'tool_open' && r.page) tools[r.page] = (tools[r.page]||0)+1;
+      var src = r.utm_source || (r.referrer ? (r.referrer.replace(/^https?:\/\//,'').split('/')[0]) : 'direct');
+      sources[src] = (sources[src]||0)+1;
+    });
+    put('ins-visitors', Object.keys(sessions).length);
+    put('ins-views', views);
+
+    var toolsEl = document.getElementById('ins-tools');
+    if (toolsEl) {
+      var tArr = Object.keys(tools).map(function(k){return [k,tools[k]];}).sort(function(a,b){return b[1]-a[1];});
+      toolsEl.innerHTML = tArr.length ? tArr.slice(0,7).map(function(t){
+        return '<div class="db-ins-row"><span>'+esc(t[0])+'</span><b>'+t[1]+'</b></div>';
+      }).join('') : '<span style="color:rgba(240,237,232,.35)">No tool opens yet</span>';
+    }
+    var srcEl = document.getElementById('ins-sources');
+    if (srcEl) {
+      var sArr = Object.keys(sources).map(function(k){return [k,sources[k]];}).sort(function(a,b){return b[1]-a[1];});
+      srcEl.innerHTML = sArr.length ? sArr.slice(0,7).map(function(s){
+        return '<div class="db-ins-row"><span>'+esc(s[0])+'</span><b>'+s[1]+'</b></div>';
+      }).join('') : '<span style="color:rgba(240,237,232,.35)">No traffic data yet</span>';
+    }
+
+    var q = await _supabase.from('queries').select('tool,prompt,user_email,created_at').gte('created_at', since).order('created_at',{ascending:false}).limit(200);
+    if (!q.error) {
+      put('ins-queries', (q.data||[]).length + ((q.data||[]).length===200?'+':''));
+      var qEl = document.getElementById('ins-recent-q');
+      if (qEl) qEl.innerHTML = (q.data||[]).length ? q.data.slice(0,8).map(function(r){
+        var who = r.user_email ? r.user_email.split('@')[0] : 'anon';
+        return '<div class="db-ins-row"><span title="'+esc(r.prompt)+'">'+esc((r.prompt||'').slice(0,60))+((r.prompt||'').length>60?'…':'')+'</span><b>'+esc(who)+'</b></div>';
+      }).join('') : '<span style="color:rgba(240,237,232,.35)">No queries yet</span>';
+    }
+
+    var l = await _supabase.from('leads').select('email,company,market,lead_score,created_at').gte('created_at', since).order('created_at',{ascending:false}).limit(100);
+    if (!l.error) {
+      put('ins-leads', (l.data||[]).length);
+      var lEl = document.getElementById('ins-recent-l');
+      if (lEl) lEl.innerHTML = (l.data||[]).length ? l.data.slice(0,8).map(function(r){
+        return '<div class="db-ins-row"><span>'+esc(r.email)+(r.company?' · '+esc(r.company):'')+'</span><b>'+(r.lead_score!=null?r.lead_score:'—')+'</b></div>';
+      }).join('') : '<span style="color:rgba(240,237,232,.35)">No leads yet</span>';
+    }
+  } catch(e) { setNote(true); }
+}
 
 function _onSignedIn(user) {
   _currentUser = user;
@@ -9442,25 +9636,67 @@ document.addEventListener('DOMContentLoaded', function() {
  if (fill) fill.style.width = p + '%';
  }
 
- window.ghg_val = function(id) { var e = document.getElementById(id); return e ? (parseFloat(e.value) || 0) : 0; };
+ window.ghg_val = function(id) { var e = document.getElementById(id); if(!e) return 0; var v=parseFloat(e.value); return isNaN(v)||v<0?0:v; };
  window.ghg_str = function(id) { var e = document.getElementById(id); return e ? (e.value || '—') : '—'; };
  window.ghg_sel = function(id) { var e = document.getElementById(id); return e ? (e.value || '—') : '—'; };
 
+ // ── EMISSION FACTORS ────────────────────────────────────────────────────────
+ // Sources: DEFRA UK GHG Conversion Factors 2024; IPCC AR6 WGI Table 7.SM.7 (GWP100);
+ //          IEA World Energy Outlook 2024; GHG Protocol Corporate Standard (2004 rev.)
+ var GHG_EF = {
+   // Scope 1 — stationary combustion (kg CO2e per litre unless noted)
+   diesel:        2.68,   // DEFRA 2024, diesel for non-road sources
+   naturalGas:    2.02,   // DEFRA 2024, natural gas per litre equivalent
+   lpg:           1.51,   // DEFRA 2024, LPG
+   petrol:        2.31,   // DEFRA 2024, petrol/gasoline
+   heavyFuelOil:  3.17,   // DEFRA 2024, heavy fuel oil
+   // Scope 1 — mobile combustion (kg CO2e per km, average fleet)
+   mobDiesel:     0.268,  // DEFRA 2024, HGV diesel per vehicle-km (avg load)
+   // Scope 1 — refrigerants GWP100 (IPCC AR6, tonne CO2e per tonne refrigerant)
+   gwp: { R410A:2088, R32:675, 'R134a':1430, 'R407C':1774, 'R404A':3922, 'R22':1760, CO2:1 },
+   // Scope 2 — location-based grid factors (tCO2e per MWh), IEA 2024
+   grid: {
+     IN: 0.82,   // India (Central Electricity Authority 2024)
+     AU: 0.51,   // Australia NEM average (DCCEEW 2024)
+     SG: 0.408,  // Singapore EMA 2024
+     GB: 0.207,  // UK DESNZ 2024
+     US: 0.386,  // US EPA eGRID 2023 national avg
+     EU: 0.233,  // EU EEA 2023
+     CN: 0.557,  // China 2023
+     GLOBAL: 0.490 // IEA world average 2024
+   },
+   // Scope 3 — Cat 6 business travel (tCO2e per passenger-km), DEFRA 2024
+   airShortHaul:  0.151,  // <3hrs, economy
+   airMedHaul:    0.131,
+   airLongHaul:   0.195,  // >6hrs, economy (radiative forcing included)
+   // Scope 3 — Cat 7 employee commuting (kg CO2e per km per commuter)
+   commuteAvg:    0.170,  // mixed modal DEFRA 2024
+   workingDays:   250,
+   // Scope 3 — Cat 5 waste (tCO2e per tonne waste to landfill), DEFRA 2024
+   wasteToLandfill: 0.58,
+   // Scope 3 — Cat 4 upstream T&D (% uplift on Scope 2)
+   tAndDUplift:   0.033,
+   // PCAF — financed emissions defaults
+   pcafREIntensity: 25    // tCO2e per $M, real-estate default PCAF Standard 2022
+ };
+
  window.ghg_calc = function() {
- var s1_stat = (ghg_val('g-diesel-vol')*2.68 + ghg_val('g-gas-vol')*2.02 + ghg_val('g-lpg-vol')*1.51) / 1000;
- var s1_mob = ghg_val('g-mob-diesel-vol') * 0.21 * 12 / 1000;
- var gwp = { R410A:2088, R32:675, R134a:1430, R407C:1774, CO2:1 };
+ try {
+ var jur = (document.getElementById('g-jurisdiction') || {}).value || 'IN';
+ var gridEF = GHG_EF.grid[jur] || GHG_EF.grid.GLOBAL;
+ var s1_stat = (ghg_val('g-diesel-vol')*GHG_EF.diesel + ghg_val('g-gas-vol')*GHG_EF.naturalGas + ghg_val('g-lpg-vol')*GHG_EF.lpg) / 1000;
+ var s1_mob = ghg_val('g-mob-diesel-vol') * GHG_EF.mobDiesel * 12 / 1000;
  var ref_type = document.getElementById('g-refrig-type') ? document.getElementById('g-refrig-type').value : 'R410A';
- var s1_fug = ghg_val('g-refrig-vol') * (gwp[ref_type] || 2088) / 1000;
+ var s1_fug = ghg_val('g-refrig-vol') * (GHG_EF.gwp[ref_type] || GHG_EF.gwp.R410A) / 1000;
  var s1 = s1_stat + s1_mob + s1_fug;
- var s2_loc = ghg_val('g-elec-mwh') * (ghg_val('g-elec-ef') || 0.82) / 1000;
+ var s2_loc = ghg_val('g-elec-mwh') * (ghg_val('g-elec-ef') || gridEF) / 1000;
  var s2_mkt = ghg_val('g-re-mwh') * (ghg_val('g-residual-ef') || 0) / 1000;
- var s3_biz = ghg_val('g-cat6-air') * 0.255;
- var s3_com = ghg_val('g-cat7-km') * 0.17 * 250 / 1000;
- var s3_waste = ghg_val('g-cat5-waste') * 0.58;
+ var s3_biz = ghg_val('g-cat6-air') * GHG_EF.airLongHaul;
+ var s3_com = ghg_val('g-cat7-km') * GHG_EF.commuteAvg * GHG_EF.workingDays / 1000;
+ var s3_waste = ghg_val('g-cat5-waste') * GHG_EF.wasteToLandfill;
  var s3_chain = ghg_val('g-cat1-spend');
  var s3_fin_corp = ghg_val('g-pcaf1-amt') * (ghg_val('g-pcaf1-waci') || 150) / 1000000;
- var s3_fin_re = ghg_val('g-pcaf2-amt') * 25 / 1000000;
+ var s3_fin_re = ghg_val('g-pcaf2-amt') * GHG_EF.pcafREIntensity / 1000000;
  var s3_fin_proj = ghg_val('g-pcaf3-amt') * (ghg_val('g-pcaf3-intensity') || 0.5);
  var s3 = s3_biz + s3_com + s3_waste + s3_chain + s3_fin_corp + s3_fin_re + s3_fin_proj;
  var total = s1 + s2_loc + s3;
@@ -9483,24 +9719,26 @@ document.addEventListener('DOMContentLoaded', function() {
  ghg_done.add(8);
  var rp = document.getElementById('ghg-results-grid'); if (!rp) rp = document.getElementById('ghg-ai-report');
  if (rp) { rp.style.display = 'block'; rp.scrollIntoView({behavior:'smooth', block:'nearest'}); }
+ } catch(e) { /* guard against invalid inputs */ }
  }
 
 window.ghg_live = function() {
-  // Silent calc — no scroll, just update sidebar numbers
+  try {
   var v = ghg_val;
-  var s1_stat = (v('g-diesel-vol')*2.68 + v('g-gas-vol')*2.02 + v('g-lpg-vol')*1.51 + v('g-petrol-vol')*2.31) / 1000;
-  var s1_mob  = v('g-mob-diesel-vol') * 2.68 / 1000;
-  var refGWP  = { R410A:2088, R32:675, 'R134a':1430, 'R407C':1774, CO2:1 };
+  var jur = (document.getElementById('g-jurisdiction') || {}).value || 'IN';
+  var gridEF = GHG_EF.grid[jur] || GHG_EF.grid.GLOBAL;
   var refType = document.getElementById('g-refrig-type') ? document.getElementById('g-refrig-type').value : 'R410A';
-  var s1_fug  = v('g-refrig-vol') * (refGWP[refType] || 2088) / 1000;
+  var s1_stat = (v('g-diesel-vol')*GHG_EF.diesel + v('g-gas-vol')*GHG_EF.naturalGas + v('g-lpg-vol')*GHG_EF.lpg + v('g-petrol-vol')*GHG_EF.petrol) / 1000;
+  var s1_mob  = v('g-mob-diesel-vol') * GHG_EF.mobDiesel * 12 / 1000;
+  var s1_fug  = v('g-refrig-vol') * (GHG_EF.gwp[refType] || GHG_EF.gwp.R410A) / 1000;
   var s1      = s1_stat + s1_mob + s1_fug;
-  var s2_loc  = v('g-elec-mwh') * (v('g-elec-ef') || 0.82);
-  var s2_mkt  = (v('g-elec-mwh') - v('g-re-mwh')) * (v('g-residual-ef') || 0.82);
+  var s2_loc  = v('g-elec-mwh') * (v('g-elec-ef') || gridEF);
+  var s2_mkt  = (v('g-elec-mwh') - v('g-re-mwh')) * (v('g-residual-ef') || gridEF);
   var s2      = Math.max(s2_loc, 0);
   var s3_cat1 = v('g-cat1-spend') * (v('g-cat1-ef') || 0.3);
-  var s3_cat5 = v('g-cat5-waste') * 0.58;
-  var s3_cat6 = v('g-cat6-air') * 0.255 + v('g-cat6-hotel') * 0.02;
-  var s3_cat7 = v('g-cat7-km') * 0.17 * (v('g-cat7-days') || 250) / 1000;
+  var s3_cat5 = v('g-cat5-waste') * GHG_EF.wasteToLandfill;
+  var s3_cat6 = v('g-cat6-air') * GHG_EF.airLongHaul + v('g-cat6-hotel') * 0.02;
+  var s3_cat7 = v('g-cat7-km') * GHG_EF.commuteAvg * (v('g-cat7-days') || GHG_EF.workingDays) / 1000;
   var s3_pcaf = v('g-pcaf1-amt') * (v('g-pcaf1-waci') || 150) / 1000000 +
                 v('g-pcaf2-amt') * (v('g-pcaf2-intensity') || 120) / 1000000 +
                 v('g-pcaf3-amt') * (v('g-pcaf3-intensity') || 0.5);
@@ -9520,6 +9758,7 @@ window.ghg_live = function() {
   setEl('ghg-r-total', total.toFixed(2));
   var aum = v('g-aum');
   setEl('ghg-r-intensity', aum > 0 ? (total / aum * 1000).toFixed(1) : '—');
+  } catch(e) { /* guard invalid inputs */ }
 };
 
  window.ghg_generate = async function() {
@@ -10621,8 +10860,7 @@ window.issb_backToForm = function() {
    }
 
    if (ext === 'pdf') {
-     if (typeof pdfjsLib === 'undefined') { addMsg('ai', 'PDF library not loaded. Try refreshing.'); return; }
-     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+     loadPdfJs().then(function(){
      var reader = new FileReader();
      reader.onload = function(ev) {
        pdfjsLib.getDocument({data: new Uint8Array(ev.target.result)}).promise.then(function(pdf) {
@@ -10636,6 +10874,7 @@ window.issb_backToForm = function() {
        }).catch(function(){ addMsg('ai', '⚠️ Could not extract text from this PDF. Try copy-pasting the text instead.'); });
      };
      reader.readAsArrayBuffer(f);
+     }); // end loadPdfJs
    } else {
      var r = new FileReader();
      r.onload = function(ev){ onText(ev.target.result); };
@@ -10654,6 +10893,7 @@ window.issb_backToForm = function() {
      '**5. Regulatory Deadlines** — Based on the apparent market/sector, list the next mandatory reporting deadlines the company faces.\n\n' +
      'Be specific, professional, and reference exact framework paragraphs where possible.';
 
+   if (typeof rgLogQuery === 'function') rgLogQuery('gap_analysis', 'Report upload: ' + filename);
    fetch('https://sageai.suranjan104.workers.dev', {
      method:'POST', headers:{'Content-Type':'application/json'},
      body: JSON.stringify({
@@ -10729,6 +10969,7 @@ window.issb_backToForm = function() {
  if(sbEl) sbEl.disabled = true;
  addMsg('user', fmt(text));
  _hist.push({role:'user', content:text});
+ if (typeof rgLogQuery === 'function') rgLogQuery('advisor', text);
  var typing = showTyping();
  try {
  var res = await fetch('https://sageai.suranjan104.workers.dev', {
@@ -11077,6 +11318,7 @@ window.issb_backToForm = function() {
  if(!wrapper||!textEl) return;
  wrapper.style.display='block';
  textEl.innerHTML='<em style="color:rgba(245,240,232,0.4)">Sage is analysing...</em>';
+ if (typeof rgLogQuery === 'function') rgLogQuery('report_draft', prompt);
  try {
  var res=await fetch('https://sageai.suranjan104.workers.dev',{
  method:'POST',headers:{'Content-Type':'application/json'},
@@ -11546,7 +11788,8 @@ function ciDrawPhysical() {
 // ── GEO MAP ────────────────────────────────────────────────────────────────
 var _ciMap = null; var _ciAssets = [];
 function ciGeoInit() {
-  if (_ciMap || typeof L === 'undefined') return;
+  if (_ciMap) return;
+  if (typeof L === 'undefined') { loadLeaflet().then(ciGeoInit); return; }
   _ciMap = L.map('ci-leaflet-map').setView([20.5937, 78.9629], 4);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{attribution:'© OpenStreetMap, CartoDB'}).addTo(_ciMap);
   [['Mumbai Office',19.076,72.877],['Rajasthan Solar Farm',27.026,74.218],['Singapore Hub',1.352,103.820],['Chennai Port',13.083,80.287]].forEach(function(a){
@@ -11629,6 +11872,7 @@ function ciFormatResponse(text) {
 }
 
 function ciCallSage(prompt, onOk, onErr) {
+  if (typeof rgLogQuery === 'function') rgLogQuery('credits', prompt);
   fetch('https://sageai.suranjan104.workers.dev', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
@@ -13728,6 +13972,120 @@ document.addEventListener('DOMContentLoaded', function(){
     <div id="demo-cards" style="display:flex;gap:.75rem;overflow-x:auto;padding-bottom:.25rem"></div>
   </div>
 </div>
+
+<!-- ===== TOOL COMPLETION PROGRESS ===== -->
+<script>
+(function(){
+  // Defines which input fields count as "filled" for each tool page
+  var TOOL_FIELDS = {
+    ghg: ['g-org-name','g-reporting-year','g-jurisdiction','g-sector',
+          'g-diesel-vol','g-gas-vol','g-elec-mwh','g-mob-diesel-vol',
+          'g-cat6-air','g-cat7-km','g-cat5-waste','g-cat1-spend',
+          'g-pcaf1-amt','g-pcaf2-amt'],
+    issb: ['sr-company','sr-sector','sr-year','sr-country',
+           'sr-climate-target','sr-base-year','sr-emissions','sr-framework'],
+    climate: ['cip-org','cip-sector','cip-base-year','cip-base-emissions',
+              'cip-target-year','cip-target-pct'],
+    tools: ['t-company','t-sector','t-country'],
+    assurance: ['axs-jur','axs-rev','axs-assets','axs-emp']
+  };
+
+  function score(page) {
+    var fields = TOOL_FIELDS[page];
+    if (!fields) return -1;
+    var filled = 0;
+    fields.forEach(function(id){
+      var el = document.getElementById(id);
+      if (!el) return;
+      var v = el.value || '';
+      if (v.trim() !== '' && v !== '0' && v !== '--') filled++;
+    });
+    return Math.round(filled / fields.length * 100);
+  }
+
+  function update(page) {
+    var pct = score(page);
+    if (pct < 0) return;
+    var fill = document.getElementById('prog-' + page + '-fill');
+    var lbl  = document.getElementById('prog-' + page + '-label');
+    if (fill) fill.style.setProperty('--w', pct + '%');
+    if (lbl)  lbl.textContent = pct + '%';
+  }
+
+  // Update all tool progress bars on any input change
+  document.addEventListener('input',  function(e){ Object.keys(TOOL_FIELDS).forEach(update); }, true);
+  document.addEventListener('change', function(e){ Object.keys(TOOL_FIELDS).forEach(update); }, true);
+  // Initial pass after DOM ready
+  document.addEventListener('DOMContentLoaded', function(){
+    Object.keys(TOOL_FIELDS).forEach(update);
+  });
+  // Re-run when a tool page is shown (showPage wires this)
+  window._progRefresh = function(page){ if(page) update(page); };
+})();
+</script>
+
+<!-- ===== UNIVERSAL AUTOSAVE — consumer mode has no login, so every tool
+     input is persisted to localStorage and restored on return. ===== -->
+<script>
+(function(){
+  var KEY = 'rg_autosave_v1';
+  function skip(el){
+    if (!el.id) return true;
+    if (el.type === 'password' || el.type === 'file' || el.type === 'hidden') return true;
+    if (el.closest && (el.closest('#login-modal') || el.closest('.lm-overlay'))) return true;
+    return false;
+  }
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e) {}
+
+  var restored = 0;
+  function restore(){
+    document.querySelectorAll('input[id],select[id],textarea[id]').forEach(function(el){
+      if (skip(el) || !(el.id in saved)) return;
+      try {
+        if (el.type === 'checkbox' || el.type === 'radio') {
+          if (el.checked !== !!saved[el.id]) { el.checked = !!saved[el.id]; restored++; }
+        } else if (el.value !== String(saved[el.id])) {
+          el.value = saved[el.id]; restored++;
+        }
+      } catch(e) {}
+    });
+    if (restored > 0) toast('↺ Restored your previous session');
+  }
+
+  var t = null;
+  function persist(){
+    clearTimeout(t);
+    t = setTimeout(function(){
+      var out = {};
+      document.querySelectorAll('input[id],select[id],textarea[id]').forEach(function(el){
+        if (skip(el)) return;
+        if (el.type === 'checkbox' || el.type === 'radio') { out[el.id] = el.checked; }
+        else if (el.value !== '') { out[el.id] = el.value; }
+      });
+      try { localStorage.setItem(KEY, JSON.stringify(out)); } catch(e) {}
+    }, 400);
+  }
+
+  function toast(msg){
+    var d = document.createElement('div');
+    d.textContent = msg;
+    d.style.cssText = 'position:fixed;bottom:1.25rem;left:50%;transform:translateX(-50%);z-index:500;'+
+      'background:#040d08;border:1px solid rgba(0,232,122,.35);color:#00e87a;padding:.55rem 1.1rem;'+
+      'border-radius:2rem;font-family:"DM Mono",monospace;font-size:.68rem;letter-spacing:.06em;'+
+      'box-shadow:0 8px 30px rgba(0,0,0,.5);opacity:0;transition:opacity .4s';
+    document.body.appendChild(d);
+    requestAnimationFrame(function(){ d.style.opacity = '1'; });
+    setTimeout(function(){ d.style.opacity = '0'; setTimeout(function(){ d.remove(); }, 500); }, 3500);
+  }
+
+  document.addEventListener('input', persist, true);
+  document.addEventListener('change', persist, true);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', restore);
+  } else { restore(); }
+})();
+</script>
 
 </body>
 </html>

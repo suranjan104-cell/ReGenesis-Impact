@@ -1,0 +1,103 @@
+name: Nightly health check
+
+# Runs every night — tests the codebase headlessly AND probes the live
+# site. Any failure auto-creates a GitHub issue labeled `auto-improve`,
+# which the Claude auto-fix workflow picks up.
+
+on:
+  schedule:
+    - cron: '30 19 * * *'   # 19:30 UTC = 01:00 IST daily
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install puppeteer
+        run: npm install puppeteer --no-save
+
+      - name: Headless smoke test (repo code)
+        id: smoke
+        run: |
+          set +e
+          OUT=$(node deck/smoke.js 2>&1)
+          CODE=$?
+          echo "$OUT"
+          echo "result<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$OUT" | tail -40 >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+          # Fail if exit non-zero, page errors present, or homepage hidden
+          if [ $CODE -ne 0 ] || echo "$OUT" | grep -q '"homeVisible": false' || echo "$OUT" | grep -qE '"pageErrors": \[\s*"'; then
+            echo "status=fail" >> "$GITHUB_OUTPUT"
+          else
+            echo "status=pass" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Probe live site
+        id: live
+        run: |
+          set +e
+          FAILS=""
+          for URL in "https://www.regenesisimpact.in/" "https://www.regenesisimpact.in/og-image.png" "https://www.regenesisimpact.in/site.webmanifest"; do
+            CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 -L "$URL")
+            echo "$URL -> $CODE"
+            if [ "$CODE" != "200" ]; then FAILS="$FAILS\n- $URL returned $CODE"; fi
+          done
+          if [ -n "$FAILS" ]; then
+            echo "status=fail" >> "$GITHUB_OUTPUT"
+            echo "fails<<EOF" >> "$GITHUB_OUTPUT"
+            echo -e "$FAILS" >> "$GITHUB_OUTPUT"
+            echo "EOF" >> "$GITHUB_OUTPUT"
+          else
+            echo "status=pass" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: File issue on failure
+        if: steps.smoke.outputs.status == 'fail' || steps.live.outputs.status == 'fail'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const smoke = `${{ steps.smoke.outputs.status }}`;
+            const live = `${{ steps.live.outputs.status }}`;
+            const smokeOut = process.env.SMOKE_RESULT || '';
+            const liveFails = process.env.LIVE_FAILS || '';
+            // Avoid duplicate open issues
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo,
+              state: 'open', labels: 'auto-improve'
+            });
+            if (existing.data.some(i => i.title.startsWith('[health]'))) {
+              core.info('Open health issue already exists — skipping.');
+              return;
+            }
+            const body = [
+              '## Nightly health check failed',
+              '',
+              `**Smoke test (repo):** ${smoke}`,
+              `**Live site probe:** ${live}`,
+              '',
+              liveFails ? `### Live failures\n${liveFails}\n` : '',
+              smokeOut ? `### Smoke output (tail)\n\`\`\`\n${smokeOut}\n\`\`\`` : '',
+              '',
+              '@claude please investigate and fix. The smoke test is `node deck/smoke.js` ',
+              '(requires `npm install puppeteer`). Acceptance: homeVisible true, zero pageErrors, ',
+              'all local assets return 200.'
+            ].join('\n');
+            await github.rest.issues.create({
+              owner: context.repo.owner, repo: context.repo.repo,
+              title: `[health] Nightly check failed — ${new Date().toISOString().slice(0,10)}`,
+              body, labels: ['auto-improve']
+            });
+        env:
+          SMOKE_RESULT: ${{ steps.smoke.outputs.result }}
+          LIVE_FAILS: ${{ steps.live.outputs.fails }}
