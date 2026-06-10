@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>ReGenesis Impact — AI-Powered ESG & Climate Platform | Singapore · Australia · India | MAS · AASB S2 · ISSB S2</title>
 <meta name="description" content="ReGenesis Impact is Asia-Pacific's leading AI-powered sustainability platform. Trusted by Singapore (MAS taxonomy, SGX climate reporting) and Australian (AASB S2, APRA CPS 229, ASIC) corporates and financial institutions. Generate ISSB S2 climate disclosures, GHG inventories, TCFD scenario analysis, and tokenise carbon credits.">
 <meta name="keywords" content="ISSB S2 reporting India, GHG inventory software, climate risk assessment, ESG reporting platform India, carbon accounting software, TCFD reporting tool, sustainability disclosure platform, NGFS scenario analysis, Scope 3 emissions tracker, financed emissions PCAF, carbon credits exchange India, blue carbon credits, tokenised carbon credits, SBTi net zero tool, SEBI BRSR reporting, ESG due diligence, physical risk assessment, climate intelligence platform, MAS green taxonomy Singapore, SGX climate reporting, AASB S2 Australia, APRA CPS 229, ASIC climate disclosure, Australian climate reporting, Singapore ESG platform, MAS environmental risk, Green Finance Action Plan Singapore, climate disclosure Australia, TCFD Australia, NGFS scenario analysis Singapore, financed emissions PCAF Australia">
@@ -154,7 +154,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 #page-home .fx-footer{background:#010604}
 #page-issb{min-height:100vh}
 /* UNIFIED NAV — Climate Mission Control (fx) theme */
-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.8rem 5%;display:flex!important;align-items:center;justify-content:space-between;background:rgba(2,8,6,0.88);backdrop-filter:blur(24px) saturate(160%);border-bottom:1px solid rgba(0,232,122,0.14)}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:calc(.8rem + env(safe-area-inset-top)) 5% .8rem;display:flex!important;align-items:center;justify-content:space-between;background:rgba(2,8,6,0.88);backdrop-filter:blur(24px) saturate(160%);border-bottom:1px solid rgba(0,232,122,0.14)}
 nav::after{content:'';position:absolute;bottom:-1px;left:0;width:180px;height:1px;background:linear-gradient(90deg,#00e87a,transparent)}
 .nav-logo{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:700;letter-spacing:-.01em;color:#00e87a;cursor:pointer;text-decoration:none;transition:opacity .2s;display:inline-flex;align-items:center;gap:.5rem}
 .nav-logo::before{content:'◢';font-size:.7rem;color:rgba(0,232,122,.6)}
@@ -185,7 +185,7 @@ nav::after{content:'';position:absolute;bottom:-1px;left:0;width:180px;height:1p
 .nav-hamburger.open span:nth-child(2){opacity:0}
 .nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 /* MOBILE MENU */
-.nav-mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(2,8,6,0.98);backdrop-filter:blur(20px);z-index:250;padding:5rem 2rem 2rem;flex-direction:column;gap:.5rem;overflow-y:auto}
+.nav-mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(2,8,6,0.98);backdrop-filter:blur(20px);z-index:250;padding:calc(5rem + env(safe-area-inset-top)) 2rem calc(2rem + env(safe-area-inset-bottom));flex-direction:column;gap:.5rem;overflow-y:auto}
 .nav-mobile-menu.open{display:flex}
 .nav-mobile-menu button,.nav-mobile-menu a{background:none;border:none;color:rgba(240,237,232,.7);font-size:1rem;font-family:'DM Sans',sans-serif;font-weight:500;padding:.85rem 1rem;cursor:pointer;text-align:left;text-decoration:none;border-bottom:1px solid rgba(0,232,122,.07);transition:color .2s}
 .nav-mobile-menu button:hover,.nav-mobile-menu a:hover{color:var(--bio)}
@@ -193,7 +193,7 @@ nav::after{content:'';position:absolute;bottom:-1px;left:0;width:180px;height:1p
 .nav-mobile-menu .mob-cta{background:var(--bio)!important;color:#030a06!important;border-radius:.4rem;font-weight:700!important;text-align:center!important;margin-top:1rem;box-shadow:0 0 20px rgba(0,232,122,.2)!important}
 @media(max-width:768px){.nav-hamburger{display:flex}}
 /* SAGE WIDGET */
-.sage-widget{position:fixed;bottom:1.75rem;right:1.75rem;z-index:400;display:flex;flex-direction:column;align-items:flex-end;gap:.65rem}
+.sage-widget{position:fixed;bottom:calc(1.75rem + env(safe-area-inset-bottom));right:calc(1.75rem + env(safe-area-inset-right));z-index:400;display:flex;flex-direction:column;align-items:flex-end;gap:.65rem}
 .sage-fab{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,rgba(0,232,122,0.15),rgba(10,255,219,0.1));border:1.5px solid rgba(0,232,122,0.35);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.35rem;box-shadow:0 4px 28px rgba(0,232,122,0.2),0 0 0 0 rgba(0,232,122,0.3);transition:transform .2s,box-shadow .2s;position:relative;backdrop-filter:blur(8px)}
 .sage-fab:hover{transform:scale(1.1);box-shadow:0 6px 36px rgba(0,232,122,0.35),0 0 40px rgba(0,232,122,0.1)}
 .sage-fab-dot{position:absolute;top:-1px;right:-1px;width:13px;height:13px;background:#00e87a;border-radius:50%;border:2px solid #030a06;animation:pulse 2s infinite;box-shadow:0 0 8px rgba(0,232,122,0.5)}
@@ -1458,7 +1458,7 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
 #fw-ticker:hover{animation-play-state:paused}
 
 /* ===== SCROLL-TO-TOP ===== */
-#scroll-top{position:fixed;bottom:1.75rem;left:1.75rem;z-index:390;width:40px;height:40px;border-radius:50%;background:rgba(5,15,7,0.85);border:1px solid rgba(0,232,122,0.2);color:rgba(0,232,122,0.7);font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:all .3s;backdrop-filter:blur(8px);pointer-events:none}
+#scroll-top{position:fixed;bottom:calc(1.75rem + env(safe-area-inset-bottom));left:calc(1.75rem + env(safe-area-inset-left));z-index:390;width:40px;height:40px;border-radius:50%;background:rgba(5,15,7,0.85);border:1px solid rgba(0,232,122,0.2);color:rgba(0,232,122,0.7);font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:all .3s;backdrop-filter:blur(8px);pointer-events:none}
 #scroll-top.visible{opacity:1;pointer-events:all}
 #scroll-top:hover{border-color:rgba(0,232,122,0.4);color:var(--bio);transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,232,122,0.12)}
 
@@ -14147,14 +14147,14 @@ document.addEventListener('DOMContentLoaded', function(){
 </div>
 
 <!-- PURCHASE SUCCESS TOAST -->
-<div id="buy-toast" style="display:none;position:fixed;bottom:2rem;right:2rem;z-index:10000;background:#050f07;border:1px solid rgba(0,232,122,.35);border-radius:.75rem;padding:1rem 1.4rem;box-shadow:0 12px 32px rgba(0,0,0,.5);max-width:340px;animation:fadeUp .3s ease">
+<div id="buy-toast" style="display:none;position:fixed;bottom:calc(2rem + env(safe-area-inset-bottom));right:calc(2rem + env(safe-area-inset-right));z-index:10000;background:#050f07;border:1px solid rgba(0,232,122,.35);border-radius:.75rem;padding:1rem 1.4rem;box-shadow:0 12px 32px rgba(0,0,0,.5);max-width:340px;animation:fadeUp .3s ease">
   <div style="font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--lime);margin-bottom:.3rem">✓ PURCHASE CONFIRMED</div>
   <div id="buy-toast-msg" style="font-size:.82rem;color:var(--cream);line-height:1.5"></div>
   <div id="buy-toast-tx" style="font-family:'DM Mono',monospace;font-size:.58rem;color:rgba(245,240,232,.3);margin-top:.35rem;word-break:break-all"></div>
 </div>
 
 <!-- DEMO PROJECTS DRAWER (shown in each tool) -->
-<div id="demo-drawer" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:8000;background:linear-gradient(180deg,rgba(6,13,10,.0),rgba(6,13,10,.98));padding:0 1.5rem 1.5rem;pointer-events:none">
+<div id="demo-drawer" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:8000;background:linear-gradient(180deg,rgba(6,13,10,.0),rgba(6,13,10,.98));padding:0 1.5rem calc(1.5rem + env(safe-area-inset-bottom));pointer-events:none">
   <div id="demo-inner" style="pointer-events:all;max-width:900px;margin:0 auto">
     <div style="display:flex;align-items:center;justify-content:space-between;padding:.75rem 0 .6rem">
       <div style="font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;color:rgba(126,217,87,.7)">📁 SAVED DEMO PROJECTS — Click to load</div>
