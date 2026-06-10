@@ -1964,6 +1964,51 @@ function loadPdfJs(){
       <div class="db-action-lbl">Generate TCFD<br>Disclosure</div>
     </div>
   </div>
+
+  <!-- ===== INSIGHTS — owner analytics (visitors, queries, leads) ===== -->
+  <div class="db-section-label" style="margin-top:2.5rem">Platform Insights <span style="font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:rgba(0,232,122,.6);margin-left:.5rem">LAST 30 DAYS</span>
+    <button onclick="dbLoadInsights()" style="float:right;background:rgba(0,232,122,.1);border:1px solid rgba(0,232,122,.3);color:#00e87a;padding:.3rem .9rem;border-radius:.3rem;font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.08em;cursor:pointer">↻ REFRESH</button>
+  </div>
+  <div id="db-insights">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.85rem;margin-bottom:1.25rem" id="db-ins-kpis">
+      <div class="db-ins-kpi"><div class="db-ins-v" id="ins-visitors">—</div><div class="db-ins-k">Unique visitors</div></div>
+      <div class="db-ins-kpi"><div class="db-ins-v" id="ins-views">—</div><div class="db-ins-k">Page views</div></div>
+      <div class="db-ins-kpi"><div class="db-ins-v" id="ins-queries">—</div><div class="db-ins-k">Sage queries</div></div>
+      <div class="db-ins-kpi"><div class="db-ins-v" id="ins-leads">—</div><div class="db-ins-k">Leads captured</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem" id="db-ins-panels">
+      <div class="db-ins-panel">
+        <div class="db-ins-title">🔥 Tool usage</div>
+        <div id="ins-tools" class="db-ins-list"><span style="color:rgba(240,237,232,.35)">Press Refresh to load…</span></div>
+      </div>
+      <div class="db-ins-panel">
+        <div class="db-ins-title">💬 Recent Sage questions</div>
+        <div id="ins-recent-q" class="db-ins-list"><span style="color:rgba(240,237,232,.35)">Press Refresh to load…</span></div>
+      </div>
+      <div class="db-ins-panel">
+        <div class="db-ins-title">🎯 Recent leads</div>
+        <div id="ins-recent-l" class="db-ins-list"><span style="color:rgba(240,237,232,.35)">Press Refresh to load…</span></div>
+      </div>
+      <div class="db-ins-panel">
+        <div class="db-ins-title">📡 Traffic sources</div>
+        <div id="ins-sources" class="db-ins-list"><span style="color:rgba(240,237,232,.35)">Press Refresh to load…</span></div>
+      </div>
+    </div>
+    <div id="ins-setup-note" style="display:none;margin-top:.9rem;padding:.8rem 1rem;border:1px solid rgba(255,181,71,.3);border-radius:.5rem;background:rgba(255,181,71,.06);font-size:.78rem;color:rgba(255,181,71,.9)">
+      ⚠️ Analytics tables not found. Run the ANALYTICS block in <code>supabase-setup.sql</code> in your Supabase SQL editor once, then refresh.
+    </div>
+  </div>
+  <style>
+    .db-ins-kpi{background:rgba(3,16,10,.6);border:1px solid rgba(0,232,122,.15);border-radius:.65rem;padding:1rem;text-align:center}
+    .db-ins-v{font-family:'Space Grotesk',sans-serif;font-size:1.7rem;font-weight:700;color:#00e87a}
+    .db-ins-k{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.1em;color:rgba(240,237,232,.5);text-transform:uppercase;margin-top:.25rem}
+    .db-ins-panel{background:rgba(3,16,10,.6);border:1px solid rgba(0,232,122,.12);border-radius:.65rem;padding:1rem 1.15rem;min-height:120px}
+    .db-ins-title{font-size:.8rem;font-weight:700;color:#f0ede8;margin-bottom:.6rem}
+    .db-ins-list{font-size:.74rem;line-height:1.7;color:rgba(240,237,232,.7)}
+    .db-ins-row{display:flex;justify-content:space-between;gap:.75rem;border-bottom:1px solid rgba(0,232,122,.06);padding:.2rem 0}
+    .db-ins-row b{color:#00e87a;font-family:'DM Mono',monospace;font-size:.7rem;flex-shrink:0}
+    @media(max-width:768px){#db-ins-kpis{grid-template-columns:1fr 1fr!important}#db-ins-panels{grid-template-columns:1fr!important}}
+  </style>
 </div>
 </div>
 <!-- END DASHBOARD PAGE -->
@@ -8217,6 +8262,7 @@ window.cipDcCalc = function() {
 
 // ── Sage AI ─────────────────────────────────────────────────────────
 function cipCallSage(prompt, onOk, onErr) {
+  if (typeof rgLogQuery === 'function') rgLogQuery('climate', prompt);
   fetch('https://sageai.suranjan104.workers.dev', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -8913,6 +8959,12 @@ function showPage(page) {
   // Refresh tool completion progress bar for the newly shown page
   if (window._progRefresh) window._progRefresh(page);
 
+  // Analytics: record tool opens (not home — page_view covers that)
+  if (page !== 'home' && typeof rgTrack === 'function') rgTrack('tool_open', page);
+
+  // Owner insights auto-load on dashboard open
+  if (page === 'dashboard' && typeof dbLoadInsights === 'function') setTimeout(dbLoadInsights, 300);
+
   // Nav button highlights
   ['nb-issb','nb-ghg','nb-tools','nb-climate','nb-advisor','nb-credits','nb-assurance'].forEach(function(id) {
     var el = document.getElementById(id); if (el) el.classList.remove('nl-active');
@@ -9238,11 +9290,112 @@ var _currentUser = null;
   });
   // Listen for auth state changes
   _supabase.auth.onAuthStateChange(function(event, session) {
-    if (event === 'SIGNED_IN' && session) { _onSignedIn(session.user); }
+    if (event === 'SIGNED_IN' && session) { _onSignedIn(session.user); rgTrack('signin', session.user.email); }
     if (event === 'SIGNED_OUT') { _onSignedOut(); }
     if (event === 'PASSWORD_RECOVERY') { authSetMode('reset'); requireLogin('home'); }
   });
+  // First-load page view (after client ready)
+  rgTrack('page_view', 'home');
 })();
+
+// ── ANALYTICS — anonymous session tracking into Supabase ──────────────
+// Fire-and-forget; never blocks the UI, never throws.
+function rgSession() {
+  try {
+    var s = localStorage.getItem('rg_session');
+    if (!s) { s = 'S' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8); localStorage.setItem('rg_session', s); }
+    return s;
+  } catch(e) { return 'S-anon'; }
+}
+function rgUtm(name) {
+  try { return new URLSearchParams(location.search).get(name) || null; } catch(e) { return null; }
+}
+function rgTrack(type, page) {
+  try {
+    if (!_supabase) return;
+    _supabase.from('events').insert([{
+      session_id: rgSession(),
+      event_type: type,
+      page: page || null,
+      user_email: _currentUser ? _currentUser.email : null,
+      referrer: document.referrer ? document.referrer.slice(0, 300) : null,
+      utm_source: rgUtm('utm_source'),
+      utm_medium: rgUtm('utm_medium'),
+      utm_campaign: rgUtm('utm_campaign'),
+      user_agent: navigator.userAgent.slice(0, 200)
+    }]).then(function(){}, function(){});
+  } catch(e) { /* analytics must never break the app */ }
+}
+function rgLogQuery(tool, prompt) {
+  try {
+    if (!_supabase || !prompt) return;
+    _supabase.from('queries').insert([{
+      session_id: rgSession(),
+      tool: tool || 'advisor',
+      prompt: String(prompt).slice(0, 2000),
+      user_email: _currentUser ? _currentUser.email : null
+    }]).then(function(){}, function(){});
+  } catch(e) { /* silent */ }
+}
+
+// ── INSIGHTS — owner dashboard analytics (requires signed-in user) ─────
+async function dbLoadInsights() {
+  if (!_supabase) return;
+  var since = new Date(Date.now() - 30*24*3600*1000).toISOString();
+  var setNote = function(show){ var n=document.getElementById('ins-setup-note'); if(n) n.style.display = show?'block':'none'; };
+  var put = function(id, v){ var e=document.getElementById(id); if(e) e.textContent = v; };
+  var esc = function(s){ var d=document.createElement('div'); d.textContent=s||''; return d.innerHTML; };
+  try {
+    var ev = await _supabase.from('events').select('session_id,event_type,page,referrer,utm_source,created_at').gte('created_at', since).limit(5000);
+    if (ev.error) { setNote(true); return; }
+    setNote(false);
+    var rows = ev.data || [];
+    var sessions = {}; var views = 0; var tools = {}; var sources = {};
+    rows.forEach(function(r){
+      sessions[r.session_id] = 1;
+      if (r.event_type === 'page_view') views++;
+      if (r.event_type === 'tool_open' && r.page) tools[r.page] = (tools[r.page]||0)+1;
+      var src = r.utm_source || (r.referrer ? (r.referrer.replace(/^https?:\/\//,'').split('/')[0]) : 'direct');
+      sources[src] = (sources[src]||0)+1;
+    });
+    put('ins-visitors', Object.keys(sessions).length);
+    put('ins-views', views);
+
+    var toolsEl = document.getElementById('ins-tools');
+    if (toolsEl) {
+      var tArr = Object.keys(tools).map(function(k){return [k,tools[k]];}).sort(function(a,b){return b[1]-a[1];});
+      toolsEl.innerHTML = tArr.length ? tArr.slice(0,7).map(function(t){
+        return '<div class="db-ins-row"><span>'+esc(t[0])+'</span><b>'+t[1]+'</b></div>';
+      }).join('') : '<span style="color:rgba(240,237,232,.35)">No tool opens yet</span>';
+    }
+    var srcEl = document.getElementById('ins-sources');
+    if (srcEl) {
+      var sArr = Object.keys(sources).map(function(k){return [k,sources[k]];}).sort(function(a,b){return b[1]-a[1];});
+      srcEl.innerHTML = sArr.length ? sArr.slice(0,7).map(function(s){
+        return '<div class="db-ins-row"><span>'+esc(s[0])+'</span><b>'+s[1]+'</b></div>';
+      }).join('') : '<span style="color:rgba(240,237,232,.35)">No traffic data yet</span>';
+    }
+
+    var q = await _supabase.from('queries').select('tool,prompt,user_email,created_at').gte('created_at', since).order('created_at',{ascending:false}).limit(200);
+    if (!q.error) {
+      put('ins-queries', (q.data||[]).length + ((q.data||[]).length===200?'+':''));
+      var qEl = document.getElementById('ins-recent-q');
+      if (qEl) qEl.innerHTML = (q.data||[]).length ? q.data.slice(0,8).map(function(r){
+        var who = r.user_email ? r.user_email.split('@')[0] : 'anon';
+        return '<div class="db-ins-row"><span title="'+esc(r.prompt)+'">'+esc((r.prompt||'').slice(0,60))+((r.prompt||'').length>60?'…':'')+'</span><b>'+esc(who)+'</b></div>';
+      }).join('') : '<span style="color:rgba(240,237,232,.35)">No queries yet</span>';
+    }
+
+    var l = await _supabase.from('leads').select('email,company,market,lead_score,created_at').gte('created_at', since).order('created_at',{ascending:false}).limit(100);
+    if (!l.error) {
+      put('ins-leads', (l.data||[]).length);
+      var lEl = document.getElementById('ins-recent-l');
+      if (lEl) lEl.innerHTML = (l.data||[]).length ? l.data.slice(0,8).map(function(r){
+        return '<div class="db-ins-row"><span>'+esc(r.email)+(r.company?' · '+esc(r.company):'')+'</span><b>'+(r.lead_score!=null?r.lead_score:'—')+'</b></div>';
+      }).join('') : '<span style="color:rgba(240,237,232,.35)">No leads yet</span>';
+    }
+  } catch(e) { setNote(true); }
+}
 
 function _onSignedIn(user) {
   _currentUser = user;
@@ -10740,6 +10893,7 @@ window.issb_backToForm = function() {
      '**5. Regulatory Deadlines** — Based on the apparent market/sector, list the next mandatory reporting deadlines the company faces.\n\n' +
      'Be specific, professional, and reference exact framework paragraphs where possible.';
 
+   if (typeof rgLogQuery === 'function') rgLogQuery('gap_analysis', 'Report upload: ' + filename);
    fetch('https://sageai.suranjan104.workers.dev', {
      method:'POST', headers:{'Content-Type':'application/json'},
      body: JSON.stringify({
@@ -10815,6 +10969,7 @@ window.issb_backToForm = function() {
  if(sbEl) sbEl.disabled = true;
  addMsg('user', fmt(text));
  _hist.push({role:'user', content:text});
+ if (typeof rgLogQuery === 'function') rgLogQuery('advisor', text);
  var typing = showTyping();
  try {
  var res = await fetch('https://sageai.suranjan104.workers.dev', {
@@ -11163,6 +11318,7 @@ window.issb_backToForm = function() {
  if(!wrapper||!textEl) return;
  wrapper.style.display='block';
  textEl.innerHTML='<em style="color:rgba(245,240,232,0.4)">Sage is analysing...</em>';
+ if (typeof rgLogQuery === 'function') rgLogQuery('report_draft', prompt);
  try {
  var res=await fetch('https://sageai.suranjan104.workers.dev',{
  method:'POST',headers:{'Content-Type':'application/json'},
@@ -11716,6 +11872,7 @@ function ciFormatResponse(text) {
 }
 
 function ciCallSage(prompt, onOk, onErr) {
+  if (typeof rgLogQuery === 'function') rgLogQuery('credits', prompt);
   fetch('https://sageai.suranjan104.workers.dev', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
