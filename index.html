@@ -1724,6 +1724,7 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
         <li><button onclick="closeNavDropdown();requireLogin('climate')" id="nb-climate">🌍 Climate Intelligence</button></li>
         <li><button onclick="closeNavDropdown();requireLogin('tools')" id="nb-tools">🔍 ESG Due Diligence</button></li>
         <li><button onclick="closeNavDropdown();requireLogin('credits')" id="nb-credits">🪙 Carbon Credits</button></li>
+        <li><button onclick="closeNavDropdown();requireLogin('assurance')" id="nb-assurance">🛡️ Assurance Studio</button></li>
       </ul>
     </li>
     <li class="nav-dropdown-wrap">
@@ -1751,6 +1752,7 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
   <div class="nl-tool" id="nl-climate"><span class="nl-pill nl-teal">Climate Intelligence · TCFD · NGFS v5</span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
   <div class="nl-tool" id="nl-tools"><span class="nl-pill nl-purple">ESG Due Diligence Suite</span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
   <div class="nl-tool" id="nl-credits"><span class="nl-pill" style="background:linear-gradient(90deg,#16a34a,#0ea5e9)">🪙 Carbon Credit Exchange · ERC-1155 · Polygon</span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
+  <div class="nl-tool" id="nl-assurance"><span class="nl-pill" style="background:linear-gradient(90deg,rgba(0,232,122,.18),rgba(10,255,219,.1));color:#00e87a">🛡️ Assurance Studio · ISSA 5000 · AASB S2</span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
 </nav>
 
 <!-- MOBILE MENU -->
@@ -1771,6 +1773,7 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
   <button onclick="closeMobileMenu();requireLogin('tools')">🔍 ESG Due Diligence</button>
   <button onclick="closeMobileMenu();showPage('advisor')">🌿 Sage AI</button>
   <button onclick="closeMobileMenu();requireLogin('credits')">🪙 Carbon Credits Exchange</button>
+  <button onclick="closeMobileMenu();requireLogin('assurance')">🛡️ Assurance Studio</button>
   <button class="mob-cta" onclick="closeMobileMenu();openLeadModal('mobile_cta')">Get Early Access →</button>
 </div>
 
@@ -1890,6 +1893,13 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
       <div class="db-card-desc">Browse, buy and retire VCS/Gold Standard carbon, blue carbon and plastic credits. ERC-1155 on Polygon, instant settlement.</div>
       <div class="db-card-tags"><span class="db-card-tag">VCS</span><span class="db-card-tag">Polygon</span><span class="db-card-tag">Blue Carbon</span></div>
       <button class="db-card-open">Open Exchange →</button>
+    </div>
+    <div class="db-card" onclick="showPage('assurance')">
+      <div class="db-card-ico">🛡️</div>
+      <div class="db-card-name">Assurance Studio <span style="font-family:'DM Mono',monospace;font-size:.5rem;letter-spacing:.08em;background:#00e87a;color:#021008;padding:.1rem .4rem;vertical-align:middle;margin-left:.3rem">NEW</span></div>
+      <div class="db-card-desc">Readiness scan, materiality calculator, GHG data-quality diagnostics, sector-aware evidence packs and an 18-week engagement tracker. ISSA 5000 calibrated.</div>
+      <div class="db-card-tags"><span class="db-card-tag">ISSA 5000</span><span class="db-card-tag">AASB S2</span><span class="db-card-tag">PBC Lists</span></div>
+      <button class="db-card-open">Open Studio →</button>
     </div>
     <div class="db-card sage-card" onclick="showPage('advisor')">
       <div class="db-card-ico">🌿</div>
@@ -3239,7 +3249,7 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
       <!-- 1 ISSB -->
       <div class="fx-mod-card fx-panel" style="--fx-mod:#38bdf8" onclick="requireLogin('issb')">
         <span class="fx-corners" aria-hidden="true"></span>
-        <div class="fx-status"><span class="fx-status-dot"></span>MODULE-01 · 🔐 AUTH</div>
+        <div class="fx-status"><span class="fx-status-dot"></span>MODULE-01 · ⚡ INSTANT</div>
         <span class="fx-mod-icon">📋</span>
         <div class="fx-mod-name">ISSB Climate Report Generator</div>
         <div class="fx-mod-desc">Produce publication-ready IFRS S1 &amp; S2 climate-related financial disclosures. Covers all 10 required disclosure areas including Dec 2025 amendments. Board and investor-ready output.</div>
@@ -3253,7 +3263,7 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
       <!-- 2 GHG -->
       <div class="fx-mod-card fx-panel" style="--fx-mod:#ffb547" onclick="requireLogin('ghg')">
         <span class="fx-corners" aria-hidden="true"></span>
-        <div class="fx-status"><span class="fx-status-dot"></span>MODULE-02 · 🔐 AUTH</div>
+        <div class="fx-status"><span class="fx-status-dot"></span>MODULE-02 · ⚡ INSTANT</div>
         <span class="fx-mod-icon">⚖️</span>
         <div class="fx-mod-name">GHG Inventory Calculator</div>
         <div class="fx-mod-desc">Full Scope 1, 2 and 3 greenhouse gas inventory for financial institutions and corporates. Covers all 15 Scope 3 categories including PCAF financed emissions and WACI intensity metrics.</div>
@@ -3268,7 +3278,7 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
       <div class="fx-mod-card fx-panel fx-mod-prime" style="--fx-mod:#8b5cf6" onclick="requireLogin('climate')">
         <span class="fx-corners" aria-hidden="true"></span>
         <span class="fx-mod-prime-tag">PRIME MODULE</span>
-        <div class="fx-status"><span class="fx-status-dot"></span>MODULE-03 · 🔐 AUTH</div>
+        <div class="fx-status"><span class="fx-status-dot"></span>MODULE-03 · ⚡ INSTANT</div>
         <span class="fx-mod-icon">🌍</span>
         <div class="fx-mod-name">Climate Intelligence Suite</div>
         <div class="fx-mod-desc">Nine integrated modules: TCFD scenario analysis, decarbonisation MACC roadmap, SBTi targets, physical risk CVaR, geospatial hazard mapping, GFANZ transition planning, TNFD nature risk, and case studies.</div>
@@ -3283,7 +3293,7 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
       <!-- 4 ESG Due Diligence -->
       <div class="fx-mod-card fx-panel" style="--fx-mod:#fb923c" onclick="requireLogin('tools')">
         <span class="fx-corners" aria-hidden="true"></span>
-        <div class="fx-status"><span class="fx-status-dot"></span>MODULE-04 · 🔐 AUTH</div>
+        <div class="fx-status"><span class="fx-status-dot"></span>MODULE-04 · ⚡ INSTANT</div>
         <span class="fx-mod-icon">🔍</span>
         <div class="fx-mod-name">ESG Due Diligence</div>
         <div class="fx-mod-desc">Two specialist tools: Asset Manager ESG Due Diligence for private equity using PRI framework, and Bank SPO + ESG Credit Risk assessment using ICMA Green Bond Principles. Score A–E grade output.</div>
@@ -3297,7 +3307,7 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
       <!-- 5 Sage AI — open access -->
       <div class="fx-mod-card fx-panel" style="--fx-mod:#00e87a" onclick="showPage('advisor')">
         <span class="fx-corners" aria-hidden="true"></span>
-        <div class="fx-status"><span class="fx-status-dot"></span>MODULE-05 · OPEN</div>
+        <div class="fx-status"><span class="fx-status-dot"></span>MODULE-05 · ⚡ INSTANT</div>
         <span class="fx-mod-icon">🌿</span>
         <div class="fx-mod-name">Sage AI Advisor</div>
         <div class="fx-mod-desc">Your always-on sustainability expert. Ask Sage anything about TCFD, ISSB, carbon accounting, net-zero strategy, or ESG frameworks. Powered by Llama 3.3-70b. Free to use, no login required.</div>
@@ -3311,7 +3321,7 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
       <!-- 6 Carbon Credits -->
       <div class="fx-mod-card fx-panel" style="--fx-mod:#2dd4bf" onclick="requireLogin('credits')">
         <span class="fx-corners" aria-hidden="true"></span>
-        <div class="fx-status"><span class="fx-status-dot"></span>MODULE-06 · 🔐 AUTH</div>
+        <div class="fx-status"><span class="fx-status-dot"></span>MODULE-06 · ⚡ INSTANT</div>
         <span class="fx-mod-icon">🪙</span>
         <div class="fx-mod-name">Carbon Credit Exchange</div>
         <div class="fx-mod-desc">Verified, tokenised credit exchange on Polygon blockchain. Trade carbon, mangrove blue carbon, and plastic credits across India's most comprehensive registry. ERC-1155 standard, instant settlement, EPR compliant.</div>
@@ -3319,6 +3329,23 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
           <span class="fx-mod-tag">Carbon</span>
           <span class="fx-mod-tag">Blue Carbon</span>
           <span class="fx-mod-tag">Plastic Credits</span>
+        </div>
+      </div>
+
+      <!-- 7 ASSURANCE STUDIO — flagship, full width -->
+      <div class="fx-mod-card fx-panel" style="--fx-mod:#00e87a;grid-column:1/-1" onclick="requireLogin('assurance')">
+        <span class="fx-corners" aria-hidden="true"></span>
+        <span class="fx-mod-prime-tag" style="background:#00e87a;color:#021008">NEW · MODULE-07</span>
+        <div class="fx-status"><span class="fx-status-dot"></span>ASSURANCE STUDIO · ⚡ INSTANT</div>
+        <span class="fx-mod-icon">🛡️</span>
+        <div class="fx-mod-name">ESG Assurance Studio</div>
+        <div class="fx-mod-desc">Built from real assurance practice: scope your AASB S2 / ISSB obligations and assurance glide path, calibrate planning &amp; performance materiality, run the six GHG data-quality diagnostics practitioners test first, generate a sector-aware evidence pack (PBC list), and track the full 18-week engagement lifecycle. Calibrated to ISSA 5000, ISAE 3000/3410 and BRSR Core.</div>
+        <div class="fx-mod-tags">
+          <span class="fx-mod-tag">ISSA 5000</span>
+          <span class="fx-mod-tag">Limited → Reasonable</span>
+          <span class="fx-mod-tag">Materiality</span>
+          <span class="fx-mod-tag">PBC Lists</span>
+          <span class="fx-mod-tag">Data Quality</span>
         </div>
       </div>
 
@@ -3755,6 +3782,7 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
         <button onclick="requireLogin('tools')">ESG Due Diligence</button>
         <button onclick="showPage('advisor')">Sage AI Advisor</button>
         <button onclick="requireLogin('credits')">🪙 Credit Exchange</button>
+        <button onclick="requireLogin('assurance')">🛡️ Assurance Studio</button>
       </div>
     </div>
 
@@ -8678,7 +8706,9 @@ function cipDrawMacc() {
 
 function cipDrawGauge() {
   var cv = document.getElementById('cip-gauge-cv'); if (!cv) return;
-  var W = cv.parentElement.clientWidth - 32; cv.width = W; cv.height = 160;
+  var W = cv.parentElement.clientWidth - 32;
+  if (W <= 60) return; // page hidden — skip until visible
+  cv.width = W; cv.height = 160;
   var ctx = cv.getContext('2d'); if (!ctx) return;
   var cx=W/2, cy=130, r=Math.min(W/2-20, 110);
   ctx.clearRect(0,0,W,160);
@@ -8837,13 +8867,13 @@ function showPage(page) {
   if (nlh) nlh.style.display = page === 'home' ? 'flex' : 'none';
 
   // Tool pill bars — show matching one, hide the rest
-  ['dashboard','advisor','issb','ghg','climate','tools','credits'].forEach(function(t) {
+  ['dashboard','advisor','issb','ghg','climate','tools','credits','assurance'].forEach(function(t) {
     var el = document.getElementById('nl-' + t);
     if (el) el.style.display = (page === t) ? 'flex' : 'none';
   });
 
   // Nav button highlights
-  ['nb-issb','nb-ghg','nb-tools','nb-climate','nb-advisor','nb-credits'].forEach(function(id) {
+  ['nb-issb','nb-ghg','nb-tools','nb-climate','nb-advisor','nb-credits','nb-assurance'].forEach(function(id) {
     var el = document.getElementById(id); if (el) el.classList.remove('nl-active');
   });
   var activeBtn = document.getElementById('nb-' + page);
@@ -8874,6 +8904,11 @@ function showPage(page) {
       // Auto-generate narrative for the currently active scenario
       var sc = typeof _SC_DATA !== 'undefined' && _CIP_SC ? _SC_DATA[_CIP_SC] : null;
       if (sc && typeof cipAutoNarrative === 'function') cipAutoNarrative(_CIP_SC, sc);
+      // Draw canvases now that the page is visible (clientWidth > 0)
+      if (typeof cipDrawPathway === 'function') cipDrawPathway();
+      if (typeof cipDrawGauge === 'function') cipDrawGauge();
+      if (typeof cipDrawMacc === 'function') cipDrawMacc();
+      if (typeof cipDrawPhysical === 'function') cipDrawPhysical();
     }, 300);
   }
   if (page === 'tools') {
@@ -8903,7 +8938,6 @@ function mbnGo(page) {
   document.querySelectorAll('.mbn-btn').forEach(function(b){ b.classList.remove('active'); });
   var btn = document.getElementById('mbn-' + page);
   if (btn) btn.classList.add('active');
-  if (page === 'dashboard' && !_currentUser) { requireLogin('dashboard'); return; }
   showPage(page);
 }
 
@@ -9223,8 +9257,11 @@ function _onSignedOut() {
 }
 
 function requireLogin(page) {
-  // If already logged in just navigate
-  if (_currentUser) { if (page && page !== 'home') showPage(page); return; }
+  // CONSUMER MODE — every tool opens instantly, no login wall.
+  // The login modal only appears for the explicit Sign In button
+  // (page === 'home'); signing in remains optional for saving work.
+  if (page && page !== 'home') { showPage(page); return; }
+  if (_currentUser) { return; }
   _pendingPage = page;
   authSetMode('signin');
   var m = document.getElementById('login-modal');
@@ -11105,9 +11142,6 @@ window.am_sage_quick = function() {
  // ── Initial page state ───────────────────────────────────────
  showPage('home');
 
-  // ── CLIMATE INTELLIGENCE INIT ──────────────────────────────
-  ci_init_levers();
-
 }); // end DOMContentLoaded
 
 
@@ -11573,6 +11607,12 @@ var _PROMPTS = {
   'tcfd-metrics':         function(o,s,sc){ return 'Write the TCFD Metrics & Targets section for '+o+'. Cover: Scope 1/2/3 emissions, emissions intensity, internal carbon price, SBTi targets, PCAF score (if asset manager), review process. ~400 words. Formal tone.'; }
 };
 
+// ── CLIMATE INTELLIGENCE INIT — runs inside this closure so the
+//    render/draw functions defined above are in scope ─────────────
+ciMaccRender();
+setTimeout(ciDrawPathway, 80);
+setTimeout(function(){ ciDrawDonut(12500,8200,145000,165700); ciDrawDcPathway(165700,82850,2022,2030); }, 120);
+
 }); // end DOMContentLoaded
 
 
@@ -11658,11 +11698,6 @@ window.ciCopy = function(outId) {
   var btn = el.parentElement && el.parentElement.querySelector('.ci-sage-cp');
   if (btn) { var orig=btn.textContent; btn.textContent='Copied ✓'; setTimeout(function(){ btn.textContent=orig; },2000); }
 };
-
-// ── INIT ──────────────────────────────────────────────────────────────────
-ciMaccRender();
-setTimeout(ciDrawPathway, 80);
-setTimeout(function(){ ciDrawDonut(12500,8200,145000,165700); ciDrawDcPathway(165700,82850,2022,2030); }, 120);
 
 </script>
 
@@ -12149,6 +12184,663 @@ setTimeout(function(){ ciDrawDonut(12500,8200,145000,165700); ciDrawDcPathway(16
   </div><!-- /cr-main -->
 </div><!-- /cr-wrap -->
 </div><!-- /page-credits -->
+
+<!-- ════════════════════════════════════════════════════════════
+     ASSURANCE STUDIO — ESG assurance readiness, materiality,
+     data quality, evidence packs, engagement tracking.
+     Calibrated to ISSA 5000 / ISAE 3000 / ISAE 3410 / AASB S2.
+     ════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-assurance" style="display:none">
+<style>
+.axs-wrap{max-width:1150px;margin:0 auto;padding:2rem 1.5rem 4rem;padding-top:calc(64px + 2rem);color:#eafff3}
+.axs-head{margin-bottom:1.8rem}
+.axs-eyebrow{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:#00e87a;margin-bottom:.6rem}
+.axs-eyebrow::before{content:'▸ ';color:#0affdb}
+.axs-head h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.7rem,3.2vw,2.5rem);font-weight:700;line-height:1.12;margin-bottom:.6rem}
+.axs-head h1 em{font-style:normal;background:linear-gradient(100deg,#00e87a,#0affdb);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.axs-head p{font-size:.92rem;color:rgba(234,255,243,.55);line-height:1.7;max-width:720px}
+.axs-badges{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.9rem}
+.axs-badge{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;padding:.28rem .7rem;border:1px solid rgba(0,232,122,.25);color:rgba(0,232,122,.85);background:rgba(0,232,122,.05)}
+/* Tabs */
+.axs-tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.6rem;border-bottom:1px solid rgba(0,232,122,.12);padding-bottom:.8rem}
+.axs-tab{font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;padding:.55rem 1rem;background:rgba(3,14,9,.7);border:1px solid rgba(0,232,122,.14);color:rgba(234,255,243,.55);cursor:pointer;transition:all .2s;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,0 100%)}
+.axs-tab:hover{color:#00ff9d;border-color:rgba(0,232,122,.35)}
+.axs-tab.active{background:rgba(0,232,122,.1);border-color:rgba(0,232,122,.5);color:#00ff9d}
+.axs-sec{display:none}
+.axs-sec.active{display:block;animation:fadeUp .25s ease}
+/* Panels & forms */
+.axs-panel{background:rgba(3,14,9,.88);border:1px solid rgba(0,232,122,.16);padding:1.5rem;margin-bottom:1.25rem;position:relative}
+.axs-panel::before{content:'';position:absolute;top:-1px;left:-1px;width:12px;height:12px;border-top:2px solid #00e87a;border-left:2px solid #00e87a;pointer-events:none}
+.axs-panel-title{font-family:'Space Grotesk',sans-serif;font-size:1.02rem;font-weight:700;margin-bottom:.35rem}
+.axs-panel-sub{font-size:.78rem;color:rgba(234,255,243,.45);margin-bottom:1.1rem;line-height:1.6}
+.axs-grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.axs-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+.axs-field label{display:block;font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(234,255,243,.45);margin-bottom:.35rem}
+.axs-field input,.axs-field select{width:100%;background:rgba(0,0,0,.4);border:1px solid rgba(0,232,122,.18);padding:.62rem .8rem;color:#eafff3;font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s}
+.axs-field input:focus,.axs-field select:focus{border-color:rgba(0,232,122,.5)}
+.axs-field select option{background:#040d08}
+.axs-btn{display:inline-block;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.78rem 1.8rem;cursor:pointer;border:none;background:linear-gradient(100deg,#00e87a,#0affdb);color:#021008;transition:transform .2s,filter .2s;margin-top:1rem}
+.axs-btn:hover{transform:translateY(-2px);filter:brightness(1.1)}
+.axs-btn-ghost{background:rgba(0,232,122,.05);color:#00e87a;border:1px solid rgba(0,232,122,.4)}
+/* Checklist */
+.axs-check{display:flex;align-items:flex-start;gap:.7rem;padding:.7rem .85rem;border:1px solid rgba(0,232,122,.1);background:rgba(0,0,0,.25);margin-bottom:.5rem;cursor:pointer;transition:border-color .2s}
+.axs-check:hover{border-color:rgba(0,232,122,.3)}
+.axs-check input{margin-top:.2rem;accent-color:#00e87a;width:15px;height:15px;flex-shrink:0;cursor:pointer}
+.axs-check span{font-size:.84rem;line-height:1.55;color:rgba(234,255,243,.8)}
+.axs-check .axs-pillar{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.08em;color:rgba(10,255,219,.7);display:block;margin-bottom:.15rem;text-transform:uppercase}
+/* Results */
+.axs-result{border:1px solid rgba(0,232,122,.3);background:rgba(0,232,122,.04);padding:1.4rem;margin-top:1.25rem;display:none}
+.axs-result.show{display:block;animation:fadeUp .3s ease}
+.axs-result h3{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;margin-bottom:.9rem}
+.axs-stat-row{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:1rem}
+.axs-stat b{display:block;font-family:'DM Mono',monospace;font-size:1.5rem;color:#00ff9d}
+.axs-stat span{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(234,255,243,.4)}
+.axs-score-bar{height:7px;background:rgba(0,232,122,.1);margin:.6rem 0 1rem;overflow:hidden}
+.axs-score-fill{height:100%;background:linear-gradient(90deg,#00e87a,#0affdb);width:0%;transition:width .8s ease}
+.axs-timeline{border-left:2px solid rgba(0,232,122,.25);margin:1rem 0 .5rem;padding-left:1.2rem}
+.axs-tl-item{position:relative;padding-bottom:1rem}
+.axs-tl-item::before{content:'';position:absolute;left:-1.55rem;top:.3rem;width:9px;height:9px;border-radius:50%;background:#00e87a;box-shadow:0 0 8px rgba(0,232,122,.6)}
+.axs-tl-item b{font-size:.85rem;color:#eafff3;display:block}
+.axs-tl-item span{font-size:.76rem;color:rgba(234,255,243,.5)}
+.axs-flag{display:flex;gap:.65rem;align-items:flex-start;padding:.65rem .8rem;margin-bottom:.45rem;border-left:2px solid;font-size:.8rem;line-height:1.55}
+.axs-flag.pass{border-color:#00e87a;background:rgba(0,232,122,.05);color:rgba(234,255,243,.78)}
+.axs-flag.risk{border-color:#ffb547;background:rgba(255,181,71,.06);color:rgba(234,255,243,.85)}
+.axs-flag .tag{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.08em;flex-shrink:0;padding:.15rem .45rem;margin-top:.1rem}
+.axs-flag.pass .tag{color:#021008;background:#00e87a}
+.axs-flag.risk .tag{color:#021008;background:#ffb547}
+/* PBC list */
+.axs-pbc-group{margin-bottom:1.2rem}
+.axs-pbc-group h4{font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:#0affdb;margin-bottom:.5rem}
+.axs-pbc-group h4::before{content:'// ';color:rgba(0,232,122,.5)}
+.axs-pbc-item{display:flex;gap:.7rem;font-size:.82rem;color:rgba(234,255,243,.78);line-height:1.6;padding:.42rem 0;border-bottom:1px dashed rgba(0,232,122,.08)}
+.axs-pbc-item i{font-style:normal;font-family:'DM Mono',monospace;font-size:.68rem;color:rgba(0,232,122,.7);flex-shrink:0;min-width:2.1rem}
+/* Tracker */
+.axs-phase{border:1px solid rgba(0,232,122,.14);background:rgba(3,14,9,.8);margin-bottom:.8rem}
+.axs-phase-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.85rem 1.1rem;cursor:pointer}
+.axs-phase-head:hover{background:rgba(0,232,122,.04)}
+.axs-phase-name{font-family:'Space Grotesk',sans-serif;font-size:.92rem;font-weight:700}
+.axs-phase-name small{font-family:'DM Mono',monospace;font-size:.58rem;color:rgba(234,255,243,.4);font-weight:400;margin-left:.6rem;letter-spacing:.08em}
+.axs-phase-pct{font-family:'DM Mono',monospace;font-size:.72rem;color:#00ff9d;flex-shrink:0}
+.axs-phase-body{display:none;padding:.4rem 1.1rem 1rem;border-top:1px solid rgba(0,232,122,.1)}
+.axs-phase.open .axs-phase-body{display:block}
+.axs-golden{font-size:.76rem;color:rgba(255,181,71,.85);border:1px dashed rgba(255,181,71,.35);background:rgba(255,181,71,.04);padding:.7rem .9rem;margin-top:1rem;line-height:1.6}
+/* Standards */
+.axs-std-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:1.25rem}
+.axs-std-card{border:1px solid rgba(0,232,122,.16);background:rgba(3,14,9,.85);padding:1.2rem}
+.axs-std-card h4{font-family:'Space Grotesk',sans-serif;font-size:.98rem;color:#00ff9d;margin-bottom:.3rem}
+.axs-std-card .axs-std-meta{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(234,255,243,.4);margin-bottom:.55rem}
+.axs-std-card p{font-size:.8rem;color:rgba(234,255,243,.65);line-height:1.65}
+.axs-cmp{width:100%;border-collapse:collapse;font-size:.8rem;margin-bottom:1.25rem}
+.axs-cmp th{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:#0affdb;text-align:left;padding:.6rem .75rem;border-bottom:1px solid rgba(0,232,122,.25)}
+.axs-cmp td{padding:.6rem .75rem;border-bottom:1px dashed rgba(0,232,122,.1);color:rgba(234,255,243,.75);line-height:1.55;vertical-align:top}
+.axs-cmp td:first-child{font-family:'DM Mono',monospace;font-size:.66rem;color:rgba(234,255,243,.45);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.axs-gloss-item{padding:.55rem 0;border-bottom:1px dashed rgba(0,232,122,.08);font-size:.82rem;line-height:1.6}
+.axs-gloss-item b{color:#00ff9d;font-family:'Space Grotesk',sans-serif}
+.axs-gloss-item span{color:rgba(234,255,243,.65)}
+@media(max-width:768px){
+  .axs-grid2,.axs-grid3,.axs-std-grid{grid-template-columns:1fr}
+  .axs-wrap{padding:1rem;padding-top:calc(64px + 1rem)}
+}
+</style>
+
+<div class="axs-wrap">
+  <div class="axs-head">
+    <div class="axs-eyebrow">REGENESIS ASSURANCE STUDIO</div>
+    <h1>ESG assurance, <em>engineered for confidence</em></h1>
+    <p>Plan, prepare and survive your sustainability assurance engagement. Scope your obligations, calibrate materiality, stress-test your GHG data against the checks assurance practitioners actually run, and walk into fieldwork with a complete evidence pack.</p>
+    <div class="axs-badges">
+      <span class="axs-badge">ISSA 5000</span>
+      <span class="axs-badge">ISAE 3000 / 3410</span>
+      <span class="axs-badge">AASB S2 · ASRS</span>
+      <span class="axs-badge">ISSB S2</span>
+      <span class="axs-badge">SEBI BRSR Core</span>
+      <span class="axs-badge">GHG Protocol</span>
+    </div>
+  </div>
+
+  <div class="axs-tabs">
+    <button class="axs-tab active" data-axs="ready" onclick="axsTab('ready',this)">01 · Readiness Scan</button>
+    <button class="axs-tab" data-axs="mat" onclick="axsTab('mat',this)">02 · Materiality</button>
+    <button class="axs-tab" data-axs="dq" onclick="axsTab('dq',this)">03 · Data Quality</button>
+    <button class="axs-tab" data-axs="pbc" onclick="axsTab('pbc',this)">04 · Evidence Pack</button>
+    <button class="axs-tab" data-axs="track" onclick="axsTab('track',this)">05 · Engagement Tracker</button>
+    <button class="axs-tab" data-axs="std" onclick="axsTab('std',this)">06 · Standards Guide</button>
+  </div>
+
+  <!-- ── 01 READINESS ──────────────────────────────── -->
+  <div class="axs-sec active" id="axs-sec-ready">
+    <div class="axs-panel">
+      <div class="axs-panel-title">Step 1 — Who are you?</div>
+      <div class="axs-panel-sub">We classify your reporting group, first report deadline and the assurance level that applies to you right now.</div>
+      <div class="axs-grid3">
+        <div class="axs-field"><label>Jurisdiction</label>
+          <select id="axs-jur">
+            <option value="au">🇦🇺 Australia — AASB S2 / ASRS</option>
+            <option value="sg">🇸🇬 Singapore — SGX ISSB-aligned</option>
+            <option value="in">🇮🇳 India — SEBI BRSR Core</option>
+            <option value="global">🌐 Other — IFRS S2 baseline</option>
+          </select>
+        </div>
+        <div class="axs-field"><label>Sector</label>
+          <select id="axs-sector">
+            <option value="mining">Mining &amp; Resources</option>
+            <option value="financial">Financial Services</option>
+            <option value="realestate">Real Estate / REITs</option>
+            <option value="energy">Energy &amp; Utilities</option>
+            <option value="retail">Retail &amp; Consumer</option>
+            <option value="transport">Transport &amp; Logistics</option>
+            <option value="services" selected>Professional Services / Tech</option>
+          </select>
+        </div>
+        <div class="axs-field"><label>Listed entity?</label>
+          <select id="axs-listed"><option value="yes">Yes — listed</option><option value="no">No — private / other</option></select>
+        </div>
+        <div class="axs-field"><label>Consolidated revenue (M, local)</label><input id="axs-rev" type="number" placeholder="e.g. 650"></div>
+        <div class="axs-field"><label>Gross assets (M, local)</label><input id="axs-assets" type="number" placeholder="e.g. 1200"></div>
+        <div class="axs-field"><label>Employees (FTE)</label><input id="axs-emp" type="number" placeholder="e.g. 600"></div>
+      </div>
+    </div>
+
+    <div class="axs-panel">
+      <div class="axs-panel-title">Step 2 — Readiness checklist</div>
+      <div class="axs-panel-sub">Tick what you already have. Each item maps to what an assurance practitioner will ask for on day one.</div>
+      <div id="axs-checks"></div>
+    </div>
+
+    <button class="axs-btn" onclick="axsRunReadiness()">Run Readiness Scan →</button>
+
+    <div class="axs-result" id="axs-ready-result">
+      <h3 id="axs-rr-title">Your assurance position</h3>
+      <div class="axs-stat-row">
+        <div class="axs-stat"><b id="axs-rr-group">—</b><span>Classification</span></div>
+        <div class="axs-stat"><b id="axs-rr-due">—</b><span>First report</span></div>
+        <div class="axs-stat"><b id="axs-rr-level">—</b><span>Assurance now</span></div>
+        <div class="axs-stat"><b id="axs-rr-score">—</b><span>Readiness</span></div>
+      </div>
+      <div class="axs-score-bar"><div class="axs-score-fill" id="axs-rr-fill"></div></div>
+      <div id="axs-rr-glide"></div>
+      <div id="axs-rr-gaps" style="margin-top:1rem"></div>
+    </div>
+  </div>
+
+  <!-- ── 02 MATERIALITY ────────────────────────────── -->
+  <div class="axs-sec" id="axs-sec-mat">
+    <div class="axs-panel">
+      <div class="axs-panel-title">Materiality calculator</div>
+      <div class="axs-panel-sub">Set planning materiality the way practitioners do: a percentage of a relevant base, with performance materiality as a buffer for undetected misstatements. AASB S2 / ISSB use single (investor) materiality.</div>
+      <div class="axs-grid3">
+        <div class="axs-field"><label>Materiality base</label>
+          <select id="axs-mat-base">
+            <option value="s12">Total Scope 1 + 2 emissions (tCO₂e)</option>
+            <option value="all">Total emissions incl. Scope 3 (tCO₂e)</option>
+          </select>
+        </div>
+        <div class="axs-field"><label>Base value (tCO₂e)</label><input id="axs-mat-val" type="number" placeholder="e.g. 48500"></div>
+        <div class="axs-field"><label>Planning threshold %</label><input id="axs-mat-pct" type="number" value="5" min="1" max="10" step="0.5"></div>
+        <div class="axs-field"><label>Performance materiality (% of planning)</label><input id="axs-mat-perf" type="number" value="75" min="50" max="85" step="5"></div>
+      </div>
+      <button class="axs-btn" onclick="axsRunMateriality()">Calculate →</button>
+      <div class="axs-result" id="axs-mat-result">
+        <h3>Materiality calibration</h3>
+        <div class="axs-stat-row">
+          <div class="axs-stat"><b id="axs-mat-plan">—</b><span>Planning materiality</span></div>
+          <div class="axs-stat"><b id="axs-mat-pm">—</b><span>Performance materiality</span></div>
+          <div class="axs-stat"><b id="axs-mat-triv">—</b><span>Clearly trivial</span></div>
+        </div>
+        <p style="font-size:.8rem;color:rgba(234,255,243,.6);line-height:1.7">Misstatements above <b style="color:#00ff9d">planning materiality</b> are material. Aggregate testing works to <b style="color:#00ff9d">performance materiality</b>. Differences below the <b style="color:#00ff9d">clearly trivial</b> threshold need not be accumulated.</p>
+        <div class="axs-golden">⚠ Qualitative materiality overrides size: governance failures, incorrect methodology disclosures, missing mandatory disclosures and misleading claims are material regardless of tonnage. Always assess both.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 03 DATA QUALITY ───────────────────────────── -->
+  <div class="axs-sec" id="axs-sec-dq">
+    <div class="axs-panel">
+      <div class="axs-panel-title">GHG data quality checker</div>
+      <div class="axs-panel-sub">The six failure modes practitioners test first. Answer honestly — every RISK flag below is a finding waiting to happen.</div>
+      <div class="axs-grid2">
+        <div class="axs-field"><label>Reporting year</label><input id="axs-dq-ry" type="number" value="2026"></div>
+        <div class="axs-field"><label>Oldest emission factor vintage in use</label><input id="axs-dq-ef" type="number" placeholder="e.g. 2023"></div>
+        <div class="axs-field"><label>Consolidation approach documented?</label>
+          <select id="axs-dq-bound"><option value="yes">Yes — equity share or operational control memo exists</option><option value="no">No / unsure</option></select></div>
+        <div class="axs-field"><label>All controlled entities (&gt;50%) included?</label>
+          <select id="axs-dq-ent"><option value="yes">Yes — traced to corporate structure</option><option value="no">No / not verified</option></select></div>
+        <div class="axs-field"><label>Scope 2 market-based claims backed by certificates?</label>
+          <select id="axs-dq-cert"><option value="yes">Yes — valid RECs / LGCs / PPAs held</option><option value="na">N/A — location-based only</option><option value="no">No — claims without instruments</option></select></div>
+        <div class="axs-field"><label>Scope 1 vs Scope 3 mapping reviewed for double counting?</label>
+          <select id="axs-dq-dbl"><option value="yes">Yes</option><option value="no">No</option></select></div>
+        <div class="axs-field"><label>Estimated vs measured data ratio disclosed?</label>
+          <select id="axs-dq-est"><option value="yes">Yes</option><option value="no">No</option></select></div>
+        <div class="axs-field"><label>Unit conversions independently recalculated?</label>
+          <select id="axs-dq-units"><option value="yes">Yes — sample re-performed</option><option value="no">No</option></select></div>
+      </div>
+      <button class="axs-btn" onclick="axsRunDQ()">Run Diagnostics →</button>
+      <div class="axs-result" id="axs-dq-result"><h3>Diagnostic results</h3><div id="axs-dq-flags"></div></div>
+    </div>
+    <div class="axs-panel">
+      <div class="axs-panel-title">Quick converter — the classic unit traps</div>
+      <div class="axs-panel-sub">GJ ↔ MWh ↔ kWh confusion is one of the most common calculation errors. 1 MWh = 3.6 GJ = 1,000 kWh.</div>
+      <div class="axs-grid3">
+        <div class="axs-field"><label>Value</label><input id="axs-cv-val" type="number" placeholder="1000"></div>
+        <div class="axs-field"><label>From</label><select id="axs-cv-from"><option value="kwh">kWh</option><option value="mwh">MWh</option><option value="gj">GJ</option></select></div>
+        <div class="axs-field"><label>Result</label><input id="axs-cv-out" readonly placeholder="—"></div>
+      </div>
+      <button class="axs-btn axs-btn-ghost" onclick="axsConvert()">Convert all units →</button>
+    </div>
+  </div>
+
+  <!-- ── 04 EVIDENCE PACK ──────────────────────────── -->
+  <div class="axs-sec" id="axs-sec-pbc">
+    <div class="axs-panel">
+      <div class="axs-panel-title">Evidence pack generator (PBC list)</div>
+      <div class="axs-panel-sub">A numbered, sector-aware "prepared-by-client" list covering all four pillars — what your assurance provider will request before fieldwork. Have it ready and cut weeks off the engagement.</div>
+      <div class="axs-grid3">
+        <div class="axs-field"><label>Sector</label>
+          <select id="axs-pbc-sector">
+            <option value="mining">Mining &amp; Resources</option>
+            <option value="financial">Financial Services</option>
+            <option value="realestate">Real Estate / REITs</option>
+            <option value="energy">Energy &amp; Utilities</option>
+            <option value="retail">Retail &amp; Consumer</option>
+            <option value="transport">Transport &amp; Logistics</option>
+            <option value="services" selected>Professional Services / Tech</option>
+          </select>
+        </div>
+        <div class="axs-field"><label>Assurance level</label>
+          <select id="axs-pbc-level"><option value="limited">Limited assurance</option><option value="reasonable">Reasonable assurance</option></select>
+        </div>
+        <div class="axs-field"><label>Scope 3 in subject matter?</label>
+          <select id="axs-pbc-s3"><option value="no">No — Scope 1 &amp; 2 only</option><option value="yes">Yes — include Scope 3</option></select>
+        </div>
+      </div>
+      <button class="axs-btn" onclick="axsRunPBC()">Generate Evidence Pack →</button>
+      <div class="axs-result" id="axs-pbc-result">
+        <h3 style="display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap">Your PBC list <button class="axs-btn axs-btn-ghost" style="margin:0;padding:.5rem 1.1rem;font-size:.72rem" onclick="axsCopyPBC()">⧉ Copy list</button></h3>
+        <div id="axs-pbc-out"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 05 TRACKER ────────────────────────────────── -->
+  <div class="axs-sec" id="axs-sec-track">
+    <div class="axs-panel">
+      <div class="axs-panel-title">Engagement tracker — the 18-week lifecycle</div>
+      <div class="axs-panel-sub">Track your engagement phase by phase. Progress saves on this device automatically.</div>
+      <div class="axs-stat-row" style="margin-bottom:.6rem">
+        <div class="axs-stat"><b id="axs-tk-pct">0%</b><span>Overall progress</span></div>
+        <div class="axs-stat"><b id="axs-tk-phase">Setup</b><span>Current phase</span></div>
+      </div>
+      <div class="axs-score-bar"><div class="axs-score-fill" id="axs-tk-fill"></div></div>
+      <div id="axs-phases"></div>
+      <div class="axs-golden">📌 Golden rule of workpapers: if it is not documented, it did not happen. Every item should trace objective → procedure → evidence → conclusion.</div>
+      <button class="axs-btn axs-btn-ghost" onclick="axsResetTracker()">Reset tracker</button>
+    </div>
+  </div>
+
+  <!-- ── 06 STANDARDS ──────────────────────────────── -->
+  <div class="axs-sec" id="axs-sec-std">
+    <div class="axs-std-grid">
+      <div class="axs-std-card"><h4>ISSA 5000</h4><div class="axs-std-meta">IAASB · approved 2024 · the new global baseline</div><p>First comprehensive standalone standard for sustainability assurance. Framework-neutral (ISSB, ESRS, GRI, BRSR), covers limited and reasonable assurance, with explicit professional-scepticism guidance for sustainability biases like optimism bias and metric cherry-picking. Flow: plan → understand → risk assess → respond → conclude → report.</p></div>
+      <div class="axs-std-card"><h4>ISAE 3000 (Revised)</h4><div class="axs-std-meta">IAASB · current until ISSA 5000 fully effective</div><p>The umbrella standard for assurance over non-financial information. Most current ESG assurance engagements run under it. Will be superseded for sustainability work by ISSA 5000.</p></div>
+      <div class="axs-std-card"><h4>ISAE 3410 / ASAE 3410</h4><div class="axs-std-meta">IAASB / AUASB · GHG statements specifically</div><p>The GHG-statement companion to ISAE 3000 — governs assurance over emissions inventories. The Australian equivalent (ASAE 3410) governs local GHG assurance until ISSA 5000 adoption.</p></div>
+      <div class="axs-std-card"><h4>AASB S2 assurance glide path</h4><div class="axs-std-meta">Australia · phased to FY2030</div><p>Year 1: limited assurance over governance + Scope 1 &amp; 2. Years 2–3: limited over the full sustainability report. From FYs starting on/after 1 July 2030: reasonable assurance over all climate disclosures. Scope 3, scenario analysis and transition plans carry a 3-year safe harbour (regulator-only enforcement).</p></div>
+    </div>
+
+    <table class="axs-cmp">
+      <tr><th></th><th>Limited assurance</th><th>Reasonable assurance</th></tr>
+      <tr><td>Conclusion</td><td>"Nothing has come to our attention that causes us to believe…" (negative form)</td><td>"In our opinion, the information is fairly presented in all material respects" (positive form)</td></tr>
+      <tr><td>Evidence</td><td>Primarily inquiry and analytical procedures</td><td>Detailed testing, recalculation, corroboration to source</td></tr>
+      <tr><td>Analogy</td><td>Review engagement</td><td>Audit engagement</td></tr>
+      <tr><td>Cost</td><td>Lower</td><td>Higher — the credibility gold standard investors prefer</td></tr>
+    </table>
+
+    <div class="axs-panel">
+      <div class="axs-panel-title">Glossary — speak assurance fluently</div>
+      <div class="axs-field" style="margin-bottom:.9rem"><label>Filter</label><input id="axs-gloss-q" placeholder="Type to filter… e.g. materiality" oninput="axsGlossFilter()"></div>
+      <div id="axs-gloss"></div>
+    </div>
+  </div>
+</div>
+</div><!-- /page-assurance -->
+
+<script>
+// ════════ ASSURANCE STUDIO ENGINE ════════
+var AXS_CHECKS = [
+  ['Governance','Board or committee charter explicitly covers climate oversight'],
+  ['Governance','Management roles and reporting lines for climate are documented'],
+  ['Strategy','Material climate risks and opportunities identified — physical and transition, with time horizons'],
+  ['Strategy','Scenario analysis performed across at least two scenarios including a 1.5°C pathway'],
+  ['Risk management','Climate risks are integrated into the enterprise risk register'],
+  ['Metrics','Complete Scope 1 &amp; 2 inventory with documented methodology'],
+  ['Metrics','Scope 3 screening performed across all 15 categories'],
+  ['Data','Every emission factor has a documented source and current vintage'],
+  ['Targets','Emission targets set with baseline year and interim milestones'],
+  ['Controls','Data collection process is documented and walkthrough-ready']
+];
+var AXS_GAP_FIX = [
+  'Draft climate responsibilities into the board/committee charter and start minuting climate items.',
+  'Prepare a one-page climate governance map: roles, owners, reporting cadence.',
+  'Run a risk workshop to build the climate risk &amp; opportunity register with time horizons.',
+  'Commission scenario analysis against recognised pathways (e.g. 1.5°C and 2–3°C).',
+  'Add climate risks to the ERM register with owners and escalation routes.',
+  'Build the Scope 1 &amp; 2 inventory with a methodology memo — our GHG tool does this.',
+  'Complete a Scope 3 relevance screen across all 15 categories, documenting exclusions.',
+  'Create an emission factor register: factor, source, vintage, applied-to.',
+  'Set targets with a baseline year and interim milestones; consider science-based validation.',
+  'Document the data collection process end-to-end so a walkthrough can be performed.'
+];
+
+function axsTab(id, btn){
+  document.querySelectorAll('.axs-sec').forEach(function(s){ s.classList.remove('active'); });
+  document.querySelectorAll('.axs-tab').forEach(function(t){ t.classList.remove('active'); });
+  var sec = document.getElementById('axs-sec-'+id);
+  if (sec) sec.classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+function axsInitChecks(){
+  var host = document.getElementById('axs-checks');
+  if (!host || host.children.length) return;
+  AXS_CHECKS.forEach(function(c, i){
+    var l = document.createElement('label');
+    l.className = 'axs-check';
+    l.innerHTML = '<input type="checkbox" id="axs-c'+i+'"><span><span class="axs-pillar">'+c[0]+'</span>'+c[1]+'</span>';
+    host.appendChild(l);
+  });
+}
+
+function axsClassify(jur, rev, assets, emp, listed){
+  if (jur === 'au'){
+    var g1 = (rev>=500?1:0)+(assets>=1000?1:0)+(emp>=500?1:0);
+    var g2 = (rev>=200?1:0)+(assets>=500?1:0)+(emp>=250?1:0);
+    var g3 = (rev>=50?1:0)+(assets>=25?1:0)+(emp>=100?1:0);
+    if (g1>=2) return {group:'GROUP 1', due:'FY from 1 Jan 2025', level:'LIMITED', scope:'Governance + Scope 1 & 2 now; reasonable assurance over everything from FYs starting 1 Jul 2030.'};
+    if (g2>=2) return {group:'GROUP 2', due:'FY from 1 Jul 2026', level:'LIMITED', scope:'Governance + Scope 1 & 2 from your first report; same glide path to reasonable by FY2030.'};
+    if (g3>=2) return {group:'GROUP 3', due:'FY from 1 Jul 2027', level:'FROM YEAR 2', scope:'Limited assurance applies from your second reporting year. Use the lead time to harden data.'};
+    return {group:'NOT IN SCOPE', due:'Voluntary', level:'OPTIONAL', scope:'Below mandatory thresholds — voluntary reporting under AASB S1/ISSB still builds investor credibility.'};
+  }
+  if (jur === 'sg') return {group: listed==='yes'?'SGX LISTED':'LARGE NON-LISTED', due: listed==='yes'?'FY2025':'FY2027 (≥S$1B revenue)', level:'ENCOURAGED', scope:'ISSB-aligned climate reporting applies; external assurance is strongly signalled on the regulatory roadmap — prepare as if mandatory.'};
+  if (jur === 'in') return {group:'BRSR REGIME', due:'Active now (top 1000)', level:'BRSR CORE', scope:'Top 150 listed entities require reasonable assurance over BRSR Core KPIs, expanding toward the top 1000. Value-chain disclosures phase in.'};
+  return {group:'IFRS S2 BASELINE', due:'Jurisdiction-specific', level:'CHECK LOCAL', scope:'40+ jurisdictions are adopting ISSB standards; most pair them with phased limited→reasonable assurance. Prepare to the AASB S2 pattern.'};
+}
+
+function axsRunReadiness(){
+  var jur = document.getElementById('axs-jur').value;
+  var rev = parseFloat(document.getElementById('axs-rev').value)||0;
+  var assets = parseFloat(document.getElementById('axs-assets').value)||0;
+  var emp = parseFloat(document.getElementById('axs-emp').value)||0;
+  var listed = document.getElementById('axs-listed').value;
+  var cls = axsClassify(jur, rev, assets, emp, listed);
+
+  var got=0, gaps=[];
+  AXS_CHECKS.forEach(function(c,i){
+    if (document.getElementById('axs-c'+i).checked) got++;
+    else gaps.push(i);
+  });
+  var pct = Math.round(got/AXS_CHECKS.length*100);
+
+  document.getElementById('axs-rr-group').textContent = cls.group;
+  document.getElementById('axs-rr-due').textContent = cls.due;
+  document.getElementById('axs-rr-level').textContent = cls.level;
+  document.getElementById('axs-rr-score').textContent = pct+'%';
+  document.getElementById('axs-rr-fill').style.width = pct+'%';
+
+  var glide = '<div class="axs-panel-sub" style="margin:0 0 .5rem">'+cls.scope+'</div>';
+  if (jur==='au'){
+    glide += '<div class="axs-timeline">'
+      +'<div class="axs-tl-item"><b>Year 1 — Limited assurance</b><span>Governance disclosures + Scope 1 &amp; 2 emissions</span></div>'
+      +'<div class="axs-tl-item"><b>Years 2–3 — Limited assurance</b><span>Expands to all components of the sustainability report</span></div>'
+      +'<div class="axs-tl-item"><b>FYs starting 1 Jul 2030 — Reasonable assurance</b><span>All climate disclosures, audit-grade evidence</span></div>'
+      +'<div class="axs-tl-item"><b>Safe harbour</b><span>Scope 3, scenario analysis &amp; transition plans: 3-year regulator-only enforcement</span></div>'
+      +'</div>';
+  }
+  document.getElementById('axs-rr-glide').innerHTML = glide;
+
+  var gh = '';
+  if (gaps.length){
+    gh = '<h3 style="font-size:.95rem;margin-bottom:.6rem">Close these gaps first</h3>';
+    gaps.forEach(function(i){
+      gh += '<div class="axs-flag risk"><span class="tag">GAP</span><span><b>'+AXS_CHECKS[i][1]+'</b><br>'+AXS_GAP_FIX[i]+'</span></div>';
+    });
+  } else {
+    gh = '<div class="axs-flag pass"><span class="tag">READY</span><span>All ten readiness items in place — you are in strong shape for fieldwork. Generate your evidence pack next.</span></div>';
+  }
+  document.getElementById('axs-rr-gaps').innerHTML = gh;
+  document.getElementById('axs-ready-result').classList.add('show');
+}
+
+function axsRunMateriality(){
+  var v = parseFloat(document.getElementById('axs-mat-val').value)||0;
+  var pct = parseFloat(document.getElementById('axs-mat-pct').value)||5;
+  var perf = parseFloat(document.getElementById('axs-mat-perf').value)||75;
+  if (!v){ alert('Enter your base value in tCO₂e first.'); return; }
+  var plan = v*pct/100, pm = plan*perf/100, triv = plan*0.05;
+  function f(n){ return n>=1000 ? Math.round(n).toLocaleString() : (Math.round(n*10)/10).toLocaleString(); }
+  document.getElementById('axs-mat-plan').textContent = f(plan)+' t';
+  document.getElementById('axs-mat-pm').textContent = f(pm)+' t';
+  document.getElementById('axs-mat-triv').textContent = f(triv)+' t';
+  document.getElementById('axs-mat-result').classList.add('show');
+}
+
+function axsRunDQ(){
+  var ry = parseInt(document.getElementById('axs-dq-ry').value)||2026;
+  var ef = parseInt(document.getElementById('axs-dq-ef').value)||0;
+  var tests = [];
+  var age = ef ? ry-ef : 99;
+  tests.push([age<=2,'Emission factor vintage','Oldest factor is '+(ef? age+' year(s) old':'not provided')+'. Factors 3+ years old are a classic finding — verify each factor’s year matches the reporting year (NGER/NGA, IPCC, IEA sources).']);
+  tests.push([document.getElementById('axs-dq-bound').value==='yes','Organisational boundary','Document equity-share vs operational-control consolidation in a boundary memo — practitioners trace it to the corporate structure.']);
+  tests.push([document.getElementById('axs-dq-ent').value==='yes','Entity completeness','Untraced subsidiaries are how facilities silently drop out of inventories. Reconcile the entity list to the corporate structure (ownership &gt;50%).']);
+  var cert = document.getElementById('axs-dq-cert').value;
+  tests.push([cert!=='no','Scope 2 market-based instruments', cert==='na' ? 'Location-based only — no certificate risk.' : 'Market-based claims without valid RECs/LGCs/PPAs will be reversed to location-based. Hold the certificates.']);
+  tests.push([document.getElementById('axs-dq-dbl').value==='yes','Double counting','Map every source to exactly one scope category — the same emissions appearing in Scope 1 and Scope 3 is a recurring error.']);
+  tests.push([document.getElementById('axs-dq-est').value==='yes','Estimation disclosure','Estimated data presented as measured is a misstatement. Disclose measurement vs estimation ratios.']);
+  tests.push([document.getElementById('axs-dq-units').value==='yes','Unit conversions','GJ vs MWh vs kWh confusion is one of the most common calculation errors. Independently recalculate a sample.']);
+
+  var h='', risks=0;
+  tests.forEach(function(t){
+    if (!t[0]) risks++;
+    h += '<div class="axs-flag '+(t[0]?'pass':'risk')+'"><span class="tag">'+(t[0]?'PASS':'RISK')+'</span><span><b>'+t[1]+'</b><br>'+t[2]+'</span></div>';
+  });
+  h = '<p style="font-size:.85rem;margin-bottom:.8rem;color:rgba(234,255,243,.7)">'+(risks? '<b style="color:#ffb547">'+risks+' risk flag'+(risks>1?'s':'')+'</b> — each one is a likely practitioner finding. Remediate before fieldwork.' : '<b style="color:#00ff9d">Clean diagnostics</b> — your data hygiene matches what reasonable-assurance testing expects.')+'</p>'+h;
+  document.getElementById('axs-dq-flags').innerHTML = h;
+  document.getElementById('axs-dq-result').classList.add('show');
+}
+
+function axsConvert(){
+  var v = parseFloat(document.getElementById('axs-cv-val').value)||0;
+  var from = document.getElementById('axs-cv-from').value;
+  var kwh = from==='kwh'? v : from==='mwh'? v*1000 : v/3.6*1000;
+  var out = kwh.toLocaleString()+' kWh = '+(kwh/1000).toLocaleString()+' MWh = '+(kwh*3.6/1000).toLocaleString()+' GJ';
+  document.getElementById('axs-cv-out').value = out;
+}
+
+var AXS_PBC = {
+  'Governance': [
+    'Board and/or sustainability committee charter evidencing climate oversight',
+    'Board and committee minutes for the period referencing climate matters',
+    'Management role descriptions and reporting lines for climate responsibilities',
+    'Sample of management climate reports presented to the board'
+  ],
+  'Strategy & scenario analysis': [
+    'Climate risk and opportunity register — physical and transition, with time horizons',
+    'Scenario analysis methodology: scenarios used, assumptions, pathway alignment',
+    'Documentation linking scenario outcomes to financial planning',
+    'Transition plan / decarbonisation roadmap (if disclosed)'
+  ],
+  'Risk management': [
+    'Enterprise risk register extract showing climate integration',
+    'Climate risk identification, assessment and escalation procedures',
+    'Evidence of periodic climate risk review by the risk committee'
+  ],
+  'Metrics, targets & GHG data': [
+    'GHG inventory workbook with formulas intact (all scopes in subject matter)',
+    'Organisational boundary memo: consolidation approach and full entity list',
+    'Activity data sources: fuel records, utility invoices, refrigerant logs',
+    'Emission factor register — factor, source, vintage for every factor used',
+    'Scope 2 market-based instruments: certificates, PPAs, supplier statements',
+    'Targets file: baseline year, interim milestones, validation status',
+    'Methodology change and restatement log vs prior year'
+  ]
+};
+var AXS_PBC_S3 = [
+  'Scope 3 screening memo across all 15 categories with exclusion rationale',
+  'Category calculation files (spend-based / activity-based) with factor mapping',
+  'Supplier or value-chain data collection coverage statistics'
+];
+var AXS_PBC_REAS = [
+  'Source documents for detailed-testing samples (invoices, meter reads, trip logs)',
+  'Unit conversion support for independent recalculation',
+  'System extracts with completeness controls (record counts / totals)',
+  'IT general controls documentation for emissions data systems'
+];
+var AXS_PBC_SECTOR = {
+  mining: ['Fugitive methane estimation methodology and measurement reports','Site-level reconciliation to large-emitter regulatory submissions'],
+  financial: ['Financed emissions (Cat 15) portfolio data: attribution factors and data-quality scores','Coverage reconciliation of loan book / AUM against reported portfolio'],
+  realestate: ['Building energy data and ratings certificates','Tenant vs base-building boundary memo (Cat 13)'],
+  energy: ['Generation and fuel consumption reconciliations','Renewable certificate creation and surrender register'],
+  retail: ['Scope 3 Cat 1 spend cube and emission factor mapping','Supplier data program coverage statistics'],
+  transport: ['Fleet fuel records and telematics extracts','Logistics emission factor framework mapping'],
+  services: ['Business travel data from travel provider','Employee commuting survey methodology and extrapolation basis']
+};
+var _axsPbcText = '';
+
+function axsRunPBC(){
+  var sector = document.getElementById('axs-pbc-sector').value;
+  var level = document.getElementById('axs-pbc-level').value;
+  var s3 = document.getElementById('axs-pbc-s3').value==='yes';
+  var n=0, html='', txt='REGENESIS IMPACT — ASSURANCE EVIDENCE PACK (PBC LIST)\n\n';
+  function group(name, items){
+    html += '<div class="axs-pbc-group"><h4>'+name+'</h4>';
+    txt += name.toUpperCase()+'\n';
+    items.forEach(function(it){ n++; html += '<div class="axs-pbc-item"><i>'+String(n).padStart(2,'0')+'</i>'+it+'</div>'; txt += '  '+n+'. '+it+'\n'; });
+    html += '</div>'; txt += '\n';
+  }
+  Object.keys(AXS_PBC).forEach(function(k){ group(k, AXS_PBC[k]); });
+  if (s3) group('Scope 3 additions', AXS_PBC_S3);
+  if (level==='reasonable') group('Reasonable assurance additions', AXS_PBC_REAS);
+  group('Sector-specific', AXS_PBC_SECTOR[sector]||[]);
+  _axsPbcText = txt;
+  document.getElementById('axs-pbc-out').innerHTML = html + '<p style="font-size:.74rem;color:rgba(234,255,243,.4);margin-top:.6rem">'+n+' items · grouped by pillar · be specific about format and deadline when you respond to each.</p>';
+  document.getElementById('axs-pbc-result').classList.add('show');
+}
+function axsCopyPBC(){
+  if (!_axsPbcText) return;
+  if (navigator.clipboard) navigator.clipboard.writeText(_axsPbcText).then(function(){ alert('PBC list copied to clipboard.'); });
+}
+
+var AXS_PHASES = [
+  ['Engagement Setup','Weeks 1–2',['Engagement letter and scope agreed','Independence and conflict checks completed','Engagement file and workspace established','Kick-off meeting held, PBC list issued']],
+  ['Planning','Weeks 2–4',['Entity understanding documented','Planning and performance materiality set','Risk assessment matrix completed','Testing approach designed and approved']],
+  ['Interim Fieldwork','Weeks 4–8',['Walkthroughs of data collection processes','Governance documentation reviewed','Process narratives prepared','Preliminary analytics run']],
+  ['Final Fieldwork','Weeks 8–14',['Detailed testing and recalculations executed','Evidence corroborated to source','Issues log maintained, queries cleared','Exceptions evaluated against materiality']],
+  ['Review & Wrap-up','Weeks 14–16',['Summary of findings prepared','Review points cleared','Management letter points drafted']],
+  ['Reporting','Weeks 16–18',['Assurance statement drafted','Management letter finalised','Final sign-offs and archiving']]
+];
+
+function axsTrackerState(){
+  try { return JSON.parse(localStorage.getItem('rg_axs_tracker')||'{}'); } catch(e){ return {}; }
+}
+function axsInitTracker(){
+  var host = document.getElementById('axs-phases');
+  if (!host || host.children.length) return;
+  var st = axsTrackerState();
+  AXS_PHASES.forEach(function(p, pi){
+    var div = document.createElement('div');
+    div.className = 'axs-phase'+(pi===0?' open':'');
+    var body = p[2].map(function(a, ai){
+      var key = pi+'_'+ai;
+      return '<label class="axs-check"><input type="checkbox" data-axskey="'+key+'" '+(st[key]?'checked':'')+' onchange="axsTick(this)"><span>'+a+'</span></label>';
+    }).join('');
+    div.innerHTML = '<div class="axs-phase-head" onclick="this.parentElement.classList.toggle(\'open\')">'
+      +'<div class="axs-phase-name">'+(pi+1)+'. '+p[0]+'<small>'+p[1]+'</small></div>'
+      +'<div class="axs-phase-pct" id="axs-pp-'+pi+'">0%</div></div>'
+      +'<div class="axs-phase-body">'+body+'</div>';
+    host.appendChild(div);
+  });
+  axsRefreshTracker();
+}
+function axsTick(cb){
+  var st = axsTrackerState();
+  st[cb.getAttribute('data-axskey')] = cb.checked;
+  localStorage.setItem('rg_axs_tracker', JSON.stringify(st));
+  axsRefreshTracker();
+}
+function axsRefreshTracker(){
+  var st = axsTrackerState(), total=0, done=0, current='Complete ✓';
+  AXS_PHASES.forEach(function(p, pi){
+    var pd=0;
+    p[2].forEach(function(a, ai){ total++; if (st[pi+'_'+ai]){ done++; pd++; } });
+    var pp = Math.round(pd/p[2].length*100);
+    var el = document.getElementById('axs-pp-'+pi);
+    if (el) el.textContent = pp+'%';
+  });
+  for (var pi=0; pi<AXS_PHASES.length; pi++){
+    var full = AXS_PHASES[pi][2].every(function(a, ai){ return st[pi+'_'+ai]; });
+    if (!full){ current = AXS_PHASES[pi][0]; break; }
+  }
+  var pct = total? Math.round(done/total*100) : 0;
+  var f = document.getElementById('axs-tk-fill'); if (f) f.style.width = pct+'%';
+  var t = document.getElementById('axs-tk-pct'); if (t) t.textContent = pct+'%';
+  var c = document.getElementById('axs-tk-phase'); if (c) c.textContent = current;
+}
+function axsResetTracker(){
+  localStorage.removeItem('rg_axs_tracker');
+  var host = document.getElementById('axs-phases');
+  if (host) host.innerHTML='';
+  axsInitTracker();
+}
+
+var AXS_GLOSS = [
+  ['ISSA 5000','New comprehensive sustainability assurance standard — replaces ISAE 3000/3410 for sustainability work.'],
+  ['Limited assurance','Moderate confidence; negative-form conclusion; primarily inquiry and analytics.'],
+  ['Reasonable assurance','High (not absolute) confidence; positive conclusion; audit-equivalent evidence.'],
+  ['Planning materiality','Threshold above which misstatements are material; often ~5% of a relevant base.'],
+  ['Performance materiality','Set below planning materiality as a buffer for undetected misstatements.'],
+  ['Single materiality','Investor lens only — would it influence a reasonable investor? (ISSB / AASB S2).'],
+  ['Double materiality','Adds impact materiality — the company’s impact on people and planet (GRI, CSRD).'],
+  ['Subject matter','The ESG information being assured, e.g. the GHG inventory.'],
+  ['Criteria','The benchmark the subject matter is evaluated against, e.g. GHG Protocol, AASB S2.'],
+  ['Practitioner','The assurance provider.'],
+  ['Responsible party','The entity preparing the sustainability information.'],
+  ['PBC list','"Prepared by client" — the numbered evidence request list issued before fieldwork.'],
+  ['Walkthrough','Tracing one transaction end-to-end through the data collection process.'],
+  ['Recalculation','Independently recomputing the client’s emissions figures.'],
+  ['Reperformance','Independently executing a control or calculation the client performed.'],
+  ['Organisational boundary','Which entities are in the inventory — equity share or operational control.'],
+  ['Emission factor','Coefficient converting activity data to emissions (kgCO₂e per unit).'],
+  ['GWP','Global Warming Potential — warming impact relative to CO₂ over 100 years.'],
+  ['Location-based (Scope 2)','Grid-average emission factors for the region.'],
+  ['Market-based (Scope 2)','Contractual instruments — RECs, LGCs, PPAs. Valid certificates can take Scope 2 to zero.'],
+  ['Financed emissions','Scope 3 Category 15 — loans, investments, underwriting. Decisive for financial institutions.'],
+  ['Fugitive emissions','Unintended releases — refrigerant leaks, coal-seam methane.'],
+  ['Safe harbour','Transitional regulator-only enforcement for Scope 3, scenario analysis and transition plans (AU).'],
+  ['Stranded asset','Asset whose value collapses under transition — e.g. unburnable reserves.'],
+  ['Transition risk','Policy, technology, market and reputational risks of decarbonisation.'],
+  ['Physical risk','Acute (floods, fires, cyclones) and chronic (sea-level rise, heat stress) climate risks.'],
+  ['Net zero','Deep emission cuts with residuals balanced by removals — more rigorous than carbon neutral.'],
+  ['Greenwashing risk','Narrative claims outrunning assured data — practitioners compare marketing to evidence.']
+];
+function axsInitGloss(){
+  var host = document.getElementById('axs-gloss');
+  if (!host || host.children.length) return;
+  AXS_GLOSS.forEach(function(g){
+    var d = document.createElement('div');
+    d.className = 'axs-gloss-item';
+    d.innerHTML = '<b>'+g[0]+'</b> — <span>'+g[1]+'</span>';
+    host.appendChild(d);
+  });
+}
+function axsGlossFilter(){
+  var q = (document.getElementById('axs-gloss-q').value||'').toLowerCase();
+  document.querySelectorAll('.axs-gloss-item').forEach(function(d){
+    d.style.display = d.textContent.toLowerCase().indexOf(q)>=0 ? '' : 'none';
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  axsInitChecks(); axsInitTracker(); axsInitGloss();
+});
+</script>
 
 <!-- ===== CREDITS PAGE JAVASCRIPT ===== -->
 <script>
