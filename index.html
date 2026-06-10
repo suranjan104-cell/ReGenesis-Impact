@@ -133,17 +133,17 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 /* HOME PAGE — always visible, stacks above fixed canvas layers */
 #page-home{color:#f0ede8;position:relative;z-index:1}
 #page-issb{min-height:100vh}
-/* UNIFIED NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2.5rem;display:flex!important;align-items:center;justify-content:space-between;background:rgba(3,10,6,0.96);backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid rgba(0,232,122,0.12);box-shadow:0 1px 0 rgba(0,232,122,0.05),0 4px 30px rgba(0,0,0,0.4)}
-.nav-logo{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;letter-spacing:.02em;color:#00e87a;cursor:pointer;text-decoration:none;text-shadow:0 0 24px rgba(0,232,122,0.35);transition:all .2s}
-.nav-logo:hover{text-shadow:0 0 32px rgba(0,232,122,0.55)}
-.nav-logo span{color:var(--cream)}
-.nav-links{display:flex;gap:1.75rem;list-style:none;align-items:center}
-.nav-links a,.nav-links button{color:rgba(245,240,232,.7);text-decoration:none;font-size:.875rem;font-weight:500;letter-spacing:.04em;transition:color .2s;background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;padding:0}
-.nav-links a:hover,.nav-links button:hover{color:var(--lime)}
-.nav-links .nl-active{color:var(--lime)!important}
-.nav-cta{background:var(--lime)!important;color:var(--forest)!important;padding:.55rem 1.35rem!important;border-radius:2rem!important;font-weight:600!important;transition:transform .2s,box-shadow .2s!important}
-.nav-cta:hover{transform:translateY(-1px)!important;box-shadow:0 4px 18px rgba(0,232,122,.35)!important}
+/* UNIFIED NAV — matches rv-* design system */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.85rem 5%;display:flex!important;align-items:center;justify-content:space-between;background:rgba(3,10,6,0.82);backdrop-filter:blur(24px) saturate(160%);border-bottom:1px solid rgba(255,255,255,0.06)}
+.nav-logo{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:700;letter-spacing:-.01em;color:#00e87a;cursor:pointer;text-decoration:none;transition:opacity .2s}
+.nav-logo:hover{opacity:.85}
+.nav-logo span{color:#f1f5f2}
+.nav-links{display:flex;gap:1.6rem;list-style:none;align-items:center}
+.nav-links a,.nav-links button{color:rgba(241,245,242,.65);text-decoration:none;font-size:.875rem;font-weight:500;letter-spacing:.02em;transition:color .2s;background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;padding:0}
+.nav-links a:hover,.nav-links button:hover{color:#00e87a}
+.nav-links .nl-active{color:#00e87a!important}
+.nav-cta{background:linear-gradient(135deg,#00e87a,#0affdb)!important;color:#030a06!important;padding:.55rem 1.4rem!important;border-radius:2rem!important;font-weight:700!important;transition:transform .2s,box-shadow .2s!important;box-shadow:0 2px 16px rgba(0,232,122,.28)!important}
+.nav-cta:hover{transform:translateY(-1px)!important;box-shadow:0 6px 24px rgba(0,232,122,.45)!important}
 .nav-badge-live{background:rgba(0,232,122,.08);border:1px solid rgba(0,232,122,.2);color:var(--bio);padding:.28rem .85rem;border-radius:2rem;font-size:.68rem;font-family:'DM Mono',monospace;letter-spacing:.1em;display:flex;align-items:center;gap:.4rem}
 .nav-badge-live::before{content:'';width:6px;height:6px;background:var(--bio);border-radius:50%;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
@@ -151,7 +151,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 2.5rem;display
 .nav-dropdown-wrap{position:relative}
 .nav-dropdown-btn{color:rgba(245,240,232,.7);text-decoration:none;font-size:.875rem;font-weight:500;letter-spacing:.04em;transition:color .2s;background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;padding:0}
 .nav-dropdown-btn:hover,.nav-dropdown-btn.open{color:var(--lime)}
-.nav-dropdown-menu{display:none;position:absolute;top:calc(100% + .75rem);left:50%;transform:translateX(-50%);background:rgba(3,10,6,0.98);border:1px solid rgba(0,232,122,0.2);border-radius:.6rem;padding:.5rem;min-width:210px;z-index:500;box-shadow:0 12px 40px rgba(0,0,0,.5);list-style:none;backdrop-filter:blur(12px)}
+.nav-dropdown-menu{display:none;position:absolute;top:calc(100% + .85rem);left:50%;transform:translateX(-50%);background:rgba(4,13,8,0.97);border:1px solid rgba(255,255,255,0.09);border-radius:.85rem;padding:.45rem;min-width:225px;z-index:500;box-shadow:0 16px 48px rgba(0,0,0,.55),0 0 0 1px rgba(0,232,122,.06);list-style:none;backdrop-filter:blur(20px)}
 .nav-dropdown-menu.open{display:block;animation:fadeUp .15s ease}
 .nav-dropdown-menu li button{display:flex;width:100%;text-align:left;padding:.6rem .9rem;border-radius:.4rem;background:none;border:none;color:rgba(245,240,232,.7);font-size:.82rem;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .2s;gap:.5rem;align-items:center;white-space:nowrap}
 .nav-dropdown-menu li button:hover{background:rgba(0,232,122,.08);color:var(--bio)}
@@ -4779,7 +4779,6 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
  </div>
  </div>
  <div id="brsr-sb5-scorecard-out" style="display:none;margin-top:1.25rem;background:rgba(255,178,60,.04);border:1px solid rgba(255,178,60,.18);border-radius:.6rem;padding:1.25rem 1.5rem;"></div>
-</div>
 
 </div><!-- /sr-panels-brsr -->
 
@@ -6316,8 +6315,6 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
 
  </div>
  </div>
-
-</div>
 <!-- ===== END TOOLS PAGE ===== -->
 
 <!-- ===== ADVISOR PAGE ===== -->
