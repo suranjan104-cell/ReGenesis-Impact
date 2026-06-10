@@ -11082,7 +11082,7 @@ window.issb_backToForm = function() {
      addMsg('ai', fmt(reply));
    }).catch(function(){
      hideTyping(typing);
-     addMsg('ai', '<span style="color:#ff6c3e">Could not reach Sage AI for analysis.</span>');
+     addMsg('ai', '<span style="color:#ff6c3e">⚠ Sage AI is temporarily unavailable — could not analyse the report.</span> <button onclick="sendGapAnalysis(\'' + filename.replace(/'/g,'') + '\')" style="background:rgba(255,108,62,.12);border:1px solid rgba(255,108,62,.35);color:#ff6c3e;padding:.15rem .55rem;border-radius:2rem;font-size:.72rem;font-family:var(--mono);cursor:pointer;margin-left:.4rem">↺ Retry</button>');
    });
  }
 
@@ -11134,10 +11134,12 @@ window.issb_backToForm = function() {
 
  function hideTyping(el) { if(el && el.parentNode) el.parentNode.removeChild(el); }
 
+ var _lastPrompt = '';
  window.send = async function() {
  var inpEl = window.inp(); if(!inpEl) return;
  var text = inpEl.value.trim(); if(!text) return;
  var sbEl = window.sb_btn();
+ _lastPrompt = text;
  inpEl.value = ''; arz(inpEl);
  if(sbEl) sbEl.disabled = true;
  addMsg('user', fmt(text));
@@ -11163,10 +11165,15 @@ window.issb_backToForm = function() {
  addMsg('ai', fmt(reply));
  } catch(err) {
  hideTyping(typing);
- addMsg('ai', '<span style="color:#ff6c3e">Connection error. Please check Sage AI proxy is running.</span>');
+ _hist.pop(); // remove the failed user message so retry sends a clean request
+ addMsg('ai', '<span style="color:#ff6c3e">⚠ Sage AI is temporarily unavailable.</span> <button onclick="window.retrySage()" style="background:rgba(255,108,62,.12);border:1px solid rgba(255,108,62,.35);color:#ff6c3e;padding:.15rem .55rem;border-radius:2rem;font-size:.72rem;font-family:var(--mono);cursor:pointer;margin-left:.4rem">↺ Retry</button>');
  }
  if(sbEl) sbEl.disabled = false;
  var inpEl2 = window.inp(); if(inpEl2) inpEl2.focus();
+ };
+
+ window.retrySage = function() {
+ var inpEl = window.inp(); if(inpEl && _lastPrompt) { inpEl.value = _lastPrompt; window.send(); }
  };
 
  window.askQ = function(q) {
@@ -11522,7 +11529,10 @@ window.issb_backToForm = function() {
  (d.content&&d.content[0]&&d.content[0].text)||'Unable to generate response.';
  textEl.innerHTML=text.replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
  } catch(e) {
- textEl.innerHTML='<span style="color:#ff6c3e">Connection error. Please check Sage AI is configured.</span>';
+ var _p = prompt;
+ var _w = wrapperId; var _t = textId;
+ textEl.innerHTML='<span style="color:#ff6c3e">⚠ Sage AI is temporarily unavailable.</span> <button style="background:rgba(255,108,62,.12);border:1px solid rgba(255,108,62,.35);color:#ff6c3e;padding:.15rem .55rem;border-radius:2rem;font-size:.72rem;font-family:\'DM Mono\',monospace;cursor:pointer;margin-left:.4rem" onclick="call_sage_ai(this.dataset.w,this.dataset.t,this.dataset.p)" data-w="' + _w + '" data-t="' + _t + '" data-p="">↺ Retry</button>';
+ textEl.querySelector('[data-p]').dataset.p = _p;
  }
  }
 
