@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Mono:wght@400;500&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000}
+.canvas{
+  width:1200px;height:1200px;position:relative;overflow:hidden;
+  background:#020806;
+  background-image:
+    radial-gradient(ellipse 70% 60% at 50% 42%, rgba(0,232,122,0.10) 0%, transparent 60%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:'Space Grotesk',sans-serif;
+}
+/* the mark */
+.mark{position:relative;width:360px;height:360px;display:flex;align-items:center;justify-content:center}
+.ring-outer{position:absolute;inset:0;border:5px solid rgba(0,232,122,0.28);border-radius:50%}
+.ring-mid{position:absolute;inset:46px;border:3px solid rgba(0,232,122,0.45);border-radius:50%}
+/* orbit arc — the "regeneration" sweep */
+.arc{position:absolute;inset:14px;border-radius:50%;
+  border:6px solid transparent;border-top-color:#00e87a;border-right-color:#00e87a;
+  transform:rotate(-38deg);filter:drop-shadow(0 0 14px rgba(0,232,122,0.6))}
+/* leaf / growth tick */
+.leaf{position:absolute;width:0;height:0;top:30px;left:50%;transform:translateX(-50%) rotate(0deg);
+  border-left:16px solid transparent;border-right:16px solid transparent;border-bottom:30px solid #0affdb;
+  filter:drop-shadow(0 0 10px rgba(10,255,219,0.7))}
+.core{width:120px;height:120px;border-radius:50%;
+  background:radial-gradient(circle at 38% 34%, #6effb8 0%, #00e87a 45%, #00b85f 100%);
+  box-shadow:0 0 50px rgba(0,232,122,0.65), inset 0 0 26px rgba(0,80,40,0.5)}
+.core::after{content:'';position:absolute;width:120px;height:120px;border-radius:50%;
+  background:repeating-linear-gradient(115deg, transparent 0 7px, rgba(2,8,6,0.18) 7px 9px)}
+/* wordmark */
+.word{margin-top:60px;text-align:center}
+.word .name{font-size:78px;font-weight:700;letter-spacing:-0.02em;color:#eafff3;line-height:1}
+.word .name b{color:#00e87a}
+.word .tag{margin-top:22px;font-family:'DM Mono',monospace;font-size:21px;letter-spacing:0.42em;
+  color:rgba(234,255,243,0.55);text-transform:uppercase}
+/* corner ticks */
+.tick{position:absolute;width:40px;height:40px;border-color:rgba(0,232,122,0.3)}
+.tick.tl{top:60px;left:60px;border-top:2px solid;border-left:2px solid}
+.tick.tr{top:60px;right:60px;border-top:2px solid;border-right:2px solid}
+.tick.bl{bottom:60px;left:60px;border-bottom:2px solid;border-left:2px solid}
+.tick.br{bottom:60px;right:60px;border-bottom:2px solid;border-right:2px solid}
+
+/* icon-only canvas */
+.icanvas{width:800px;height:800px;background:#020806;display:flex;align-items:center;justify-content:center;
+  background-image:radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0,232,122,0.12) 0%, transparent 62%)}
+.icanvas .mark{width:460px;height:460px}
+.icanvas .ring-mid{inset:60px}
+.icanvas .core{width:150px;height:150px}
+.icanvas .core::after{width:150px;height:150px}
+.icanvas .leaf{top:36px}
+</style>
+</head>
+<body>
+
+<!-- full lockup -->
+<div class="canvas" id="logo">
+  <span class="tick tl"></span><span class="tick tr"></span><span class="tick bl"></span><span class="tick br"></span>
+  <div class="mark">
+    <div class="ring-outer"></div>
+    <div class="ring-mid"></div>
+    <div class="arc"></div>
+    <div class="leaf"></div>
+    <div class="core"></div>
+  </div>
+  <div class="word">
+    <div class="name">ReGenesis<b>Impact</b></div>
+  </div>
+</div>
+
+<!-- icon only -->
+<div class="icanvas" id="icon">
+  <div class="mark">
+    <div class="ring-outer"></div>
+    <div class="ring-mid"></div>
+    <div class="arc"></div>
+    <div class="leaf"></div>
+    <div class="core"></div>
+  </div>
+</div>
+
+</body>
+</html>

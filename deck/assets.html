@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Mono:wght@400;500&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;font-family:'Space Grotesk',sans-serif}
+
+/* ===== OG social card 1200x630 ===== */
+.og{
+  width:1200px;height:630px;position:relative;overflow:hidden;background:#020806;color:#eafff3;
+  background-image:
+    radial-gradient(ellipse 60% 80% at 82% 50%, rgba(0,232,122,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 10% 10%, rgba(10,255,219,0.06) 0%, transparent 55%);
+  display:flex;align-items:center;padding:0 80px;
+}
+.og .floor{position:absolute;left:0;right:0;bottom:0;height:240px;pointer-events:none;
+  background-image:linear-gradient(rgba(0,232,122,0.12) 1px,transparent 1px),linear-gradient(90deg,rgba(0,232,122,0.12) 1px,transparent 1px);
+  background-size:56px 56px;transform:perspective(420px) rotateX(68deg);transform-origin:bottom;
+  -webkit-mask-image:linear-gradient(to top,#000 0%,transparent 90%);mask-image:linear-gradient(to top,#000 0%,transparent 90%);opacity:.55}
+.og .tick{position:absolute;width:38px;height:38px;border-color:rgba(0,232,122,0.35)}
+.og .tick.tl{top:36px;left:36px;border-top:2px solid;border-left:2px solid}
+.og .tick.tr{top:36px;right:36px;border-top:2px solid;border-right:2px solid}
+.og .tick.bl{bottom:36px;left:36px;border-bottom:2px solid;border-left:2px solid}
+.og .tick.br{bottom:36px;right:36px;border-bottom:2px solid;border-right:2px solid}
+.og .left{position:relative;z-index:2;max-width:660px}
+.og .brand{font-size:34px;font-weight:700;letter-spacing:-0.01em;margin-bottom:34px}
+.og .brand b{color:#00e87a}
+.og h1{font-size:64px;font-weight:700;line-height:1.04;letter-spacing:-0.02em;margin-bottom:26px}
+.og h1 .g{color:#00e87a}
+.og .sub{font-family:'DM Mono',monospace;font-size:21px;color:rgba(234,255,243,0.6);letter-spacing:.04em;line-height:1.7;margin-bottom:30px}
+.og .url{display:inline-block;font-family:'DM Mono',monospace;font-size:23px;border:2px solid #00e87a;border-radius:9px;
+  padding:13px 26px;color:#eafff3;background:rgba(0,232,122,0.07);box-shadow:0 0 30px rgba(0,232,122,0.18)}
+.og .url b{color:#00e87a}
+/* mark on right */
+.mark{position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ring-outer{position:absolute;inset:0;border-radius:50%;border:solid rgba(0,232,122,0.28)}
+.ring-mid{position:absolute;border-radius:50%;border:solid rgba(0,232,122,0.45)}
+.arc{position:absolute;border-radius:50%;border:solid transparent;border-top-color:#00e87a;border-right-color:#00e87a;
+  transform:rotate(-38deg);filter:drop-shadow(0 0 12px rgba(0,232,122,0.6))}
+.leaf{position:absolute;width:0;height:0;left:50%;border-left:solid transparent;border-right:solid transparent;border-bottom:solid #0affdb;
+  transform:translateX(-50%);filter:drop-shadow(0 0 8px rgba(10,255,219,0.7))}
+.core{border-radius:50%;background:radial-gradient(circle at 38% 34%, #6effb8 0%, #00e87a 45%, #00b85f 100%);
+  box-shadow:0 0 40px rgba(0,232,122,0.6), inset 0 0 22px rgba(0,80,40,0.5)}
+.og .mark{width:380px;height:380px;margin-left:60px;z-index:2}
+.og .ring-outer{border-width:5px}
+.og .ring-mid{inset:50px;border-width:3px}
+.og .arc{inset:15px;border-width:6px}
+.og .leaf{top:33px;border-left-width:16px;border-right-width:16px;border-bottom-width:30px}
+.og .core{width:124px;height:124px}
+
+/* ===== icons (exact pixel canvases) ===== */
+.icon{position:relative;background:#020806;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.icon .glow{position:absolute;inset:0;background:radial-gradient(circle at 50% 50%, rgba(0,232,122,0.14) 0%, transparent 65%)}
+
+#i512{width:512px;height:512px}
+#i512 .mark{width:380px;height:380px}
+#i512 .ring-outer{border-width:6px}
+#i512 .ring-mid{inset:50px;border-width:3px}
+#i512 .arc{inset:16px;border-width:7px}
+#i512 .leaf{top:34px;border-left-width:15px;border-right-width:15px;border-bottom-width:28px}
+#i512 .core{width:126px;height:126px}
+
+#i192{width:192px;height:192px}
+#i192 .mark{width:148px;height:148px}
+#i192 .ring-outer{border-width:3px}
+#i192 .ring-mid{inset:20px;border-width:2px}
+#i192 .arc{inset:7px;border-width:4px}
+#i192 .leaf{top:13px;border-left-width:6px;border-right-width:6px;border-bottom-width:11px}
+#i192 .core{width:50px;height:50px}
+
+#i180{width:180px;height:180px}
+#i180 .mark{width:138px;height:138px}
+#i180 .ring-outer{border-width:3px}
+#i180 .ring-mid{inset:19px;border-width:2px}
+#i180 .arc{inset:7px;border-width:4px}
+#i180 .leaf{top:12px;border-left-width:6px;border-right-width:6px;border-bottom-width:10px}
+#i180 .core{width:46px;height:46px}
+
+/* favicon: simplified — ring + core only, max contrast */
+#i32{width:32px;height:32px}
+#i32 .mark{width:30px;height:30px}
+#i32 .ring-outer{inset:0;border-width:2px;border-color:#00e87a}
+#i32 .core{width:14px;height:14px;box-shadow:0 0 6px rgba(0,232,122,0.8)}
+</style>
+</head>
+<body>
+
+<div class="og" id="og">
+  <span class="tick tl"></span><span class="tick tr"></span><span class="tick bl"></span><span class="tick br"></span>
+  <div class="floor"></div>
+  <div class="left">
+    <div class="brand">ReGenesis<b>Impact</b></div>
+    <h1>Climate mission control, <span class="g">open to everyone.</span></h1>
+    <div class="sub">ISSB S2 · GHG PROTOCOL · ASSURANCE STUDIO<br>CARBON CREDITS · SAGE AI &nbsp;·&nbsp; 🇦🇺 🇸🇬 🇮🇳</div>
+    <span class="url">→ regenesis<b>impact.in</b></span>
+  </div>
+  <div class="mark">
+    <div class="ring-outer"></div><div class="ring-mid"></div><div class="arc"></div><div class="leaf"></div><div class="core"></div>
+  </div>
+</div>
+
+<div class="icon" id="i512"><div class="glow"></div>
+  <div class="mark"><div class="ring-outer"></div><div class="ring-mid"></div><div class="arc"></div><div class="leaf"></div><div class="core"></div></div>
+</div>
+
+<div class="icon" id="i192"><div class="glow"></div>
+  <div class="mark"><div class="ring-outer"></div><div class="ring-mid"></div><div class="arc"></div><div class="leaf"></div><div class="core"></div></div>
+</div>
+
+<div class="icon" id="i180"><div class="glow"></div>
+  <div class="mark"><div class="ring-outer"></div><div class="ring-mid"></div><div class="arc"></div><div class="leaf"></div><div class="core"></div></div>
+</div>
+
+<div class="icon" id="i32">
+  <div class="mark"><div class="ring-outer"></div><div class="core"></div></div>
+</div>
+
+</body>
+</html>
