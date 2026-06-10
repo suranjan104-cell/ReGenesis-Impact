@@ -8314,7 +8314,7 @@ window.cipDcCalc = function() {
 // ── Sage AI ─────────────────────────────────────────────────────────
 function cipCallSage(prompt, onOk, onErr) {
   if (typeof rgLogQuery === 'function') rgLogQuery('climate', prompt);
-  fetch('https://sageai.suranjan104.workers.dev', {
+  fetch('/sage', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -8372,7 +8372,7 @@ function cipRunSage(type, org, sec, outKey) {
   cipCallSage(prompt,
     function(text) {
       out.innerHTML = cipFmt(text);
-      if (info) info.textContent = 'Generated in ' + ((Date.now()-t0)/1000).toFixed(1) + 's · Sage AI · llama-3.3-70b';
+      if (info) info.textContent = 'Generated in ' + ((Date.now()-t0)/1000).toFixed(1) + 's · Sage AI · Claude Haiku';
       btns.forEach(function(b){ b.disabled = false; });
     },
     function(e) {
@@ -11067,7 +11067,7 @@ window.issb_backToForm = function() {
      'Be specific, professional, and reference exact framework paragraphs where possible.';
 
    if (typeof rgLogQuery === 'function') rgLogQuery('gap_analysis', 'Report upload: ' + filename);
-   fetch('https://sageai.suranjan104.workers.dev', {
+   fetch('/sage', {
      method:'POST', headers:{'Content-Type':'application/json'},
      body: JSON.stringify({
        model:'llama-3.3-70b-versatile',
@@ -11147,7 +11147,7 @@ window.issb_backToForm = function() {
  if (typeof rgLogQuery === 'function') rgLogQuery('advisor', text);
  var typing = showTyping();
  try {
- var res = await fetch('https://sageai.suranjan104.workers.dev', {
+ var res = await fetch('/sage', {
  method:'POST',
  headers:{'Content-Type':'application/json'},
  body: JSON.stringify({
@@ -11518,7 +11518,7 @@ window.issb_backToForm = function() {
  textEl.innerHTML='<em style="color:rgba(245,240,232,0.4)">Sage is analysing...</em>';
  if (typeof rgLogQuery === 'function') rgLogQuery('report_draft', prompt);
  try {
- var res=await fetch('https://sageai.suranjan104.workers.dev',{
+ var res=await fetch('/sage',{
  method:'POST',headers:{'Content-Type':'application/json'},
  body:JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:1500,
  system:'You are Sage, an expert ESG and sustainability advisor at ReGenesis Impact.',
@@ -12074,7 +12074,7 @@ function ciFormatResponse(text) {
 
 function ciCallSage(prompt, onOk, onErr) {
   if (typeof rgLogQuery === 'function') rgLogQuery('credits', prompt);
-  fetch('https://sageai.suranjan104.workers.dev', {
+  fetch('/sage', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
@@ -12111,7 +12111,7 @@ function ciAskRun(type, org, sec, outKey) {
   ciCallSage(prompt,
     function(text){
       out.innerHTML = ciFormatResponse(text);
-      if (info) info.textContent = 'Generated in '+(((Date.now()-t0)/1000).toFixed(1))+'s · Sage AI · Groq llama-3.3-70b';
+      if (info) info.textContent = 'Generated in '+(((Date.now()-t0)/1000).toFixed(1))+'s · Sage AI · Claude Haiku';
     },
     function(e){
       out.innerHTML = '<span style="color:var(--cr)">⚠ Sage AI connection failed. Please check your network. Error: '+(e&&e.message?e.message:'unknown')+'</span>';
