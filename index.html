@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>ReGenesis Impact — AI-Powered ESG & Climate Platform | Singapore · Australia · India | MAS · AASB S2 · ISSB S2</title>
 <meta name="description" content="ReGenesis Impact is Asia-Pacific's leading AI-powered sustainability platform. Trusted by Singapore (MAS taxonomy, SGX climate reporting) and Australian (AASB S2, APRA CPS 229, ASIC) corporates and financial institutions. Generate ISSB S2 climate disclosures, GHG inventories, TCFD scenario analysis, and tokenise carbon credits.">
 <meta name="keywords" content="ISSB S2 reporting India, GHG inventory software, climate risk assessment, ESG reporting platform India, carbon accounting software, TCFD reporting tool, sustainability disclosure platform, NGFS scenario analysis, Scope 3 emissions tracker, financed emissions PCAF, carbon credits exchange India, blue carbon credits, tokenised carbon credits, SBTi net zero tool, SEBI BRSR reporting, ESG due diligence, physical risk assessment, climate intelligence platform, MAS green taxonomy Singapore, SGX climate reporting, AASB S2 Australia, APRA CPS 229, ASIC climate disclosure, Australian climate reporting, Singapore ESG platform, MAS environmental risk, Green Finance Action Plan Singapore, climate disclosure Australia, TCFD Australia, NGFS scenario analysis Singapore, financed emissions PCAF Australia">
@@ -154,7 +154,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 #page-home .fx-footer{background:#010604}
 #page-issb{min-height:100vh}
 /* UNIFIED NAV — Climate Mission Control (fx) theme */
-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:.8rem 5%;display:flex!important;align-items:center;justify-content:space-between;background:rgba(2,8,6,0.88);backdrop-filter:blur(24px) saturate(160%);border-bottom:1px solid rgba(0,232,122,0.14)}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:calc(.8rem + env(safe-area-inset-top)) 5% .8rem;display:flex!important;align-items:center;justify-content:space-between;background:rgba(2,8,6,0.88);backdrop-filter:blur(24px) saturate(160%);border-bottom:1px solid rgba(0,232,122,0.14)}
 nav::after{content:'';position:absolute;bottom:-1px;left:0;width:180px;height:1px;background:linear-gradient(90deg,#00e87a,transparent)}
 .nav-logo{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:700;letter-spacing:-.01em;color:#00e87a;cursor:pointer;text-decoration:none;transition:opacity .2s;display:inline-flex;align-items:center;gap:.5rem}
 .nav-logo::before{content:'◢';font-size:.7rem;color:rgba(0,232,122,.6)}
@@ -185,7 +185,7 @@ nav::after{content:'';position:absolute;bottom:-1px;left:0;width:180px;height:1p
 .nav-hamburger.open span:nth-child(2){opacity:0}
 .nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 /* MOBILE MENU */
-.nav-mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(2,8,6,0.98);backdrop-filter:blur(20px);z-index:250;padding:5rem 2rem 2rem;flex-direction:column;gap:.5rem;overflow-y:auto}
+.nav-mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(2,8,6,0.98);backdrop-filter:blur(20px);z-index:250;padding:calc(5rem + env(safe-area-inset-top)) 2rem calc(2rem + env(safe-area-inset-bottom));flex-direction:column;gap:.5rem;overflow-y:auto}
 .nav-mobile-menu.open{display:flex}
 .nav-mobile-menu button,.nav-mobile-menu a{background:none;border:none;color:rgba(240,237,232,.7);font-size:1rem;font-family:'DM Sans',sans-serif;font-weight:500;padding:.85rem 1rem;cursor:pointer;text-align:left;text-decoration:none;border-bottom:1px solid rgba(0,232,122,.07);transition:color .2s}
 .nav-mobile-menu button:hover,.nav-mobile-menu a:hover{color:var(--bio)}
@@ -193,7 +193,7 @@ nav::after{content:'';position:absolute;bottom:-1px;left:0;width:180px;height:1p
 .nav-mobile-menu .mob-cta{background:var(--bio)!important;color:#030a06!important;border-radius:.4rem;font-weight:700!important;text-align:center!important;margin-top:1rem;box-shadow:0 0 20px rgba(0,232,122,.2)!important}
 @media(max-width:768px){.nav-hamburger{display:flex}}
 /* SAGE WIDGET */
-.sage-widget{position:fixed;bottom:1.75rem;right:1.75rem;z-index:400;display:flex;flex-direction:column;align-items:flex-end;gap:.65rem}
+.sage-widget{position:fixed;bottom:calc(1.75rem + env(safe-area-inset-bottom));right:calc(1.75rem + env(safe-area-inset-right));z-index:400;display:flex;flex-direction:column;align-items:flex-end;gap:.65rem}
 .sage-fab{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,rgba(0,232,122,0.15),rgba(10,255,219,0.1));border:1.5px solid rgba(0,232,122,0.35);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.35rem;box-shadow:0 4px 28px rgba(0,232,122,0.2),0 0 0 0 rgba(0,232,122,0.3);transition:transform .2s,box-shadow .2s;position:relative;backdrop-filter:blur(8px)}
 .sage-fab:hover{transform:scale(1.1);box-shadow:0 6px 36px rgba(0,232,122,0.35),0 0 40px rgba(0,232,122,0.1)}
 .sage-fab-dot{position:absolute;top:-1px;right:-1px;width:13px;height:13px;background:#00e87a;border-radius:50%;border:2px solid #030a06;animation:pulse 2s infinite;box-shadow:0 0 8px rgba(0,232,122,0.5)}
@@ -1458,7 +1458,7 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
 #fw-ticker:hover{animation-play-state:paused}
 
 /* ===== SCROLL-TO-TOP ===== */
-#scroll-top{position:fixed;bottom:1.75rem;left:1.75rem;z-index:390;width:40px;height:40px;border-radius:50%;background:rgba(5,15,7,0.85);border:1px solid rgba(0,232,122,0.2);color:rgba(0,232,122,0.7);font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:all .3s;backdrop-filter:blur(8px);pointer-events:none}
+#scroll-top{position:fixed;bottom:calc(1.75rem + env(safe-area-inset-bottom));left:calc(1.75rem + env(safe-area-inset-left));z-index:390;width:40px;height:40px;border-radius:50%;background:rgba(5,15,7,0.85);border:1px solid rgba(0,232,122,0.2);color:rgba(0,232,122,0.7);font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:all .3s;backdrop-filter:blur(8px);pointer-events:none}
 #scroll-top.visible{opacity:1;pointer-events:all}
 #scroll-top:hover{border-color:rgba(0,232,122,0.4);color:var(--bio);transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,232,122,0.12)}
 
@@ -1594,7 +1594,7 @@ function loadPdfJs(){
       </div>
     </div>
     <button class="rab-cta" onclick="openLeadModal('regulatory_alert')">Check Compliance →</button>
-    <button class="rab-dismiss" onclick="dismissRegAlertBar()" title="Dismiss">✕</button>
+    <button class="rab-dismiss" onclick="dismissRegAlertBar()" aria-label="Dismiss alert">✕</button>
   </div>
 </div>
 
@@ -1607,9 +1607,9 @@ function loadPdfJs(){
 <div class="bio-blob bio-blob-3"></div>
 <div class="scan-line"></div>
 <!-- LOGIN MODAL -->
-<div id="login-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9999;align-items:center;justify-content:center;">
+<div id="login-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9999;align-items:center;justify-content:center;">
   <div style="background:#050f07;border:1px solid rgba(0,232,122,0.2);border-radius:0.75rem;padding:2.5rem;width:100%;max-width:400px;position:relative;">
-    <button onclick="closeLoginModal()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:rgba(245,240,232,0.4);font-size:1.2rem;cursor:pointer;">✕</button>
+    <button onclick="closeLoginModal()" aria-label="Close sign-in dialog" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:rgba(245,240,232,0.4);font-size:1.2rem;cursor:pointer;">✕</button>
 
     <!-- Mode tabs -->
     <div style="display:flex;gap:0;margin-bottom:1.75rem;border:1px solid rgba(0,232,122,0.2);border-radius:0.4rem;overflow:hidden;">
@@ -1621,8 +1621,8 @@ function loadPdfJs(){
     <h3 id="modal-title" style="font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:0.4rem;">Access the Platform</h3>
     <p id="modal-subtitle" style="font-size:0.8rem;color:rgba(245,240,232,0.5);margin-bottom:1.5rem;">Sign in to your account to continue.</p>
 
-    <input id="modal-user" type="email" placeholder="Email address" onkeydown="if(event.key==='Enter')doModalLogin()" style="width:100%;background:rgba(0,0,0,0.4);border:1px solid rgba(0,232,122,0.2);border-radius:0.35rem;padding:0.75rem 1rem;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;margin-bottom:0.75rem;box-sizing:border-box;">
-    <input id="modal-pass" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')doModalLogin()" style="width:100%;background:rgba(0,0,0,0.4);border:1px solid rgba(0,232,122,0.2);border-radius:0.35rem;padding:0.75rem 1rem;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;margin-bottom:0.5rem;box-sizing:border-box;">
+    <input id="modal-user" type="email" placeholder="Email address" aria-label="Email address" onkeydown="if(event.key==='Enter')doModalLogin()" style="width:100%;background:rgba(0,0,0,0.4);border:1px solid rgba(0,232,122,0.2);border-radius:0.35rem;padding:0.75rem 1rem;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;margin-bottom:0.75rem;box-sizing:border-box;">
+    <input id="modal-pass" type="password" placeholder="Password" aria-label="Password" onkeydown="if(event.key==='Enter')doModalLogin()" style="width:100%;background:rgba(0,0,0,0.4);border:1px solid rgba(0,232,122,0.2);border-radius:0.35rem;padding:0.75rem 1rem;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;margin-bottom:0.5rem;box-sizing:border-box;">
 
     <div id="modal-forgot" style="text-align:right;margin-bottom:0.75rem;">
       <button onclick="authForgotPassword()" style="background:none;border:none;color:rgba(0,232,122,0.7);font-size:0.72rem;cursor:pointer;padding:0;">Forgot password?</button>
@@ -1641,9 +1641,9 @@ function loadPdfJs(){
 </div>
 
 <!-- SMART LEAD MODAL -->
-<div id="lead-modal">
+<div id="lead-modal" role="dialog" aria-modal="true" aria-label="Get started with ReGenesis Impact">
   <div class="lm-box">
-    <button class="lm-close" onclick="closeLeadModal()">✕</button>
+    <button class="lm-close" onclick="closeLeadModal()" aria-label="Close">✕</button>
     <div class="lm-progress">
       <div class="lm-progress-dot active" id="lm-dot-1"></div>
       <div class="lm-progress-dot" id="lm-dot-2"></div>
@@ -5918,6 +5918,7 @@ function loadPdfJs(){
     <div style="display:flex;gap:.5rem">
       <button onclick="ghgCopyReport()" style="background:rgba(255,178,60,.1);border:1px solid rgba(255,178,60,.25);color:#ffb23c;padding:.25rem .65rem;border-radius:2rem;font-size:.62rem;font-family:var(--mono);cursor:pointer;letter-spacing:.06em" id="ghg-copy-btn">Copy</button>
       <button onclick="ghgExportReport()" style="background:rgba(255,178,60,.1);border:1px solid rgba(255,178,60,.25);color:#ffb23c;padding:.25rem .65rem;border-radius:2rem;font-size:.62rem;font-family:var(--mono);cursor:pointer;letter-spacing:.06em">Export PDF</button>
+      <button onclick="ghgExportCSV()" style="background:rgba(0,232,122,.08);border:1px solid rgba(0,232,122,.2);color:#00e87a;padding:.25rem .65rem;border-radius:2rem;font-size:.62rem;font-family:var(--mono);cursor:pointer;letter-spacing:.06em">⬇ CSV</button>
     </div>
   </div>
   <div id="ghg-ai-report-text" style="font-size:.8rem;line-height:1.75;color:rgba(245,240,232,.85)">Calculating emissions and generating report...</div>
@@ -6688,7 +6689,7 @@ function loadPdfJs(){
  </div>
  <div class="irow">
  <div class="iwrap">
- <textarea id="msg-input" placeholder="Ask about ESG frameworks, carbon accounting, net-zero strategy — or upload a PDF for instant analysis..." rows="1" onkeydown="hkey(event)" oninput="arz(this);ucc()"></textarea>
+ <textarea id="msg-input" aria-label="Ask Sage AI a question about ESG, climate risk, or sustainability" placeholder="Ask about ESG frameworks, carbon accounting, net-zero strategy — or upload a PDF for instant analysis..." rows="1" onkeydown="hkey(event)" oninput="arz(this);ucc()"></textarea>
  <div class="ibtns">
  <button class="voice-btn" id="vbtn" onclick="toggleVoice()" title="Voice input"></button>
  </div>
@@ -6705,9 +6706,9 @@ function loadPdfJs(){
 </div>
 
 <!-- EXPORT MODAL -->
-<div class="moverlay" id="exp-modal">
+<div class="moverlay" id="exp-modal" role="dialog" aria-modal="true" aria-labelledby="exp-modal-title">
  <div class="modal">
- <div class="modal-t">Export <em>Chat Transcript</em></div>
+ <div class="modal-t" id="exp-modal-title">Export <em>Chat Transcript</em></div>
  <div class="modal-d">Download your full conversation with Sage as a formatted PDF — including all ESG guidance, IFRS S2 snippets, and strategic recommendations. Perfect for sharing with your sustainability team or board.</div>
  <div class="mbtns">
  <button class="mbtn s" onclick="hideExport()">Cancel</button>
@@ -8215,19 +8216,69 @@ window.cipExportTCFDPdf = function() {
   var org  = (document.getElementById('cip-tcfd-org')||{}).value || 'Organisation';
   var fw   = (document.getElementById('cip-tcfd-fw')||{}).value || 'ifrs2';
   var fwLabels = { ifrs2:'IFRS S2 (ISSB)', aasb2:'AASB S2', mas:'MAS ERM', tcfd:'TCFD', brsr:'BRSR' };
+  var fwLabel = fwLabels[fw] || 'IFRS S2 (ISSB)';
   var sc   = _SC_DATA[_CIP_SC] || _SC_DATA.nze;
   var date = new Date().toLocaleDateString('en-GB',{year:'numeric',month:'long',day:'numeric'});
   var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' + org + ' Climate Disclosure</title>' +
-    '<style>body{font-family:Georgia,serif;max-width:750px;margin:3cm auto;color:#1a1a1a;font-size:11pt;line-height:1.7}' +
-    'h1{font-size:2rem;color:#030a06;border-bottom:3px solid #00a85a;padding-bottom:.5rem}' +
-    '.meta{font-size:.8rem;color:#888;margin-bottom:2rem}.badge{background:#030a06;color:#00e87a;padding:.2rem .7rem;border-radius:2rem;font-size:.65rem;font-family:monospace;display:inline-block;margin-bottom:1rem}' +
-    'strong{font-weight:700}p{margin-bottom:.8rem}br{line-height:2}' +
-    '@page{size:A4;margin:2cm}@media print{body{margin:0}}</style></head><body>' +
-    '<div class="badge">' + (fwLabels[fw]||'IFRS S2') + ' · ' + sc.label + ' · DRAFT</div>' +
-    '<h1>' + org + '</h1>' +
-    '<div class="meta">Climate-Related Financial Disclosure · ' + (fwLabels[fw]||'IFRS S2') + ' · Generated ' + date + ' by ReGenesis Impact</div>' +
-    '<div>' + el.innerHTML + '</div>' +
-    '<p style="margin-top:2rem;font-size:.75rem;color:#aaa;border-top:1px solid #eee;padding-top:.75rem">Generated by ReGenesis Impact AI Engine · regenesisimpact.in · Review by a qualified sustainability professional before publication.</p>' +
+    '<style>@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&family=Cormorant+Garamond:wght@700&display=swap");' +
+    '*{box-sizing:border-box;margin:0;padding:0}' +
+    'body{background:#fff;color:#1a1a1a;font-family:"DM Sans",sans-serif;font-size:10pt;line-height:1.6}' +
+    '@page{size:A4 portrait;margin:0}' +
+    '@page:not(:first){margin:2cm 2cm 2.5cm}' +
+    '.cover{width:210mm;height:297mm;background:#030a06;color:#f0ede8;display:flex;flex-direction:column;page-break-after:always;position:relative;overflow:hidden}' +
+    '.cover-glow{position:absolute;top:-80px;right:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(0,232,122,.22) 0%,transparent 70%);border-radius:50%}' +
+    '.cover-body{flex:1;padding:3.5cm 2.5cm;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:1}' +
+    '.clogo{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:700;color:#00e87a;letter-spacing:-.02em}' +
+    '.clogo span{color:#f0ede8}' +
+    '.ctag{font-family:"DM Mono",monospace;font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(240,237,232,.35);margin-top:.3rem;margin-bottom:2cm}' +
+    '.cdiv{width:60px;height:3px;background:#00e87a;margin-bottom:1.5cm}' +
+    '.corg{font-family:"Cormorant Garamond",serif;font-size:2.8rem;font-weight:700;color:#f0ede8;line-height:1.1;margin-bottom:.4rem}' +
+    '.csub{font-size:.95rem;color:rgba(240,237,232,.5);margin-bottom:.6cm}' +
+    '.cbadge{display:inline-block;background:#00e87a;color:#030a06;padding:.35rem 1rem;border-radius:2rem;font-family:"DM Mono",monospace;font-size:.62rem;font-weight:600;letter-spacing:.06em;margin-bottom:1.5cm}' +
+    '.cmeta{border-top:1px solid rgba(0,232,122,.18);padding-top:.65cm}' +
+    '.cmeta-row{display:flex;justify-content:space-between;padding:.28rem 0;border-bottom:1px solid rgba(240,237,232,.06);font-size:.78rem}' +
+    '.cmeta-row span{color:rgba(240,237,232,.38)}' +
+    '.cmeta-row strong{color:#f0ede8}' +
+    '.cfoot{padding:.8cm 2.5cm;font-size:.56rem;color:rgba(240,237,232,.22);line-height:1.45;border-top:1px solid rgba(0,232,122,.08);position:relative;z-index:1}' +
+    '.page{padding:2cm;page-break-after:always}' +
+    '.hdr{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:1rem;border-bottom:2.5px solid #030a06;margin-bottom:1.8rem}' +
+    '.hdr-logo{font-family:"Cormorant Garamond",serif;font-size:1.25rem;font-weight:700;color:#030a06}' +
+    '.hdr-logo span{color:#00a85a}' +
+    '.hdr-badge{background:#030a06;color:#00e87a;padding:.18rem .6rem;border-radius:2rem;font-size:.58rem;font-family:"DM Mono",monospace;letter-spacing:.07em;display:inline-block}' +
+    '.hdr-meta{font-size:.68rem;color:#999;margin-top:.25rem;text-align:right}' +
+    '.scenario-box{background:#f6f9f6;border:1px solid #ddeedd;border-left:4px solid #00a85a;border-radius:.45rem;padding:.9rem 1.1rem;margin:1.2rem 0 1.8rem;display:flex;gap:1.5rem;align-items:center}' +
+    '.sb-label{font-family:"DM Mono",monospace;font-size:.58rem;letter-spacing:.08em;color:#888;text-transform:uppercase;margin-bottom:.25rem}' +
+    '.sb-val{font-size:.9rem;font-weight:600;color:#030a06}' +
+    '.content{font-size:.88rem;line-height:1.7;color:#2a2a2a}' +
+    '.content p{margin-bottom:.7rem}' +
+    '.content strong{font-weight:600;color:#030a06}' +
+    '.refs{margin-top:1.5rem;padding-top:.75rem;border-top:1px solid #eee;font-size:.65rem;color:#aaa;font-family:"DM Mono",monospace;line-height:1.6}' +
+    '</style></head><body>' +
+    '<div class="cover">' +
+      '<div class="cover-glow"></div>' +
+      '<div class="cover-body">' +
+        '<div class="clogo">ReGenesis<span> Impact</span></div>' +
+        '<div class="ctag">Sustainability Intelligence Platform</div>' +
+        '<div class="cdiv"></div>' +
+        '<div class="corg">' + org + '</div>' +
+        '<div class="csub">Climate-Related Financial Disclosure</div>' +
+        '<div class="cbadge">' + fwLabel + ' · ' + sc.label + ' · DRAFT</div>' +
+        '<div class="cmeta">' +
+          '<div class="cmeta-row"><span>Framework</span><strong>' + fwLabel + '</strong></div>' +
+          '<div class="cmeta-row"><span>Climate Scenario</span><strong>' + sc.label + '</strong></div>' +
+          '<div class="cmeta-row"><span>Generated</span><strong>' + date + '</strong></div>' +
+          '<div class="cmeta-row"><span>Status</span><strong>Draft — For Review</strong></div>' +
+          '<div class="cmeta-row"><span>Prepared by</span><strong>ReGenesis Impact AI Engine</strong></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="cfoot">This climate disclosure was prepared using the ReGenesis Impact Climate Intelligence Platform. Content is AI-generated and must be reviewed by a qualified sustainability or climate risk professional before submission to regulators or publication. · regenesisimpact.in</div>' +
+    '</div>' +
+    '<div class="page">' +
+      '<div class="hdr"><div><div class="hdr-logo">ReGenesis<span> Impact</span></div><div class="hdr-meta">' + org + ' · Climate Disclosure</div></div><div style="text-align:right"><div class="hdr-badge">' + fwLabel + '</div><div class="hdr-meta">Generated ' + date + '</div></div></div>' +
+      '<div class="scenario-box"><div><div class="sb-label">Climate Scenario</div><div class="sb-val">' + sc.label + '</div></div><div><div class="sb-label">Framework</div><div class="sb-val">' + fwLabel + '</div></div><div><div class="sb-label">Analysis by</div><div class="sb-val">ReGenesis Impact · NGFS Phase V</div></div></div>' +
+      '<div class="content">' + el.innerHTML + '</div>' +
+      '<div class="refs">References: NGFS Phase V Scenarios (2023) · ' + fwLabel + ' Climate Disclosure Requirements · TCFD Final Recommendations (2017, updated 2023) · IEA World Energy Outlook 2024 · IPCC AR6 (2021-2022)</div>' +
+    '</div>' +
     '</body></html>';
   var blob = new Blob([html],{type:'text/html'});
   var url = URL.createObjectURL(blob);
@@ -9812,26 +9863,148 @@ window.ghg_live = function() {
  };
 
  window.ghgExportReport = function() {
-   var el = document.getElementById('ghg-ai-report-text'); if (!el) return;
-   var org = ghg_str('g-entity') !== '—' ? ghg_str('g-entity') : 'Organisation';
+   var el = document.getElementById('ghg-ai-report-text'); if (!el || !el.innerHTML.trim()) return;
+   var org    = ghg_str('g-entity') !== '—' ? ghg_str('g-entity') : 'Organisation';
    var period = ghg_str('g-period') || 'FY2024';
-   var date = new Date().toLocaleDateString('en-GB',{year:'numeric',month:'long',day:'numeric'});
-   var content = el.innerHTML.replace(/<br>/g,'\n').replace(/<[^>]+>/g,'');
+   var sector = ghg_sel('g-sector') !== '—' ? ghg_sel('g-sector') : '';
+   var date   = new Date().toLocaleDateString('en-GB',{year:'numeric',month:'long',day:'numeric'});
+   var s1     = (document.getElementById('ghg-r-s1')||{}).textContent || '—';
+   var s2     = (document.getElementById('ghg-r-s2')||{}).textContent || '—';
+   var s3     = (document.getElementById('ghg-r-s3')||{}).textContent || '—';
+   var total  = (document.getElementById('ghg-r-total')||{}).textContent || '—';
+   var s2mkt  = (document.getElementById('ghg-r-s2mkt')||{}).textContent || '—';
+   var intens = (document.getElementById('ghg-r-intensity')||{}).textContent || '—';
    var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' + org + ' GHG Inventory ' + period + '</title>' +
-     '<style>body{font-family:Georgia,serif;max-width:750px;margin:3cm auto;color:#1a1a1a;font-size:11pt;line-height:1.7}' +
-     'h1{font-size:2rem;color:#030a06;border-bottom:3px solid #00a85a;padding-bottom:.5rem;margin-bottom:.3rem}' +
-     '.sub{color:#666;font-size:.9rem;margin-bottom:2rem}.badge{background:#030a06;color:#00e87a;padding:.2rem .7rem;border-radius:2rem;font-size:.65rem;font-family:monospace;display:inline-block;margin-bottom:1.5rem}' +
-     'strong{font-weight:700}p{margin-bottom:.8rem}' +
-     '@page{size:A4;margin:2cm}@media print{body{margin:0}}</style></head><body>' +
-     '<div class="badge">GHG Protocol · IFRS S2 · ' + period + '</div>' +
-     '<h1>' + org + '</h1><div class="sub">GHG Inventory Report · ' + period + ' · Generated ' + date + ' by ReGenesis Impact</div>' +
-     '<div>' + el.innerHTML + '</div>' +
-     '<p style="margin-top:2rem;font-size:.75rem;color:#aaa;border-top:1px solid #eee;padding-top:.75rem">Generated by ReGenesis Impact AI Engine · regenesisimpact.in · For review by a qualified sustainability professional before submission.</p>' +
-     '</body></html>';
+     '<style>@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&family=Cormorant+Garamond:wght@700&display=swap");' +
+     '*{box-sizing:border-box;margin:0;padding:0}' +
+     'body{background:#fff;color:#1a1a1a;font-family:"DM Sans",sans-serif;font-size:10pt;line-height:1.6}' +
+     '@page{size:A4 portrait;margin:0}' +
+     '@page:not(:first){margin:2cm 2cm 2.5cm}' +
+     '.cover{width:210mm;height:297mm;background:#030a06;color:#f0ede8;display:flex;flex-direction:column;page-break-after:always;position:relative;overflow:hidden}' +
+     '.cover-glow{position:absolute;top:-80px;right:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(0,232,122,.22) 0%,transparent 70%);border-radius:50%}' +
+     '.cover-body{flex:1;padding:3.5cm 2.5cm;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:1}' +
+     '.clogo{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:700;color:#00e87a;letter-spacing:-.02em}' +
+     '.clogo span{color:#f0ede8}' +
+     '.ctag{font-family:"DM Mono",monospace;font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(240,237,232,.35);margin-top:.3rem;margin-bottom:2cm}' +
+     '.cdiv{width:60px;height:3px;background:#00e87a;margin-bottom:1.5cm}' +
+     '.corg{font-family:"Cormorant Garamond",serif;font-size:2.8rem;font-weight:700;color:#f0ede8;line-height:1.1;margin-bottom:.4rem}' +
+     '.csub{font-size:.95rem;color:rgba(240,237,232,.5);margin-bottom:.6cm}' +
+     '.cbadge{display:inline-block;background:#00e87a;color:#030a06;padding:.35rem 1rem;border-radius:2rem;font-family:"DM Mono",monospace;font-size:.62rem;font-weight:600;letter-spacing:.06em;margin-bottom:1.5cm}' +
+     '.cmeta{border-top:1px solid rgba(0,232,122,.18);padding-top:.65cm}' +
+     '.cmeta-row{display:flex;justify-content:space-between;padding:.28rem 0;border-bottom:1px solid rgba(240,237,232,.06);font-size:.78rem}' +
+     '.cmeta-row span{color:rgba(240,237,232,.38)}' +
+     '.cmeta-row strong{color:#f0ede8}' +
+     '.cfoot{padding:.8cm 2.5cm;font-size:.56rem;color:rgba(240,237,232,.22);line-height:1.45;border-top:1px solid rgba(0,232,122,.08);position:relative;z-index:1}' +
+     '.page{padding:2cm;page-break-after:always}' +
+     '.hdr{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:1rem;border-bottom:2.5px solid #030a06;margin-bottom:1.8rem}' +
+     '.hdr-logo{font-family:"Cormorant Garamond",serif;font-size:1.25rem;font-weight:700;color:#030a06}' +
+     '.hdr-logo span{color:#00a85a}' +
+     '.hdr-badge{background:#030a06;color:#00e87a;padding:.18rem .6rem;border-radius:2rem;font-size:.58rem;font-family:"DM Mono",monospace;letter-spacing:.07em;display:inline-block}' +
+     '.hdr-meta{font-size:.68rem;color:#999;margin-top:.25rem;text-align:right}' +
+     '.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin:1.2rem 0 1.8rem}' +
+     '.kpi{background:#f6f9f6;border:1px solid #ddeedd;border-radius:.45rem;padding:.85rem;text-align:center}' +
+     '.kpi-val{font-family:"DM Mono",monospace;font-size:1.3rem;font-weight:700;color:#030a06}' +
+     '.kpi-unit{font-size:.58rem;color:#888;margin-top:.1rem}' +
+     '.kpi-lbl{font-size:.68rem;color:#666;margin-top:.3rem;font-weight:600}' +
+     '.kpi-total{background:#030a06;border-color:#030a06}' +
+     '.kpi-total .kpi-val{color:#00e87a}' +
+     '.kpi-total .kpi-unit,.kpi-total .kpi-lbl{color:rgba(240,237,232,.5)}' +
+     '.sec{margin-bottom:1.8rem;page-break-inside:avoid}' +
+     '.sec-hdr{font-family:"Cormorant Garamond",serif;font-size:1.05rem;font-weight:700;color:#030a06;padding-bottom:.35rem;border-bottom:2px solid #00a85a;margin-bottom:.9rem}' +
+     '.content{font-size:.88rem;line-height:1.7;color:#2a2a2a}' +
+     '.content p{margin-bottom:.7rem}' +
+     '.content strong{font-weight:600;color:#030a06}' +
+     '.refs{margin-top:1.5rem;padding-top:.75rem;border-top:1px solid #eee;font-size:.65rem;color:#aaa;font-family:"DM Mono",monospace;line-height:1.6}' +
+     '</style></head><body>' +
+     '<div class="cover">' +
+       '<div class="cover-glow"></div>' +
+       '<div class="cover-body">' +
+         '<div class="clogo">ReGenesis<span> Impact</span></div>' +
+         '<div class="ctag">Sustainability Intelligence Platform</div>' +
+         '<div class="cdiv"></div>' +
+         '<div class="corg">' + org + '</div>' +
+         '<div class="csub">GHG Inventory Report' + (sector ? ' · ' + sector : '') + '</div>' +
+         '<div class="cbadge">GHG Protocol · IFRS S2 · ' + period + '</div>' +
+         '<div class="cmeta">' +
+           '<div class="cmeta-row"><span>Reporting Period</span><strong>' + period + '</strong></div>' +
+           '<div class="cmeta-row"><span>Scope 1 Emissions</span><strong>' + s1 + ' tCO₂e</strong></div>' +
+           '<div class="cmeta-row"><span>Scope 2 (LB)</span><strong>' + s2 + ' tCO₂e</strong></div>' +
+           '<div class="cmeta-row"><span>Scope 3 (Selected)</span><strong>' + s3 + ' tCO₂e</strong></div>' +
+           '<div class="cmeta-row"><span>Total Emissions</span><strong>' + total + ' tCO₂e</strong></div>' +
+           '<div class="cmeta-row"><span>Generated</span><strong>' + date + '</strong></div>' +
+           '<div class="cmeta-row"><span>Status</span><strong>Draft — For Review</strong></div>' +
+         '</div>' +
+       '</div>' +
+       '<div class="cfoot">This document was prepared using ReGenesis Impact AI Engine. Emission factors: DEFRA UK GHG Conversion Factors 2024, IEA 2024 grid factors, IPCC AR6 GWP100, PCAF 2022. All figures should be verified and approved by a qualified sustainability professional before external reporting. · regenesisimpact.in</div>' +
+     '</div>' +
+     '<div class="page">' +
+       '<div class="hdr"><div><div class="hdr-logo">ReGenesis<span> Impact</span></div><div class="hdr-meta">' + org + ' · GHG Inventory · ' + period + '</div></div><div style="text-align:right"><div class="hdr-badge">GHG Protocol · IFRS S2</div><div class="hdr-meta">Generated ' + date + '</div></div></div>' +
+       '<div class="kpi-grid">' +
+         '<div class="kpi"><div class="kpi-val" style="color:#e05252">' + s1 + '</div><div class="kpi-unit">tCO₂e</div><div class="kpi-lbl">Scope 1 · Direct</div></div>' +
+         '<div class="kpi"><div class="kpi-val" style="color:#3cb9ff">' + s2 + '</div><div class="kpi-unit">tCO₂e</div><div class="kpi-lbl">Scope 2 · LB</div></div>' +
+         '<div class="kpi"><div class="kpi-val" style="color:#c084fc">' + s3 + '</div><div class="kpi-unit">tCO₂e</div><div class="kpi-lbl">Scope 3 · Indirect</div></div>' +
+         '<div class="kpi"><div class="kpi-val" style="color:#3cb9ff;font-size:.95rem">' + s2mkt + '</div><div class="kpi-unit">tCO₂e</div><div class="kpi-lbl">Scope 2 · Market-based</div></div>' +
+         '<div class="kpi"><div class="kpi-val" style="color:#888;font-size:.95rem">' + intens + '</div><div class="kpi-unit">tCO₂e / ₹Cr</div><div class="kpi-lbl">Intensity</div></div>' +
+         '<div class="kpi kpi-total"><div class="kpi-val">' + total + '</div><div class="kpi-unit">tCO₂e</div><div class="kpi-lbl">Total Emissions</div></div>' +
+       '</div>' +
+       '<div class="sec"><div class="sec-hdr">AI-Generated Inventory Report</div><div class="content">' + el.innerHTML + '</div></div>' +
+       '<div class="refs">Methodology: GHG Protocol Corporate Standard (Rev 2015) · IFRS S2 (2023) · Emission factors: DEFRA UK GHG Conversion Factors 2024 · IEA Electricity Emission Factors 2024 · IPCC AR6 GWP100 (CH₄ 29.8, N₂O 273) · PCAF Global Standard 2022</div>' +
+     '</div>' +
+   '</body></html>';
    var blob = new Blob([html], {type:'text/html'});
    var url = URL.createObjectURL(blob);
    var w = window.open(url,'_blank');
    if (w) w.onload = function(){ setTimeout(function(){ w.print(); URL.revokeObjectURL(url); },500); };
+ };
+
+ window.ghgExportCSV = function() {
+   var org    = ghg_str('g-entity') !== '—' ? ghg_str('g-entity') : 'Organisation';
+   var period = ghg_str('g-period') || 'FY2024';
+   var rows = [
+     ['Category','Subcategory','Activity','Amount','Unit','Emission Factor','EF Unit','tCO2e','Source','EF Reference'],
+     ['Org Details','Entity','Organisation Name',org,'','','','','',''],
+     ['Org Details','Entity','Reporting Period',period,'','','','','',''],
+     ['Org Details','Entity','Base Year',ghg_str('g-baseyear'),'','','','','',''],
+     ['Org Details','Entity','Sector',ghg_sel('g-sector'),'','','','','',''],
+     ['Org Details','Entity','Employees',ghg_str('g-employees'),'FTE','','','','',''],
+     ['Scope 1','Stationary','Diesel',ghg_str('g-diesel-vol'),'litres',ghg_str('g-diesel-ef'),'kgCO2e/litre',
+       String(Math.round(ghg_val('g-diesel-vol')*ghg_val('g-diesel-ef')/1000*100)/100),ghg_str('g-diesel-src'),'DEFRA 2024'],
+     ['Scope 1','Stationary','Natural Gas',ghg_str('g-gas-vol'),'GJ',ghg_str('g-gas-ef'),'kgCO2e/GJ',
+       String(Math.round(ghg_val('g-gas-vol')*ghg_val('g-gas-ef')/1000*100)/100),ghg_str('g-gas-src'),'DEFRA 2024'],
+     ['Scope 1','Stationary','LPG',ghg_str('g-lpg-vol'),'kg',ghg_str('g-lpg-ef'),'kgCO2e/kg',
+       String(Math.round(ghg_val('g-lpg-vol')*ghg_val('g-lpg-ef')/1000*100)/100),ghg_str('g-lpg-src'),'DEFRA 2024'],
+     ['Scope 1','Mobile','Petrol (Fleet)',ghg_str('g-petrol-vol'),'litres','2.31','kgCO2e/litre',
+       String(Math.round(ghg_val('g-petrol-vol')*2.31/1000*100)/100),ghg_str('g-mob-src'),'DEFRA 2024'],
+     ['Scope 1','Mobile','Diesel (Fleet)',ghg_str('g-mob-diesel-vol'),'litres','2.68','kgCO2e/litre',
+       String(Math.round(ghg_val('g-mob-diesel-vol')*2.68/1000*100)/100),ghg_str('g-mob-src'),'DEFRA 2024'],
+     ['Scope 1','Fugitive','Refrigerants',ghg_str('g-refrig-vol'),'kg',ghg_sel('g-refrig-type'),'GWP100',
+       String(Math.round(ghg_val('g-refrig-vol')*({HFC134a:1430,HFC410A:2088,R32:675,R22:1810,CO2:1}[ghg_sel('g-refrig-type')]||1430)/1000*100)/100),ghg_str('g-refrig-src'),'IPCC AR6'],
+     ['Scope 2','Purchased Electricity (LB)',ghg_str('g-elec-mwh'),'MWh',ghg_str('g-elec-ef'),'kgCO2e/kWh',
+       String(Math.round(ghg_val('g-elec-mwh')*ghg_val('g-elec-ef')*100)/100),ghg_str('g-elec-src'),'IEA 2024'].slice(0,10),
+     ['Scope 2','Purchased Heat/Steam',ghg_str('g-heat-gj'),'GJ',ghg_str('g-heat-ef'),'tCO2e/GJ',
+       String(Math.round(ghg_val('g-heat-gj')*ghg_val('g-heat-ef')*100)/100),ghg_str('g-heat-src'),'DEFRA 2024'].slice(0,10),
+     ['Scope 3','Cat 1 Purchased Goods',ghg_str('g-cat1-spend'),'₹Cr',ghg_str('g-cat1-ef'),'kgCO2e/₹Cr',
+       String(Math.round(ghg_val('g-cat1-spend')*ghg_val('g-cat1-ef')/1000*100)/100),'','Spend-based EEIO'].slice(0,10),
+     ['Scope 3','Cat 5 Waste',ghg_str('g-cat5-waste'),'tonnes','0.467','tCO2e/tonne',
+       String(Math.round(ghg_val('g-cat5-waste')*0.467*100)/100),ghg_str('g-cat5-src'),'DEFRA 2024'].slice(0,10),
+     ['Scope 3','Cat 6 Air Travel',ghg_str('g-cat6-air'),'PKM','0.000255','kgCO2e/PKM',
+       String(Math.round(ghg_val('g-cat6-air')*0.000255/1000*100)/100),ghg_str('g-cat6-src'),'DEFRA 2024 RFI'].slice(0,10),
+     ['Scope 3','Cat 7 Commuting',ghg_str('g-cat7-km')+'×'+ghg_str('g-cat7-days')+'×employees','km×days','0.021','kgCO2e/km',
+       String(Math.round(ghg_val('g-cat7-km')*ghg_val('g-cat7-days')*(ghg_val('g-employees')||1)*0.021/1000*100)/100),'','DEFRA 2024'].slice(0,10),
+     ['Totals','Scope 1','',(document.getElementById('ghg-r-s1')||{}).textContent||'','tCO2e','','','','',''],
+     ['Totals','Scope 2 (Location-based)','',(document.getElementById('ghg-r-s2')||{}).textContent||'','tCO2e','','','','',''],
+     ['Totals','Scope 2 (Market-based)','',(document.getElementById('ghg-r-s2mkt')||{}).textContent||'','tCO2e','','','','',''],
+     ['Totals','Scope 3 (Selected)','',(document.getElementById('ghg-r-s3')||{}).textContent||'','tCO2e','','','','',''],
+     ['Totals','TOTAL','',(document.getElementById('ghg-r-total')||{}).textContent||'','tCO2e','','','','',''],
+     ['Totals','Intensity','',(document.getElementById('ghg-r-intensity')||{}).textContent||'','tCO2e/₹Cr','','','','','']
+   ];
+   var csv = rows.map(function(r){ return r.map(function(c){ var s=String(c||''); return s.indexOf(',')>=0||s.indexOf('"')>=0?'"'+s.replace(/"/g,'""')+'"':s; }).join(','); }).join('\r\n');
+   var blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+   var a = document.createElement('a');
+   a.href = URL.createObjectURL(blob);
+   a.download = org.replace(/[^a-z0-9]/gi,'_') + '_GHG_' + period.replace(/[^a-z0-9]/gi,'_') + '.csv';
+   document.body.appendChild(a); a.click(); document.body.removeChild(a);
+   setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
  };
 
  // ── ISSB functions ───────────────────────────────────────────
@@ -10909,7 +11082,7 @@ window.issb_backToForm = function() {
      addMsg('ai', fmt(reply));
    }).catch(function(){
      hideTyping(typing);
-     addMsg('ai', '<span style="color:#ff6c3e">Could not reach Sage AI for analysis.</span>');
+     addMsg('ai', '<span style="color:#ff6c3e">⚠ Sage AI is temporarily unavailable — could not analyse the report.</span> <button onclick="sendGapAnalysis(\'' + filename.replace(/'/g,'') + '\')" style="background:rgba(255,108,62,.12);border:1px solid rgba(255,108,62,.35);color:#ff6c3e;padding:.15rem .55rem;border-radius:2rem;font-size:.72rem;font-family:var(--mono);cursor:pointer;margin-left:.4rem">↺ Retry</button>');
    });
  }
 
@@ -10961,10 +11134,12 @@ window.issb_backToForm = function() {
 
  function hideTyping(el) { if(el && el.parentNode) el.parentNode.removeChild(el); }
 
+ var _lastPrompt = '';
  window.send = async function() {
  var inpEl = window.inp(); if(!inpEl) return;
  var text = inpEl.value.trim(); if(!text) return;
  var sbEl = window.sb_btn();
+ _lastPrompt = text;
  inpEl.value = ''; arz(inpEl);
  if(sbEl) sbEl.disabled = true;
  addMsg('user', fmt(text));
@@ -10990,10 +11165,15 @@ window.issb_backToForm = function() {
  addMsg('ai', fmt(reply));
  } catch(err) {
  hideTyping(typing);
- addMsg('ai', '<span style="color:#ff6c3e">Connection error. Please check Sage AI proxy is running.</span>');
+ _hist.pop(); // remove the failed user message so retry sends a clean request
+ addMsg('ai', '<span style="color:#ff6c3e">⚠ Sage AI is temporarily unavailable.</span> <button onclick="window.retrySage()" style="background:rgba(255,108,62,.12);border:1px solid rgba(255,108,62,.35);color:#ff6c3e;padding:.15rem .55rem;border-radius:2rem;font-size:.72rem;font-family:var(--mono);cursor:pointer;margin-left:.4rem">↺ Retry</button>');
  }
  if(sbEl) sbEl.disabled = false;
  var inpEl2 = window.inp(); if(inpEl2) inpEl2.focus();
+ };
+
+ window.retrySage = function() {
+ var inpEl = window.inp(); if(inpEl && _lastPrompt) { inpEl.value = _lastPrompt; window.send(); }
  };
 
  window.askQ = function(q) {
@@ -11050,26 +11230,44 @@ window.issb_backToForm = function() {
  window.doExport = function() {
  window.hideExport();
  var msgs = Array.from(document.querySelectorAll('.msg'));
+ var date = new Date().toLocaleDateString('en-GB',{year:'numeric',month:'long',day:'numeric'});
  var _es = '</' + 'style>'; var _eb = '</bo' + 'dy>';
- var html = '<html><head><meta charset="UTF-8"><sty'+'le>' +
- 'body{font-family:Georgia,serif;max-width:780px;margin:40px auto;padding:0 28px;color:#1a1a1a;line-height:1.65}' +
- 'h1{color:#0a2e1a;border-bottom:3px solid #2d9e5f;padding-bottom:10px}' +
- '.msg{margin-bottom:18px;padding:14px 16px;border-radius:8px}' +
- '.ai{background:#f0f8f4;border-left:4px solid #2d9e5f}' +
- '.user{background:#f5f5f5;border-left:4px solid #aaa}' +
+ var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Sage AI Advisor Transcript</title><sty'+'le>' +
+   '@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&family=Cormorant+Garamond:wght@700&display=swap");' +
+   '*{box-sizing:border-box;margin:0;padding:0}' +
+   'body{background:#fff;font-family:"DM Sans",sans-serif;max-width:800px;margin:0 auto;padding:2.5cm 2cm;color:#1a1a1a;font-size:10.5pt;line-height:1.65}' +
+   '@page{size:A4;margin:2cm}' +
+   '.doc-hdr{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2.5px solid #030a06;padding-bottom:.9rem;margin-bottom:1.5rem}' +
+   '.doc-logo{font-family:"Cormorant Garamond",serif;font-size:1.4rem;font-weight:700;color:#030a06}' +
+   '.doc-logo span{color:#00a85a}' +
+   '.doc-badge{background:#030a06;color:#00e87a;padding:.18rem .6rem;border-radius:2rem;font-size:.58rem;font-family:"DM Mono",monospace;letter-spacing:.07em;display:inline-block}' +
+   '.doc-meta{font-size:.68rem;color:#999;margin-top:.25rem;text-align:right}' +
+   '.doc-title{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:700;color:#030a06;margin-bottom:.25rem}' +
+   '.doc-sub{font-size:.82rem;color:#888;margin-bottom:1.8rem}' +
+   '.msg{margin-bottom:1rem;padding:.85rem 1rem;border-radius:.45rem;page-break-inside:avoid}' +
+   '.ai{background:#f4faf6;border-left:4px solid #00a85a}' +
+   '.user{background:#f8f8f8;border-left:4px solid #ccc}' +
+   '.msg-role{font-family:"DM Mono",monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem}' +
+   '.ai .msg-role{color:#00a85a}' +
+   '.user .msg-role{color:#999}' +
+   '.msg-body{font-size:.88rem;line-height:1.7}' +
+   '.msg-body strong{font-weight:600;color:#030a06}' +
+   '.doc-foot{margin-top:2rem;padding-top:.75rem;border-top:1px solid #eee;font-size:.65rem;color:#bbb;font-family:"DM Mono",monospace;line-height:1.5}' +
  _es + '</'+'head>'+'<bo'+'dy>' +
- '<h1>ReGenesis Impact — Sage AI Advisor</h1>';
+ '<div class="doc-hdr"><div><div class="doc-logo">ReGenesis<span> Impact</span></div></div><div style="text-align:right"><div class="doc-badge">SAGE AI ADVISOR</div><div class="doc-meta">Generated ' + date + '</div></div></div>' +
+ '<div class="doc-title">Sage AI Advisory Session</div>' +
+ '<div class="doc-sub">Sustainability advisory conversation — ' + msgs.length + ' exchanges · ReGenesis Impact Platform</div>';
  msgs.forEach(function(m) {
- var isAI = m.classList.contains('ai');
- var bub = m.querySelector('.mbub');
- if(!bub) return;
- html += '<div class="msg ' + (isAI?'ai':'user') + '"><strong>' + (isAI?'Sage':'You') + ':</strong> ' + bub.innerHTML + '</div>';
+   var isAI = m.classList.contains('ai');
+   var bub = m.querySelector('.mbub');
+   if (!bub) return;
+   html += '<div class="msg ' + (isAI?'ai':'user') + '"><div class="msg-role">' + (isAI?'Sage AI Advisor':'You') + '</div><div class="msg-body">' + bub.innerHTML + '</div></div>';
  });
- html += '<hr><small>Generated by ReGenesis Impact</small>' + _eb + '</html>';
+ html += '<div class="doc-foot">Generated by ReGenesis Impact Sage AI · regenesisimpact.in · This transcript is for internal use. All AI-generated guidance should be reviewed by a qualified sustainability professional before acting on it.</div>' + _eb + '</html>';
  var blob = new Blob([html], {type:'text/html'});
  var burl = URL.createObjectURL(blob);
  var w = window.open(burl, '_blank');
- if(w) { setTimeout(function(){ w.print(); URL.revokeObjectURL(burl); }, 600); }
+ if (w) { setTimeout(function(){ w.print(); URL.revokeObjectURL(burl); }, 600); }
  };
 
  // ── TOOLS functions ──────────────────────────────────────────
@@ -11331,7 +11529,10 @@ window.issb_backToForm = function() {
  (d.content&&d.content[0]&&d.content[0].text)||'Unable to generate response.';
  textEl.innerHTML=text.replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
  } catch(e) {
- textEl.innerHTML='<span style="color:#ff6c3e">Connection error. Please check Sage AI is configured.</span>';
+ var _p = prompt;
+ var _w = wrapperId; var _t = textId;
+ textEl.innerHTML='<span style="color:#ff6c3e">⚠ Sage AI is temporarily unavailable.</span> <button style="background:rgba(255,108,62,.12);border:1px solid rgba(255,108,62,.35);color:#ff6c3e;padding:.15rem .55rem;border-radius:2rem;font-size:.72rem;font-family:\'DM Mono\',monospace;cursor:pointer;margin-left:.4rem" onclick="call_sage_ai(this.dataset.w,this.dataset.t,this.dataset.p)" data-w="' + _w + '" data-t="' + _t + '" data-p="">↺ Retry</button>';
+ textEl.querySelector('[data-p]').dataset.p = _p;
  }
  }
 
@@ -13920,9 +14121,9 @@ document.addEventListener('DOMContentLoaded', function(){
 <!-- ══════════════════════════════════════════════════ -->
 <!-- PURCHASE MODAL -->
 <!-- ══════════════════════════════════════════════════ -->
-<div id="buy-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);align-items:center;justify-content:center">
+<div id="buy-modal" role="dialog" aria-modal="true" aria-labelledby="buy-modal-badge" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);align-items:center;justify-content:center">
   <div style="background:#050f07;border:1px solid rgba(0,232,122,.2);border-radius:1rem;padding:2rem;max-width:460px;width:90%;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6)">
-    <button onclick="document.getElementById('buy-modal').style.display='none'" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:rgba(245,240,232,.4);font-size:1.2rem;cursor:pointer;line-height:1">✕</button>
+    <button onclick="document.getElementById('buy-modal').style.display='none'" aria-label="Close purchase dialog" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:rgba(245,240,232,.4);font-size:1.2rem;cursor:pointer;line-height:1">✕</button>
     <div id="buy-modal-badge" style="font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.12em;color:var(--lime);margin-bottom:.6rem;text-transform:uppercase">Purchase Credits</div>
     <div id="buy-modal-name" style="font-size:1.1rem;font-weight:700;color:var(--cream);margin-bottom:.3rem"></div>
     <div id="buy-modal-meta" style="font-size:.72rem;color:rgba(245,240,232,.45);margin-bottom:1.25rem;font-family:'DM Mono',monospace"></div>
@@ -13956,18 +14157,18 @@ document.addEventListener('DOMContentLoaded', function(){
 </div>
 
 <!-- PURCHASE SUCCESS TOAST -->
-<div id="buy-toast" style="display:none;position:fixed;bottom:2rem;right:2rem;z-index:10000;background:#050f07;border:1px solid rgba(0,232,122,.35);border-radius:.75rem;padding:1rem 1.4rem;box-shadow:0 12px 32px rgba(0,0,0,.5);max-width:340px;animation:fadeUp .3s ease">
+<div id="buy-toast" style="display:none;position:fixed;bottom:calc(2rem + env(safe-area-inset-bottom));right:calc(2rem + env(safe-area-inset-right));z-index:10000;background:#050f07;border:1px solid rgba(0,232,122,.35);border-radius:.75rem;padding:1rem 1.4rem;box-shadow:0 12px 32px rgba(0,0,0,.5);max-width:340px;animation:fadeUp .3s ease">
   <div style="font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--lime);margin-bottom:.3rem">✓ PURCHASE CONFIRMED</div>
   <div id="buy-toast-msg" style="font-size:.82rem;color:var(--cream);line-height:1.5"></div>
   <div id="buy-toast-tx" style="font-family:'DM Mono',monospace;font-size:.58rem;color:rgba(245,240,232,.3);margin-top:.35rem;word-break:break-all"></div>
 </div>
 
 <!-- DEMO PROJECTS DRAWER (shown in each tool) -->
-<div id="demo-drawer" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:8000;background:linear-gradient(180deg,rgba(6,13,10,.0),rgba(6,13,10,.98));padding:0 1.5rem 1.5rem;pointer-events:none">
+<div id="demo-drawer" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:8000;background:linear-gradient(180deg,rgba(6,13,10,.0),rgba(6,13,10,.98));padding:0 1.5rem calc(1.5rem + env(safe-area-inset-bottom));pointer-events:none">
   <div id="demo-inner" style="pointer-events:all;max-width:900px;margin:0 auto">
     <div style="display:flex;align-items:center;justify-content:space-between;padding:.75rem 0 .6rem">
       <div style="font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;color:rgba(126,217,87,.7)">📁 SAVED DEMO PROJECTS — Click to load</div>
-      <button onclick="document.getElementById('demo-drawer').style.display='none'" style="background:none;border:none;color:rgba(245,240,232,.3);cursor:pointer;font-size:.85rem">✕</button>
+      <button onclick="document.getElementById('demo-drawer').style.display='none'" aria-label="Close demo projects drawer" style="background:none;border:none;color:rgba(245,240,232,.3);cursor:pointer;font-size:.85rem">✕</button>
     </div>
     <div id="demo-cards" style="display:flex;gap:.75rem;overflow-x:auto;padding-bottom:.25rem"></div>
   </div>
