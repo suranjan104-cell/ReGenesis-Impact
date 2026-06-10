@@ -10,6 +10,11 @@
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#030a06">
 <link rel="canonical" href="https://www.regenesisimpact.in/">
+<!-- App icons & install -->
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <!-- Geo targeting -->
 <meta name="geo.region" content="IN, SG, AU">
 <meta name="geo.placename" content="India, Singapore, Australia">
@@ -27,6 +32,9 @@
 <meta property="og:title" content="ReGenesis Impact — AI-Powered ESG & Climate Reporting Platform">
 <meta property="og:description" content="AI-powered ESG & climate reporting platform for Singapore (MAS · SGX), Australia (AASB S2 · APRA) and India (BRSR · ISSB S2). Generate disclosures, GHG inventories, TCFD scenario analysis and tokenise carbon credits.">
 <meta property="og:image" content="https://www.regenesisimpact.in/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ReGenesis Impact — Climate mission control, open to everyone">
 <meta property="og:site_name" content="ReGenesis Impact">
 <meta property="og:locale" content="en_IN">
 <!-- Twitter Card -->
@@ -13728,6 +13736,69 @@ document.addEventListener('DOMContentLoaded', function(){
     <div id="demo-cards" style="display:flex;gap:.75rem;overflow-x:auto;padding-bottom:.25rem"></div>
   </div>
 </div>
+
+<!-- ===== UNIVERSAL AUTOSAVE — consumer mode has no login, so every tool
+     input is persisted to localStorage and restored on return. ===== -->
+<script>
+(function(){
+  var KEY = 'rg_autosave_v1';
+  function skip(el){
+    if (!el.id) return true;
+    if (el.type === 'password' || el.type === 'file' || el.type === 'hidden') return true;
+    if (el.closest && (el.closest('#login-modal') || el.closest('.lm-overlay'))) return true;
+    return false;
+  }
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e) {}
+
+  var restored = 0;
+  function restore(){
+    document.querySelectorAll('input[id],select[id],textarea[id]').forEach(function(el){
+      if (skip(el) || !(el.id in saved)) return;
+      try {
+        if (el.type === 'checkbox' || el.type === 'radio') {
+          if (el.checked !== !!saved[el.id]) { el.checked = !!saved[el.id]; restored++; }
+        } else if (el.value !== String(saved[el.id])) {
+          el.value = saved[el.id]; restored++;
+        }
+      } catch(e) {}
+    });
+    if (restored > 0) toast('↺ Restored your previous session');
+  }
+
+  var t = null;
+  function persist(){
+    clearTimeout(t);
+    t = setTimeout(function(){
+      var out = {};
+      document.querySelectorAll('input[id],select[id],textarea[id]').forEach(function(el){
+        if (skip(el)) return;
+        if (el.type === 'checkbox' || el.type === 'radio') { out[el.id] = el.checked; }
+        else if (el.value !== '') { out[el.id] = el.value; }
+      });
+      try { localStorage.setItem(KEY, JSON.stringify(out)); } catch(e) {}
+    }, 400);
+  }
+
+  function toast(msg){
+    var d = document.createElement('div');
+    d.textContent = msg;
+    d.style.cssText = 'position:fixed;bottom:1.25rem;left:50%;transform:translateX(-50%);z-index:500;'+
+      'background:#040d08;border:1px solid rgba(0,232,122,.35);color:#00e87a;padding:.55rem 1.1rem;'+
+      'border-radius:2rem;font-family:"DM Mono",monospace;font-size:.68rem;letter-spacing:.06em;'+
+      'box-shadow:0 8px 30px rgba(0,0,0,.5);opacity:0;transition:opacity .4s';
+    document.body.appendChild(d);
+    requestAnimationFrame(function(){ d.style.opacity = '1'; });
+    setTimeout(function(){ d.style.opacity = '0'; setTimeout(function(){ d.remove(); }, 500); }, 3500);
+  }
+
+  document.addEventListener('input', persist, true);
+  document.addEventListener('change', persist, true);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', restore);
+  } else { restore(); }
+})();
+</script>
 
 </body>
 </html>
