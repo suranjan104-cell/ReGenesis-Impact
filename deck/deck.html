@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --void:#020806; --deep:#04100a; --panel:rgba(3,16,10,0.78);
+  --bio:#00e87a; --hot:#00ff9d; --cyan:#0affdb; --amber:#ffb547;
+  --violet:#8b5cf6; --blue:#38bdf8; --au:#1f7fd4; --sg:#e8a020;
+  --text:#eafff3; --dim:rgba(234,255,243,0.58); --faint:rgba(234,255,243,0.34);
+  --line:rgba(0,232,122,0.16); --line2:rgba(0,232,122,0.28);
+}
+body{background:#000;font-family:'DM Sans',sans-serif}
+
+.slide{
+  width:1080px; height:1350px; position:relative; overflow:hidden;
+  background:var(--void); color:var(--text);
+  background-image:
+    radial-gradient(ellipse 70% 50% at 18% 12%, rgba(0,232,122,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 55% at 88% 90%, rgba(10,255,219,0.05) 0%, transparent 55%);
+  display:flex; flex-direction:column;
+  padding:96px 90px;
+}
+/* scanlines */
+.slide::after{
+  content:''; position:absolute; inset:0; pointer-events:none; z-index:30;
+  background:repeating-linear-gradient(0deg, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 3px, rgba(0,0,0,0.10) 4px);
+  opacity:.5;
+}
+/* perspective grid floor */
+.grid-floor{
+  position:absolute; left:0; right:0; bottom:0; height:420px; z-index:1; pointer-events:none;
+  background-image:
+    linear-gradient(rgba(0,232,122,0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,232,122,0.12) 1px, transparent 1px);
+  background-size:64px 64px;
+  transform:perspective(520px) rotateX(70deg); transform-origin:bottom;
+  mask-image:linear-gradient(to top, #000 0%, transparent 92%);
+  -webkit-mask-image:linear-gradient(to top, #000 0%, transparent 92%);
+  opacity:.6;
+}
+/* HUD corner brackets */
+.hud{position:absolute; width:54px; height:54px; z-index:25; border-color:var(--line2)}
+.hud.tl{top:48px; left:48px; border-top:2px solid; border-left:2px solid}
+.hud.tr{top:48px; right:48px; border-top:2px solid; border-right:2px solid}
+.hud.bl{bottom:48px; left:48px; border-bottom:2px solid; border-left:2px solid}
+.hud.br{bottom:48px; right:48px; border-bottom:2px solid; border-right:2px solid}
+
+.content{position:relative; z-index:20; display:flex; flex-direction:column; height:100%}
+
+/* top status strip */
+.topbar{display:flex; align-items:center; justify-content:space-between; margin-bottom:auto}
+.brand{display:flex; align-items:center; gap:14px}
+.brand-mark{width:38px; height:38px; border:2px solid var(--bio); border-radius:50%; position:relative; display:flex; align-items:center; justify-content:center}
+.brand-mark::before{content:''; width:14px; height:14px; background:var(--bio); border-radius:50%; box-shadow:0 0 14px var(--bio)}
+.brand-name{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:22px; letter-spacing:.04em}
+.brand-name b{color:var(--bio)}
+.status{font-family:'DM Mono',monospace; font-size:13px; letter-spacing:.18em; color:var(--dim); display:flex; align-items:center; gap:9px; text-transform:uppercase}
+.dot{width:8px; height:8px; border-radius:50%; background:var(--bio); box-shadow:0 0 10px var(--bio); animation:none}
+
+.eyebrow{font-family:'DM Mono',monospace; font-size:15px; letter-spacing:.32em; color:var(--bio); text-transform:uppercase; display:flex; align-items:center; gap:14px; margin-bottom:30px}
+.eyebrow::before{content:''; width:44px; height:2px; background:var(--bio); box-shadow:0 0 8px var(--bio)}
+
+h1{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:88px; line-height:1.02; letter-spacing:-0.02em; margin-bottom:28px}
+h1 .g{color:var(--bio)}
+h1 .c{color:var(--cyan)}
+.lead{font-size:29px; line-height:1.5; color:var(--dim); max-width:760px; font-weight:400}
+.lead b{color:var(--text); font-weight:600}
+
+.center{margin:auto 0}
+
+/* tags */
+.tags{display:flex; flex-wrap:wrap; gap:13px; margin-top:40px}
+.tag{font-family:'DM Mono',monospace; font-size:15px; letter-spacing:.06em; color:var(--dim);
+  border:1px solid var(--line2); border-radius:6px; padding:11px 18px; background:rgba(0,232,122,0.04)}
+.tag.on{color:var(--bio); border-color:var(--bio); background:rgba(0,232,122,0.08)}
+
+/* footer */
+.foot{margin-top:auto; padding-top:40px; display:flex; align-items:center; justify-content:space-between; border-top:1px solid var(--line)}
+.foot .url{font-family:'DM Mono',monospace; font-size:20px; letter-spacing:.08em; color:var(--text)}
+.foot .url b{color:var(--bio)}
+.foot .pg{font-family:'DM Mono',monospace; font-size:14px; letter-spacing:.2em; color:var(--faint)}
+.swipe{font-family:'DM Mono',monospace; font-size:15px; letter-spacing:.16em; color:var(--bio); display:flex; align-items:center; gap:10px}
+
+/* feature rows */
+.rows{display:flex; flex-direction:column; gap:22px; margin-top:14px}
+.row{display:flex; align-items:flex-start; gap:24px; padding:26px 30px; border:1px solid var(--line);
+  border-radius:14px; background:linear-gradient(120deg, rgba(0,232,122,0.05), rgba(3,16,10,0.2)); position:relative}
+.row::before{content:''; position:absolute; left:0; top:18px; bottom:18px; width:3px; background:var(--bio); box-shadow:0 0 10px var(--bio)}
+.row .ic{font-size:40px; line-height:1; width:54px; flex-shrink:0; text-align:center}
+.row .rt{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:30px; margin-bottom:7px}
+.row .rd{font-size:21px; color:var(--dim); line-height:1.45}
+.row .num{position:absolute; right:28px; top:24px; font-family:'DM Mono',monospace; font-size:14px; color:var(--faint); letter-spacing:.15em}
+
+/* tool grid */
+.tgrid{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:14px}
+.tcard{border:1px solid var(--line); border-radius:13px; padding:24px 26px; background:rgba(3,16,10,0.4); position:relative; overflow:hidden}
+.tcard .tnum{font-family:'DM Mono',monospace; font-size:13px; letter-spacing:.18em; color:var(--bio)}
+.tcard .tname{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:27px; margin:8px 0 6px}
+.tcard .tdesc{font-size:18px; color:var(--dim); line-height:1.4}
+.tcard .tnew{position:absolute; top:18px; right:18px; font-family:'DM Mono',monospace; font-size:11px; font-weight:500; letter-spacing:.1em; background:var(--bio); color:var(--void); padding:3px 9px; border-radius:4px}
+.tcard.feat{border-color:var(--bio); background:linear-gradient(135deg, rgba(0,232,122,0.12), rgba(3,16,10,0.4))}
+
+/* standards chips */
+.std-wrap{display:flex; flex-direction:column; gap:20px; margin-top:12px}
+.std{display:flex; align-items:center; gap:22px; padding:24px 28px; border:1px solid var(--line); border-radius:13px; background:rgba(3,16,10,0.4)}
+.std .code{font-family:'DM Mono',monospace; font-weight:500; font-size:24px; color:var(--cyan); min-width:170px}
+.std .desc{font-size:21px; color:var(--dim); line-height:1.4}
+.std .desc b{color:var(--text)}
+
+/* markets */
+.mkts{display:grid; grid-template-columns:1fr 1fr 1fr; gap:22px; margin-top:30px}
+.mkt{border:1px solid var(--line); border-radius:16px; padding:38px 28px; text-align:center; background:rgba(3,16,10,0.4)}
+.mkt .flag{font-size:64px; margin-bottom:18px}
+.mkt .mc{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:30px; margin-bottom:14px}
+.mkt .ml{font-family:'DM Mono',monospace; font-size:16px; color:var(--bio); letter-spacing:.05em; line-height:1.7}
+
+/* big CTA */
+.cta-big{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:128px; line-height:.98; letter-spacing:-0.03em; margin:8px 0 30px}
+.cta-url{display:inline-flex; align-items:center; gap:18px; font-family:'DM Mono',monospace; font-size:34px;
+  border:2px solid var(--bio); border-radius:12px; padding:24px 40px; color:var(--text); box-shadow:0 0 40px rgba(0,232,122,0.18); background:rgba(0,232,122,0.06)}
+.cta-url b{color:var(--bio)}
+.metrics{display:flex; gap:54px; margin-top:50px}
+.metric .mv{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:54px; color:var(--bio); line-height:1}
+.metric .mk{font-family:'DM Mono',monospace; font-size:16px; color:var(--dim); letter-spacing:.1em; margin-top:8px; text-transform:uppercase}
+</style>
+</head>
+<body>
+
+<!-- ========== SLIDE 1 — COVER ========== -->
+<div class="slide" id="s1">
+  <div class="grid-floor"></div>
+  <span class="hud tl"></span><span class="hud tr"></span><span class="hud bl"></span><span class="hud br"></span>
+  <div class="content">
+    <div class="topbar">
+      <div class="brand"><div class="brand-mark"></div><div class="brand-name">ReGenesis<b>Impact</b></div></div>
+      <div class="status"><span class="dot"></span>SYSTEM · LIVE</div>
+    </div>
+    <div class="center">
+      <div class="eyebrow">Platform Release · 2026</div>
+      <h1>The climate<br>mission control,<br><span class="g">now open to</span><br><span class="g">everyone.</span></h1>
+      <p class="lead">Our biggest platform upgrade yet — every sustainability tool, <b>instant, no login walls</b>, plus a brand-new ESG Assurance Studio.</p>
+      <div class="tags">
+        <span class="tag on">⚡ INSTANT ACCESS</span>
+        <span class="tag on">🛡️ ASSURANCE STUDIO</span>
+        <span class="tag">ISSB S2</span>
+        <span class="tag">GHG PROTOCOL</span>
+        <span class="tag">SAGE AI</span>
+      </div>
+    </div>
+    <div class="foot">
+      <div class="url"><b>regenesisimpact.in</b></div>
+      <div class="swipe">SWIPE →</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SLIDE 2 — INSTANT ACCESS ========== -->
+<div class="slide" id="s2">
+  <div class="grid-floor"></div>
+  <span class="hud tl"></span><span class="hud tr"></span><span class="hud bl"></span><span class="hud br"></span>
+  <div class="content">
+    <div class="topbar">
+      <div class="brand"><div class="brand-mark"></div><div class="brand-name">ReGenesis<b>Impact</b></div></div>
+      <div class="status"><span class="dot"></span>01 / ACCESS</div>
+    </div>
+    <div style="margin-top:60px">
+      <div class="eyebrow">No barriers · Just action</div>
+      <h1><span class="c">Zero</span> friction.<br>Open. Build. Go.</h1>
+      <p class="lead" style="margin-bottom:10px">We removed the login wall. Every module opens in seconds — sign in only when you want to save your work.</p>
+    </div>
+    <div class="rows" style="margin-top:30px">
+      <div class="row"><div class="ic">⚡</div><div><div class="rt">Instant tool access</div><div class="rd">Open any of 7 modules immediately — no account, no gate, no waiting.</div></div><span class="num">01</span></div>
+      <div class="row"><div class="ic">🧠</div><div><div class="rt">Sage AI, always on</div><div class="rd">Your embedded sustainability intelligence layer, ready the moment you land.</div></div><span class="num">02</span></div>
+      <div class="row"><div class="ic">💾</div><div><div class="rt">Optional sign-in</div><div class="rd">Create an account only to save engagements, trackers and reports across sessions.</div></div><span class="num">03</span></div>
+    </div>
+    <div class="foot">
+      <div class="url"><b>regenesisimpact.in</b></div>
+      <div class="foot"><span class="pg">02 / 07</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SLIDE 3 — ASSURANCE STUDIO ========== -->
+<div class="slide" id="s3">
+  <div class="grid-floor"></div>
+  <span class="hud tl"></span><span class="hud tr"></span><span class="hud bl"></span><span class="hud br"></span>
+  <div class="content">
+    <div class="topbar">
+      <div class="brand"><div class="brand-mark"></div><div class="brand-name">ReGenesis<b>Impact</b></div></div>
+      <div class="status"><span class="dot"></span>MODULE-07 · NEW</div>
+    </div>
+    <div style="margin-top:50px">
+      <div class="eyebrow">🛡️ Introducing</div>
+      <h1>ESG Assurance<br><span class="g">Studio</span></h1>
+      <p class="lead">Everything your team needs to prepare for — or run — a sustainability assurance engagement, calibrated to today's standards.</p>
+    </div>
+    <div class="tgrid" style="margin-top:36px">
+      <div class="tcard"><div class="tnum">A · READINESS</div><div class="tname">Readiness Scan</div><div class="tdesc">10-point gap analysis with jurisdiction-aware classification.</div></div>
+      <div class="tcard"><div class="tnum">B · MATERIALITY</div><div class="tname">Materiality Calc</div><div class="tdesc">Planning, performance & trivial thresholds on your tCO₂e base.</div></div>
+      <div class="tcard"><div class="tnum">C · DATA</div><div class="tname">Data Quality DX</div><div class="tdesc">7 diagnostics flagging PASS / RISK across your inventory.</div></div>
+      <div class="tcard"><div class="tnum">D · EVIDENCE</div><div class="tname">Evidence Pack</div><div class="tdesc">Sector-aware PBC lists generated for your engagement.</div></div>
+      <div class="tcard"><div class="tnum">E · LIFECYCLE</div><div class="tname">Engagement Tracker</div><div class="tdesc">18-week, 6-phase workflow with saved progress.</div></div>
+      <div class="tcard feat"><div class="tnum">F · REFERENCE</div><div class="tname">Standards Guide</div><div class="tdesc">Searchable glossary of assurance terms & frameworks.</div></div>
+    </div>
+    <div class="foot">
+      <div class="url"><b>regenesisimpact.in</b></div>
+      <span class="pg">03 / 07</span>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SLIDE 4 — STANDARDS ========== -->
+<div class="slide" id="s4">
+  <div class="grid-floor"></div>
+  <span class="hud tl"></span><span class="hud tr"></span><span class="hud bl"></span><span class="hud br"></span>
+  <div class="content">
+    <div class="topbar">
+      <div class="brand"><div class="brand-mark"></div><div class="brand-name">ReGenesis<b>Impact</b></div></div>
+      <div class="status"><span class="dot"></span>CALIBRATION</div>
+    </div>
+    <div style="margin-top:60px">
+      <div class="eyebrow">Built on the standards that matter now</div>
+      <h1>Audit-grade,<br><span class="c">by design.</span></h1>
+    </div>
+    <div class="std-wrap" style="margin-top:40px">
+      <div class="std"><div class="code">ISSA 5000</div><div class="desc">The new <b>global sustainability assurance standard</b> — the studio's backbone.</div></div>
+      <div class="std"><div class="code">AASB S2</div><div class="desc">Australia's mandatory climate regime — <b>Group 1, 2 &amp; 3</b> readiness & the assurance glide path.</div></div>
+      <div class="std"><div class="code">ISAE 3000<br>/ 3410</div><div class="desc">Established assurance frameworks for <b>non-financial &amp; GHG</b> subject matter.</div></div>
+      <div class="std"><div class="code">GHG Protocol</div><div class="desc">Scope 1, Scope 2 (location &amp; market) and the <b>15 Scope 3 categories</b>.</div></div>
+    </div>
+    <div class="foot">
+      <div class="url"><b>regenesisimpact.in</b></div>
+      <span class="pg">04 / 07</span>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SLIDE 5 — FULL TOOL STACK ========== -->
+<div class="slide" id="s5">
+  <div class="grid-floor"></div>
+  <span class="hud tl"></span><span class="hud tr"></span><span class="hud bl"></span><span class="hud br"></span>
+  <div class="content">
+    <div class="topbar">
+      <div class="brand"><div class="brand-mark"></div><div class="brand-name">ReGenesis<b>Impact</b></div></div>
+      <div class="status"><span class="dot"></span>THE STACK · 7</div>
+    </div>
+    <div style="margin-top:50px">
+      <div class="eyebrow">One platform · Seven modules</div>
+      <h1>Not a dashboard.<br>A <span class="g">control system.</span></h1>
+    </div>
+    <div class="tgrid" style="margin-top:34px">
+      <div class="tcard"><div class="tnum">MODULE-01</div><div class="tname">ISSB / AASB S2</div><div class="tdesc">Disclosure builder for S2 climate reporting.</div></div>
+      <div class="tcard"><div class="tnum">MODULE-02</div><div class="tname">GHG Accounting</div><div class="tdesc">Scope 1 · 2 · 3 inventory engine.</div></div>
+      <div class="tcard"><div class="tnum">MODULE-03</div><div class="tname">Climate Intelligence</div><div class="tdesc">TCFD / TNFD scenarios & MACC pathways.</div></div>
+      <div class="tcard"><div class="tnum">MODULE-04</div><div class="tname">BRSR / Taxonomy</div><div class="tdesc">SEBI BRSR & MAS taxonomy advisor.</div></div>
+      <div class="tcard"><div class="tnum">MODULE-05</div><div class="tname">Carbon Credits</div><div class="tdesc">ERC-1155 exchange on Polygon.</div></div>
+      <div class="tcard feat"><div class="tnum">MODULE-07</div><div class="tnew">NEW</div><div class="tname">Assurance Studio</div><div class="tdesc">ISSA 5000 engagement toolkit.</div></div>
+    </div>
+    <div class="foot">
+      <div class="url"><b>regenesisimpact.in</b></div>
+      <span class="pg">05 / 07</span>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SLIDE 6 — MARKETS ========== -->
+<div class="slide" id="s6">
+  <div class="grid-floor"></div>
+  <span class="hud tl"></span><span class="hud tr"></span><span class="hud bl"></span><span class="hud br"></span>
+  <div class="content">
+    <div class="topbar">
+      <div class="brand"><div class="brand-mark"></div><div class="brand-name">ReGenesis<b>Impact</b></div></div>
+      <div class="status"><span class="dot"></span>COVERAGE</div>
+    </div>
+    <div class="center">
+      <div class="eyebrow">Built for the Asia-Pacific transition</div>
+      <h1>Three markets.<br>One <span class="c">command deck.</span></h1>
+      <p class="lead">Calibrated for the most complex regulatory shift in sustainability history.</p>
+      <div class="mkts">
+        <div class="mkt"><div class="flag">🇦🇺</div><div class="mc">Australia</div><div class="ml">AASB S2<br>NGER · Group 1–3<br>Assurance mandate</div></div>
+        <div class="mkt"><div class="flag">🇸🇬</div><div class="mc">Singapore</div><div class="ml">SGX climate<br>MAS taxonomy<br>ISSB-aligned</div></div>
+        <div class="mkt"><div class="flag">🇮🇳</div><div class="mc">India</div><div class="ml">SEBI BRSR<br>Top-1000 listed<br>Value-chain</div></div>
+      </div>
+    </div>
+    <div class="foot">
+      <div class="url"><b>regenesisimpact.in</b></div>
+      <span class="pg">06 / 07</span>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SLIDE 7 — CTA ========== -->
+<div class="slide" id="s7">
+  <div class="grid-floor"></div>
+  <span class="hud tl"></span><span class="hud tr"></span><span class="hud bl"></span><span class="hud br"></span>
+  <div class="content">
+    <div class="topbar">
+      <div class="brand"><div class="brand-mark"></div><div class="brand-name">ReGenesis<b>Impact</b></div></div>
+      <div class="status"><span class="dot"></span>GO LIVE</div>
+    </div>
+    <div class="center">
+      <div class="eyebrow">Start now · Free to explore</div>
+      <div class="cta-big">Open the<br><span class="g">platform.</span></div>
+      <a class="cta-url"><b>→</b> regenesis<b>impact.in</b></a>
+      <div class="metrics">
+        <div class="metric"><div class="mv">7</div><div class="mk">Modules live</div></div>
+        <div class="metric"><div class="mv">0</div><div class="mk">Login walls</div></div>
+        <div class="metric"><div class="mv">3</div><div class="mk">Markets</div></div>
+      </div>
+    </div>
+    <div class="foot">
+      <div class="url">Follow <b>ReGenesis Impact</b> for what's next</div>
+      <span class="pg">07 / 07</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
