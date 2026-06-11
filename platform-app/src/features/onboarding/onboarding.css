@@ -1,0 +1,96 @@
+.ob-wrap {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 2rem 1rem;
+}
+.ob-card {
+  width: 100%;
+  max-width: 640px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.4rem, 4vw, 2.2rem);
+}
+.ob-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.4rem;
+}
+.ob-title { font-family: var(--font-display); font-size: 1.45rem; margin-bottom: 0.4rem; }
+.ob-sub { color: var(--text-dim); font-size: 0.82rem; margin-bottom: 1.4rem; line-height: 1.55; }
+.ob-actions { display: flex; justify-content: space-between; gap: 0.7rem; margin-top: 1.6rem; }
+
+.chip-row { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.pick-chip {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  border-radius: 2rem;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.74rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.pick-chip:hover { border-color: var(--border-strong); color: var(--text); }
+.pick-chip.on {
+  background: rgba(0, 232, 122, 0.12);
+  border-color: rgba(0, 232, 122, 0.45);
+  color: var(--accent);
+}
+
+.toc-chain {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.15rem;
+  margin-bottom: 1.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+}
+.toc-node {
+  padding: 0.22rem 0.6rem;
+  border-radius: 2rem;
+  border: 1px solid var(--border);
+  color: var(--text-faint);
+  letter-spacing: 0.05em;
+}
+.toc-node.filled {
+  border-color: rgba(0, 232, 122, 0.45);
+  color: var(--accent);
+  background: rgba(0, 232, 122, 0.08);
+}
+.toc-arrow { color: var(--text-faint); margin: 0 0.25rem; }
+
+.fw-option {
+  display: flex;
+  gap: 0.8rem;
+  width: 100%;
+  text-align: left;
+  background: rgba(0, 232, 122, 0.025);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.85rem 1rem;
+  margin-bottom: 0.6rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  color: var(--text);
+}
+.fw-option:hover { border-color: var(--border-strong); }
+.fw-option.on { border-color: rgba(0, 232, 122, 0.5); background: rgba(0, 232, 122, 0.07); }
+.fw-check {
+  width: 20px; height: 20px;
+  flex-shrink: 0;
+  border-radius: 5px;
+  border: 1px solid var(--border-strong);
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  font-size: 0.7rem;
+  margin-top: 2px;
+}
+.fw-option.on .fw-check { background: rgba(0, 232, 122, 0.15); }
+.fw-body { display: flex; flex-direction: column; gap: 0.2rem; }
+.fw-name { font-weight: 600; font-size: 0.86rem; display: flex; align-items: center; flex-wrap: wrap; }
+.fw-help { font-size: 0.74rem; color: var(--text-dim); line-height: 1.45; }
