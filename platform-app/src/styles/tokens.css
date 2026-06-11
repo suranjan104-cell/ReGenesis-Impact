@@ -1,0 +1,45 @@
+/* ReGenesis Impact — Mission Control design tokens (shared with main site) */
+:root {
+  /* Brand */
+  --void: #020806;
+  --forest: #030a06;
+  --moss: #0a1f0f;
+  --bio: #00e87a;
+  --phosphor: #0affdb;
+  --amber: #ffb547;
+  --spore: #9d4eff;
+  --alert: #ff5a3c;
+  --cream: #f0ede8;
+  --sand: #e0dac8;
+
+  /* Semantic */
+  --bg: var(--void);
+  --surface: rgba(5, 15, 7, 0.75);
+  --surface-raised: rgba(8, 22, 12, 0.92);
+  --border: rgba(0, 232, 122, 0.14);
+  --border-strong: rgba(0, 232, 122, 0.3);
+  --text: var(--cream);
+  --text-dim: rgba(240, 237, 232, 0.62);
+  --text-faint: rgba(240, 237, 232, 0.42);
+  --accent: var(--bio);
+  --accent-2: var(--phosphor);
+  --warn: var(--amber);
+  --danger: var(--alert);
+
+  /* Type */
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'DM Mono', ui-monospace, monospace;
+  --font-display: 'Playfair Display', Georgia, serif;
+
+  /* Shape & space */
+  --radius-sm: 0.4rem;
+  --radius: 0.65rem;
+  --radius-lg: 0.9rem;
+  --shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+
+  /* Data-quality states */
+  --dq-measured: var(--bio);
+  --dq-estimated: var(--amber);
+  --dq-missing: rgba(240, 237, 232, 0.25);
+  --dq-stale: var(--alert);
+}
