@@ -1763,6 +1763,8 @@ function loadPdfJs(){
         <li><button onclick="closeNavDropdown();requireLogin('tools')" id="nb-tools">🔍 ESG Due Diligence</button></li>
         <li><button onclick="closeNavDropdown();requireLogin('credits')" id="nb-credits">🪙 Carbon Credits</button></li>
         <li><button onclick="closeNavDropdown();requireLogin('assurance')" id="nb-assurance">🛡️ Assurance Studio</button></li>
+        <li><button onclick="closeNavDropdown();requireLogin('nze')" id="nb-nze">🛤️ Net Zero Pathway</button></li>
+        <li><button onclick="closeNavDropdown();requireLogin('materiality')" id="nb-materiality">⬡ Materiality Matrix</button></li>
       </ul>
     </li>
     <li class="nav-dropdown-wrap">
@@ -1791,6 +1793,8 @@ function loadPdfJs(){
   <div class="nl-tool" id="nl-tools"><span class="nl-pill nl-purple">ESG Due Diligence Suite</span><span class="nl-prog-wrap" id="prog-tools"><span class="nl-prog-bar" id="prog-tools-fill"></span><span class="nl-prog-label" id="prog-tools-label">0%</span></span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
   <div class="nl-tool" id="nl-credits"><span class="nl-pill" style="background:linear-gradient(90deg,#16a34a,#0ea5e9)">🪙 Carbon Credit Exchange · ERC-1155 · Polygon</span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
   <div class="nl-tool" id="nl-assurance"><span class="nl-pill" style="background:linear-gradient(90deg,rgba(0,232,122,.18),rgba(10,255,219,.1));color:#00e87a">🛡️ Assurance Studio · ISSA 5000 · AASB S2</span><span class="nl-prog-wrap" id="prog-assurance"><span class="nl-prog-bar" id="prog-assurance-fill"></span><span class="nl-prog-label" id="prog-assurance-label">0%</span></span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
+  <div class="nl-tool" id="nl-nze"><span class="nl-pill" style="background:linear-gradient(135deg,rgba(0,232,122,.15),rgba(10,255,219,.08));color:#00e87a">🛤️ Net Zero Pathway Builder · SBTi · Paris Agreement</span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
+  <div class="nl-tool" id="nl-materiality"><span class="nl-pill" style="background:linear-gradient(135deg,rgba(139,92,246,.15),rgba(10,255,219,.08));color:#8b5cf6">⬡ Materiality Matrix · Double Materiality · ESRS · GRI</span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
 </nav>
 
 <!-- MOBILE MENU -->
@@ -1812,6 +1816,8 @@ function loadPdfJs(){
   <button onclick="closeMobileMenu();showPage('advisor')">🌿 Sage AI</button>
   <button onclick="closeMobileMenu();requireLogin('credits')">🪙 Carbon Credits Exchange</button>
   <button onclick="closeMobileMenu();requireLogin('assurance')">🛡️ Assurance Studio</button>
+  <button onclick="closeMobileMenu();requireLogin('nze')">🛤️ Net Zero Pathway</button>
+  <button onclick="closeMobileMenu();requireLogin('materiality')">⬡ Materiality Matrix</button>
   <button class="mob-cta" onclick="closeMobileMenu();openLeadModal('mobile_cta')">Get Early Access →</button>
 </div>
 
@@ -1938,6 +1944,20 @@ function loadPdfJs(){
       <div class="db-card-desc">Readiness scan, materiality calculator, GHG data-quality diagnostics, sector-aware evidence packs and an 18-week engagement tracker. ISSA 5000 calibrated.</div>
       <div class="db-card-tags"><span class="db-card-tag">ISSA 5000</span><span class="db-card-tag">AASB S2</span><span class="db-card-tag">PBC Lists</span></div>
       <button class="db-card-open">Open Studio →</button>
+    </div>
+    <div class="db-card" onclick="showPage('nze')">
+      <div class="db-card-ico">🛤️</div>
+      <div class="db-card-name">Net Zero Pathway <span style="font-family:'DM Mono',monospace;font-size:.5rem;letter-spacing:.08em;background:#0affdb;color:#021008;padding:.1rem .4rem;vertical-align:middle;margin-left:.3rem">NEW</span></div>
+      <div class="db-card-desc">Build a science-based decarbonisation roadmap. SBTi targets, milestone planning, annual reduction tracking aligned to 1.5°C.</div>
+      <div class="db-card-tags"><span class="db-card-tag">SBTi</span><span class="db-card-tag">Paris 1.5°C</span><span class="db-card-tag">Net Zero</span></div>
+      <button class="db-card-open">Build Pathway →</button>
+    </div>
+    <div class="db-card" onclick="showPage('materiality')">
+      <div class="db-card-ico">⬡</div>
+      <div class="db-card-name">Materiality Matrix <span style="font-family:'DM Mono',monospace;font-size:.5rem;letter-spacing:.08em;background:#8b5cf6;color:#fff;padding:.1rem .4rem;vertical-align:middle;margin-left:.3rem">NEW</span></div>
+      <div class="db-card-desc">Double materiality assessment across 25 ESG topics. Plot impact vs. financial significance. ESRS and GRI alignment built in.</div>
+      <div class="db-card-tags"><span class="db-card-tag">ESRS</span><span class="db-card-tag">GRI</span><span class="db-card-tag">Double Materiality</span></div>
+      <button class="db-card-open">Assess Topics →</button>
     </div>
     <div class="db-card sage-card" onclick="showPage('advisor')">
       <div class="db-card-ico">🌿</div>
@@ -8314,7 +8334,7 @@ window.cipDcCalc = function() {
 // ── Sage AI ─────────────────────────────────────────────────────────
 function cipCallSage(prompt, onOk, onErr) {
   if (typeof rgLogQuery === 'function') rgLogQuery('climate', prompt);
-  fetch('https://sageai.suranjan104.workers.dev', {
+  fetch('/sage', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -8372,7 +8392,7 @@ function cipRunSage(type, org, sec, outKey) {
   cipCallSage(prompt,
     function(text) {
       out.innerHTML = cipFmt(text);
-      if (info) info.textContent = 'Generated in ' + ((Date.now()-t0)/1000).toFixed(1) + 's · Sage AI · llama-3.3-70b';
+      if (info) info.textContent = 'Generated in ' + ((Date.now()-t0)/1000).toFixed(1) + 's · Sage AI · Claude Haiku';
       btns.forEach(function(b){ b.disabled = false; });
     },
     function(e) {
@@ -9017,7 +9037,7 @@ function showPage(page) {
   if (page === 'dashboard' && typeof dbLoadInsights === 'function') setTimeout(dbLoadInsights, 300);
 
   // Nav button highlights
-  ['nb-issb','nb-ghg','nb-tools','nb-climate','nb-advisor','nb-credits','nb-assurance'].forEach(function(id) {
+  ['nb-issb','nb-ghg','nb-tools','nb-climate','nb-advisor','nb-credits','nb-assurance','nb-nze','nb-materiality'].forEach(function(id) {
     var el = document.getElementById(id); if (el) el.classList.remove('nl-active');
   });
   var activeBtn = document.getElementById('nb-' + page);
@@ -11067,7 +11087,7 @@ window.issb_backToForm = function() {
      'Be specific, professional, and reference exact framework paragraphs where possible.';
 
    if (typeof rgLogQuery === 'function') rgLogQuery('gap_analysis', 'Report upload: ' + filename);
-   fetch('https://sageai.suranjan104.workers.dev', {
+   fetch('/sage', {
      method:'POST', headers:{'Content-Type':'application/json'},
      body: JSON.stringify({
        model:'llama-3.3-70b-versatile',
@@ -11147,7 +11167,7 @@ window.issb_backToForm = function() {
  if (typeof rgLogQuery === 'function') rgLogQuery('advisor', text);
  var typing = showTyping();
  try {
- var res = await fetch('https://sageai.suranjan104.workers.dev', {
+ var res = await fetch('/sage', {
  method:'POST',
  headers:{'Content-Type':'application/json'},
  body: JSON.stringify({
@@ -11518,7 +11538,7 @@ window.issb_backToForm = function() {
  textEl.innerHTML='<em style="color:rgba(245,240,232,0.4)">Sage is analysing...</em>';
  if (typeof rgLogQuery === 'function') rgLogQuery('report_draft', prompt);
  try {
- var res=await fetch('https://sageai.suranjan104.workers.dev',{
+ var res=await fetch('/sage',{
  method:'POST',headers:{'Content-Type':'application/json'},
  body:JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:1500,
  system:'You are Sage, an expert ESG and sustainability advisor at ReGenesis Impact.',
@@ -12074,7 +12094,7 @@ function ciFormatResponse(text) {
 
 function ciCallSage(prompt, onOk, onErr) {
   if (typeof rgLogQuery === 'function') rgLogQuery('credits', prompt);
-  fetch('https://sageai.suranjan104.workers.dev', {
+  fetch('/sage', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
@@ -12111,7 +12131,7 @@ function ciAskRun(type, org, sec, outKey) {
   ciCallSage(prompt,
     function(text){
       out.innerHTML = ciFormatResponse(text);
-      if (info) info.textContent = 'Generated in '+(((Date.now()-t0)/1000).toFixed(1))+'s · Sage AI · Groq llama-3.3-70b';
+      if (info) info.textContent = 'Generated in '+(((Date.now()-t0)/1000).toFixed(1))+'s · Sage AI · Claude Haiku';
     },
     function(e){
       out.innerHTML = '<span style="color:var(--cr)">⚠ Sage AI connection failed. Please check your network. Error: '+(e&&e.message?e.message:'unknown')+'</span>';
@@ -14285,6 +14305,715 @@ document.addEventListener('DOMContentLoaded', function(){
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', restore);
   } else { restore(); }
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════
+     NET ZERO PATHWAY BUILDER
+════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-nze" style="display:none">
+<style>
+.nze-wrap{max-width:1140px;margin:0 auto;padding:2rem 1.5rem;padding-top:calc(64px + 2rem)}
+.nze-hdr{margin-bottom:1.75rem}
+.nze-title{font-family:'Playfair Display',serif;font-size:1.85rem;color:#f0ede8;margin-bottom:.35rem}
+.nze-sub{font-size:.72rem;color:rgba(240,237,232,.45);font-family:'DM Mono',monospace;letter-spacing:.06em}
+.nze-layout{display:grid;grid-template-columns:310px 1fr;gap:1.25rem;align-items:start}
+.nze-sidebar{display:flex;flex-direction:column;gap:1rem}
+.nze-card{background:rgba(5,15,7,.75);border:1px solid rgba(0,232,122,.12);border-radius:.75rem;padding:1.25rem}
+.nze-card-ttl{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(0,232,122,.55);margin-bottom:.9rem}
+.nze-fld{margin-bottom:.8rem}
+.nze-lbl{font-size:.68rem;color:rgba(240,237,232,.5);margin-bottom:.28rem;font-family:'DM Mono',monospace;letter-spacing:.04em;display:block}
+.nze-inp,.nze-sel{width:100%;background:rgba(0,232,122,.04);border:1px solid rgba(0,232,122,.14);border-radius:.4rem;padding:.48rem .7rem;color:#f0ede8;font-size:.8rem;font-family:'DM Sans',sans-serif;box-sizing:border-box;transition:border-color .2s}
+.nze-inp:focus,.nze-sel:focus{outline:none;border-color:rgba(0,232,122,.4)}
+.nze-sel option{background:#021008}
+.nze-scope-row{display:grid;grid-template-columns:54px 1fr 68px;gap:.4rem;align-items:center;margin-bottom:.5rem}
+.nze-scope-tag{font-family:'DM Mono',monospace;font-size:.58rem;color:rgba(0,232,122,.65);white-space:nowrap}
+.nze-scope-inp{background:rgba(0,232,122,.04);border:1px solid rgba(0,232,122,.12);border-radius:.35rem;padding:.32rem .5rem;color:#f0ede8;font-size:.78rem;font-family:'DM Mono',monospace;width:100%;box-sizing:border-box}
+.nze-scope-inp:focus{outline:none;border-color:rgba(0,232,122,.35)}
+.nze-scope-unit{font-size:.58rem;color:rgba(240,237,232,.3);font-family:'DM Mono',monospace;text-align:right}
+.nze-run{width:100%;padding:.68rem;background:linear-gradient(135deg,#00e87a,#0affdb);color:#030a06;font-weight:700;font-size:.82rem;border:none;border-radius:.5rem;cursor:pointer;margin-top:.4rem;letter-spacing:.03em}
+.nze-run:hover{opacity:.88}
+.nze-main{display:flex;flex-direction:column;gap:1rem}
+.nze-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.nze-stat{background:rgba(5,15,7,.75);border:1px solid rgba(0,232,122,.1);border-radius:.65rem;padding:.9rem;text-align:center}
+.nze-stat-v{font-family:'DM Mono',monospace;font-size:1.25rem;color:#00e87a;word-break:break-all}
+.nze-stat-l{font-size:.6rem;color:rgba(240,237,232,.4);margin-top:.18rem;text-transform:uppercase;letter-spacing:.08em}
+.nze-chart-card{background:rgba(5,15,7,.75);border:1px solid rgba(0,232,122,.12);border-radius:.75rem;padding:1.25rem}
+.nze-chart-hdr{display:flex;align-items:center;gap:.65rem;margin-bottom:1rem;flex-wrap:wrap}
+.nze-chart-lbl{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(0,232,122,.55)}
+#nze-sbti-badge{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.06em;padding:.18rem .6rem;border-radius:2rem;background:rgba(0,232,122,.12);border:1px solid rgba(0,232,122,.3);color:#00e87a}
+#nze-sbti-badge.wb2{background:rgba(10,255,219,.12);border-color:rgba(10,255,219,.3);color:#0affdb}
+#nze-sbti-badge.two{background:rgba(255,181,71,.12);border-color:rgba(255,181,71,.3);color:#ffb547}
+.nze-export-btn{background:rgba(0,232,122,.07);border:1px solid rgba(0,232,122,.18);color:#00e87a;padding:.38rem .85rem;font-size:.68rem;border-radius:.4rem;cursor:pointer;font-family:'DM Mono',monospace;margin-left:auto}
+.nze-export-btn:hover{background:rgba(0,232,122,.14)}
+#nze-chart-svg{width:100%;display:block}
+.nze-mile-card{background:rgba(5,15,7,.75);border:1px solid rgba(0,232,122,.12);border-radius:.75rem;padding:1.25rem;overflow-x:auto}
+.nze-tbl{width:100%;border-collapse:collapse;font-size:.76rem;min-width:560px}
+.nze-tbl th{font-family:'DM Mono',monospace;font-size:.54rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(0,232,122,.5);padding:.45rem .7rem;border-bottom:1px solid rgba(0,232,122,.1);text-align:left;white-space:nowrap}
+.nze-tbl td{padding:.55rem .7rem;border-bottom:1px solid rgba(255,255,255,.04);color:rgba(240,237,232,.8);vertical-align:middle}
+.nze-tbl tr:last-child td{border-bottom:none}
+.nze-tbl .yr-hl{color:#0affdb;font-weight:600;font-family:'DM Mono',monospace}
+.nze-tbl .yr-nze{color:#00e87a;font-weight:700}
+.nze-pbar-wrap{width:80px;height:4px;background:rgba(0,232,122,.1);border-radius:2px;display:inline-block;vertical-align:middle}
+.nze-pbar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,#00e87a,#0affdb);transition:width .4s}
+.nze-action-tag{display:inline-block;font-size:.6rem;font-family:'DM Mono',monospace;padding:.1rem .4rem;border-radius:.25rem;background:rgba(0,232,122,.08);border:1px solid rgba(0,232,122,.15);color:rgba(0,232,122,.8);margin:.1rem .1rem 0 0}
+@media(max-width:900px){.nze-layout{grid-template-columns:1fr}.nze-stats{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.nze-stats{grid-template-columns:1fr}}
+</style>
+<div class="nze-wrap">
+  <div class="nze-hdr">
+    <div class="nze-title">🛤️ Net Zero Pathway Builder</div>
+    <div class="nze-sub">Science-based decarbonisation roadmap · SBTi · Paris Agreement · 1.5°C aligned</div>
+  </div>
+  <div class="nze-layout">
+    <div class="nze-sidebar">
+      <div class="nze-card">
+        <div class="nze-card-ttl">Organisation</div>
+        <div class="nze-fld"><label class="nze-lbl">Company / Entity Name</label><input class="nze-inp" id="nze-org" placeholder="e.g. Acme Corp" oninput="nzeCalc()"></div>
+        <div class="nze-fld"><label class="nze-lbl">Sector</label>
+          <select class="nze-sel" id="nze-sector" onchange="nzeCalc()">
+            <option value="services">Professional Services</option>
+            <option value="finance">Financial Services</option>
+            <option value="manufacturing">Manufacturing &amp; Industry</option>
+            <option value="energy">Energy &amp; Utilities</option>
+            <option value="transport">Transport &amp; Logistics</option>
+            <option value="property">Real Estate &amp; Property</option>
+            <option value="retail">Retail &amp; Consumer</option>
+            <option value="tech">Technology</option>
+            <option value="agriculture">Agriculture &amp; Land Use</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="nze-fld"><label class="nze-lbl">Base Year</label>
+          <select class="nze-sel" id="nze-base-year" onchange="nzeCalc()">
+            <option value="2018">2018</option><option value="2019">2019</option><option value="2020">2020</option><option value="2021">2021</option><option value="2022" selected>2022</option><option value="2023">2023</option><option value="2024">2024</option>
+          </select>
+        </div>
+        <div class="nze-fld"><label class="nze-lbl">Net Zero Target Year</label>
+          <select class="nze-sel" id="nze-target-year" onchange="nzeCalc()">
+            <option value="2040">2040</option><option value="2045">2045</option><option value="2050" selected>2050</option>
+          </select>
+        </div>
+      </div>
+      <div class="nze-card">
+        <div class="nze-card-ttl">Base Year Emissions (tCO₂e)</div>
+        <div class="nze-scope-row"><span class="nze-scope-tag">Scope 1</span><input class="nze-scope-inp" id="nze-s1" type="number" value="1200" min="0" oninput="nzeCalc()"><span class="nze-scope-unit">tCO₂e/yr</span></div>
+        <div class="nze-scope-row"><span class="nze-scope-tag">Scope 2</span><input class="nze-scope-inp" id="nze-s2" type="number" value="3400" min="0" oninput="nzeCalc()"><span class="nze-scope-unit">tCO₂e/yr</span></div>
+        <div class="nze-scope-row"><span class="nze-scope-tag">Scope 3</span><input class="nze-scope-inp" id="nze-s3" type="number" value="12000" min="0" oninput="nzeCalc()"><span class="nze-scope-unit">tCO₂e/yr</span></div>
+      </div>
+      <div class="nze-card">
+        <div class="nze-card-ttl">Target Ambition</div>
+        <div class="nze-fld"><label class="nze-lbl">Science-based Alignment</label>
+          <select class="nze-sel" id="nze-ambition" onchange="nzeAmbitionChange()">
+            <option value="1.5">1.5°C — SBTi (7.0%/yr)</option>
+            <option value="wb2">Well Below 2°C — SBTi (4.2%/yr)</option>
+            <option value="2">2°C — SBTi (2.5%/yr)</option>
+            <option value="custom">Custom rate…</option>
+          </select>
+        </div>
+        <div class="nze-fld" id="nze-custom-wrap" style="display:none">
+          <label class="nze-lbl">Custom Annual Reduction (%/yr)</label>
+          <input class="nze-inp" id="nze-custom-rate" type="number" value="5" min="0.1" max="30" step="0.1" oninput="nzeCalc()">
+        </div>
+        <div class="nze-fld"><label class="nze-lbl">Near-term Milestone Year</label>
+          <select class="nze-sel" id="nze-milestone-yr" onchange="nzeCalc()">
+            <option value="2030" selected>2030 (recommended)</option>
+            <option value="2035">2035</option>
+          </select>
+        </div>
+        <button class="nze-run" onclick="nzeCalc()">Build Pathway →</button>
+      </div>
+    </div>
+    <div class="nze-main">
+      <div class="nze-stats">
+        <div class="nze-stat"><div class="nze-stat-v" id="nze-kpi-base">—</div><div class="nze-stat-l">Base tCO₂e/yr</div></div>
+        <div class="nze-stat"><div class="nze-stat-v" id="nze-kpi-mile">—</div><div class="nze-stat-l" id="nze-kpi-mile-lbl">2030 Target</div></div>
+        <div class="nze-stat"><div class="nze-stat-v" id="nze-kpi-nze">—</div><div class="nze-stat-l">Net Zero by</div></div>
+      </div>
+      <div class="nze-chart-card">
+        <div class="nze-chart-hdr">
+          <span class="nze-chart-lbl">Decarbonisation Trajectory</span>
+          <span id="nze-sbti-badge">SBTi · 1.5°C</span>
+          <button class="nze-export-btn" onclick="nzeExportPDF()">⬇ Export PDF</button>
+        </div>
+        <svg id="nze-chart-svg" viewBox="0 0 700 280" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="nze-fill-grad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#00e87a" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#00e87a" stop-opacity="0.02"/>
+            </linearGradient>
+          </defs>
+          <g id="nze-chart-g"></g>
+        </svg>
+      </div>
+      <div class="nze-mile-card">
+        <div class="nze-card-ttl">Annual Milestones &amp; Priority Actions</div>
+        <table class="nze-tbl"><thead><tr><th>Year</th><th>Target (tCO₂e)</th><th>% Reduced</th><th>Progress</th><th>Priority Actions</th></tr></thead>
+        <tbody id="nze-mile-body"></tbody></table>
+      </div>
+    </div>
+  </div>
+</div>
+</div><!-- /page-nze -->
+
+<script>
+// ════ NET ZERO PATHWAY ENGINE ════
+(function(){
+var NZE_RATES = {'1.5':7.0,'wb2':4.2,'2':2.5};
+var NZE_BADGE = {'1.5':['SBTi · 1.5°C',''],'wb2':['SBTi · Well Below 2°C','wb2'],'2':['SBTi · 2°C','two'],'custom':['Custom Pathway','two']};
+
+var NZE_ACTIONS = {
+  services:['Remote-work policy','100% renewable electricity','Supply chain engagement','Business travel cap'],
+  finance:['Portfolio decarbonisation','Green finance targets','PCAF reporting','Financed emissions SBTi'],
+  manufacturing:['Process heat electrification','Energy efficiency audit','Fuel switching','Circular material flows'],
+  energy:['Renewable capacity build','Methane leak detection','Grid decarbonisation','Coal-to-gas-to-zero'],
+  transport:['Fleet electrification','SAF procurement','Route optimisation','Modal shift'],
+  property:['Building energy retrofit','Heat-pump installation','On-site solar','EPC A ratings'],
+  retail:['Supplier engagement','Sustainable packaging','Logistics decarbonisation','Product lifecycle'],
+  tech:['100% renewable power','Efficient data centres','Hardware lifecycle','Scope 3 software'],
+  agriculture:['Soil carbon sequestration','Methane reduction','Sustainable land use','Agroforestry'],
+  other:['Energy audit','Renewable procurement','Supply chain mapping','Carbon offsetting']
+};
+
+function fmt(n){ return n>=1000?(n/1000).toFixed(1)+'k':Math.round(n).toString(); }
+
+function nzeRate(){
+  var a=document.getElementById('nze-ambition').value;
+  if(a==='custom'){var r=parseFloat(document.getElementById('nze-custom-rate').value)||5;return r/100;}
+  return (NZE_RATES[a]||7)/100;
+}
+
+window.nzeAmbitionChange=function(){
+  var a=document.getElementById('nze-ambition').value;
+  document.getElementById('nze-custom-wrap').style.display=a==='custom'?'':'none';
+  nzeCalc();
+};
+
+window.nzeCalc=function(){
+  var s1=parseFloat(document.getElementById('nze-s1').value)||0;
+  var s2=parseFloat(document.getElementById('nze-s2').value)||0;
+  var s3=parseFloat(document.getElementById('nze-s3').value)||0;
+  var base=s1+s2+s3; if(!base){return;}
+  var baseYr=parseInt(document.getElementById('nze-base-year').value)||2022;
+  var targetYr=parseInt(document.getElementById('nze-target-year').value)||2050;
+  var mileYr=parseInt(document.getElementById('nze-milestone-yr').value)||2030;
+  var rate=nzeRate();
+  var ambition=document.getElementById('nze-ambition').value;
+
+  // Build yearly data
+  var years=[],emissions=[];
+  for(var y=baseYr;y<=targetYr;y++){
+    var e=base*Math.pow(1-rate,y-baseYr);
+    years.push(y); emissions.push(Math.max(0,e));
+  }
+
+  // KPIs
+  var mileIdx=years.indexOf(mileYr);
+  var mileVal=mileIdx>=0?emissions[mileIdx]:base*Math.pow(1-rate,mileYr-baseYr);
+  document.getElementById('nze-kpi-base').textContent=fmt(base);
+  document.getElementById('nze-kpi-mile').textContent=fmt(mileVal);
+  document.getElementById('nze-kpi-mile-lbl').textContent=mileYr+' Target';
+  document.getElementById('nze-kpi-nze').textContent=targetYr;
+
+  // Badge
+  var bd=NZE_BADGE[ambition]||NZE_BADGE['1.5'];
+  var badgeEl=document.getElementById('nze-sbti-badge');
+  badgeEl.textContent=bd[0]; badgeEl.className=''; if(bd[1]) badgeEl.className=bd[1];
+
+  // Draw chart
+  nzeDrawChart(years,emissions,base,mileYr,targetYr);
+
+  // Milestones
+  nzeDrawMilestones(years,emissions,base,mileYr,targetYr,rate);
+};
+
+function nzeDrawChart(years,emissions,base,mileYr,targetYr){
+  var pad={l:62,r:20,t:20,b:38};
+  var W=700,H=280;
+  var cW=W-pad.l-pad.r, cH=H-pad.t-pad.b;
+  var maxE=base;
+  var minY=years[0],maxY=years[years.length-1];
+
+  function xp(yr){return pad.l+((yr-minY)/(maxY-minY))*cW;}
+  function yp(e){return pad.t+cH-(e/maxE)*cH;}
+
+  var pts=years.map(function(y,i){return xp(y)+','+yp(emissions[i]);}).join(' ');
+  var fillPts=xp(minY)+','+yp(0)+' '+pts+' '+xp(maxY)+','+yp(0);
+
+  var html='';
+  // Grid
+  for(var i=0;i<=4;i++){
+    var v=maxE*(i/4);
+    var y2=yp(v);
+    html+='<line x1="'+pad.l+'" y1="'+y2+'" x2="'+(W-pad.r)+'" y2="'+y2+'" stroke="rgba(0,232,122,.07)" stroke-width="1"/>';
+    html+='<text x="'+(pad.l-6)+'" y="'+(y2+4)+'" fill="rgba(240,237,232,.35)" font-size="8" font-family="DM Mono" text-anchor="end">'+fmt(v)+'</text>';
+  }
+  // Year labels
+  var step=Math.ceil((maxY-minY)/8);
+  for(var yr=minY;yr<=maxY;yr+=step){
+    html+='<text x="'+xp(yr)+'" y="'+(H-pad.b+14)+'" fill="rgba(240,237,232,.35)" font-size="8" font-family="DM Mono" text-anchor="middle">'+yr+'</text>';
+    html+='<line x1="'+xp(yr)+'" y1="'+pad.t+'" x2="'+xp(yr)+'" y2="'+(H-pad.b)+'" stroke="rgba(0,232,122,.05)" stroke-width="1"/>';
+  }
+  // Axes
+  html+='<line x1="'+pad.l+'" y1="'+pad.t+'" x2="'+pad.l+'" y2="'+(H-pad.b)+'" stroke="rgba(0,232,122,.25)" stroke-width="1"/>';
+  html+='<line x1="'+pad.l+'" y1="'+(H-pad.b)+'" x2="'+(W-pad.r)+'" y2="'+(H-pad.b)+'" stroke="rgba(0,232,122,.25)" stroke-width="1"/>';
+  // Fill
+  html+='<polygon points="'+fillPts+'" fill="url(#nze-fill-grad)"/>';
+  // Line
+  html+='<polyline points="'+pts+'" fill="none" stroke="#00e87a" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>';
+  // Milestone marker
+  if(mileYr>=minY&&mileYr<=maxY){
+    var mx=xp(mileYr), my=yp(base*Math.pow(1-nzeRate(),mileYr-minY));
+    html+='<line x1="'+mx+'" y1="'+pad.t+'" x2="'+mx+'" y2="'+(H-pad.b)+'" stroke="#0affdb" stroke-width="1" stroke-dasharray="4,3"/>';
+    html+='<circle cx="'+mx+'" cy="'+my+'" r="5" fill="#0affdb" stroke="#021008" stroke-width="1.5"/>';
+    html+='<text x="'+(mx+6)+'" y="'+(my-6)+'" fill="#0affdb" font-size="8" font-family="DM Mono">'+mileYr+'</text>';
+  }
+  // Net zero label
+  html+='<circle cx="'+xp(maxY)+'" cy="'+yp(0)+'" r="5" fill="#00e87a" stroke="#021008" stroke-width="1.5"/>';
+  html+='<text x="'+(xp(maxY)-6)+'" y="'+(yp(0)-8)+'" fill="#00e87a" font-size="8" font-family="DM Mono" text-anchor="middle">Net Zero</text>';
+
+  document.getElementById('nze-chart-g').innerHTML=html;
+}
+
+function nzeDrawMilestones(years,emissions,base,mileYr,targetYr,rate){
+  var sector=document.getElementById('nze-sector').value||'other';
+  var actions=NZE_ACTIONS[sector]||NZE_ACTIONS.other;
+  var minY=years[0];
+  var milestoneYears=[];
+  for(var y=years[0]+5;y<=targetYr;y+=5) milestoneYears.push(y);
+  if(milestoneYears.indexOf(targetYr)<0) milestoneYears.push(targetYr);
+
+  var html='';
+  milestoneYears.forEach(function(y,i){
+    var e=base*Math.pow(1-rate,y-minY);
+    var pct=Math.min(100,((base-e)/base)*100);
+    var isMile=y===mileYr, isNze=y===targetYr;
+    var cls=isNze?'yr-nze':isMile?'yr-hl':'';
+    var act=actions[i%actions.length];
+    var actTag='<span class="nze-action-tag">'+act+'</span>';
+    var fill=Math.round(pct)+'%';
+    html+='<tr>';
+    html+='<td class="'+cls+'">'+y+(isNze?' ⭐':'')+(isNze&&y===mileYr?' 🎯':'')+((!isNze)&&isNze?'':isNze?'':isNze?'':'')+'</td>';
+    html+='<td style="font-family:\'DM Mono\',monospace">'+fmt(Math.max(0,e))+'</td>';
+    html+='<td style="font-family:\'DM Mono\',monospace;color:'+(pct>=50?'#00e87a':'#0affdb')+'">'+pct.toFixed(1)+'%</td>';
+    html+='<td><span class="nze-pbar-wrap"><span class="nze-pbar-fill" style="width:'+fill+'"></span></span></td>';
+    html+='<td>'+actTag+'</td>';
+    html+='</tr>';
+  });
+  document.getElementById('nze-mile-body').innerHTML=html;
+}
+
+window.nzeExportPDF=function(){
+  var org=document.getElementById('nze-org').value||'Organisation';
+  var ambition=document.getElementById('nze-ambition');
+  var ambText=ambition.options[ambition.selectedIndex].text;
+  var s1=document.getElementById('nze-s1').value||0;
+  var s2=document.getElementById('nze-s2').value||0;
+  var s3=document.getElementById('nze-s3').value||0;
+  var base=parseFloat(s1)+parseFloat(s2)+parseFloat(s3);
+  var tgt=document.getElementById('nze-target-year').value;
+  var baseYr=document.getElementById('nze-base-year').value;
+  var milesHTML=document.getElementById('nze-mile-body').innerHTML;
+
+  var html='<!DOCTYPE html><html><head><meta charset="utf-8"><title>Net Zero Pathway — '+org+'</title><style>'+
+    'body{font-family:Arial,sans-serif;color:#1a1a1a;max-width:900px;margin:0 auto;padding:2rem}'+
+    'h1{color:#16a34a;font-size:1.6rem;margin-bottom:.3rem}'+
+    '.sub{color:#666;font-size:.8rem;margin-bottom:2rem}'+
+    '.kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem}'+
+    '.kpi{border:2px solid #e5e7eb;border-radius:.5rem;padding:1rem;text-align:center}'+
+    '.kpi-v{font-size:1.4rem;font-weight:700;color:#16a34a}'+
+    '.kpi-l{font-size:.7rem;color:#6b7280;text-transform:uppercase;margin-top:.2rem}'+
+    'table{width:100%;border-collapse:collapse;font-size:.82rem}'+
+    'th{background:#f9fafb;padding:.5rem .75rem;text-align:left;border-bottom:2px solid #e5e7eb;font-size:.72rem;text-transform:uppercase;color:#6b7280;letter-spacing:.05em}'+
+    'td{padding:.5rem .75rem;border-bottom:1px solid #f3f4f6}'+
+    'tr:last-child td{border-bottom:none}'+
+    '.nze-action-tag{background:#f0fdf4;border:1px solid #bbf7d0;color:#16a34a;padding:.1rem .35rem;border-radius:.25rem;font-size:.65rem;margin:.1rem}'+
+    '.footer{margin-top:3rem;font-size:.65rem;color:#9ca3af;border-top:1px solid #e5e7eb;padding-top:1rem}'+
+    '</style></head><body>'+
+    '<h1>🛤️ Net Zero Pathway — '+org+'</h1>'+
+    '<div class="sub">Generated '+new Date().toLocaleDateString('en-AU',{day:'numeric',month:'long',year:'numeric'})+' · '+ambText+'</div>'+
+    '<div class="kpi-row">'+
+      '<div class="kpi"><div class="kpi-v">'+fmt(base)+'</div><div class="kpi-l">Base tCO₂e ('+baseYr+')</div></div>'+
+      '<div class="kpi"><div class="kpi-v">'+document.getElementById('nze-kpi-mile').textContent+'</div><div class="kpi-l">'+document.getElementById('nze-kpi-mile-lbl').textContent+'</div></div>'+
+      '<div class="kpi"><div class="kpi-v">'+tgt+'</div><div class="kpi-l">Net Zero Target</div></div>'+
+    '</div>'+
+    '<table><thead><tr><th>Year</th><th>Target (tCO₂e)</th><th>% Reduced</th><th>Progress</th><th>Priority Action</th></tr></thead>'+
+    '<tbody>'+milesHTML.replace(/class="nze-pbar-wrap"[^>]*>[^<]*<[^/]+\/[^>]+><\/span>/g,'')+'</tbody></table>'+
+    '<div class="footer">Generated by ReGenesis Impact Platform · regenesisimpact.in · For professional use only</div>'+
+    '</body></html>';
+
+  var blob=new Blob([html],{type:'text/html'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='NetZeroPathway_'+org.replace(/\s+/g,'_')+'_'+tgt+'.html';
+  a.click();
+};
+
+// Auto-calc on page show — hook into showPage
+var _nzeOrigShow=window.showPage;
+document.addEventListener('DOMContentLoaded',function(){
+  // initial calc
+  setTimeout(nzeCalc,100);
+});
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════
+     MATERIALITY ASSESSMENT MATRIX
+════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-materiality" style="display:none">
+<style>
+.mat-wrap{max-width:1200px;margin:0 auto;padding:2rem 1.5rem;padding-top:calc(64px + 2rem)}
+.mat-hdr{margin-bottom:1.5rem}
+.mat-title{font-family:'Playfair Display',serif;font-size:1.85rem;color:#f0ede8;margin-bottom:.35rem}
+.mat-sub{font-size:.72rem;color:rgba(240,237,232,.45);font-family:'DM Mono',monospace;letter-spacing:.06em}
+.mat-layout{display:grid;grid-template-columns:1fr 420px;gap:1.25rem;align-items:start}
+.mat-left{display:flex;flex-direction:column;gap:1rem}
+.mat-right{display:flex;flex-direction:column;gap:1rem}
+.mat-card{background:rgba(5,15,7,.75);border:1px solid rgba(139,92,246,.15);border-radius:.75rem;padding:1.25rem}
+.mat-card-ttl{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(139,92,246,.65);margin-bottom:.9rem;display:flex;align-items:center;gap:.6rem}
+.mat-legend{font-size:.65rem;color:rgba(240,237,232,.45);margin-left:auto;font-family:'DM Sans',sans-serif}
+/* Topic list */
+.mat-topic-list{display:flex;flex-direction:column;gap:.35rem;max-height:520px;overflow-y:auto;padding-right:.2rem}
+.mat-topic-list::-webkit-scrollbar{width:4px}
+.mat-topic-list::-webkit-scrollbar-track{background:transparent}
+.mat-topic-list::-webkit-scrollbar-thumb{background:rgba(139,92,246,.2);border-radius:2px}
+.mat-topic{display:grid;grid-template-columns:20px 1fr auto;gap:.5rem;align-items:center;padding:.5rem .6rem;border-radius:.4rem;border:1px solid transparent;transition:border-color .2s;cursor:default}
+.mat-topic:hover{border-color:rgba(139,92,246,.18);background:rgba(139,92,246,.04)}
+.mat-topic-cat{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin:0 auto}
+.mat-topic-lbl{font-size:.74rem;color:rgba(240,237,232,.8)}
+.mat-topic-esrs{font-family:'DM Mono',monospace;font-size:.55rem;color:rgba(139,92,246,.65);margin-top:.08rem}
+.mat-sliders{display:flex;gap:.5rem;align-items:center}
+.mat-slider-wrap{display:flex;flex-direction:column;align-items:center;gap:2px}
+.mat-slider-lbl{font-family:'DM Mono',monospace;font-size:.5rem;color:rgba(240,237,232,.35);letter-spacing:.04em;white-space:nowrap}
+.mat-slider{-webkit-appearance:none;appearance:none;width:72px;height:3px;border-radius:2px;background:linear-gradient(90deg,rgba(139,92,246,.4),rgba(0,232,122,.4));cursor:pointer}
+.mat-slider::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:#8b5cf6;border:2px solid #021008;cursor:pointer;transition:transform .15s}
+.mat-slider::-webkit-slider-thumb:hover{transform:scale(1.2)}
+.mat-slider.impact-slider::-webkit-slider-thumb{background:#00e87a}
+/* Filters */
+.mat-filters{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.5rem}
+.mat-filter{font-family:'DM Mono',monospace;font-size:.6rem;padding:.22rem .6rem;border-radius:2rem;border:1px solid rgba(139,92,246,.25);color:rgba(139,92,246,.7);background:none;cursor:pointer;transition:all .2s}
+.mat-filter.active,.mat-filter:hover{background:rgba(139,92,246,.15);border-color:rgba(139,92,246,.5);color:#8b5cf6}
+.mat-filter.e-filter{border-color:rgba(0,232,122,.25);color:rgba(0,232,122,.7)}
+.mat-filter.e-filter.active,.mat-filter.e-filter:hover{background:rgba(0,232,122,.12);border-color:rgba(0,232,122,.5);color:#00e87a}
+.mat-filter.s-filter{border-color:rgba(10,255,219,.25);color:rgba(10,255,219,.7)}
+.mat-filter.s-filter.active,.mat-filter.s-filter:hover{background:rgba(10,255,219,.1);border-color:rgba(10,255,219,.5);color:#0affdb}
+.mat-filter.g-filter{border-color:rgba(255,181,71,.25);color:rgba(255,181,71,.7)}
+.mat-filter.g-filter.active,.mat-filter.g-filter:hover{background:rgba(255,181,71,.1);border-color:rgba(255,181,71,.5);color:#ffb547}
+/* Matrix plot */
+.mat-plot-card{background:rgba(5,15,7,.75);border:1px solid rgba(139,92,246,.15);border-radius:.75rem;padding:1.25rem}
+#mat-plot-svg{width:100%;display:block}
+.mat-quadrant-labels text{font-family:'DM Mono',monospace}
+/* Summary */
+.mat-summary-card{background:rgba(5,15,7,.75);border:1px solid rgba(139,92,246,.15);border-radius:.75rem;padding:1.25rem}
+.mat-summary-list{display:flex;flex-direction:column;gap:.4rem;margin-top:.5rem}
+.mat-summary-item{display:flex;align-items:center;gap:.5rem;font-size:.74rem;color:rgba(240,237,232,.75)}
+.mat-summary-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.mat-badge{display:inline-flex;align-items:center;gap:.3rem;font-family:'DM Mono',monospace;font-size:.55rem;padding:.15rem .5rem;border-radius:.25rem}
+.mat-badge-e{background:rgba(0,232,122,.1);color:#00e87a;border:1px solid rgba(0,232,122,.2)}
+.mat-badge-s{background:rgba(10,255,219,.08);color:#0affdb;border:1px solid rgba(10,255,219,.2)}
+.mat-badge-g{background:rgba(255,181,71,.1);color:#ffb547;border:1px solid rgba(255,181,71,.2)}
+/* Actions row */
+.mat-actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.5rem}
+.mat-btn{padding:.5rem 1.1rem;border-radius:.45rem;font-size:.75rem;font-family:'DM Mono',monospace;cursor:pointer;border:1px solid;transition:all .2s;letter-spacing:.03em}
+.mat-btn-primary{background:linear-gradient(135deg,rgba(139,92,246,.2),rgba(10,255,219,.1));border-color:rgba(139,92,246,.4);color:#8b5cf6}
+.mat-btn-primary:hover{background:rgba(139,92,246,.25);border-color:rgba(139,92,246,.6)}
+.mat-btn-export{background:rgba(0,232,122,.07);border-color:rgba(0,232,122,.2);color:#00e87a}
+.mat-btn-export:hover{background:rgba(0,232,122,.14)}
+/* Sage response */
+.mat-sage-out{background:rgba(0,232,122,.03);border:1px solid rgba(0,232,122,.1);border-radius:.5rem;padding:.9rem;font-size:.78rem;color:rgba(240,237,232,.8);line-height:1.55;margin-top:.75rem;white-space:pre-wrap;display:none}
+@media(max-width:1000px){.mat-layout{grid-template-columns:1fr}}
+@media(max-width:600px){.mat-slider{width:52px}.mat-sliders{gap:.3rem}}
+</style>
+<div class="mat-wrap">
+  <div class="mat-hdr">
+    <div class="mat-title">⬡ Materiality Assessment Matrix</div>
+    <div class="mat-sub">Double materiality · Financial significance × Impact magnitude · ESRS · GRI · IFRS S1</div>
+  </div>
+  <div class="mat-layout">
+    <!-- Left: topic rating panel -->
+    <div class="mat-left">
+      <div class="mat-card">
+        <div class="mat-card-ttl">
+          Rate ESG Topics
+          <span class="mat-legend">Financial →  Impact ↑</span>
+        </div>
+        <div class="mat-filters">
+          <button class="mat-filter active" id="mat-f-all" onclick="matFilter('all')">All</button>
+          <button class="mat-filter e-filter" id="mat-f-E" onclick="matFilter('E')">E · Environment</button>
+          <button class="mat-filter s-filter" id="mat-f-S" onclick="matFilter('S')">S · Social</button>
+          <button class="mat-filter g-filter" id="mat-f-G" onclick="matFilter('G')">G · Governance</button>
+        </div>
+        <div class="mat-topic-list" id="mat-topic-list"></div>
+      </div>
+    </div>
+    <!-- Right: matrix + summary -->
+    <div class="mat-right">
+      <div class="mat-plot-card">
+        <div class="mat-card-ttl">Double Materiality Matrix</div>
+        <svg id="mat-plot-svg" viewBox="0 0 380 340" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="mat-q-tl" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffb547" stop-opacity=".08"/><stop offset="100%" stop-color="transparent"/></linearGradient>
+            <linearGradient id="mat-q-tr" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#8b5cf6" stop-opacity=".1"/><stop offset="100%" stop-color="transparent"/></linearGradient>
+            <linearGradient id="mat-q-bl" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="transparent"/><stop offset="100%" stop-color="#374151" stop-opacity=".1"/></linearGradient>
+            <linearGradient id="mat-q-br" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0affdb" stop-opacity=".06"/><stop offset="100%" stop-color="transparent"/></linearGradient>
+          </defs>
+          <g id="mat-plot-g"></g>
+        </svg>
+      </div>
+      <div class="mat-summary-card">
+        <div class="mat-card-ttl">Material Topics — Priority Ranking</div>
+        <div class="mat-summary-list" id="mat-summary-list"></div>
+        <div class="mat-actions">
+          <button class="mat-btn mat-btn-primary" onclick="matSageNarrative()">✦ Sage AI Narrative</button>
+          <button class="mat-btn mat-btn-export" onclick="matExportPDF()">⬇ Export Matrix PDF</button>
+        </div>
+        <div class="mat-sage-out" id="mat-sage-out"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div><!-- /page-materiality -->
+
+<script>
+// ════ MATERIALITY ENGINE ════
+(function(){
+var MAT_TOPICS=[
+  {id:'climate-transition',lbl:'Climate Transition Risk',cat:'E',esrs:'ESRS E1',gri:'GRI 201'},
+  {id:'climate-physical',lbl:'Physical Climate Risk',cat:'E',esrs:'ESRS E1',gri:'GRI 201'},
+  {id:'ghg-s12',lbl:'GHG Emissions (Scope 1&2)',cat:'E',esrs:'ESRS E1',gri:'GRI 305'},
+  {id:'ghg-s3',lbl:'GHG Emissions (Scope 3)',cat:'E',esrs:'ESRS E1',gri:'GRI 305'},
+  {id:'energy',lbl:'Energy Consumption & Mix',cat:'E',esrs:'ESRS E1',gri:'GRI 302'},
+  {id:'water',lbl:'Water Use & Stewardship',cat:'E',esrs:'ESRS E3',gri:'GRI 303'},
+  {id:'biodiversity',lbl:'Biodiversity & Ecosystems',cat:'E',esrs:'ESRS E4',gri:'GRI 304'},
+  {id:'pollution',lbl:'Air & Soil Pollution',cat:'E',esrs:'ESRS E2',gri:'GRI 305'},
+  {id:'waste',lbl:'Waste & Circular Economy',cat:'E',esrs:'ESRS E5',gri:'GRI 306'},
+  {id:'plastics',lbl:'Plastics & Packaging',cat:'E',esrs:'ESRS E5',gri:'GRI 306'},
+  {id:'workforce',lbl:'Own Workforce — Health & Safety',cat:'S',esrs:'ESRS S1',gri:'GRI 403'},
+  {id:'dei',lbl:'Diversity, Equity & Inclusion',cat:'S',esrs:'ESRS S1',gri:'GRI 405'},
+  {id:'pay',lbl:'Fair Pay & Living Wage',cat:'S',esrs:'ESRS S1',gri:'GRI 202'},
+  {id:'supply-labor',lbl:'Supply Chain Labour Rights',cat:'S',esrs:'ESRS S2',gri:'GRI 407'},
+  {id:'human-rights',lbl:'Human Rights Due Diligence',cat:'S',esrs:'ESRS S2',gri:'GRI 412'},
+  {id:'community',lbl:'Community Impact',cat:'S',esrs:'ESRS S3',gri:'GRI 413'},
+  {id:'product-safety',lbl:'Product Safety & Quality',cat:'S',esrs:'ESRS S4',gri:'GRI 416'},
+  {id:'digital-rights',lbl:'Data Privacy & Digital Rights',cat:'S',esrs:'ESRS S4',gri:'GRI 418'},
+  {id:'access',lbl:'Affordable Access / Inclusion',cat:'S',esrs:'ESRS S4',gri:'GRI 203'},
+  {id:'ethics',lbl:'Business Ethics & Anti-corruption',cat:'G',esrs:'ESRS G1',gri:'GRI 205'},
+  {id:'tax',lbl:'Tax Transparency',cat:'G',esrs:'ESRS G1',gri:'GRI 207'},
+  {id:'board',lbl:'Board Composition & Independence',cat:'G',esrs:'ESRS G1',gri:'GRI 405'},
+  {id:'exec-pay',lbl:'Executive Remuneration',cat:'G',esrs:'ESRS G1',gri:'GRI 201'},
+  {id:'whistleblow',lbl:'Whistleblowing & Speak-Up',cat:'G',esrs:'ESRS G1',gri:'GRI 418'},
+  {id:'lobbying',lbl:'Political Influence & Lobbying',cat:'G',esrs:'ESRS G1',gri:'GRI 415'}
+];
+
+var MAT_COLORS={E:'#00e87a',S:'#0affdb',G:'#ffb547'};
+var MAT_DEFAULTS={E:5,S:4,G:3};
+var matState={};
+var matCurrentFilter='all';
+
+MAT_TOPICS.forEach(function(t){
+  matState[t.id]={fin:MAT_DEFAULTS[t.cat],imp:MAT_DEFAULTS[t.cat]};
+});
+
+function matRenderTopics(){
+  var list=document.getElementById('mat-topic-list');
+  var html='';
+  MAT_TOPICS.forEach(function(t){
+    if(matCurrentFilter!=='all'&&t.cat!==matCurrentFilter) return;
+    var s=matState[t.id];
+    var col=MAT_COLORS[t.cat];
+    html+='<div class="mat-topic" id="mat-t-'+t.id+'">';
+    html+='<span class="mat-topic-cat" style="background:'+col+'"></span>';
+    html+='<div><div class="mat-topic-lbl">'+t.lbl+'</div><div class="mat-topic-esrs">'+t.esrs+' · '+t.gri+'</div></div>';
+    html+='<div class="mat-sliders">';
+    html+='<div class="mat-slider-wrap"><span class="mat-slider-lbl">FIN</span><input class="mat-slider" type="range" min="1" max="10" value="'+s.fin+'" oninput="matUpdate(\''+t.id+'\',\'fin\',this.value)"></div>';
+    html+='<div class="mat-slider-wrap"><span class="mat-slider-lbl">IMP</span><input class="mat-slider impact-slider" type="range" min="1" max="10" value="'+s.imp+'" oninput="matUpdate(\''+t.id+'\',\'imp\',this.value)"></div>';
+    html+='</div>';
+    html+='</div>';
+  });
+  list.innerHTML=html;
+}
+
+window.matFilter=function(f){
+  matCurrentFilter=f;
+  ['all','E','S','G'].forEach(function(k){
+    var el=document.getElementById('mat-f-'+k);
+    if(el) el.classList.toggle('active',k===f);
+  });
+  matRenderTopics();
+};
+
+window.matUpdate=function(id,axis,val){
+  matState[id][axis]=parseFloat(val);
+  matDraw();
+};
+
+function matDraw(){
+  var W=380,H=340;
+  var pad={l:44,r:16,t:16,b:44};
+  var cW=W-pad.l-pad.r, cH=H-pad.t-pad.b;
+
+  function xp(v){return pad.l+(v-1)/9*cW;}
+  function yp(v){return pad.t+cH-(v-1)/9*cH;}
+
+  var html='';
+  // Quadrant backgrounds
+  var mx=xp(5.5), my=yp(5.5);
+  html+='<rect x="'+pad.l+'" y="'+pad.t+'" width="'+(mx-pad.l)+'" height="'+(my-pad.t)+'" fill="url(#mat-q-tl)"/>';
+  html+='<rect x="'+mx+'" y="'+pad.t+'" width="'+(pad.l+cW-mx)+'" height="'+(my-pad.t)+'" fill="url(#mat-q-tr)"/>';
+  html+='<rect x="'+pad.l+'" y="'+my+'" width="'+(mx-pad.l)+'" height="'+(pad.t+cH-my)+'" fill="url(#mat-q-bl)"/>';
+  html+='<rect x="'+mx+'" y="'+my+'" width="'+(pad.l+cW-mx)+'" height="'+(pad.t+cH-my)+'" fill="url(#mat-q-br)"/>';
+  // Grid
+  for(var i=1;i<=10;i++){
+    html+='<line x1="'+xp(i)+'" y1="'+pad.t+'" x2="'+xp(i)+'" y2="'+(H-pad.b)+'" stroke="rgba(139,92,246,.06)" stroke-width="1"/>';
+    html+='<line x1="'+pad.l+'" y1="'+yp(i)+'" x2="'+(W-pad.r)+'" y2="'+yp(i)+'" stroke="rgba(139,92,246,.06)" stroke-width="1"/>';
+  }
+  // Axes
+  html+='<line x1="'+pad.l+'" y1="'+pad.t+'" x2="'+pad.l+'" y2="'+(H-pad.b)+'" stroke="rgba(139,92,246,.3)" stroke-width="1.5"/>';
+  html+='<line x1="'+pad.l+'" y1="'+(H-pad.b)+'" x2="'+(W-pad.r)+'" y2="'+(H-pad.b)+'" stroke="rgba(139,92,246,.3)" stroke-width="1.5"/>';
+  // Midlines
+  html+='<line x1="'+mx+'" y1="'+pad.t+'" x2="'+mx+'" y2="'+(H-pad.b)+'" stroke="rgba(139,92,246,.2)" stroke-width="1" stroke-dasharray="4,3"/>';
+  html+='<line x1="'+pad.l+'" y1="'+my+'" x2="'+(W-pad.r)+'" y2="'+my+'" stroke="rgba(139,92,246,.2)" stroke-width="1" stroke-dasharray="4,3"/>';
+  // Quadrant labels
+  html+='<text x="'+(pad.l+4)+'" y="'+(pad.t+12)+'" fill="rgba(255,181,71,.5)" font-size="7" font-family="DM Mono">FINANCIAL ONLY</text>';
+  html+='<text x="'+(mx+4)+'" y="'+(pad.t+12)+'" fill="rgba(139,92,246,.6)" font-size="7" font-family="DM Mono">HIGHLY MATERIAL</text>';
+  html+='<text x="'+(pad.l+4)+'" y="'+(H-pad.b-4)+'" fill="rgba(240,237,232,.2)" font-size="7" font-family="DM Mono">LOW PRIORITY</text>';
+  html+='<text x="'+(mx+4)+'" y="'+(H-pad.b-4)+'" fill="rgba(10,255,219,.4)" font-size="7" font-family="DM Mono">IMPACT ONLY</text>';
+  // Axis labels
+  html+='<text x="'+(pad.l+cW/2)+'" y="'+(H-4)+'" fill="rgba(240,237,232,.35)" font-size="8" font-family="DM Mono" text-anchor="middle">Financial Materiality →</text>';
+  html+='<text x="10" y="'+(pad.t+cH/2)+'" fill="rgba(240,237,232,.35)" font-size="8" font-family="DM Mono" text-anchor="middle" transform="rotate(-90,10,'+(pad.t+cH/2)+')">Impact Materiality ↑</text>';
+
+  // Dots — cluster nearby points
+  var plotted=[];
+  MAT_TOPICS.forEach(function(t){
+    var s=matState[t.id];
+    var col=MAT_COLORS[t.cat];
+    var cx=xp(s.fin), cy=yp(s.imp);
+    // slight jitter for overlap
+    var jx=0,jy=0;
+    plotted.forEach(function(p){if(Math.abs(p.x-cx)<5&&Math.abs(p.y-cy)<5){jx+=4;jy-=3;}});
+    cx+=jx; cy+=jy;
+    plotted.push({x:cx,y:cy});
+    var r=4.5;
+    var score=(s.fin+s.imp)/2;
+    if(score>=7) r=7;
+    else if(score>=5) r=5.5;
+    html+='<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="'+col+'" fill-opacity="0.75" stroke="#021008" stroke-width="1">';
+    html+='<title>'+t.lbl+' | Financial: '+s.fin+' | Impact: '+s.imp+'</title>';
+    html+='</circle>';
+    if(score>=7){
+      html+='<text x="'+(cx+r+2)+'" y="'+(cy+3)+'" fill="'+col+'" font-size="6" font-family="DM Mono">'+t.lbl.split(' ').slice(0,2).join(' ')+'</text>';
+    }
+  });
+
+  document.getElementById('mat-plot-g').innerHTML=html;
+  matRenderSummary();
+}
+
+function matRenderSummary(){
+  var scored=MAT_TOPICS.map(function(t){
+    var s=matState[t.id];
+    return {t:t,score:(s.fin+s.imp)/2,fin:s.fin,imp:s.imp};
+  }).sort(function(a,b){return b.score-a.score;});
+
+  var top=scored.slice(0,10);
+  var col=MAT_COLORS;
+  var html=top.map(function(item,i){
+    var badge='mat-badge-'+item.t.cat.toLowerCase();
+    return '<div class="mat-summary-item">'+
+      '<span class="mat-summary-dot" style="background:'+col[item.t.cat]+'"></span>'+
+      '<span style="font-weight:'+(i<3?'600':'400')+'">'+item.t.lbl+'</span>'+
+      '<span style="margin-left:auto;display:flex;gap:.3rem;align-items:center">'+
+        '<span class="mat-badge '+badge+'">'+item.t.esrs+'</span>'+
+        '<span style="font-family:\'DM Mono\',monospace;font-size:.65rem;color:rgba(240,237,232,.45)">'+item.score.toFixed(1)+'</span>'+
+      '</span>'+
+    '</div>';
+  }).join('');
+  document.getElementById('mat-summary-list').innerHTML=html;
+}
+
+window.matSageNarrative=function(){
+  var out=document.getElementById('mat-sage-out');
+  out.style.display='block';
+  out.textContent='✦ Sage AI is drafting your materiality narrative…';
+
+  var scored=MAT_TOPICS.map(function(t){
+    var s=matState[t.id];
+    return {lbl:t.lbl,cat:t.cat,esrs:t.esrs,score:(s.fin+s.imp)/2};
+  }).sort(function(a,b){return b.score-a.score;});
+
+  var top5=scored.slice(0,5).map(function(x){return x.lbl+' ('+x.esrs+', score '+x.score.toFixed(1)+')'}).join('; ');
+  var prompt='You are a sustainability disclosure expert. Write a concise 3-paragraph double materiality statement for an organisation. The top 5 material topics are: '+top5+'. Cover: (1) methodology (stakeholder engagement + financial and impact dimensions), (2) the most significant topics and why they matter, (3) how findings inform the sustainability strategy and reporting boundaries. Keep it under 200 words. Professional, board-ready tone.';
+
+  fetch('/sage',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({messages:[{role:'user',content:prompt}],max_tokens:400})
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    var text=d.choices&&d.choices[0]&&d.choices[0].message&&d.choices[0].message.content;
+    out.textContent=text||'No response from Sage AI.';
+  })
+  .catch(function(){
+    out.textContent='Could not reach Sage AI. Please try again.';
+  });
+};
+
+window.matExportPDF=function(){
+  var scored=MAT_TOPICS.map(function(t){
+    var s=matState[t.id];
+    return {t:t,score:(s.fin+s.imp)/2,fin:s.fin,imp:s.imp};
+  }).sort(function(a,b){return b.score-a.score;});
+
+  var rows=scored.map(function(item){
+    var q=item.fin>=5.5&&item.imp>=5.5?'Highly Material':item.fin>=5.5?'Financial Only':item.imp>=5.5?'Impact Only':'Lower Priority';
+    return '<tr><td>'+item.t.lbl+'</td><td>'+item.t.cat+'</td><td>'+item.t.esrs+'</td><td>'+item.fin+'/10</td><td>'+item.imp+'/10</td><td>'+item.score.toFixed(1)+'</td><td>'+q+'</td></tr>';
+  }).join('');
+
+  var html='<!DOCTYPE html><html><head><meta charset="utf-8"><title>Materiality Assessment</title><style>'+
+    'body{font-family:Arial,sans-serif;color:#1a1a1a;max-width:1000px;margin:0 auto;padding:2rem}'+
+    'h1{color:#7c3aed;font-size:1.5rem;margin-bottom:.3rem}'+
+    '.sub{color:#666;font-size:.78rem;margin-bottom:2rem}'+
+    'table{width:100%;border-collapse:collapse;font-size:.78rem}'+
+    'th{background:#f5f3ff;padding:.5rem .75rem;text-align:left;border-bottom:2px solid #ede9fe;font-size:.68rem;text-transform:uppercase;color:#7c3aed;letter-spacing:.05em}'+
+    'td{padding:.45rem .75rem;border-bottom:1px solid #f3f4f6}'+
+    'tr:last-child td{border-bottom:none}'+
+    '.e{color:#16a34a}.s{color:#0891b2}.g{color:#d97706}'+
+    '.hi{background:#faf5ff;font-weight:600}'+
+    '.footer{margin-top:3rem;font-size:.65rem;color:#9ca3af;border-top:1px solid #e5e7eb;padding-top:1rem}'+
+    '</style></head><body>'+
+    '<h1>⬡ Materiality Assessment Matrix</h1>'+
+    '<div class="sub">Generated '+new Date().toLocaleDateString('en-AU',{day:'numeric',month:'long',year:'numeric'})+' · Double Materiality · ESRS · GRI aligned</div>'+
+    '<table><thead><tr><th>ESG Topic</th><th>Category</th><th>Standard</th><th>Financial</th><th>Impact</th><th>Score</th><th>Quadrant</th></tr></thead>'+
+    '<tbody>'+rows+'</tbody></table>'+
+    '<div class="footer">Generated by ReGenesis Impact Platform · regenesisimpact.in · For professional use only</div>'+
+    '</body></html>';
+
+  var blob=new Blob([html],{type:'text/html'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='MaterialityMatrix_'+new Date().toISOString().slice(0,10)+'.html';
+  a.click();
+};
+
+// Init on DOMContentLoaded
+document.addEventListener('DOMContentLoaded',function(){
+  matRenderTopics();
+  matDraw();
+});
+
+// Re-render when page shown
+var _matOrigShowPage=window.showPage;
+window.showPage=function(page){
+  _matOrigShowPage(page);
+  if(page==='materiality'){
+    setTimeout(function(){matRenderTopics();matDraw();},50);
+  }
+  if(page==='nze'){
+    setTimeout(function(){nzeCalc();},50);
+  }
+};
 })();
 </script>
 
