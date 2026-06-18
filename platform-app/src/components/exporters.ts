@@ -3,7 +3,10 @@
 /** Download helper for CSV exports. */
 export function downloadCsv(filename: string, rows: (string | number | null)[][]) {
   const esc = (v: string | number | null) => {
-    const s = v == null ? '' : String(v)
+    let s = v == null ? '' : String(v)
+    // Neutralize formula injection: a cell starting with =, +, -, @ or a tab
+    // is interpreted as a formula by Excel/Sheets when the CSV is opened.
+    if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`
     return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s
   }
   const csv = rows.map(r => r.map(esc).join(',')).join('\n')
