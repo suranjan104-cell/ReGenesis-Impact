@@ -1974,7 +1974,12 @@ function loadPdfJs(){
     </div>
   </div>
 
-  <!-- ===== INSIGHTS — owner analytics (visitors, queries, leads) ===== -->
+  <!-- ===== INSIGHTS — owner-only analytics (visitors, queries, leads) =====
+       Hidden by default; revealed only for the owner account in _onSignedIn().
+       The real access boundary is the Supabase RLS policy (see supabase-setup.sql,
+       is_admin()) — this client-side hide is just to avoid showing/fetching it
+       for everyone else. -->
+  <div id="db-insights-wrap" style="display:none">
   <div class="db-section-label" style="margin-top:2.5rem">Platform Insights <span style="font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:rgba(0,232,122,.6);margin-left:.5rem">LAST 30 DAYS</span>
     <button onclick="dbLoadInsights()" style="float:right;background:rgba(0,232,122,.1);border:1px solid rgba(0,232,122,.3);color:#00e87a;padding:.3rem .9rem;border-radius:.3rem;font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.08em;cursor:pointer">↻ REFRESH</button>
   </div>
@@ -2006,6 +2011,7 @@ function loadPdfJs(){
     <div id="ins-setup-note" style="display:none;margin-top:.9rem;padding:.8rem 1rem;border:1px solid rgba(255,181,71,.3);border-radius:.5rem;background:rgba(255,181,71,.06);font-size:.78rem;color:rgba(255,181,71,.9)">
       ⚠️ Analytics tables not found. Run the ANALYTICS block in <code>supabase-setup.sql</code> in your Supabase SQL editor once, then refresh.
     </div>
+  </div>
   </div>
   <style>
     .db-ins-kpi{background:rgba(3,16,10,.6);border:1px solid rgba(0,232,122,.15);border-radius:.65rem;padding:1rem;text-align:center}
@@ -9022,8 +9028,8 @@ function showPage(page) {
   // Analytics: record tool opens (not home — page_view covers that)
   if (page !== 'home' && typeof rgTrack === 'function') rgTrack('tool_open', page);
 
-  // Owner insights auto-load on dashboard open
-  if (page === 'dashboard' && typeof dbLoadInsights === 'function') setTimeout(dbLoadInsights, 300);
+  // Owner insights auto-load on dashboard open (owner only — see isOwnerUser)
+  if (page === 'dashboard' && isOwnerUser() && typeof dbLoadInsights === 'function') setTimeout(dbLoadInsights, 300);
 
   // Nav button highlights
   ['nb-issb','nb-ghg','nb-tools','nb-climate','nb-advisor','nb-credits','nb-assurance'].forEach(function(id) {
@@ -9338,6 +9344,15 @@ var _pendingPage = null;
 var _authMode = 'signin'; // 'signin' | 'signup' | 'reset'
 var _currentUser = null;
 
+// Client-side gate for the owner-only "Platform Insights" panel — purely a
+// UX nicety (hide it from regular users). The real security boundary is the
+// Supabase RLS policy: is_admin() in supabase-setup.sql, which checks this
+// same email server-side and denies the SELECT outright for everyone else.
+var OWNER_EMAILS = ['suranjan104@gmail.com'];
+function isOwnerUser() {
+  return !!(_currentUser && _currentUser.email && OWNER_EMAILS.indexOf(_currentUser.email.toLowerCase()) !== -1);
+}
+
 (function initSupabase() {
   if (typeof supabase === 'undefined') { setTimeout(initSupabase, 200); return; }
   _supabase = supabase.createClient(
@@ -9400,7 +9415,7 @@ function rgLogQuery(tool, prompt) {
 
 // ── INSIGHTS — owner dashboard analytics (requires signed-in user) ─────
 async function dbLoadInsights() {
-  if (!_supabase) return;
+  if (!_supabase || !isOwnerUser()) return;
   var since = new Date(Date.now() - 30*24*3600*1000).toISOString();
   var setNote = function(show){ var n=document.getElementById('ins-setup-note'); if(n) n.style.display = show?'block':'none'; };
   var put = function(id, v){ var e=document.getElementById(id); if(e) e.textContent = v; };
@@ -9465,6 +9480,8 @@ function _onSignedIn(user) {
   var dbName = document.getElementById('db-user-name');
   if (dbName) dbName.textContent = user.email.split('@')[0];
   dbUpdateMarket();
+  var insWrap = document.getElementById('db-insights-wrap');
+  if (insWrap) insWrap.style.display = isOwnerUser() ? 'block' : 'none';
   // Show user email + sign out in nav
   var wrap = document.getElementById('nav-user-wrap');
   var emailEl = document.getElementById('nav-user-email');
@@ -11029,7 +11046,7 @@ window.issb_backToForm = function() {
    var fi = document.getElementById('finfo'); if(fi) fi.classList.add('on');
 
    var w = window.wel(); if(w) w.style.display='none';
-   var uploadMsg = addMsg('user', '📎 <strong>' + f.name + '</strong> — Analysing report…');
+   var uploadMsg = addMsg('user', '📎 <strong>' + escHtml(f.name) + '</strong> — Analysing report…');
 
    var ext = f.name.split('.').pop().toLowerCase();
 
@@ -11091,7 +11108,7 @@ window.issb_backToForm = function() {
      addMsg('ai', fmt(reply));
    }).catch(function(){
      hideTyping(typing);
-     addMsg('ai', '<span style="color:#ff6c3e">⚠ Sage AI is temporarily unavailable — could not analyse the report.</span> <button onclick="sendGapAnalysis(\'' + filename.replace(/'/g,'') + '\')" style="background:rgba(255,108,62,.12);border:1px solid rgba(255,108,62,.35);color:#ff6c3e;padding:.15rem .55rem;border-radius:2rem;font-size:.72rem;font-family:var(--mono);cursor:pointer;margin-left:.4rem">↺ Retry</button>');
+     addMsg('ai', '<span style="color:#ff6c3e">⚠ Sage AI is temporarily unavailable — could not analyse the report.</span> <button onclick="sendGapAnalysis(\'' + filename.replace(/['"<>\\\r\n]/g,'') + '\')" style="background:rgba(255,108,62,.12);border:1px solid rgba(255,108,62,.35);color:#ff6c3e;padding:.15rem .55rem;border-radius:2rem;font-size:.72rem;font-family:var(--mono);cursor:pointer;margin-left:.4rem">↺ Retry</button>');
    });
  }
 
@@ -11130,8 +11147,18 @@ window.issb_backToForm = function() {
  return div;
  }
 
+ // Escape first, then re-introduce only the specific markdown-ish tags below.
+ // Without this, both the visitor's own message and the AI's reply (which can
+ // echo text from an uploaded report) are inserted via innerHTML verbatim —
+ // any <script>/<img onerror> in either would execute in the page.
+ function escHtml(s) {
+ return String(s == null ? '' : s)
+ .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+ .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+ }
+
  function fmt(text) {
- return text.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+ return escHtml(text).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
  .replace(/\*(.+?)\*/g,'<em>$1</em>')
  .replace(/`(.+?)`/g,'<code>$1</code>')
  .replace(/\n/g,'<br>');
