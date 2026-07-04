@@ -4,6 +4,7 @@ import { useData } from '../../data/useData'
 import { newId } from '../../data/store'
 import { buildDemoData } from '../../seed/demoData'
 import { Field, Tip } from '../../components/ui'
+import { formatMoneyShort, parseMoney } from '../../domain/money'
 import { FRAMEWORK_INFO, FUND_TYPES, GEOGRAPHIES, SECTORS } from '../../catalog/dimensions'
 import type { Framework, FundType, TheoryOfChange } from '../../domain/types'
 import './onboarding.css'
@@ -20,22 +21,29 @@ export default function Onboarding() {
   const { data, update, reset } = useData()
   const nav = useNavigate()
   const [step, setStep] = useState(0)
+  const [confirmDemo, setConfirmDemo] = useState(false)
+
+  // Prefill everything from the existing fund so re-running the wizard
+  // edits the profile instead of silently wiping it.
+  const fund = data.fund
 
   // Step 1 — profile
-  const [name, setName] = useState(data.fund?.name ?? '')
-  const [type, setType] = useState<FundType>('vc')
-  const [aum, setAum] = useState('')
-  const [geos, setGeos] = useState<string[]>([])
-  const [sectors, setSectors] = useState<string[]>([])
+  const [name, setName] = useState(fund?.name ?? '')
+  const [type, setType] = useState<FundType>(fund?.type ?? 'vc')
+  const [aum, setAum] = useState(formatMoneyShort(fund?.aumUsd ?? null))
+  const [geos, setGeos] = useState<string[]>(fund?.geographies ?? [])
+  const [sectors, setSectors] = useState<string[]>(fund?.sectors ?? [])
   const [nameErr, setNameErr] = useState('')
 
   // Step 2 — theory of change
-  const [toc, setToc] = useState<TheoryOfChange>({
+  const [toc, setToc] = useState<TheoryOfChange>(fund?.theoryOfChange ?? {
     inputs: '', activities: '', outputs: '', outcomes: '', impact: '',
   })
 
   // Step 3 — frameworks
-  const [frameworks, setFrameworks] = useState<Framework[]>(['iris', 'sdg'])
+  const [frameworks, setFrameworks] = useState<Framework[]>(
+    fund?.frameworks?.length ? fund.frameworks : ['iris', 'sdg'],
+  )
 
   const toggle = <T,>(arr: T[], v: T): T[] =>
     arr.includes(v) ? arr.filter(x => x !== v) : [...arr, v]
@@ -49,7 +57,7 @@ export default function Onboarding() {
   }
 
   function finish() {
-    const aumNum = aum.trim() === '' ? null : Number(aum.replace(/[$,M\s]/gi, '')) * (/m/i.test(aum) ? 1e6 : 1)
+    const aumNum = parseMoney(aum)
     update(d => ({
       ...d,
       fund: {
@@ -68,7 +76,10 @@ export default function Onboarding() {
     nav('/dashboard')
   }
 
+  const hasRealData = !data.isDemo && (data.companies.length > 0 || data.dataPoints.length > 0 || !!fund?.onboarded)
+
   function loadDemo() {
+    if (hasRealData) { setConfirmDemo(true); return }
     reset(buildDemoData())
     nav('/dashboard')
   }
@@ -195,6 +206,24 @@ export default function Onboarding() {
             ? <button className="btn btn-primary" onClick={next}>Continue →</button>
             : <button className="btn btn-primary" onClick={finish}>Open my dashboard →</button>}
         </div>
+
+        {confirmDemo && (
+          <div className="modal-scrim" onClick={e => { if (e.target === e.currentTarget) setConfirmDemo(false) }}>
+            <div className="modal" role="alertdialog" aria-modal="true" aria-label="Confirm demo data">
+              <div className="modal-title">Replace your data with the demo?</div>
+              <p style={{ fontSize: '0.82rem', color: 'var(--text-dim)' }}>
+                Loading the demo replaces your fund profile, {data.companies.length} companies and{' '}
+                {data.dataPoints.length} data points with a fictional portfolio. This cannot be undone.
+              </p>
+              <div className="modal-actions">
+                <button className="btn btn-subtle" onClick={() => setConfirmDemo(false)}>Cancel</button>
+                <button className="btn btn-danger" onClick={() => { reset(buildDemoData()); nav('/dashboard') }}>
+                  Load demo anyway
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

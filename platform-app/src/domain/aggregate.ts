@@ -4,7 +4,7 @@
 import type {
   Company, DataPoint, MetricAssignment, MetricDef, PlatformData,
 } from './types'
-import { comparePeriods, isStale } from './periods'
+import { comparePeriods, isStale, recentPeriods } from './periods'
 
 // ── Lookups ──────────────────────────────────────────────────────
 
@@ -197,6 +197,37 @@ export function capitalWeightedScore(
     w += c.deployedUsd
   }
   return w > 0 ? Math.round(wsum / w) : null
+}
+
+// ── Data gaps ────────────────────────────────────────────────────
+
+export interface DataGap {
+  assignment: MetricAssignment
+  company: Company | undefined
+  metric: MetricDef | undefined
+  /** Latest complete period for the assignment's frequency with no data point. */
+  period: string
+}
+
+/** Assignments missing a value for their latest complete reporting period. */
+export function dataGaps(
+  companies: Company[],
+  assignments: MetricAssignment[],
+  points: DataPoint[],
+  metricById: Map<string, MetricDef>,
+  now = new Date(),
+): DataGap[] {
+  const companyById = new Map(companies.map(c => [c.id, c]))
+  const out: DataGap[] = []
+  for (const a of assignments) {
+    const company = companyById.get(a.companyId)
+    if (company && company.status !== 'active') continue
+    const period = recentPeriods(a.frequency, 1, now)[0]
+    if (!period) continue
+    const has = points.some(p => p.assignmentId === a.id && p.period === period)
+    if (!has) out.push({ assignment: a, company, metric: metricById.get(a.metricId), period })
+  }
+  return out
 }
 
 // ── Formatting helpers ───────────────────────────────────────────

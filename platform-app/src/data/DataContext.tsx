@@ -8,6 +8,7 @@ import { DataContext } from './context'
 export function DataProvider({ store, children }: { store: DataStore; children: ReactNode }) {
   const [data, setData] = useState<PlatformData>(EMPTY_DATA)
   const [loading, setLoading] = useState(true)
+  const [saveError, setSaveError] = useState(false)
 
   useEffect(() => {
     let alive = true
@@ -17,21 +18,28 @@ export function DataProvider({ store, children }: { store: DataStore; children: 
     return () => { alive = false }
   }, [store])
 
+  const persist = useCallback((next: PlatformData) => {
+    store.save(next).then(() => setSaveError(false)).catch(() => setSaveError(true))
+  }, [store])
+
   const update = useCallback((fn: (d: PlatformData) => PlatformData) => {
     setData(prev => {
       const next = fn(prev)
-      void store.save(next)
+      persist(next)
       return next
     })
-  }, [store])
+  }, [persist])
 
   const reset = useCallback((next?: PlatformData) => {
     const target = next ?? structuredClone(EMPTY_DATA)
     setData(target)
-    if (next) void store.save(target)
-    else void store.clear()
-  }, [store])
+    if (next) persist(target)
+    else store.clear().then(() => setSaveError(false)).catch(() => setSaveError(true))
+  }, [persist, store])
 
-  const value = useMemo(() => ({ data, loading, update, reset }), [data, loading, update, reset])
+  const value = useMemo(
+    () => ({ data, loading, saveError, update, reset }),
+    [data, loading, saveError, update, reset],
+  )
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>
 }

@@ -5,6 +5,28 @@ import { Field, Modal, SdgChip } from '../../components/ui'
 import { GEOGRAPHIES, INSTRUMENTS, SECTORS, STAGES } from '../../catalog/dimensions'
 import { SDGS } from '../../catalog/sdgs'
 import { newId } from '../../data/store'
+import { formatMoneyShort, parseMoney } from '../../domain/money'
+
+/** Text input accepting "4M" / "500k" shorthand for a dollar amount. */
+function MoneyInput({ value, onChange, invalid, label }: {
+  value: number
+  onChange: (n: number) => void
+  invalid?: boolean
+  label: string
+}) {
+  const [draft, setDraft] = useState<string | null>(null)
+  const shown = draft ?? (value ? formatMoneyShort(value) : '')
+  return (
+    <input className={`field-input ${invalid ? 'invalid' : ''}`} inputMode="decimal"
+      value={shown} placeholder="e.g. 4M" aria-label={label}
+      onChange={e => setDraft(e.target.value)}
+      onBlur={() => {
+        if (draft == null) return
+        onChange(parseMoney(draft) ?? 0)
+        setDraft(null)
+      }} />
+  )
+}
 
 export function CompanyForm({ initial, onSave, onClose }: {
   initial?: Company
@@ -64,15 +86,13 @@ export function CompanyForm({ initial, onSave, onClose }: {
             {STAGES.map(s => <option key={s.key} value={s.key}>{s.label}</option>)}
           </select>
         </Field>
-        <Field label="Committed capital (USD)" error={err('committedUsd')} help="Total amount you agreed to invest.">
-          <input type="number" min="0" className={`field-input ${err('committedUsd') ? 'invalid' : ''}`}
-            value={f.committedUsd || ''} placeholder="0"
-            onChange={e => set('committedUsd', Number(e.target.value))} />
+        <Field label="Committed capital (USD)" error={err('committedUsd')} hint='Shorthand works: "4M", "500k".' help="Total amount you agreed to invest.">
+          <MoneyInput label="Committed capital" value={f.committedUsd} invalid={!!err('committedUsd')}
+            onChange={n => set('committedUsd', n)} />
         </Field>
-        <Field label="Deployed capital (USD)" error={err('deployedUsd')} help="Amount actually transferred so far. Cannot exceed committed.">
-          <input type="number" min="0" className={`field-input ${err('deployedUsd') ? 'invalid' : ''}`}
-            value={f.deployedUsd || ''} placeholder="0"
-            onChange={e => set('deployedUsd', Number(e.target.value))} />
+        <Field label="Deployed capital (USD)" error={err('deployedUsd')} hint='Shorthand works: "4M", "500k".' help="Amount actually transferred so far. Cannot exceed committed.">
+          <MoneyInput label="Deployed capital" value={f.deployedUsd} invalid={!!err('deployedUsd')}
+            onChange={n => set('deployedUsd', n)} />
         </Field>
         <Field label="Ownership %" error={err('ownershipPct')} hint="Leave blank for debt or grants.">
           <input type="number" min="0" max="100" step="0.1" className={`field-input ${err('ownershipPct') ? 'invalid' : ''}`}

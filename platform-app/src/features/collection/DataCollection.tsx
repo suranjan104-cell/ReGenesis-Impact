@@ -1,22 +1,33 @@
 import { useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { useData } from '../../data/useData'
 import { newId } from '../../data/store'
 import { EmptyState, Field, QualityDot, Tip } from '../../components/ui'
 import { useToast } from '../../components/toast'
 import { metricMap } from '../../catalog/metrics'
-import { formatPeriod, recentPeriods } from '../../domain/periods'
+import { formatPeriod, isValidPeriod, recentPeriods } from '../../domain/periods'
 import { validateDataPoint } from '../../domain/validation'
 import { qualityFlag, latestPointFor } from '../../domain/aggregate'
+import { downloadCsv } from '../../components/exporters'
 import { CsvImport } from './CsvImport'
 import type { DataPoint, DataQuality } from '../../domain/types'
 
 export default function DataCollection() {
   const { data, update } = useData()
-  const [companyId, setCompanyId] = useState('')
-  const [period, setPeriod] = useState(() => recentPeriods('quarterly', 1)[0])
+  // ?company=<id>&period=<key> deep-links straight into an entry context
+  // (the dashboard's "Data gaps" card relies on this).
+  const [params, setParams] = useSearchParams()
+  const companyId = params.get('company') ?? ''
+  const urlPeriod = params.get('period')
+  const [period, setPeriod] = useState(() =>
+    urlPeriod && isValidPeriod(urlPeriod) ? urlPeriod : recentPeriods('quarterly', 1)[0])
   const [importing, setImporting] = useState(false)
   const [toast, showToast] = useToast()
+  const setCompanyId = (id: string) => setParams(prev => {
+    const p = new URLSearchParams(prev)
+    if (id) p.set('company', id); else p.delete('company')
+    return p
+  }, { replace: true })
 
   const metrics = useMemo(() => metricMap(data.customMetrics), [data.customMetrics])
   const company = data.companies.find(c => c.id === companyId) ?? data.companies[0]
@@ -30,8 +41,12 @@ export default function DataCollection() {
   const periodOptions = useMemo(() => {
     const qs = recentPeriods('quarterly', 10)
     const ys = recentPeriods('annual', 3)
-    return [...qs.reverse(), ...ys.reverse()]
-  }, [])
+    const opts = [...qs.reverse(), ...ys.reverse()]
+    // Keep a deep-linked or previously-entered period selectable even when
+    // it falls outside the default window (e.g. multi-year backfill).
+    if (period && isValidPeriod(period) && !opts.includes(period)) opts.push(period)
+    return opts
+  }, [period])
 
   // Draft state per assignment for the chosen period
   const existing = useMemo(() => {
@@ -105,7 +120,21 @@ export default function DataCollection() {
           <h1 className="page-title">Data Collection</h1>
           <p className="page-sub">Enter values for one company and period at a time — or bulk-import a CSV.</p>
         </div>
-        <button className="btn btn-ghost" onClick={() => setImporting(true)}>⬆ Import CSV</button>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <button className="btn btn-subtle" onClick={() => {
+            const metricsById = metrics
+            const rows: (string | number | null)[][] = [['company', 'metric', 'period', 'value', 'quality', 'evidence_url', 'note']]
+            for (const a of data.assignments) {
+              const c = data.companies.find(x => x.id === a.companyId)
+              const m = metricsById.get(a.metricId)
+              if (!c || !m) continue
+              rows.push([c.name, m.name, period, '', 'measured', '', ''])
+            }
+            downloadCsv(`imm-data-template-${period}.csv`, rows)
+            showToast('Template downloaded — fill in the value column and import it back')
+          }}>⬇ CSV template</button>
+          <button className="btn btn-ghost" onClick={() => setImporting(true)}>⬆ Import CSV</button>
+        </div>
       </div>
 
       <div className="toolbar">

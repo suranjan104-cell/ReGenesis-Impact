@@ -32,6 +32,8 @@ export class LocalStorageStore implements DataStore {
   }
 
   async save(data: PlatformData): Promise<void> {
+    // Throws on quota-exceeded / private-mode restrictions; DataProvider
+    // catches it and surfaces a persistent "not saved" banner.
     localStorage.setItem(KEY, JSON.stringify(data))
   }
 

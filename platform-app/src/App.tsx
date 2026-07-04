@@ -23,7 +23,7 @@ const NAV = [
 ]
 
 export default function App() {
-  const { data, loading } = useData()
+  const { data, loading, saveError } = useData()
   const [menuOpen, setMenuOpen] = useState(false)
   const location = useLocation()
   const closeMenu = () => setMenuOpen(false)
@@ -79,7 +79,7 @@ export default function App() {
         <NavLink to="/settings" onClick={closeMenu} className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
           <span className="ico" aria-hidden>⚙</span>Settings
         </NavLink>
-        <a className="nav-link" href="/" target="_blank" rel="noreferrer">
+        <a className="nav-link" href="../" target="_blank" rel="noreferrer">
           <span className="ico" aria-hidden>↗</span>Main Site
         </a>
 
@@ -95,6 +95,16 @@ export default function App() {
           <span style={{ fontWeight: 700, fontSize: '0.88rem' }}>ReGenesis IMM</span>
         </div>
         <main className="app-main">
+          {saveError && (
+            <div role="alert" style={{
+              margin: '0 0 1rem', padding: '0.7rem 1rem', borderRadius: 8,
+              border: '1px solid rgba(255,90,60,.4)', background: 'rgba(255,90,60,.08)',
+              color: '#ff5a3c', fontSize: '0.8rem',
+            }}>
+              ⚠ Your latest changes could not be saved — browser storage is full or unavailable.
+              Download a backup from Settings before closing this tab.
+            </div>
+          )}
           <Routes>
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route path="/dashboard" element={<FundDashboard />} />
