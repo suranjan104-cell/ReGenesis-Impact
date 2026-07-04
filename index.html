@@ -6639,15 +6639,16 @@ function loadPdfJs(){
 <div class="chat">
 
  <div class="toolbar">
- <button class="tbtn" id="snip-btn" onclick="toggleSnip()"> IFRS Snippet Mode</button>
+ <button class="tbtn" id="snip-btn" onclick="toggleSnip()" title="Answers become ready-to-paste disclosure snippets"> IFRS Snippet Mode</button>
  <div class="tsep"></div>
- <label class="flabel" for="file-in"> Upload Report (PDF)</label>
- <input type="file" id="file-in" accept=".pdf,.txt,.doc,.docx" onchange="handleFile(this)">
+ <label class="flabel" for="file-in"> Upload Report (PDF/TXT)</label>
+ <input type="file" id="file-in" accept=".pdf,.txt" onchange="handleFile(event)">
  <div class="finfo" id="finfo">
  <span id="fname"></span>
  <span class="frm" onclick="rmFile()">✕</span>
  </div>
  <div class="tsep"></div>
+ <button class="tbtn" onclick="newChat()" title="Save this conversation to History and start fresh">✚ New Chat</button>
  <button class="tbtn" onclick="showExport()">⬇ Export PDF</button>
  </div>
 
@@ -6688,7 +6689,7 @@ function loadPdfJs(){
  </div>
  <div class="irow">
  <div class="iwrap">
- <textarea id="msg-input" aria-label="Ask Sage AI a question about ESG, climate risk, or sustainability" placeholder="Ask about ESG frameworks, carbon accounting, net-zero strategy — or upload a PDF for instant analysis..." rows="1" onkeydown="hkey(event)" oninput="arz(this);ucc()"></textarea>
+ <textarea id="msg-input" maxlength="1000" aria-label="Ask Sage AI a question about ESG, climate risk, or sustainability" placeholder="Ask about ESG frameworks, carbon accounting, net-zero strategy — or upload a PDF for instant analysis..." rows="1" onkeydown="hkey(event)" oninput="arz(this);ucc()"></textarea>
  <div class="ibtns">
  <button class="voice-btn" id="vbtn" onclick="toggleVoice()" title="Voice input"></button>
  </div>
@@ -11043,14 +11044,66 @@ window.issb_backToForm = function() {
 
  // ── SAGE AI functions ────────────────────────────────────────
  var _hist = [];
+ var HIST_KEY = 'rg_sage_hist';
+ var SESS_KEY = 'rg_sage_sessions';
 
  window.msgsEl = function() { return document.getElementById('msgs'); };
  window.inp = function() { return document.getElementById('msg-input'); };
  window.sb_btn = function() { return document.getElementById('send-btn'); };
  window.wel = function() { return document.getElementById('welcome'); };
 
+ function _saveHist() {
+   try { localStorage.setItem(HIST_KEY, JSON.stringify(_hist.slice(-40))); } catch(e) {}
+ }
+ function _renderHist() {
+   var m = window.msgsEl(); if (!m) return;
+   m.innerHTML = '';
+   _hist.forEach(function(msg) {
+     if (msg.role === 'user' && msg.content.indexOf('[UPLOADED REPORT') === 0) {
+       addMsg('user', '📎 <em>Uploaded report (analysed)</em>');
+     } else {
+       addMsg(msg.role === 'assistant' ? 'ai' : 'user', fmt(msg.content));
+     }
+   });
+   var w = window.wel(); if (w) w.style.display = _hist.length ? 'none' : 'flex';
+ }
+ function _sessions() {
+   try { return JSON.parse(localStorage.getItem(SESS_KEY) || '[]'); } catch(e) { return []; }
+ }
+ function _renderSessions() {
+   var list = document.getElementById('hist-list'); if (!list) return;
+   var ss = _sessions();
+   if (!ss.length) { list.innerHTML = '<div style="color:rgba(240,237,232,.35);font-size:.72rem;padding:.5rem 0">No history yet. Start a conversation!</div>'; return; }
+   list.innerHTML = '';
+   ss.forEach(function(s, i) {
+     var d = document.createElement('div');
+     d.style.cssText = 'padding:.55rem .6rem;border:1px solid rgba(0,232,122,.12);border-radius:.5rem;margin-bottom:.4rem;cursor:pointer;font-size:.72rem;color:rgba(240,237,232,.75)';
+     d.textContent = s.title || 'Conversation';
+     d.onclick = function() { _hist = s.hist || []; _saveHist(); _renderHist(); stab('ask'); };
+     list.appendChild(d);
+   });
+ }
+ window.newChat = function() {
+   if (_hist.length) {
+     var first = '';
+     for (var i = 0; i < _hist.length; i++) {
+       if (_hist[i].role === 'user' && _hist[i].content.indexOf('[UPLOADED REPORT') !== 0) { first = _hist[i].content; break; }
+     }
+     var ss = _sessions();
+     ss.unshift({ title: (first || 'Conversation').slice(0, 60), hist: _hist });
+     try { localStorage.setItem(SESS_KEY, JSON.stringify(ss.slice(0, 10))); } catch(e) {}
+   }
+   clearChat();
+   _renderSessions();
+ };
+
  window.initSage = function() {
- var w = window.wel(); if(w) w.style.display='flex';
+ // Restore the previous conversation so a reload never loses the chat
+ try { _hist = JSON.parse(localStorage.getItem(HIST_KEY) || '[]'); } catch(e) { _hist = []; }
+ if (_hist.length) { _renderHist(); }
+ else { var w = window.wel(); if(w) w.style.display='flex'; }
+ _renderSessions();
+ ucc();
  };
 
  window.stab = function(t) {
@@ -11069,20 +11122,31 @@ window.issb_backToForm = function() {
  var _fileContext = null; // extracted report text, injected into AI system prompt
 
  window.handleFile = function(e) {
-   var f = e.target.files[0]; if(!f) return;
+   var input = (e && e.target) ? e.target : e; // tolerate element or event
+   var f = input && input.files && input.files[0]; if(!f) return;
+   var ext = f.name.split('.').pop().toLowerCase();
+   if (ext !== 'pdf' && ext !== 'txt') {
+     addMsg('ai', '⚠️ Only PDF and plain-text files are supported — Word documents can’t be read reliably in the browser. Export to PDF or paste the text instead.');
+     input.value = '';
+     return;
+   }
+   if (f.size > 15 * 1024 * 1024) {
+     addMsg('ai', '⚠️ That file is over 15 MB. Try a smaller export — only the first 20 pages are analysed anyway.');
+     input.value = '';
+     return;
+   }
    var fn = document.getElementById('fname'); if(fn) fn.textContent = f.name;
    var fi = document.getElementById('finfo'); if(fi) fi.classList.add('on');
 
    var w = window.wel(); if(w) w.style.display='none';
    var uploadMsg = addMsg('user', '📎 <strong>' + escHtml(f.name) + '</strong> — Analysing report…');
 
-   var ext = f.name.split('.').pop().toLowerCase();
-
    function onText(raw) {
      var text = raw.replace(/\s+/g,' ').trim();
      // Keep first ~5000 chars to stay within AI context
      _fileContext = text.length > 5000 ? text.substring(0, 5000) + '… [truncated]' : text;
      _hist.push({role:'user', content:'[UPLOADED REPORT — ' + f.name + ']\n\n' + _fileContext});
+     _saveHist();
      sendGapAnalysis(f.name);
    }
 
@@ -11133,6 +11197,7 @@ window.issb_backToForm = function() {
      hideTyping(typing);
      var reply = (d.choices&&d.choices[0]&&d.choices[0].message&&d.choices[0].message.content) || 'Could not analyse the report.';
      _hist.push({role:'assistant', content:reply});
+     _saveHist();
      addMsg('ai', fmt(reply));
    }).catch(function(){
      hideTyping(typing);
@@ -11144,12 +11209,22 @@ window.issb_backToForm = function() {
    var fi = document.getElementById('finfo'); if(fi) fi.classList.remove('on');
    var fu = document.getElementById('file-in'); if(fu) fu.value = '';
    _fileContext = null;
+   // Also drop the report text from the conversation history, otherwise a
+   // "removed" document keeps influencing every subsequent answer.
+   _hist = _hist.filter(function(m){ return !(m.role === 'user' && m.content.indexOf('[UPLOADED REPORT') === 0); });
+   _saveHist();
  };
 
- window.ucc = function(c) {
- var t = document.createElement('textarea');
- t.value = c; document.body.appendChild(t); t.select();
- document.execCommand('copy'); document.body.removeChild(t);
+ // Live character counter + send-button enable. (This slot previously held a
+ // copy-to-clipboard helper that was wired to oninput by mistake, silently
+ // overwriting the visitor's clipboard on every keystroke.)
+ window.ucc = function() {
+ var inpEl = window.inp();
+ var len = inpEl ? inpEl.value.length : 0;
+ var ccEl = document.getElementById('cc');
+ if (ccEl) ccEl.textContent = len + ' / 1000';
+ var sbEl = window.sb_btn();
+ if (sbEl && !window._sageBusy) sbEl.disabled = !(inpEl && inpEl.value.trim());
  };
 
  window.hkey = function(e) {
@@ -11167,11 +11242,14 @@ window.issb_backToForm = function() {
  function addMsg(role, html) {
  var m = window.msgsEl(); if(!m) return;
  var w = window.wel(); if(w) w.style.display='none';
+ // Only auto-scroll when the user is already near the bottom, so reading
+ // an earlier answer isn't yanked away when a long reply lands.
+ var nearBottom = (m.scrollHeight - m.scrollTop - m.clientHeight) < 120;
  var div = document.createElement('div');
  div.className = 'msg ' + role;
  div.innerHTML = '<div class="mav">' + (role==='ai'?'🌿':'👤') + '</div><div class="mbub">' + html + '</div>';
  m.appendChild(div);
- m.scrollTop = m.scrollHeight;
+ if (nearBottom || role === 'user') m.scrollTop = m.scrollHeight;
  return div;
  }
 
@@ -11200,15 +11278,20 @@ window.issb_backToForm = function() {
 
  var _lastPrompt = '';
  window.send = async function() {
+ if (window._sageBusy) return; // one request at a time keeps _hist ordered
  var inpEl = window.inp(); if(!inpEl) return;
  var text = inpEl.value.trim(); if(!text) return;
  var sbEl = window.sb_btn();
  _lastPrompt = text;
  inpEl.value = ''; arz(inpEl);
+ window._sageBusy = true;
  if(sbEl) sbEl.disabled = true;
  addMsg('user', fmt(text));
  _hist.push({role:'user', content:text});
+ _saveHist();
  if (typeof rgLogQuery === 'function') rgLogQuery('advisor', text);
+ var snipBtn = document.getElementById('snip-btn');
+ var snipMode = !!(snipBtn && snipBtn.classList.contains('on'));
  var typing = showTyping();
  try {
  var res = await fetch('https://sageai.suranjan104.workers.dev', {
@@ -11217,7 +11300,9 @@ window.issb_backToForm = function() {
  body: JSON.stringify({
  model:'llama-3.3-70b-versatile',
  max_tokens:1000,
- system: 'You are Sage, an expert AI sustainability advisor for ReGenesis Impact. You have deep expertise in ESG frameworks (GRI, SASB, TCFD, ISSB IFRS S1/S2), climate risk, GHG Protocol, PCAF, net-zero strategies, and corporate sustainability reporting. Be concise, professional, and specific. Always cite relevant frameworks.' + (_fileContext ? '\n\nThe user has uploaded a report for analysis. Report extract:\n' + _fileContext.substring(0,2000) : ''),
+ system: 'You are Sage, an expert AI sustainability advisor for ReGenesis Impact. You have deep expertise in ESG frameworks (GRI, SASB, TCFD, ISSB IFRS S1/S2), climate risk, GHG Protocol, PCAF, net-zero strategies, and corporate sustainability reporting. Be concise, professional, and specific. Always cite relevant frameworks.'
+   + (snipMode ? '\n\nSNIPPET MODE: respond with a ready-to-paste disclosure snippet in formal annual-report language, inside a code block, followed by at most two sentences of usage notes.' : '')
+   + (_fileContext ? '\n\nThe user has uploaded a report for analysis. Report extract:\n' + _fileContext.substring(0,2000) : ''),
  messages: _hist
  })
  });
@@ -11226,14 +11311,17 @@ window.issb_backToForm = function() {
  var reply = (d.choices && d.choices[0] && d.choices[0].message && d.choices[0].message.content) ||
  (d.content && d.content[0] && d.content[0].text) || 'I could not generate a response.';
  _hist.push({role:'assistant', content:reply});
+ _saveHist();
  addMsg('ai', fmt(reply));
  } catch(err) {
  hideTyping(typing);
  _hist.pop(); // remove the failed user message so retry sends a clean request
+ _saveHist();
  addMsg('ai', '<span style="color:#ff6c3e">⚠ Sage AI is temporarily unavailable.</span> <button onclick="window.retrySage()" style="background:rgba(255,108,62,.12);border:1px solid rgba(255,108,62,.35);color:#ff6c3e;padding:.15rem .55rem;border-radius:2rem;font-size:.72rem;font-family:var(--mono);cursor:pointer;margin-left:.4rem">↺ Retry</button>');
  }
- if(sbEl) sbEl.disabled = false;
+ window._sageBusy = false;
  var inpEl2 = window.inp(); if(inpEl2) inpEl2.focus();
+ ucc();
  };
 
  window.retrySage = function() {
@@ -11284,6 +11372,8 @@ window.issb_backToForm = function() {
 
  window.clearChat = function() {
  _hist = [];
+ _saveHist();
+ rmFile();
  var m = window.msgsEl(); if(m) m.innerHTML='';
  var w = window.wel(); if(w) w.style.display='flex';
  };
@@ -11294,6 +11384,7 @@ window.issb_backToForm = function() {
  window.doExport = function() {
  window.hideExport();
  var msgs = Array.from(document.querySelectorAll('.msg'));
+ if (!msgs.length) { addMsg('ai', 'Nothing to export yet — ask a question first, then export the transcript.'); return; }
  var date = new Date().toLocaleDateString('en-GB',{year:'numeric',month:'long',day:'numeric'});
  var _es = '</' + 'style>'; var _eb = '</bo' + 'dy>';
  var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Sage AI Advisor Transcript</title><sty'+'le>' +
