@@ -1,0 +1,116 @@
+[
+  {
+    "id": "dd-001",
+    "tool": "dd",
+    "title": "PRI due diligence framing",
+    "market": "global",
+    "tags": ["pri", "ddq", "lp", "gp", "private equity"],
+    "facts": [
+      "The PRI's LP responsible-investment DDQ structures GP assessment around policy & governance, ESG integration in investment process, portfolio monitoring, and reporting to LPs.",
+      "ILPA's ESG assessment framework grades GP maturity from 'not yet started' to 'leading' across the same dimensions — useful for scoring rubrics."
+    ],
+    "source": "https://www.unpri.org/due-diligence-questionnaires",
+    "confidence": "high",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "dd-002",
+    "tool": "dd",
+    "title": "SFDR fund classifications",
+    "market": "global",
+    "tags": ["sfdr", "article 8", "article 9", "eu", "fund"],
+    "facts": [
+      "SFDR Article 6 = no sustainability claim; Article 8 = promotes E/S characteristics; Article 9 = sustainable investment objective with do-no-significant-harm and PAI reporting.",
+      "Article 9 funds must hold ~100% 'sustainable investments' (per ESMA clarifications), which drove a wave of 2022–23 downgrades to Article 8."
+    ],
+    "source": "https://finance.ec.europa.eu/sustainable-finance/disclosures/sustainability-related-disclosure-financial-services-sector_en",
+    "confidence": "high",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "dd-003",
+    "tool": "dd",
+    "title": "ICMA Green Bond Principles",
+    "market": "global",
+    "tags": ["icma", "green bond", "spo", "use of proceeds", "pillars"],
+    "facts": [
+      "GBP's four pillars: use of proceeds, process for project evaluation & selection, management of proceeds, and reporting (allocation + impact).",
+      "A Second Party Opinion (SPO) assesses alignment pre-issuance; leading providers include Sustainalytics, S&P Global (Shades of Green), Moody's and ISS.",
+      "Impact reporting typically quantifies tCO2e avoided, renewable capacity added, or equivalent metrics per the Harmonised Framework."
+    ],
+    "source": "https://www.icmagroup.org/sustainable-finance/the-principles-guidelines-and-handbooks/green-bond-principles-gbp/",
+    "confidence": "high",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "dd-004",
+    "tool": "dd",
+    "title": "ESG-credit risk linkage (banking)",
+    "market": "global",
+    "tags": ["credit risk", "basel", "esg integration", "banking"],
+    "facts": [
+      "Basel Committee principles (2022) expect banks to embed climate risk in credit assessment: borrower transition plans, collateral physical exposure, and sector heatmaps feeding PD/LGD adjustments.",
+      "Common practice: an ESG score notch adjustment to internal ratings, capped so it can't override fundamental credit deterioration."
+    ],
+    "source": "https://www.bis.org/bcbs/publ/d532.htm",
+    "confidence": "high",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "dd-005",
+    "tool": "dd",
+    "title": "Market-specific DD weightings",
+    "market": "in",
+    "tags": ["india", "brsr", "weights", "social", "governance"],
+    "facts": [
+      "India-focused ESG assessments commonly weight Social higher (labour standards, community consent, informal-workforce exposure) reflecting BRSR's nine NGRBC principles.",
+      "Key India red flags: contract-labour compliance, land acquisition/consent history, water stress in operations, and related-party governance."
+    ],
+    "source": "https://www.sebi.gov.in/",
+    "confidence": "medium",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "dd-006",
+    "tool": "dd",
+    "title": "Supplier engagement (CDP Supply Chain pattern)",
+    "market": "global",
+    "tags": ["supplier engagement", "cdp", "scope 3", "cascade"],
+    "facts": [
+      "Effective supplier programmes tier by spend and emissions: top ~20 suppliers usually cover 60–80% of category-1 emissions — start disclosure requests there.",
+      "Escalation ladder: information request → improvement plan → contractual clauses → procurement preference/exclusion; CDP Supply Chain membership operationalises the request step.",
+      "Ask for supplier-specific (not industry-average) emission factors as maturity grows — it converts spend-based estimates into activity-based data."
+    ],
+    "source": "https://www.cdp.net/en/supply-chain",
+    "confidence": "high",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "dd-007",
+    "tool": "dd",
+    "title": "Case study — engagement beats exclusion",
+    "market": "global",
+    "tags": ["case study", "engagement", "climate action 100", "stewardship"],
+    "facts": [
+      "Climate Action 100+ (700+ investors, ~US$68tn AUM at peak) demonstrated coordinated engagement outcomes: majority of focus companies set net-zero ambitions during its first phase.",
+      "DD implication: assess a GP/bank's stewardship evidence (voting records, escalation outcomes), not just exclusion lists."
+    ],
+    "source": "https://www.climateaction100.org/",
+    "confidence": "medium",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "dd-008",
+    "tool": "dd",
+    "title": "Greenwashing enforcement precedents",
+    "market": "au",
+    "tags": ["greenwashing", "asic", "enforcement", "claims"],
+    "facts": [
+      "ASIC's first greenwashing court outcomes (2024) — including against Mercer and Vanguard — established that unsubstantiated ESG screens/claims in fund marketing attract civil penalties.",
+      "DD checklists should verify that every public ESG claim maps to a documented, auditable process."
+    ],
+    "source": "https://asic.gov.au/about-asic/news-centre/",
+    "confidence": "high",
+    "reviewed": "2026-07"
+  }
+]

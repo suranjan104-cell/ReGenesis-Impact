@@ -1,0 +1,118 @@
+[
+  {
+    "id": "assurance-001",
+    "tool": "assurance",
+    "title": "ISSA 5000 — the new umbrella standard",
+    "market": "global",
+    "tags": ["issa 5000", "iaasb", "standard", "limited", "reasonable"],
+    "facts": [
+      "ISSA 5000 (approved by IAASB September 2024) is the comprehensive standard for sustainability assurance, applying to any framework (ISSB, GRI, ESRS) and both limited and reasonable assurance.",
+      "It is effective for periods beginning on or after 15 December 2026, replacing reliance on ISAE 3000/3410 for sustainability engagements.",
+      "It is profession-agnostic — usable by audit firms and other assurance practitioners."
+    ],
+    "source": "https://www.iaasb.org/consultations-projects/international-standard-sustainability-assurance-5000-issa-5000",
+    "confidence": "high",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "assurance-002",
+    "tool": "assurance",
+    "title": "Limited vs reasonable assurance",
+    "market": "global",
+    "tags": ["limited", "reasonable", "evidence", "conclusion"],
+    "facts": [
+      "Limited assurance: negative-form conclusion ('nothing came to our attention'), evidence mainly inquiry + analytical procedures; cost and effort materially lower.",
+      "Reasonable assurance: positive opinion ('fairly stated'), audit-equivalent evidence — walkthroughs, controls testing, substantive detail testing, recalculation.",
+      "Most regimes phase limited → reasonable (Australia reaches reasonable assurance for climate disclosures for FYs from 1 July 2030)."
+    ],
+    "source": "https://www.iaasb.org/",
+    "confidence": "high",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "assurance-003",
+    "tool": "assurance",
+    "title": "Materiality in GHG assurance",
+    "market": "global",
+    "tags": ["materiality", "planning", "performance", "threshold"],
+    "facts": [
+      "Practitioners commonly set planning materiality around 5% of total reported emissions (the relevant base), with performance materiality at 50–75% of that as a buffer.",
+      "Clearly trivial threshold is typically ~5% of planning materiality — misstatements below it aren't accumulated.",
+      "Qualitative materiality matters too: a small misstatement that flips a stated target from 'met' to 'missed' is material regardless of size."
+    ],
+    "source": "https://www.iaasb.org/publications/international-standard-assurance-engagements-isae-3410-assurance-engagements-greenhouse-gas",
+    "confidence": "medium",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "assurance-004",
+    "tool": "assurance",
+    "title": "Evidence pack (PBC) expectations",
+    "market": "global",
+    "tags": ["pbc", "evidence", "fieldwork", "documentation"],
+    "facts": [
+      "Standard PBC list: boundary memo + entity list, methodology note (factors, GWP set, estimates), activity-data extracts with source-system screenshots, factor library with vintages, certificates (RECs/PPAs), base-year recalculation policy, and sign-off trail.",
+      "Practitioners sample high-value lines first: electricity invoices vs kWh claimed, fuel purchase records vs litres, and Scope 3 category-15 attribution workings for FIs."
+    ],
+    "source": "https://www.iaasb.org/",
+    "confidence": "medium",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "assurance-005",
+    "tool": "assurance",
+    "title": "India BRSR Core assurance specifics",
+    "market": "in",
+    "tags": ["brsr core", "india", "sebi", "reasonable assurance"],
+    "facts": [
+      "BRSR Core requires reasonable assurance of specified KPIs, phased from the top 150 listed entities (FY2023-24) expanding toward the top 1,000 by FY2026-27.",
+      "SEBI later allowed 'assessment or assurance' language and profession-agnostic providers, but the KPI set (GHG intensity, water, energy, safety, diversity, grievances) is fixed.",
+      "The assurer must be independent — no non-audit conflicts with the assured entity."
+    ],
+    "source": "https://www.sebi.gov.in/legal/circulars/jul-2023/brsr-core-framework-for-assurance-and-esg-disclosures-for-value-chain_73854.html",
+    "confidence": "high",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "assurance-006",
+    "tool": "assurance",
+    "title": "Australia assurance phasing (AUASB)",
+    "market": "au",
+    "tags": ["australia", "auasb", "phasing", "climate", "timeline"],
+    "facts": [
+      "AUASB's phased approach: year-one assurance covers governance disclosures and Scope 1–2 (limited), expanding across all climate disclosures, reaching reasonable assurance for FYs commencing from 1 July 2030.",
+      "The auditor of the financial report is expected to conduct the sustainability assurance for consistency of materiality and group scoping."
+    ],
+    "source": "https://auasb.gov.au/",
+    "confidence": "high",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "assurance-007",
+    "tool": "assurance",
+    "title": "Top recurring assurance findings",
+    "market": "global",
+    "tags": ["findings", "errors", "remediation", "data quality"],
+    "facts": [
+      "Most common findings across GHG engagements: outdated emission factors, incomplete entity/facility coverage, unit conversion errors (GJ/MWh/kWh), estimation presented as measurement, market-based Scope 2 without valid certificates, and Scope 3 category omissions without justification.",
+      "Remediating before fieldwork is far cheaper than post-finding restatement — a readiness scan against these six items is standard practice."
+    ],
+    "source": "https://www.iaasb.org/",
+    "confidence": "medium",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "assurance-008",
+    "tool": "assurance",
+    "title": "Typical engagement timeline",
+    "market": "global",
+    "tags": ["timeline", "engagement", "fieldwork", "planning"],
+    "facts": [
+      "A first-year limited-assurance engagement typically runs 14–18 weeks: scoping & independence (2), planning & risk assessment (3), interim walkthroughs (3), fieldwork (4–6), review, findings and reporting (3).",
+      "Booking the practitioner before year-end close and agreeing the PBC list early are the two biggest schedule savers."
+    ],
+    "source": "https://www.iaasb.org/",
+    "confidence": "medium",
+    "reviewed": "2026-07"
+  }
+]
