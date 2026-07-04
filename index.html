@@ -5444,7 +5444,7 @@ function loadPdfJs(){
  </div>
  <div class="ghg-field">
  <label>TOTAL EMPLOYEES (FTEs)</label>
- <input type="number" id="g-employees" placeholder="e.g. 45000">
+ <input type="number" id="g-employees" placeholder="e.g. 45000" oninput="ghg_live()">
  </div>
  <div class="ghg-field">
  <label>TOTAL FLOOR AREA (sq m)</label>
@@ -5452,7 +5452,7 @@ function loadPdfJs(){
  </div>
  <div class="ghg-field">
  <label>TOTAL ASSETS UNDER MANAGEMENT (USD mn) <span class="pcaf-tag scope-tag">PCAF</span></label>
- <input type="number" id="g-aum" placeholder="e.g. 85000">
+ <input type="number" id="g-aum" placeholder="e.g. 85000" oninput="ghg_live()">
  <div class="field-hint">Required for PCAF financed emissions calculation (Cat 15)</div>
  </div>
  </div>
@@ -5486,7 +5486,7 @@ function loadPdfJs(){
  </div>
  <div class="ghg-field">
  <label>EMISSION FACTOR (kgCO₂e/litre)</label>
- <input type="number" id="g-diesel-ef" value="2.68" step="0.01">
+ <input type="number" id="g-diesel-ef" value="2.68" step="0.01" oninput="ghg_live()">
  <div class="field-hint">Default: 2.68 kgCO₂e/L (IPCC 2006 / MoEFCC)</div>
  </div>
  <div class="ghg-field">
@@ -5504,7 +5504,7 @@ function loadPdfJs(){
  </div>
  <div class="ghg-field">
  <label>EMISSION FACTOR (kgCO₂e/GJ)</label>
- <input type="number" id="g-gas-ef" value="56.1" step="0.1">
+ <input type="number" id="g-gas-ef" value="56.1" step="0.1" oninput="ghg_live()">
  <div class="field-hint">Default: 56.1 kgCO₂e/GJ (IPCC 2006)</div>
  </div>
  <div class="ghg-field">
@@ -5522,7 +5522,7 @@ function loadPdfJs(){
  </div>
  <div class="ghg-field">
  <label>EMISSION FACTOR (kgCO₂e/kg)</label>
- <input type="number" id="g-lpg-ef" value="2.98" step="0.01">
+ <input type="number" id="g-lpg-ef" value="2.98" step="0.01" oninput="ghg_live()">
  </div>
  <div class="ghg-field">
  <label>DATA SOURCE / EVIDENCE</label>
@@ -5643,7 +5643,7 @@ function loadPdfJs(){
  </div>
  <div class="ghg-field">
  <label>EMISSION FACTOR (tCO₂e/GJ)</label>
- <input type="number" id="g-heat-ef" value="0.067" step="0.001">
+ <input type="number" id="g-heat-ef" value="0.067" step="0.001" oninput="ghg_live()">
  </div>
  <div class="ghg-field">
  <label>DATA SOURCE / EVIDENCE</label>
@@ -5747,7 +5747,7 @@ function loadPdfJs(){
  </div>
  <div class="ghg-field">
  <label>AVERAGE ENERGY/UNIT (kWh/year)</label>
- <input type="number" id="g-cat11-kwh" value="180">
+ <input type="number" id="g-cat11-kwh" value="180" oninput="ghg_live()">
  </div>
  </div>
  </div>
@@ -9793,6 +9793,8 @@ document.addEventListener('DOMContentLoaded', function() {
  if (nextsi) { nextsi.classList.add('active'); nextsi.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
  window.scrollTo(0, 0);
  ghg_upd();
+ // Results step: compute automatically — no button press needed to see numbers
+ if (i === 8 && typeof ghg_calc === 'function') ghg_calc();
  };
 
  window.ghg_next = function(i) {
@@ -9854,86 +9856,123 @@ document.addEventListener('DOMContentLoaded', function() {
    pcafREIntensity: 25    // tCO2e per $M, real-estate default PCAF Standard 2022
  };
 
- window.ghg_calc = function() {
- try {
- var jur = (document.getElementById('g-jurisdiction') || {}).value || 'IN';
- var gridEF = GHG_EF.grid[jur] || GHG_EF.grid.GLOBAL;
- var s1_stat = (ghg_val('g-diesel-vol')*GHG_EF.diesel + ghg_val('g-gas-vol')*GHG_EF.naturalGas + ghg_val('g-lpg-vol')*GHG_EF.lpg) / 1000;
- var s1_mob = ghg_val('g-mob-diesel-vol') * GHG_EF.mobDiesel * 12 / 1000;
- var ref_type = document.getElementById('g-refrig-type') ? document.getElementById('g-refrig-type').value : 'R410A';
- var s1_fug = ghg_val('g-refrig-vol') * (GHG_EF.gwp[ref_type] || GHG_EF.gwp.R410A) / 1000;
- var s1 = s1_stat + s1_mob + s1_fug;
- var s2_loc = ghg_val('g-elec-mwh') * (ghg_val('g-elec-ef') || gridEF) / 1000;
- var s2_mkt = ghg_val('g-re-mwh') * (ghg_val('g-residual-ef') || 0) / 1000;
- var s3_biz = ghg_val('g-cat6-air') * GHG_EF.airLongHaul;
- var s3_com = ghg_val('g-cat7-km') * GHG_EF.commuteAvg * GHG_EF.workingDays / 1000;
- var s3_waste = ghg_val('g-cat5-waste') * GHG_EF.wasteToLandfill;
- var s3_chain = ghg_val('g-cat1-spend');
- var s3_fin_corp = ghg_val('g-pcaf1-amt') * (ghg_val('g-pcaf1-waci') || 150) / 1000000;
- var s3_fin_re = ghg_val('g-pcaf2-amt') * GHG_EF.pcafREIntensity / 1000000;
- var s3_fin_proj = ghg_val('g-pcaf3-amt') * (ghg_val('g-pcaf3-intensity') || 0.5);
- var s3 = s3_biz + s3_com + s3_waste + s3_chain + s3_fin_corp + s3_fin_re + s3_fin_proj;
- var total = s1 + s2_loc + s3;
-
- var setEl = function(id, val) { var e=document.getElementById(id); if(e) e.textContent = val; };
- setEl('ghg-r-s1', s1.toFixed(2));
- setEl('ghg-r-s2', s2_loc.toFixed(2));
- setEl('ghg-r-s2mkt', s2_mkt.toFixed(2));
- setEl('ghg-r-s3', s3.toFixed(2));
- setEl('ghg-r-total', total.toFixed(2));
- setEl('ghg-r-intensity', ghg_val('g-aum') > 0 ? (total / ghg_val('g-aum') * 1000).toFixed(1) : '—');
- // Populate summary cards at top of results section
- setEl('r-total', total.toFixed(1));
- setEl('r-s1s2', (s1 + s2_loc).toFixed(1));
- setEl('r-financed', (s3_fin_corp + s3_fin_re + s3_fin_proj).toFixed(1));
- var bar = null; // ghg-bar-s1 removed; if(bar) bar.style.width = Math.min(100, s1/total*100) + '%';
- bar = document.getElementById('ghg-bar-s2'); if(bar) bar.style.width = Math.min(100, s2_loc/total*100) + '%';
- bar = document.getElementById('ghg-bar-s3'); if(bar) bar.style.width = Math.min(100, s3/total*100) + '%';
-
- ghg_done.add(8);
- var rp = document.getElementById('ghg-results-grid'); if (!rp) rp = document.getElementById('ghg-ai-report');
- if (rp) { rp.style.display = 'block'; rp.scrollIntoView({behavior:'smooth', block:'nearest'}); }
- } catch(e) { /* guard against invalid inputs */ }
- }
-
-window.ghg_live = function() {
-  try {
+ // ── SINGLE CALCULATION ENGINE ───────────────────────────────────────────────
+ // One set of formulas feeds the live sidebar, the results KPIs, the audit
+ // trail and the AI report. (Previously two divergent calculators disagreed
+ // by up to 1000× on Scope 2 and Generate overwrote the correct numbers.)
+ // Every user-editable EF field is honoured; unit basis is shown per line.
+ window.ghg_compute = function() {
   var v = ghg_val;
-  var jur = (document.getElementById('g-jurisdiction') || {}).value || 'IN';
-  var gridEF = GHG_EF.grid[jur] || GHG_EF.grid.GLOBAL;
+  var gridEF = v('g-elec-ef') || 0.716; // tCO2e/MWh, editable, India CEA default
   var refType = document.getElementById('g-refrig-type') ? document.getElementById('g-refrig-type').value : 'R410A';
-  var s1_stat = (v('g-diesel-vol')*GHG_EF.diesel + v('g-gas-vol')*GHG_EF.naturalGas + v('g-lpg-vol')*GHG_EF.lpg + v('g-petrol-vol')*GHG_EF.petrol) / 1000;
-  var s1_mob  = v('g-mob-diesel-vol') * GHG_EF.mobDiesel * 12 / 1000;
-  var s1_fug  = v('g-refrig-vol') * (GHG_EF.gwp[refType] || GHG_EF.gwp.R410A) / 1000;
-  var s1      = s1_stat + s1_mob + s1_fug;
-  var s2_loc  = v('g-elec-mwh') * (v('g-elec-ef') || gridEF);
-  var s2_mkt  = (v('g-elec-mwh') - v('g-re-mwh')) * (v('g-residual-ef') || gridEF);
-  var s2      = Math.max(s2_loc, 0);
-  var s3_cat1 = v('g-cat1-spend') * (v('g-cat1-ef') || 0.3);
-  var s3_cat5 = v('g-cat5-waste') * GHG_EF.wasteToLandfill;
-  var s3_cat6 = v('g-cat6-air') * GHG_EF.airLongHaul + v('g-cat6-hotel') * 0.02;
-  var s3_cat7 = v('g-cat7-km') * GHG_EF.commuteAvg * (v('g-cat7-days') || GHG_EF.workingDays) / 1000;
-  var s3_pcaf = v('g-pcaf1-amt') * (v('g-pcaf1-waci') || 150) / 1000000 +
-                v('g-pcaf2-amt') * (v('g-pcaf2-intensity') || 120) / 1000000 +
-                v('g-pcaf3-amt') * (v('g-pcaf3-intensity') || 0.5);
-  var s3      = s3_cat1 + s3_cat5 + s3_cat6 + s3_cat7 + s3_pcaf;
-  var total   = s1 + s2 + s3;
+  var gwp = GHG_EF.gwp[refType] || GHG_EF.gwp.R410A;
+  var L = []; // audit-trail lines: [scope/cat, source+method, calculation, tCO2e, evidenceFieldId]
+  function line(cat, src, calc, t, ev) { if (t > 0) L.push([cat, src, calc, t, ev]); return t > 0 ? t : 0; }
+
+  var dieselEF = v('g-diesel-ef') || 2.68, gasEF = v('g-gas-ef') || 56.1, lpgEF = v('g-lpg-ef') || 2.98;
+  var s1 = 0;
+  s1 += line('Scope 1', 'Diesel (stationary) · fuel-based', v('g-diesel-vol').toLocaleString() + ' L × ' + dieselEF + ' kg/L ÷ 1000', v('g-diesel-vol') * dieselEF / 1000, 'g-diesel-src');
+  s1 += line('Scope 1', 'Natural gas · fuel-based', v('g-gas-vol').toLocaleString() + ' GJ × ' + gasEF + ' kg/GJ ÷ 1000', v('g-gas-vol') * gasEF / 1000, 'g-gas-src');
+  s1 += line('Scope 1', 'LPG · fuel-based', v('g-lpg-vol').toLocaleString() + ' kg × ' + lpgEF + ' kg/kg ÷ 1000', v('g-lpg-vol') * lpgEF / 1000, 'g-lpg-src');
+  s1 += line('Scope 1', 'Fleet petrol · fuel-based', v('g-petrol-vol').toLocaleString() + ' L × 2.31 kg/L ÷ 1000', v('g-petrol-vol') * 2.31 / 1000, 'g-mob-src');
+  s1 += line('Scope 1', 'Fleet diesel · fuel-based', v('g-mob-diesel-vol').toLocaleString() + ' L × 2.68 kg/L ÷ 1000', v('g-mob-diesel-vol') * 2.68 / 1000, 'g-mob-src');
+  s1 += line('Scope 1', 'Refrigerant ' + refType + ' · GWP100 AR6', v('g-refrig-vol').toLocaleString() + ' kg × GWP ' + gwp + ' ÷ 1000', v('g-refrig-vol') * gwp / 1000, 'g-refrig-src');
+
+  var s2 = 0;
+  s2 += line('Scope 2', 'Purchased electricity · location-based', v('g-elec-mwh').toLocaleString() + ' MWh × ' + gridEF + ' t/MWh', v('g-elec-mwh') * gridEF, 'g-elec-src');
+  var heatEF = v('g-heat-ef') || 0.067;
+  s2 += line('Scope 2', 'Purchased heat/steam', v('g-heat-gj').toLocaleString() + ' GJ × ' + heatEF + ' t/GJ', v('g-heat-gj') * heatEF, 'g-heat-src');
+  var s2_mkt = Math.max(0, (v('g-elec-mwh') - v('g-re-mwh'))) * (v('g-residual-ef') || gridEF) + v('g-heat-gj') * heatEF;
+
+  var s3 = 0, emp = v('g-employees');
+  var cat1EF = v('g-cat1-ef') || 350;
+  s3 += line('S3 Cat 1', 'Purchased goods & services · spend-based EEIO', '$' + v('g-cat1-spend').toLocaleString() + 'mn × ' + cat1EF + ' t/$mn', v('g-cat1-spend') * cat1EF, 'g-cat1-src');
+  s3 += line('S3 Cat 5', 'Waste to landfill · waste-type factor', v('g-cat5-waste').toLocaleString() + ' t × 0.467 t/t', v('g-cat5-waste') * 0.467, 'g-cat5-src');
+  s3 += line('S3 Cat 6', 'Air travel · distance-based', v('g-cat6-air').toLocaleString() + ' pkm × 0.0001 t/pkm', v('g-cat6-air') * 0.0001, 'g-cat6-src');
+  s3 += line('S3 Cat 6', 'Hotel nights', v('g-cat6-hotel').toLocaleString() + ' nights × 0.031 t/night', v('g-cat6-hotel') * 0.031, 'g-cat6-src');
+  var days = v('g-cat7-days') || 240;
+  s3 += line('S3 Cat 7', 'Employee commuting · distance-based', v('g-cat7-km') + ' km/day × ' + (emp || 1).toLocaleString() + ' staff × ' + days + ' days × 0.17 kg ÷ 1000', v('g-cat7-km') * (emp || 1) * days * 0.17 / 1000, 'g-cat7-src');
+  s3 += line('S3 Cat 11', 'Use of sold products', v('g-cat11-units').toLocaleString() + ' units × ' + (v('g-cat11-kwh') || 180) + ' kWh × ' + gridEF + ' t/MWh ÷ 1000', v('g-cat11-units') * (v('g-cat11-kwh') || 180) * gridEF / 1000, 'g-cat11-src');
+  var fin = 0;
+  fin += line('S3 Cat 15', 'PCAF corporate lending · WACI', '$' + v('g-pcaf1-amt').toLocaleString() + 'mn × ' + (v('g-pcaf1-waci') || 150) + ' t/$mn', v('g-pcaf1-amt') * (v('g-pcaf1-waci') || 150), 'g-pcaf1-dq');
+  fin += line('S3 Cat 15', 'PCAF real estate / mortgages', '$' + v('g-pcaf2-amt').toLocaleString() + 'mn × ' + (v('g-pcaf2-intensity') || 25) + ' t/$mn', v('g-pcaf2-amt') * (v('g-pcaf2-intensity') || 25), 'g-pcaf2-dq');
+  fin += line('S3 Cat 15', 'PCAF project finance', '$' + v('g-pcaf3-amt').toLocaleString() + 'mn × ' + (v('g-pcaf3-intensity') || 0.035) + ' t/$mn', v('g-pcaf3-amt') * (v('g-pcaf3-intensity') || 0.035), 'g-pcaf3-dq');
+  s3 += fin;
+
+  return { s1: s1, s2: s2, s2_mkt: s2_mkt, s3: s3, fin: fin, total: s1 + s2 + s3, lines: L };
+ };
+
+ function _ghgRender(r) {
   function fmtT(n) { return n > 0 ? n.toFixed(1) + ' t' : '—'; }
   function setEl(id, v) { var e = document.getElementById(id); if (e) e.textContent = v; }
-  setEl('ghg-live-s1', fmtT(s1));
-  setEl('ghg-live-s2', fmtT(s2));
-  setEl('ghg-live-s3', fmtT(s3));
-  setEl('ghg-live-tot', total > 0 ? total.toFixed(1) + ' tCO₂e' : '—');
-  // Also update result elements for generate()
-  setEl('ghg-r-s1', s1.toFixed(2));
-  setEl('ghg-r-s2', s2.toFixed(2));
-  setEl('ghg-r-s2mkt', s2_mkt.toFixed(2));
-  setEl('ghg-r-s3', s3.toFixed(2));
-  setEl('ghg-r-total', total.toFixed(2));
-  var aum = v('g-aum');
-  setEl('ghg-r-intensity', aum > 0 ? (total / aum * 1000).toFixed(1) : '—');
-  } catch(e) { /* guard invalid inputs */ }
-};
+  setEl('ghg-live-s1', fmtT(r.s1));
+  setEl('ghg-live-s2', fmtT(r.s2));
+  setEl('ghg-live-s3', fmtT(r.s3));
+  setEl('ghg-live-tot', r.total > 0 ? r.total.toFixed(1) + ' tCO₂e' : '—');
+  setEl('ghg-r-s1', r.s1.toFixed(2));
+  setEl('ghg-r-s2', r.s2.toFixed(2));
+  setEl('ghg-r-s2mkt', r.s2_mkt.toFixed(2));
+  setEl('ghg-r-s3', r.s3.toFixed(2));
+  setEl('ghg-r-total', r.total.toFixed(2));
+  setEl('r-total', r.total > 0 ? r.total.toFixed(1) : '—');
+  setEl('r-s1s2', (r.s1 + r.s2) > 0 ? (r.s1 + r.s2).toFixed(1) : '—');
+  setEl('r-financed', r.fin > 0 ? r.fin.toFixed(1) : '—');
+  var aum = ghg_val('g-aum');
+  setEl('ghg-r-intensity', aum > 0 && r.total > 0 ? (r.total / aum * 1000).toFixed(1) : '—');
+
+  // Scope split bar chart
+  var chart = document.getElementById('ghg-bar-chart');
+  if (chart) {
+    if (r.total > 0) {
+      var segs = [['Scope 1', r.s1, '#ff6b6b'], ['Scope 2', r.s2, '#3cb9ff'], ['Scope 3', r.s3, '#c084fc']];
+      chart.innerHTML = segs.map(function(sg) {
+        var pct = Math.round(sg[1] / r.total * 100);
+        return '<div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.45rem">' +
+          '<span style="width:64px;font-size:.62rem;color:rgba(245,240,232,.6);font-family:var(--mono)">' + sg[0] + '</span>' +
+          '<div style="flex:1;background:rgba(255,255,255,.05);border-radius:2rem;height:10px;overflow:hidden">' +
+          '<div style="width:' + Math.max(pct, 1) + '%;height:100%;background:' + sg[2] + ';border-radius:2rem"></div></div>' +
+          '<span style="width:110px;text-align:right;font-size:.64rem;font-family:var(--mono);color:' + sg[2] + '">' + sg[1].toFixed(1) + ' t · ' + pct + '%</span></div>';
+      }).join('');
+    } else {
+      chart.innerHTML = '<div style="font-size:.7rem;color:rgba(245,240,232,.4)">Enter activity data in steps 2–7 — the scope split appears here.</div>';
+    }
+  }
+
+  // Audit trail — every non-zero line with its calculation
+  var rows = document.getElementById('ghg-audit-rows');
+  if (rows) {
+    rows.innerHTML = r.lines.length ? r.lines.map(function(l) {
+      var evEl = document.getElementById(l[4]);
+      var ev = evEl && evEl.value ? evEl.value : '—';
+      return '<div class="at-header" style="border-top:1px solid rgba(255,255,255,.05)">' +
+        '<span>' + l[0] + '</span><span>' + l[1] + '</span>' +
+        '<span style="font-family:var(--mono);font-size:.6rem">' + l[2] + '</span>' +
+        '<span style="font-family:var(--mono)">' + l[3].toFixed(2) + '</span>' +
+        '<span style="overflow:hidden;text-overflow:ellipsis">' + String(ev).replace(/</g,'&lt;') + '</span></div>';
+    }).join('') : '<div style="font-size:.7rem;color:rgba(245,240,232,.4);padding:.5rem 0">No activity data entered yet.</div>';
+  }
+
+  // PCAF weighted-average data quality
+  var dq = document.getElementById('pcaf-dq-display');
+  if (dq) {
+    var parts = [['g-pcaf1-amt','g-pcaf1-dq','Corporate lending'], ['g-pcaf2-amt','g-pcaf2-dq','Real estate'], ['g-pcaf3-amt','g-pcaf3-dq','Project finance']];
+    var wsum = 0, w = 0, det = [];
+    parts.forEach(function(p) {
+      var amt = ghg_val(p[0]);
+      var sEl = document.getElementById(p[1]);
+      var score = sEl ? parseFloat(sEl.value) : NaN;
+      if (amt > 0 && isFinite(score)) { wsum += amt * score; w += amt; det.push(p[2] + ': DQ ' + score + ' ($' + amt.toLocaleString() + 'mn)'); }
+    });
+    dq.innerHTML = w > 0
+      ? 'Weighted average DQ score: <strong style="color:#ffb23c">' + (wsum / w).toFixed(2) + '</strong> / 5 (1 = audited actuals, 5 = estimated proxies)<br>' + det.join(' · ')
+      : 'Enter PCAF outstanding amounts and data-quality scores in step 7 to see the exposure-weighted score.';
+  }
+ }
+
+ window.ghg_calc = function() {
+  try { _ghgRender(ghg_compute()); } catch(e) { /* guard invalid inputs */ }
+ };
+ window.ghg_live = window.ghg_calc;
 
  window.ghg_generate = async function() {
    ghg_calc();
@@ -10101,19 +10140,19 @@ window.ghg_live = function() {
      ['Scope 1','Mobile','Diesel (Fleet)',ghg_str('g-mob-diesel-vol'),'litres','2.68','kgCO2e/litre',
        String(Math.round(ghg_val('g-mob-diesel-vol')*2.68/1000*100)/100),ghg_str('g-mob-src'),'DEFRA 2024'],
      ['Scope 1','Fugitive','Refrigerants',ghg_str('g-refrig-vol'),'kg',ghg_sel('g-refrig-type'),'GWP100',
-       String(Math.round(ghg_val('g-refrig-vol')*({HFC134a:1430,HFC410A:2088,R32:675,R22:1810,CO2:1}[ghg_sel('g-refrig-type')]||1430)/1000*100)/100),ghg_str('g-refrig-src'),'IPCC AR6'],
-     ['Scope 2','Purchased Electricity (LB)',ghg_str('g-elec-mwh'),'MWh',ghg_str('g-elec-ef'),'kgCO2e/kWh',
+       String(Math.round(ghg_val('g-refrig-vol')*({'R134a':1430,'R410A':2088,'R32':675,'R407C':1774,'R404A':3922,'R22':1760,'CO2':1}[ghg_sel('g-refrig-type')]||2088)/1000*100)/100),ghg_str('g-refrig-src'),'IPCC AR6'],
+     ['Scope 2','Purchased Electricity (LB)',ghg_str('g-elec-mwh'),'MWh',ghg_str('g-elec-ef'),'tCO2e/MWh',
        String(Math.round(ghg_val('g-elec-mwh')*ghg_val('g-elec-ef')*100)/100),ghg_str('g-elec-src'),'IEA 2024'].slice(0,10),
      ['Scope 2','Purchased Heat/Steam',ghg_str('g-heat-gj'),'GJ',ghg_str('g-heat-ef'),'tCO2e/GJ',
        String(Math.round(ghg_val('g-heat-gj')*ghg_val('g-heat-ef')*100)/100),ghg_str('g-heat-src'),'DEFRA 2024'].slice(0,10),
-     ['Scope 3','Cat 1 Purchased Goods',ghg_str('g-cat1-spend'),'₹Cr',ghg_str('g-cat1-ef'),'kgCO2e/₹Cr',
-       String(Math.round(ghg_val('g-cat1-spend')*ghg_val('g-cat1-ef')/1000*100)/100),'','Spend-based EEIO'].slice(0,10),
+     ['Scope 3','Cat 1 Purchased Goods',ghg_str('g-cat1-spend'),'USD mn',ghg_str('g-cat1-ef'),'tCO2e/USD mn',
+       String(Math.round(ghg_val('g-cat1-spend')*(ghg_val('g-cat1-ef')||350)*100)/100),'','Spend-based EEIO'].slice(0,10),
      ['Scope 3','Cat 5 Waste',ghg_str('g-cat5-waste'),'tonnes','0.467','tCO2e/tonne',
        String(Math.round(ghg_val('g-cat5-waste')*0.467*100)/100),ghg_str('g-cat5-src'),'DEFRA 2024'].slice(0,10),
-     ['Scope 3','Cat 6 Air Travel',ghg_str('g-cat6-air'),'PKM','0.000255','kgCO2e/PKM',
-       String(Math.round(ghg_val('g-cat6-air')*0.000255/1000*100)/100),ghg_str('g-cat6-src'),'DEFRA 2024 RFI'].slice(0,10),
-     ['Scope 3','Cat 7 Commuting',ghg_str('g-cat7-km')+'×'+ghg_str('g-cat7-days')+'×employees','km×days','0.021','kgCO2e/km',
-       String(Math.round(ghg_val('g-cat7-km')*ghg_val('g-cat7-days')*(ghg_val('g-employees')||1)*0.021/1000*100)/100),'','DEFRA 2024'].slice(0,10),
+     ['Scope 3','Cat 6 Air Travel',ghg_str('g-cat6-air'),'PKM','0.0001','tCO2e/PKM',
+       String(Math.round(ghg_val('g-cat6-air')*0.0001*100)/100),ghg_str('g-cat6-src'),'DEFRA 2024 RFI'].slice(0,10),
+     ['Scope 3','Cat 7 Commuting',ghg_str('g-cat7-km')+'×'+ghg_str('g-cat7-days')+'×employees','km×days','0.17','kgCO2e/km',
+       String(Math.round(ghg_val('g-cat7-km')*(ghg_val('g-cat7-days')||240)*(ghg_val('g-employees')||1)*0.17/1000*100)/100),'','DEFRA 2024'].slice(0,10),
      ['Totals','Scope 1','',(document.getElementById('ghg-r-s1')||{}).textContent||'','tCO2e','','','','',''],
      ['Totals','Scope 2 (Location-based)','',(document.getElementById('ghg-r-s2')||{}).textContent||'','tCO2e','','','','',''],
      ['Totals','Scope 2 (Market-based)','',(document.getElementById('ghg-r-s2mkt')||{}).textContent||'','tCO2e','','','','',''],
@@ -14179,7 +14218,7 @@ function loadDemoProject(projectId) {
         });
       }
       // Trigger GHG live totals recalculation
-      if (typeof ghgCalc === 'function') ghgCalc();
+      if (typeof ghg_calc === 'function') ghg_calc();
       showDemoToast(p.name);
     }, 200);
   }
@@ -14535,7 +14574,18 @@ document.addEventListener('DOMContentLoaded', function(){
         }
       } catch(e) {}
     });
-    if (restored > 0) toast('↺ Restored your previous session');
+    if (restored > 0) {
+      toast('↺ Restored your previous session');
+      // Restoring values doesn't fire input events — refresh everything
+      // derived from them (live totals, completion chips, progress pills).
+      try {
+        if (typeof window.ghg_live === 'function') window.ghg_live();
+        if (typeof window.srUpdateChip === 'function') window.srUpdateChip();
+        if (window._progRefresh) {
+          ['issb','ghg','climate','tools','assurance'].forEach(function(p){ window._progRefresh(p); });
+        }
+      } catch(e) {}
+    }
   }
 
   var t = null;
