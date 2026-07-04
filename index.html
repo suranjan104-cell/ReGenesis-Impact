@@ -9106,7 +9106,11 @@ function showPage(page) {
     setTimeout(function() { if (typeof initSage === 'function') initSage(); }, 100);
   }
   if (page === 'issb') {
-    setTimeout(function() { if (typeof srShowLanding === 'function') srShowLanding(); }, 50);
+    // Resume where the user left off; only first-time visitors see the chooser
+    setTimeout(function() {
+      if (typeof window._srRestoreState === 'function') window._srRestoreState();
+      else if (typeof srShowLanding === 'function') srShowLanding();
+    }, 50);
   }
   if (page === 'climate') {
     setTimeout(function() {
@@ -10142,6 +10146,7 @@ window.ghg_live = function() {
  if (nextsi) { nextsi.classList.add('active'); nextsi.scrollIntoView({ behavior:'smooth', block:'nearest' }); }
  window.scrollTo(0, 0);
  issb_upd();
+ if (typeof _srSaveState === 'function') _srSaveState();
  };
 
  window.issb_nxt = function(i) {
@@ -10262,6 +10267,7 @@ window.srShowLanding = function() {
   if (badge)   badge.style.display   = 'none';
   // deactivate any card highlights
   document.querySelectorAll('.sr-fw-card').forEach(function(c){ c.classList.remove('sel'); });
+  if (typeof _srSaveState === 'function') _srSaveState();
 };
 
 window.srSwitchFw = function(fw) {
@@ -10317,7 +10323,19 @@ window.srSwitchFw = function(fw) {
   else if (fw === 'brsr') { sr_go_brsr(1); }
   else if (fw === 'assb') { sr_go_assb(1); }
   else if (fw === 'cdp')  { sr_go_cdp(1); }
+  _srSaveState();
 };
+
+// Company name shared across frameworks: IFRS field first, then the
+// framework-specific org fields, so GRI/BRSR users get named prompts/reports.
+function _srOrgName() {
+  var ids = ['c-name', 'gri-org-name', 'brsr-org-name'];
+  for (var i = 0; i < ids.length; i++) {
+    var e = document.getElementById(ids[i]);
+    if (e && e.value && e.value.trim()) return e.value.trim();
+  }
+  return '';
+}
 
 // ── Per-framework step navigation ───────────────────────────────────────────
 var _sr_cur = { gri:1, brsr:1, assb:1, cdp:1 };
@@ -10329,6 +10347,15 @@ function _sr_go(fw, i) {
   var prefix = _sr_prefix[fw];
   var panel  = document.getElementById('sr-panels-' + fw);
   if (!panel) return;
+  // Moving forward marks the steps passed as done — the Next buttons call
+  // this directly, so without it GRI/BRSR/ASSB/CDP progress stayed at 0%.
+  if (i > _sr_cur[fw]) {
+    for (var s = _sr_cur[fw]; s < i; s++) {
+      _sr_done[fw].add(s);
+      var sd = document.getElementById('si-' + fw + '-' + s);
+      if (sd) { sd.classList.add('done'); var dot = sd.querySelector('.s-dot'); if (dot) dot.textContent = '✓'; }
+    }
+  }
   // Hide all steps in this framework's panel
   panel.querySelectorAll('.step').forEach(function(s){ s.classList.remove('active'); });
   var target = document.getElementById(prefix + '-' + i);
@@ -10343,6 +10370,7 @@ function _sr_go(fw, i) {
   _sr_cur[fw] = i;
   window.scrollTo(0, 0);
   _sr_upd(fw);
+  _srSaveState();
 }
 
 function _sr_upd(fw) {
@@ -10350,6 +10378,50 @@ function _sr_upd(fw) {
   var pct  = document.getElementById('pct');  if(pct)  pct.textContent  = p + '%';
   var fill = document.getElementById('pfill'); if(fill) fill.style.width = p + '%';
 }
+
+// ── Wizard position persistence — returning to the tab resumes the report
+// instead of dumping the user back on the framework chooser ─────────────
+function _srSaveState() {
+  try {
+    var app = document.getElementById('sr-app');
+    localStorage.setItem('rg_sr_state', JSON.stringify({
+      fw: _SR_FW,
+      inApp: !!(app && app.style.display !== 'none' && app.style.display !== ''),
+      issbCur: issb_cur,
+      issbDone: Array.from(issb_done),
+      cur: _sr_cur,
+      done: {
+        gri: Array.from(_sr_done.gri), brsr: Array.from(_sr_done.brsr),
+        assb: Array.from(_sr_done.assb), cdp: Array.from(_sr_done.cdp)
+      }
+    }));
+  } catch(e) {}
+}
+
+window._srRestoreState = function() {
+  var st = null;
+  try { st = JSON.parse(localStorage.getItem('rg_sr_state') || 'null'); } catch(e) {}
+  if (!st || !st.inApp) { srShowLanding(); return; }
+  issb_done = new Set(st.issbDone || []);
+  ['gri','brsr','assb','cdp'].forEach(function(f) {
+    _sr_done[f] = new Set((st.done || {})[f] || []);
+    if (st.cur && st.cur[f]) _sr_cur[f] = st.cur[f];
+  });
+  issb_done.forEach(function(i) {
+    var si = document.getElementById('si-' + i);
+    if (si) { si.classList.add('done'); var d = si.querySelector('.s-dot'); if (d) d.textContent = '✓'; }
+  });
+  ['gri','brsr','assb','cdp'].forEach(function(f) {
+    _sr_done[f].forEach(function(i) {
+      var si = document.getElementById('si-' + f + '-' + i);
+      if (si) { si.classList.add('done'); var d = si.querySelector('.s-dot'); if (d) d.textContent = '✓'; }
+    });
+  });
+  var fw = st.fw || 'ifrs2';
+  srSwitchFw(fw);
+  if (fw === 'ifrs2') { issb_go(st.issbCur || 1); }
+  else { _sr_go(fw, _sr_cur[fw] || 1); }
+};
 
 window.sr_go_gri  = function(i) { _sr_go('gri',  i); };
 window.sr_go_brsr = function(i) { _sr_go('brsr', i); };
@@ -10373,7 +10445,7 @@ window.sr_ask = async function(section, fw, wrapId, textId) {
   wrap.style.display = 'block';
   out.innerHTML = '<em style="color:rgba(245,240,232,.4)">Sage AI is drafting…</em>';
 
-  var org    = issb_v('c-name')     !== '—' ? issb_v('c-name')    : 'the organisation';
+  var org    = _srOrgName() || 'the organisation';
   var sector = typeof issb_sel === 'function' ? issb_sel('c-industry') : 'corporate';
 
   var prompts = {
@@ -10414,7 +10486,7 @@ window.sr_ask = async function(section, fw, wrapId, textId) {
 window.srGenerateReport = function(fw) {
   if (fw === 'ifrs2') { generate(); return; }
   var meta = _SR_FW_META[fw] || _SR_FW_META.ifrs2;
-  var org    = issb_v('c-name') !== '—' ? issb_v('c-name') : 'Organisation';
+  var org    = _srOrgName() || 'Organisation';
   var sector = typeof issb_sel === 'function' ? issb_sel('c-industry') : 'Corporate';
   var period = typeof issb_sel === 'function' ? (issb_sel('c-period') || 'FY2024') : 'FY2024';
   var date   = new Date().toLocaleDateString('en-GB', {year:'numeric',month:'long',day:'numeric'});
@@ -10429,9 +10501,9 @@ window.srGenerateReport = function(fw) {
     var griOrg = v('gri-org-name'), griHq = v('gri-hq'), griEmp = v('gri-emp-total'), griEmpF = v('gri-emp-female');
     var griE = v('gri-302-total'), griRe = v('gri-302-renewable'), griEInt = v('gri-302-intensity'), griEred = v('gri-302-reduction');
     var griS1 = v('gri-305-s1'), griS2lb = v('gri-305-s2lb'), griS2mb = v('gri-305-s2mb'), griS3 = v('gri-305-s3'), griInt = v('gri-305-intensity');
-    var griWater = v('gri-303-withdrawal'), griWcons = v('gri-303-consumption'), griWaste = v('gri-306-total'), griWdivert = v('gri-306-diverted');
-    var griHires = v('gri-401-hires'), griTurn = v('gri-401-turnover'), griLtifr = v('gri-403-ltifr'), griFatal = v('gri-403-fatalities');
-    var griSupp = v('gri-414-screened'), griMgov = v('gri-gov-structure'), griMat = v('gri-material-topics');
+    var griWater = v('gri-303-withdrawal'), griWrec = v('gri-303-recycled'), griWaste = v('gri-306-total'), griWdivert = v('gri-306-diverted');
+    var griHires = v('gri-401-hires'), griTurn = v('gri-401-turnover'), griParental = v('gri-401-parental'), griReturn = v('gri-401-return');
+    var griSupp = v('gri-414-screened'), griMgov = v('gri-gov-role'), griMat = v('gri-mat-topics');
     html = '<div class="rpt-page">' +
     '<div class="rpt-header"><div><div class="rpt-logo">ReGenesis <span>Impact</span></div><div style="font-size:.7rem;color:#888;margin-top:.2rem;font-family:\'DM Mono\',monospace">SUSTAINABILITY INTELLIGENCE PLATFORM</div></div>' +
     '<div class="rpt-meta"><div class="rpt-badge" style="background:#16a34a">GRI Standards · Universal + Topic · ' + period + '</div><p>Generated ' + date + '</p><p>GRI-Referenced Report</p></div></div>' +
@@ -10499,7 +10571,7 @@ window.srGenerateReport = function(fw) {
     '<div class="rpt-sec"><div class="rpt-sec-hdr"><div class="rpt-sec-num">E</div>GRI 303 &amp; 306 — Water &amp; Waste<span class="rpt-para-ref">GRI 303-3, 303-5, 306-3 to 306-5</span></div>' +
     '<div class="rpt-grid4" style="margin-bottom:1rem">' +
       '<div class="rpt-metric"><div class="rpt-metric-val" style="font-size:1.1rem">' + griWater + '</div><div class="rpt-metric-label">303-3: Water Withdrawal (ML)</div></div>' +
-      '<div class="rpt-metric"><div class="rpt-metric-val" style="font-size:1.1rem">' + griWcons + '</div><div class="rpt-metric-label">303-5: Water Consumption (ML)</div></div>' +
+      '<div class="rpt-metric"><div class="rpt-metric-val" style="font-size:1.1rem">' + griWrec + '</div><div class="rpt-metric-label">303-3: Water Recycled / Reused (%)</div></div>' +
       '<div class="rpt-metric"><div class="rpt-metric-val" style="font-size:1.1rem">' + griWaste + '</div><div class="rpt-metric-label">306-3: Waste Generated (t)</div></div>' +
       '<div class="rpt-metric"><div class="rpt-metric-val" style="font-size:1.1rem">' + griWdivert + '%</div><div class="rpt-metric-label">306-4: Diversion Rate</div></div>' +
     '</div>' +
@@ -10517,8 +10589,8 @@ window.srGenerateReport = function(fw) {
       '<div class="rpt-metric"><div class="rpt-metric-val">' + griTurn + '%</div><div class="rpt-metric-label">401-1: Turnover Rate</div></div>' +
     '</div>' +
     '<div class="rpt-grid" style="margin-bottom:1rem">' +
-      '<div class="rpt-metric"><div class="rpt-metric-val">' + griLtifr + '</div><div class="rpt-metric-label">403-9: LTIFR (per million hrs)</div></div>' +
-      '<div class="rpt-metric"><div class="rpt-metric-val">' + griFatal + '</div><div class="rpt-metric-label">403-9: Fatalities</div></div>' +
+      '<div class="rpt-metric"><div class="rpt-metric-val" style="font-size:.85rem">' + griParental + '</div><div class="rpt-metric-label">401-3: Parental Leave</div></div>' +
+      '<div class="rpt-metric"><div class="rpt-metric-val">' + griReturn + '</div><div class="rpt-metric-label">401-3: Return After Leave (%)</div></div>' +
     '</div>' +
     '<table class="rpt-table"><thead><tr><th>Disclosure</th><th>Detail</th></tr></thead><tbody>' +
     '<tr><td>GRI 414-1: Supplier screening</td><td>' + griSupp + '% of new suppliers screened using social criteria per GRI 414-1.</td></tr>' +
@@ -10909,25 +10981,12 @@ window.srExportPDF = function() {
 };
 
 // ── Override issb_backToForm to work with sr-app ──────────────────────────────
-var _orig_issb_backToForm = window.issb_backToForm;
+// (Just closes the report overlay. This used to also fire an unrequested
+// Sage AI network call on every "← Edit Form" click.)
 window.issb_backToForm = function() {
   var app = document.getElementById('sr-app');
   if (app) app.style.display = 'grid';
   var rpt = document.getElementById('rpt'); if(rpt) rpt.classList.remove('on');
-  // Sage AI full draft if IFRS S2
-  if (_SR_FW === 'ifrs2') {
-    var org = issb_v('c-name') !== '—' ? issb_v('c-name') : 'the organisation';
-    var sector = typeof issb_sel === 'function' ? issb_sel('c-industry') : 'corporate';
-    var period  = typeof issb_sel === 'function' ? issb_sel('c-period')   : '';
-    var sageWrap = document.getElementById('issb-sage-output');
-    if (sageWrap) {
-      sageWrap.style.display = 'block';
-      var sageBody = document.getElementById('issb-sage-text');
-      if (sageBody) sageBody.innerHTML = '<em style="color:rgba(245,240,232,.4)">Sage AI is generating your IFRS S2 disclosure…</em>';
-      var sage_prompt = 'Write a complete IFRS S2 Climate-Related Financial Disclosures report for ' + org + ' (' + sector + '), ' + period + '. Governance, Strategy, Risk Management, Metrics & Targets. ~600 words. Bold headers.';
-      call_sage_ai('issb-sage-output','issb-sage-text', sage_prompt);
-    }
-  }
 };
 
 
@@ -11052,7 +11111,26 @@ window.issb_backToForm = function() {
   '<tr><td><strong>Scope 1 — Equity/share</strong></td><td>CO₂, CH₄, N₂O</td><td>' + (s1o!=='—'?s1o:'N/A') + '</td><td>GHG Protocol equity-share approach</td></tr>' +
   '<tr><td><strong>Scope 2 — Location-based</strong></td><td>CO₂</td><td>' + s2Loc + '</td><td>IEA country average grid emission factors</td></tr>' +
   '<tr><td><strong>Scope 2 — Market-based</strong></td><td>CO₂</td><td>' + s2Mkt + '</td><td>Contractual instruments: ' + (s2Contr!=='—'?s2Contr:'RECs/GOs, PPAs, supplier-specific rates') + '</td></tr>' +
-  '</tbody></table></div>' +
+  '</tbody></table>' +
+  // Scope 3 categories — reads the 15-category table the user filled in
+  // (this data was previously dropped from the report entirely).
+  (function(){
+    var rows = '', total = 0, any = false;
+    for (var c = 1; c <= 15; c++) {
+      var val = parseFloat(String(v('s3c' + c)).replace(/,/g,''));
+      if (!isFinite(val) || val <= 0) continue;
+      any = true; total += val;
+      var nameEl = (typeof S3CATS !== 'undefined' && S3CATS[c-1]) ? S3CATS[c-1] : ('Category ' + c);
+      var incl = v('s3c' + c + 'i');
+      rows += '<tr><td>Cat ' + c + ' — ' + nameEl + '</td><td>' + val.toLocaleString() + '</td><td>' + (incl !== '—' ? incl : 'Yes — included') + '</td></tr>';
+    }
+    if (!any) return '';
+    return '<table class="rpt-table" style="margin-top:.75rem"><thead><tr><th>Scope 3 Category (GHG Protocol)</th><th>tCO₂e</th><th>Inclusion</th></tr></thead><tbody>' +
+      rows +
+      '<tr><td><strong>Scope 3 — Total reported</strong></td><td><strong>' + total.toLocaleString() + '</strong></td><td>IFRS S2 Para 29(a)(i)(3)</td></tr>' +
+      '</tbody></table>';
+  })() +
+  '</div>' +
 
   '<div class="rpt-sec"><div class="rpt-sec-hdr"><div class="rpt-sec-num">5</div>GHG Breakdown by Gas<span class="rpt-para-ref">IFRS S2 Para 29(a)(ii) — IPCC AR6 GWP values</span></div>' +
   '<table class="rpt-table"><thead><tr><th>Greenhouse Gas</th><th>Formula</th><th>GWP (AR6, 100yr)</th><th>tCO₂e Equivalent</th><th>Primary Sources</th></tr></thead><tbody>' +
@@ -14385,16 +14463,15 @@ document.addEventListener('DOMContentLoaded', function(){
 <script>
 (function(){
   // Defines which input fields count as "filled" for each tool page
+  // Field ids must exist in the DOM — these drive the header progress pills.
   var TOOL_FIELDS = {
-    ghg: ['g-org-name','g-reporting-year','g-jurisdiction','g-sector',
+    ghg: ['g-entity','g-period','g-sector',
           'g-diesel-vol','g-gas-vol','g-elec-mwh','g-mob-diesel-vol',
           'g-cat6-air','g-cat7-km','g-cat5-waste','g-cat1-spend',
           'g-pcaf1-amt','g-pcaf2-amt'],
-    issb: ['sr-company','sr-sector','sr-year','sr-country',
-           'sr-climate-target','sr-base-year','sr-emissions','sr-framework'],
-    climate: ['cip-org','cip-sector','cip-base-year','cip-base-emissions',
-              'cip-target-year','cip-target-pct'],
-    tools: ['t-company','t-sector','t-country'],
+    issb: ['c-name','c-industry','c-period','gri-org-name','brsr-org-name'],
+    climate: ['cip-org','cip-sector','cip-dc-s12','cip-dc-s3','csa-name','tp-aum'],
+    tools: ['am-fund-name','am-co-name','bk-issuer','s3-co-name'],
     assurance: ['axs-jur','axs-rev','axs-assets','axs-emp']
   };
 
