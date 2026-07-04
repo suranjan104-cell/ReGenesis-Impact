@@ -1,0 +1,145 @@
+[
+  {
+    "id": "climate-001",
+    "tool": "climate",
+    "title": "NGFS scenario families",
+    "market": "global",
+    "tags": ["ngfs", "scenarios", "net zero", "hothouse", "disorderly"],
+    "facts": [
+      "NGFS scenarios group into Orderly (Net Zero 2050, Below 2°C), Disorderly (Delayed Transition), Hot House World (Current Policies, NDCs), and Too-Little-Too-Late (Fragmented World).",
+      "Net Zero 2050 assumes immediate coordinated policy, ~1.4–1.5°C in 2100, high transition risk but low physical risk; Current Policies reaches ~3°C with severe physical risk.",
+      "NGFS Phase V (Nov 2024) updated damage functions — chronic physical damages materially higher than earlier phases."
+    ],
+    "source": "https://www.ngfs.net/ngfs-scenarios-portal/",
+    "confidence": "high",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "climate-002",
+    "tool": "climate",
+    "title": "Carbon price trajectories by scenario",
+    "market": "global",
+    "tags": ["carbon price", "shadow price", "ngfs", "transition risk"],
+    "facts": [
+      "In NGFS Net Zero 2050, modelled global carbon prices reach roughly US$100–200/tCO2 by 2030 and several hundred by 2050 (model-dependent).",
+      "Delayed Transition scenarios show low prices this decade then a sharp spike after 2030 — the signature 'disorderly' shock to test in stress scenarios.",
+      "Use scenario carbon prices as shadow prices on Scope 1+2 to estimate EBITDA-at-risk."
+    ],
+    "source": "https://www.ngfs.net/ngfs-scenarios-portal/",
+    "confidence": "medium",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "climate-003",
+    "tool": "climate",
+    "title": "Physical risk hazard set (IPCC AR6)",
+    "market": "global",
+    "tags": ["physical risk", "hazards", "acute", "chronic", "ar6"],
+    "facts": [
+      "Acute hazards: riverine/coastal flood, tropical cyclone, heatwave, wildfire, drought; chronic: sea-level rise, water stress, mean temperature rise, precipitation shift.",
+      "AR6 projects sea-level rise of ~0.28–0.55 m by 2100 under low emissions and ~0.63–1.01 m under very high emissions.",
+      "South Asia is a flagged hotspot for compounding heat-humidity risk; wet-bulb thresholds constrain outdoor labour productivity."
+    ],
+    "source": "https://www.ipcc.ch/report/ar6/wg2/",
+    "confidence": "high",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "climate-004",
+    "tool": "climate",
+    "title": "TCFD scenario analysis expectations",
+    "market": "global",
+    "tags": ["tcfd", "scenario analysis", "resilience", "strategy"],
+    "facts": [
+      "TCFD (and IFRS S2 para 22) expect scenario analysis proportional to the entity's exposure, including at least one ≤2°C scenario, with disclosure of assumptions, time horizons and resilience conclusions.",
+      "Good practice pairs one orderly, one disorderly and one hot-house scenario, and quantifies impact on revenue, costs, and asset values by segment."
+    ],
+    "source": "https://www.fsb-tcfd.org/publications/",
+    "confidence": "high",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "climate-005",
+    "tool": "climate",
+    "title": "APRA CPS 229 climate risk expectations",
+    "market": "au",
+    "tags": ["apra", "cps 229", "australia", "cva", "prudential"],
+    "facts": [
+      "APRA's prudential guidance (CPG 229) expects regulated entities to embed climate risk in governance, risk appetite and scenario analysis; the Climate Vulnerability Assessment ran with the five largest banks.",
+      "AASB S2 reporting and APRA expectations interlock: scenario analysis capabilities built for CVA feed directly into mandatory disclosure."
+    ],
+    "source": "https://www.apra.gov.au/climate-related-financial-risks",
+    "confidence": "high",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "climate-006",
+    "tool": "climate",
+    "title": "Case study — Ørsted's transition",
+    "market": "global",
+    "tags": ["case study", "orsted", "transition", "stranded assets", "utility"],
+    "facts": [
+      "Ørsted transformed from ~85% fossil-based heat & power (as DONG Energy) to ~90% renewable generation within a decade, divesting upstream oil & gas in 2017.",
+      "It is the textbook example of pre-empting stranded-asset risk by redirecting capex — cited in most transition-planning guidance."
+    ],
+    "source": "https://orsted.com/en/about-us/about-orsted/our-green-transformation",
+    "confidence": "medium",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "climate-007",
+    "tool": "climate",
+    "title": "GFANZ transition plan framework",
+    "market": "global",
+    "tags": ["gfanz", "transition plan", "net zero", "framework"],
+    "facts": [
+      "GFANZ recommends transition plans across five themes: foundations, implementation strategy, engagement strategy, metrics & targets, and governance.",
+      "Credible plans distinguish financing emissions reduction ('financed reductions') from portfolio decarbonisation via divestment, which shifts rather than cuts real-economy emissions."
+    ],
+    "source": "https://www.gfanzero.com/publications/",
+    "confidence": "high",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "climate-008",
+    "tool": "climate",
+    "title": "TNFD and nature-related risk",
+    "market": "global",
+    "tags": ["tnfd", "nature", "biodiversity", "leap"],
+    "facts": [
+      "TNFD's final recommendations (Sept 2023) mirror TCFD's four pillars and add the LEAP process: Locate interface with nature, Evaluate dependencies/impacts, Assess risks/opportunities, Prepare to respond.",
+      "Priority sectors: agriculture, food, mining, energy, infrastructure and financial institutions exposed to them."
+    ],
+    "source": "https://tnfd.global/publication/recommendations-of-the-taskforce-on-nature-related-financial-disclosures/",
+    "confidence": "high",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "climate-009",
+    "tool": "climate",
+    "title": "Case study — CBA climate scenario disclosure",
+    "market": "au",
+    "tags": ["case study", "cba", "bank", "scenario", "australia"],
+    "facts": [
+      "Commonwealth Bank's annual climate report discloses sector-level financed-emissions baselines and glidepaths, plus physical-risk maps of its mortgage book by postcode-level hazard exposure.",
+      "Mortgage-book flood/cyclone exposure analysis is the leading example of translating physical hazards into credit metrics for AASB S2."
+    ],
+    "source": "https://www.commbank.com.au/about-us/sustainability/environment.html",
+    "confidence": "medium",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "climate-010",
+    "tool": "climate",
+    "title": "MAS environmental risk management (Singapore)",
+    "market": "sg",
+    "tags": ["mas", "singapore", "erm", "guidelines", "stress test"],
+    "facts": [
+      "MAS ERM Guidelines (2020) require banks, insurers and asset managers to embed environmental risk in governance, risk management and disclosure, with board-level accountability.",
+      "MAS industry stress tests have included long-run climate scenarios aligned to NGFS pathways; disclosure expectations reference TCFD/ISSB alignment."
+    ],
+    "source": "https://www.mas.gov.sg/regulation/guidelines/guidelines-on-environmental-risk-management",
+    "confidence": "high",
+    "reviewed": "2026-07"
+  }
+]

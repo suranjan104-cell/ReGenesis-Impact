@@ -1,0 +1,148 @@
+[
+  {
+    "id": "credits-001",
+    "tool": "credits",
+    "title": "Credit quality fundamentals",
+    "market": "global",
+    "tags": ["additionality", "permanence", "leakage", "quality", "mrv"],
+    "facts": [
+      "A high-quality credit demonstrates additionality (wouldn't happen without credit revenue), permanence (reversal risk managed via buffer pools), no leakage (emissions don't shift elsewhere), and robust MRV.",
+      "ICVCM's Core Carbon Principles (2023) are the leading quality benchmark; CCP-labelled methodologies signal integrity to buyers.",
+      "Avoidance/reduction credits (e.g. REDD+, cookstoves) trade at a discount to durable removals (DAC, biochar, mineralisation)."
+    ],
+    "source": "https://icvcm.org/the-core-carbon-principles/",
+    "confidence": "high",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "credits-002",
+    "tool": "credits",
+    "title": "Registries and standards",
+    "market": "global",
+    "tags": ["verra", "gold standard", "registry", "vcs", "methodology"],
+    "facts": [
+      "Verra's VCS is the largest voluntary registry by issuance; Gold Standard emphasises SDG co-benefits; others include ACR, CAR and Puro.earth (removals).",
+      "Every credit carries: registry ID, methodology, vintage year, project location, and verification body — retirement is recorded publicly on the registry.",
+      "Article 6.4 of the Paris Agreement is creating a UN-supervised international crediting mechanism alongside voluntary markets."
+    ],
+    "source": "https://verra.org/programs/verified-carbon-standard/",
+    "confidence": "high",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "credits-003",
+    "tool": "credits",
+    "title": "Blue carbon science",
+    "market": "global",
+    "tags": ["blue carbon", "mangrove", "seagrass", "sequestration"],
+    "facts": [
+      "Mangroves, seagrasses and tidal marshes sequester carbon per hectare at multiples of tropical forests, largely in sediment that stays stored for centuries if undisturbed.",
+      "Mangroves also deliver storm-surge protection and fisheries co-benefits, supporting premium pricing; Verra VM0033 is the main tidal-wetland methodology.",
+      "India's coastline (Sundarbans, Tamil Nadu, Odisha, Andamans) hosts significant blue-carbon restoration potential."
+    ],
+    "source": "https://www.thebluecarboninitiative.org/",
+    "confidence": "high",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "credits-004",
+    "tool": "credits",
+    "title": "Using credits in net-zero claims",
+    "market": "global",
+    "tags": ["claims", "offsetting", "sbti", "beyond value chain", "mitigation hierarchy"],
+    "facts": [
+      "SBTi's Net-Zero Standard restricts credits to neutralising residual emissions (≤5–10%) at net-zero, not substituting for near-term abatement; interim use is 'beyond value chain mitigation'.",
+      "The mitigation hierarchy: reduce first, then remove, then offset — regulators (ACCC, CMA) have pursued greenwashing claims built on low-quality offsets.",
+      "IFRS S2 para 36(e) requires disclosing planned carbon-credit use: volume, type (reduction vs removal), registry and quality assumptions."
+    ],
+    "source": "https://sciencebasedtargets.org/net-zero",
+    "confidence": "high",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "credits-005",
+    "tool": "credits",
+    "title": "Case study — Microsoft removals portfolio",
+    "market": "global",
+    "tags": ["case study", "microsoft", "removals", "dac", "procurement"],
+    "facts": [
+      "Microsoft (carbon negative by 2030 pledge, 2020) runs the largest corporate durable-removals procurement programme — multi-year offtakes across DAC, BECCS, biochar and mineralisation, published in an annual sustainability report with contracted volumes.",
+      "Its RFP criteria (durability >100 years, additionality, verifiability) have become de-facto buyer standards for removals."
+    ],
+    "source": "https://www.microsoft.com/en-us/corporate-responsibility/sustainability",
+    "confidence": "medium",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "credits-006",
+    "tool": "credits",
+    "title": "Plastic credits landscape",
+    "market": "global",
+    "tags": ["plastic credits", "verra pwr", "cleanhub", "ocean plastic"],
+    "facts": [
+      "Plastic credits (1 credit = 1 kg or 1 tonne collected/recycled, standard-dependent) run on Verra's Plastic Waste Reduction Program, PCX, and certifiers like CleanHub and rePurpose Global.",
+      "Quality hinges on chain-of-custody evidence and additionality versus existing municipal collection; social co-benefits (waste-picker formalisation) drive premiums.",
+      "Plastic credits are not carbon credits — they cannot support climate claims, only plastic-footprint claims."
+    ],
+    "source": "https://verra.org/programs/plastic-waste-reduction-program/",
+    "confidence": "high",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "credits-007",
+    "tool": "credits",
+    "title": "Biodiversity credits (emerging)",
+    "market": "global",
+    "tags": ["biodiversity credits", "nature", "units", "gold standard"],
+    "facts": [
+      "Biodiversity credit schemes (e.g. Terrasos habitat units in Colombia, Australia's Nature Repair Market from 2025) quantify ecosystem uplift per unit area and time.",
+      "Unlike carbon, there is no fungible global unit — buyers should treat biodiversity units as project-specific contributions, not offsets against harm.",
+      "Measurement typically combines species richness, habitat condition and threat-reduction indices, increasingly verified with eDNA and remote sensing."
+    ],
+    "source": "https://www.dcceew.gov.au/environment/environmental-markets/nature-repair-market",
+    "confidence": "medium",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "credits-008",
+    "tool": "credits",
+    "title": "India's carbon market (CCTS)",
+    "market": "in",
+    "tags": ["india", "ccts", "compliance market", "energy efficiency"],
+    "facts": [
+      "India's Carbon Credit Trading Scheme (2023) transitions the PAT energy-efficiency scheme into a compliance carbon market with sectoral intensity targets, alongside a voluntary offset mechanism.",
+      "Obligated entities span energy-intensive sectors (steel, cement, aluminium, fertiliser); the Bureau of Energy Efficiency administers with CERC as market regulator."
+    ],
+    "source": "https://beeindia.gov.in/en/programmes/carbon-market",
+    "confidence": "medium",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "credits-009",
+    "tool": "credits",
+    "title": "Tokenised credits — cautions",
+    "market": "global",
+    "tags": ["tokenisation", "blockchain", "toucan", "double counting"],
+    "facts": [
+      "Tokenisation puts registry credits on-chain for fractional trade and transparent retirement, but registries (Verra 2022) banned tokenising retired credits after bridge schemes created zombie-credit risk.",
+      "Credible tokenised markets require live two-way registry bridges so on-chain retirement burns the underlying registry credit exactly once."
+    ],
+    "source": "https://verra.org/verra-addresses-crypto-instruments-and-tokens/",
+    "confidence": "high",
+    "reviewed": "2026-07"
+  },
+  {
+    "id": "credits-010",
+    "tool": "credits",
+    "title": "Price benchmarks by category",
+    "market": "global",
+    "tags": ["pricing", "benchmarks", "removals", "redd", "cookstoves"],
+    "facts": [
+      "Indicative voluntary-market ranges (2024–25): nature avoidance (REDD+) ~US$3–10/t, cookstoves ~US$5–15/t, ARR reforestation ~US$15–40/t, blue carbon premium ~US$20–40/t, durable removals US$100–600+/t.",
+      "Prices vary sharply with vintage, rating-agency scores (BeZero, Sylvera) and co-benefits — always quote a range, never a point price."
+    ],
+    "source": "https://www.ecosystemmarketplace.com/",
+    "confidence": "medium",
+    "reviewed": "2026-07"
+  }
+]

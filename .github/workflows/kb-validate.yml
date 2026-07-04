@@ -1,0 +1,36 @@
+name: Knowledge base validation
+
+# The knowledge base is the AI's training corpus (retrieval-augmented).
+# Every change to knowledge/ is schema-validated and recompiled here so
+# malformed or unsourced entries can never reach production.
+
+on:
+  push:
+    paths: ['knowledge/**']
+  pull_request:
+    paths: ['knowledge/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate and build kb.json
+        run: node knowledge/build.mjs
+
+      - name: Fail if kb.json is stale
+        run: |
+          if ! git diff --quiet knowledge/kb.json; then
+            echo "::error::knowledge/kb.json is out of date — run 'node knowledge/build.mjs' and commit the result"
+            git diff --stat knowledge/kb.json
+            exit 1
+          fi
