@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useData } from '../../data/useData'
 import { EmptyState, SdgChip, Tip } from '../../components/ui'
@@ -7,8 +7,9 @@ import { downloadCsv, scoreColor } from '../../components/exporters'
 import { ChartExportButton, DonutChart, HBarChart, TrendLine } from '../../components/charts'
 import {
   aggregateMetricTotal, capitalBySdg, capitalWeightedScore, companyScore,
-  fmtNum, fmtUsd, fundKpis, metricTrend,
+  dataGaps, fmtNum, fmtUsd, fundKpis, metricTrend,
 } from '../../domain/aggregate'
+import { formatPeriod } from '../../domain/periods'
 import { metricMap } from '../../catalog/metrics'
 import { sdgByNumber } from '../../catalog/sdgs'
 import { buildDemoData } from '../../seed/demoData'
@@ -17,6 +18,7 @@ export default function FundDashboard() {
   const { data, reset } = useData()
   const nav = useNavigate()
   const [toast, showToast] = useToast()
+  const [confirmClear, setConfirmClear] = useState(false)
   const donutRef = useRef<SVGSVGElement>(null)
   const barsRef = useRef<SVGSVGElement>(null)
   const trendRef = useRef<SVGSVGElement>(null)
@@ -63,7 +65,15 @@ export default function FundDashboard() {
     [trendMetric, data],
   )
 
+  const gaps = useMemo(
+    () => dataGaps(data.companies, data.assignments, data.dataPoints, metrics),
+    [data, metrics],
+  )
+
   if (data.companies.length === 0) {
+    // No companies yet: the only thing demo data can overwrite is the fund
+    // profile, so flag that in the confirm only when a profile exists.
+    const wipesProfile = !!data.fund?.onboarded
     return (
       <>
         <div className="page-head">
@@ -76,11 +86,29 @@ export default function FundDashboard() {
             <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap' }}>
               <Link to="/portfolio" className="btn btn-primary">+ Add first company</Link>
               <button className="btn btn-ghost" onClick={() => {
+                if (wipesProfile && !confirmClear) { setConfirmClear(true); return }
                 reset(buildDemoData())
                 showToast('Demo data loaded')
               }}>Load demo data</button>
             </div>
           } />
+        {confirmClear && (
+          <div className="modal-scrim" onClick={e => { if (e.target === e.currentTarget) setConfirmClear(false) }}>
+            <div className="modal" role="alertdialog" aria-modal="true" aria-label="Confirm demo data">
+              <div className="modal-title">Load demo data?</div>
+              <p style={{ fontSize: '0.82rem', color: 'var(--text-dim)' }}>
+                This replaces your fund profile "{data.fund?.name}" with a fictional demo fund.
+                You can clear the demo and re-enter your details later.
+              </p>
+              <div className="modal-actions">
+                <button className="btn btn-subtle" onClick={() => setConfirmClear(false)}>Cancel</button>
+                <button className="btn btn-danger" onClick={() => {
+                  setConfirmClear(false); reset(buildDemoData()); showToast('Demo data loaded')
+                }}>Load demo</button>
+              </div>
+            </div>
+          </div>
+        )}
         {toast}
       </>
     )
@@ -91,10 +119,25 @@ export default function FundDashboard() {
       {data.isDemo && (
         <div className="demo-banner" role="status">
           <span>◉ You're exploring <strong>demo data</strong> — a fictional fund with 8 companies and 2 years of history.</span>
-          <button className="btn btn-subtle btn-sm" onClick={() => {
-            reset()
-            nav('/onboarding')
-          }}>Clear demo &amp; start fresh</button>
+          <button className="btn btn-subtle btn-sm" onClick={() => setConfirmClear(true)}>
+            Clear demo &amp; start fresh
+          </button>
+        </div>
+      )}
+
+      {confirmClear && (
+        <div className="modal-scrim" onClick={e => { if (e.target === e.currentTarget) setConfirmClear(false) }}>
+          <div className="modal" role="alertdialog" aria-modal="true" aria-label="Confirm clear demo">
+            <div className="modal-title">Clear the demo dataset?</div>
+            <p style={{ fontSize: '0.82rem', color: 'var(--text-dim)' }}>
+              This removes the fictional fund, companies and data so you can set up your own. Any edits you made to
+              the demo (including report narratives) are deleted too.
+            </p>
+            <div className="modal-actions">
+              <button className="btn btn-subtle" onClick={() => setConfirmClear(false)}>Cancel</button>
+              <button className="btn btn-danger" onClick={() => { reset(); nav('/onboarding') }}>Clear &amp; start fresh</button>
+            </div>
+          </div>
         </div>
       )}
 
@@ -187,13 +230,51 @@ export default function FundDashboard() {
             <span className="spacer" />
             <ChartExportButton svgRef={barsRef} name="company_scores" />
           </div>
-          <HBarChart svgRef={barsRef} format={n => String(Math.round(n))}
-            rows={data.companies
-              .map(c => ({ c, s: scores.get(c.id)?.score }))
-              .filter(x => x.s != null)
-              .sort((a, b) => (b.s ?? 0) - (a.s ?? 0))
-              .map(x => ({ label: x.c.name, value: x.s ?? 0, color: scoreColor(x.s ?? null) }))} />
+          {[...scores.values()].every(s => s.score == null) ? (
+            <EmptyState icon="◧" title="No scores yet"
+              sub="Set targets on metric assignments and enter data — scores appear as soon as one metric has both." />
+          ) : (
+            <HBarChart svgRef={barsRef} format={n => String(Math.round(n))}
+              rows={data.companies
+                .map(c => ({ c, s: scores.get(c.id)?.score }))
+                .filter(x => x.s != null)
+                .sort((a, b) => (b.s ?? 0) - (a.s ?? 0))
+                .map(x => ({ label: x.c.name, value: x.s ?? 0, color: scoreColor(x.s ?? null) }))} />
+          )}
         </div>
+      </div>
+
+      <div className="card">
+        <div className="card-title">
+          Data gaps — latest reporting period
+          <Tip text="Active-company metric assignments with no value for their most recent complete period. Click one to enter it." />
+        </div>
+        {gaps.length === 0 ? (
+          <p style={{ fontSize: '0.8rem', color: 'var(--ok, #00e87a)', margin: 0 }}>
+            ✓ All caught up — every tracked metric has data for its latest period.
+          </p>
+        ) : (
+          <>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              {gaps.slice(0, 6).map(g => (
+                <Link key={g.assignment.id}
+                  to={`/data?company=${encodeURIComponent(g.assignment.companyId)}&period=${encodeURIComponent(g.period)}`}
+                  className="nav-link" style={{ display: 'flex', justifyContent: 'space-between', gap: 12 }}>
+                  <span>
+                    <strong>{g.company?.name ?? 'Unknown company'}</strong>
+                    <span style={{ color: 'var(--text-dim)' }}> · {g.metric?.name ?? g.assignment.metricId}</span>
+                  </span>
+                  <span style={{ color: '#ffb547', whiteSpace: 'nowrap' }}>{formatPeriod(g.period)} missing →</span>
+                </Link>
+              ))}
+            </div>
+            {gaps.length > 6 && (
+              <p style={{ fontSize: '0.72rem', color: 'var(--text-dim)', margin: '8px 0 0' }}>
+                +{gaps.length - 6} more — open <Link to="/data">Data Collection</Link> to work through them.
+              </p>
+            )}
+          </>
+        )}
       </div>
 
       {trendMetric && trend.length > 1 && (

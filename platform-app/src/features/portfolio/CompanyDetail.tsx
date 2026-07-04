@@ -19,6 +19,7 @@ export default function CompanyDetail() {
   const [editing, setEditing] = useState(false)
   const [assigning, setAssigning] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
+  const [confirmUnassign, setConfirmUnassign] = useState<string | null>(null)
   const [toast, showToast] = useToast()
 
   const company = data.companies.find(c => c.id === id)
@@ -154,14 +155,7 @@ export default function CompanyDetail() {
                       </div>
                     </div>
                     <button className="btn btn-subtle btn-sm no-print" aria-label={`Remove metric ${r.metric?.name}`}
-                      onClick={() => {
-                        update(d => ({
-                          ...d,
-                          assignments: d.assignments.filter(a => a.id !== r.assignment.id),
-                          dataPoints: d.dataPoints.filter(p => p.assignmentId !== r.assignment.id),
-                        }))
-                        showToast('Metric removed')
-                      }}>✕</button>
+                      onClick={() => setConfirmUnassign(r.assignment.id)}>✕</button>
                   </div>
 
                   {pct != null && (
@@ -198,6 +192,36 @@ export default function CompanyDetail() {
           onClose={() => setAssigning(false)}
           onDone={() => { setAssigning(false); showToast('Metric assigned') }} />
       )}
+
+      {confirmUnassign && (() => {
+        const a = data.assignments.find(x => x.id === confirmUnassign)
+        const m = a ? metrics.get(a.metricId) : undefined
+        const nPoints = data.dataPoints.filter(p => p.assignmentId === confirmUnassign).length
+        return (
+          <div className="modal-scrim" onClick={e => { if (e.target === e.currentTarget) setConfirmUnassign(null) }}>
+            <div className="modal" role="alertdialog" aria-modal="true" aria-label="Confirm metric removal">
+              <div className="modal-title">Remove {m?.name ?? 'this metric'}?</div>
+              <p style={{ fontSize: '0.82rem', color: 'var(--text-dim)' }}>
+                {nPoints > 0
+                  ? `This deletes the assignment and its ${nPoints} reported data point${nPoints === 1 ? '' : 's'}. This cannot be undone.`
+                  : 'No data has been reported against this metric yet, so nothing else is lost.'}
+              </p>
+              <div className="modal-actions">
+                <button className="btn btn-subtle" onClick={() => setConfirmUnassign(null)}>Cancel</button>
+                <button className="btn btn-danger" onClick={() => {
+                  update(d => ({
+                    ...d,
+                    assignments: d.assignments.filter(x => x.id !== confirmUnassign),
+                    dataPoints: d.dataPoints.filter(p => p.assignmentId !== confirmUnassign),
+                  }))
+                  setConfirmUnassign(null)
+                  showToast('Metric removed')
+                }}>Remove metric</button>
+              </div>
+            </div>
+          </div>
+        )
+      })()}
 
       {confirmDelete && (
         <div className="modal-scrim" onClick={e => { if (e.target === e.currentTarget) setConfirmDelete(false) }}>

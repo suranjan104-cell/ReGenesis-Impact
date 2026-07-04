@@ -57,6 +57,19 @@ export default function PortfolioList() {
     else { setSort(k); setDir(k === 'name' || k === 'sector' ? 1 : -1) }
   }
 
+  /** Keyboard + screen-reader support for sortable column headers. */
+  function sortHeaderProps(k: SortKey) {
+    return {
+      tabIndex: 0,
+      role: 'button' as const,
+      'aria-sort': sort === k ? (dir === 1 ? 'ascending' as const : 'descending' as const) : undefined,
+      onClick: () => headerClick(k),
+      onKeyDown: (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); headerClick(k) }
+      },
+    }
+  }
+
   function dataHealth(c: Company): { flag: ReturnType<typeof qualityFlag>; n: number } {
     const mine = data.assignments.filter(a => a.companyId === c.id)
     if (!mine.length) return { flag: 'missing', n: 0 }
@@ -125,12 +138,12 @@ export default function PortfolioList() {
             <table className="tbl">
               <thead>
                 <tr>
-                  <th className="sortable" onClick={() => headerClick('name')}>Company {sort === 'name' && (dir === 1 ? '↑' : '↓')}</th>
-                  <th className="sortable" onClick={() => headerClick('sector')}>Sector {sort === 'sector' && (dir === 1 ? '↑' : '↓')}</th>
+                  <th className="sortable" {...sortHeaderProps('name')}>Company {sort === 'name' && (dir === 1 ? '↑' : '↓')}</th>
+                  <th className="sortable" {...sortHeaderProps('sector')}>Sector {sort === 'sector' && (dir === 1 ? '↑' : '↓')}</th>
                   <th>SDGs</th>
-                  <th className="sortable" onClick={() => headerClick('deployedUsd')}>Deployed {sort === 'deployedUsd' && (dir === 1 ? '↑' : '↓')}</th>
+                  <th className="sortable" {...sortHeaderProps('deployedUsd')}>Deployed {sort === 'deployedUsd' && (dir === 1 ? '↑' : '↓')}</th>
                   <th>Data</th>
-                  <th className="sortable" onClick={() => headerClick('score')}>Score {sort === 'score' && (dir === 1 ? '↑' : '↓')}</th>
+                  <th className="sortable" {...sortHeaderProps('score')}>Score {sort === 'score' && (dir === 1 ? '↑' : '↓')}</th>
                 </tr>
               </thead>
               <tbody>

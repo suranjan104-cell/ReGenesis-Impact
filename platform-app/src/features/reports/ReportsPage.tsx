@@ -30,7 +30,7 @@ export default function ReportsPage() {
         <h1 className="page-title">Reports</h1>
         <p className="page-sub">
           One click builds a report from your live data. Edit the narrative sections right in the report,
-          then print to PDF or share the web view.
+          then print to PDF to share it — your data stays in this browser, so the report URL only works here.
         </p>
       </div>
 
