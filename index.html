@@ -1655,22 +1655,22 @@ function loadPdfJs(){
       <div class="lm-title">Where are you reporting?</div>
       <div class="lm-sub">We'll tailor your experience to your jurisdiction's mandatory frameworks and deadlines.</div>
       <div class="lm-market-grid">
-        <div class="lm-market-tile" onclick="lmSelectMarket(this,'sg')">
+        <div class="lm-market-tile" data-market="sg" onclick="lmSelectMarket(this,'sg')">
           <div class="lm-market-flag">🇸🇬</div>
           <div class="lm-market-name">Singapore</div>
           <div class="lm-market-sub">MAS · SGX · SA-Taxonomy</div>
         </div>
-        <div class="lm-market-tile" onclick="lmSelectMarket(this,'au')">
+        <div class="lm-market-tile" data-market="au" onclick="lmSelectMarket(this,'au')">
           <div class="lm-market-flag">🇦🇺</div>
           <div class="lm-market-name">Australia</div>
           <div class="lm-market-sub">AASB S2 · APRA · ASIC</div>
         </div>
-        <div class="lm-market-tile" onclick="lmSelectMarket(this,'in')">
+        <div class="lm-market-tile" data-market="in" onclick="lmSelectMarket(this,'in')">
           <div class="lm-market-flag">🇮🇳</div>
           <div class="lm-market-name">India</div>
           <div class="lm-market-sub">BRSR · SEBI · ISSB S2</div>
         </div>
-        <div class="lm-market-tile" onclick="lmSelectMarket(this,'other')">
+        <div class="lm-market-tile" data-market="other" onclick="lmSelectMarket(this,'other')">
           <div class="lm-market-flag">🌐</div>
           <div class="lm-market-name">Other / Global</div>
           <div class="lm-market-sub">ISSB S2 · GRI · TCFD</div>
@@ -1776,6 +1776,7 @@ function loadPdfJs(){
     </li>
     <li><button onclick="showPage('advisor')" id="nb-advisor">🌿 Sage AI</button></li>
     <li id="nav-user-wrap" style="display:none;align-items:center;gap:0.5rem">
+      <button onclick="showPage('dashboard')" style="background:rgba(0,232,122,0.12);border:1px solid rgba(0,232,122,0.3);color:#00e87a;padding:0.3rem 0.75rem;border-radius:2rem;font-size:0.68rem;cursor:pointer;font-family:'DM Mono',monospace">◳ Dashboard</button>
       <span id="nav-user-email" style="font-size:0.7rem;color:rgba(0,232,122,0.7);font-family:'DM Mono',monospace;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
       <button onclick="authSignOut()" style="background:rgba(255,90,60,0.15);border:1px solid rgba(255,90,60,0.3);color:rgba(255,90,60,0.8);padding:0.3rem 0.75rem;border-radius:2rem;font-size:0.68rem;cursor:pointer;font-family:'DM Mono',monospace">Sign Out</button>
     </li>
@@ -1814,7 +1815,11 @@ function loadPdfJs(){
   <button onclick="closeMobileMenu();requireLogin('credits')">🪙 Carbon Credits Exchange</button>
   <button onclick="closeMobileMenu();requireLogin('assurance')">🛡️ Assurance Studio</button>
   <button onclick="closeMobileMenu();window.location.href='platform/'">📊 IMM Platform</button>
-  <button class="mob-cta" onclick="closeMobileMenu();openLeadModal('mobile_cta')">Get Early Access →</button>
+  <div class="mob-section">Account</div>
+  <button id="mob-dashboard" style="display:none" onclick="closeMobileMenu();showPage('dashboard')">◳ My Dashboard</button>
+  <button id="mob-signout" style="display:none;color:rgba(255,90,60,.8)" onclick="closeMobileMenu();authSignOut()">Sign Out</button>
+  <button id="mob-signin" onclick="closeMobileMenu();requireLogin('home')">Sign In</button>
+  <button class="mob-cta" id="mob-cta-lead" onclick="closeMobileMenu();openLeadModal('mobile_cta')">Get Early Access →</button>
 </div>
 
 <!-- DASHBOARD PAGE -->
@@ -5948,27 +5953,7 @@ function loadPdfJs(){
 <!-- ===== TOOLS PAGE ===== -->
 <div class="page" id="page-tools" style="display:none">
 
- <!-- LOGIN GATE -->
- <div class="tools-gate" id="tools-gate" style="display:none">
- <div class="gate-card">
- <div class="gate-icon"></div>
- <div class="gate-badge">RESTRICTED ACCESS · REGENESIS IMPACT TOOLS</div>
- <div class="gate-title">ESG Due Diligence Suite</div>
- <div class="gate-sub">Professional tools for asset managers and banks. Access restricted to authorised users only.</div>
- <div class="gate-field">
- <label>USERNAME</label>
- <input type="text" id="gate-user" placeholder="Enter username" autocomplete="off">
- </div>
- <div class="gate-field">
- <label>PASSWORD</label>
- <input type="password" id="gate-pass" placeholder="Enter password" onkeydown="if(event.key==='Enter') tools_login()">
- </div>
- <button class="gate-btn" onclick="tools_login()">Access Tools →</button>
- <div class="gate-error" id="gate-error">Invalid credentials. Please try again.</div>
- </div>
- </div>
-
- <!-- TOOLS DASHBOARD (shown after login) -->
+ <!-- TOOLS DASHBOARD -->
  <div class="tools-dash visible" id="tools-dash">
  <div class="tools-header">
  <div>
@@ -5977,7 +5962,6 @@ function loadPdfJs(){
  </div>
  <div style="display:flex;gap:.75rem;align-items:center">
   <button class="demo-load-btn" onclick="showDemoDrawer('tools')">Load Demo Project</button>
-  <button class="tools-logout" onclick="tools_logout()">← Logout</button>
  </div>
  </div>
 
@@ -8952,17 +8936,17 @@ document.addEventListener('DOMContentLoaded', function() {
 // ── NAV DROPDOWN & MOBILE MENU ────────────────────────────────
 function toggleNavDropdown(e) {
   e.stopPropagation();
-  var menu = document.getElementById('nav-tools-menu');
-  var btn = document.getElementById('nb-tools-drop');
-  var isOpen = menu.classList.contains('open');
+  // Derive the menu from the clicked button so every dropdown works
+  // (this was hardcoded to the Tools menu, so Markets never opened).
+  var btn = e.currentTarget || e.target;
+  var menu = btn ? btn.nextElementSibling : null;
+  var isOpen = menu && menu.classList.contains('open');
   closeNavDropdown();
-  if (!isOpen) { menu.classList.add('open'); btn.classList.add('open'); }
+  if (menu && !isOpen) { menu.classList.add('open'); btn.classList.add('open'); }
 }
 function closeNavDropdown() {
-  var menu = document.getElementById('nav-tools-menu');
-  var btn = document.getElementById('nb-tools-drop');
-  if (menu) menu.classList.remove('open');
-  if (btn) btn.classList.remove('open');
+  document.querySelectorAll('.nav-dropdown-menu.open').forEach(function(m){ m.classList.remove('open'); });
+  document.querySelectorAll('.nav-dropdown-btn.open').forEach(function(b){ b.classList.remove('open'); });
 }
 function toggleMobileMenu() {
   var menu = document.getElementById('nav-mobile-menu');
@@ -8986,8 +8970,6 @@ document.addEventListener('click', function(e) {
 var _sageInited = false;
 var _amPortfolio = [];
 var _bkPortfolio = [];
-var _TOOLS_USER = 'regenesis';
-var _TOOLS_PASS = 'impact2026';
 
 var S3CATS = ['Purchased goods & services','Capital goods','Fuel & energy-related activities',
  'Upstream transportation & distribution','Waste generated in operations','Business travel',
@@ -9002,19 +8984,26 @@ var S3METHODS = ['Spend-based / supplier-specific','Spend-based / physical units
 
 // ── PAGE ROUTER ───────────────────────────────────────────────
 function showPage(page) {
+  // Unknown page → home (never blank the whole site on a bad name)
+  if (!document.getElementById('page-' + page)) page = 'home';
   // Hide all pages via direct style (bypasses CSS specificity issues)
   document.querySelectorAll('.page').forEach(function(pg) {
     pg.style.display = 'none';
     pg.classList.remove('active');
   });
   var target = document.getElementById('page-' + page);
-  if (!target) return;
   target.style.display = (page === 'advisor') ? 'flex' : 'block';
   target.classList.add('active');
 
-  // Home nav links — only show on home page
+  // Keep the URL hash in sync so Back/Forward and deep links work.
+  // pushState doesn't fire hashchange, so no re-render loop.
+  if (location.hash.replace(/^#\/?/, '') !== page) {
+    try { history.pushState(null, '', '#' + page); } catch (e) {}
+  }
+
+  // Home nav links — show on home and on pages without their own pill bar
   var nlh = document.getElementById('nl-home');
-  if (nlh) nlh.style.display = page === 'home' ? 'flex' : 'none';
+  if (nlh) nlh.style.display = (page === 'home' || page === 'trial') ? 'flex' : 'none';
 
   // Tool pill bars — show matching one, hide the rest
   ['dashboard','advisor','issb','ghg','climate','tools','credits','assurance'].forEach(function(t) {
@@ -9071,13 +9060,11 @@ function showPage(page) {
     }, 300);
   }
   if (page === 'tools') {
-    // Auto-open tools if logged in
-    var gate=document.getElementById('tools-gate');
-    var dash=document.getElementById('tools-dash');
-    if (_currentUser && gate && dash) { gate.style.display='none'; dash.classList.add('visible'); }
-    else if (gate) { gate.style.display='flex'; if(dash) dash.classList.remove('visible'); }
-    // Initialise market-aware weight badges
-    setTimeout(function(){ if(typeof _updateWeightBadge==='function'){ _updateWeightBadge('am'); _updateWeightBadge('bk'); } }, 100);
+    // Initialise market-aware weight badges + live score readouts
+    setTimeout(function(){
+      if (typeof am_score_update === 'function') am_score_update();
+      if (typeof bk_score_update === 'function') bk_score_update();
+    }, 100);
   }
   // Sync mobile bottom nav
   document.querySelectorAll('.mbn-btn').forEach(function(b){ b.classList.remove('active'); });
@@ -9092,6 +9079,21 @@ function navTo(anchor) {
  if (el) el.scrollIntoView({ behavior: 'smooth' });
  }, 60);
 }
+
+// ── HASH ROUTER — Back/Forward buttons + shareable deep links ──
+function _routeFromHash() {
+  var page = location.hash.replace(/^#\/?/, '') || 'home';
+  var target = document.getElementById('page-' + page);
+  if (!target) page = 'home';
+  // Skip if already showing (pushState in showPage set this hash)
+  var current = document.querySelector('.page.active');
+  if (current && current.id === 'page-' + page) return;
+  window.showPage(page);
+}
+window.addEventListener('hashchange', _routeFromHash);
+window.addEventListener('popstate', _routeFromHash);
+// (initial deep-link routing happens in the DOMContentLoaded init at the
+// bottom of the main script, which calls showPage with the current hash)
 
 function mbnGo(page) {
   document.querySelectorAll('.mbn-btn').forEach(function(b){ b.classList.remove('active'); });
@@ -9191,6 +9193,15 @@ function openLeadModal(source) {
   [1,2,3].forEach(function(i){ var d=document.getElementById('lm-dot-'+i); if(d){ d.classList.remove('active','done'); if(i===1) d.classList.add('active'); } });
   var modal = document.getElementById('lead-modal');
   if (modal) { modal.classList.add('open'); document.body.style.overflow='hidden'; }
+  // Automation: prefill email for signed-in users; pre-select a previously
+  // chosen market so returning visitors skip straight past step 1.
+  var em = document.getElementById('lm-email');
+  if (em && !em.value && _currentUser && _currentUser.email) em.value = _currentUser.email;
+  var savedMkt = localStorage.getItem('rg_market');
+  if (savedMkt) {
+    var tile = document.querySelector('.lm-market-tile[data-market="' + savedMkt + '"]');
+    if (tile && typeof lmSelectMarket === 'function') lmSelectMarket(tile, savedMkt);
+  }
 }
 
 function closeLeadModal() {
@@ -9245,13 +9256,16 @@ async function lmSubmit() {
     org_type: (document.getElementById('lm-org-type')||{}).value||'',
     market: _leadData.market, frameworks: _leadData.frameworks, source: _lmSource
   };
-  await captureLead(leadData);
+  var saveFailed = false;
+  try { await captureLead(leadData); } catch (e) { saveFailed = true; }
   if (leadData.market) localStorage.setItem('rg_market', leadData.market);
   var score = calculateLeadScore(leadData);
   lmGoStep(4);
   var mktNames = {sg:'Singapore (MAS · SGX)',au:'Australia (AASB S2 · APRA)',in:'India (BRSR · ISSB S2)',other:'Global'};
   var sub = document.getElementById('lm-success-sub');
-  if (sub) sub.textContent = 'Your '+(mktNames[leadData.market]||'')+" access request is saved. Our team will reach out within 24 hours with a tailored onboarding plan.";
+  if (sub) sub.textContent = saveFailed
+    ? 'We hit a network hiccup saving your request — please also email hello@regenesisimpact.in so we don’t miss you.'
+    : 'Your '+(mktNames[leadData.market]||'')+" access request is saved. Our team will reach out within 24 hours with a tailored onboarding plan.";
   var sn = document.getElementById('lm-score-num'); if(sn) sn.textContent = score+'/100';
   var sf = document.getElementById('lm-score-fill'); setTimeout(function(){ if(sf) sf.style.width=score+'%'; },200);
   if (btn) { btn.textContent='Get Access →'; btn.disabled=false; }
@@ -9489,6 +9503,11 @@ function _onSignedIn(user) {
   if (wrap) wrap.style.display = 'flex';
   if (emailEl) emailEl.textContent = user.email;
   if (loginWrap) loginWrap.style.display = 'none';
+  // Mobile menu account state
+  var md = document.getElementById('mob-dashboard'); if (md) md.style.display = '';
+  var mo = document.getElementById('mob-signout'); if (mo) mo.style.display = '';
+  var mi = document.getElementById('mob-signin'); if (mi) mi.style.display = 'none';
+  var mc = document.getElementById('mob-cta-lead'); if (mc) mc.style.display = 'none';
   // Navigate to pending page only if user clicked to access a specific tool
   var dest = _pendingPage;
   _pendingPage = null;
@@ -9503,18 +9522,23 @@ function dbUpdateMarket() {
   var mb = document.getElementById('db-market-badge');
   if (mb) mb.textContent = badges[mkt] || '🌐 Global';
 
-  // Deadline countdown
+  // Deadline countdown — reporting deadlines recur annually, so roll the
+  // month-day forward to the next occurrence instead of pinning a year
+  // (the previous fixed 2025 dates all read "0 days remaining" forever).
   var deadlines = {
-    sg: { flag:'🇸🇬', title:'SGX ISSB S2 — Large-Cap Mandatory', sub:'FY2024 reports due · MAS ERM guidelines active', date:'2025-06-30' },
-    au: { flag:'🇦🇺', title:'AASB S2 — Group 1 Mandatory Reporting', sub:'Annual period from 1 Jan 2025 · APRA CPS 229 CVA applies', date:'2025-12-31' },
-    in: { flag:'🇮🇳', title:'SEBI BRSR Core — Top 150 Companies', sub:'FY2023-24 assured disclosures mandatory · Top 1000 BRSR', date:'2025-09-30' },
-    other: { flag:'🌐', title:'IFRS S2 — Global Adoption Milestone', sub:'40+ jurisdictions now require ISSB S2 disclosures', date:'2025-12-31' }
+    sg: { flag:'🇸🇬', title:'SGX ISSB S2 — Large-Cap Mandatory', sub:'Annual reports due · MAS ERM guidelines active', md:'06-30' },
+    au: { flag:'🇦🇺', title:'AASB S2 — Group 1 Mandatory Reporting', sub:'Annual reporting periods · APRA CPS 229 CVA applies', md:'12-31' },
+    in: { flag:'🇮🇳', title:'SEBI BRSR Core — Assured Disclosures', sub:'Assurance mandatory for top listed companies · Top 1000 BRSR', md:'09-30' },
+    other: { flag:'🌐', title:'IFRS S2 — Annual Reporting Cycle', sub:'40+ jurisdictions now require ISSB S2 disclosures', md:'12-31' }
   };
   var dl = deadlines[mkt] || deadlines.other;
   var flag = document.getElementById('db-dl-flag'); if (flag) flag.textContent = dl.flag;
   var title = document.getElementById('db-dl-title'); if (title) title.textContent = dl.title;
   var sub = document.getElementById('db-dl-sub'); if (sub) sub.textContent = dl.sub;
-  var days = Math.max(0, Math.ceil((new Date(dl.date) - new Date()) / 86400000));
+  var now = new Date();
+  var due = new Date(now.getFullYear() + '-' + dl.md + 'T23:59:59');
+  if (due < now) due = new Date((now.getFullYear() + 1) + '-' + dl.md + 'T23:59:59');
+  var days = Math.max(0, Math.ceil((due - now) / 86400000));
   var cd = document.getElementById('db-dl-countdown'); if (cd) cd.innerHTML = days + '<span>days remaining</span>';
 }
 
@@ -9524,6 +9548,10 @@ function _onSignedOut() {
   var loginWrap = document.getElementById('nav-login-wrap');
   if (wrap) wrap.style.display = 'none';
   if (loginWrap) loginWrap.style.display = '';
+  var md = document.getElementById('mob-dashboard'); if (md) md.style.display = 'none';
+  var mo = document.getElementById('mob-signout'); if (mo) mo.style.display = 'none';
+  var mi = document.getElementById('mob-signin'); if (mi) mi.style.display = '';
+  var mc = document.getElementById('mob-cta-lead'); if (mc) mc.style.display = '';
   showPage('home');
 }
 
@@ -11307,24 +11335,16 @@ window.issb_backToForm = function() {
  };
 
  // ── TOOLS functions ──────────────────────────────────────────
- window.tools_login = function() {
-  var gate=document.getElementById('tools-gate'); if(gate) gate.style.display='none';
-  var dash=document.getElementById('tools-dash'); if(dash) dash.classList.add('visible');
- };
-
- window.tools_logout = function() {
- var gate=document.getElementById('tools-gate'); if(gate) gate.style.display='flex';
- var dash=document.getElementById('tools-dash'); if(dash) dash.classList.remove('visible');
- var u=document.getElementById('gate-user'); if(u) u.value='';
- var p=document.getElementById('gate-pass'); if(p) p.value='';
- var err=document.getElementById('gate-error'); if(err) err.style.display='none';
- };
-
  window.open_tool = function(type) {
  ['am','bank','scope3'].forEach(function(t) {
  var ws=document.getElementById('ws-'+t); if(ws){ws.style.display=t===type?'block':'none';}
  var tc=document.getElementById('tc-'+t); if(tc) tc.classList.toggle('active-tool',t===type);
  });
+ // Refresh live scores/weight badges and bring the workspace into view
+ if (type === 'am' && typeof am_score_update === 'function') am_score_update();
+ if (type === 'bank' && typeof bk_score_update === 'function') bk_score_update();
+ var open = document.getElementById('ws-' + type);
+ if (open && open.scrollIntoView) setTimeout(function(){ open.scrollIntoView({behavior:'smooth', block:'start'}); }, 60);
  };
 
  window.close_tool = function(type) {
@@ -11614,12 +11634,8 @@ window.am_sage_quick = function() {
  call_sage_ai('bk-ai-report','bk-ai-report-text',prompt);
  };
 
- // ── Enter key on login ───────────────────────────────────────
- var gp = document.getElementById('gate-pass');
- if(gp) gp.addEventListener('keydown', function(e){ if(e.key==='Enter') window.tools_login(); });
-
- // ── Initial page state ───────────────────────────────────────
- showPage('home');
+ // ── Initial page state — honour a deep-linked #hash ──────────
+ showPage(location.hash ? location.hash.replace(/^#\/?/, '') || 'home' : 'home');
 
 }); // end DOMContentLoaded
 
