@@ -6942,6 +6942,24 @@ canvas { display:block; max-width:100%; }
 /* ── Scrollbar ───────────────────────────────────────────────────── */
 #page-climate ::-webkit-scrollbar { width:4px; }
 #page-climate ::-webkit-scrollbar-thumb { background:rgba(110,224,74,.15); border-radius:2px; }
+
+/* ── Mobile (the tool previously had no responsive rules at all) ── */
+@media (max-width: 900px) {
+  .cip-wrap { flex-direction:column; }
+  .cip-side { width:100%; position:static; height:auto; max-height:none;
+    border-right:none; border-bottom:1px solid var(--bdr); }
+  .cip-nav { display:flex; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .cip-krow { grid-template-columns:repeat(2,1fr); }
+  .cip-sc-grid { grid-template-columns:repeat(2,1fr); }
+  .cip-geo-form { grid-template-columns:1fr 1fr; }
+  .cip-csa-impact-grid { grid-template-columns:repeat(2,1fr); }
+  .cip-gauge-wrap { gap:1rem; }
+}
+@media (max-width: 540px) {
+  .cip-sc-grid { grid-template-columns:1fr 1fr; }
+  .cip-krow { grid-template-columns:1fr 1fr; }
+  .cip-geo-form { grid-template-columns:1fr; }
+}
 </style>
 
 <div class="cip-wrap">
@@ -7164,7 +7182,7 @@ canvas { display:block; max-width:100%; }
         <div class="cip-st" style="margin-top:.25rem">Analysis Time Horizon</div>
         <div class="cip-slider-wrap">
           <span style="font-size:.7rem;color:var(--tx3)">2025</span>
-          <input type="range" class="cip-slider" id="csa-horizon" min="2025" max="2050" step="5" value="2035" oninput="document.getElementById('csa-horizon-val').textContent=this.value">
+          <input type="range" class="cip-slider" id="csa-horizon" min="2025" max="2050" step="5" value="2035" oninput="document.getElementById('csa-horizon-val').textContent=this.value;if(window._CSA_LAST)cipRunCompanyScenario()">
           <span style="font-size:.7rem;color:var(--tx3)">2050</span>
           <span class="cip-slider-val" id="csa-horizon-val">2035</span>
         </div>
@@ -7258,8 +7276,8 @@ canvas { display:block; max-width:100%; }
 
       <div class="cip-st">SBTi Target Calculator</div>
       <div class="cip-form-row">
-        <div class="cip-form-group"><label class="cip-label">Scope 1+2 Emissions (tCO₂e)</label><input class="cip-fi" id="cip-dc-s12" value="12500" type="number"></div>
-        <div class="cip-form-group"><label class="cip-label">Scope 3 Emissions (tCO₂e)</label><input class="cip-fi" id="cip-dc-s3" value="153200" type="number"></div>
+        <div class="cip-form-group"><label class="cip-label">Scope 1+2 Emissions (tCO₂e)</label><input class="cip-fi" id="cip-dc-s12" value="12500" type="number" min="0" oninput="cipDcCalc()"></div>
+        <div class="cip-form-group"><label class="cip-label">Scope 3 Emissions (tCO₂e)</label><input class="cip-fi" id="cip-dc-s3" value="153200" type="number" min="0" oninput="cipDcCalc()"></div>
         <button class="cip-btn" onclick="cipDcCalc()">Calculate</button>
       </div>
 
@@ -7975,6 +7993,22 @@ canvas { display:block; max-width:100%; }
 <script>
 // ═══ CLIMATE INTELLIGENCE v5.0 — JAVASCRIPT ══════════════════════════
 
+// Global inline toast — replaces the blocking alert() dialogs used across
+// the tools for validation and copy confirmations.
+window.rgToast = function(msg, isError) {
+  var d = document.createElement('div');
+  d.textContent = msg;
+  d.setAttribute('role', 'status');
+  d.style.cssText = 'position:fixed;bottom:1.25rem;left:50%;transform:translateX(-50%);z-index:600;' +
+    'background:#040d08;border:1px solid ' + (isError ? 'rgba(255,90,60,.45)' : 'rgba(0,232,122,.35)') + ';' +
+    'color:' + (isError ? '#ff6c3e' : '#00e87a') + ';padding:.55rem 1.1rem;border-radius:2rem;' +
+    'font-family:"DM Mono",monospace;font-size:.7rem;letter-spacing:.05em;' +
+    'box-shadow:0 8px 30px rgba(0,0,0,.5);opacity:0;transition:opacity .3s;max-width:90vw';
+  document.body.appendChild(d);
+  requestAnimationFrame(function(){ d.style.opacity = '1'; });
+  setTimeout(function(){ d.style.opacity = '0'; setTimeout(function(){ d.remove(); }, 400); }, 3200);
+};
+
 // ── Data ─────────────────────────────────────────────────────────────
 var _CIP_SC = 'nze';
 var _CIP_MAP = null;
@@ -8022,7 +8056,7 @@ var _PROMPTS = {
 window.cipSetOrg = function() {
   var org = (document.getElementById('cip-org')||{}).value.trim();
   var sec = (document.getElementById('cip-sector')||{}).value;
-  if (!org) { alert('Please enter your organisation name.'); return; }
+  if (!org) { rgToast('Enter your organisation name first', true); return; }
   // Update sidebar display
   var sub = document.querySelector('.cip-sh-sub');
   if (sub) sub.textContent = org + (sec ? ' · ' + sec : '') + ' · TCFD · NGFS v5';
@@ -8113,9 +8147,13 @@ window.cipScenario = function(key) {
   });
   cipDrawPathway();
   cipAutoNarrative(key, sc);
+  // Cascade: refresh the company model so its results track the scenario
+  if (window._CSA_LAST && typeof cipRunCompanyScenario === 'function') cipRunCompanyScenario();
 };
 
 // ── Auto-narrative on scenario change ──────────────────────────────
+var _cipNarrCache = {};   // (scenario|org|sector) → generated text
+var _cipNarrReq = 0;      // monotonic id so stale responses can't overwrite newer ones
 function cipAutoNarrative(key, sc) {
   var panel = document.getElementById('cip-narrative-panel');
   var textEl = document.getElementById('cip-narrative-text');
@@ -8123,9 +8161,12 @@ function cipAutoNarrative(key, sc) {
   if (!panel || !textEl) return;
   panel.style.display = 'block';
   if (label) label.textContent = '🌿 Sage AI · ' + sc.label + ' Narrative';
-  textEl.innerHTML = '<em style="color:var(--tx3)">Generating scenario narrative…</em>';
   var org = (document.getElementById('cip-org')||{}).value || 'your organisation';
   var sec = (document.getElementById('cip-sector')||{}).value || 'corporate';
+  var cacheKey = key + '|' + org + '|' + sec;
+  if (_cipNarrCache[cacheKey]) { textEl.innerHTML = _cipNarrCache[cacheKey]; return; }
+  var reqId = ++_cipNarrReq;
+  textEl.innerHTML = '<em style="color:var(--tx3)">Generating scenario narrative…</em>';
   var mkt = localStorage.getItem('rg_market') || 'other';
   var mktCtx = {
     sg: 'Operating under MAS Environmental Risk Management guidelines and SGX mandatory IFRS S2 climate disclosures.',
@@ -8142,9 +8183,11 @@ function cipAutoNarrative(key, sc) {
     'Tone: Board-ready, TCFD-aligned. ~250 words. Use bold for key terms.';
 
   cipCallSage(prompt, function(reply) {
-    textEl.innerHTML = cipFmt(reply);
+    var html = cipFmt(reply);
+    _cipNarrCache[cacheKey] = html;
+    if (reqId === _cipNarrReq) textEl.innerHTML = html;
   }, function() {
-    textEl.innerHTML = '<em style="color:var(--rd)">Could not generate narrative — check AI connection.</em>';
+    if (reqId === _cipNarrReq) textEl.innerHTML = '<em style="color:var(--rd)">Could not generate narrative — check AI connection.</em>';
   });
 }
 
@@ -8576,7 +8619,13 @@ function cipUpdateRiskTable() {
 }
 
 function cipGeoInit() {
-  if (_CIP_MAP || typeof L === 'undefined') return;
+  if (_CIP_MAP) return;
+  // Leaflet is lazy-loaded; fetch it on first open instead of silently
+  // rendering a blank map (nothing else loads it for this tab).
+  if (typeof L === 'undefined') {
+    if (typeof loadLeaflet === 'function') loadLeaflet().then(function(){ cipGeoInit(); });
+    return;
+  }
   _CIP_MAP = L.map('cip-map').setView([20.5937, 78.9629], 4);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
     attribution: '© OpenStreetMap, CartoDB'
@@ -8619,7 +8668,7 @@ window.cipGeoAdd = function() {
   var lat  = parseFloat((document.getElementById('cip-geo-lat') || {}).value);
   var lng  = parseFloat((document.getElementById('cip-geo-lng') || {}).value);
   var type = (document.getElementById('cip-geo-type') || {}).value || 'Office';
-  if (!name || isNaN(lat) || isNaN(lng)) { alert('Please enter asset name and valid coordinates.'); return; }
+  if (!name || isNaN(lat) || isNaN(lng) || Math.abs(lat) > 90 || Math.abs(lng) > 180) { rgToast('Enter an asset name and valid coordinates (lat −90..90, lng −180..180)', true); return; }
   cipAddMarker(name, lat, lng, 'Medium', type, 500);
   cipUpdateAssetList();
   cipUpdateRiskTable();
@@ -8630,15 +8679,30 @@ window.cipGeoAdd = function() {
 
 function cipUpdateAssetList() {
   var list = document.getElementById('cip-geo-list');
-  if (!list || !_CIP_ASSETS.length) return;
+  if (!list) return;
+  if (!_CIP_ASSETS.length) {
+    list.innerHTML = '<div style="color:var(--tx3);font-size:.7rem;padding:.4rem 0">No assets plotted yet — add one above.</div>';
+    return;
+  }
   var colors = { Low:'g', Medium:'a', High:'r', Critical:'r' };
-  list.innerHTML = _CIP_ASSETS.map(function(a) {
+  function escA(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  list.innerHTML = _CIP_ASSETS.map(function(a, i) {
     return '<div class="cip-asset-item">' +
-      '<span>' + a.name + '</span>' +
-      '<span style="font-size:.65rem;color:var(--tx3)">' + (a.type||'') + '</span>' +
+      '<span>' + escA(a.name) + '</span>' +
+      '<span style="font-size:.65rem;color:var(--tx3)">' + escA(a.type||'') + '</span>' +
       '<span class="cip-badge ' + (colors[a.risk]||'g') + '">' + a.risk + '</span>' +
-      '<span style="font-family:var(--mono);font-size:.6rem;color:var(--tx3)">' + a.lat.toFixed(2) + ', ' + a.lng.toFixed(2) + '</span></div>';
+      '<span style="font-family:var(--mono);font-size:.6rem;color:var(--tx3)">' + a.lat.toFixed(2) + ', ' + a.lng.toFixed(2) + '</span>' +
+      '<button onclick="cipRemoveAsset(' + i + ')" aria-label="Remove asset" style="background:none;border:1px solid rgba(255,90,60,.3);color:rgba(255,90,60,.8);border-radius:.35rem;font-size:.6rem;cursor:pointer;padding:.05rem .35rem;margin-left:.4rem">✕</button></div>';
   }).join('');
+}
+
+window.cipRemoveAsset = function(i) {
+  var a = _CIP_ASSETS[i];
+  if (!a) return;
+  if (a.marker && _CIP_MAP) { try { _CIP_MAP.removeLayer(a.marker); } catch(e) {} }
+  _CIP_ASSETS.splice(i, 1);
+  cipUpdateAssetList();
+  if (typeof cipUpdateRiskTable === 'function') cipUpdateRiskTable();
 }
 
 // ── Company Scenario Analysis ─────────────────────────────────────────
@@ -8739,13 +8803,13 @@ window.cipRunCompanyScenario = function() {
 
 window.cipExportScenarioText = function() {
   var el = document.getElementById('csa-tcfd-text'); if (!el) return;
-  try { navigator.clipboard.writeText(el.textContent).then(function(){ alert('TCFD disclosure text copied to clipboard.'); }); }
-  catch(e) { alert('Select and copy the text manually.'); }
+  try { navigator.clipboard.writeText(el.textContent).then(function(){ rgToast('TCFD disclosure copied to clipboard'); }); }
+  catch(e) { rgToast('Select and copy the text manually', true); }
 };
 
 window.cipAskCompanyScenario = function() {
   var d = window._CSA_LAST;
-  if (!d) { alert('Please run analysis first.'); return; }
+  if (!d) { rgToast('Run the analysis first', true); return; }
   var prompt = 'Company-specific climate scenario analysis for ' + d.name + ' (' + d.sector + '). Scenario: ' + d.scenario + '. Time horizon: ' + d.horizon + '. Revenue at risk: ' + d.revAtRisk + '%. Required capex: ₹' + d.capex + 'Cr. Stranded assets: ₹' + d.stranded + 'Cr. Green opportunity: ₹' + d.opp + 'Cr. Please provide: 1) Sector-specific transition pathway, 2) Top 3 strategic recommendations, 3) Investor disclosure language under IFRS S2, 4) Key KPIs to track.';
   var outEl = document.getElementById('cipo-csa');
   if (outEl) { outEl.style.display = 'block'; outEl.textContent = '⏳ Generating analysis…'; }
@@ -10734,7 +10798,7 @@ window.srGenerateReport = function(fw) {
 // ── Branded PDF Export ────────────────────────────────────────────────────────
 window.srExportPDF = function() {
   var rptEl = document.getElementById('rpt-content');
-  if (!rptEl || !rptEl.innerHTML.trim()) { alert('Generate a report first.'); return; }
+  if (!rptEl || !rptEl.innerHTML.trim()) { rgToast('Generate a report first', true); return; }
 
   var btn = document.getElementById('sr-pdf-btn');
   if (btn) { btn.textContent = '⏳ Preparing…'; btn.disabled = true; }
@@ -12151,7 +12215,7 @@ window.ciGeoAdd = function() {
   var name = (document.getElementById('geo-name')||{}).value||'Asset';
   var coords = ((document.getElementById('geo-coords')||{}).value||'').split(',');
   var lat=parseFloat(coords[0]), lng=parseFloat(coords[1]);
-  if(isNaN(lat)||isNaN(lng)){alert('Enter valid coordinates');return;}
+  if(isNaN(lat)||isNaN(lng)){rgToast('Enter valid coordinates', true);return;}
   ciGeoAddMarker(name.trim(),lat,lng);
   var ne=document.getElementById('geo-name'), ce=document.getElementById('geo-coords');
   if(ne) ne.value=''; if(ce) ce.value='';
@@ -13201,7 +13265,7 @@ function axsRunMateriality(){
   var v = parseFloat(document.getElementById('axs-mat-val').value)||0;
   var pct = parseFloat(document.getElementById('axs-mat-pct').value)||5;
   var perf = parseFloat(document.getElementById('axs-mat-perf').value)||75;
-  if (!v){ alert('Enter your base value in tCO₂e first.'); return; }
+  if (!v){ rgToast('Enter your base value in tCO₂e first', true); return; }
   var plan = v*pct/100, pm = plan*perf/100, triv = plan*0.05;
   function f(n){ return n>=1000 ? Math.round(n).toLocaleString() : (Math.round(n*10)/10).toLocaleString(); }
   document.getElementById('axs-mat-plan').textContent = f(plan)+' t';
@@ -13313,7 +13377,7 @@ function axsRunPBC(){
 }
 function axsCopyPBC(){
   if (!_axsPbcText) return;
-  if (navigator.clipboard) navigator.clipboard.writeText(_axsPbcText).then(function(){ alert('PBC list copied to clipboard.'); });
+  if (navigator.clipboard) { navigator.clipboard.writeText(_axsPbcText).then(function(){ rgToast('PBC list copied to clipboard'); }); } else { rgToast('Clipboard unavailable — select and copy the list manually', true); }
 }
 
 var AXS_PHASES = [
@@ -13606,7 +13670,7 @@ function crExecuteRetirement() {
   var project = document.getElementById('retire-project').value;
   var scope = document.getElementById('retire-scope').value;
   var org = document.getElementById('retire-org').value || 'Unknown Organisation';
-  if (!amt || amt <= 0 || !project) { alert('Please fill in all required fields.'); return; }
+  if (!amt || amt <= 0 || !project) { rgToast('Fill in the quantity and project first', true); return; }
   var txId = '0x' + Math.random().toString(16).slice(2,12) + Math.random().toString(16).slice(2,22);
   var certId = 'RGI-RET-' + Date.now();
   _crRetired.push({ date: new Date().toLocaleDateString('en-IN'), project: project.split('—')[0].trim(), amount: amt, scope: scope, tx: txId, cert: certId });
