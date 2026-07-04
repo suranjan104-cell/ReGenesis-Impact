@@ -292,3 +292,84 @@
   color: var(--amber);
 }
 .demo-banner .btn { margin-left: auto; }
+
+/* ── AURORA DESIGN LAYER — 2026 futuristic refresh ─────────────
+   Matches the marketing site's aurora-glass language: ambient
+   gradient field, glass cards with glow lift, neon focus rings. */
+
+.aurora-field {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  mix-blend-mode: screen;
+}
+.aurora-field::before,
+.aurora-field::after {
+  content: '';
+  position: absolute;
+  width: 55vmax;
+  height: 55vmax;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.45;
+}
+.aurora-field::before {
+  background: radial-gradient(circle at 40% 40%, rgba(0, 232, 122, 0.14), transparent 65%);
+  top: -20vmax;
+  left: -12vmax;
+  animation: aurora-drift-a 38s ease-in-out infinite alternate;
+}
+.aurora-field::after {
+  background: radial-gradient(circle at 55% 45%, rgba(10, 255, 219, 0.10), transparent 62%);
+  bottom: -22vmax;
+  right: -14vmax;
+  animation: aurora-drift-b 50s ease-in-out infinite alternate;
+}
+@keyframes aurora-drift-a { to { transform: translate(9vmax, 7vmax) scale(1.12); } }
+@keyframes aurora-drift-b { to { transform: translate(-8vmax, -6vmax) scale(0.94); } }
+@media (prefers-reduced-motion: reduce) {
+  .aurora-field::before, .aurora-field::after { animation: none; }
+}
+
+.card {
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.25, 1), box-shadow 0.3s, border-color 0.3s;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.card:hover {
+  border-color: rgba(0, 232, 122, 0.3);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 28px -10px rgba(0, 232, 122, 0.25);
+}
+.kpi {
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.25, 1), box-shadow 0.3s, border-color 0.3s;
+}
+.kpi:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0, 232, 122, 0.35);
+  box-shadow: 0 12px 30px -14px rgba(0, 0, 0, 0.7), 0 0 24px -8px rgba(0, 232, 122, 0.25);
+}
+
+.btn { transition: transform 0.2s, box-shadow 0.3s, opacity 0.15s, background 0.15s, border-color 0.15s; }
+.btn-primary:hover:not(:disabled) {
+  opacity: 1;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 26px -8px rgba(0, 232, 122, 0.55);
+}
+.btn:active:not(:disabled) { transform: scale(0.975); }
+
+::selection { background: rgba(0, 232, 122, 0.85); color: #021008; }
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(0, 232, 122, 0.3), rgba(10, 255, 219, 0.2));
+  border-radius: 5px;
+}
+:focus-visible { outline: 2px solid rgba(0, 255, 157, 0.6); outline-offset: 2px; }
+
+.field-input:focus, .field-select:focus, .field-textarea:focus {
+  border-color: rgba(0, 255, 157, 0.5);
+  box-shadow: 0 0 0 3px rgba(0, 232, 122, 0.1), 0 0 16px -4px rgba(0, 232, 122, 0.3);
+}

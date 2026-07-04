@@ -57,6 +57,7 @@ export default function App() {
 
   return (
     <div className="app-shell">
+      <div className="aurora-field" aria-hidden />
       {menuOpen && <div className="sidebar-scrim" onClick={() => setMenuOpen(false)} />}
       <aside className={`app-sidebar ${menuOpen ? 'open' : ''}`} aria-label="Main navigation">
         <div className="app-logo">
