@@ -8119,6 +8119,48 @@ window.rgToast = function(msg, isError) {
   setTimeout(function(){ d.style.opacity = '0'; setTimeout(function(){ d.remove(); }, 400); }, 3200);
 };
 
+// ── KNOWLEDGE BASE (RAG) ─────────────────────────────────────────────
+// The repo's knowledge/ corpus, compiled to kb.json, is fetched once and
+// retrieved per-question: the top-scoring entries are injected into every
+// Sage AI prompt so answers are grounded in curated, sourced facts.
+var _RG_KB = null;
+(function rgKbPreload(){
+  try {
+    fetch('knowledge/kb.json')
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(d){ _RG_KB = d || { entries: [] }; })
+      .catch(function(){ _RG_KB = { entries: [] }; });
+  } catch(e) { _RG_KB = { entries: [] }; }
+})();
+
+window.rgKbContext = function(tool, text, n) {
+  if (!_RG_KB || !_RG_KB.entries || !_RG_KB.entries.length) return '';
+  n = n || 4;
+  var mkt = localStorage.getItem('rg_market') || 'global';
+  var wset = {};
+  (String(text || '').toLowerCase().match(/[a-z0-9]{3,}/g) || []).forEach(function(w){ wset[w] = 1; });
+  var scored = _RG_KB.entries.map(function(e){
+    var s = 0, kw = 0;
+    if (e.tool === tool) s += 4;
+    else if (tool === 'advisor' || e.tool === 'advisor') s += 1;
+    if (e.market === mkt) s += 2; else if (e.market === 'global') s += 1;
+    e.tags.forEach(function(t){
+      t.toLowerCase().split(/\s+/).forEach(function(w){ if (wset[w]) kw += 3; });
+    });
+    (e.title.toLowerCase().match(/[a-z0-9]{3,}/g) || []).forEach(function(w){ if (wset[w]) kw += 1; });
+    // No keyword overlap → the entry isn't about this question, regardless
+    // of tool/market match (keeps off-topic prompts free of noise).
+    return [kw > 0 ? s + kw : 0, e];
+  }).filter(function(p){ return p[0] > 4; })
+    .sort(function(a, b){ return b[0] - a[0]; })
+    .slice(0, n);
+  if (!scored.length) return '';
+  var block = scored.map(function(p){
+    return '• ' + p[1].title + ': ' + p[1].facts.join(' ') + ' [Source: ' + p[1].source + ']';
+  }).join('\n');
+  return '\n\nKNOWLEDGE BASE — curated, sourced reference notes for this platform. Ground your answer in these where relevant, cite the source domain, and prefer these figures over your own recall:\n' + block;
+};
+
 // ── Data ─────────────────────────────────────────────────────────────
 var _CIP_SC = 'nze';
 var _CIP_MAP = null;
@@ -8473,7 +8515,8 @@ function cipCallSage(prompt, onOk, onErr) {
     body: JSON.stringify({
       model: 'llama-3.3-70b-versatile',
       max_tokens: 1000,
-      system: 'You are Sage, a climate risk and sustainability AI advisor for ReGenesis Impact. You specialize in TCFD, NGFS, IFRS S2, SBTi, PCAF, and net-zero strategy. Be concise, specific, and professional. Use **bold** for key terms and numbers for key findings.',
+      system: 'You are Sage, a climate risk and sustainability AI advisor for ReGenesis Impact. You specialize in TCFD, NGFS, IFRS S2, SBTi, PCAF, and net-zero strategy. Be concise, specific, and professional. Use **bold** for key terms and numbers for key findings.'
+        + (typeof rgKbContext === 'function' ? rgKbContext('climate', prompt) : ''),
       messages: [{ role: 'user', content: prompt }]
     })
   })
@@ -11481,7 +11524,8 @@ window.issb_backToForm = function() {
      body: JSON.stringify({
        model:'llama-3.3-70b-versatile',
        max_tokens:1400,
-       system: 'You are Sage, an expert AI sustainability advisor for ReGenesis Impact. The user has uploaded an ESG/sustainability report for gap analysis. Analyse it thoroughly and provide actionable, framework-specific recommendations. Cite IFRS S2, GRI, TCFD, BRSR, AASB S2 paragraph numbers where relevant.',
+       system: 'You are Sage, an expert AI sustainability advisor for ReGenesis Impact. The user has uploaded an ESG/sustainability report for gap analysis. Analyse it thoroughly and provide actionable, framework-specific recommendations. Cite IFRS S2, GRI, TCFD, BRSR, AASB S2 paragraph numbers where relevant.'
+         + (typeof rgKbContext === 'function' ? rgKbContext('advisor', 'gap analysis disclosure ifrs s2 tcfd gri brsr coverage ' + filename) : ''),
        messages: _hist.slice(-4) // last 4 messages (includes the uploaded text)
      })
    }).then(function(r){ return r.json(); }).then(function(d) {
@@ -11489,7 +11533,7 @@ window.issb_backToForm = function() {
      var reply = (d.choices&&d.choices[0]&&d.choices[0].message&&d.choices[0].message.content) || 'Could not analyse the report.';
      _hist.push({role:'assistant', content:reply});
      _saveHist();
-     addMsg('ai', fmt(reply));
+     rgAiFeedbackRow(addMsg('ai', fmt(reply)));
    }).catch(function(){
      hideTyping(typing);
      addMsg('ai', '<span style="color:#ff6c3e">⚠ Sage AI is temporarily unavailable — could not analyse the report.</span> <button onclick="sendGapAnalysis(\'' + filename.replace(/['"<>\\\r\n]/g,'') + '\')" style="background:rgba(255,108,62,.12);border:1px solid rgba(255,108,62,.35);color:#ff6c3e;padding:.15rem .55rem;border-radius:2rem;font-size:.72rem;font-family:var(--mono);cursor:pointer;margin-left:.4rem">↺ Retry</button>');
@@ -11561,6 +11605,29 @@ window.issb_backToForm = function() {
  .replace(/\n/g,'<br>');
  }
 
+ // 👍/👎 under AI answers — the signal that drives knowledge-base growth
+ // (logged to the events table as ai_feedback; reviewed by the weekly audit)
+ function rgAiFeedbackRow(div) {
+ if (!div) return;
+ var bub = div.querySelector('.mbub'); if (!bub) return;
+ var row = document.createElement('div');
+ row.style.cssText = 'margin-top:.5rem;display:flex;gap:.4rem;align-items:center';
+ [['👍','helpful','up'],['👎','not helpful','down']].forEach(function(cfg){
+ var b = document.createElement('button');
+ b.textContent = cfg[0];
+ b.setAttribute('aria-label', 'Mark answer as ' + cfg[1]);
+ b.style.cssText = 'background:none;border:1px solid rgba(0,232,122,.2);border-radius:2rem;cursor:pointer;font-size:.72rem;padding:.08rem .5rem;opacity:.55;transition:opacity .2s';
+ b.onmouseenter = function(){ b.style.opacity = '1'; };
+ b.onmouseleave = function(){ b.style.opacity = '.55'; };
+ b.onclick = function(){
+ row.innerHTML = '<span style="font-size:.64rem;color:rgba(0,232,122,.55);font-family:var(--mono)">✓ Feedback recorded — this trains the knowledge base</span>';
+ if (typeof rgTrack === 'function') rgTrack('ai_feedback', cfg[2]);
+ };
+ row.appendChild(b);
+ });
+ bub.appendChild(row);
+ }
+
  function showTyping() {
  return addMsg('ai', '<div class="typing-ind"><span></span><span></span><span></span></div>');
  }
@@ -11593,7 +11660,8 @@ window.issb_backToForm = function() {
  max_tokens:1000,
  system: 'You are Sage, an expert AI sustainability advisor for ReGenesis Impact. You have deep expertise in ESG frameworks (GRI, SASB, TCFD, ISSB IFRS S1/S2), climate risk, GHG Protocol, PCAF, net-zero strategies, and corporate sustainability reporting. Be concise, professional, and specific. Always cite relevant frameworks.'
    + (snipMode ? '\n\nSNIPPET MODE: respond with a ready-to-paste disclosure snippet in formal annual-report language, inside a code block, followed by at most two sentences of usage notes.' : '')
-   + (_fileContext ? '\n\nThe user has uploaded a report for analysis. Report extract:\n' + _fileContext.substring(0,2000) : ''),
+   + (_fileContext ? '\n\nThe user has uploaded a report for analysis. Report extract:\n' + _fileContext.substring(0,2000) : '')
+   + (typeof rgKbContext === 'function' ? rgKbContext('advisor', text) : ''),
  messages: _hist
  })
  });
@@ -11603,7 +11671,7 @@ window.issb_backToForm = function() {
  (d.content && d.content[0] && d.content[0].text) || 'I could not generate a response.';
  _hist.push({role:'assistant', content:reply});
  _saveHist();
- addMsg('ai', fmt(reply));
+ rgAiFeedbackRow(addMsg('ai', fmt(reply)));
  } catch(err) {
  hideTyping(typing);
  _hist.pop(); // remove the failed user message so retry sends a clean request
@@ -11997,11 +12065,16 @@ window.issb_backToForm = function() {
  wrapper.style.display='block';
  textEl.innerHTML='<em style="color:rgba(245,240,232,0.4)">Sage is analysing...</em>';
  if (typeof rgLogQuery === 'function') rgLogQuery('report_draft', prompt);
+ // Route knowledge-base retrieval by which tool's panel is asking
+ var kbTool = /^(am|bk|s3)-/.test(wrapperId) ? 'dd'
+   : /^(issb|gri|brsr|sr|assb|cdp)/.test(wrapperId) ? 'issb'
+   : /^ghg/.test(wrapperId) ? 'ghg' : 'advisor';
+ var kbCtx = (typeof rgKbContext === 'function') ? rgKbContext(kbTool, prompt) : '';
  try {
  var res=await fetch('https://sageai.suranjan104.workers.dev',{
  method:'POST',headers:{'Content-Type':'application/json'},
  body:JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:1500,
- system:'You are Sage, an expert ESG and sustainability advisor at ReGenesis Impact.',
+ system:'You are Sage, an expert ESG and sustainability advisor at ReGenesis Impact.'+kbCtx,
  messages:[{role:'user',content:prompt}]})
  });
  var d=await res.json();

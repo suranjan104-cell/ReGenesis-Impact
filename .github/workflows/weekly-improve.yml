@@ -42,7 +42,13 @@ jobs:
                Rotate focus areas across weeks: performance, accessibility
                (aria-labels, keyboard nav), mobile UX, calculation accuracy
                (emission factors, materiality thresholds), SEO, error
-               handling, or content freshness (regulatory dates, standards).
+               handling, content freshness (regulatory dates, standards),
+               or GROWING THE KNOWLEDGE BASE (knowledge/entries/*.json —
+               the AI's retrieval corpus). For knowledge weeks: add 5-10
+               new entries for the tool with the thinnest coverage, follow
+               knowledge/README.md quality rules exactly (every entry needs
+               a real, verifiable source URL — never invent case studies),
+               then run `node knowledge/build.mjs` and commit kb.json too.
             2. Implement it on a new branch named improve/<topic>-<date>.
             3. Verify with the smoke test: npm install puppeteer --no-save
                && node deck/smoke.js — homeVisible must be true with zero

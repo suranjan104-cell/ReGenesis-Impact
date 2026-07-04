@@ -9,7 +9,15 @@ Nightly  → health-check.yml → tests repo + live site → files issue on fail
                                                           ↓
 Issue labeled `auto-improve` → claude-auto.yml → Claude investigates → fix PR
 Sundays  → weekly-improve.yml → Claude audits → one improvement PR
+                                    ↓ (knowledge weeks)
+              knowledge/entries/*.json grows → kb-validate.yml checks →
+              every Sage AI answer retrieves the new entries (RAG)
+
+AI answers → 👍/👎 buttons → Supabase events (ai_feedback) → reviewed weekly
 ```
+
+The `knowledge/` directory is the AI's training corpus — see
+`knowledge/README.md` for the schema, quality rules and how retrieval works.
 
 ## One-time setup (2 steps, ~5 minutes)
 
