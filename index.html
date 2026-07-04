@@ -1573,6 +1573,110 @@ function loadPdfJs(){
   return _pdfjsReady;
 }
 </script>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     AURORA DESIGN LAYER — 2026 futuristic refresh
+     Dark-glassmorphism + animated aurora gradients + glow interactions,
+     applied as a late-cascade layer so it upgrades every page and tool
+     without touching their structural CSS.
+     ═══════════════════════════════════════════════════════════════════════ -->
+<style id="rg-aurora">
+/* ── Ambient aurora field (injected divs, JS at end of body) ─────────── */
+#rg-aurora-field{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;mix-blend-mode:screen}
+.rg-blob{position:absolute;width:55vmax;height:55vmax;border-radius:50%;filter:blur(90px);opacity:.5;will-change:transform}
+.rg-blob-1{background:radial-gradient(circle at 40% 40%,rgba(0,232,122,.16),transparent 65%);top:-18vmax;left:-12vmax;animation:rg-drift-1 34s ease-in-out infinite alternate}
+.rg-blob-2{background:radial-gradient(circle at 55% 45%,rgba(10,255,219,.12),transparent 62%);bottom:-22vmax;right:-14vmax;animation:rg-drift-2 46s ease-in-out infinite alternate}
+.rg-blob-3{background:radial-gradient(circle at 50% 50%,rgba(139,92,246,.09),transparent 60%);top:30%;left:55%;width:38vmax;height:38vmax;animation:rg-drift-3 58s ease-in-out infinite alternate}
+@keyframes rg-drift-1{from{transform:translate(0,0) scale(1)}to{transform:translate(9vmax,7vmax) scale(1.15)}}
+@keyframes rg-drift-2{from{transform:translate(0,0) scale(1.1)}to{transform:translate(-8vmax,-6vmax) scale(.95)}}
+@keyframes rg-drift-3{from{transform:translate(0,0)}to{transform:translate(-10vmax,8vmax)}}
+/* fine engineering grid, barely-there */
+#rg-aurora-field::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(0,232,122,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(0,232,122,.028) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,#000 0%,transparent 75%)}
+/* cursor spotlight — desktop only, screen-blended so it only adds light */
+#rg-spot{position:fixed;width:640px;height:640px;border-radius:50%;pointer-events:none;z-index:0;mix-blend-mode:screen;background:radial-gradient(circle,rgba(0,232,122,.075),rgba(10,255,219,.03) 45%,transparent 70%);transform:translate(-50%,-50%);left:-999px;top:-999px;transition:opacity .4s;opacity:0}
+@media (prefers-reduced-motion: reduce){.rg-blob{animation:none!important}#rg-spot{display:none}}
+@media (max-width: 768px){#rg-spot{display:none}.rg-blob{filter:blur(60px)}}
+
+/* ── Global light: selection, scrollbar, focus ───────────────────────── */
+::selection{background:rgba(0,232,122,.85);color:#020806}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-track{background:#020806}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,rgba(0,232,122,.35),rgba(10,255,219,.25));border-radius:5px;border:2px solid #020806}
+::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,rgba(0,232,122,.6),rgba(10,255,219,.45))}
+:focus-visible{outline:2px solid rgba(0,255,157,.65);outline-offset:2px;border-radius:2px}
+
+/* ── Glass card treatment — every tool's cards get lift + glow ───────── */
+.tool-card,.db-card,.ghg-card,.cip-card,.cip-kcard,.fx-mod-card,.fx-seo-card,
+.bench-card,.t-card,.sr-fw-card,.cr-info-card,.axs-std-card,.trial-card,
+.cr-card,.wc,.chk-card,.cip-csa-impact-card{
+  transition:transform .35s cubic-bezier(.2,.8,.25,1),box-shadow .35s,border-color .35s;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.045),0 1px 2px rgba(0,0,0,.4);
+}
+.tool-card:hover,.db-card:hover,.fx-mod-card:hover,.fx-seo-card:hover,
+.bench-card:hover,.t-card:hover,.sr-fw-card:hover,.trial-card:hover,
+.cr-card:hover,.wc:hover{
+  transform:translateY(-4px);
+  border-color:rgba(0,232,122,.45)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 18px 44px -14px rgba(0,0,0,.7),0 0 32px -6px rgba(0,232,122,.28);
+}
+.ghg-card:hover,.cip-card:hover,.cip-kcard:hover,.cr-info-card:hover,.axs-std-card:hover{
+  border-color:rgba(0,232,122,.35)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 0 26px -8px rgba(0,232,122,.22);
+}
+
+/* ── Frosted surfaces: nav, dropdowns, modals get deeper glass ───────── */
+nav{background:rgba(2,8,6,.72)!important;backdrop-filter:blur(28px) saturate(180%)!important;-webkit-backdrop-filter:blur(28px) saturate(180%)!important}
+.nav-dropdown-menu,.nav-mobile-menu{backdrop-filter:blur(30px) saturate(170%);-webkit-backdrop-filter:blur(30px) saturate(170%)}
+.modal,.lm-card,.gate-card,.demo-drawer{backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px)}
+
+/* ── Living gradient headlines ───────────────────────────────────────── */
+.fx-grad,.fx-hero h1 em{
+  background:linear-gradient(100deg,#eafff3 0%,#00ff9d 30%,#0affdb 55%,#8b5cf6 80%,#eafff3 100%);
+  background-size:280% 100%;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  animation:rg-grad-flow 9s linear infinite;
+}
+@keyframes rg-grad-flow{to{background-position:280% 0}}
+@media (prefers-reduced-motion: reduce){.fx-grad,.fx-hero h1 em{animation:none}}
+
+/* ── Buttons: charge-up glow + press feedback ────────────────────────── */
+.fx-btn-primary,.nav-cta,.btn-p,.btn-ghg-p,.cr-buy-btn,.cr-retire-btn,
+.cip-btn,.mob-cta,.lm-btn,.gate-btn,.rpt-btn,.demo-load-btn,.axs-btn{
+  transition:transform .2s,box-shadow .3s,filter .2s!important;
+}
+.fx-btn-primary:hover,.nav-cta:hover,.btn-p:hover,.btn-ghg-p:hover,
+.cr-buy-btn:hover,.cr-retire-btn:hover,.cip-btn:hover,.lm-btn:hover,.axs-btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 6px 30px -6px rgba(0,232,122,.55),0 0 0 1px rgba(0,255,157,.25)!important;
+}
+.fx-btn-primary:active,.nav-cta:active,.btn-p:active,.btn-ghg-p:active,
+.cr-buy-btn:active,.cr-retire-btn:active,.cip-btn:active,.lm-btn:active{transform:scale(.975)}
+
+/* ── Inputs: focus becomes a soft neon ring ──────────────────────────── */
+input:focus,select:focus,textarea:focus{
+  border-color:rgba(0,255,157,.55)!important;
+  box-shadow:0 0 0 3px rgba(0,232,122,.12),0 0 18px -4px rgba(0,232,122,.35)!important;
+}
+
+/* ── Hero: deepen the stage ──────────────────────────────────────────── */
+.fx-hero{position:relative}
+.fx-hero::before{content:'';position:absolute;inset:0;pointer-events:none;background:
+  radial-gradient(ellipse 55% 42% at 50% 8%,rgba(0,232,122,.10),transparent 70%),
+  radial-gradient(ellipse 30% 32% at 82% 30%,rgba(139,92,246,.07),transparent 70%),
+  radial-gradient(ellipse 34% 30% at 14% 42%,rgba(10,255,219,.06),transparent 70%)}
+.fx-hero-pill{backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 0 24px -6px rgba(0,232,122,.35)}
+
+/* ── Tables & code readouts: subtle scan-light on hover ──────────────── */
+.cr-holding-table tbody tr,.rpt-table tbody tr{transition:background .25s}
+.cr-holding-table tbody tr:hover{background:rgba(0,232,122,.05)}
+
+/* ── Page transitions: content breathes in ───────────────────────────── */
+@media (prefers-reduced-motion: no-preference){
+  .page.active{animation:rg-page-in .45s cubic-bezier(.2,.8,.25,1)}
+  @keyframes rg-page-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+}
+</style>
 </head>
 <body>
 <!-- REGULATORY ALERT BAR -->
@@ -3189,7 +3293,7 @@ function loadPdfJs(){
 
   <div class="fx-hero-pill">
     <span class="fx-status-dot"></span>
-    REGENESIS OS v3.0 — CLIMATE INTELLIGENCE ONLINE · SG / AU / IN
+    REGENESIS OS v4.0 · AURORA — CLIMATE INTELLIGENCE ONLINE · SG / AU / IN
   </div>
 
   <h1>Where <em>climate data</em><br>becomes decisive action</h1>
@@ -14514,14 +14618,18 @@ function showDemoToast(name) {
 }
 
 // ── Wire demo buttons to each page via showPage hook ────────────────────────
+// The drawer auto-opens only on the visitor's FIRST tool visit; after that
+// it stays out of the way (every tool has its own "Load Demo" button) —
+// auto-opening on every visit covered the forms people were working in.
 var _origShowPageForDemo = window.showPage;
 window.showPage = function(page) {
   _origShowPageForDemo(page);
   var toolMap = { issb:'issb', ghg:'ghg', climate:'climate', credits:'credits', tools:'tools', advisor:'advisor' };
   var toolId = toolMap[page];
-  if (toolId) {
+  if (toolId && !localStorage.getItem('rg_demo_drawer_seen')) {
+    try { localStorage.setItem('rg_demo_drawer_seen', '1'); } catch(e) {}
     setTimeout(function(){ showDemoDrawer(toolId); }, 300);
-  } else {
+  } else if (!toolId) {
     document.getElementById('demo-drawer') && (document.getElementById('demo-drawer').style.display = 'none');
   }
 };
@@ -14814,6 +14922,38 @@ document.addEventListener('DOMContentLoaded', function(){
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', restore);
   } else { restore(); }
+})();
+</script>
+
+<!-- ===== AURORA DESIGN LAYER — ambient field + cursor spotlight ===== -->
+<script>
+(function(){
+  var field = document.createElement('div');
+  field.id = 'rg-aurora-field';
+  field.setAttribute('aria-hidden', 'true');
+  field.innerHTML = '<div class="rg-blob rg-blob-1"></div><div class="rg-blob rg-blob-2"></div><div class="rg-blob rg-blob-3"></div>';
+  document.body.appendChild(field);
+
+  // Cursor spotlight: fine pointers only, and never when the visitor
+  // prefers reduced motion. Screen-blended, so it only adds light.
+  if (window.matchMedia('(pointer: fine)').matches &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var spot = document.createElement('div');
+    spot.id = 'rg-spot';
+    spot.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(spot);
+    var x = -999, y = -999, raf = null;
+    document.addEventListener('pointermove', function(e){
+      x = e.clientX; y = e.clientY;
+      spot.style.opacity = '1';
+      if (!raf) raf = requestAnimationFrame(function(){
+        raf = null;
+        spot.style.left = x + 'px';
+        spot.style.top = y + 'px';
+      });
+    }, { passive: true });
+    document.documentElement.addEventListener('pointerleave', function(){ spot.style.opacity = '0'; });
+  }
 })();
 </script>
 
