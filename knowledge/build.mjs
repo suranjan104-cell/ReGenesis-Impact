@@ -57,8 +57,12 @@ if (errors.length) {
   process.exit(1);
 }
 
+// Deterministic output — no volatile timestamps, so rebuilding unchanged
+// sources on any day produces a byte-identical kb.json (CI relies on this).
+// 'fresh' derives from the newest human review date in the corpus.
+const fresh = all.map(e => e.reviewed).sort().pop();
 const out = {
-  built: new Date().toISOString().slice(0, 10),
+  fresh,
   count: all.length,
   entries: all,
 };
