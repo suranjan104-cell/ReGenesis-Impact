@@ -3200,7 +3200,8 @@ input:focus,select:focus,textarea:focus{
 .fx-footer-col-title::before { content: '// '; color: rgba(0,232,122,0.4); }
 .fx-footer-links { display: flex; flex-direction: column; gap: 0.6rem; }
 .fx-footer-links a,
-.fx-footer-links button {
+.fx-footer-links button,
+.fx-footer-links a {
   font-family: 'DM Sans', sans-serif;
   font-size: 0.82rem;
   color: var(--fx-dim);
@@ -3211,6 +3212,7 @@ input:focus,select:focus,textarea:focus{
   text-align: left;
   padding: 0;
   transition: color 0.2s;
+  display: block;
 }
 .fx-footer-links a:hover,
 .fx-footer-links button:hover { color: var(--fx-bio); }
@@ -3977,6 +3979,23 @@ input:focus,select:focus,textarea:focus{
       <div class="fx-footer-logo">ReGenesis<span>Impact</span></div>
       <div class="fx-footer-tagline">AI-powered sustainability intelligence for the enterprise.</div>
       <div class="fx-footer-email"><a href="mailto:info@regenesisimpact.in">info@regenesisimpact.in</a></div>
+    </div>
+
+    <!-- Guides — crawlable static pages generated from the knowledge base -->
+    <div>
+      <div class="fx-footer-col-title">Guides</div>
+      <div class="fx-footer-links">
+        <a href="guides/ifrs-s2-reporting-guide.html">IFRS S2 Guide</a>
+        <a href="guides/aasb-s2-australia-climate-reporting.html">AASB S2 Australia</a>
+        <a href="guides/brsr-core-assurance-india.html">BRSR Core India</a>
+        <a href="guides/sgx-climate-reporting-singapore.html">SGX Singapore</a>
+        <a href="guides/ghg-protocol-inventory-guide.html">GHG Inventory</a>
+        <a href="guides/scope-3-emissions-guide.html">Scope 3 Emissions</a>
+        <a href="guides/pcaf-financed-emissions-guide.html">PCAF Financed Emissions</a>
+        <a href="guides/tcfd-scenario-analysis-guide.html">TCFD Scenarios</a>
+        <a href="guides/carbon-credits-buyers-guide.html">Carbon Credits</a>
+        <a href="guides/sustainability-assurance-issa-5000.html">Assurance / ISSA 5000</a>
+      </div>
     </div>
 
     <!-- Platform -->
@@ -9621,6 +9640,31 @@ function rgSession() {
 function rgUtm(name) {
   try { return new URLSearchParams(location.search).get(name) || null; } catch(e) { return null; }
 }
+// ── JS error telemetry — errors on visitors' browsers land in the events
+// table (event_type 'js_error'), surface on the owner dashboard, and feed
+// the nightly health-check → auto-improve fix pipeline. Rate-limited and
+// deduplicated so a render loop can't flood analytics.
+var _rgErrSeen = {};
+var _rgErrCount = 0;
+function _rgLogError(msg, src, line) {
+  try {
+    if (_rgErrCount >= 5) return;              // max 5 per session
+    var key = String(msg).slice(0, 120);
+    if (_rgErrSeen[key]) return;               // dedupe identical errors
+    _rgErrSeen[key] = 1;
+    _rgErrCount++;
+    var detail = (String(msg).slice(0, 180) + ' @ ' + String(src || '').split('/').pop() + ':' + (line || '?')).slice(0, 250);
+    if (typeof rgTrack === 'function') rgTrack('js_error', detail);
+  } catch (e) { /* telemetry must never break the app */ }
+}
+window.addEventListener('error', function(e) {
+  _rgLogError(e.message || 'Script error', e.filename, e.lineno);
+});
+window.addEventListener('unhandledrejection', function(e) {
+  var r = e && e.reason;
+  _rgLogError('Unhandled rejection: ' + (r && r.message ? r.message : String(r)), '', '');
+});
+
 function rgTrack(type, page) {
   try {
     if (!_supabase) return;
