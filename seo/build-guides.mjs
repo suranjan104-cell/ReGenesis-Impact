@@ -13,7 +13,9 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const kb = JSON.parse(readFileSync(join(root, 'knowledge', 'kb.json'), 'utf8'));
 const kbById = new Map(kb.entries.map(e => [e.id, e]));
 const SITE = 'https://www.regenesisimpact.in';
-const today = new Date().toISOString().slice(0, 10);
+// Deterministic date stamp: newest KB review month (not "today"), so
+// rebuilding unchanged sources yields byte-identical pages and sitemap.
+const today = kb.entries.map(e => e.reviewed).sort().pop() + '-01';
 
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 

@@ -1884,6 +1884,7 @@ input:focus,select:focus,textarea:focus{
         <li><button onclick="closeNavDropdown();navTo('markets')">🇮🇳 India — BRSR · ISSB S2</button></li>
       </ul>
     </li>
+    <li><button onclick="rgCmdkOpen()" id="nb-cmdk" title="Search everything (Ctrl+K)" style="display:inline-flex;align-items:center;gap:.35rem;border:1px solid rgba(0,232,122,.25);border-radius:2rem;padding:.28rem .8rem!important">⌘K <span style="opacity:.6">Search</span></button></li>
     <li><button onclick="showPage('advisor')" id="nb-advisor">🌿 Sage AI</button></li>
     <li id="nav-user-wrap" style="display:none;align-items:center;gap:0.5rem">
       <button onclick="showPage('dashboard')" style="background:rgba(0,232,122,0.12);border:1px solid rgba(0,232,122,0.3);color:#00e87a;padding:0.3rem 0.75rem;border-radius:2rem;font-size:0.68rem;cursor:pointer;font-family:'DM Mono',monospace">◳ Dashboard</button>
@@ -1925,6 +1926,7 @@ input:focus,select:focus,textarea:focus{
   <button onclick="closeMobileMenu();requireLogin('credits')">🪙 Carbon Credits Exchange</button>
   <button onclick="closeMobileMenu();requireLogin('assurance')">🛡️ Assurance Studio</button>
   <button onclick="closeMobileMenu();window.location.href='platform/'">📊 IMM Platform</button>
+  <button onclick="closeMobileMenu();rgCmdkOpen()">🔎 Search everything</button>
   <div class="mob-section">Account</div>
   <button id="mob-dashboard" style="display:none" onclick="closeMobileMenu();showPage('dashboard')">◳ My Dashboard</button>
   <button id="mob-signout" style="display:none;color:rgba(255,90,60,.8)" onclick="closeMobileMenu();authSignOut()">Sign Out</button>
@@ -14953,6 +14955,8 @@ document.addEventListener('DOMContentLoaded', function(){
     return Math.round(filled / fields.length * 100);
   }
 
+  window._rgToolScore = score; // dashboard resume chips read this
+
   function update(page) {
     var pct = score(page);
     if (pct < 0) return;
@@ -15045,6 +15049,222 @@ document.addEventListener('DOMContentLoaded', function(){
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', restore);
   } else { restore(); }
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     LEVEL 3 DESIGN LAYER — command palette, motion system, resume chips
+     ═══════════════════════════════════════════════════════════════════ -->
+<style id="rg-level3">
+/* command palette */
+#rg-cmdk{position:fixed;inset:0;z-index:900;display:none;align-items:flex-start;justify-content:center;
+  padding:14vh 1rem 0;background:rgba(2,8,6,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#rg-cmdk.open{display:flex}
+.rg-cmdk-panel{width:100%;max-width:560px;background:rgba(3,14,9,.96);border:1px solid rgba(0,232,122,.3);
+  border-radius:.9rem;box-shadow:0 30px 90px -20px rgba(0,0,0,.9),0 0 60px -20px rgba(0,232,122,.35);overflow:hidden;
+  animation:rg-cmdk-in .18s cubic-bezier(.2,.8,.25,1)}
+@keyframes rg-cmdk-in{from{opacity:0;transform:translateY(-8px) scale(.985)}to{opacity:1;transform:none}}
+.rg-cmdk-input{width:100%;background:none;border:none;outline:none;color:#eafff3;font-size:1rem;
+  padding:1.05rem 1.25rem;border-bottom:1px solid rgba(0,232,122,.15);font-family:'DM Sans',sans-serif}
+.rg-cmdk-list{max-height:46vh;overflow-y:auto;padding:.45rem}
+.rg-cmdk-item{display:flex;align-items:center;gap:.7rem;padding:.6rem .8rem;border-radius:.5rem;cursor:pointer;
+  color:rgba(234,255,243,.8);font-size:.88rem}
+.rg-cmdk-item .k{margin-left:auto;font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.08em;
+  color:rgba(0,232,122,.55);text-transform:uppercase;white-space:nowrap}
+.rg-cmdk-item.sel{background:rgba(0,232,122,.12);color:#eafff3;box-shadow:inset 2px 0 0 #00e87a}
+.rg-cmdk-empty{padding:1.2rem;text-align:center;color:rgba(234,255,243,.4);font-size:.82rem}
+.rg-cmdk-hint{display:flex;gap:1rem;padding:.5rem 1.1rem;border-top:1px solid rgba(0,232,122,.12);
+  font-size:.62rem;color:rgba(234,255,243,.35);font-family:'DM Mono',monospace}
+/* scroll progress */
+#rg-scrollbar{position:fixed;top:0;left:0;height:2px;width:0;z-index:950;pointer-events:none;
+  background:linear-gradient(90deg,#00e87a,#0affdb);box-shadow:0 0 12px rgba(0,232,122,.7)}
+/* dashboard resume chips */
+.rg-resume{margin-top:.55rem;display:inline-flex;align-items:center;gap:.45rem;
+  font-family:'DM Mono',monospace;font-size:.62rem;color:#00e87a;letter-spacing:.05em}
+.rg-resume .bar{width:66px;height:4px;border-radius:2px;background:rgba(0,232,122,.15);overflow:hidden}
+.rg-resume .bar i{display:block;height:100%;background:linear-gradient(90deg,#00e87a,#0affdb);border-radius:2px}
+@media (prefers-reduced-motion: reduce){.rg-cmdk-panel{animation:none}}
+</style>
+<script>
+// ── COMMAND PALETTE ─────────────────────────────────────────────
+(function(){
+  var ITEMS = [
+    { l:'🏠 Home', k:'page', go:function(){ showPage('home'); } },
+    { l:'📋 Sustainability Report — IFRS S2 · GRI · BRSR · ASSB · CDP', k:'tool', kw:'issb report disclosure', go:function(){ showPage('issb'); } },
+    { l:'⚖️ GHG Inventory — Scope 1·2·3 + PCAF', k:'tool', kw:'ghg emissions carbon inventory pcaf scope', go:function(){ showPage('ghg'); } },
+    { l:'🌍 Climate Intelligence — TCFD · NGFS scenarios', k:'tool', kw:'climate risk scenario tcfd ngfs physical transition', go:function(){ showPage('climate'); } },
+    { l:'🔍 ESG Due Diligence Suite', k:'tool', kw:'dd esg due diligence pe bank spo', go:function(){ showPage('tools'); } },
+    { l:'🌿 Sage AI Advisor', k:'tool', kw:'chat ai ask advisor', go:function(){ showPage('advisor'); } },
+    { l:'🪙 Carbon Credits Exchange', k:'tool', kw:'credits carbon offset blue plastic biodiversity retire', go:function(){ showPage('credits'); } },
+    { l:'🛡️ Assurance Studio — ISSA 5000', k:'tool', kw:'assurance audit readiness materiality evidence', go:function(){ showPage('assurance'); } },
+    { l:'📊 IMM Platform — impact measurement', k:'tool', kw:'imm impact fund portfolio metrics iris', go:function(){ window.location.href='platform/'; } },
+    { l:'◳ My Dashboard', k:'page', kw:'account dashboard', go:function(){ showPage('dashboard'); } },
+    { l:'📅 Book a Trial', k:'action', kw:'demo call trial', go:function(){ showPage('trial'); } },
+    { l:'💬 New Sage chat', k:'action', kw:'clear chat new conversation', go:function(){ showPage('advisor'); setTimeout(function(){ if (typeof newChat==='function') newChat(); }, 200); } }
+  ];
+  var GUIDE_LIST = [
+    ['ifrs-s2-reporting-guide','IFRS S2 Climate Disclosure Guide'],
+    ['aasb-s2-australia-climate-reporting','AASB S2 Australia Guide'],
+    ['brsr-core-assurance-india','BRSR Core India Guide'],
+    ['sgx-climate-reporting-singapore','SGX Singapore Guide'],
+    ['ghg-protocol-inventory-guide','GHG Protocol Inventory Guide'],
+    ['scope-3-emissions-guide','Scope 3 Emissions Guide'],
+    ['pcaf-financed-emissions-guide','PCAF Financed Emissions Guide'],
+    ['tcfd-scenario-analysis-guide','TCFD Scenario Analysis Guide'],
+    ['ngfs-climate-scenarios-explained','NGFS Scenarios Explained'],
+    ['carbon-credits-buyers-guide','Carbon Credits Buyer’s Guide'],
+    ['blue-carbon-credits-india','Blue Carbon India Guide'],
+    ['sustainability-assurance-issa-5000','Assurance & ISSA 5000 Guide']
+  ];
+  GUIDE_LIST.forEach(function(g){
+    ITEMS.push({ l:'📖 ' + g[1], k:'guide', kw:g[0].replace(/-/g,' '), go:(function(slug){ return function(){ window.location.href='guides/' + slug + '.html'; }; })(g[0]) });
+  });
+
+  var elWrap, elInput, elList, sel = 0, filtered = ITEMS;
+
+  function build(){
+    elWrap = document.createElement('div');
+    elWrap.id = 'rg-cmdk';
+    elWrap.setAttribute('role','dialog');
+    elWrap.setAttribute('aria-modal','true');
+    elWrap.setAttribute('aria-label','Search everything');
+    elWrap.innerHTML = '<div class="rg-cmdk-panel">' +
+      '<input class="rg-cmdk-input" placeholder="Search tools, guides, actions…" aria-label="Search">' +
+      '<div class="rg-cmdk-list" role="listbox"></div>' +
+      '<div class="rg-cmdk-hint"><span>↑↓ navigate</span><span>↵ open</span><span>esc close</span></div></div>';
+    document.body.appendChild(elWrap);
+    elInput = elWrap.querySelector('input');
+    elList = elWrap.querySelector('.rg-cmdk-list');
+    elWrap.addEventListener('mousedown', function(e){ if (e.target === elWrap) close(); });
+    elInput.addEventListener('input', function(){ filter(elInput.value); });
+    elInput.addEventListener('keydown', function(e){
+      if (e.key === 'ArrowDown') { e.preventDefault(); move(1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); move(-1); }
+      else if (e.key === 'Enter') { e.preventDefault(); pick(sel); }
+      else if (e.key === 'Escape') { close(); }
+    });
+    render();
+  }
+  function filter(q){
+    q = q.toLowerCase().trim();
+    filtered = !q ? ITEMS : ITEMS.filter(function(it){
+      return (it.l + ' ' + (it.kw || '')).toLowerCase().indexOf(q) !== -1;
+    });
+    sel = 0; render();
+  }
+  function render(){
+    if (!filtered.length) { elList.innerHTML = '<div class="rg-cmdk-empty">Nothing matches — try “ghg”, “brsr”, “credits”…</div>'; return; }
+    elList.innerHTML = filtered.map(function(it, i){
+      return '<div class="rg-cmdk-item' + (i === sel ? ' sel' : '') + '" role="option" data-i="' + i + '">' +
+        '<span>' + it.l + '</span><span class="k">' + it.k + '</span></div>';
+    }).join('');
+    elList.querySelectorAll('.rg-cmdk-item').forEach(function(node){
+      node.addEventListener('click', function(){ pick(parseInt(node.dataset.i, 10)); });
+      node.addEventListener('mousemove', function(){ sel = parseInt(node.dataset.i, 10); mark(); });
+    });
+    var s = elList.querySelector('.sel'); if (s) s.scrollIntoView({ block:'nearest' });
+  }
+  function mark(){
+    elList.querySelectorAll('.rg-cmdk-item').forEach(function(n, i){ n.classList.toggle('sel', i === sel); });
+  }
+  function move(d){ sel = (sel + d + filtered.length) % filtered.length; mark();
+    var s = elList.querySelector('.sel'); if (s) s.scrollIntoView({ block:'nearest' }); }
+  function pick(i){ var it = filtered[i]; if (!it) return; close(); it.go(); }
+  function close(){ if (elWrap) elWrap.classList.remove('open'); }
+
+  window.rgCmdkOpen = function(){
+    if (!elWrap) build();
+    elWrap.classList.add('open');
+    elInput.value = ''; filter('');
+    setTimeout(function(){ elInput.focus(); }, 30);
+  };
+  document.addEventListener('keydown', function(e){
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) { e.preventDefault(); rgCmdkOpen(); }
+    else if (e.key === 'Escape' && elWrap && elWrap.classList.contains('open')) { e.preventDefault(); close(); }
+  });
+})();
+
+// ── SCROLL PROGRESS BAR ─────────────────────────────────────────
+(function(){
+  var bar = document.createElement('div');
+  bar.id = 'rg-scrollbar'; bar.setAttribute('aria-hidden','true');
+  document.body.appendChild(bar);
+  var raf = null;
+  window.addEventListener('scroll', function(){
+    if (raf) return;
+    raf = requestAnimationFrame(function(){
+      raf = null;
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = h > 0 ? (window.scrollY / h * 100) + '%' : '0';
+    });
+  }, { passive:true });
+})();
+
+// ── UNIVERSAL REVEAL + 3D TILT ──────────────────────────────────
+(function(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (typeof IntersectionObserver === 'undefined') return; // never risk stuck-invisible cards
+  // Reveal: tag every card family with the existing fade-up system
+  var SEL = '.fx-mod-card,.fx-seo-card,.tool-card,.db-card,.trial-card,.bench-card,.cr-info-card,.axs-std-card,.sr-fw-card';
+  function tag(){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (!e.isIntersecting) return;
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+        // Clear the stagger delay after the reveal so hover/tilt
+        // transitions respond instantly afterwards
+        (function(el){ setTimeout(function(){ el.style.transitionDelay = ''; }, 900); })(e.target);
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+    document.querySelectorAll(SEL).forEach(function(el, i){
+      if (el.classList.contains('fade-up')) return;
+      el.classList.add('fade-up');
+      el.style.transitionDelay = (i % 4) * 60 + 'ms'; // gentle stagger per row
+      io.observe(el);
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tag); else tag();
+
+  // Tilt: subtle pointer-tracked 3D on cards, desktop only
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+  var TILT = '.tool-card,.fx-mod-card,.db-card,.wc';
+  document.addEventListener('mousemove', function(e){
+    var card = e.target.closest && e.target.closest(TILT);
+    if (!card) return;
+    var r = card.getBoundingClientRect();
+    var x = (e.clientX - r.left) / r.width - 0.5;
+    var y = (e.clientY - r.top) / r.height - 0.5;
+    card.style.transform = 'perspective(800px) rotateX(' + (-y * 4) + 'deg) rotateY(' + (x * 5) + 'deg) translateY(-4px)';
+  }, { passive:true });
+  document.addEventListener('mouseout', function(e){
+    var card = e.target.closest && e.target.closest(TILT);
+    if (card && (!e.relatedTarget || !card.contains(e.relatedTarget))) card.style.transform = '';
+  }, { passive:true });
+})();
+
+// ── DASHBOARD RESUME CHIPS — show per-tool progress on the cards ─
+(function(){
+  var MAP = { issb:'issb', ghg:'ghg', climate:'climate', tools:'tools', assurance:'assurance' };
+  function refresh(){
+    if (typeof window._rgToolScore !== 'function') return;
+    document.querySelectorAll('.db-card').forEach(function(card){
+      var m = (card.getAttribute('onclick') || '').match(/showPage\('([a-z]+)'\)/);
+      if (!m || !MAP[m[1]]) return;
+      var pct = window._rgToolScore(m[1]);
+      var chip = card.querySelector('.rg-resume');
+      if (pct > 0) {
+        if (!chip) {
+          chip = document.createElement('div');
+          chip.className = 'rg-resume';
+          card.appendChild(chip);
+        }
+        chip.innerHTML = '▶ RESUME · ' + pct + '%<span class="bar"><i style="width:' + pct + '%"></i></span>';
+      } else if (chip) { chip.remove(); }
+    });
+  }
+  var orig = window.showPage;
+  if (orig) window.showPage = function(p){ orig(p); if (p === 'dashboard') setTimeout(refresh, 150); };
 })();
 </script>
 
