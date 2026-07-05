@@ -1,0 +1,53 @@
+name: Deploy Cloudflare Worker (custom domain)
+
+# regenesisimpact.in is served by the Cloudflare Worker's asset snapshot,
+# NOT by GitHub Pages — so the custom domain only updates when wrangler
+# deploys. This workflow closes that gap: every push to main redeploys the
+# worker, keeping the custom domain in lockstep with the repo.
+#
+# ONE-TIME SETUP (repo Settings → Secrets and variables → Actions):
+#   CLOUDFLARE_API_TOKEN   – Cloudflare dashboard → My Profile → API Tokens
+#                            → Create Token → "Edit Cloudflare Workers" template
+#   CLOUDFLARE_ACCOUNT_ID  – Cloudflare dashboard → Workers & Pages → right
+#                            sidebar "Account ID"
+# Until the secrets exist, the deploy step is skipped with a notice instead
+# of failing.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: worker-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check secrets
+        id: gate
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CF_TOKEN" ] || [ -z "$CF_ACCOUNT" ]; then
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID secrets not set — custom-domain deploy skipped. The github.io mirror still updated via pages.yml. Add the secrets (see comments in this workflow) to keep regenesisimpact.in in sync automatically."
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Deploy worker + assets
+        if: steps.gate.outputs.ready == 'true'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy

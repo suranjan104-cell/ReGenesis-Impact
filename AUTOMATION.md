@@ -19,6 +19,14 @@ AI answers → 👍/👎 buttons → Supabase events (ai_feedback) → reviewed 
 The `knowledge/` directory is the AI's training corpus — see
 `knowledge/README.md` for the schema, quality rules and how retrieval works.
 
+> **Custom domain vs github.io (owner note):** regenesisimpact.in is served
+> by the **Cloudflare Worker's asset snapshot**, not GitHub Pages — merging
+> to main updates only the github.io mirror until the worker redeploys.
+> `deploy-worker.yml` now redeploys on every push to main once the
+> `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID` repo secrets are added
+> (see that workflow's header for the 2-minute setup). Without the secrets,
+> run `npx wrangler deploy` locally after merges.
+
 > **Supabase's role (owner note):** Supabase is the **publish/data backend**
 > — leads, events, queries and AI feedback are written there and read by the
 > owner dashboard. It is **not** a notification channel: nothing emails or
