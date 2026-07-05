@@ -1,0 +1,78 @@
+name: Auto-retry failed workflows
+
+# Self-healing CI: when any deploy/validation workflow fails, retry it
+# automatically once (transient GitHub Pages/API errors are common). If it
+# fails AGAIN on the retry, escalate by filing an `auto-improve` issue —
+# which claude-auto.yml picks up and investigates as a real bug.
+#
+# pages.yml gets a fresh workflow_dispatch instead of a job re-run:
+# re-running deploy-pages inside the same run uploads a second
+# "github-pages" artifact and the action then refuses to deploy.
+
+on:
+  workflow_run:
+    workflows:
+      - Deploy to GitHub Pages
+      - Sync gh-pages on push to main
+      - Knowledge base validation
+    types: [completed]
+
+permissions:
+  actions: write
+  issues: write
+  contents: read
+
+jobs:
+  retry:
+    if: github.event.workflow_run.conclusion == 'failure'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Retry once, escalate on second failure
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const run = context.payload.workflow_run;
+            const { owner, repo } = context.repo;
+
+            if (run.run_attempt < 2) {
+              core.info(`"${run.name}" failed (attempt ${run.run_attempt}) — retrying automatically.`);
+              if (run.path.endsWith('pages.yml')) {
+                // Fresh run: re-running deploy-pages in-place duplicates the artifact
+                await github.rest.actions.createWorkflowDispatch({
+                  owner, repo,
+                  workflow_id: 'pages.yml',
+                  ref: run.head_branch || 'main',
+                });
+              } else {
+                await github.rest.actions.reRunWorkflowFailedJobs({
+                  owner, repo, run_id: run.id,
+                });
+              }
+              return;
+            }
+
+            // Second failure — this is not transient. Escalate to the
+            // auto-fix pipeline instead of retrying forever.
+            core.warning(`"${run.name}" failed twice — filing auto-improve issue.`);
+            const title = `Auto-fix: "${run.name}" failing on ${run.head_branch} (${run.head_sha.slice(0, 8)})`;
+            const existing = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${owner}/${repo} is:issue is:open in:title "${run.name}" label:auto-improve`,
+            });
+            if (existing.data.total_count > 0) {
+              core.info('Open auto-improve issue already exists — not duplicating.');
+              return;
+            }
+            await github.rest.issues.create({
+              owner, repo, title,
+              labels: ['auto-improve'],
+              body: [
+                `The **${run.name}** workflow failed twice in a row (auto-retry exhausted).`,
+                '',
+                `- Run: ${run.html_url}`,
+                `- Commit: ${run.head_sha}`,
+                `- Branch: ${run.head_branch}`,
+                '',
+                'Investigate the failure logs, fix the root cause, and open a PR.',
+                'If the failure is external (GitHub incident), close this issue with a note.',
+              ].join('\n'),
+            });
