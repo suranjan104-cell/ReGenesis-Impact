@@ -6,9 +6,9 @@ name: Knowledge base validation
 
 on:
   push:
-    paths: ['knowledge/**']
+    paths: ['knowledge/**', 'seo/**', 'guides/**']
   pull_request:
-    paths: ['knowledge/**']
+    paths: ['knowledge/**', 'seo/**', 'guides/**']
   workflow_dispatch:
 
 permissions:
@@ -32,5 +32,20 @@ jobs:
           if ! git diff --quiet knowledge/kb.json; then
             echo "::error::knowledge/kb.json is out of date — run 'node knowledge/build.mjs' and commit the result"
             git diff --stat knowledge/kb.json
+            exit 1
+          fi
+
+      - name: Rebuild SEO guides from the knowledge base
+        run: node seo/build-guides.mjs
+
+      - name: Fail if guides or sitemap are stale
+        run: |
+          # lastmod dates change on every build — ignore date-only churn,
+          # fail only when actual content differs
+          if git diff -I 'Updated 20' -I 'lastmod' --quiet guides sitemap.xml; then
+            echo "Guides and sitemap are in sync with the knowledge base."
+          else
+            echo "::error::guides/ or sitemap.xml is out of date — run 'node seo/build-guides.mjs' and commit the result"
+            git diff -I 'Updated 20' -I 'lastmod' --stat guides sitemap.xml
             exit 1
           fi
