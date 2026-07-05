@@ -128,14 +128,30 @@ jobs:
         run: |
           node knowledge/build.mjs
           node seo/build-guides.mjs
-          if git diff -I 'Updated 20' -I 'lastmod' -I '"built"' --quiet knowledge/kb.json guides sitemap.xml; then
+          if git diff --quiet knowledge/kb.json guides sitemap.xml; then
             echo "OK: kb.json, guides and sitemap are current"
           else
             echo "::error::knowledge artifacts drifted — rebuild and commit"
             exit 1
           fi
 
-      - name: "Audit 6 — platform app builds, lints, deps clean"
+      - name: "Audit 6 — page-weight budget"
+        run: |
+          fail=0
+          idx=$(stat -c%s index.html)
+          [ "$idx" -gt 1500000 ] && { echo "::error::index.html is ${idx}B (budget 1.5MB)"; fail=1; }
+          for g in guides/*.html; do
+            sz=$(stat -c%s "$g")
+            [ "$sz" -gt 60000 ] && { echo "::error::$g is ${sz}B (budget 60KB)"; fail=1; }
+          done
+          kb=$(stat -c%s knowledge/kb.json)
+          [ "$kb" -gt 400000 ] && { echo "::error::kb.json is ${kb}B (budget 400KB — switch retrieval to sharded fetch)"; fail=1; }
+          js=$(du -bc platform/assets/*.js | tail -1 | cut -f1)
+          [ "$js" -gt 600000 ] && { echo "::error::platform JS is ${js}B (budget 600KB)"; fail=1; }
+          [ "$fail" = 0 ] && echo "OK: index=${idx}B, kb=${kb}B, platform js=${js}B — all within budget"
+          exit $fail
+
+      - name: "Audit 7 — platform app builds, lints, deps clean"
         run: |
           cd platform-app
           npm install --no-audit --no-fund 2>&1 | tail -1
