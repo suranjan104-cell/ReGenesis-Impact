@@ -19,6 +19,14 @@ AI answers → 👍/👎 buttons → Supabase events (ai_feedback) → reviewed 
 The `knowledge/` directory is the AI's training corpus — see
 `knowledge/README.md` for the schema, quality rules and how retrieval works.
 
+> **Supabase's role (owner note):** Supabase is the **publish/data backend**
+> — leads, events, queries and AI feedback are written there and read by the
+> owner dashboard. It is **not** a notification channel: nothing emails or
+> pings you from Supabase. Alerts arrive as GitHub issues (labeled
+> `auto-improve`) from the audit/health workflows; check the dashboard's
+> Insights panel for lead and usage data. The optional Web3Forms email hook
+> in `notifyLeadByEmail()` stays inert unless you add a key.
+
 ## One-time setup (2 steps, ~5 minutes)
 
 ### 1. Enable analytics tables in Supabase
