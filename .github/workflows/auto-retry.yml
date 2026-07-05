@@ -15,6 +15,7 @@ on:
       - Deploy to GitHub Pages
       - Sync gh-pages on push to main
       - Knowledge base validation
+      - Deploy Cloudflare Worker (custom domain)
     types: [completed]
 
 permissions:
