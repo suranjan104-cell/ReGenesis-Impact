@@ -1,0 +1,162 @@
+name: Weekly full site audit
+
+# The everything-audit. Every Wednesday it checks the whole surface —
+# every page renders, links resolve, no secrets leak, dependencies are
+# clean, the knowledge base and guides are in sync, SEO plumbing is valid.
+# Any failure files an `auto-improve` issue that the Claude auto-fix
+# workflow investigates. (Complements: nightly health-check.yml smoke test,
+# Sunday weekly-improve.yml, per-push kb-validate.yml and auto-retry.yml.)
+
+on:
+  schedule:
+    - cron: '0 3 * * 3'   # Wednesdays 03:00 UTC = 08:30 IST
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: "Audit 1 — inline JS syntax (every script block)"
+        run: |
+          python3 - <<'EOF'
+          import re, subprocess, tempfile, os, sys
+          html = open('index.html').read()
+          blocks = re.findall(r'<script(?![^>]*\bsrc=)([^>]*)>(.*?)</script>', html, re.S)
+          bad = 0
+          for i,(attrs,body) in enumerate(blocks):
+              if 'ld+json' in attrs: continue
+              with tempfile.NamedTemporaryFile('w', suffix='.js', delete=False) as f:
+                  f.write(body); p = f.name
+              r = subprocess.run(['node','--check',p], capture_output=True, text=True)
+              if r.returncode != 0:
+                  bad += 1; print(f'::error::script block {i} has a syntax error'); print(r.stderr[:400])
+              os.unlink(p)
+          sys.exit(1 if bad else 0)
+          EOF
+
+      - name: "Audit 2 — every page renders (tools + guides, zero JS errors)"
+        run: |
+          npm install puppeteer --no-save
+          python3 -m http.server 8901 &
+          sleep 2
+          node - <<'EOF'
+          const puppeteer = require('puppeteer');
+          const PAGES = ['#home','#issb','#ghg','#climate','#tools','#credits','#assurance','#advisor','#trial'];
+          const fs = require('fs');
+          const guides = fs.readdirSync('guides').filter(f => f.endsWith('.html'));
+          (async () => {
+            const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+            const page = await browser.newPage();
+            let failures = 0;
+            const errs = [];
+            page.on('pageerror', e => errs.push(String(e).slice(0, 200)));
+            await page.goto('http://localhost:8901/index.html', { waitUntil: 'networkidle2', timeout: 60000 });
+            for (const h of PAGES) {
+              await page.evaluate(p => showPage(p.slice(1)), h);
+              await new Promise(r => setTimeout(r, 700));
+              const visible = await page.evaluate(() => {
+                const el = document.querySelector('.page.active');
+                return !!el && el.offsetHeight > 50;
+              });
+              if (!visible) { console.log(`::error::page ${h} did not render`); failures++; }
+            }
+            if (errs.length) { console.log('::error::JS errors during tool sweep: ' + errs.join(' | ')); failures++; }
+            for (const g of guides) {
+              const gerrs = [];
+              const gp = await browser.newPage();
+              gp.on('pageerror', e => gerrs.push(String(e)));
+              const res = await gp.goto(`http://localhost:8901/guides/${g}`, { waitUntil: 'load', timeout: 30000 });
+              if (!res.ok() || gerrs.length) { console.log(`::error::guide ${g} failed (${res.status()})`); failures++; }
+              await gp.close();
+            }
+            await browser.close();
+            console.log(failures ? `FAILED: ${failures} problems` : `OK: ${PAGES.length} tool pages + ${guides.length} guides render clean`);
+            process.exit(failures ? 1 : 0);
+          })();
+          EOF
+
+      - name: "Audit 3 — internal links + sitemap targets exist"
+        run: |
+          node - <<'EOF'
+          const fs = require('fs');
+          let bad = 0;
+          // sitemap targets must exist as files (or be the homepage)
+          const sm = fs.readFileSync('sitemap.xml', 'utf8');
+          for (const m of sm.matchAll(/<loc>https:\/\/www\.regenesisimpact\.in\/?([^<]*)<\/loc>/g)) {
+            const p = m[1];
+            if (p && !fs.existsSync(p)) { console.log(`::error::sitemap points at missing file: ${p}`); bad++; }
+          }
+          // guide cross-links must resolve
+          for (const g of fs.readdirSync('guides')) {
+            const html = fs.readFileSync(`guides/${g}`, 'utf8');
+            for (const m of html.matchAll(/href="([a-z0-9-]+\.html)"/g)) {
+              if (!fs.existsSync(`guides/${m[1]}`)) { console.log(`::error::${g} links to missing ${m[1]}`); bad++; }
+            }
+          }
+          // footer guide links in index.html must resolve
+          const idx = fs.readFileSync('index.html', 'utf8');
+          for (const m of idx.matchAll(/href="(guides\/[a-z0-9-]+\.html)"/g)) {
+            if (!fs.existsSync(m[1])) { console.log(`::error::index.html links to missing ${m[1]}`); bad++; }
+          }
+          console.log(bad ? `FAILED: ${bad} broken links` : 'OK: all internal links and sitemap targets resolve');
+          process.exit(bad ? 1 : 0);
+          EOF
+
+      - name: "Audit 4 — secret leak scan"
+        run: |
+          # Publishable Supabase keys are public by design; everything else
+          # that looks like a credential fails the audit.
+          if grep -rniE "(secret|private[_-]?key|service[_-]?role)['\"]?\s*[:=]\s*['\"][A-Za-z0-9_\-\.]{20,}" \
+               --include="*.html" --include="*.js" --include="*.mjs" --include="*.jsonc" \
+               --exclude-dir=node_modules --exclude-dir=platform . ; then
+            echo "::error::possible secret committed — review matches above"
+            exit 1
+          fi
+          echo "OK: no secret-shaped strings found"
+
+      - name: "Audit 5 — knowledge base + guides in sync"
+        run: |
+          node knowledge/build.mjs
+          node seo/build-guides.mjs
+          if git diff -I 'Updated 20' -I 'lastmod' -I '"built"' --quiet knowledge/kb.json guides sitemap.xml; then
+            echo "OK: kb.json, guides and sitemap are current"
+          else
+            echo "::error::knowledge artifacts drifted — rebuild and commit"
+            exit 1
+          fi
+
+      - name: "Audit 6 — platform app builds, lints, deps clean"
+        run: |
+          cd platform-app
+          npm install --no-audit --no-fund 2>&1 | tail -1
+          npm run build
+          npm run lint
+          npm audit --omit=dev --audit-level=high || {
+            echo "::error::high/critical vulnerability in production dependencies"; exit 1; }
+
+      - name: File auto-improve issue on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const title = 'Auto-fix: weekly site audit failed';
+            const existing = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${owner}/${repo} is:issue is:open in:title "weekly site audit" label:auto-improve`,
+            });
+            if (existing.data.total_count > 0) return;
+            await github.rest.issues.create({
+              owner, repo, title,
+              labels: ['auto-improve'],
+              body: `The weekly full site audit failed.\n\nRun: ${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}\n\nCheck which audit step failed, fix the root cause, and open a PR.`,
+            });
