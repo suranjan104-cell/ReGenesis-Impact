@@ -151,13 +151,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 #page-home{display:block}
 #page-advisor.active{height:100vh;overflow:hidden}
 /* HOME PAGE — always visible, stacks above fixed canvas layers */
-#page-home{color:#eafff3;background:#020806;position:relative;z-index:1}
-/* Explicit fallback backgrounds — ensure sections render on all browsers */
-#page-home .fx-hero{background:#020806;color:#eafff3}
-#page-home .fx-section{background:#020806}
-#page-home .fx-section-alt{background:#030c08}
-#page-home .fx-seo{background:#020a07}
-#page-home .fx-footer{background:#010604}
+#page-home{color:#0E231A;background:#F6F1E7;position:relative;z-index:1}
 #page-issb{min-height:100vh}
 /* UNIFIED NAV — Climate Mission Control (fx) theme */
 nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:calc(.8rem + env(safe-area-inset-top)) 5% .8rem;display:flex!important;align-items:center;justify-content:space-between;background:rgba(2,8,6,0.88);backdrop-filter:blur(24px) saturate(160%);border-bottom:1px solid rgba(0,232,122,0.14)}
@@ -207,7 +201,7 @@ nav::after{content:'';position:absolute;bottom:-1px;left:0;width:180px;height:1p
 .sage-widget:hover .sage-fab-tip{opacity:1;transform:translateX(0)}
 /* ===== BIOPUNK SYSTEM ===== */
 .bio-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55}
-.bio-blob{position:absolute;border-radius:50%;filter:blur(80px);animation:blobFloat 18s ease-in-out infinite;pointer-events:none}
+.bio-blob{display:none;position:absolute;border-radius:50%;filter:blur(80px);animation:blobFloat 18s ease-in-out infinite;pointer-events:none}
 .bio-blob-1{width:600px;height:400px;background:radial-gradient(ellipse,rgba(0,232,122,0.07) 0%,transparent 70%);top:-100px;left:-100px;animation-delay:0s}
 .bio-blob-2{width:500px;height:500px;background:radial-gradient(ellipse,rgba(10,255,219,0.05) 0%,transparent 70%);bottom:-150px;right:-50px;animation-delay:-6s}
 .bio-blob-3{width:350px;height:350px;background:radial-gradient(ellipse,rgba(157,78,255,0.04) 0%,transparent 70%);top:40%;left:60%;animation-delay:-12s}
@@ -1684,7 +1678,7 @@ input:focus,select:focus,textarea:focus{
 }
 </style>
 </head>
-<body>
+<body class="rg-editorial">
 <!-- REGULATORY ALERT BAR -->
 <div id="reg-alert-bar">
   <div class="rab-inner" style="background:rgba(3,10,6,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,232,122,0.1)">
@@ -2148,1851 +2142,501 @@ input:focus,select:focus,textarea:focus{
 <!-- ===== HOME PAGE ===== -->
 <div class="page active" id="page-home" style="display:block">
 <style>
-/* ============================================================
-   REGENESIS IMPACT — HOME PAGE v4 "CLIMATE MISSION CONTROL"
-   All classes prefixed fx- to avoid collisions with shared CSS
-   ============================================================ */
+/* ════════════════════════════════════════════════════════════════
+   HOME v5 — "REGENERATIVE EDITORIAL"
+   Warm paper canvas · ink-green typography · serif display voice ·
+   dark product windows as the bridge into the instrument suite.
+   All classes prefixed .ed- ; scoped to #page-home + body.rg-editorial
+   ════════════════════════════════════════════════════════════════ */
+#page-home{
+  --paper:#F6F1E7; --paper2:#EDE6D5; --ink:#0E231A; --ink2:rgba(14,35,26,.64);
+  --ink3:rgba(14,35,26,.42); --line:rgba(14,35,26,.14); --emerald:#0B7A47;
+  --signal:#E8622C; --window:#071A11;
+  font-family:'DM Sans',sans-serif; background:var(--paper); color:var(--ink);
+}
+#page-home ::selection{background:var(--ink);color:var(--paper)}
+.ed-wrap{max-width:1180px;margin:0 auto;padding:0 5%}
+.ed-eyebrow{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--emerald);display:flex;align-items:center;gap:.6rem}
+.ed-eyebrow::before{content:'';width:26px;height:1px;background:var(--emerald)}
+.ed-serif{font-family:'Playfair Display',serif}
 
-#page-home {
-  --fx-void:   #020806;
-  --fx-panel:  rgba(3,14,9,0.88);
-  --fx-line:   rgba(0,232,122,0.16);
-  --fx-bio:    #00e87a;
-  --fx-hot:    #00ff9d;
-  --fx-cyan:   #0affdb;
-  --fx-amber:  #ffb547;
-  --fx-violet: #8b5cf6;
-  --fx-blue:   #38bdf8;
-  --fx-text:   #eafff3;
-  --fx-dim:    rgba(234,255,243,0.55);
-  --fx-faint:  rgba(234,255,243,0.32);
-  font-family: 'DM Sans', sans-serif;
-  color: var(--fx-text);
-  background: var(--fx-void);
-}
+/* ── Nav & chrome become editorial while home is active ── */
+body.rg-editorial nav{background:rgba(246,241,231,.88)!important;border-bottom:1px solid var(--line, rgba(14,35,26,.14))}
+body.rg-editorial nav::after{background:linear-gradient(90deg,#0B7A47,transparent)}
+body.rg-editorial .nav-logo{color:#0E231A}
+body.rg-editorial .nav-logo span{color:#0B7A47}
+body.rg-editorial .nav-logo::before{color:rgba(11,122,71,.7)}
+body.rg-editorial .nav-links a,body.rg-editorial .nav-links button,body.rg-editorial .nav-dropdown-btn{color:rgba(14,35,26,.62)}
+body.rg-editorial .nav-links a:hover,body.rg-editorial .nav-links button:hover,body.rg-editorial .nav-dropdown-btn:hover{color:#0B7A47}
+body.rg-editorial #nb-cmdk{border-color:rgba(14,35,26,.28)!important}
+body.rg-editorial .nav-cta{background:#0E231A!important;color:#F6F1E7!important;box-shadow:0 2px 14px rgba(14,35,26,.28)!important}
+body.rg-editorial .nav-dropdown-menu{background:#F6F1E7;border:1px solid rgba(14,35,26,.16);box-shadow:0 18px 50px -18px rgba(14,35,26,.35)}
+body.rg-editorial .nav-dropdown-menu button{color:rgba(14,35,26,.72)!important}
+body.rg-editorial .nav-dropdown-menu button:hover{color:#0B7A47!important;background:rgba(11,122,71,.07)}
+body.rg-editorial .nav-hamburger span{background:#0E231A}
+body.rg-editorial #reg-alert-bar{background:#0E231A}
+/* aurora field + cursor spotlight are dark-surface instruments — off on paper */
+body.rg-editorial #rg-aurora-field,body.rg-editorial #rg-spot{display:none}
+body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A);box-shadow:none}
 
-/* --- Utilities --- */
-.fx-grad {
-  background: linear-gradient(100deg, var(--fx-bio) 0%, var(--fx-cyan) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.fx-mono {
-  font-family: 'DM Mono', monospace;
-  letter-spacing: 0.1em;
-}
+/* ── HERO ── */
+.ed-hero{padding:calc(96px + env(safe-area-inset-top)) 0 4rem;position:relative;overflow:hidden}
+.ed-hero::after{content:'';position:absolute;right:-12%;top:-8%;width:520px;height:520px;border-radius:50%;
+  background:radial-gradient(circle,rgba(11,122,71,.10),transparent 65%);pointer-events:none}
+.ed-hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:3.5rem;align-items:center}
+.ed-hero h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(2.7rem,5.6vw,4.7rem);line-height:1.04;letter-spacing:-.015em;margin:1.1rem 0 1.3rem}
+.ed-hero h1 em{font-style:italic;color:var(--emerald);white-space:nowrap;
+  background:linear-gradient(transparent 78%,rgba(11,122,71,.22) 78%,rgba(11,122,71,.22) 92%,transparent 92%)}
+.ed-hero-sub{font-size:1.08rem;line-height:1.7;color:var(--ink2);max-width:34rem;margin-bottom:1.9rem}
+.ed-cta-row{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.ed-btn{display:inline-flex;align-items:center;gap:.55rem;font-weight:600;font-size:.95rem;border-radius:.65rem;
+  padding:.95rem 1.7rem;cursor:pointer;border:1px solid transparent;transition:transform .2s,box-shadow .25s;text-decoration:none}
+.ed-btn-ink{background:var(--ink);color:var(--paper);box-shadow:0 10px 30px -12px rgba(14,35,26,.55)}
+.ed-btn-ink:hover{transform:translateY(-2px);box-shadow:0 16px 40px -14px rgba(14,35,26,.6)}
+.ed-btn-ghost{background:none;color:var(--ink);border-color:rgba(14,35,26,.3)}
+.ed-btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
+.ed-trust{margin-top:1.6rem;font-family:'DM Mono',monospace;font-size:.64rem;letter-spacing:.14em;color:var(--ink3)}
 
-/* --- Blink / pulse / float keyframes --- */
-@keyframes fx-blink { 0%,55%{opacity:1} 56%,100%{opacity:0.15} }
-@keyframes fx-pulse-dot { 0%,100%{opacity:1; box-shadow:0 0 10px rgba(0,232,122,0.8)} 50%{opacity:0.35; box-shadow:0 0 3px rgba(0,232,122,0.3)} }
-@keyframes fx-ring { 0%{transform:translate(-50%,-50%) scale(0.55); opacity:0.45} 100%{transform:translate(-50%,-50%) scale(1.35); opacity:0} }
-@keyframes fx-float-a { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
-@keyframes fx-float-b { 0%,100%{transform:translateY(0)} 50%{transform:translateY(7px)} }
-@keyframes fx-shimmer { 0%{left:-60%} 100%{left:160%} }
-@keyframes fx-floor-drift { from{background-position:0 0, 0 0} to{background-position:0 52px, 0 0} }
-@keyframes fx-ticker-run { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+/* dark product window — the bridge into the instrument suite */
+.ed-window{background:var(--window);border-radius:1rem;box-shadow:0 40px 90px -30px rgba(14,35,26,.55),0 0 0 1px rgba(14,35,26,.2);
+  overflow:hidden;transform:rotate(.6deg)}
+.ed-window-bar{display:flex;align-items:center;gap:.45rem;padding:.8rem 1.1rem;border-bottom:1px solid rgba(0,232,122,.14)}
+.ed-window-bar i{width:9px;height:9px;border-radius:50%;background:rgba(234,255,243,.15)}
+.ed-window-bar i:first-child{background:#E8622C}
+.ed-window-bar span{margin-left:auto;font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.12em;color:rgba(0,232,122,.6)}
+.ed-window-body{padding:1.3rem 1.4rem 1.9rem;font-family:'DM Mono',monospace;font-size:.76rem;color:rgba(234,255,243,.82)}
+.ed-w-row{display:flex;justify-content:space-between;gap:1rem;padding:.5rem 0;border-bottom:1px dashed rgba(234,255,243,.09)}
+.ed-w-row b{color:#00e87a;font-weight:500}
+.ed-w-row .amber{color:#ffb547}
+.ed-progress{margin-top:1.05rem;height:6px;border-radius:3px;background:rgba(234,255,243,.1);overflow:hidden}
+.ed-progress i{display:block;height:100%;width:86%;border-radius:3px;background:linear-gradient(90deg,#00e87a,#0affdb);
+  animation:ed-fill 2.4s cubic-bezier(.2,.8,.25,1)}
+@keyframes ed-fill{from{width:8%}}
+.ed-w-foot{margin-top:.9rem;font-size:.58rem;letter-spacing:.08em;line-height:1.6;color:rgba(234,255,243,.4)}
+.ed-chip{position:absolute;background:var(--paper);border:1px solid var(--line);border-radius:.7rem;padding:.6rem .9rem;
+  box-shadow:0 16px 40px -18px rgba(14,35,26,.4);font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.08em;color:var(--ink2)}
+.ed-chip b{display:block;font-family:'DM Sans',sans-serif;font-size:1.05rem;color:var(--ink);letter-spacing:0}
+.ed-chip-1{top:-1.6rem;right:-2%}
+.ed-chip-2{bottom:-1.2rem;left:-4%}
+.ed-hero-right{position:relative}
 
-/* ============================================================
-   HUD PANEL — corner brackets
-   ============================================================ */
-.fx-panel {
-  position: relative;
-  background: var(--fx-panel);
-  border: 1px solid var(--fx-line);
-}
-.fx-panel::before,
-.fx-panel::after,
-.fx-corners::before,
-.fx-corners::after {
-  content: '';
-  position: absolute;
-  width: 13px;
-  height: 13px;
-  pointer-events: none;
-  transition: width 0.25s, height 0.25s, border-color 0.25s;
-}
-.fx-panel::before {
-  top: -1px; left: -1px;
-  border-top: 2px solid var(--fx-mod, var(--fx-bio));
-  border-left: 2px solid var(--fx-mod, var(--fx-bio));
-}
-.fx-panel::after {
-  bottom: -1px; right: -1px;
-  border-bottom: 2px solid var(--fx-mod, var(--fx-bio));
-  border-right: 2px solid var(--fx-mod, var(--fx-bio));
-}
-.fx-corners {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-.fx-corners::before {
-  top: -1px; right: -1px;
-  border-top: 2px solid var(--fx-mod, var(--fx-bio));
-  border-right: 2px solid var(--fx-mod, var(--fx-bio));
-}
-.fx-corners::after {
-  bottom: -1px; left: -1px;
-  border-bottom: 2px solid var(--fx-mod, var(--fx-bio));
-  border-left: 2px solid var(--fx-mod, var(--fx-bio));
-}
-.fx-panel:hover::before,
-.fx-panel:hover::after,
-.fx-panel:hover .fx-corners::before,
-.fx-panel:hover .fx-corners::after {
-  width: 19px;
-  height: 19px;
-}
+/* ── MARQUEE ── */
+.ed-marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:1.05rem 0;overflow:hidden;background:var(--paper)}
+.ed-marquee-track{display:flex;gap:3.2rem;width:max-content;animation:ed-marquee 36s linear infinite}
+.ed-marquee span{font-family:'Playfair Display',serif;font-style:italic;font-size:1.15rem;color:transparent;
+  -webkit-text-stroke:1px rgba(14,35,26,.4);white-space:nowrap}
+.ed-marquee span.solid{color:var(--emerald);-webkit-text-stroke:0}
+@keyframes ed-marquee{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.ed-marquee-track{animation:none}}
 
-/* --- Status strip --- */
-.fx-status {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.13em;
-  color: var(--fx-faint);
-  text-transform: uppercase;
-}
-.fx-status b { color: var(--fx-bio); font-weight: 500; }
-.fx-status-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--fx-bio);
-  flex-shrink: 0;
-  animation: fx-pulse-dot 1.6s infinite;
-}
+/* ── SECTION SCAFFOLD ── */
+.ed-section{padding:5.5rem 0}
+.ed-section-alt{background:var(--paper2)}
+.ed-head{max-width:44rem;margin-bottom:3rem}
+.ed-head h2{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.4vw,2.9rem);font-weight:700;line-height:1.12;letter-spacing:-.01em;margin:.9rem 0 .9rem}
+.ed-head p{color:var(--ink2);font-size:1rem;line-height:1.7}
 
-/* ============================================================
-   SECTION SCAFFOLD
-   ============================================================ */
-.fx-section {
-  position: relative;
-  z-index: 1;
-  background: var(--fx-void);
-  padding: 6rem 5%;
-}
-.fx-section-alt { background: #030c08; border-top: 1px solid rgba(0,232,122,0.07); }
-.fx-inner { max-width: 1200px; margin: 0 auto; }
-.fx-eyebrow {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.66rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--fx-bio);
-  margin-bottom: 1.1rem;
-}
-.fx-eyebrow::before { content: '▸ '; color: var(--fx-cyan); }
-.fx-section h2 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(2rem, 3.5vw, 3rem);
-  font-weight: 700;
-  line-height: 1.12;
-  color: var(--fx-text);
-  margin-bottom: 1rem;
-}
-.fx-section h2 em { font-style: normal; }
-.fx-sub {
-  font-size: 0.98rem;
-  color: var(--fx-dim);
-  line-height: 1.75;
-  max-width: 580px;
-  margin-bottom: 3.25rem;
-}
+/* ── INSTRUMENT INDEX (features) ── */
+.ed-index{border-top:1px solid var(--line)}
+.ed-row{display:grid;grid-template-columns:76px 1.25fr 1fr auto;gap:1.6rem;align-items:center;padding:1.45rem .9rem;
+  border-bottom:1px solid var(--line);cursor:pointer;transition:background .25s,color .25s;position:relative}
+.ed-row .num{font-family:'DM Mono',monospace;font-size:.72rem;color:var(--ink3);letter-spacing:.1em}
+.ed-row .name{font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:700;letter-spacing:-.01em}
+.ed-row .desc{font-size:.86rem;color:var(--ink2);line-height:1.55}
+.ed-row .go{font-size:1.3rem;color:var(--ink3);transition:transform .25s}
+.ed-row:hover{background:var(--ink);color:var(--paper)}
+.ed-row:hover .num{color:rgba(246,241,231,.5)}
+.ed-row:hover .desc{color:rgba(246,241,231,.72)}
+.ed-row:hover .go{color:#00e87a;transform:translateX(6px)}
+.ed-row .free{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.14em;color:var(--emerald);border:1px solid rgba(11,122,71,.35);
+  border-radius:2rem;padding:.18rem .6rem;margin-left:.7rem;vertical-align:middle}
+.ed-row:hover .free{color:#00e87a;border-color:rgba(0,232,122,.4)}
 
-/* ============================================================
-   NOTCHED BUTTONS
-   ============================================================ */
-.fx-btn {
-  display: inline-block;
-  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.92rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  padding: 0.95rem 2.2rem;
-  cursor: pointer;
-  transition: transform 0.2s, filter 0.2s, background 0.2s, color 0.2s;
-  white-space: nowrap;
-}
-.fx-btn-primary {
-  background: linear-gradient(100deg, var(--fx-bio), var(--fx-cyan));
-  color: #021008;
-  border: none;
-}
-.fx-btn-primary:hover { transform: translateY(-2px); filter: brightness(1.12) saturate(1.1); }
-.fx-btn-ghost {
-  background: rgba(0,232,122,0.04);
-  color: var(--fx-bio);
-  border: 1px solid rgba(0,232,122,0.45);
-}
-.fx-btn-ghost:hover { transform: translateY(-2px); background: rgba(0,232,122,0.12); color: var(--fx-hot); }
+/* ── MARKETS ── */
+.ed-markets{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+.ed-market{background:var(--paper);border:1px solid var(--line);border-radius:1rem;padding:2rem 1.8rem;display:flex;flex-direction:column;gap:.9rem;
+  transition:transform .3s,box-shadow .3s}
+.ed-market:hover{transform:translateY(-5px);box-shadow:0 24px 55px -24px rgba(14,35,26,.4)}
+.ed-market .flag{font-size:2rem}
+.ed-market h3{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700}
+.ed-market ul{list-style:none;display:flex;flex-direction:column;gap:.45rem;font-family:'DM Mono',monospace;font-size:.68rem;color:var(--ink2)}
+.ed-market ul li::before{content:'—';margin-right:.5rem;color:var(--emerald)}
+.ed-deadline{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:var(--signal);border:1px solid rgba(232,98,44,.35);
+  border-radius:2rem;padding:.3rem .75rem;width:max-content}
+.ed-market a{margin-top:auto;color:var(--emerald);font-weight:600;font-size:.85rem;text-decoration:none}
+.ed-market a:hover{text-decoration:underline}
 
-/* ============================================================
-   HERO — mission control
-   ============================================================ */
-.fx-hero {
-  position: relative;
-  z-index: 1;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 7.5rem 5% 6.5rem;
-  overflow: hidden;
-  background: var(--fx-void);
-}
-/* radial glow top-center */
-.fx-hero-glow {
-  position: absolute;
-  top: -22%; left: 50%;
-  transform: translateX(-50%);
-  width: 1100px; height: 760px;
-  background: radial-gradient(ellipse at center, rgba(0,232,122,0.12) 0%, rgba(10,255,219,0.05) 40%, transparent 70%);
-  pointer-events: none;
-}
-/* perspective grid floor */
-.fx-floor {
-  position: absolute;
-  left: -22%; right: -22%;
-  bottom: -6%;
-  height: 46%;
-  background-image:
-    repeating-linear-gradient(0deg, rgba(0,232,122,0.20) 0 1px, transparent 1px 52px),
-    repeating-linear-gradient(90deg, rgba(0,232,122,0.20) 0 1px, transparent 1px 52px);
-  transform: perspective(600px) rotateX(62deg);
-  transform-origin: 50% 0%;
-  animation: fx-floor-drift 9s linear infinite;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 60%);
-  mask-image: linear-gradient(to bottom, transparent 0%, black 60%);
-  pointer-events: none;
-}
-.fx-hero-pill {
-  position: relative;
-  z-index: 2;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  border: 1px solid rgba(0,232,122,0.3);
-  background: rgba(0,232,122,0.06);
-  padding: 0.45rem 1.1rem;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.64rem;
-  letter-spacing: 0.16em;
-  color: var(--fx-bio);
-  margin-bottom: 2rem;
-}
-.fx-hero h1 {
-  position: relative;
-  z-index: 2;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(3rem, 6vw, 5.5rem);
-  font-weight: 800;
-  line-height: 1.05;
-  color: var(--fx-text);
-  margin-bottom: 1.4rem;
-  max-width: 1000px;
-}
-.fx-hero h1 em {
-  font-style: normal;
-  background: linear-gradient(100deg, var(--fx-bio) 0%, var(--fx-cyan) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.fx-hero-sub {
-  position: relative;
-  z-index: 2;
-  font-size: 1.05rem;
-  line-height: 1.75;
-  color: var(--fx-dim);
-  max-width: 640px;
-  margin-bottom: 2.25rem;
-}
-.fx-hero-actions {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: 3.5rem;
-}
+/* ── HOW IT WORKS ── */
+.ed-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1.6rem}
+.ed-step .big{font-family:'Playfair Display',serif;font-size:4.2rem;font-weight:900;line-height:1;color:transparent;
+  -webkit-text-stroke:1.5px rgba(11,122,71,.5)}
+.ed-step h3{font-family:'Playfair Display',serif;font-size:1.2rem;margin:.8rem 0 .5rem}
+.ed-step p{font-size:.86rem;color:var(--ink2);line-height:1.6}
 
-/* --- Command deck console --- */
-.fx-console-wrap {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  max-width: 980px;
-}
-.fx-ring {
-  position: absolute;
-  top: 50%; left: 50%;
-  border: 1px solid rgba(0,232,122,0.35);
-  border-radius: 50%;
-  pointer-events: none;
-  animation: fx-ring 5s ease-out infinite;
-}
-.fx-ring-1 { width: 560px; height: 560px; }
-.fx-ring-2 { width: 760px; height: 760px; animation-delay: 1.6s; }
-.fx-ring-3 { width: 960px; height: 960px; animation-delay: 3.2s; }
+/* ── PROOF BAND (traction) ── */
+.ed-proof{text-align:center;max-width:52rem;margin:0 auto}
+.ed-proof blockquote{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3vw,2.3rem);font-weight:700;line-height:1.3;letter-spacing:-.01em}
+.ed-proof blockquote em{font-style:italic;color:var(--emerald)}
+.ed-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:3rem}
+.ed-stat b{font-family:'Playfair Display',serif;font-size:2.6rem;font-weight:900;display:block}
+.ed-stat span{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3)}
+.ed-proof .src-link{display:inline-block;margin-top:2rem;color:var(--emerald);font-weight:600;font-size:.88rem;text-decoration:none}
+.ed-proof .src-link:hover{text-decoration:underline}
 
-.fx-console {
-  position: relative;
-  background: var(--fx-panel);
-  border: 1px solid var(--fx-line);
-  box-shadow: 0 30px 90px rgba(0,0,0,0.65), 0 0 60px rgba(0,232,122,0.07);
-  backdrop-filter: blur(18px);
-  text-align: left;
-  overflow: hidden;
-}
-/* scanlines */
-.fx-console .fx-scan {
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0 1px, transparent 1px 3px);
-  pointer-events: none;
-  z-index: 3;
-}
-.fx-console-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.85rem 1.4rem;
-  border-bottom: 1px solid var(--fx-line);
-  background: rgba(0,0,0,0.35);
-}
-.fx-cursor {
-  display: inline-block;
-  color: var(--fx-hot);
-  animation: fx-blink 1.1s steps(1) infinite;
-}
-.fx-console-grid {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr 1fr;
-  gap: 0;
-}
-.fx-console-col {
-  padding: 1.4rem 1.5rem 1.6rem;
-  border-right: 1px solid rgba(0,232,122,0.1);
-}
-.fx-console-col:last-child { border-right: none; }
-.fx-console-col-title {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.2em;
-  color: var(--fx-cyan);
-  margin-bottom: 1rem;
-}
-.fx-c-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 0.75rem;
-  padding: 0.45rem 0;
-  border-bottom: 1px dashed rgba(0,232,122,0.1);
-  font-size: 0.78rem;
-}
-.fx-c-row:last-of-type { border-bottom: none; }
-.fx-c-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.08em;
-  color: var(--fx-faint);
-  text-transform: uppercase;
-  flex-shrink: 0;
-}
-.fx-c-val {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--fx-text);
-  text-align: right;
-}
-.fx-c-green { color: var(--fx-bio); }
-.fx-c-amber { color: var(--fx-amber); }
-.fx-c-cyan  { color: var(--fx-cyan); }
+/* ── ADVISORY ── */
+.ed-advisory{display:grid;grid-template-columns:1.2fr .8fr;gap:3rem;align-items:center}
+.ed-advisory h2{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,3vw,2.5rem);font-weight:700;line-height:1.18}
+.ed-advisory p{color:var(--ink2);margin-top:.9rem;line-height:1.7;font-size:.96rem}
 
-.fx-progress-label {
-  display: flex;
-  justify-content: space-between;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.58rem;
-  letter-spacing: 0.1em;
-  color: var(--fx-faint);
-  margin: 1.1rem 0 0.45rem;
-}
-.fx-progress {
-  height: 5px;
-  background: rgba(0,232,122,0.1);
-  overflow: hidden;
-}
-.fx-progress-fill {
-  position: relative;
-  height: 100%;
-  width: 90%;
-  background: linear-gradient(90deg, var(--fx-bio), var(--fx-cyan));
-  overflow: hidden;
-}
-.fx-progress-fill::after {
-  content: '';
-  position: absolute;
-  top: 0; left: -60%;
-  width: 50%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent);
-  animation: fx-shimmer 2.4s ease-in-out infinite;
-}
+/* ── PRICING ── */
+.ed-pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;align-items:stretch}
+.ed-price{background:var(--paper);border:1px solid var(--line);border-radius:1rem;padding:2.1rem 1.9rem;display:flex;flex-direction:column;gap:.4rem}
+.ed-price.ink{background:var(--ink);color:var(--paper);box-shadow:0 30px 70px -28px rgba(14,35,26,.6)}
+.ed-price .tier{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--emerald)}
+.ed-price.ink .tier{color:#00e87a}
+.ed-price .amt{font-family:'Playfair Display',serif;font-size:2.1rem;font-weight:700;margin:.35rem 0 .9rem}
+.ed-price .amt small{font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:400;opacity:.55}
+.ed-price ul{list-style:none;display:flex;flex-direction:column;gap:.55rem;font-size:.86rem;color:var(--ink2);margin-bottom:1.6rem}
+.ed-price.ink ul{color:rgba(246,241,231,.75)}
+.ed-price ul li::before{content:'✓';color:var(--emerald);margin-right:.55rem;font-weight:700}
+.ed-price.ink ul li::before{color:#00e87a}
+.ed-price .ed-btn{margin-top:auto;justify-content:center}
+.ed-price.ink .ed-btn-ghost{color:var(--paper);border-color:rgba(246,241,231,.35)}
+.ed-price.ink .ed-btn-ghost:hover{border-color:var(--paper)}
+.ed-badge{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.14em;background:rgba(0,232,122,.14);color:#00e87a;
+  border-radius:2rem;padding:.2rem .65rem;width:max-content;margin-bottom:.6rem}
 
-.fx-readout {
-  font-family: 'DM Mono', monospace;
-  font-size: 1.7rem;
-  font-weight: 500;
-  color: var(--fx-text);
-  line-height: 1;
-  margin-bottom: 1.1rem;
-}
-.fx-readout small { font-size: 0.85rem; color: var(--fx-dim); }
-.fx-bars {
-  display: flex;
-  align-items: flex-end;
-  gap: 5px;
-  height: 54px;
-  margin-bottom: 0.5rem;
-}
-.fx-bar {
-  flex: 1;
-  background: linear-gradient(to top, rgba(0,232,122,0.55), rgba(0,232,122,0.15));
-  border-top: 1px solid rgba(0,232,122,0.7);
-}
-.fx-bar-hot {
-  background: linear-gradient(to top, rgba(10,255,219,0.7), rgba(10,255,219,0.2));
-  border-top: 1px solid var(--fx-cyan);
-  box-shadow: 0 0 12px rgba(10,255,219,0.35);
-}
-.fx-bars-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.56rem;
-  letter-spacing: 0.16em;
-  color: var(--fx-faint);
-}
-.fx-scenario-name {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.98rem;
-  font-weight: 700;
-  color: var(--fx-text);
-  margin-bottom: 0.9rem;
-}
-.fx-model-line {
-  margin-top: 1rem;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.56rem;
-  letter-spacing: 0.12em;
-  color: var(--fx-faint);
-}
+/* ── FAQ ── */
+.ed-faq{max-width:46rem;margin:0 auto}
+.ed-faq details{border-bottom:1px solid var(--line);padding:1.3rem .3rem}
+.ed-faq summary{cursor:pointer;font-family:'Playfair Display',serif;font-size:1.18rem;font-weight:700;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.ed-faq summary::after{content:'+';font-family:'DM Mono',monospace;color:var(--emerald);font-size:1.2rem;transition:transform .25s}
+.ed-faq details[open] summary::after{transform:rotate(45deg)}
+.ed-faq details p{margin-top:.8rem;color:var(--ink2);line-height:1.7;font-size:.92rem}
 
-/* floating HUD chips */
-.fx-chip {
-  position: absolute;
-  z-index: 4;
-  background: var(--fx-panel);
-  border: 1px solid rgba(0,232,122,0.35);
-  padding: 0.5rem 0.85rem;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.58rem;
-  letter-spacing: 0.12em;
-  color: var(--fx-bio);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.5), 0 0 18px rgba(0,232,122,0.12);
-  white-space: nowrap;
-}
-.fx-chip b { display: block; font-size: 0.95rem; font-weight: 500; color: var(--fx-hot); margin-bottom: 0.15rem; }
-.fx-chip-1 { top: -1.4rem; right: -2.2rem; animation: fx-float-a 5.5s ease-in-out infinite; }
-.fx-chip-2 { bottom: -1.4rem; left: -2.2rem; animation: fx-float-b 6.5s ease-in-out infinite; }
+/* ── FINAL CTA — the dark bridge ── */
+.ed-cta-band{background:var(--window);border-radius:1.4rem;padding:4.5rem 3rem;text-align:center;position:relative;overflow:hidden;
+  box-shadow:0 50px 110px -40px rgba(14,35,26,.65)}
+.ed-cta-band::before{content:'';position:absolute;inset:0;background:
+  radial-gradient(ellipse 60% 70% at 25% 10%,rgba(0,232,122,.14),transparent 60%),
+  radial-gradient(ellipse 50% 60% at 80% 90%,rgba(10,255,219,.1),transparent 60%);pointer-events:none}
+.ed-cta-band h2{font-family:'Playfair Display',serif;font-size:clamp(2rem,4.2vw,3.4rem);font-weight:700;color:#EAFFF3;line-height:1.12;position:relative}
+.ed-cta-band h2 em{font-style:italic;background:linear-gradient(100deg,#00e87a,#0affdb);-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent}
+.ed-cta-band p{color:rgba(234,255,243,.6);margin:1rem auto 2.2rem;max-width:32rem;position:relative}
+.ed-cta-band .ed-btn-bio{background:linear-gradient(135deg,#00e87a,#0affdb);color:#04150c;box-shadow:0 10px 40px -8px rgba(0,232,122,.55)}
+.ed-cta-band .ed-btn-bio:hover{transform:translateY(-2px);box-shadow:0 16px 55px -10px rgba(0,232,122,.7)}
+.ed-cta-band .ed-btn-ghost{color:#EAFFF3;border-color:rgba(234,255,243,.3)}
+.ed-cta-band .ed-btn-ghost:hover{border-color:#EAFFF3}
 
-/* hero stat strip */
-.fx-hero-stats {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0;
-  margin-top: 3rem;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.66rem;
-  letter-spacing: 0.14em;
-  color: var(--fx-dim);
-}
-.fx-hero-stat { padding: 0.2rem 1.6rem; border-right: 1px solid rgba(0,232,122,0.2); }
-.fx-hero-stat:last-child { border-right: none; }
-.fx-hero-stat b {
-  color: var(--fx-hot);
-  font-weight: 500;
-  font-size: 0.85rem;
-  margin-right: 0.4rem;
-}
+/* ── FOOTER ── */
+.ed-footer{border-top:1px solid var(--line);padding:4rem 0 2rem;background:var(--paper)}
+.ed-footer-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:2.5rem}
+.ed-footer .brand{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700}
+.ed-footer .brand span{color:var(--emerald);font-style:italic}
+.ed-footer .tag{color:var(--ink2);font-size:.85rem;margin:.6rem 0 1rem;line-height:1.6}
+.ed-footer a.mail{color:var(--emerald);font-weight:600;text-decoration:none;font-size:.88rem}
+.ed-fcol h4{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);margin-bottom:1rem}
+.ed-fcol a,.ed-fcol button{display:block;background:none;border:none;padding:0;text-align:left;cursor:pointer;
+  color:var(--ink2);font-size:.85rem;line-height:2.05;text-decoration:none;font-family:'DM Sans',sans-serif}
+.ed-fcol a:hover,.ed-fcol button:hover{color:var(--emerald)}
+.ed-footer-bottom{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-top:3rem;padding-top:1.4rem;
+  border-top:1px solid var(--line);font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.1em;color:var(--ink3)}
 
-/* ============================================================
-   TICKER
-   ============================================================ */
-.fx-ticker {
-  position: relative;
-  z-index: 1;
-  background: #010906;
-  border-top: 1px solid rgba(0,232,122,0.1);
-  border-bottom: 1px solid rgba(0,232,122,0.1);
-  padding: 0.65rem 0;
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
-  mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
-}
-.fx-ticker-run {
-  display: flex;
-  align-items: center;
-  gap: 1.8rem;
-  width: max-content;
-  white-space: nowrap;
-  animation: fx-ticker-run 46s linear infinite;
-}
-.fx-ticker-item {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.18em;
-  color: rgba(0,232,122,0.65);
-}
-.fx-ticker-sep { color: rgba(0,232,122,0.22); font-size: 0.55rem; }
-
-/* ============================================================
-   MODULES (features)
-   ============================================================ */
-.fx-mods {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.25rem;
-}
-.fx-mod-card {
-  --fx-mod: var(--fx-bio);
-  position: relative;
-  background: var(--fx-panel);
-  border: 1px solid var(--fx-line);
-  border-top: 2px solid var(--fx-mod);
-  box-shadow: inset 0 18px 40px -32px var(--fx-mod);
-  padding: 1.6rem 1.6rem 1.7rem;
-  cursor: pointer;
-  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
-}
-.fx-mod-card:hover {
-  transform: translateY(-4px);
-  border-color: color-mix(in srgb, var(--fx-mod) 45%, transparent);
-  box-shadow: inset 0 18px 40px -30px var(--fx-mod), 0 18px 50px rgba(0,0,0,0.5), 0 0 28px color-mix(in srgb, var(--fx-mod) 18%, transparent);
-}
-.fx-mod-card .fx-status { margin-bottom: 1.1rem; }
-.fx-mod-prime { border: 1px solid color-mix(in srgb, var(--fx-mod) 45%, transparent); border-top: 2px solid var(--fx-mod); }
-.fx-mod-prime-tag {
-  position: absolute;
-  top: 1.1rem; right: 1.1rem;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.52rem;
-  letter-spacing: 0.18em;
-  color: var(--fx-violet);
-  border: 1px solid rgba(139,92,246,0.45);
-  background: rgba(139,92,246,0.1);
-  padding: 0.18rem 0.5rem;
-}
-.fx-mod-icon { font-size: 1.9rem; display: block; margin-bottom: 0.85rem; }
-.fx-mod-name {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.02rem;
-  font-weight: 700;
-  color: var(--fx-text);
-  margin-bottom: 0.55rem;
-}
-.fx-mod-desc {
-  font-size: 0.82rem;
-  color: var(--fx-dim);
-  line-height: 1.7;
-  margin-bottom: 1.1rem;
-}
-.fx-mod-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-.fx-mod-tag {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.56rem;
-  letter-spacing: 0.1em;
-  padding: 0.22rem 0.55rem;
-  border: 1px solid color-mix(in srgb, var(--fx-mod) 35%, transparent);
-  color: var(--fx-mod);
-  background: color-mix(in srgb, var(--fx-mod) 7%, transparent);
-}
-
-/* ============================================================
-   ZONES (markets)
-   ============================================================ */
-.fx-zones {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.4rem;
-}
-.fx-zone {
-  --fx-mod: var(--fx-bio);
-  display: flex;
-  flex-direction: column;
-  padding: 1.9rem 1.7rem;
-  transition: transform 0.25s, box-shadow 0.25s;
-}
-.fx-zone:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 18px 50px rgba(0,0,0,0.5), 0 0 26px color-mix(in srgb, var(--fx-mod) 14%, transparent);
-}
-.fx-zone-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.8rem; }
-.fx-zone-flag { font-size: 2.1rem; line-height: 1; }
-.fx-zone-tag {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.58rem;
-  letter-spacing: 0.2em;
-  color: var(--fx-mod);
-  border: 1px solid color-mix(in srgb, var(--fx-mod) 45%, transparent);
-  padding: 0.22rem 0.6rem;
-}
-.fx-zone-name {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: var(--fx-text);
-  margin-bottom: 0.35rem;
-}
-.fx-zone-sub {
-  font-size: 0.78rem;
-  color: var(--fx-faint);
-  line-height: 1.55;
-  margin-bottom: 1.4rem;
-}
-.fx-zone-list { list-style: none; margin: 0 0 1.6rem; padding: 0; flex: 1; }
-.fx-zone-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.6rem;
-  font-size: 0.82rem;
-  color: rgba(234,255,243,0.68);
-  line-height: 1.5;
-  padding: 0.5rem 0;
-  border-bottom: 1px dashed rgba(0,232,122,0.1);
-}
-.fx-zone-list li:last-child { border-bottom: none; }
-.fx-zone-list li::before {
-  content: '▪';
-  color: var(--fx-mod);
-  font-size: 0.7rem;
-  line-height: 1.7;
-  flex-shrink: 0;
-}
-.fx-zone-cta {
-  width: 100%;
-  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
-  background: color-mix(in srgb, var(--fx-mod) 6%, transparent);
-  border: 1px solid color-mix(in srgb, var(--fx-mod) 45%, transparent);
-  color: var(--fx-mod);
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.82rem;
-  font-weight: 700;
-  padding: 0.75rem 1rem;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.fx-zone-cta:hover { background: color-mix(in srgb, var(--fx-mod) 16%, transparent); }
-
-/* ============================================================
-   PROTOCOL (how it works)
-   ============================================================ */
-.fx-steps {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-}
-.fx-steps::before {
-  content: '';
-  position: absolute;
-  top: 0.45rem;
-  left: 3%; right: 3%;
-  height: 1px;
-  background: linear-gradient(90deg, var(--fx-bio), var(--fx-cyan), var(--fx-violet), var(--fx-amber));
-  opacity: 0.4;
-  pointer-events: none;
-}
-.fx-step { position: relative; padding-top: 1.6rem; }
-.fx-step-dot {
-  position: absolute;
-  top: 0; left: 0;
-  width: 11px; height: 11px;
-  background: var(--fx-step-c, var(--fx-bio));
-  box-shadow: 0 0 14px var(--fx-step-c, var(--fx-bio));
-  transform: rotate(45deg);
-}
-.fx-step-ghost {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 4.4rem;
-  font-weight: 800;
-  line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(0,232,122,0.18);
-  margin-bottom: 0.7rem;
-  user-select: none;
-}
-.fx-step-title {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.02rem;
-  font-weight: 700;
-  color: var(--fx-text);
-  margin-bottom: 0.55rem;
-}
-.fx-step-desc {
-  font-size: 0.82rem;
-  color: var(--fx-dim);
-  line-height: 1.7;
-}
-
-/* ============================================================
-   TELEMETRY (advisory / traction)
-   ============================================================ */
-.fx-stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.25rem;
-  margin-bottom: 3rem;
-}
-.fx-stat {
-  --fx-mod: var(--fx-bio);
-  padding: 1.9rem 1.4rem 1.7rem;
-  text-align: center;
-  transition: transform 0.25s, box-shadow 0.25s;
-}
-.fx-stat:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 14px 44px rgba(0,0,0,0.45), 0 0 24px color-mix(in srgb, var(--fx-mod) 16%, transparent);
-}
-.fx-stat-num {
-  font-family: 'DM Mono', monospace;
-  font-size: 2.9rem;
-  font-weight: 500;
-  line-height: 1;
-  color: var(--fx-mod);
-  text-shadow: 0 0 30px color-mix(in srgb, var(--fx-mod) 45%, transparent);
-  margin-bottom: 0.65rem;
-}
-.fx-stat-title {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--fx-text);
-  margin-bottom: 0.3rem;
-}
-.fx-stat-sub {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.58rem;
-  letter-spacing: 0.08em;
-  color: var(--fx-faint);
-}
-.fx-quotes {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.25rem;
-}
-.fx-quote {
-  background: var(--fx-panel);
-  border: 1px solid var(--fx-line);
-  border-left: 2px solid var(--fx-bio);
-  padding: 1.6rem;
-}
-.fx-quote-text {
-  font-size: 0.86rem;
-  color: rgba(234,255,243,0.72);
-  line-height: 1.75;
-  margin-bottom: 1.2rem;
-}
-.fx-quote-text::before { content: '“'; color: var(--fx-bio); }
-.fx-quote-text::after  { content: '”'; color: var(--fx-bio); }
-.fx-quote-author {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--fx-bio);
-}
-
-/* ============================================================
-   COVERAGE MATRIX (pricing)
-   ============================================================ */
-.fx-matrix { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--fx-line); background: var(--fx-panel); }
-.fx-matrix-row {
-  display: grid;
-  grid-template-columns: 170px 1fr;
-  gap: 1rem;
-  align-items: center;
-  padding: 0.95rem 1.4rem;
-  border-bottom: 1px solid rgba(0,232,122,0.08);
-}
-.fx-matrix-row:last-child { border-bottom: none; }
-.fx-matrix-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.2em;
-  color: var(--fx-faint);
-  text-align: left;
-}
-.fx-matrix-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.fx-chip-badge {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.1em;
-  padding: 0.32rem 0.8rem;
-  border: 1px solid rgba(234,255,243,0.16);
-  color: rgba(234,255,243,0.7);
-  background: rgba(234,255,243,0.03);
-  transition: transform 0.15s;
-}
-.fx-chip-badge:hover { transform: translateY(-2px); }
-.fx-chip-green  { border-color: rgba(0,232,122,0.4);  color: var(--fx-bio);    background: rgba(0,232,122,0.06); }
-.fx-chip-blue   { border-color: rgba(56,189,248,0.4); color: var(--fx-blue);   background: rgba(56,189,248,0.06); }
-.fx-chip-amber  { border-color: rgba(255,181,71,0.4); color: var(--fx-amber);  background: rgba(255,181,71,0.06); }
-.fx-chip-teal   { border-color: rgba(45,212,191,0.4); color: #2dd4bf;          background: rgba(45,212,191,0.06); }
-.fx-chip-violet { border-color: rgba(139,92,246,0.45);color: #b29bf7;          background: rgba(139,92,246,0.08); }
-
-/* ============================================================
-   WAITLIST CTA
-   ============================================================ */
-.fx-cta {
-  text-align: center;
-  overflow: hidden;
-}
-.fx-cta::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(0,232,122,0.1) 0%, transparent 70%);
-  pointer-events: none;
-}
-.fx-cta .fx-inner { position: relative; }
-.fx-cta h2 { max-width: 740px; margin-left: auto; margin-right: auto; }
-.fx-cta-sub {
-  font-size: 0.98rem;
-  color: var(--fx-dim);
-  line-height: 1.75;
-  max-width: 540px;
-  margin: 0 auto 2.4rem;
-}
-.fx-cta-meta {
-  margin-top: 1.4rem;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.66rem;
-  letter-spacing: 0.18em;
-  color: var(--fx-faint);
-}
-
-/* ============================================================
-   BOOK TRIAL
-   ============================================================ */
-.fx-trial-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.25rem;
-  margin-bottom: 2.5rem;
-}
-.fx-trial-card { padding: 1.6rem; }
-.fx-trial-icon { font-size: 1.7rem; margin-bottom: 0.8rem; }
-.fx-trial-title {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--fx-text);
-  margin-bottom: 0.5rem;
-}
-.fx-trial-desc { font-size: 0.8rem; color: var(--fx-dim); line-height: 1.7; }
-.fx-trial-mail {
-  margin-top: 1.1rem;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.64rem;
-  letter-spacing: 0.1em;
-  color: var(--fx-faint);
-}
-.fx-trial-mail a { color: var(--fx-bio); text-decoration: none; }
-.fx-trial-mail a:hover { color: var(--fx-hot); }
-
-/* ============================================================
-   FAQ — keeps .faq-item structure for existing JS
-   ============================================================ */
-.fx-faq-grid {
-  max-width: 820px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-  text-align: left;
-}
-#page-home .faq-item {
-  position: relative;
-  background: var(--fx-panel);
-  border: 1px solid var(--fx-line);
-  cursor: pointer;
-  transition: border-color 0.25s, box-shadow 0.25s;
-  overflow: hidden;
-}
-#page-home .faq-item:hover { border-color: rgba(0,232,122,0.35); }
-#page-home .faq-item.open {
-  border-color: rgba(0,232,122,0.45);
-  box-shadow: 0 0 24px rgba(0,232,122,0.08);
-}
-#page-home .faq-item::before {
-  content: '';
-  position: absolute;
-  top: -1px; left: -1px;
-  width: 12px; height: 12px;
-  border-top: 2px solid var(--fx-bio);
-  border-left: 2px solid var(--fx-bio);
-  pointer-events: none;
-}
-#page-home .faq-q {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1.1rem 1.5rem;
-}
-#page-home .faq-q-text {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.94rem;
-  font-weight: 600;
-  color: var(--fx-text);
-  line-height: 1.45;
-}
-#page-home .faq-chevron {
-  color: var(--fx-bio);
-  font-size: 0.68rem;
-  flex-shrink: 0;
-  transition: transform 0.3s;
-}
-#page-home .faq-item.open .faq-chevron { transform: rotate(180deg); }
-#page-home .faq-a {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease;
-}
-#page-home .faq-item.open .faq-a { max-height: 620px; }
-#page-home .faq-a-inner {
-  padding: 1rem 1.5rem 1.3rem;
-  border-top: 1px dashed rgba(0,232,122,0.14);
-  font-size: 0.85rem;
-  color: var(--fx-dim);
-  line-height: 1.8;
-}
-
-/* ============================================================
-   SEO RESOURCES
-   ============================================================ */
-.fx-seo {
-  position: relative;
-  z-index: 1;
-  background: #020a07;
-  border-top: 1px solid rgba(0,232,122,0.08);
-  padding: 4.5rem 5%;
-}
-.fx-seo-head { max-width: 1100px; margin: 0 auto 2.2rem; text-align: center; }
-.fx-seo-head h2 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--fx-text);
-  margin-bottom: 0.4rem;
-}
-.fx-seo-head p {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.64rem;
-  letter-spacing: 0.16em;
-  color: var(--fx-faint);
-}
-.fx-seo-grid {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.25rem;
-}
-.fx-seo-card {
-  background: rgba(234,255,243,0.025);
-  border: 1px solid rgba(0,232,122,0.1);
-  padding: 1.4rem;
-  transition: border-color 0.2s;
-}
-.fx-seo-card:hover { border-color: rgba(0,232,122,0.3); }
-.fx-seo-card h3 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: var(--fx-bio);
-  margin-bottom: 0.6rem;
-}
-.fx-seo-card p {
-  font-size: 0.74rem;
-  color: rgba(234,255,243,0.5);
-  line-height: 1.75;
-}
-.fx-seo-btn {
-  margin-top: 1rem;
-  clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 9px 100%, 0 calc(100% - 9px));
-  background: rgba(0,232,122,0.05);
-  border: 1px solid rgba(0,232,122,0.35);
-  color: var(--fx-bio);
-  padding: 0.42rem 1rem;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.08em;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.fx-seo-btn:hover { background: rgba(0,232,122,0.14); }
-
-/* ============================================================
-   FOOTER
-   ============================================================ */
-.fx-footer {
-  position: relative;
-  z-index: 1;
-  background: #010604;
-  border-top: 1px solid rgba(0,232,122,0.25);
-  padding: 4rem 5% 2rem;
-}
-.fx-footer-grid {
-  max-width: 1200px;
-  margin: 0 auto 3rem;
-  display: grid;
-  grid-template-columns: 1.8fr 1fr 1fr 0.8fr 1fr;
-  gap: 2.5rem;
-}
-.fx-footer-logo {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--fx-bio);
-  text-shadow: 0 0 20px rgba(0,232,122,0.35);
-  margin-bottom: 0.75rem;
-}
-.fx-footer-logo span { color: var(--fx-text); }
-.fx-footer-tagline {
-  font-size: 0.82rem;
-  color: var(--fx-faint);
-  line-height: 1.65;
-  max-width: 250px;
-  margin-bottom: 0.75rem;
-}
-.fx-footer-email a {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.06em;
-  color: var(--fx-faint);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-.fx-footer-email a:hover { color: var(--fx-bio); }
-.fx-footer-col-title {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--fx-faint);
-  margin-bottom: 1rem;
-}
-.fx-footer-col-title::before { content: '// '; color: rgba(0,232,122,0.4); }
-.fx-footer-links { display: flex; flex-direction: column; gap: 0.6rem; }
-.fx-footer-links a,
-.fx-footer-links button,
-.fx-footer-links a {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.82rem;
-  color: var(--fx-dim);
-  text-decoration: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  text-align: left;
-  padding: 0;
-  transition: color 0.2s;
-  display: block;
-}
-.fx-footer-links a:hover,
-.fx-footer-links button:hover { color: var(--fx-bio); }
-.fx-footer-bottom {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(0,232,122,0.1);
-  font-family: 'DM Mono', monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.14em;
-  color: var(--fx-faint);
-}
-.fx-footer-bottom .fx-live { color: var(--fx-bio); animation: fx-blink 2s steps(1) infinite; }
-
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
-@media (max-width: 1024px) {
-  .fx-console-grid { grid-template-columns: 1fr; }
-  .fx-console-col { border-right: none; border-bottom: 1px solid rgba(0,232,122,0.1); }
-  .fx-console-col:last-child { border-bottom: none; }
-  .fx-mods { grid-template-columns: repeat(2, 1fr); }
-  .fx-zones { grid-template-columns: 1fr; }
-  .fx-steps { grid-template-columns: repeat(2, 1fr); gap: 2.25rem 1.5rem; }
-  .fx-steps::before { display: none; }
-  .fx-stats { grid-template-columns: repeat(2, 1fr); }
-  .fx-quotes { grid-template-columns: 1fr; }
-  .fx-footer-grid { grid-template-columns: 1fr 1fr; }
-}
-
-@media (max-width: 768px) {
-  .fx-hero { padding: 6rem 1.25rem 4.5rem; }
-  .fx-hero h1 { font-size: 2.6rem; }
-  .fx-hero-actions { flex-direction: column; width: 100%; }
-  .fx-btn { width: 100%; text-align: center; }
-  .fx-chip { display: none; }
-  .fx-floor { height: 26%; }
-  .fx-hero-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.9rem 0;
-    width: 100%;
-  }
-  .fx-hero-stat { border-right: none; padding: 0.2rem 0.5rem; }
-  .fx-section { padding: 4rem 1.25rem; }
-  .fx-mods { grid-template-columns: 1fr; }
-  .fx-steps { grid-template-columns: 1fr; }
-  .fx-stats { grid-template-columns: 1fr 1fr; }
-  .fx-trial-cards { grid-template-columns: 1fr; }
-  .fx-matrix-row { grid-template-columns: 1fr; gap: 0.6rem; padding: 0.9rem 1rem; }
-  .fx-footer-grid { grid-template-columns: 1fr; }
-  .fx-footer-bottom { flex-direction: column; text-align: center; }
-}
-
-/* ============================================================
-   REDUCED MOTION
-   ============================================================ */
-@media (prefers-reduced-motion: reduce) {
-  #page-home *,
-  #page-home *::before,
-  #page-home *::after {
-    animation: none !important;
-    transition: none !important;
-  }
+/* ── RESPONSIVE ── */
+@media (max-width: 920px){
+  .ed-hero-grid{grid-template-columns:1fr;gap:3rem}
+  .ed-row{grid-template-columns:44px 1fr auto;gap:.9rem}
+  .ed-row .desc{display:none}
+  .ed-markets,.ed-pricing{grid-template-columns:1fr}
+  .ed-steps{grid-template-columns:1fr 1fr;gap:2.2rem}
+  .ed-advisory{grid-template-columns:1fr;gap:1.6rem}
+  .ed-footer-grid{grid-template-columns:1fr 1fr}
+  .ed-stats{grid-template-columns:1fr 1fr;row-gap:2rem}
+  .ed-chip-2{left:0}
+  .ed-cta-band{padding:3.2rem 1.4rem}
 }
 </style>
 
-<!-- ═══════════════════════════════════════════════
-     HERO — climate mission control
-     ═══════════════════════════════════════════════ -->
-<section class="fx-hero">
-  <div class="fx-hero-glow"></div>
-  <div class="fx-floor"></div>
-
-  <div class="fx-hero-pill">
-    <span class="fx-status-dot"></span>
-    REGENESIS OS v4.0 · AURORA — CLIMATE INTELLIGENCE ONLINE · SG / AU / IN
-  </div>
-
-  <h1>Where <em>climate data</em><br>becomes decisive action</h1>
-
-  <p class="fx-hero-sub">
-    The institutional-grade platform for ISSB S2, MAS taxonomy, AASB S2, APRA&nbsp;CPS&nbsp;229 and SEBI BRSR — one living system built for Asia-Pacific.
-  </p>
-
-  <div class="fx-hero-actions">
-    <button class="fx-btn fx-btn-primary" onclick="showPage('advisor')">Initialize Sage AI →</button>
-    <button class="fx-btn fx-btn-ghost" onclick="navTo('features')">Explore Platform ↓</button>
-  </div>
-
-  <!-- COMMAND DECK CONSOLE -->
-  <div class="fx-console-wrap">
-    <div class="fx-ring fx-ring-1"></div>
-    <div class="fx-ring fx-ring-2"></div>
-    <div class="fx-ring fx-ring-3"></div>
-
-    <div class="fx-chip fx-chip-1"><b>94%</b>TCFD COVERAGE</div>
-    <div class="fx-chip fx-chip-2"><b>PCAF</b>READY</div>
-
-    <div class="fx-console fx-panel">
-      <span class="fx-corners" aria-hidden="true"></span>
-      <div class="fx-scan"></div>
-
-      <div class="fx-console-head">
-        <div class="fx-status">
-          <span class="fx-status-dot"></span>
-          SYS://ISSB-S2-REPORT — <b>GENERATING</b> <span class="fx-cursor">▊</span>
+<!-- ══════════ HERO ══════════ -->
+<section class="ed-hero">
+  <div class="ed-wrap">
+    <div class="ed-hero-grid">
+      <div>
+        <div class="ed-eyebrow">Asia-Pacific climate compliance</div>
+        <h1>Climate compliance, from <em>months</em> to minutes.</h1>
+        <p class="ed-hero-sub">ReGenesis Impact turns ISSB S2, BRSR and AASB S2 obligations into finished work —
+          AI-drafted disclosures, audit-ready GHG inventories and scenario analysis, grounded in a public,
+          sourced knowledge base.</p>
+        <div class="ed-cta-row">
+          <button class="ed-btn ed-btn-ink" onclick="showPage('issb')">Start a report — free →</button>
+          <button class="ed-btn ed-btn-ghost" onclick="showPage('advisor')">Ask Sage AI</button>
         </div>
-        <div class="fx-status">UPLINK · STABLE</div>
+        <div class="ed-trust">NO SIGN-UP · 7 INSTRUMENTS · SG / AU / IN RULES BUILT IN</div>
       </div>
-
-      <div class="fx-console-grid">
-
-        <!-- COL 1 — REPORT -->
-        <div class="fx-console-col">
-          <div class="fx-console-col-title">⌁ REPORT</div>
-          <div class="fx-c-row">
-            <span class="fx-c-label">Organisation</span>
-            <span class="fx-c-val">DBS Group Holdings</span>
+      <div class="ed-hero-right fade-up">
+        <div class="ed-window" aria-hidden="true">
+          <div class="ed-window-bar"><i></i><i></i><i></i><span>SYS://ISSB-S2-REPORT</span></div>
+          <div class="ed-window-body">
+            <div class="ed-w-row"><span>Framework</span><b>IFRS S2 / ISSB</b></div>
+            <div class="ed-w-row"><span>Scope 1 + 2 + 3</span><b>✓ computed</b></div>
+            <div class="ed-w-row"><span>Scenario analysis</span><b>NGFS NZ2050</b></div>
+            <div class="ed-w-row"><span>Assurance readiness</span><span class="amber">86% · 2 gaps flagged</span></div>
+            <div class="ed-progress"><i></i></div>
+            <div class="ed-w-foot">DRAFT READY · 9/10 SECTIONS · SOURCED KB ×64</div>
           </div>
-          <div class="fx-c-row">
-            <span class="fx-c-label">Framework</span>
-            <span class="fx-c-val fx-c-green">ISSB S2 / IFRS S2</span>
-          </div>
-          <div class="fx-c-row">
-            <span class="fx-c-label">Market</span>
-            <span class="fx-c-val fx-c-amber">Singapore · SGX</span>
-          </div>
-          <div class="fx-c-row">
-            <span class="fx-c-label">TCFD</span>
-            <span class="fx-c-val fx-c-green">✓ COMPLIANT</span>
-          </div>
-          <div class="fx-progress-label">
-            <span>COMPLETION</span>
-            <span style="color:var(--fx-bio)">9/10 SECTIONS</span>
-          </div>
-          <div class="fx-progress"><div class="fx-progress-fill"></div></div>
         </div>
-
-        <!-- COL 2 — EMISSIONS -->
-        <div class="fx-console-col">
-          <div class="fx-console-col-title">⌁ EMISSIONS</div>
-          <div class="fx-readout">2.4 <small>Mt CO₂e</small></div>
-          <div class="fx-bars">
-            <div class="fx-bar" style="height:38%"></div>
-            <div class="fx-bar" style="height:55%"></div>
-            <div class="fx-bar" style="height:46%"></div>
-            <div class="fx-bar" style="height:72%"></div>
-            <div class="fx-bar fx-bar-hot" style="height:100%"></div>
-            <div class="fx-bar" style="height:62%"></div>
-          </div>
-          <div class="fx-bars-label">SCOPE 1–3 TREND</div>
-        </div>
-
-        <!-- COL 3 — SCENARIO -->
-        <div class="fx-console-col">
-          <div class="fx-console-col-title">⌁ SCENARIO</div>
-          <div class="fx-scenario-name">NGFS NET ZERO 2050</div>
-          <div class="fx-c-row">
-            <span class="fx-c-label">Physical Risk</span>
-            <span class="fx-c-val fx-c-green">LOW ▼</span>
-          </div>
-          <div class="fx-c-row">
-            <span class="fx-c-label">Transition</span>
-            <span class="fx-c-val fx-c-amber">MODERATE ▲</span>
-          </div>
-          <div class="fx-c-row">
-            <span class="fx-c-label">Carbon Price</span>
-            <span class="fx-c-val fx-c-cyan">$130/t 2030</span>
-          </div>
-          <div class="fx-model-line">MODEL: NGFS v5 · IPCC AR6</div>
-        </div>
-
+        <div class="ed-chip ed-chip-1"><b>4 min</b>TO FIRST DRAFT</div>
+        <div class="ed-chip ed-chip-2"><b>0 sign-ups</b>TO TRY EVERYTHING</div>
       </div>
     </div>
   </div>
-
-  <!-- HERO STATS -->
-  <div class="fx-hero-stats">
-    <div class="fx-hero-stat"><b>03</b>MARKETS</div>
-    <div class="fx-hero-stat"><b>18+</b>FRAMEWORKS</div>
-    <div class="fx-hero-stat"><b>100%</b>ISSB S2</div>
-    <div class="fx-hero-stat"><b>&lt;5MIN</b>TO REPORT</div>
-  </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════
-     DATA TICKER
-     ═══════════════════════════════════════════════ -->
-<div class="fx-ticker">
-  <div class="fx-ticker-run">
-    <span class="fx-ticker-item">ISSB S2</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">IFRS S2</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">AASB S2</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">MAS ERM</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">SGX S2</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">APRA CPS 229</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">SEBI BRSR</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">GHG PROTOCOL</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">TCFD</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">NGFS v5</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">SBTi</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">TNFD v1</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">GRI</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">CDP</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">PCAF</span><span class="fx-ticker-sep">▮</span>
-    <!-- duplicate run for seamless loop -->
-    <span class="fx-ticker-item">ISSB S2</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">IFRS S2</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">AASB S2</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">MAS ERM</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">SGX S2</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">APRA CPS 229</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">SEBI BRSR</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">GHG PROTOCOL</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">TCFD</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">NGFS v5</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">SBTi</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">TNFD v1</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">GRI</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">CDP</span><span class="fx-ticker-sep">▮</span>
-    <span class="fx-ticker-item">PCAF</span><span class="fx-ticker-sep">▮</span>
+<!-- ══════════ FRAMEWORK MARQUEE ══════════ -->
+<div class="ed-marquee" aria-hidden="true">
+  <div class="ed-marquee-track">
+    <span>ISSB S2</span><span class="solid">GHG Protocol</span><span>TCFD</span><span class="solid">NGFS v5</span>
+    <span>PCAF</span><span class="solid">SEBI BRSR</span><span>AASB S2</span><span class="solid">SBTi</span>
+    <span>CDP</span><span class="solid">GRI</span><span>MAS ERM</span><span class="solid">ISSA 5000</span>
+    <span>ISSB S2</span><span class="solid">GHG Protocol</span><span>TCFD</span><span class="solid">NGFS v5</span>
+    <span>PCAF</span><span class="solid">SEBI BRSR</span><span>AASB S2</span><span class="solid">SBTi</span>
+    <span>CDP</span><span class="solid">GRI</span><span>MAS ERM</span><span class="solid">ISSA 5000</span>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════
-     01 // THE PLATFORM
-     ═══════════════════════════════════════════════ -->
-<section class="fx-section" id="features">
-  <div class="fx-inner">
-    <div class="fx-eyebrow">01 // THE PLATFORM</div>
-    <h2>Six integrated modules for <em class="fx-grad">every framework</em></h2>
-    <p class="fx-sub">Institutional-grade ESG compliance — no spreadsheets, no consultants.</p>
-
-    <div class="fx-mods">
-
-      <!-- 1 ISSB -->
-      <div class="fx-mod-card fx-panel" style="--fx-mod:#38bdf8" onclick="requireLogin('issb')">
-        <span class="fx-corners" aria-hidden="true"></span>
-        <div class="fx-status"><span class="fx-status-dot"></span>MODULE-01 · ⚡ INSTANT</div>
-        <span class="fx-mod-icon">📋</span>
-        <div class="fx-mod-name">ISSB Climate Report Generator</div>
-        <div class="fx-mod-desc">Produce publication-ready IFRS S1 &amp; S2 climate-related financial disclosures. Covers all 10 required disclosure areas including Dec 2025 amendments. Board and investor-ready output.</div>
-        <div class="fx-mod-tags">
-          <span class="fx-mod-tag">IFRS S1</span>
-          <span class="fx-mod-tag">IFRS S2</span>
-          <span class="fx-mod-tag">2025 Ed.</span>
-        </div>
-      </div>
-
-      <!-- 2 GHG -->
-      <div class="fx-mod-card fx-panel" style="--fx-mod:#ffb547" onclick="requireLogin('ghg')">
-        <span class="fx-corners" aria-hidden="true"></span>
-        <div class="fx-status"><span class="fx-status-dot"></span>MODULE-02 · ⚡ INSTANT</div>
-        <span class="fx-mod-icon">⚖️</span>
-        <div class="fx-mod-name">GHG Inventory Calculator</div>
-        <div class="fx-mod-desc">Full Scope 1, 2 and 3 greenhouse gas inventory for financial institutions and corporates. Covers all 15 Scope 3 categories including PCAF financed emissions and WACI intensity metrics.</div>
-        <div class="fx-mod-tags">
-          <span class="fx-mod-tag">GHG Protocol</span>
-          <span class="fx-mod-tag">PCAF</span>
-          <span class="fx-mod-tag">Scope 1-2-3</span>
-        </div>
-      </div>
-
-      <!-- 3 Climate Intelligence — PRIME -->
-      <div class="fx-mod-card fx-panel fx-mod-prime" style="--fx-mod:#8b5cf6" onclick="requireLogin('climate')">
-        <span class="fx-corners" aria-hidden="true"></span>
-        <span class="fx-mod-prime-tag">PRIME MODULE</span>
-        <div class="fx-status"><span class="fx-status-dot"></span>MODULE-03 · ⚡ INSTANT</div>
-        <span class="fx-mod-icon">🌍</span>
-        <div class="fx-mod-name">Climate Intelligence Suite</div>
-        <div class="fx-mod-desc">Nine integrated modules: TCFD scenario analysis, decarbonisation MACC roadmap, SBTi targets, physical risk CVaR, geospatial hazard mapping, GFANZ transition planning, TNFD nature risk, and case studies.</div>
-        <div class="fx-mod-tags">
-          <span class="fx-mod-tag">TCFD</span>
-          <span class="fx-mod-tag">NGFS v5</span>
-          <span class="fx-mod-tag">TNFD v1</span>
-          <span class="fx-mod-tag">GFANZ</span>
-        </div>
-      </div>
-
-      <!-- 4 ESG Due Diligence -->
-      <div class="fx-mod-card fx-panel" style="--fx-mod:#fb923c" onclick="requireLogin('tools')">
-        <span class="fx-corners" aria-hidden="true"></span>
-        <div class="fx-status"><span class="fx-status-dot"></span>MODULE-04 · ⚡ INSTANT</div>
-        <span class="fx-mod-icon">🔍</span>
-        <div class="fx-mod-name">ESG Due Diligence</div>
-        <div class="fx-mod-desc">Two specialist tools: Asset Manager ESG Due Diligence for private equity using PRI framework, and Bank SPO + ESG Credit Risk assessment using ICMA Green Bond Principles. Score A–E grade output.</div>
-        <div class="fx-mod-tags">
-          <span class="fx-mod-tag">PRI</span>
-          <span class="fx-mod-tag">ICMA GBP</span>
-          <span class="fx-mod-tag">Basel</span>
-        </div>
-      </div>
-
-      <!-- 5 Sage AI — open access -->
-      <div class="fx-mod-card fx-panel" style="--fx-mod:#00e87a" onclick="showPage('advisor')">
-        <span class="fx-corners" aria-hidden="true"></span>
-        <div class="fx-status"><span class="fx-status-dot"></span>MODULE-05 · ⚡ INSTANT</div>
-        <span class="fx-mod-icon">🌿</span>
-        <div class="fx-mod-name">Sage AI Advisor</div>
-        <div class="fx-mod-desc">Your always-on sustainability expert. Ask Sage anything about TCFD, ISSB, carbon accounting, net-zero strategy, or ESG frameworks. Powered by Llama 3.3-70b. Free to use, no login required.</div>
-        <div class="fx-mod-tags">
-          <span class="fx-mod-tag">AI Advisor</span>
-          <span class="fx-mod-tag">Llama 3.3</span>
-          <span class="fx-mod-tag">FREE · NO LOGIN</span>
-        </div>
-      </div>
-
-      <!-- 6 Carbon Credits -->
-      <div class="fx-mod-card fx-panel" style="--fx-mod:#2dd4bf" onclick="requireLogin('credits')">
-        <span class="fx-corners" aria-hidden="true"></span>
-        <div class="fx-status"><span class="fx-status-dot"></span>MODULE-06 · ⚡ INSTANT</div>
-        <span class="fx-mod-icon">🪙</span>
-        <div class="fx-mod-name">Carbon Credit Exchange</div>
-        <div class="fx-mod-desc">Verified, tokenised credit exchange on Polygon blockchain. Trade carbon, mangrove blue carbon, and plastic credits across India's most comprehensive registry. ERC-1155 standard, instant settlement, EPR compliant.</div>
-        <div class="fx-mod-tags">
-          <span class="fx-mod-tag">Carbon</span>
-          <span class="fx-mod-tag">Blue Carbon</span>
-          <span class="fx-mod-tag">Plastic Credits</span>
-        </div>
-      </div>
-
-      <!-- 7 ASSURANCE STUDIO — flagship, full width -->
-      <div class="fx-mod-card fx-panel" style="--fx-mod:#00e87a;grid-column:1/-1" onclick="requireLogin('assurance')">
-        <span class="fx-corners" aria-hidden="true"></span>
-        <span class="fx-mod-prime-tag" style="background:#00e87a;color:#021008">NEW · MODULE-07</span>
-        <div class="fx-status"><span class="fx-status-dot"></span>ASSURANCE STUDIO · ⚡ INSTANT</div>
-        <span class="fx-mod-icon">🛡️</span>
-        <div class="fx-mod-name">ESG Assurance Studio</div>
-        <div class="fx-mod-desc">Built from real assurance practice: scope your AASB S2 / ISSB obligations and assurance glide path, calibrate planning &amp; performance materiality, run the six GHG data-quality diagnostics practitioners test first, generate a sector-aware evidence pack (PBC list), and track the full 18-week engagement lifecycle. Calibrated to ISSA 5000, ISAE 3000/3410 and BRSR Core.</div>
-        <div class="fx-mod-tags">
-          <span class="fx-mod-tag">ISSA 5000</span>
-          <span class="fx-mod-tag">Limited → Reasonable</span>
-          <span class="fx-mod-tag">Materiality</span>
-          <span class="fx-mod-tag">PBC Lists</span>
-          <span class="fx-mod-tag">Data Quality</span>
-        </div>
-      </div>
-
+<!-- ══════════ INSTRUMENT INDEX ══════════ -->
+<section class="ed-section" id="features">
+  <div class="ed-wrap">
+    <div class="ed-head">
+      <div class="ed-eyebrow">The instrument suite</div>
+      <h2>Seven instruments. One living system.</h2>
+      <p>Every tool works alone and feeds the others — your GHG numbers flow into reports, materiality and credits.
+         Press <strong>Ctrl K</strong> anywhere to jump.</p>
     </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════
-     02 // JURISDICTIONS
-     ═══════════════════════════════════════════════ -->
-<section class="fx-section fx-section-alt" id="markets">
-  <div class="fx-inner">
-    <div class="fx-eyebrow">02 // JURISDICTIONS</div>
-    <h2>Deployed across <em class="fx-grad">three regulatory zones</em></h2>
-    <p class="fx-sub">Purpose-built for Asia-Pacific's three most active ESG jurisdictions.</p>
-
-    <div class="fx-zones">
-
-      <!-- ZONE-SG -->
-      <div class="fx-zone fx-panel" style="--fx-mod:#ffb547">
-        <span class="fx-corners" aria-hidden="true"></span>
-        <div class="fx-zone-head">
-          <span class="fx-zone-flag">🇸🇬</span>
-          <span class="fx-zone-tag">ZONE-SG</span>
-        </div>
-        <div class="fx-zone-name">Singapore</div>
-        <div class="fx-zone-sub">MAS Environmental Risk · SGX ISSB S2 · Green Finance Action Plan 2025</div>
-        <ul class="fx-zone-list">
-          <li>MAS Notice 645 &amp; Environmental Risk Management</li>
-          <li>SGX Climate Reporting aligned to ISSB S2 — FY2024</li>
-          <li>Singapore-Asia Taxonomy (MAS traffic-light)</li>
-          <li>NGFS v5 Scenario Analysis for MAS stress testing</li>
-        </ul>
-        <button class="fx-zone-cta" onclick="navTo('waitlist')">Request Zone Access →</button>
+    <div class="ed-index">
+      <div class="ed-row" onclick="showPage('issb')" role="link" tabindex="0" onkeydown="if(event.key==='Enter')showPage('issb')">
+        <span class="num">01</span>
+        <span class="name">Sustainability Reports<span class="free">FREE</span></span>
+        <span class="desc">IFRS S2, GRI, BRSR, AASB S2 and CDP — AI-drafted section by section, exported to PDF.</span>
+        <span class="go">→</span>
       </div>
-
-      <!-- ZONE-AU -->
-      <div class="fx-zone fx-panel" style="--fx-mod:#38bdf8">
-        <span class="fx-corners" aria-hidden="true"></span>
-        <div class="fx-zone-head">
-          <span class="fx-zone-flag">🇦🇺</span>
-          <span class="fx-zone-tag">ZONE-AU</span>
-        </div>
-        <div class="fx-zone-name">Australia</div>
-        <div class="fx-zone-sub">AASB S2 Group 1 FY2025 · APRA CPS 229 · ASIC RG 247 · Treasury Framework</div>
-        <ul class="fx-zone-list">
-          <li>AASB S2 mandatory for Group 1 from 1 Jan 2025</li>
-          <li>APRA CPS 229 Climate Vulnerability Assessment</li>
-          <li>ASIC RG 247 — Climate Disclosure Guidance</li>
-          <li>Treasury Sustainable Finance Roadmap alignment</li>
-        </ul>
-        <button class="fx-zone-cta" onclick="navTo('waitlist')">Request Zone Access →</button>
+      <div class="ed-row" onclick="showPage('ghg')" role="link" tabindex="0" onkeydown="if(event.key==='Enter')showPage('ghg')">
+        <span class="num">02</span>
+        <span class="name">GHG Inventory<span class="free">FREE</span></span>
+        <span class="desc">Scope 1–3 with a full audit trail, editable factors and PCAF financed emissions.</span>
+        <span class="go">→</span>
       </div>
-
-      <!-- ZONE-IN -->
-      <div class="fx-zone fx-panel" style="--fx-mod:#00e87a">
-        <span class="fx-corners" aria-hidden="true"></span>
-        <div class="fx-zone-head">
-          <span class="fx-zone-flag">🇮🇳</span>
-          <span class="fx-zone-tag">ZONE-IN</span>
-        </div>
-        <div class="fx-zone-name">India</div>
-        <div class="fx-zone-sub">SEBI BRSR Core (Top 150) · BRSR Top 1000 · ISSB S2 adoption · RBI Climate Risk</div>
-        <ul class="fx-zone-list">
-          <li>SEBI BRSR Core KPI assurance — Top 150 from FY24</li>
-          <li>BRSR mandatory disclosure for Top 1000 listed companies</li>
-          <li>ISSB S2 voluntary adoption roadmap</li>
-          <li>RBI Climate Risk &amp; Sustainable Finance Framework</li>
-        </ul>
-        <button class="fx-zone-cta" onclick="navTo('waitlist')">Request Zone Access →</button>
+      <div class="ed-row" onclick="showPage('climate')" role="link" tabindex="0" onkeydown="if(event.key==='Enter')showPage('climate')">
+        <span class="num">03</span>
+        <span class="name">Climate Intelligence<span class="free">FREE</span></span>
+        <span class="desc">NGFS scenarios, company impact modelling, geospatial hazards and TCFD generation.</span>
+        <span class="go">→</span>
       </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════
-     03 // PROTOCOL
-     ═══════════════════════════════════════════════ -->
-<section class="fx-section" id="how-it-works">
-  <div class="fx-inner">
-    <div class="fx-eyebrow">03 // PROTOCOL</div>
-    <h2>From data to disclosure in <em class="fx-grad">minutes</em></h2>
-    <p class="fx-sub">Four steps. No spreadsheets. No consultants.</p>
-
-    <div class="fx-steps">
-
-      <div class="fx-step" style="--fx-step-c:#00e87a">
-        <div class="fx-step-dot"></div>
-        <div class="fx-step-ghost">01</div>
-        <div class="fx-step-title">Connect your data</div>
-        <div class="fx-step-desc">Enter org profile, emissions sources, asset portfolio and operational boundaries — guided input, no technical expertise needed.</div>
+      <div class="ed-row" onclick="showPage('tools')" role="link" tabindex="0" onkeydown="if(event.key==='Enter')showPage('tools')">
+        <span class="num">04</span>
+        <span class="name">ESG Due Diligence<span class="free">FREE</span></span>
+        <span class="desc">PRI-aligned portfolio scoring, SPO generation and Scope 3 supplier screening.</span>
+        <span class="go">→</span>
       </div>
-
-      <div class="fx-step" style="--fx-step-c:#0affdb">
-        <div class="fx-step-dot"></div>
-        <div class="fx-step-ghost">02</div>
-        <div class="fx-step-title">Select your frameworks</div>
-        <div class="fx-step-desc">Choose from ISSB S2, AASB S2, MAS ERM, BRSR, GHG Protocol and more. Your market and sector determine what's mandatory.</div>
+      <div class="ed-row" onclick="showPage('credits')" role="link" tabindex="0" onkeydown="if(event.key==='Enter')showPage('credits')">
+        <span class="num">05</span>
+        <span class="name">Carbon Credits<span class="free">FREE</span></span>
+        <span class="desc">Browse verified carbon, blue-carbon and plastic credits; retire with certificates.</span>
+        <span class="go">→</span>
       </div>
-
-      <div class="fx-step" style="--fx-step-c:#8b5cf6">
-        <div class="fx-step-dot"></div>
-        <div class="fx-step-ghost">03</div>
-        <div class="fx-step-title">Sage AI drafts your report</div>
-        <div class="fx-step-desc">Compliant disclosures, scenario analyses and GHG inventories generated in under 5 minutes from your inputs.</div>
+      <div class="ed-row" onclick="showPage('assurance')" role="link" tabindex="0" onkeydown="if(event.key==='Enter')showPage('assurance')">
+        <span class="num">06</span>
+        <span class="name">Assurance Studio<span class="free">FREE</span></span>
+        <span class="desc">ISSA 5000 readiness scans, materiality math and evidence packs before fieldwork.</span>
+        <span class="go">→</span>
       </div>
-
-      <div class="fx-step" style="--fx-step-c:#ffb547">
-        <div class="fx-step-dot"></div>
-        <div class="fx-step-ghost">04</div>
-        <div class="fx-step-title">Review and publish</div>
-        <div class="fx-step-desc">Edit inline, export to PDF / Word. Board-ready, auditor-ready, regulator-ready output every time.</div>
+      <div class="ed-row" onclick="showPage('advisor')" role="link" tabindex="0" onkeydown="if(event.key==='Enter')showPage('advisor')">
+        <span class="num">07</span>
+        <span class="name">Sage AI Advisor<span class="free">FREE</span></span>
+        <span class="desc">Ask anything, upload a report for gap analysis — answers cite a public knowledge base.</span>
+        <span class="go">→</span>
       </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════
-     04 // TELEMETRY
-     ═══════════════════════════════════════════════ -->
-<section class="fx-section fx-section-alt" id="advisory">
-  <div class="fx-inner">
-    <div class="fx-eyebrow">04 // TELEMETRY</div>
-    <h2>The numbers that <em class="fx-grad">matter</em></h2>
-    <p class="fx-sub">Live platform performance across every framework and market we serve.</p>
-
-    <div id="traction">
-      <div class="fx-stats">
-        <div class="fx-stat fx-panel" style="--fx-mod:#00e87a">
-          <span class="fx-corners" aria-hidden="true"></span>
-          <div class="fx-stat-num">100%</div>
-          <div class="fx-stat-title">ISSB S2 Aligned</div>
-          <div class="fx-stat-sub">IFRS S1 &amp; S2 · DEC 2025 ED.</div>
-        </div>
-        <div class="fx-stat fx-panel" style="--fx-mod:#0affdb">
-          <span class="fx-corners" aria-hidden="true"></span>
-          <div class="fx-stat-num">18+</div>
-          <div class="fx-stat-title">Regulatory Frameworks</div>
-          <div class="fx-stat-sub">TCFD · GHG · PCAF · SBTi · NGFS · TNFD</div>
-        </div>
-        <div class="fx-stat fx-panel" style="--fx-mod:#ffb547">
-          <span class="fx-corners" aria-hidden="true"></span>
-          <div class="fx-stat-num">&lt;5</div>
-          <div class="fx-stat-title">Minutes to first report</div>
-          <div class="fx-stat-sub">FROM DATA INPUT TO DISCLOSURE</div>
-        </div>
-        <div class="fx-stat fx-panel" style="--fx-mod:#8b5cf6">
-          <span class="fx-corners" aria-hidden="true"></span>
-          <div class="fx-stat-num">3</div>
-          <div class="fx-stat-title">Markets — SG · AU · IN</div>
-          <div class="fx-stat-sub">ASIA-PACIFIC'S ACTIVE ESG JURISDICTIONS</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="fx-quotes">
-      <div class="fx-quote">
-        <div class="fx-quote-text">ReGenesis Impact compressed what would have been a 3-month ISSB S2 disclosure exercise into a single afternoon. The NGFS scenario analysis alone saved our risk team weeks of modelling work.</div>
-        <div class="fx-quote-author">Head of Sustainability · SGX-Listed Bank</div>
-      </div>
-      <div class="fx-quote">
-        <div class="fx-quote-text">The AASB S2 module is the most comprehensive we've seen. Our external auditors were impressed by the depth of the physical risk CVaR analysis — it met all APRA CPS 229 requirements out of the box.</div>
-        <div class="fx-quote-author">CFO · ASX 200 Company · Australia</div>
-      </div>
-      <div class="fx-quote">
-        <div class="fx-quote-text">Sage AI answered every SEBI BRSR query our compliance team raised. The GHG calculator with PCAF financed emissions methodology is exactly what Indian banks needed — finally built for our market.</div>
-        <div class="fx-quote-author">Chief Risk Officer · Private Sector Bank · India</div>
+      <div class="ed-row" onclick="window.location.href='platform/'" role="link" tabindex="0" onkeydown="if(event.key==='Enter')window.location.href='platform/'">
+        <span class="num">08</span>
+        <span class="name">IMM Platform</span>
+        <span class="desc">Impact measurement &amp; management for funds — IRIS+ metrics, scoring, LP reports.</span>
+        <span class="go">→</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════
-     05 // COVERAGE MATRIX
-     ═══════════════════════════════════════════════ -->
-<section class="fx-section" id="pricing">
-  <div class="fx-inner">
-    <div class="fx-eyebrow">05 // COVERAGE MATRIX</div>
-    <h2>Every major framework, <em class="fx-grad">out of the box</em></h2>
-    <p class="fx-sub">18+ frameworks covered out of the box.</p>
-
-    <div class="fx-matrix">
-      <div class="fx-matrix-row">
-        <div class="fx-matrix-label">CLIMATE</div>
-        <div class="fx-matrix-chips">
-          <span class="fx-chip-badge fx-chip-green">ISSB S2</span>
-          <span class="fx-chip-badge fx-chip-green">IFRS S2</span>
-          <span class="fx-chip-badge fx-chip-green">AASB S2</span>
-          <span class="fx-chip-badge fx-chip-green">TCFD</span>
-          <span class="fx-chip-badge fx-chip-green">NGFS v5</span>
-        </div>
+<!-- ══════════ MARKETS ══════════ -->
+<section class="ed-section ed-section-alt" id="markets">
+  <div class="ed-wrap">
+    <div class="ed-head">
+      <div class="ed-eyebrow">Built for your regulator</div>
+      <h2>Three markets, native rules.</h2>
+      <p>Not translations of EU tooling — the thresholds, deadlines and KPI sets your regulator actually enforces.</p>
+    </div>
+    <div class="ed-markets">
+      <div class="ed-market fade-up">
+        <span class="flag">🇮🇳</span>
+        <h3>India</h3>
+        <ul><li>SEBI BRSR — top 1,000 listed</li><li>BRSR Core assured KPIs</li><li>Value-chain disclosures</li><li>CCTS carbon market</li></ul>
+        <span class="ed-deadline">ASSURANCE PHASING TO TOP 1000</span>
+        <a href="guides/brsr-core-assurance-india.html">Read the India guide →</a>
       </div>
-      <div class="fx-matrix-row">
-        <div class="fx-matrix-label">GHG</div>
-        <div class="fx-matrix-chips">
-          <span class="fx-chip-badge fx-chip-blue">GHG Protocol</span>
-          <span class="fx-chip-badge fx-chip-blue">Scope 1-2-3</span>
-          <span class="fx-chip-badge fx-chip-blue">PCAF</span>
-          <span class="fx-chip-badge fx-chip-blue">WACI</span>
-        </div>
+      <div class="ed-market fade-up">
+        <span class="flag">🇦🇺</span>
+        <h3>Australia</h3>
+        <ul><li>AASB S2 — Groups 1–3</li><li>APRA CPS 229 alignment</li><li>Protected statements regime</li><li>Reasonable assurance by 2030</li></ul>
+        <span class="ed-deadline">GROUP 2 FROM 1 JUL 2026</span>
+        <a href="guides/aasb-s2-australia-climate-reporting.html">Read the Australia guide →</a>
       </div>
-      <div class="fx-matrix-row">
-        <div class="fx-matrix-label">SINGAPORE</div>
-        <div class="fx-matrix-chips">
-          <span class="fx-chip-badge fx-chip-amber">MAS ERM</span>
-          <span class="fx-chip-badge fx-chip-amber">SGX Mandatory</span>
-          <span class="fx-chip-badge fx-chip-amber">SA-Taxonomy</span>
-        </div>
-      </div>
-      <div class="fx-matrix-row">
-        <div class="fx-matrix-label">AUSTRALIA</div>
-        <div class="fx-matrix-chips">
-          <span class="fx-chip-badge fx-chip-teal">APRA CPS 229</span>
-          <span class="fx-chip-badge fx-chip-teal">ASIC RG 247</span>
-        </div>
-      </div>
-      <div class="fx-matrix-row">
-        <div class="fx-matrix-label">INDIA</div>
-        <div class="fx-matrix-chips">
-          <span class="fx-chip-badge fx-chip-violet">SEBI BRSR</span>
-          <span class="fx-chip-badge fx-chip-violet">BRSR Core</span>
-          <span class="fx-chip-badge fx-chip-violet">RBI Climate</span>
-        </div>
-      </div>
-      <div class="fx-matrix-row">
-        <div class="fx-matrix-label">GLOBAL</div>
-        <div class="fx-matrix-chips">
-          <span class="fx-chip-badge">GRI</span>
-          <span class="fx-chip-badge">CDP</span>
-          <span class="fx-chip-badge">SBTi</span>
-          <span class="fx-chip-badge">TNFD v1</span>
-          <span class="fx-chip-badge">GFANZ</span>
-          <span class="fx-chip-badge">SBTN</span>
-        </div>
+      <div class="ed-market fade-up">
+        <span class="flag">🇸🇬</span>
+        <h3>Singapore</h3>
+        <ul><li>SGX ISSB-aligned reporting</li><li>MAS ERM guidelines</li><li>Large non-listed from FY2027</li><li>Green Finance Action Plan</li></ul>
+        <span class="ed-deadline">LISTED ISSUERS FROM FY2025</span>
+        <a href="guides/sgx-climate-reporting-singapore.html">Read the Singapore guide →</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════
-     EARLY ACCESS CTA
-     ═══════════════════════════════════════════════ -->
-<section class="fx-section fx-section-alt fx-cta" id="waitlist">
-  <div class="fx-inner">
-    <div class="fx-eyebrow" style="text-align:center">// EARLY ACCESS</div>
-    <h2>Initialize your <em class="fx-grad">compliance system</em></h2>
-    <p class="fx-cta-sub">Join enterprise clients from Singapore, Australia and India. Personalised onboarding included.</p>
-    <button class="fx-btn fx-btn-primary" style="font-size:1rem;padding:1.05rem 2.8rem" onclick="openLeadModal('waitlist')">Get Early Access — Free →</button>
-    <div class="fx-cta-meta">🇸🇬 · 🇦🇺 · 🇮🇳 · NO CREDIT CARD</div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════
-     DIRECT ONBOARDING (book-trial)
-     ═══════════════════════════════════════════════ -->
-<section class="fx-section" id="book-trial" style="text-align:center">
-  <div class="fx-inner">
-    <div class="fx-eyebrow">// DIRECT ONBOARDING</div>
-    <h2>Work with us <em class="fx-grad">directly</em></h2>
-    <p class="fx-sub" style="margin-left:auto;margin-right:auto">We onboard early enterprise clients personally — configure your reporting setup and run your first climate analysis together.</p>
-
-    <div class="fx-trial-cards" style="text-align:left">
-      <div class="fx-trial-card fx-panel">
-        <span class="fx-corners" aria-hidden="true"></span>
-        <div class="fx-trial-icon">📋</div>
-        <div class="fx-trial-title">ISSB &amp; GHG Setup</div>
-        <div class="fx-trial-desc">We configure your Scope 1–3 baseline and produce your first IFRS S2 climate disclosure with you, step by step.</div>
-      </div>
-      <div class="fx-trial-card fx-panel">
-        <span class="fx-corners" aria-hidden="true"></span>
-        <div class="fx-trial-icon">🌍</div>
-        <div class="fx-trial-title">Climate Intelligence Walkthrough</div>
-        <div class="fx-trial-desc">Live demo of scenario analysis, your asset geospatial map, and a sector-specific decarbonisation roadmap.</div>
-      </div>
-      <div class="fx-trial-card fx-panel">
-        <span class="fx-corners" aria-hidden="true"></span>
-        <div class="fx-trial-icon">🌿</div>
-        <div class="fx-trial-title">Meet Sage AI</div>
-        <div class="fx-trial-desc">See how Sage answers your toughest sustainability questions in real time — TCFD, ISSB, SBTi, carbon accounting and more.</div>
-      </div>
+<!-- ══════════ HOW IT WORKS ══════════ -->
+<section class="ed-section" id="how-it-works">
+  <div class="ed-wrap">
+    <div class="ed-head">
+      <div class="ed-eyebrow">How it works</div>
+      <h2>From raw data to regulator-ready.</h2>
     </div>
-
-    <button class="fx-btn fx-btn-ghost" onclick="openLeadModal('book_trial')">Book a Trial Session →</button>
-    <div class="fx-trial-mail">OR EMAIL <a href="mailto:info@regenesisimpact.in">info@regenesisimpact.in</a></div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════
-     06 // FAQ
-     ═══════════════════════════════════════════════ -->
-<section class="fx-section fx-section-alt" id="faq" style="text-align:center">
-  <div class="fx-inner">
-    <div class="fx-eyebrow">06 // FAQ</div>
-    <h2>Common <em class="fx-grad">questions</em></h2>
-    <p class="fx-sub" style="margin-left:auto;margin-right:auto">Compliance, methodology and onboarding — answered.</p>
-
-    <div class="fx-faq-grid">
-
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">
-          <span class="faq-q-text">Is ReGenesis Impact compliant with AASB S2 and the Australian mandatory reporting regime?</span>
-          <span class="faq-chevron">▼</span>
-        </div>
-        <div class="faq-a"><div class="faq-a-inner">Yes. Our platform generates AASB S2-compliant climate disclosures aligned with the Australian Sustainability Reporting Standards (ASRS). We cover Group 1 requirements (entities with &gt;$500M consolidated revenue or &gt;$1B assets) mandatory from 1 January 2025, including quantitative climate scenario analysis, Scope 1-2-3 GHG inventory, transition planning, and physical risk CVaR — all requirements under ASIC's regulatory guidance RG 247.</div></div>
-      </div>
-
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">
-          <span class="faq-q-text">How does the platform address MAS Environmental Risk and SGX climate reporting requirements?</span>
-          <span class="faq-chevron">▼</span>
-        </div>
-        <div class="faq-a"><div class="faq-a-inner">ReGenesis Impact is purpose-built for Singapore's regulatory environment. We cover MAS Notice 645 and the Guidelines on Environmental Risk Management (ERM) for banks, insurers, and asset managers — including board governance structures, risk appetite integration, and portfolio-level climate risk measurement. For SGX-listed companies, we produce ISSB S2-aligned climate disclosures that satisfy mandatory reporting requirements from FY2024 (large-cap) and FY2025 (mid-cap), including the Singapore-Asia Taxonomy classification.</div></div>
-      </div>
-
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">
-          <span class="faq-q-text">What climate scenarios does the TCFD analysis use?</span>
-          <span class="faq-chevron">▼</span>
-        </div>
-        <div class="faq-a"><div class="faq-a-inner">We use NGFS Phase V (2024) scenarios — Net Zero 2050, Orderly 2°C, Disorderly Transition, and Hot House World — fully aligned with IFRS S2, AASB S2, and APRA CPS 229 mandatory dual-scenario analysis requirements. Physical risk modelling uses IPCC AR6 RCP/SSP pathways with asset-level geospatial hazard mapping for flood, heat stress, drought, sea-level rise, and cyclone risk. Transition risk quantification includes carbon pricing, policy exposure, and stranded-asset analysis.</div></div>
-      </div>
-
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">
-          <span class="faq-q-text">Can the platform calculate PCAF financed emissions for banks and asset managers?</span>
-          <span class="faq-chevron">▼</span>
-        </div>
-        <div class="faq-a"><div class="faq-a-inner">Yes. Our GHG Inventory module covers all 15 Scope 3 categories including Category 15 (financed emissions) using the PCAF (Partnership for Carbon Accounting Financials) standard. We support corporate loans, listed equity, bonds, project finance, mortgages, and motor vehicle loans — with PCAF data quality scores (1–5), weighted average carbon intensity (WACI), and portfolio temperature alignment. This satisfies APRA's financed emissions disclosure requirements and TCFD Category 15 reporting for Australian and Singapore financial institutions.</div></div>
-      </div>
-
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">
-          <span class="faq-q-text">How does the AI (Sage) work and is it reliable for regulatory disclosure?</span>
-          <span class="faq-chevron">▼</span>
-        </div>
-        <div class="faq-a"><div class="faq-a-inner">Sage AI uses large language models (Llama 3.3-70B) trained with extensive ESG and climate regulation context — covering ISSB, AASB S2, MAS ERM, BRSR, TCFD, GHG Protocol, and more. For report generation, Sage drafts structured disclosure language based on your input data, following each framework's exact requirements. All AI-generated content is editable and reviewable before export. We recommend a qualified sustainability professional review final disclosures, as regulatory liability remains with the reporting entity.</div></div>
-      </div>
-
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">
-          <span class="faq-q-text">Is there a free tier? What does onboarding look like?</span>
-          <span class="faq-chevron">▼</span>
-        </div>
-        <div class="faq-a"><div class="faq-a-inner">Yes — Sage AI (our advisory chatbot) is free with no login required. We are currently onboarding enterprise clients on a personal basis: our team joins a 45-minute call, configures your reporting setup for your specific market and framework requirements, and walks through your first report together. Early-access pricing is locked in for clients onboarded before our public launch. Click "Get Early Access" to start the process — no credit card required.</div></div>
-      </div>
-
+    <div class="ed-steps">
+      <div class="ed-step fade-up"><div class="big">1</div><h3>Pick your framework</h3><p>ISSB S2, BRSR, AASB S2, GRI or CDP — the wizard knows your market's thresholds and deadlines.</p></div>
+      <div class="ed-step fade-up"><div class="big">2</div><h3>Feed it your data</h3><p>Fuel, energy, travel, portfolio exposures. Everything autosaves on your device; nothing needs an account.</p></div>
+      <div class="ed-step fade-up"><div class="big">3</div><h3>Sage drafts &amp; checks</h3><p>AI writes disclosure language and flags assurance gaps — grounded in a sourced, public knowledge base, not vibes.</p></div>
+      <div class="ed-step fade-up"><div class="big">4</div><h3>Export &amp; assure</h3><p>Branded PDFs, CSVs and evidence packs your assurance practitioner can actually trace.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════
-     SEO CONTENT SECTION
-     ═══════════════════════════════════════════════ -->
-<section class="fx-seo" aria-label="ESG reporting resources">
-  <div class="fx-seo-head">
-    <h2>ESG &amp; Climate Reporting Resources</h2>
-    <p>FRAMEWORKS · METHODOLOGY · COMPLIANCE GUIDES</p>
-  </div>
-  <div class="fx-seo-grid">
-
-    <article class="fx-seo-card">
-      <h3>IFRS S2 / ISSB S2 Compliance Guide</h3>
-      <p>IFRS S2 (effective January 2024) requires all mandatory reporters to disclose climate-related risks under four pillars: Governance, Strategy, Risk Management and Metrics &amp; Targets. The December 2025 amendments introduced enhanced Scope 3 transition plan disclosures. Our AI-powered generator covers all 10 required disclosure areas and produces board-ready output aligned to TCFD and NGFS v5 scenarios.</p>
-      <button class="fx-seo-btn" onclick="requireLogin('issb')">Generate IFRS S2 Report →</button>
-    </article>
-
-    <article class="fx-seo-card">
-      <h3>SEBI BRSR Mandatory Reporting (India)</h3>
-      <p>SEBI's Business Responsibility and Sustainability Report (BRSR) is mandatory for India's top 1,000 listed companies by market cap from FY 2022–23. BRSR Core KPI assured disclosures are required for the top 150 from FY 2023–24. Our BRSR module covers Section A (General Disclosures), Section B (Management) and Section C (9 Principles) including ESG attributes for value chain partners.</p>
-      <button class="fx-seo-btn" onclick="requireLogin('issb')">Generate BRSR Report →</button>
-    </article>
-
-    <article class="fx-seo-card">
-      <h3>GHG Protocol Scope 3 &amp; PCAF Financed Emissions</h3>
-      <p>Scope 3 Category 15 financed emissions represent over 95% of a bank's or asset manager's total carbon footprint. The PCAF standard provides methodology for loans, bonds, listed equity, project finance and mortgages. Our calculator covers all 15 Scope 3 categories with IPCC AR6 GWP factors, PCAF data quality scores and WACI intensity metrics.</p>
-      <button class="fx-seo-btn" onclick="requireLogin('ghg')">Calculate GHG Inventory →</button>
-    </article>
-
-    <article class="fx-seo-card">
-      <h3>TCFD Scenario Analysis with NGFS v5</h3>
-      <p>TCFD-aligned scenario analysis is now mandatory under IFRS S2 and RBI climate risk guidelines for Indian banks. NGFS Phase V (2024) provides four pathways: Net Zero 2050, Orderly 2°C, Disorderly Transition and Hot House World. Our platform quantifies transition risk and physical risk (flood, heat, drought CVaR) for each scenario across your asset portfolio.</p>
-      <button class="fx-seo-btn" onclick="requireLogin('climate')">Run Scenario Analysis →</button>
-    </article>
-
-    <article class="fx-seo-card">
-      <h3>SBTi Net Zero Targets &amp; Decarbonisation Roadmap</h3>
-      <p>The Science Based Targets initiative (SBTi) requires companies to cut Scope 1+2 emissions 50% by 2030 and Scope 3 by 90% before 2050 to stay within 1.5°C. Our MACC tool identifies the lowest-cost decarbonisation levers for your sector — solar, efficiency, fleet electrification, supply chain engagement — with capex, payback and abatement potential for each lever.</p>
-      <button class="fx-seo-btn" onclick="requireLogin('climate')">Build Net Zero Roadmap →</button>
-    </article>
-
-    <article class="fx-seo-card">
-      <h3>GRI Standards, ASSB &amp; CDP Disclosure</h3>
-      <p>Our Sustainability Disclosure Hub supports five global frameworks in one platform. GRI Standards (GRI 2, GRI 305, GRI 302) for universal sustainability reporting. ASSB/AASB S2 for Australian mandatory reporters from 2025. CDP Climate Change questionnaire (C1–C7) for investor and customer disclosure. All frameworks share your company profile data — switch frameworks without re-entering information.</p>
-      <button class="fx-seo-btn" onclick="requireLogin('issb')">Open Disclosure Hub →</button>
-    </article>
-
-    <article class="fx-seo-card">
-      <h3>AASB S2 Mandatory Climate Reporting — Australia 2025</h3>
-      <p>Australia's AASB S2 aligns with ISSB S2 and is mandatory for Group 1 entities (consolidated revenue &gt; AUD $500M or total assets &gt; $1B) from annual periods beginning 1 January 2025. APRA simultaneously requires Climate Vulnerability Assessments (CVA) under CPS 229 for ADIs and insurers. Our platform generates AASB S2-compliant reports, runs APRA CVA modelling, and aligns with ASIC's disclosure obligations in a single workflow.</p>
-      <button class="fx-seo-btn" onclick="openLeadModal('seo_au')">Get Australia Access →</button>
-    </article>
-
-    <article class="fx-seo-card">
-      <h3>MAS Environmental Risk &amp; SGX Climate Reporting — Singapore</h3>
-      <p>The Monetary Authority of Singapore (MAS) requires all banks, insurers and asset managers under MAS Notice 645 and the Guidelines on Environmental Risk Management (ERM) to integrate climate risk into governance, strategy and risk appetite. SGX-listed companies must report climate-related disclosures aligned with ISSB S2 — mandatory for large-cap from FY2024 and mid-cap from FY2025. ReGenesis Impact covers MAS ERM requirements, SGX ISSB S2 disclosures, and the Singapore-Asia Taxonomy in one integrated platform.</p>
-      <button class="fx-seo-btn" onclick="openLeadModal('seo_sg')">Get Singapore Access →</button>
-    </article>
-
+<!-- ══════════ PROOF ══════════ -->
+<section class="ed-section ed-section-alt" id="traction">
+  <div class="ed-wrap">
+    <div class="ed-proof">
+      <div class="ed-eyebrow" style="justify-content:center">Why trust the answers</div>
+      <blockquote style="margin-top:1rem">Every AI answer is grounded in a <em>public, sourced knowledge base</em> —
+      verifiable entries with citations, maintained in the open.</blockquote>
+      <div class="ed-stats">
+        <div class="ed-stat"><b class="count-up" data-target="7">0</b><span>Instruments</span></div>
+        <div class="ed-stat"><b class="count-up" data-target="64">0</b><span>Sourced entries</span></div>
+        <div class="ed-stat"><b class="count-up" data-target="12">0</b><span>Deep guides</span></div>
+        <div class="ed-stat"><b class="count-up" data-target="3">0</b><span>Markets native</span></div>
+      </div>
+      <a class="src-link" href="https://github.com/suranjan104-cell/ReGenesis-Impact/tree/main/knowledge" rel="noopener" target="_blank">Inspect the knowledge base →</a>
+    </div>
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════
-     FOOTER
-     ═══════════════════════════════════════════════ -->
-<footer class="fx-footer">
-  <div class="fx-footer-grid">
-
-    <!-- Brand -->
-    <div>
-      <div class="fx-footer-logo">ReGenesis<span>Impact</span></div>
-      <div class="fx-footer-tagline">AI-powered sustainability intelligence for the enterprise.</div>
-      <div class="fx-footer-email"><a href="mailto:info@regenesisimpact.in">info@regenesisimpact.in</a></div>
+<!-- ══════════ ADVISORY ══════════ -->
+<section class="ed-section" id="advisory">
+  <div class="ed-wrap">
+    <div class="ed-advisory">
+      <div>
+        <div class="ed-eyebrow">Advisory</div>
+        <h2>When the tools aren't enough, bring in people.</h2>
+        <p>First disclosure cycle, complex group boundaries, assurance findings you don't know how to remediate —
+        book a working session and leave with a plan.</p>
+      </div>
+      <div id="book-trial" style="display:flex;justify-content:flex-end">
+        <button class="ed-btn ed-btn-ink" onclick="showPage('trial')">Book a trial session →</button>
+      </div>
     </div>
+  </div>
+</section>
 
-    <!-- Guides — crawlable static pages generated from the knowledge base -->
-    <div>
-      <div class="fx-footer-col-title">Guides</div>
-      <div class="fx-footer-links">
+<!-- ══════════ PRICING ══════════ -->
+<section class="ed-section ed-section-alt" id="pricing">
+  <div class="ed-wrap">
+    <div class="ed-head">
+      <div class="ed-eyebrow">Pricing</div>
+      <h2>Free to use. Pay when it pays for itself.</h2>
+    </div>
+    <div class="ed-pricing">
+      <div class="ed-price fade-up">
+        <span class="tier">Explorer</span>
+        <div class="amt">Free <small>forever</small></div>
+        <ul><li>All seven instruments</li><li>Sage AI with sourced answers</li><li>On-device autosave</li><li>Watermarked exports</li></ul>
+        <button class="ed-btn ed-btn-ghost" onclick="showPage('issb')">Start now</button>
+      </div>
+      <div class="ed-price ink fade-up">
+        <span class="ed-badge">EARLY ACCESS</span>
+        <span class="tier">Professional</span>
+        <div class="amt">₹15k <small>/ month · S$400 · A$450</small></div>
+        <ul><li>Cloud workspaces &amp; sync</li><li>Unwatermarked branded exports</li><li>Year-on-year comparisons</li><li>Priority AI + support</li></ul>
+        <button class="ed-btn ed-btn-bio" style="background:linear-gradient(135deg,#00e87a,#0affdb);color:#04150c" onclick="openLeadModal('pricing_pro')">Join early access →</button>
+      </div>
+      <div class="ed-price fade-up">
+        <span class="tier">Partner</span>
+        <div class="amt">Custom <small>annual</small></div>
+        <ul><li>White-label exports</li><li>Multi-client workspaces</li><li>Advisory hours included</li><li>Onboarding for your team</li></ul>
+        <button class="ed-btn ed-btn-ghost" onclick="openLeadModal('pricing_partner')">Talk to us</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FAQ ══════════ -->
+<section class="ed-section" id="faq">
+  <div class="ed-wrap">
+    <div class="ed-head" style="text-align:center;margin-left:auto;margin-right:auto">
+      <div class="ed-eyebrow" style="justify-content:center">Questions</div>
+      <h2>Fair questions, straight answers.</h2>
+    </div>
+    <div class="ed-faq">
+      <details><summary>Is it really free?</summary><p>Yes — every instrument works without an account or card. Paid tiers add cloud sync, unwatermarked exports and year-on-year features; the free tier is not a trial.</p></details>
+      <details><summary>Where does my data live?</summary><p>On your device. Tool inputs autosave to your browser's local storage and never touch our servers. A strict Content-Security-Policy locks the site to an explicit allowlist of origins.</p></details>
+      <details><summary>Can I trust the AI's numbers?</summary><p>Sage answers are grounded in a public knowledge base where every entry carries a source URL and review date — you can inspect the exact corpus on GitHub. AI drafts still deserve professional review before filing.</p></details>
+      <details><summary>Which frameworks are covered?</summary><p>IFRS S1/S2 (ISSB), SEBI BRSR &amp; BRSR Core, AASB S2, GRI, CDP, TCFD, GHG Protocol (all scopes), PCAF financed emissions, NGFS scenarios, SBTi target math and ISSA 5000 assurance readiness.</p></details>
+      <details><summary>Is this professional advice?</summary><p>No — it's tooling plus educational guidance. For assurance sign-off or legal positions, use the outputs as your working draft and involve qualified professionals (we can help — see Advisory).</p></details>
+      <details><summary>We're a consultancy — can we use this for clients?</summary><p>Yes, that's the Partner tier: white-label exports and multi-client workspaces. Talk to us and we'll set you up.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FINAL CTA ══════════ -->
+<section class="ed-section" id="waitlist">
+  <div class="ed-wrap">
+    <div class="ed-cta-band">
+      <h2>Your first draft is <em>four minutes</em> away.</h2>
+      <p>No demo call. No sign-up wall. Open an instrument and see your own numbers move.</p>
+      <div class="ed-cta-row" style="justify-content:center">
+        <button class="ed-btn ed-btn-bio" onclick="showPage('issb')">Start a report free →</button>
+        <button class="ed-btn ed-btn-ghost" onclick="openLeadModal('home_cta')">Get early access</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="ed-footer">
+  <div class="ed-wrap">
+    <div class="ed-footer-grid">
+      <div>
+        <div class="brand">ReGenesis <span>Impact</span></div>
+        <p class="tag">AI-powered climate compliance for Asia-Pacific — reports, inventories, scenarios and credits in one living system.</p>
+        <a class="mail" href="mailto:info@regenesisimpact.in">info@regenesisimpact.in</a>
+      </div>
+      <div class="ed-fcol">
+        <h4>Platform</h4>
+        <button onclick="showPage('issb')">Sustainability Reports</button>
+        <button onclick="showPage('ghg')">GHG Inventory</button>
+        <button onclick="showPage('climate')">Climate Intelligence</button>
+        <button onclick="showPage('tools')">ESG Due Diligence</button>
+        <button onclick="showPage('credits')">Carbon Credits</button>
+        <button onclick="showPage('assurance')">Assurance Studio</button>
+        <button onclick="showPage('advisor')">Sage AI Advisor</button>
+        <a href="platform/">IMM Platform</a>
+      </div>
+      <div class="ed-fcol">
+        <h4>Guides</h4>
         <a href="guides/ifrs-s2-reporting-guide.html">IFRS S2 Guide</a>
         <a href="guides/aasb-s2-australia-climate-reporting.html">AASB S2 Australia</a>
         <a href="guides/brsr-core-assurance-india.html">BRSR Core India</a>
@@ -4004,62 +2648,18 @@ input:focus,select:focus,textarea:focus{
         <a href="guides/carbon-credits-buyers-guide.html">Carbon Credits</a>
         <a href="guides/sustainability-assurance-issa-5000.html">Assurance / ISSA 5000</a>
       </div>
-    </div>
-
-    <!-- Platform -->
-    <div>
-      <div class="fx-footer-col-title">Platform</div>
-      <div class="fx-footer-links">
-        <button onclick="requireLogin('issb')">Sustainability Report</button>
-        <button onclick="requireLogin('ghg')">GHG Inventory</button>
-        <button onclick="requireLogin('climate')">Climate Intelligence</button>
-        <button onclick="requireLogin('tools')">ESG Due Diligence</button>
-        <button onclick="showPage('advisor')">Sage AI Advisor</button>
-        <button onclick="requireLogin('credits')">🪙 Credit Exchange</button>
-        <button onclick="requireLogin('assurance')">🛡️ Assurance Studio</button>
-      </div>
-    </div>
-
-    <!-- Frameworks -->
-    <div>
-      <div class="fx-footer-col-title">Frameworks</div>
-      <div class="fx-footer-links">
-        <button onclick="requireLogin('issb')">ISSB S2 · AASB S2 · GRI</button>
-        <button onclick="requireLogin('climate')">TCFD · NGFS v5</button>
-        <button onclick="requireLogin('ghg')">GHG Protocol · PCAF</button>
-        <button onclick="requireLogin('climate')">SBTi · TNFD</button>
-        <button onclick="navTo('markets')">MAS ERM · SGX · APRA</button>
-        <button onclick="requireLogin('issb')">BRSR Core · CDP</button>
-      </div>
-    </div>
-
-    <!-- Markets -->
-    <div>
-      <div class="fx-footer-col-title">Markets</div>
-      <div class="fx-footer-links">
-        <button onclick="navTo('markets')">🇸🇬 Singapore</button>
-        <button onclick="navTo('markets')">🇦🇺 Australia</button>
-        <button onclick="navTo('markets')">🇮🇳 India</button>
-      </div>
-    </div>
-
-    <!-- Company -->
-    <div>
-      <div class="fx-footer-col-title">Company</div>
-      <div class="fx-footer-links">
-        <button onclick="navTo('advisory')">About</button>
-        <a href="mailto:info@regenesisimpact.in">Privacy Policy</a>
-        <a href="mailto:info@regenesisimpact.in">Terms of Service</a>
+      <div class="ed-fcol">
+        <h4>Company</h4>
         <button onclick="showPage('trial')">Book a Trial</button>
-        <a href="mailto:info@regenesisimpact.in">Contact</a>
+        <button onclick="openLeadModal('footer')">Early Access</button>
+        <a href="https://www.linkedin.com/company/regenesisimpact" rel="noopener" target="_blank">LinkedIn</a>
+        <a href="https://github.com/suranjan104-cell/ReGenesis-Impact/tree/main/knowledge" rel="noopener" target="_blank">Knowledge Base</a>
       </div>
     </div>
-
-  </div>
-
-  <div class="fx-footer-bottom">
-    <span>© 2026 REGENESIS IMPACT · ALL SYSTEMS OPERATIONAL <span class="fx-live">●</span></span>
-    <span>SINGAPORE · AUSTRALIA · INDIA</span>
+    <div class="ed-footer-bottom">
+      <span>© 2026 REGENESIS IMPACT</span>
+      <span>SINGAPORE · AUSTRALIA · INDIA</span>
+    </div>
   </div>
 </footer>
 
@@ -9231,6 +7831,9 @@ var S3METHODS = ['Spend-based / supplier-specific','Spend-based / physical units
 function showPage(page) {
   // Unknown page → home (never blank the whole site on a bad name)
   if (!document.getElementById('page-' + page)) page = 'home';
+  // Two-world design: light editorial chrome on home, dark instrument
+  // chrome everywhere else (nav/menus restyle via this class)
+  document.body.classList.toggle('rg-editorial', page === 'home');
   // Hide all pages via direct style (bypasses CSS specificity issues)
   document.querySelectorAll('.page').forEach(function(pg) {
     pg.style.display = 'none';
@@ -9248,7 +7851,9 @@ function showPage(page) {
 
   // Home nav links — show on home and on pages without their own pill bar
   var nlh = document.getElementById('nl-home');
-  if (nlh) nlh.style.display = (page === 'home' || page === 'trial') ? 'flex' : 'none';
+  // '' (not 'flex') so the mobile media query can still hide the links —
+  // an inline flex here forced the full menu open on phones (nav overflow)
+  if (nlh) nlh.style.display = (page === 'home' || page === 'trial') ? '' : 'none';
 
   // Tool pill bars — show matching one, hide the rest
   ['dashboard','advisor','issb','ghg','climate','tools','credits','assurance'].forEach(function(t) {
