@@ -2150,7 +2150,7 @@ input:focus,select:focus,textarea:focus{
    ════════════════════════════════════════════════════════════════ */
 #page-home{
   --paper:#F6F1E7; --paper2:#EDE6D5; --ink:#0E231A; --ink2:rgba(14,35,26,.64);
-  --ink3:rgba(14,35,26,.42); --line:rgba(14,35,26,.14); --emerald:#0B7A47;
+  --ink3:rgba(14,35,26,.55); --line:rgba(14,35,26,.14); --emerald:#0B7A47;
   --signal:#E8622C; --window:#071A11;
   font-family:'DM Sans',sans-serif; background:var(--paper); color:var(--ink);
 }
@@ -2226,11 +2226,12 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
 .ed-marquee span{font-family:'Playfair Display',serif;font-style:italic;font-size:1.15rem;color:transparent;
   -webkit-text-stroke:1px rgba(14,35,26,.4);white-space:nowrap}
 .ed-marquee span.solid{color:var(--emerald);-webkit-text-stroke:0}
+.ed-marquee:hover .ed-marquee-track{animation-play-state:paused}
 @keyframes ed-marquee{to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){.ed-marquee-track{animation:none}}
 
 /* ── SECTION SCAFFOLD ── */
-.ed-section{padding:5.5rem 0}
+.ed-section{padding:5.5rem 0;scroll-margin-top:96px}
 .ed-section-alt{background:var(--paper2)}
 .ed-head{max-width:44rem;margin-bottom:3rem}
 .ed-head h2{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.4vw,2.9rem);font-weight:700;line-height:1.12;letter-spacing:-.01em;margin:.9rem 0 .9rem}
@@ -2371,6 +2372,10 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
 .ed-faq summary::after{content:'+';font-family:'DM Mono',monospace;color:var(--emerald);font-size:1.2rem;transition:transform .25s}
 .ed-faq details[open] summary::after{transform:rotate(45deg)}
 .ed-faq details p{margin-top:.8rem;color:var(--ink2);line-height:1.7;font-size:.92rem}
+@media (prefers-reduced-motion:no-preference){
+  .ed-faq details[open] p{animation:ed-faq-in .3s cubic-bezier(.2,.8,.25,1)}
+  @keyframes ed-faq-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+}
 
 /* ── FINAL CTA — the dark bridge ── */
 .ed-cta-band{background:var(--window);border-radius:1.4rem;padding:4.5rem 3rem;text-align:center;position:relative;overflow:hidden;
@@ -2436,10 +2441,10 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
         <div class="ed-window" aria-hidden="true">
           <div class="ed-window-bar"><i></i><i></i><i></i><span>SYS://ISSB-S2-REPORT</span></div>
           <div class="ed-window-body">
-            <div class="ed-w-row"><span>Framework</span><b>IFRS S2 / ISSB</b></div>
+            <div class="ed-w-row"><span>Framework</span><b id="edw-fw">IFRS S2 / ISSB</b></div>
             <div class="ed-w-row"><span>Scope 1 + 2 + 3</span><b>✓ computed</b></div>
-            <div class="ed-w-row"><span>Scenario analysis</span><b>NGFS NZ2050</b></div>
-            <div class="ed-w-row"><span>Assurance readiness</span><span class="amber">86% · 2 gaps flagged</span></div>
+            <div class="ed-w-row"><span>Scenario analysis</span><b id="edw-sc">NGFS NZ2050</b></div>
+            <div class="ed-w-row"><span>Assurance readiness</span><span class="amber" id="edw-ar">86% · 2 gaps flagged</span></div>
             <div class="ed-progress"><i></i></div>
             <div class="ed-w-foot">DRAFT READY · 9/10 SECTIONS · SOURCED KB ×64</div>
           </div>
@@ -13994,6 +13999,45 @@ document.addEventListener('DOMContentLoaded', function(){
     var res = document.getElementById('sc-result'); if (res) { res.classList.add('on'); res.scrollIntoView({ behavior:'smooth', block:'center' }); }
     if (typeof rgTrack === 'function') rgTrack('scope_result', pick.market + '/' + v);
   }
+})();
+
+// ── LIVING HERO WINDOW — the report console quietly works ───────
+(function(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var FW = ['IFRS S2 / ISSB', 'SEBI BRSR Core', 'AASB S2', 'GRI + CDP'];
+  var SC = ['NGFS NZ2050', 'Delayed Transition', 'Current Policies'];
+  var AR = ['86% · 2 gaps flagged', '91% · 1 gap flagged', '97% · fieldwork ready'];
+  var i = 0;
+  function swap(el, text){
+    if (!el) return;
+    el.style.transition = 'opacity .35s';
+    el.style.opacity = '0';
+    setTimeout(function(){ el.textContent = text; el.style.opacity = '1'; }, 360);
+  }
+  setInterval(function(){
+    // Only animate while home is actually visible — no wasted work
+    var home = document.getElementById('page-home');
+    if (!home || !home.classList.contains('active') || document.hidden) return;
+    i++;
+    swap(document.getElementById('edw-fw'), FW[i % FW.length]);
+    setTimeout(function(){ swap(document.getElementById('edw-sc'), SC[i % SC.length]); }, 900);
+    setTimeout(function(){ swap(document.getElementById('edw-ar'), AR[i % AR.length]); }, 1800);
+  }, 5200);
+})();
+
+// ── MAGNETIC HERO CTAS — buttons lean toward the cursor ─────────
+(function(){
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.querySelectorAll('.ed-hero .ed-btn').forEach(function(btn){
+    btn.addEventListener('mousemove', function(e){
+      var r = btn.getBoundingClientRect();
+      var x = (e.clientX - r.left - r.width / 2) / r.width;
+      var y = (e.clientY - r.top - r.height / 2) / r.height;
+      btn.style.transform = 'translate(' + (x * 6) + 'px,' + (y * 5 - 2) + 'px)';
+    }, { passive: true });
+    btn.addEventListener('mouseleave', function(){ btn.style.transform = ''; });
+  });
 })();
 
 // ── SCROLL PROGRESS BAR ─────────────────────────────────────────
