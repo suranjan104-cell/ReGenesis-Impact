@@ -133,6 +133,80 @@
 </script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
+/* ═══════════════════════════════════════════════════════════════════════
+   DESIGN SYSTEM v1 — Direction A "Regenerative Editorial" (Phase 3, tokens)
+   Two tiers: --ref-* (raw values) → --sem-* (intent). New components consume
+   ONLY --sem-*. A dark tool surface is [data-surface="dark"], which remaps
+   the semantic layer — so one primitive renders on paper OR graphite with no
+   duplicate CSS. Additive: legacy vars/classes untouched; migration is
+   incremental. See DESIGN_SYSTEM.md.
+   ═══════════════════════════════════════════════════════════════════════ */
+:root{
+  /* ── reference: raw values ── */
+  --ref-paper:#F6F1E7;--ref-paper-hi:#FFFFFF;--ref-ink:#0E231A;
+  --ref-graphite:#0C1512;--ref-graphite-hi:#111E19;--ref-off:#EAF4EF;
+  --ref-emerald:#0B7A47;--ref-emerald-lite:#22C079;--ref-emerald-glow:#3BE38A;
+  --ref-signal:#E8622C;--ref-signal-lite:#FF8A4C;
+  --ref-danger:#C0392B;--ref-warn:#B8860B;
+  /* ── spacing (4px base) ── */
+  --sp-1:2px;--sp-2:4px;--sp-3:8px;--sp-4:12px;--sp-5:16px;--sp-6:24px;--sp-7:32px;--sp-8:48px;--sp-9:64px;--sp-10:96px;
+  /* ── radius ── */
+  --rad-sm:6px;--rad-md:10px;--rad-lg:16px;--rad-pill:999px;
+  /* ── type scale (1.2 minor third) ── */
+  --tx-xs:.68rem;--tx-sm:.78rem;--tx-base:1rem;--tx-md:1.25rem;--tx-lg:1.56rem;--tx-xl:1.95rem;--tx-2xl:2.44rem;--tx-3xl:3.05rem;
+  --font-display:'Playfair Display',serif;--font-ui:'DM Sans',sans-serif;--font-mono:'DM Mono',monospace;
+  /* ── semantic: light surface (marketing + reading) is the default ── */
+  --sem-bg:var(--ref-paper);--sem-surface:var(--ref-paper-hi);
+  --sem-text:var(--ref-ink);--sem-text-muted:rgba(14,35,26,.64);--sem-text-faint:rgba(14,35,26,.55);
+  --sem-accent:var(--ref-emerald);--sem-accent-ink:var(--ref-paper);
+  --sem-signal:var(--ref-signal);--sem-border:rgba(14,35,26,.14);
+  --sem-danger:var(--ref-danger);--sem-warning:var(--ref-warn);--sem-success:var(--ref-emerald);
+  --sem-focus:var(--ref-emerald);
+  --sem-shadow-raised:0 1px 2px rgba(14,35,26,.06),0 8px 24px -12px rgba(14,35,26,.28);
+  --sem-glow:0 8px 34px -10px rgba(11,122,71,.5);
+}
+/* dark instrument surface: the tools. Remaps semantics only. */
+[data-surface="dark"]{
+  --sem-bg:var(--ref-graphite);--sem-surface:var(--ref-graphite-hi);
+  --sem-text:var(--ref-off);--sem-text-muted:rgba(234,244,239,.60);--sem-text-faint:rgba(234,244,239,.42);
+  --sem-accent:var(--ref-emerald-lite);--sem-accent-ink:#04150C;
+  --sem-signal:var(--ref-signal-lite);--sem-border:rgba(34,192,121,.18);
+  --sem-success:var(--ref-emerald-lite);--sem-focus:var(--ref-emerald-glow);
+  --sem-shadow-raised:inset 0 1px 0 rgba(255,255,255,.05),0 10px 30px -14px rgba(0,0,0,.7);
+  --sem-glow:0 10px 40px -8px rgba(34,192,121,.5);
+}
+
+/* ── ACCESSIBLE PRIMITIVES (consume --sem-* only) ─────────────────────
+   Ready for incremental migration off the ~12 button / ~8 card dialects. */
+.rg-btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--sp-3);
+  font-family:var(--font-ui);font-weight:600;font-size:var(--tx-sm);line-height:1;
+  padding:.7rem 1.2rem;border-radius:var(--rad-md);border:1px solid transparent;cursor:pointer;
+  transition:transform .18s,box-shadow .25s,background .2s,border-color .2s;text-decoration:none;white-space:nowrap}
+.rg-btn:active{transform:scale(.975)}
+.rg-btn--primary{background:var(--sem-accent);color:var(--sem-accent-ink)}
+.rg-btn--primary:hover{transform:translateY(-1px);box-shadow:var(--sem-glow)}
+.rg-btn--secondary{background:transparent;color:var(--sem-text);border-color:var(--sem-border)}
+.rg-btn--secondary:hover{border-color:var(--sem-accent);transform:translateY(-1px)}
+.rg-btn--ghost{background:transparent;color:var(--sem-accent);padding:.5rem .7rem}
+.rg-btn--ghost:hover{background:color-mix(in srgb,var(--sem-accent) 10%,transparent)}
+.rg-btn--danger{background:var(--sem-danger);color:#fff}
+.rg-btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.rg-card{background:var(--sem-surface);border:1px solid var(--sem-border);border-radius:var(--rad-lg);
+  padding:var(--sp-6);box-shadow:var(--sem-shadow-raised)}
+.rg-field{display:flex;flex-direction:column;gap:var(--sp-2)}
+.rg-field label{font-family:var(--font-mono);font-size:var(--tx-xs);letter-spacing:.08em;text-transform:uppercase;color:var(--sem-text-muted)}
+.rg-field input,.rg-field select,.rg-field textarea{background:var(--sem-surface);border:1px solid var(--sem-border);
+  border-radius:var(--rad-sm);padding:.6rem .8rem;color:var(--sem-text);font-family:var(--font-ui);font-size:var(--tx-sm)}
+.rg-field input:focus,.rg-field select:focus,.rg-field textarea:focus{border-color:var(--sem-accent);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--sem-accent) 15%,transparent)}
+
+/* ── GLOBAL ACCESSIBLE FOCUS (audit C3) ──────────────────────────────
+   One rule, every real control, both surfaces. Token-driven so it's the
+   right color on paper vs graphite automatically. */
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,
+textarea:focus-visible,[tabindex]:focus-visible,[role="button"]:focus-visible,[role="link"]:focus-visible{
+  outline:2px solid var(--sem-focus);outline-offset:2px;border-radius:3px;
+}
 
 
 /* ===== SHARED BASE ===== */
@@ -1675,6 +1749,17 @@ input:focus,select:focus,textarea:focus{
 @media (prefers-reduced-motion: no-preference){
   .page.active{animation:rg-page-in .45s cubic-bezier(.2,.8,.25,1)}
   @keyframes rg-page-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+}
+
+/* ── BRIDGE: light storefront ⇆ dark workshop is a tween, not a cut ─────
+   The visible seam entering a tool is the nav flipping light→dark. Ease the
+   themed properties so it morphs instead of snapping. The page content
+   already cross-fades via .page.active. Reduced-motion → instant. */
+@media (prefers-reduced-motion: no-preference){
+  nav, .nav-logo, .nav-logo span, .nav-links a, .nav-links button,
+  .nav-dropdown-btn, .nav-cta, #nb-cmdk{
+    transition:background-color .45s ease, color .45s ease, border-color .45s ease, box-shadow .45s ease;
+  }
 }
 </style>
 </head>
@@ -7957,6 +8042,10 @@ function showPage(page) {
   // Two-world design: light editorial chrome on home, dark instrument
   // chrome everywhere else (nav/menus restyle via this class)
   document.body.classList.toggle('rg-editorial', page === 'home');
+  // Design-system surface: home/trial read on paper (light semantics),
+  // every tool is the dark instrument surface. Drives the --sem-* remap so
+  // migrated primitives theme automatically. (Legacy tool CSS is unaffected.)
+  document.body.setAttribute('data-surface', (page === 'home' || page === 'trial') ? 'light' : 'dark');
   // Hide all pages via direct style (bypasses CSS specificity issues)
   document.querySelectorAll('.page').forEach(function(pg) {
     pg.style.display = 'none';
