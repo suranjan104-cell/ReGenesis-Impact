@@ -2019,10 +2019,10 @@ input:focus,select:focus,textarea:focus{
 /* ── Dashboard ─────────────────────────────────────── */
 .db-wrap{max-width:1100px;margin:0 auto;padding:2rem 1.5rem;padding-top:calc(64px + 2rem)}
 .db-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem}
-.db-welcome{font-family:'Playfair Display',serif;font-size:1.6rem;color:#f0ede8}
-.db-welcome span{color:#00e87a}
+.db-welcome{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--sem-text)}
+.db-welcome span{color:var(--sem-accent)}
 .db-meta{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
-.db-market-badge{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .85rem;border-radius:2rem;border:1px solid rgba(0,232,122,.3);color:#00e87a;background:rgba(0,232,122,.08)}
+.db-market-badge{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .85rem;border-radius:2rem;border:1px solid rgba(0,232,122,.3);color:var(--sem-accent);background:rgba(0,232,122,.08)}
 .db-signout{background:none;border:1px solid rgba(255,90,60,.25);color:rgba(255,90,60,.7);padding:.3rem .8rem;border-radius:2rem;font-size:.65rem;font-family:'DM Mono',monospace;cursor:pointer;letter-spacing:.06em}
 .db-signout:hover{background:rgba(255,90,60,.08);border-color:rgba(255,90,60,.4)}
 
@@ -2030,29 +2030,29 @@ input:focus,select:focus,textarea:focus{
 .db-deadline{background:rgba(0,232,122,.05);border:1px solid rgba(0,232,122,.15);border-radius:.65rem;padding:1rem 1.25rem;margin-bottom:2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
 .db-dl-flag{font-size:1.4rem}
 .db-dl-body{flex:1}
-.db-dl-title{font-size:.82rem;font-weight:600;color:#f0ede8;margin-bottom:.15rem}
+.db-dl-title{font-size:.82rem;font-weight:600;color:var(--sem-text);margin-bottom:.15rem}
 .db-dl-sub{font-size:.72rem;color:rgba(240,237,232,.5);font-family:'DM Mono',monospace}
-.db-dl-countdown{font-family:'DM Mono',monospace;font-size:1.1rem;font-weight:700;color:#00e87a;text-align:right;white-space:nowrap}
+.db-dl-countdown{font-family:'DM Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--sem-accent);text-align:right;white-space:nowrap}
 .db-dl-countdown span{display:block;font-size:.55rem;color:rgba(240,237,232,.35);font-weight:400;letter-spacing:.08em;text-transform:uppercase;text-align:center;margin-top:.1rem}
 
 /* Tool grid */
 .db-section-label{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,237,232,.3);margin-bottom:.85rem}
 .db-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem}
-.db-card{background:rgba(5,15,7,.8);border:1px solid rgba(0,232,122,.1);border-radius:.75rem;padding:1.25rem;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:.5rem}
+.db-card{background:var(--sem-surface);border:1px solid rgba(0,232,122,.1);border-radius:.75rem;padding:1.25rem;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:.5rem}
 .db-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(0,232,122,.05),transparent 60%);pointer-events:none}
 .db-card:hover{border-color:rgba(0,232,122,.3);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,232,122,.08)}
 .db-card-ico{font-size:1.4rem;margin-bottom:.1rem}
-.db-card-name{font-size:.92rem;font-weight:700;color:#f0ede8}
+.db-card-name{font-size:.92rem;font-weight:700;color:var(--sem-text)}
 .db-card-desc{font-size:.72rem;color:rgba(240,237,232,.45);line-height:1.55;flex:1}
 .db-card-tags{display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.25rem}
 .db-card-tag{font-family:'DM Mono',monospace;font-size:.48rem;letter-spacing:.06em;padding:.15rem .45rem;border-radius:.2rem;background:rgba(0,232,122,.08);border:1px solid rgba(0,232,122,.15);color:rgba(0,232,122,.7)}
-.db-card-open{margin-top:.75rem;background:none;border:1px solid rgba(0,232,122,.2);color:#00e87a;padding:.4rem .85rem;border-radius:2rem;font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.07em;cursor:pointer;transition:all .2s;align-self:flex-start}
+.db-card-open{margin-top:.75rem;background:none;border:1px solid rgba(0,232,122,.2);color:var(--sem-accent);padding:.4rem .85rem;border-radius:2rem;font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.07em;cursor:pointer;transition:all .2s;align-self:flex-start}
 .db-card-open:hover{background:rgba(0,232,122,.1);border-color:rgba(0,232,122,.4)}
 .db-card.sage-card{background:linear-gradient(135deg,rgba(0,232,122,.07),rgba(10,255,219,.04));border-color:rgba(0,232,122,.2)}
 
 /* Quick actions */
 .db-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:2rem}
-.db-action{background:rgba(5,15,7,.6);border:1px solid rgba(240,237,232,.07);border-radius:.6rem;padding:.9rem 1rem;cursor:pointer;transition:all .2s;text-align:center}
+.db-action{background:var(--sem-surface);border:1px solid rgba(240,237,232,.07);border-radius:.6rem;padding:.9rem 1rem;cursor:pointer;transition:all .2s;text-align:center}
 .db-action:hover{border-color:rgba(0,232,122,.2);background:rgba(0,232,122,.04)}
 .db-action-ico{font-size:1.1rem;margin-bottom:.3rem}
 .db-action-lbl{font-size:.7rem;color:rgba(240,237,232,.6);font-family:'DM Mono',monospace;letter-spacing:.05em}
