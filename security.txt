@@ -1,0 +1,14 @@
+# ReGenesis Impact — security contact & policy
+Contact: mailto:security@regenesisimpact.in
+Contact: mailto:info@regenesisimpact.in
+Preferred-Languages: en
+Canonical: https://www.regenesisimpact.in/.well-known/security.txt
+Expires: 2027-12-31T23:59:59Z
+Policy: https://www.regenesisimpact.in/#faq
+
+# We welcome responsible disclosure. Please report vulnerabilities to the
+# contact above; we aim to acknowledge within 3 business days. Do not run
+# automated scanners against production, and never access data that is not
+# your own. All user tool data lives client-side (localStorage); the
+# platform enforces a strict Content-Security-Policy and Supabase
+# Row-Level Security scoped to owner-only reads.
