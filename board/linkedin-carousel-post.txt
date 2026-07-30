@@ -1,0 +1,38 @@
+Three things happened between 2024 and 2026 that changed climate reporting from a brochure exercise into a filing obligation. Most people I talk to have only noticed one of them.
+
+It became law. Australia legislated climate reporting into the Corporations Act, and by July 2027 the net reaches companies with A$50m of revenue.
+
+It became audited. Australia's assurance standards escalate to reasonable assurance over all climate disclosures from July 2030. Numbers now need an evidence trail.
+
+And it became forward-looking. The hardest requirement isn't last year's emissions — it's scenario analysis and a transition plan. A defensible account of how the business survives futures that haven't happened yet.
+
+Meanwhile Singapore deferred most of its deadlines to FY2030, MAS made transition planning a supervisory expectation for banks, insurers and asset managers, and India's BRSR Core assurance keeps walking down the market-cap ranking.
+
+I put the whole picture into one deck — the dates, the thresholds, the stress tests, and what APRA's own numbers say about where this lands. 21 pages, every figure sourced on the last slide.
+
+The part I keep coming back to is the mismatch. The standards were written with large filers in mind and then extended downward by threshold. The tools were built for large filers and never extended downward at all. That gap, not the regulation, is what makes this feel impossible in the mid-market.
+
+If you're inside one of these cohorts, I'd genuinely like to know which part is hardest for you right now.
+
+#ESG #ClimateReporting #ISSB #AASBS2 #BRSR #TransitionPlanning
+
+
+--------------------------------------------------
+HOW TO POST (delete this section before posting):
+
+1. Upload the PDF as a DOCUMENT post (not an image). On LinkedIn: Start a post
+   → the "+" / document icon → upload
+   ReGenesis-Impact-The-Compliance-Decade.pdf → give it the title
+   "The Compliance Decade" (that title shows on the carousel card).
+2. Paste everything above the dashed line as the post body.
+3. Put your link in the FIRST COMMENT, not the body — LinkedIn suppresses reach
+   on posts with external links in the body, and a document post is already
+   competing for the same slot:
+   https://www.regenesisimpact.in/?utm_source=linkedin&utm_medium=social&utm_campaign=compliance-decade
+4. Post Tue/Wed/Thu morning IST. Document posts tend to run longer than text
+   posts, so don't judge it on day one.
+5. Reply to every comment in the first hour. On carousels the comments are where
+   the reach compounds — people ask which cohort they're in, and that's your
+   opening.
+6. Slide 20 lists every source. If someone challenges a figure, that page is the
+   answer — which is exactly why it's in there.
