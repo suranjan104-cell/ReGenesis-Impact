@@ -7,11 +7,11 @@
    adjacent fills are separated by a 2px surface gap.
    ═══════════════════════════════════════════════════════════════════ */
 
-export const S = { s1: '#199e70', s2: '#d95926', s3: '#3987e5', s4: '#d55181' };
+export const S = { s1: '#0B7A47', s2: '#C2410C', s3: '#2a78d6', s4: '#b0306a' };
 /* Neutral is NOT a categorical slot — it is the "muted baseline" used by the
    emphasis pattern (highlight the point being made, recede the reference).
    Using a series hue for a baseline would falsely imply an entity. */
-export const NEUTRAL = 'rgba(234,244,239,.26)';
+export const NEUTRAL = 'rgba(14,35,26,.24)';
 const esc = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 /** Legend — always emitted for ≥2 series. */
@@ -123,9 +123,9 @@ export function quadrant({ w = 900, h = 620, quads, xLab, yLab }) {
       <rect x="${p.x}" y="${p.y}" width="${cellW}" height="${cellH}" rx="12"
             fill="${q.c}" opacity=".13" stroke="${q.c}" stroke-width="1.5"/>
       <text x="${p.x + 26}" y="${p.y + 42}" style="font-family:'DM Mono',monospace;font-size:13px;letter-spacing:.14em;fill:${q.c}">${esc(q.tag)}</text>
-      <text x="${p.x + 26}" y="${p.y + 82}" style="font-family:'Playfair Display',serif;font-weight:700;font-size:29px;fill:#EAF4EF">${esc(q.title)}</text>
+      <text x="${p.x + 26}" y="${p.y + 82}" style="font-family:'Playfair Display',serif;font-weight:700;font-size:29px;fill:#0E231A">${esc(q.title)}</text>
       ${q.lines.map((l, j) =>
-        `<text x="${p.x + 26}" y="${p.y + 120 + j * 26}" style="font-family:'DM Sans',sans-serif;font-size:16.5px;fill:rgba(234,244,239,.66)">${esc(l)}</text>`
+        `<text x="${p.x + 26}" y="${p.y + 120 + j * 26}" style="font-family:'DM Sans',sans-serif;font-size:16.5px;fill:rgba(14,35,26,.68)">${esc(l)}</text>`
       ).join('')}`;
   }).join('');
 

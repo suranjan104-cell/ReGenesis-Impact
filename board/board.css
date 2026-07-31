@@ -2,14 +2,13 @@
    ReGenesis Impact — Thought Leadership Board
    Print/PDF stylesheet. 1080×1350 (4:5) — LinkedIn document-post optimal.
 
-   Design language inherits the product's "Regenerative Editorial" system:
-   Playfair Display headlines, DM Sans body, DM Mono for data/labels, on the
-   dark instrument surface used by the tools.
+   Surface: the product's "Regenerative Editorial" LIGHT system — warm paper
+   #F6F1E7, ink #0E231A, emerald #0B7A47. Playfair Display headlines, DM Sans
+   body, DM Mono for data and labels.
 
-   Chart palette validated with the dataviz validator (dark, surface #0C1512):
-   lightness band PASS · chroma PASS · CVD ΔE 9.4 PASS · normal-vision 26.5
-   PASS · contrast PASS. Brand emerald #22C079 is the UI accent only, never a
-   categorical series slot.
+   Chart palette re-validated for THIS surface (dataviz validator, light,
+   surface #F6F1E7): lightness band PASS · chroma PASS · CVD ΔE 8.1 PASS ·
+   normal-vision ΔE 25.7 PASS · contrast ≥3:1 PASS.
    ═══════════════════════════════════════════════════════════════════ */
 
 @font-face{font-family:'Playfair Display';font-weight:400;src:url('fonts/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvUDQ.ttf') format('truetype')}
@@ -22,18 +21,18 @@
 @font-face{font-family:'DM Mono';font-weight:500;src:url('fonts/aFTR7PB1QTsUX8KYvumzIYQ.ttf') format('truetype')}
 
 :root{
-  /* surfaces + ink (from the product's dark instrument surface) */
-  --bg:#0C1512; --bg-hi:#111E19; --bg-lift:#16261F;
-  --ink:#EAF4EF; --ink-muted:rgba(234,244,239,.62); --ink-faint:rgba(234,244,239,.40);
-  --accent:#22C079; --accent-deep:#0B7A47; --accent-glow:#3BE38A;
-  --rule:rgba(34,192,121,.20); --rule-soft:rgba(234,244,239,.10);
-  --paper:#F6F1E7; --paper-ink:#0E231A;
+  --paper:#F6F1E7; --paper-hi:#FFFFFF; --paper-sink:#EFE8DA;
+  --ink:#0E231A;
+  --ink-mid:rgba(14,35,26,.74); --ink-muted:rgba(14,35,26,.60); --ink-faint:rgba(14,35,26,.44);
+  --emerald:#0B7A47; --emerald-deep:#085C36;
+  --rule:rgba(11,122,71,.26); --rule-soft:rgba(14,35,26,.13);
 
-  /* validated categorical series slots — assign by entity, never by rank */
-  --s1:#199e70;  /* Singapore  */
-  --s2:#d95926;  /* Australia  */
-  --s3:#3987e5;  /* India      */
-  --s4:#d55181;  /* Global/other */
+  /* validated categorical slots for the beige surface — colour follows the
+     entity, never its rank. Brand emerald leads as Singapore. */
+  --s1:#0B7A47;  /* Singapore */
+  --s2:#C2410C;  /* Australia */
+  --s3:#2a78d6;  /* India */
+  --s4:#b0306a;  /* other / global */
 
   --font-display:'Playfair Display',Georgia,serif;
   --font-ui:'DM Sans',Helvetica,sans-serif;
@@ -42,75 +41,74 @@
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 @page{size:1080px 1350px;margin:0}
-html,body{background:var(--bg)}
+html,body{background:var(--paper)}
 body{font-family:var(--font-ui);color:var(--ink);-webkit-font-smoothing:antialiased}
 
 /* ── slide shell ───────────────────────────────────────────────── */
 .slide{
   position:relative;width:1080px;height:1350px;overflow:hidden;
   page-break-after:always;break-after:page;
-  background:var(--bg);
-  padding:76px 76px 92px;
+  background:var(--paper);
+  padding:72px 76px 92px;
   display:flex;flex-direction:column;
 }
 .slide:last-child{page-break-after:auto;break-after:auto}
-.slide--paper{background:var(--paper);color:var(--paper-ink)}
-.slide--paper .eyebrow{color:var(--accent-deep)}
-.slide--paper .rule{background:rgba(14,35,26,.14)}
 
-/* faint grid texture — the "instrument" feel, kept recessive */
+/* deep-ink variant, used sparingly for the cover and the closing frame */
+.slide--ink{background:var(--ink);color:var(--paper)}
+.slide--ink h1,.slide--ink h2,.slide--ink h3,.slide--ink strong{color:var(--paper)}
+.slide--ink p,.slide--ink .lede{color:rgba(246,241,231,.72)}
+.slide--ink .eyebrow{color:#3BE38A}
+.slide--ink .eyebrow::after{background:rgba(59,227,138,.3)}
+.slide--ink .pagenum,.slide--ink .brandmark{color:rgba(246,241,231,.45)}
+.slide--ink .brandmark::before{background:#3BE38A}
+
+/* faint plotting grid — the "instrument paper" texture, kept recessive */
 .slide::before{
   content:'';position:absolute;inset:0;pointer-events:none;
-  background-image:linear-gradient(rgba(34,192,121,.045) 1px,transparent 1px),
-                   linear-gradient(90deg,rgba(34,192,121,.045) 1px,transparent 1px);
+  background-image:linear-gradient(rgba(14,35,26,.045) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(14,35,26,.045) 1px,transparent 1px);
   background-size:60px 60px;
 }
-.slide--paper::before{
-  background-image:linear-gradient(rgba(14,35,26,.035) 1px,transparent 1px),
-                   linear-gradient(90deg,rgba(14,35,26,.035) 1px,transparent 1px);
+.slide--ink::before{
+  background-image:linear-gradient(rgba(246,241,231,.05) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(246,241,231,.05) 1px,transparent 1px);
 }
 .slide > *{position:relative;z-index:1}
 
 /* ── type ──────────────────────────────────────────────────────── */
 .eyebrow{
   font-family:var(--font-mono);font-size:15px;font-weight:500;
-  letter-spacing:.22em;text-transform:uppercase;color:var(--accent);
-  display:flex;align-items:center;gap:14px;margin-bottom:26px;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--emerald);
+  display:flex;align-items:center;gap:14px;margin-bottom:24px;
 }
 .eyebrow::after{content:'';flex:1;height:1px;background:var(--rule)}
 
-h1{font-family:var(--font-display);font-weight:900;font-size:112px;line-height:.94;letter-spacing:-.02em}
-h2{font-family:var(--font-display);font-weight:700;font-size:60px;line-height:1.04;letter-spacing:-.015em;margin-bottom:22px}
-h3{font-family:var(--font-display);font-weight:700;font-size:33px;line-height:1.16;margin-bottom:12px}
-.lede{font-size:25px;line-height:1.5;color:var(--ink-muted);font-weight:400}
-.slide--paper .lede{color:rgba(14,35,26,.68)}
-p{font-size:20.5px;line-height:1.62;color:var(--ink-muted)}
-.slide--paper p{color:rgba(14,35,26,.72)}
+h1{font-family:var(--font-display);font-weight:900;font-size:112px;line-height:.94;letter-spacing:-.02em;color:var(--ink)}
+h2{font-family:var(--font-display);font-weight:700;font-size:64px;line-height:1.04;letter-spacing:-.015em;margin-bottom:30px;color:var(--ink)}
+h3{font-family:var(--font-display);font-weight:700;font-size:31px;line-height:1.16;margin-bottom:10px;color:var(--ink)}
+.lede{font-size:27px;line-height:1.46;color:var(--ink-mid);font-weight:400}
+p{font-size:22px;line-height:1.58;color:var(--ink-mid)}
 strong{color:var(--ink);font-weight:700}
-.slide--paper strong{color:var(--paper-ink)}
-em.hl{font-style:normal;color:var(--accent);font-weight:500}
-.slide--paper em.hl{color:var(--accent-deep)}
+em.hl{font-style:normal;color:var(--emerald);font-weight:500}
 
-.rule{height:1px;background:var(--rule);margin:26px 0}
+.rule{height:1px;background:var(--rule);margin:24px 0}
 
 /* ── citation superscript + footer source rail ─────────────────── */
-/* The Unicode subscript-two glyph (U+2082) is absent from all three brand
-   fonts and silently falls back to a system face — use a real <sub>. */
+/* U+2082 is absent from all three brand fonts and would silently fall back
+   to a system face — use a real <sub>. */
 sub{font-size:.66em;vertical-align:baseline;position:relative;bottom:-.22em}
 sup.cite{
   font-family:var(--font-mono);font-size:11.5px;font-weight:500;
-  color:var(--accent);vertical-align:super;line-height:0;margin-left:2px;
-  letter-spacing:.02em;
+  color:var(--emerald);vertical-align:super;line-height:0;margin-left:2px;
 }
-.slide--paper sup.cite{color:var(--accent-deep)}
 .srcrail{
-  margin-top:auto;padding-top:18px;border-top:1px solid var(--rule-soft);
-  font-family:var(--font-mono);font-size:12.5px;line-height:1.55;
-  color:var(--ink-faint);
+  margin-top:auto;padding-top:16px;border-top:1px solid var(--rule-soft);
+  font-family:var(--font-mono);font-size:12.5px;line-height:1.55;color:var(--ink-faint);
 }
-.slide--paper .srcrail{color:rgba(14,35,26,.46);border-top-color:rgba(14,35,26,.12)}
 .srcrail b{color:var(--ink-muted);font-weight:500}
-.slide--paper .srcrail b{color:rgba(14,35,26,.62)}
+.slide--ink .srcrail{color:rgba(246,241,231,.42);border-top-color:rgba(246,241,231,.14)}
+.slide--ink .srcrail b{color:rgba(246,241,231,.6)}
 
 /* ── page furniture ────────────────────────────────────────────── */
 .pagenum{
@@ -122,76 +120,63 @@ sup.cite{
   font-family:var(--font-mono);font-size:13px;letter-spacing:.16em;color:var(--ink-faint);
   display:flex;align-items:center;gap:9px;
 }
-.brandmark::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--accent)}
-.slide--paper .pagenum,.slide--paper .brandmark{color:rgba(14,35,26,.42)}
-.slide--paper .brandmark::before{background:var(--accent-deep)}
+.brandmark::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--emerald)}
 
-/* ── stat tiles (a number IS a chart — no one-bar bar charts) ──── */
-.statrow{display:grid;gap:20px;margin:6px 0}
+/* ── stat tiles — a number IS a chart ──────────────────────────── */
+.statrow{display:grid;gap:18px;margin:4px 0}
 .statrow--2{grid-template-columns:1fr 1fr}
 .statrow--3{grid-template-columns:repeat(3,1fr)}
+.statrow--4{grid-template-columns:repeat(4,1fr)}
 .stat{
-  background:var(--bg-hi);border:1px solid var(--rule-soft);border-left:3px solid var(--accent);
-  border-radius:12px;padding:24px 26px;
+  background:var(--paper-hi);border:1px solid var(--rule-soft);border-left:3px solid var(--emerald);
+  border-radius:10px;padding:26px 26px;
 }
-.slide--paper .stat{background:#fff;border-color:rgba(14,35,26,.10);border-left-color:var(--accent-deep)}
-.stat-num{font-family:var(--font-display);font-weight:900;font-size:60px;line-height:1;color:var(--ink);letter-spacing:-.02em}
-.slide--paper .stat-num{color:var(--paper-ink)}
-.stat-num small{font-size:27px;font-weight:700}
+.slide--ink .stat{background:rgba(246,241,231,.07);border-color:rgba(246,241,231,.14);border-left-color:#3BE38A}
+.stat-num{font-family:var(--font-display);font-weight:900;font-size:64px;line-height:1;color:var(--ink);letter-spacing:-.02em}
+.slide--ink .stat-num{color:var(--paper)}
+.stat-num small{font-size:26px;font-weight:700}
 .stat-lab{
-  font-family:var(--font-mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--ink-faint);margin-top:10px;line-height:1.5;
+  font-family:var(--font-mono);font-size:13.5px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink-faint);margin-top:9px;line-height:1.5;
 }
-.slide--paper .stat-lab{color:rgba(14,35,26,.5)}
+.slide--ink .stat-lab{color:rgba(246,241,231,.5)}
 
-/* ── generic card ──────────────────────────────────────────────── */
-.card{background:var(--bg-hi);border:1px solid var(--rule-soft);border-radius:14px;padding:26px 28px}
-.slide--paper .card{background:#fff;border-color:rgba(14,35,26,.10)}
-.cardgrid{display:grid;gap:18px}
+/* ── card ──────────────────────────────────────────────────────── */
+.card{background:var(--paper-hi);border:1px solid var(--rule-soft);border-radius:12px;padding:28px 30px}
+.slide--ink .card{background:rgba(246,241,231,.07);border-color:rgba(246,241,231,.14)}
+.cardgrid{display:grid;gap:16px}
 .cardgrid--2{grid-template-columns:1fr 1fr}
 
-/* ── legend (always present for ≥2 series; identity never color-alone) ── */
-.legend{display:flex;flex-wrap:wrap;gap:10px 26px;margin:14px 0 4px}
+/* ── legend — always present for ≥2 series ─────────────────────── */
+.legend{display:flex;flex-wrap:wrap;gap:10px 26px;margin:12px 0 4px}
 .legend-item{display:flex;align-items:center;gap:9px;font-family:var(--font-mono);font-size:14px;color:var(--ink-muted);letter-spacing:.04em}
-.slide--paper .legend-item{color:rgba(14,35,26,.66)}
 .legend-swatch{width:13px;height:13px;border-radius:3px;flex:none}
 
 /* ── chart scaffolding ─────────────────────────────────────────── */
-.chartwrap{margin:10px 0 4px}
-.chart-title{font-family:var(--font-mono);font-size:14px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);margin:22px 0 16px}
-.slide--paper .chart-title{color:rgba(14,35,26,.5)}
+.chart-title{font-family:var(--font-mono);font-size:13.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);margin:20px 0 14px}
 svg{display:block;overflow:visible}
-.ax-line{stroke:var(--rule-soft);stroke-width:1}       /* hairline, never dashed */
+.ax-line{stroke:var(--rule-soft);stroke-width:1}     /* hairline, never dashed */
 .ax-lab{font-family:'DM Mono',monospace;font-size:14px;fill:var(--ink-faint)}
-.slide--paper .ax-lab{fill:rgba(14,35,26,.5)}
 .val-lab{font-family:'DM Mono',monospace;font-size:15px;font-weight:500;fill:var(--ink)}
-.slide--paper .val-lab{fill:var(--paper-ink)}
-.ser-lab{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;fill:var(--ink-muted)}
-.slide--paper .ser-lab{fill:rgba(14,35,26,.7)}
+.ser-lab{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;fill:var(--ink-mid)}
 
-/* ── data table (accessible alternative to every chart) ────────── */
-table.dt{width:100%;border-collapse:collapse;font-size:19px}
+/* ── data table ────────────────────────────────────────────────── */
+table.dt{width:100%;border-collapse:collapse;font-size:20.5px}
 table.dt th{
-  font-family:var(--font-mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--ink-faint);text-align:left;padding:0 12px 13px 0;border-bottom:1px solid var(--rule-soft);font-weight:500;
+  font-family:var(--font-mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-faint);text-align:left;padding:0 12px 12px 0;border-bottom:1px solid var(--rule);font-weight:500;
 }
-table.dt td{padding:16px 12px 16px 0;border-bottom:1px solid var(--rule-soft);color:var(--ink-muted);vertical-align:top;line-height:1.45}
+table.dt td{padding:19px 12px 19px 0;border-bottom:1px solid var(--rule-soft);color:var(--ink-mid);vertical-align:top;line-height:1.42}
 table.dt td.k{color:var(--ink);font-weight:500}
-.slide--paper table.dt th{color:rgba(14,35,26,.5);border-bottom-color:rgba(14,35,26,.12)}
-.slide--paper table.dt td{color:rgba(14,35,26,.72);border-bottom-color:rgba(14,35,26,.10)}
-.slide--paper table.dt td.k{color:var(--paper-ink)}
+table.dt td.num{font-family:var(--font-mono);font-size:17px;color:var(--ink)}
 
 /* ── misc ──────────────────────────────────────────────────────── */
 .tag{
   display:inline-block;font-family:var(--font-mono);font-size:12.5px;letter-spacing:.1em;
   text-transform:uppercase;padding:6px 14px;border-radius:999px;
-  border:1px solid var(--rule);color:var(--accent);background:rgba(34,192,121,.08);
+  border:1px solid var(--rule);color:var(--emerald);background:rgba(11,122,71,.07);
 }
-.slide--paper .tag{color:var(--accent-deep);border-color:rgba(11,122,71,.3);background:rgba(11,122,71,.07)}
-ul.ticks{list-style:none;display:flex;flex-direction:column;gap:19px}
-ul.ticks li{padding-left:34px;position:relative;font-size:21px;line-height:1.56;color:var(--ink-muted)}
-.slide--paper ul.ticks li{color:rgba(14,35,26,.72)}
-ul.ticks li::before{
-  content:'';position:absolute;left:0;top:9px;width:16px;height:2px;background:var(--accent);
-}
+ul.ticks{list-style:none;display:flex;flex-direction:column;gap:21px}
+ul.ticks li{padding-left:34px;position:relative;font-size:22px;line-height:1.52;color:var(--ink-mid)}
+ul.ticks li::before{content:'';position:absolute;left:0;top:9px;width:15px;height:2px;background:var(--emerald)}
 .spacer{flex:1}

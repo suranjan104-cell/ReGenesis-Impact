@@ -66,20 +66,26 @@ confirm the figures you are least willing to be wrong about — in particular:
 
 ## Design notes
 
-- **Chart palette** is validated, not eyeballed. Run:
-  `node scripts/validate_palette.js "#199e70,#d95926,#3987e5,#d55181" --mode dark --surface "#0C1512"`
-  → passes lightness band, chroma floor, CVD separation (worst adjacent ΔE 9.4),
-  normal-vision floor (26.5) and contrast.
-- **Colour follows the entity**: green = Singapore, orange = Australia,
-  blue = India, across every chart in the deck. Brand emerald `#22C079` is the
-  UI accent only and is never a series slot. Grey (`NEUTRAL`) is the muted
-  baseline used by the emphasis pattern — never an entity.
+- **Surface is the product's light "Regenerative Editorial" system** — warm paper
+  `#F6F1E7`, ink `#0E231A`, emerald `#0B7A47`. The deep-ink variant
+  (`.slide--ink`) is used once, for the closing frame.
+- **Chart palette re-validated for the beige surface** (it was previously tuned
+  for a dark surface and would not have held). Run:
+  `node scripts/validate_palette.js "#0B7A47,#C2410C,#2a78d6,#b0306a" --mode light --surface "#F6F1E7"`
+  → lightness band, chroma floor, CVD separation (worst adjacent ΔE 8.1),
+  normal-vision floor (25.7) and contrast ≥3:1 all pass.
+- **Colour follows the entity**: emerald = Singapore, orange = Australia,
+  blue = India, across every chart. Grey (`NEUTRAL`) is the muted baseline used
+  by the emphasis pattern — never an entity.
 - **Print has no hover layer**, so every chart ships direct value labels plus a
   legend; identity is never carried by colour alone.
 - **Dashed outline = stated intent / required pathway**, not an observed or
   legislated figure (Singapore's 2030 range; the IEA investment requirement).
-  The distinction is encoded in the mark, not just in a footnote.
-- **Typography is fully embedded** — Playfair Display / DM Sans / DM Mono. The
-  Unicode subscript-two glyph and the arrow glyph are absent from these faces,
-  so `tCO₂e` uses a real `<sub>` and the quadrant axis arrows are drawn as SVG
-  geometry rather than typed. Verified: zero fallback fonts in the output.
+  Encoded in the mark, not just a footnote.
+- **Voice**: lead with the figure, not the set-up. No sentence exists only to
+  introduce the next one; where a claim can be a table or a chart, it is not a
+  paragraph.
+- **Typography fully embedded** — Playfair Display / DM Sans / DM Mono. The
+  Unicode subscript-two and arrow glyphs are absent from these faces, so
+  `tCO₂e` uses a real `<sub>` and the quadrant axis arrows are drawn as SVG
+  geometry. Verified: zero fallback fonts in the output.
