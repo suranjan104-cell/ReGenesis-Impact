@@ -56,12 +56,12 @@ const slides = [];
 slides.push(slide(`
   <div class="eyebrow">Climate disclosure · 2026</div>
   <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
-    <h1>The<br>Compliance<br><em style="font-style:italic;color:var(--emerald)">Decade</em></h1>
+    <h1>The<br>Reporting<br><em style="font-style:italic;color:var(--emerald)">Deadlines</em></h1>
     <div style="height:30px"></div>
     <p class="lede" style="max-width:840px">
-      Mandatory climate reporting is in force in Australia, phased in Singapore and
-      assured in India. The dates, the thresholds and the stress-test numbers —
-      every figure sourced on the last page.
+      Who has to file climate disclosures, and when — the thresholds, the phase-in
+      dates and the stress-test numbers now on the record. Every figure sourced on
+      the last page.
     </p>
   </div>
   <div class="statrow statrow--4">
@@ -625,7 +625,7 @@ slides.push(slide(`
 const html = `<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
-<title>The Compliance Decade — ReGenesis Impact</title>
+<title>The Reporting Deadlines — ReGenesis Impact</title>
 <link rel="stylesheet" href="board.css">
 </head><body>
 ${slides.join('\n')}

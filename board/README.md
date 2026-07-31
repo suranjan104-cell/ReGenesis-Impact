@@ -1,9 +1,9 @@
-# The Compliance Decade — thought-leadership board
+# The Reporting Deadlines — thought-leadership board
 
 A 21-page, 4:5 carousel PDF for LinkedIn document posts, on climate-disclosure
 regulation across Singapore, Australia and India.
 
-**Deliverable:** `ReGenesis-Impact-The-Compliance-Decade.pdf` (~1 MB, 810×1013 pt,
+**Deliverable:** `ReGenesis-Impact-Reporting-Deadlines.pdf` (~1 MB, 810×1013 pt,
 21 pages, all fonts embedded and subsetted).
 
 ## Rebuild

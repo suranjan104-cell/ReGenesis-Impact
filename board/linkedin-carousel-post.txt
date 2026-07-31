@@ -22,13 +22,13 @@ HOW TO POST (delete this section before posting):
 
 1. Upload the PDF as a DOCUMENT post (not an image). On LinkedIn: Start a post
    → the "+" / document icon → upload
-   ReGenesis-Impact-The-Compliance-Decade.pdf → give it the title
-   "The Compliance Decade" (that title shows on the carousel card).
+   ReGenesis-Impact-Reporting-Deadlines.pdf → give it the title
+   "The Reporting Deadlines" (that title shows on the carousel card).
 2. Paste everything above the dashed line as the post body.
 3. Put your link in the FIRST COMMENT, not the body — LinkedIn suppresses reach
    on posts with external links in the body, and a document post is already
    competing for the same slot:
-   https://www.regenesisimpact.in/?utm_source=linkedin&utm_medium=social&utm_campaign=compliance-decade
+   https://www.regenesisimpact.in/?utm_source=linkedin&utm_medium=social&utm_campaign=reporting-deadlines
 4. Post Tue/Wed/Thu morning IST. Document posts tend to run longer than text
    posts, so don't judge it on day one.
 5. Reply to every comment in the first hour. On carousels the comments are where
