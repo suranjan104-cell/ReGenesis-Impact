@@ -180,3 +180,77 @@ ul.ticks{list-style:none;display:flex;flex-direction:column;gap:21px}
 ul.ticks li{padding-left:34px;position:relative;font-size:22px;line-height:1.52;color:var(--ink-mid)}
 ul.ticks li::before{content:'';position:absolute;left:0;top:9px;width:15px;height:2px;background:var(--emerald)}
 .spacer{flex:1}
+
+/* ═══════════════════════════════════════════════════════════════════
+   BENCHMARK APPARATUS — conventions common to Big 4 published research:
+   numbered exhibits with a stated-finding title and an explicit source
+   line; key-finding blocks; pull quotes; section dividers; contents.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── numbered exhibit ──────────────────────────────────────────────
+   Exhibit number and title sit ABOVE the chart; the source line sits
+   BELOW it, always present, always naming the issuing body.          */
+.exhibit{margin:6px 0 0}
+.exhibit-num{
+  font-family:var(--font-mono);font-size:13px;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--emerald);margin-bottom:7px;
+}
+.exhibit-title{
+  font-family:var(--font-ui);font-size:22px;font-weight:500;line-height:1.32;
+  color:var(--ink);margin-bottom:20px;max-width:900px;
+}
+.exhibit-source{
+  font-family:var(--font-mono);font-size:12.5px;line-height:1.5;color:var(--ink-faint);
+  margin-top:14px;padding-top:11px;border-top:1px solid var(--rule-soft);
+}
+
+/* ── key-finding block ─────────────────────────────────────────────
+   The single sentence a reader should retain from the page.          */
+.finding{
+  border-left:3px solid var(--emerald);background:var(--paper-hi);
+  border:1px solid var(--rule-soft);border-left:3px solid var(--emerald);
+  border-radius:0 12px 12px 0;padding:24px 30px;
+}
+.finding-lab{
+  font-family:var(--font-mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--emerald);margin-bottom:10px;
+}
+.finding p{font-size:21px;line-height:1.5;color:var(--ink)}
+
+/* ── pull quote ────────────────────────────────────────────────────*/
+.pullquote{
+  font-family:var(--font-display);font-weight:400;font-style:italic;
+  font-size:34px;line-height:1.32;color:var(--ink);
+  padding-left:28px;border-left:2px solid var(--emerald);margin:6px 0;
+}
+.pullquote cite{
+  display:block;font-family:var(--font-mono);font-style:normal;font-size:13px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-top:16px;
+}
+
+/* ── section divider page ──────────────────────────────────────────*/
+.divider{justify-content:center}
+.divider .sec-num{
+  font-family:var(--font-display);font-weight:900;font-size:150px;line-height:.9;
+  color:var(--emerald);letter-spacing:-.03em;
+}
+.divider h2{font-size:66px;margin:20px 0 22px}
+.divider .sec-lead{font-size:24px;line-height:1.5;color:var(--ink-mid);max-width:760px}
+
+/* ── contents ──────────────────────────────────────────────────────*/
+.toc{display:flex;flex-direction:column;gap:0}
+.toc-row{
+  display:flex;align-items:baseline;gap:18px;padding:17px 0;
+  border-bottom:1px solid var(--rule-soft);
+}
+.toc-num{
+  font-family:var(--font-mono);font-size:13px;letter-spacing:.12em;color:var(--emerald);
+  width:34px;flex:none;
+}
+.toc-title{font-size:22px;color:var(--ink);font-weight:500;flex:1}
+.toc-sub{font-size:18px;color:var(--ink-muted);flex:2}
+.toc-page{font-family:var(--font-mono);font-size:15px;color:var(--ink-faint);flex:none}
+
+/* ── methodology / note text ───────────────────────────────────────*/
+.note{font-size:18.5px;line-height:1.6;color:var(--ink-muted)}
+.note strong{color:var(--ink-mid)}
