@@ -187,22 +187,37 @@ ul.ticks li::before{content:'';position:absolute;left:0;top:9px;width:15px;heigh
    line; key-finding blocks; pull quotes; section dividers; contents.
    ═══════════════════════════════════════════════════════════════════ */
 
-/* ── numbered exhibit ──────────────────────────────────────────────
-   Exhibit number and title sit ABOVE the chart; the source line sits
-   BELOW it, always present, always naming the issuing body.          */
-.exhibit{margin:6px 0 0}
-.exhibit-num{
+/* ── numbered figure ───────────────────────────────────────────────
+   "Figure", not "Exhibit" — Exhibit is MBB house style; all four Big 4
+   firms use Figure. Number + finding-stating title sit ABOVE the chart;
+   the note and source lines sit BELOW it, source always last.        */
+.figure{margin:6px 0 0}
+.fig-num{
   font-family:var(--font-mono);font-size:13px;font-weight:500;letter-spacing:.14em;
   text-transform:uppercase;color:var(--emerald);margin-bottom:7px;
 }
-.exhibit-title{
-  font-family:var(--font-ui);font-size:22px;font-weight:500;line-height:1.32;
-  color:var(--ink);margin-bottom:20px;max-width:900px;
+.fig-title{
+  font-family:var(--font-ui);font-size:23px;font-weight:500;line-height:1.32;
+  color:var(--ink);margin-bottom:6px;max-width:920px;
 }
-.exhibit-source{
+/* neutral descriptor of what is actually plotted — demoted below the finding */
+.fig-sub{
+  font-family:var(--font-ui);font-size:18px;line-height:1.4;
+  color:var(--ink-muted);margin-bottom:20px;
+}
+/* rounding / exclusion notes sit ABOVE the source line */
+.fig-note{
+  font-family:var(--font-mono);font-size:12.5px;line-height:1.5;
+  color:var(--ink-faint);margin-top:12px;
+}
+.fig-source{
+  display:flex;justify-content:space-between;align-items:baseline;gap:20px;
   font-family:var(--font-mono);font-size:12.5px;line-height:1.5;color:var(--ink-faint);
-  margin-top:14px;padding-top:11px;border-top:1px solid var(--rule-soft);
+  margin-top:12px;padding-top:11px;border-top:1px solid var(--rule-soft);
 }
+/* publication wordmark, bottom-right of every figure, so a screenshotted
+   chart still carries its attribution */
+.fig-source em{font-style:normal;opacity:.8;white-space:nowrap}
 
 /* ── key-finding block ─────────────────────────────────────────────
    The single sentence a reader should retain from the page.          */

@@ -1,38 +1,45 @@
-Three things happened between 2024 and 2026 that changed climate reporting from a brochure exercise into a filing obligation. Most people I talk to have only noticed one of them.
+Australia's mandatory climate reporting threshold falls to A$50m of revenue in July 2027. Singapore moved most of its deadlines back by three years last August. India's assurance requirement reaches the full top 1,000 listed companies by FY2026-27.
 
-It became law. Australia legislated climate reporting into the Corporations Act, and by July 2027 the net reaches companies with A$50m of revenue.
+Three markets, three different gating rules, one underlying emissions inventory.
 
-It became audited. Australia's assurance standards escalate to reasonable assurance over all climate disclosures from July 2030. Numbers now need an evidence trail.
+I spent the last few weeks compiling what the obligations actually are — the thresholds, the phase-in dates, the assurance ramp, and the supervisory stress tests now sitting behind them. It runs to 26 pages with 10 figures, and every number is referenced to a named source on the endnotes page.
 
-And it became forward-looking. The hardest requirement isn't last year's emissions — it's scenario analysis and a transition plan. A defensible account of how the business survives futures that haven't happened yet.
+A few things that surprised me while putting it together:
 
-Meanwhile Singapore deferred most of its deadlines to FY2030, MAS made transition planning a supervisory expectation for banks, insurers and asset managers, and India's BRSR Core assurance keeps walking down the market-cap ranking.
+The deferrals are widely read as relief. They aren't. Assurance tests prior-year comparatives, so an entity that starts measuring in FY2030 arrives at its first assured report with exactly the absence of history it would have had in FY2027. The runway moved; the baseline problem didn't.
 
-I put the whole picture into one deck — the dates, the thresholds, the stress tests, and what APRA's own numbers say about where this lands. 21 pages, every figure sourced on the last slide.
+APRA has now put a number on physical risk that is hard to argue with — expected national weather-peril losses rising from under A$7bn in 2024 to over A$16bn by 2050, and the share of freestanding-property households without home insurance going from one in seven to one in four.
 
-The part I keep coming back to is the mismatch. The standards were written with large filers in mind and then extended downward by threshold. The tools were built for large filers and never extended downward at all. That gap, not the regulation, is what makes this feel impossible in the mid-market.
+And the NGFS raised projected physical damages two- to four-fold in its November 2024 scenarios. Scenario analysis run on an earlier vintage will not reproduce.
 
-If you're inside one of these cohorts, I'd genuinely like to know which part is hardest for you right now.
+The part I keep coming back to is the mismatch at the bottom of the range. The standards were drafted with large filers in view and extended downward by threshold. The tooling was built for large filers and was not extended downward at all.
 
-#ESG #ClimateReporting #ISSB #AASBS2 #BRSR #TransitionPlanning
+If a date or threshold in here is wrong, or has moved since I compiled it, I would genuinely like to know.
+
+#ClimateReporting #AASBS2 #ISSB #BRSR #SustainabilityReporting
 
 
 --------------------------------------------------
 HOW TO POST (delete this section before posting):
 
 1. Upload the PDF as a DOCUMENT post (not an image). On LinkedIn: Start a post
-   → the "+" / document icon → upload
-   ReGenesis-Impact-Reporting-Deadlines.pdf → give it the title
-   "The Reporting Deadlines" (that title shows on the carousel card).
+   → the document icon → upload
+   ReGenesis-Impact-Mandatory-and-Moving.pdf → title it
+   "Mandatory, and moving" (that title shows on the carousel card).
 2. Paste everything above the dashed line as the post body.
-3. Put your link in the FIRST COMMENT, not the body — LinkedIn suppresses reach
-   on posts with external links in the body, and a document post is already
-   competing for the same slot:
-   https://www.regenesisimpact.in/?utm_source=linkedin&utm_medium=social&utm_campaign=reporting-deadlines
-4. Post Tue/Wed/Thu morning IST. Document posts tend to run longer than text
-   posts, so don't judge it on day one.
-5. Reply to every comment in the first hour. On carousels the comments are where
-   the reach compounds — people ask which cohort they're in, and that's your
-   opening.
-6. Slide 20 lists every source. If someone challenges a figure, that page is the
-   answer — which is exactly why it's in there.
+3. Put the link in the FIRST COMMENT, not the body — LinkedIn suppresses reach
+   on posts carrying an external link, and a document post already competes for
+   that slot:
+   https://www.regenesisimpact.in/?utm_source=linkedin&utm_medium=social&utm_campaign=mandatory-and-moving
+4. Post Tue/Wed/Thu morning IST. Document posts accumulate views over several
+   days — don't judge it on day one.
+5. Reply to every comment in the first hour. The most common question will be
+   "which cohort am I in" — that is the conversation worth having, and Figure 1
+   answers it.
+6. The endnotes page is the answer to anyone who challenges a figure. That is
+   what it is for.
+
+A note on the voice: this is written as a briefing, not a promotion. There is
+no mention of ReGenesis Impact anywhere before page 26, which is deliberate and
+is the convention Big 4 research follows. Resist the urge to add a plug to the
+post body — the document earns the inference on its own.

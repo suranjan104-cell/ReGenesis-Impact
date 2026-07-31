@@ -1,10 +1,37 @@
-# The Reporting Deadlines — thought-leadership board
+# Mandatory, and moving — climate disclosure briefing
 
-A 21-page, 4:5 carousel PDF for LinkedIn document posts, on climate-disclosure
-regulation across Singapore, Australia and India.
+A 26-page, 4:5 briefing PDF for LinkedIn document posts, on mandatory climate
+disclosure across Australia, Singapore and India.
 
-**Deliverable:** `ReGenesis-Impact-Reporting-Deadlines.pdf` (~1 MB, 810×1013 pt,
-21 pages, all fonts embedded and subsetted).
+**Deliverable:** `ReGenesis-Impact-Mandatory-and-Moving.pdf` (~0.96 MB,
+810×1013 pt, 26 pages, 10 figures, 20 endnotes, all fonts embedded and
+subsetted).
+
+Built to the standard in **`BENCHMARK.md`**, derived from analysis of published
+Deloitte, PwC, EY and KPMG research. Read that file before editing the content —
+it is the reason the document is shaped the way it is.
+
+## Structure
+
+```
+01  Cover                     14  Divider — 02 The evidence
+02  Contents                  15  Why supervisors moved
+03  Introduction              16  Figure 7 — APRA protection gap
+04  Key findings              17  Figure 8 — NGFS scenarios
+05  Executive summary         18  Transition plan anatomy
+06  Divider — 01 Obligation   19  Figure 9 — clean-energy investment
+07  Figure 1 — timeline       20  Figure 10 — carbon-market measures
+08  Figure 2 — AU thresholds  21  Divider — 03 The capability gap
+09  Figure 3 — assurance ramp 22  The gap
+10  MAS transition planning   23  What this means
+11  Figure 4 — SG deferral    24  About the research
+12  Figure 5 — carbon tax     25  Endnotes
+13  Figure 6 — BRSR assurance 26  About ReGenesis Impact
+```
+
+Contents-page numbers are **computed from the slide order at build time**, not
+hardcoded — the build throws if a section referenced by the contents does not
+exist.
 
 ## Rebuild
 
