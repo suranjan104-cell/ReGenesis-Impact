@@ -1,17 +1,40 @@
-# Mandatory, and moving — climate disclosure briefing
+# From ledger to forecast — climate disclosure briefing
 
-A 26-page, 4:5 briefing PDF for LinkedIn document posts, on mandatory climate
-disclosure across Australia, Singapore and India.
+A 25-page, 4:5 briefing PDF on what climate scenario analysis and transition
+planning ask of corporate data, and what the first evidence shows.
 
-**Deliverable:** `ReGenesis-Impact-Mandatory-and-Moving.pdf` (~0.96 MB,
-810×1013 pt, 26 pages, 10 figures, 20 endnotes, all fonts embedded and
-subsetted).
+**Deliverable:** `ReGenesis-Impact-From-Ledger-to-Forecast.pdf` (~0.96 MB,
+810×1013 pt, 25 pages, 9 exhibits, 25 endnotes, all fonts embedded).
 
-Built to the standard in **`BENCHMARK-MBB.md`** (McKinsey / BCG / Bain), which
-supersedes `BENCHMARK.md` (Big 4) where the two conflict. The MBB standard is
-measured from two McKinsey Global Institute PDFs parsed directly, not inferred.
-Read it before editing the content — it is the reason the document is shaped
-the way it is.
+Built to the standard in **`BENCHMARK-MBB.md`** (McKinsey / BCG / Bain),
+measured from two McKinsey Global Institute PDFs parsed directly. The
+repositioning rationale is in **`OUTLINE.md`**.
+
+## Subject, and what is deliberately excluded
+
+The briefing does **not** cover reporting thresholds, phase-in dates or
+deferral timetables. Those are the obvious question, well documented by the
+regulators themselves, and were the subject of the previous edition. India,
+BRSR and SEBI are out of scope entirely.
+
+The thesis: emissions accounting is a solved problem — defined boundary,
+standardised method, auditable numbers. Scenario analysis and transition
+planning are not, they need a different class of data, and they are the half of
+the disclosure that investors, lenders and insurers price.
+
+The spine, in one line: **the three disclosures stakeholders price on — Scope 3,
+scenario analysis and transition plans — are the same three built on proxy data,
+the same three receiving the least assurance, and the only three carrying
+statutory liability protection.**
+
+## Withdrawn figure
+
+The previous edition carried a "19% of global income / US$38 trillion" figure
+sourced to Kotz, Levermann and Wenz (2024) in *Nature*. **That paper has been
+retracted**, and the NGFS has issued a formal statement because the same paper
+underpins the physical-risk damage function in its Phase V scenarios. The figure
+is removed. The retraction itself is now page 13, because it is material to any
+resilience assessment built on Phase V physical-risk outputs.
 
 ## Page-fill gate
 
@@ -32,19 +55,19 @@ absorbs the spare height.
 ## Structure
 
 ```
-01  Cover                     14  Divider — 02 The evidence
-02  Contents                  15  Why supervisors moved
-03  Introduction              16  Figure 7 — APRA protection gap
-04  Key findings              17  Figure 8 — NGFS scenarios
-05  Executive summary         18  Transition plan anatomy
-06  Divider — 01 Obligation   19  Figure 9 — clean-energy investment
-07  Figure 1 — timeline       20  Figure 10 — carbon-market measures
-08  Figure 2 — AU thresholds  21  Divider — 03 The capability gap
-09  Figure 3 — assurance ramp 22  The gap
-10  MAS transition planning   23  What this means
-11  Figure 4 — SG deferral    24  About the research
-12  Figure 5 — carbon tax     25  Endnotes
-13  Figure 6 — BRSR assurance 26  About ReGenesis Impact
+01  Cover                        14  Exhibit 6 — what the exercises said
+02  Contents                     15  Exhibit 7 — APRA protection gap
+03  Introduction                 16  Divider — 03 The data of the future
+04  Key findings                 17  Exhibit 8 — four properties
+05  Executive summary            18  Exhibit 9 — the assurance sequence
+06  Divider — 01 The standards   19  Where the regime concedes the point
+07  Exhibit 1 — resilience       20  Divider — 04 Why stakeholders read it
+08  Exhibit 2 — two scenarios    21  Exhibit 10 — who is reading
+09  Exhibit 3 — first wave       22  What this means
+10  Transition plan as object    23  About the research
+11  Divider — 02 The exercises   24  Endnotes
+12  Exhibit 4 — scenario sets    25  About ReGenesis Impact
+13  A damage function withdrawn
 ```
 
 Contents-page numbers are **computed from the slide order at build time**, not
