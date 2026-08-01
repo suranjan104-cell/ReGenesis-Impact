@@ -38,7 +38,7 @@ const SRC = [
   ['apra',   'APRA, “Mind the Gap: an insurance climate vulnerability assessment”', '24 March 2026', 'apra.gov.au'],
   ['apracva','APRA, Climate Vulnerability Assessment results, five largest banks', 'November 2022', 'apra.gov.au'],
   ['ngfs',   'NGFS, Phase V long-term climate macro-financial scenarios, version 5.0', 'November 2024', 'ngfs.net'],
-  ['pik',    'Kotz, Levermann and Wenz, “The economic commitment of climate change”, Nature 628', '17 April 2024', 'pik-potsdam.de'],
+  ['ngfsret','NGFS, “Statement regarding physical risk estimates in Phase V of NGFS long-term scenarios”', '2025', 'ngfs.net'],
   ['tpt',    'UK Transition Plan Taskforce, Disclosure Framework', '9 October 2023', 'ifrs.org/knowledge-hub'],
   ['iea',    'International Energy Agency, Net Zero Roadmap: a global pathway to keep the 1.5 °C goal in reach', 'September 2023', 'iea.org'],
   ['em',     'Ecosystem Marketplace (Forest Trends), State of the Voluntary Carbon Market 2025', '29 May 2025', 'ecosystemmarketplace.com'],
@@ -482,11 +482,13 @@ slides.push(slide(`
   <div class="eyebrow">02 — The evidence</div>
   <h2>The estimate that moved<br>supervisory opinion.</h2>
   <div class="finding" style="margin-bottom:24px">
-    <div class="finding-lab">Peer-reviewed, Nature, April 2024</div>
-    <p style="font-size:24px;line-height:1.4">The world economy is already committed to
-    a reduction in global income of approximately <strong>19% by 2050</strong> relative
-    to a baseline without climate change — around <strong>US$38 trillion a year</strong>
-    in damages, within a likely range of US$19–59 trillion.${c('pik')}</p>
+    <div class="finding-lab">A caveat that travels with the numbers</div>
+    <p style="font-size:23px;line-height:1.42">The academic paper underpinning the
+    physical-risk damage function in NGFS Phase V has since been <strong>retracted</strong>.
+    The NGFS has issued a statement confirming this and noting that it cannot be excluded
+    that economic effects turn out more severe than Phase V estimates. Scenario outputs
+    that do not incorporate those physical loss estimates are unaffected, as are the
+    short-term scenarios.${c('ngfsret')}</p>
   </div>
   <p style="margin-bottom:22px;max-width:950px">
     The finding matters to supervisors because the committed portion is largely
