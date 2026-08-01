@@ -59,13 +59,44 @@ here is the metric that tells you whether it is getting better.
 - The audience is a bank, insurer or asset manager. The reader is assumed to
   know what Scope 3 is and does not need it defined.
 
-## Open question for the research
+## Open question — RESOLVED, and my premise was wrong
 
-Whether AASB S2's omission of industry-based metrics means Australian financial
-institutions are **not** required to disclose financed emissions as an
-industry metric, and instead pick it up only as material Scope 3 Category 15.
-If so, that is a significant and under-discussed divergence from IFRS S2 and
-belongs in the briefing. Not to be asserted until confirmed.
+I hypothesised that AASB S2's omission of industry-based metrics might remove
+the financed-emissions obligation for Australian financial institutions. **That
+is incorrect**, and the reason is worth carrying into the briefing because the
+same mistake is easy to make:
+
+**Financed emissions is not an industry-based metric.** Under IFRS S2 it sits in
+the main body at paragraph 29(a)(vi)(2), with application guidance at B58–B63 —
+not in paragraph 32, which is the industry-based metrics requirement. So the
+AASB's omission of paragraph 32 leaves financed emissions untouched. The AASB
+retained it deliberately: "Consistent with IFRS S2, the AASB decided to require
+entities participating in financial activities of asset management, commercial
+banking or insurance to provide the additional and specific financed-emission
+disclosures."
+
+Structural proof: AASB S2025-1 (17 December 2025) *amends* AASB S2's financed
+emissions requirements. A requirement that did not exist could not be amended.
+
+Where the wrong reading comes from: **ED SR1 (October 2023)** did propose the
+weaker treatment, at draft paragraphs AusB59.1, AusB61.1 and AusB63.1 —
+requiring entities only to "consider the applicability of" the financed-emissions
+disclosures. That was consulted on at SMC 20 and **was not carried into the final
+standard**. Anyone citing the draft is citing a superseded position.
+
+**Correct position:** Australian banks, insurers and asset managers face the full
+specific financed-emissions disclosure package under AASB S2 — methodology,
+disaggregation, and the investee Scope 1/2/3 breakdown — from their **second**
+reporting year. What they escape is the rest of the SASB industry-metric suite.
+
+## The deadline that actually drives the work
+
+Australian financial institutions must reach **reasonable assurance over
+financed emissions built on proxy data by periods commencing on or after
+1 July 2030**. Year one carries limited assurance over governance, parts of
+strategy and Scope 1 and 2 only; Scope 3 and financed emissions first attract
+assurance in years two to three. That sequence, not the disclosure date, is what
+sets the data-quality investment horizon.
 
 ## Title candidates
 
