@@ -7,9 +7,27 @@ disclosure across Australia, Singapore and India.
 810×1013 pt, 26 pages, 10 figures, 20 endnotes, all fonts embedded and
 subsetted).
 
-Built to the standard in **`BENCHMARK.md`**, derived from analysis of published
-Deloitte, PwC, EY and KPMG research. Read that file before editing the content —
-it is the reason the document is shaped the way it is.
+Built to the standard in **`BENCHMARK-MBB.md`** (McKinsey / BCG / Bain), which
+supersedes `BENCHMARK.md` (Big 4) where the two conflict. The MBB standard is
+measured from two McKinsey Global Institute PDFs parsed directly, not inferred.
+Read it before editing the content — it is the reason the document is shaped
+the way it is.
+
+## Page-fill gate
+
+```bash
+node fill-check.mjs                 # defaults: fill >=82%, interior <=120px, trailing <=60px
+MIN=0 MAXGAP=200 MAXTAIL=60 node fill-check.mjs
+```
+
+Reports, per page, the share of the content area occupied and two separate
+measurements: the **trailing hole** (empty space at the foot — the real defect)
+and the worst **interior gap** (spacing between blocks — rhythm). Full-bleed
+colour pages are gated on the trailing hole only.
+
+Current state: worst trailing hole **32px**, mean fill **71.6%**. Exhibit and
+table pages fill by construction — the exhibit body is the flexible element and
+absorbs the spare height.
 
 ## Structure
 

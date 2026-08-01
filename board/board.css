@@ -269,3 +269,183 @@ ul.ticks li::before{content:'';position:absolute;left:0;top:9px;width:15px;heigh
 /* ── methodology / note text ───────────────────────────────────────*/
 .note{font-size:18.5px;line-height:1.6;color:var(--ink-muted)}
 .note strong{color:var(--ink-mid)}
+
+/* ═══════════════════════════════════════════════════════════════════
+   MBB APPARATUS (McKinsey / BCG / Bain conventions)
+
+   The defining device is the DEK: the answer sits above the body, not
+   after it. A reader who stops at the dek still leaves with the finding.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── dek / standfirst — the apex sentence of the pyramid ───────────*/
+.dek{
+  font-size:26px;line-height:1.42;color:var(--ink);font-weight:400;
+  padding-left:26px;border-left:3px solid var(--emerald);
+  margin-bottom:28px;max-width:960px;
+}
+.slide--ink .dek{color:var(--paper);border-left-color:#3BE38A}
+
+/* ── "at a glance" — factored-out so-what, before the argument ─────*/
+.glance{
+  background:var(--paper-hi);border:1px solid var(--rule-soft);
+  border-top:3px solid var(--emerald);border-radius:0 0 12px 12px;
+  padding:26px 30px;display:grid;grid-template-columns:1fr 1fr;gap:26px;
+}
+.glance-col h4{
+  font-family:var(--font-mono);font-size:12.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--emerald);margin-bottom:11px;font-weight:500;
+}
+.glance-col p{font-size:19px;line-height:1.5}
+
+/* ── takeaway strip — closes a page on the next decision ───────────*/
+.takeaway{
+  display:flex;gap:22px;align-items:flex-start;
+  background:var(--paper-hi);border:1px solid var(--rule-soft);
+  border-left:3px solid var(--emerald);border-radius:0 12px 12px 0;padding:24px 28px;
+}
+.takeaway-lab{
+  font-family:var(--font-mono);font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--emerald);white-space:nowrap;padding-top:4px;flex:none;width:150px;
+}
+.takeaway p{font-size:20px;line-height:1.5;color:var(--ink)}
+
+/* ── full-bleed section divider ────────────────────────────────────
+   MBB dividers carry a full colour field rather than an empty page —
+   which is also what keeps the page from reading as dead space.      */
+.slide--fill{background:var(--ink);color:var(--paper);justify-content:flex-end}
+.slide--fill::before{
+  background-image:linear-gradient(rgba(246,241,231,.06) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(246,241,231,.06) 1px,transparent 1px);
+}
+.slide--fill h2{color:var(--paper);font-size:76px;margin-bottom:26px}
+.slide--fill .sec-num{
+  font-family:var(--font-display);font-weight:900;font-size:300px;line-height:.8;
+  color:#3BE38A;letter-spacing:-.04em;margin-bottom:8px;
+}
+.slide--fill .sec-lead{font-size:29px;line-height:1.46;color:rgba(246,241,231,.78);max-width:860px}
+.slide--fill .eyebrow{color:#3BE38A}
+.slide--fill .eyebrow::after{background:rgba(59,227,138,.3)}
+.slide--fill .pagenum,.slide--fill .brandmark{color:rgba(246,241,231,.5)}
+.slide--fill .brandmark::before{background:#3BE38A}
+/* section contents list, so a divider carries information not just a label */
+.sec-toc{
+  margin-top:34px;padding-top:22px;border-top:1px solid rgba(246,241,231,.2);
+  display:grid;grid-template-columns:1fr 1fr;gap:12px 34px;
+}
+.sec-toc div{
+  font-family:var(--font-mono);font-size:17px;line-height:1.5;color:rgba(246,241,231,.74);
+  display:flex;gap:12px;
+}
+.sec-toc span{color:#3BE38A;flex:none}
+
+/* ── a figure that grows to fill the page ──────────────────────────*/
+.figure--grow{display:flex;flex-direction:column;flex:1;min-height:0}
+.figure--grow .fig-body{flex:1;display:flex;flex-direction:column;justify-content:center}
+
+/* ═══════════════════════════════════════════════════════════════════
+   MBB EXHIBIT SYSTEM
+   Measured from McKinsey Global Institute PDFs (see BENCHMARK-MBB.md):
+   · label quieter than the title beneath it — the number addresses,
+     the title talks
+   · everything in the stack flush left to ONE x-coordinate
+   · footer order is fixed: Note: → footnotes → Source: → signature
+   · the exhibit grows to fill the page; pages do not end early
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* the page is a column; the exhibit takes whatever is left */
+.slide{padding:64px 76px 84px}
+.pagenum,.brandmark{bottom:34px}
+
+.page-head{flex:none}
+h2{font-size:44px;line-height:1.08;margin-bottom:18px}
+.slide--fill h2{font-size:76px}
+
+/* dek sits under the page headline and carries the answer */
+.dek{font-size:23px;line-height:1.44;margin-bottom:22px;padding-left:22px}
+
+/* ── the exhibit ──────────────────────────────────────────────────*/
+.exhibit{display:flex;flex-direction:column;flex:1;min-height:0;margin:0}
+.ex-num{
+  font-family:var(--font-ui);font-size:19px;font-weight:400;color:var(--ink-muted);
+  margin-bottom:7px;letter-spacing:0;text-transform:none;
+}
+.ex-title{
+  font-family:var(--font-ui);font-size:26px;font-weight:500;line-height:1.3;
+  color:var(--ink);margin-bottom:5px;max-width:940px;
+}
+.ex-sub{
+  font-family:var(--font-ui);font-size:18.5px;line-height:1.38;
+  color:var(--ink-muted);margin-bottom:14px;
+}
+/* the plot area — this is what absorbs the spare height */
+.ex-body{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center}
+.ex-body .chart{width:100%;height:100%;max-height:100%}
+.ex-body table.dt{width:100%}
+.ex-note{
+  font-family:var(--font-ui);font-size:15px;line-height:1.45;
+  color:var(--ink-faint);margin-top:12px;
+}
+.ex-source{
+  font-family:var(--font-ui);font-size:15px;line-height:1.45;color:var(--ink-faint);
+  margin-top:8px;padding-top:9px;border-top:1px solid var(--rule-soft);
+}
+/* the signature sits on its own line beneath the source, as MGI's does, and
+   travels with the exhibit when the exhibit is excerpted */
+.ex-source em{
+  display:block;font-style:normal;margin-top:7px;
+  font-family:var(--font-mono);font-size:13px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-faint);opacity:.9;
+}
+
+/* a page whose body is prose rather than a chart still fills */
+.prose-fill{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:space-between;gap:20px}
+
+/* serif is display-only: cover, section numerals, section heads, pull quotes */
+.pullquote{font-size:36px;line-height:1.3;margin:4px 0}
+
+/* the exhibit is the only flexible child; everything else holds its size */
+.slide > .eyebrow,.slide > h2,.slide > h3,.slide > p,.slide > table,
+.slide > .dek,.slide > .statrow,.slide > .finding,.slide > .cardgrid,
+.slide > .takeaway,.slide > ul,.slide > .toc,.slide > .glance{flex:none}
+
+/* prose pages distribute their blocks so the rhythm is even and the page
+   does not stack everything at the top with a hole beneath */
+.slide--prose{justify-content:space-between}
+.slide--prose > .eyebrow{margin-bottom:0}
+.slide--prose > h2{margin-bottom:0}
+
+/* a table exhibit fills its box by distributing row height, the same way a
+   chart exhibit fills by scaling */
+.ex-body table.dt{height:100%}
+.ex-body table.dt td{padding-top:0;padding-bottom:0}
+.ex-body table.dt tr{height:1px}
+
+/* section dividers distribute rather than pinning everything to one edge */
+.slide--fill{justify-content:space-between}
+.slide--fill .sec-num{margin-bottom:0}
+.slide--fill .sec-toc{margin-top:0}
+
+/* the cover distributes: eyebrow, title block, imprint rule */
+.slide--cover{justify-content:space-between}
+/* no child grows: the four blocks distribute evenly down the page instead of
+   one of them centring its content and opening a hole above and below */
+.slide--cover > div:nth-child(2){flex:none;display:block}
+
+/* cover imprint block — MGI covers carry scope metadata above the date rule */
+.cover-meta{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:28px;
+  padding-top:26px;border-top:1px solid var(--rule-soft);
+}
+.cover-meta h4{
+  font-family:var(--font-mono);font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--emerald);margin-bottom:9px;font-weight:500;
+}
+.cover-meta p{font-size:18px;line-height:1.45;color:var(--ink-mid)}
+
+/* stat rows absorb spare height rather than leaving it between blocks */
+.statrow--grow{flex:1;align-content:stretch}
+.statrow--grow .stat{display:flex;flex-direction:column;justify-content:center}
+
+/* divider: group the numeral, title and lead so the page distributes as two
+   blocks with one measured gap, not four blocks with three */
+.sec-block{display:flex;flex-direction:column}

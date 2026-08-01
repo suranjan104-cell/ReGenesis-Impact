@@ -48,17 +48,20 @@ const SRC = [
 const IDX = Object.fromEntries(SRC.map(([id], i) => [id, i + 1]));
 const c = (...ids) => `<sup class="cite">${ids.map(i => IDX[i]).join(',')}</sup>`;
 
-/* ── figure wrapper — number, finding-title, descriptor, note, source ── */
-let FIGN = 0;
-const fig = (title, sub, body, { note, source } = {}) => {
-  FIGN++;
-  return `<div class="figure">
-    <div class="fig-num">Figure ${FIGN}</div>
-    <div class="fig-title">${title}</div>
-    ${sub ? `<div class="fig-sub">${sub}</div>` : ''}
-    ${body}
-    ${note ? `<div class="fig-note">${note}</div>` : ''}
-    <div class="fig-source"><span>Source: ${source}</span><em>ReGenesis Impact</em></div>
+/* ── exhibit stack (McKinsey Global Institute anatomy) ────────────
+   Exhibit label is quieter than the action title beneath it; the number
+   addresses, the title talks. Footer order is fixed: Note -> Source ->
+   signature, and the signature travels with the exhibit.              */
+let EXN = 0;
+const exhibit = (title, sub, body, { note, source } = {}) => {
+  EXN++;
+  return `<div class="exhibit">
+    <div class="ex-num">Exhibit ${EXN}</div>
+    <div class="ex-title">${title}</div>
+    ${sub ? `<div class="ex-sub">${sub}</div>` : ''}
+    <div class="ex-body">${body}</div>
+    ${note ? `<div class="ex-note">Note: ${note}</div>` : ''}
+    <div class="ex-source"><span>Source: ${source}</span><em>ReGenesis Impact</em></div>
   </div>`;
 };
 
@@ -68,9 +71,13 @@ let PAGE = 0;
    with the actual slide order. */
 const NAV = {};
 const mark = (key) => { NAV[key] = PAGE + 1; return ''; };
-const slide = (inner, { ink = false, divider = false } = {}) => {
+const slide = (inner, { ink = false, divider = false, fill = false, cover = false } = {}) => {
   PAGE++;
-  return `<section class="slide${ink ? ' slide--ink' : ''}${divider ? ' divider' : ''}">${inner}
+  // A page carrying an exhibit fills itself, because the exhibit grows. A prose
+  // page has nothing elastic in it, so its blocks are distributed instead —
+  // which keeps the rhythm even rather than stacking everything at the top.
+  const prose = !fill && !divider && !/class="exhibit"/.test(inner);
+  return `<section class="slide${ink ? ' slide--ink' : ''}${divider ? ' divider' : ''}${fill ? ' slide--fill' : ''}${prose ? ' slide--prose' : ''}${cover ? ' slide--cover' : ''}">${inner}
     <div class="pagenum">${String(PAGE).padStart(2, '0')}</div>
     <div class="brandmark">REGENESIS IMPACT</div>
   </section>`;
@@ -81,19 +88,34 @@ const slides = [];
 /* ═══════════════════ 01 · COVER ═══════════════════ */
 slides.push(slide(`
   <div class="eyebrow">Climate disclosure briefing</div>
-  <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+  <div>
     <h1>Mandatory,<br>and <em style="font-style:italic;color:var(--emerald)">moving</em></h1>
-    <div style="height:34px"></div>
-    <p class="lede" style="max-width:800px">
+    <div style="height:30px"></div>
+    <p class="lede" style="max-width:820px">
       Climate reporting obligations across Asia-Pacific: who is captured, when they
-      file, and what has changed since the deadlines were first set.
+      file, and what has changed since the deadlines were first set. Ten exhibits,
+      twenty sources, and both dates wherever a deadline has been revised.
     </p>
+  </div>
+  <div class="cover-meta">
+    <div>
+      <h4>In this briefing</h4>
+      <p>Three markets · 10 exhibits · 20 sources</p>
+    </div>
+    <div>
+      <h4>Jurisdictions covered</h4>
+      <p>Australia · Singapore · India</p>
+    </div>
+    <div>
+      <h4>Standards referenced</h4>
+      <p>AASB S1/S2 · IFRS S1/S2 · BRSR · TCFD · NGFS</p>
+    </div>
   </div>
   <div style="font-family:var(--font-mono);font-size:15px;letter-spacing:.1em;color:var(--ink-muted);
               padding-top:22px;border-top:1px solid var(--rule)">
     JULY 2026 &nbsp;·&nbsp; DATA AS AT ${CUTOFF.toUpperCase()} &nbsp;·&nbsp; ${DOC_ID}
   </div>
-`));
+`, { cover: true }));
 
 /* ═══════════════════ 02 · CONTENTS ═══════════════════ */
 slides.push(slide(`
@@ -109,6 +131,20 @@ slides.push(slide(`
     <div class="toc-row"><span class="toc-num">—</span><span class="toc-title">What this means</span><span class="toc-sub">Five actions, by cohort and date</span><span class="toc-page">{{P:means}}</span></div>
     <div class="toc-row"><span class="toc-num">—</span><span class="toc-title">About the research</span><span class="toc-sub">Scope, method and limitations</span><span class="toc-page">{{P:method}}</span></div>
     <div class="toc-row"><span class="toc-num">—</span><span class="toc-title">Endnotes</span><span class="toc-sub">Twenty sources</span><span class="toc-page">{{P:notes}}</span></div>
+  </div>
+  <div class="glance">
+    <div class="glance-col">
+      <h4>How to read this</h4>
+      <p>Each exhibit carries its own source line and, where relevant, a note on
+      what is excluded. Superscripts resolve to the endnotes. Dates that have been
+      revised show both the original and the current position.</p>
+    </div>
+    <div class="glance-col">
+      <h4>What is not covered</h4>
+      <p>The European CSRD, the United States, and voluntary frameworks except
+      where a mandatory obligation references them. This is a compilation of
+      published regulatory positions, not a survey of company practice.</p>
+    </div>
   </div>
 `));
 
@@ -144,8 +180,12 @@ slides.push(slide(`
 mark('findings');
 slides.push(slide(`
   <div class="eyebrow">Key findings</div>
-  <h2 style="margin-bottom:24px">Six figures.</h2>
-  <div class="statrow statrow--3" style="margin-bottom:18px">
+  <h2>Six figures define the obligation.</h2>
+  <p class="dek">Three markets have set mandatory climate disclosure on different
+  gating rules and different dates. Two of those dates have already moved once.
+  These are the six numbers that determine which entities are captured, when they
+  first file, and what the requirement costs to meet.</p>
+  <div class="statrow statrow--3 statrow--grow" style="margin-bottom:18px">
     <div class="stat"><div class="stat-num">A$50<small>m</small></div>
       <div class="stat-lab">revenue at which Australian entities are captured from July 2027${c('austlii')}</div></div>
     <div class="stat"><div class="stat-num">FY2030</div>
@@ -153,7 +193,7 @@ slides.push(slide(`
     <div class="stat"><div class="stat-num">Sep<br><small>2027</small></div>
       <div class="stat-lab">MAS transition-planning guidelines take effect for banks, insurers and asset managers${c('mastp')}</div></div>
   </div>
-  <div class="statrow statrow--3">
+  <div class="statrow statrow--3 statrow--grow">
     <div class="stat"><div class="stat-num">1 in 4</div>
       <div class="stat-lab">Australian households in freestanding properties projected uninsured by 2050, from 1 in 7 today${c('apra')}</div></div>
     <div class="stat"><div class="stat-num">S$45</div>
@@ -167,7 +207,7 @@ slides.push(slide(`
 mark('summary');
 slides.push(slide(`
   <div class="eyebrow">Executive summary</div>
-  <h2 style="font-size:52px;margin-bottom:24px">Converging standards,<br>diverging timetables.</h2>
+  <h2>Converging standards,<br>diverging timetables.</h2>
   <p style="margin-bottom:18px;max-width:950px">
     Three markets now require climate disclosure on a statutory or listing-rule basis.
     Australia legislated it into the Corporations Act with effect from 1 January
@@ -207,14 +247,24 @@ slides.push(slide(`
   <p class="sec-lead">Which entities are captured in each market, when they first
   report, and what the standards require of them. Where deadlines have been revised,
   both dates are shown.</p>
-`, { divider: true }));
+  <div class="sec-toc">
+    <div><span>07</span>Three markets, three gating rules</div>
+    <div><span>11</span>Singapore: deferred, not withdrawn</div>
+    <div><span>08</span>Australia: the threshold falls tenfold</div>
+    <div><span>12</span>Singapore: the carbon price</div>
+    <div><span>09</span>Australia: what AASB S2 asks for</div>
+    <div><span>13</span>India: assurance widens down the ranking</div>
+    <div><span>10</span>Singapore: MAS on transition planning</div>
+    <div></div>
+  </div>
+`, { fill: true }));
 
 /* ═══════════════════ 07 · FIGURE 1 — TIMELINE ═══════════════════ */
 slides.push(slide(`
   <div class="eyebrow">01 — The obligation</div>
-  <h2 style="font-size:52px;margin-bottom:22px">Three markets, three<br>gating rules.</h2>
-  ${fig(
-    'No two markets capture the same entities, and none phase in together',
+  <h2>Three markets, three<br>gating rules.</h2>
+  ${exhibit(
+    'No two markets capture the same entities, and none phase in together.',
     'First mandatory reporting period by cohort. Solid indicates mandatory disclosure in force; translucent indicates the assurance obligation.',
     legend([{ c: S.s2, label: 'Australia' }, { c: S.s1, label: 'Singapore' }, { c: S.s3, label: 'India' }]) +
     timeline({
@@ -231,8 +281,8 @@ slides.push(slide(`
       ],
     }),
     {
-      note: 'Note: Australian periods are annual reporting periods beginning on or after the date shown. Singapore and Indian cohorts are stated by financial year.',
-      source: 'Treasury Laws Amendment Act 2024; ACRA and SGX RegCo, August 2025; SEBI.',
+      note: 'Australian periods are annual reporting periods beginning on or after the date shown. Singapore and Indian cohorts are stated by financial year.',
+      source: 'Treasury Laws Amendment Act 2024; ACRA and SGX RegCo, August 2025; SEBI; ReGenesis Impact analysis',
     }
   )}
   <p style="font-size:19px;margin-top:16px">
@@ -246,9 +296,9 @@ slides.push(slide(`
 /* ═══════════════════ 08 · FIGURE 2 — AU THRESHOLDS ═══════════════════ */
 slides.push(slide(`
   <div class="eyebrow">01 — The obligation · Australia</div>
-  <h2 style="font-size:52px">The threshold falls by an<br>order of magnitude.</h2>
-  ${fig(
-    'By July 2027 the Australian regime reaches entities ten times smaller than in its first year',
+  <h2>The threshold falls by an<br>order of magnitude.</h2>
+  ${exhibit(
+    'By July 2027 the Australian regime reaches entities ten times smaller than in its first year.',
     'Size thresholds by group. An entity is captured if it meets at least two of the three criteria.',
     `<table class="dt">
       <tr><th>Cohort</th><th>Revenue</th><th>Gross assets</th><th>Employees</th><th>First period begins</th></tr>
@@ -257,8 +307,8 @@ slides.push(slide(`
       <tr><td class="k">Group 3</td><td class="num">≥ A$50m</td><td class="num">≥ A$25m</td><td class="num">≥ 100</td><td class="k">on/after 1 Jul 2027</td></tr>
     </table>`,
     {
-      note: 'Note: entities registered under the National Greenhouse and Energy Reporting Act are captured irrespective of size; asset owners with A$5bn or more under management are captured from Group 2.',
-      source: 'Treasury Laws Amendment Act 2024, Schedule 4; ASIC Regulatory Guide 280.',
+      note: 'entities registered under the National Greenhouse and Energy Reporting Act are captured irrespective of size; asset owners with A$5bn or more under management are captured from Group 2.',
+      source: 'Treasury Laws Amendment Act 2024, Schedule 4; ASIC Regulatory Guide 280',
     }
   )}
   <p style="font-size:19px;margin-top:18px">
@@ -270,7 +320,7 @@ slides.push(slide(`
 /* ═══════════════════ 09 · FIGURE 3 — AASB S2 + ASSURANCE ═══════════════════ */
 slides.push(slide(`
   <div class="eyebrow">01 — The obligation · Australia</div>
-  <h2 style="font-size:52px">What AASB S2 asks for,<br>and when it is audited.</h2>
+  <h2>What AASB S2 asks for,<br>and when it is audited.</h2>
   <table class="dt" style="margin-bottom:6px">
     <tr><th style="width:200px">Pillar</th><th>Requirement</th></tr>
     <tr><td class="k">Governance</td><td>Board and management processes, controls and procedures for overseeing climate-related risks and opportunities.</td></tr>
@@ -278,8 +328,8 @@ slides.push(slide(`
     <tr><td class="k">Risk management</td><td>Processes to identify, assess, prioritise and monitor climate-related risks.</td></tr>
     <tr><td class="k">Metrics and targets</td><td>Scope 1 and 2 emissions from year one; material Scope 3 emissions from year two.</td></tr>
   </table>
-  ${fig(
-    'Assurance escalates from limited to reasonable over all climate disclosures by 2030',
+  ${exhibit(
+    'Assurance escalates from limited to reasonable over all climate disclosures by 2030.',
     'Assurance obligation for Australian reporters, annual periods beginning on or after the date shown.',
     timeline({
       years: [2025, 2026, 2027, 2028, 2029, 2030], laneH: 44, gap: 12, labelW: 258, w: 928,
@@ -288,7 +338,7 @@ slides.push(slide(`
         { label: 'Reasonable assurance', c: S.s2, spans: [{ from: 2030, to: 2030, text: 'all disclosures' }] },
       ],
     }),
-    { source: 'AUASB, ASSA 5000 and ASSA 5010; AASB S2.' }
+    { source: 'AUASB, ASSA 5000 and ASSA 5010; AASB S2' }
   )}
   <p style="font-size:18.5px;margin-top:14px">
     ASIC has provided a fixed three-year, regulator-only liability window from 1 January
@@ -301,7 +351,7 @@ slides.push(slide(`
 /* ═══════════════════ 10 · MAS ═══════════════════ */
 slides.push(slide(`
   <div class="eyebrow">01 — The obligation · Singapore</div>
-  <h2 style="font-size:52px">Transition planning became<br>a supervisory expectation.</h2>
+  <h2>Transition planning became<br>a supervisory expectation.</h2>
   <p style="margin-bottom:22px;max-width:950px">
     MAS issued guidelines on transition planning for banks, insurers and asset managers
     on 5 March 2026, effective September 2027 after an 18-month transition period. They
@@ -327,9 +377,9 @@ slides.push(slide(`
 /* ═══════════════════ 11 · FIGURE 4 — SG DEFERRAL ═══════════════════ */
 slides.push(slide(`
   <div class="eyebrow">01 — The obligation · Singapore</div>
-  <h2 style="font-size:52px">Deferral is not withdrawal.</h2>
-  ${fig(
-    'Every Singapore cohort moved back, some by five years',
+  <h2>Deferral is not withdrawal.</h2>
+  ${exhibit(
+    'Every Singapore cohort moved back, some by five years.',
     'First reporting year before and after the revision announced 25 August 2025.',
     `<table class="dt">
       <tr><th>Cohort</th><th style="width:230px">Original</th><th style="width:180px">Revised</th></tr>
@@ -342,8 +392,8 @@ slides.push(slide(`
       <tr><td class="k">Listed, non-STI, &lt; S$1bn market cap</td><td class="num">FY2025</td><td class="k">FY2030</td></tr>
     </table>`,
     {
-      note: 'Note: ACRA and SGX RegCo cited the uncertain global economic landscape and varying levels of company readiness.',
-      source: 'ACRA and SGX RegCo, 25 August 2025; roadmap of 28 February 2024.',
+      note: 'ACRA and SGX RegCo cited the uncertain global economic landscape and varying levels of company readiness.',
+      source: 'ACRA and SGX RegCo, 25 August 2025; roadmap of 28 February 2024',
     }
   )}
   <p style="font-size:19px;margin-top:18px">
@@ -356,9 +406,9 @@ slides.push(slide(`
 /* ═══════════════════ 12 · FIGURE 5 — CARBON TAX ═══════════════════ */
 slides.push(slide(`
   <div class="eyebrow">01 — The obligation · Singapore</div>
-  <h2 style="font-size:52px">The price signal moved<br>faster than the deadlines.</h2>
-  ${fig(
-    'Singapore’s carbon tax rose ninefold between 2023 and 2026',
+  <h2>The price signal moved<br>faster than the deadlines.</h2>
+  ${exhibit(
+    'Singapore’s carbon tax rose ninefold between 2023 and 2026.',
     'Headline rate, S$ per tonne of CO<sub>2</sub> equivalent, for facilities emitting 25,000 tCO<sub>2</sub>e a year or more.',
     vbar({
       h: 372, color: S.s1,
@@ -370,8 +420,8 @@ slides.push(slide(`
       ],
     }),
     {
-      note: 'Note: the 2030 range is stated policy intent and is not legislated, shown here as a dashed outline. Up to 5% of taxable emissions may be offset with eligible international carbon credits.',
-      source: 'National Climate Change Secretariat; Ministry of Sustainability and the Environment.',
+      note: 'the 2030 range is stated policy intent and is not legislated, shown here as a dashed outline. Up to 5% of taxable emissions may be offset with eligible international carbon credits.',
+      source: 'National Climate Change Secretariat; Ministry of Sustainability and the Environment',
     }
   )}
   <p style="font-size:19px;margin-top:16px">
@@ -384,9 +434,9 @@ slides.push(slide(`
 /* ═══════════════════ 13 · FIGURE 6 — INDIA ═══════════════════ */
 slides.push(slide(`
   <div class="eyebrow">01 — The obligation · India</div>
-  <h2 style="font-size:52px">Assurance widens down<br>the ranking.</h2>
-  ${fig(
-    'BRSR Core assurance reaches the full top 1,000 by FY2026–27',
+  <h2>Assurance widens down<br>the ranking.</h2>
+  ${exhibit(
+    'BRSR Core assurance reaches the full top 1,000 by FY2026–27.',
     'Companies subject to BRSR Core assurance, by market-capitalisation rank and financial year.',
     hbar({
       labelW: 210, rowH: 58,
@@ -399,7 +449,7 @@ slides.push(slide(`
     }),
     {
       note: 'Base: the top 1,000 listed companies by market capitalisation, for which BRSR has been mandatory since FY2022–23.',
-      source: 'SEBI, BRSR and BRSR Core assurance framework.',
+      source: 'SEBI, BRSR and BRSR Core assurance framework',
     }
   )}
   <p style="font-size:19px;margin-top:18px">
@@ -417,12 +467,20 @@ slides.push(slide(`
   <p class="sec-lead">What prudential regulators have now measured, and what those
   exercises returned. These are the published numbers behind the requirement, not
   projections commissioned to support it.</p>
-`, { divider: true }));
+  <div class="sec-toc">
+    <div><span>15</span>The estimate that moved supervisory opinion</div>
+    <div><span>18</span>What separates a plan from a target</div>
+    <div><span>16</span>APRA prices the protection gap</div>
+    <div><span>19</span>Disclosure quality and capital allocation</div>
+    <div><span>17</span>The four reference scenarios</div>
+    <div><span>20</span>Three carbon-market figures</div>
+  </div>
+`, { fill: true }));
 
 /* ═══════════════════ 15 · WHY SUPERVISORS MOVED ═══════════════════ */
 slides.push(slide(`
   <div class="eyebrow">02 — The evidence</div>
-  <h2 style="font-size:52px">The estimate that moved<br>supervisory opinion.</h2>
+  <h2>The estimate that moved<br>supervisory opinion.</h2>
   <div class="finding" style="margin-bottom:24px">
     <div class="finding-lab">Peer-reviewed, Nature, April 2024</div>
     <p style="font-size:24px;line-height:1.4">The world economy is already committed to
@@ -446,9 +504,9 @@ slides.push(slide(`
 /* ═══════════════════ 16 · FIGURE 7 — APRA ═══════════════════ */
 slides.push(slide(`
   <div class="eyebrow">02 — The evidence · Australia</div>
-  <h2 style="font-size:52px">A regulator put a number<br>on the protection gap.</h2>
-  ${fig(
-    'Expected weather-peril losses more than double by 2050 under the higher physical-risk scenario',
+  <h2>A regulator put a number<br>on the protection gap.</h2>
+  ${exhibit(
+    'Expected weather-peril losses more than double by 2050 under the higher physical-risk scenario.',
     'Expected national annual weather-peril losses, A$ billion.',
     vbar({
       h: 336,
@@ -458,8 +516,8 @@ slides.push(slide(`
       ],
     }),
     {
-      note: 'Note: APRA modelled two severe but plausible scenarios to 2050. The 2024 baseline is shown recessive; the projection is the finding.',
-      source: 'APRA, “Mind the Gap: an insurance climate vulnerability assessment”, March 2026.',
+      note: 'APRA modelled two severe but plausible scenarios to 2050. The 2024 baseline is shown recessive; the projection is the finding.',
+      source: 'APRA, “Mind the Gap: an insurance climate vulnerability assessment”, March 2026',
     }
   )}
   <div class="statrow statrow--2" style="margin-top:20px">
@@ -473,9 +531,9 @@ slides.push(slide(`
 /* ═══════════════════ 17 · FIGURE 8 — NGFS ═══════════════════ */
 slides.push(slide(`
   <div class="eyebrow">02 — The evidence</div>
-  <h2 style="font-size:52px">Scenario analysis is a<br>resilience test, not a narrative.</h2>
-  ${fig(
-    'The reference scenarios pair transition risk against physical risk',
+  <h2>Scenario analysis is a<br>resilience test, not a narrative.</h2>
+  ${exhibit(
+    'The reference scenarios pair transition risk against physical risk.',
     'NGFS Phase V scenario families, version 5.0, November 2024.',
     quadrant({
       w: 928, h: 560, xLab: 'Transition risk', yLab: 'Physical risk',
@@ -486,7 +544,7 @@ slides.push(slide(`
         { tag: 'DISORDERLY', title: 'Delayed Transition', c: S.s3, lines: ['Late, abrupt policy action', 'High transition risk in', 'exposed sectors'] },
       ],
     }),
-    { source: 'NGFS, Phase V long-term climate macro-financial scenarios, November 2024.' }
+    { source: 'NGFS, Phase V long-term climate macro-financial scenarios, November 2024' }
   )}
   <p style="font-size:19px;margin-top:14px">
     AASB S2 requires scenario analysis to assess climate resilience, by an approach
@@ -499,7 +557,7 @@ slides.push(slide(`
 /* ═══════════════════ 18 · TRANSITION PLANS ═══════════════════ */
 slides.push(slide(`
   <div class="eyebrow">02 — The evidence</div>
-  <h2 style="font-size:52px">A target is not a<br>transition plan.</h2>
+  <h2>A target is not a<br>transition plan.</h2>
   <p style="margin-bottom:22px;max-width:950px">
     The UK Transition Plan Taskforce framework, published October 2023, sets out what a
     disclosed plan is expected to contain. Its materials now sit with the IFRS
@@ -525,9 +583,9 @@ slides.push(slide(`
 /* ═══════════════════ 19 · FIGURE 9 — CAPITAL ═══════════════════ */
 slides.push(slide(`
   <div class="eyebrow">02 — The evidence</div>
-  <h2 style="font-size:52px">Disclosure quality gates<br>capital allocation.</h2>
-  ${fig(
-    'Required clean-energy investment is roughly two and a half times the level observed in 2023',
+  <h2>Disclosure quality gates<br>capital allocation.</h2>
+  ${exhibit(
+    'Required clean-energy investment is roughly two and a half times the level observed in 2023.',
     'Annual global clean-energy investment, US$ trillion.',
     vbar({
       h: 322,
@@ -537,8 +595,8 @@ slides.push(slide(`
       ],
     }),
     {
-      note: 'Note: the required figure is a modelled pathway, not observed investment, and is shown as a dashed outline.',
-      source: 'International Energy Agency, Net Zero Roadmap, September 2023.',
+      note: 'the required figure is a modelled pathway, not observed investment, and is shown as a dashed outline.',
+      source: 'International Energy Agency, Net Zero Roadmap, September 2023',
     }
   )}
   <p style="font-size:19px;margin-top:18px">
@@ -552,9 +610,9 @@ slides.push(slide(`
 /* ═══════════════════ 20 · FIGURE 10 — CARBON MARKETS ═══════════════════ */
 slides.push(slide(`
   <div class="eyebrow">02 — The evidence</div>
-  <h2 style="font-size:52px">Three carbon-market figures,<br>three different questions.</h2>
-  ${fig(
-    'Widely quoted carbon-market totals measure different things and are not interchangeable',
+  <h2>Three carbon-market figures,<br>three different questions.</h2>
+  ${exhibit(
+    'Widely quoted carbon-market totals measure different things and are not interchangeable.',
     'Selected 2024 measures, with the basis of each stated.',
     `<table class="dt">
       <tr><th style="width:230px">Measure</th><th style="width:190px">2024 figure</th><th>What it counts</th></tr>
@@ -565,8 +623,8 @@ slides.push(slide(`
       <tr><td class="k">Unretired inventory</td><td class="num">about 1 billion</td><td>Supply overhang weighing on price${c('wb')}</td></tr>
     </table>`,
     {
-      note: 'Note: figures are reported on the basis used by each issuing body and are not combined here.',
-      source: 'Ecosystem Marketplace; MSCI Carbon Markets; World Bank.',
+      note: 'figures are reported on the basis used by each issuing body and are not combined here.',
+      source: 'Ecosystem Marketplace; MSCI Carbon Markets; World Bank; ReGenesis Impact analysis',
     }
   )}
 `));
@@ -578,12 +636,16 @@ slides.push(slide(`
   <h2>The capability gap</h2>
   <p class="sec-lead">The thresholds have fallen faster than the supporting tooling has
   adapted. This section sets out where the two diverge, and for whom.</p>
-`, { divider: true }));
+  <div class="sec-toc">
+    <div><span>22</span>The obligation scaled down; the tooling did not</div>
+    <div><span>23</span>Five actions, by cohort and date</div>
+  </div>
+`, { fill: true }));
 
 /* ═══════════════════ 22 · THE GAP ═══════════════════ */
 slides.push(slide(`
   <div class="eyebrow">03 — The capability gap</div>
-  <h2 style="font-size:52px">The obligation scaled down.<br>The tooling did not.</h2>
+  <h2>The obligation scaled down.<br>The tooling did not.</h2>
   <p style="margin-bottom:22px;max-width:950px">
     Australia's Group 3 floor is A$50m of revenue and 100 employees from July
     2027.${c('austlii')} Singapore's large non-listed cohort is defined at S$1bn of
@@ -617,7 +679,7 @@ slides.push(slide(`
 mark('means');
 slides.push(slide(`
   <div class="eyebrow">What this means</div>
-  <h2 style="font-size:52px">Five actions, by cohort<br>and date.</h2>
+  <h2>Five actions, by cohort<br>and date.</h2>
   <ul class="ticks" style="margin-bottom:20px">
     <li><strong>Confirm the cohort and the first reporting date.</strong> Size in
       Australia, listing status and market capitalisation in Singapore, market-cap rank
@@ -648,7 +710,7 @@ slides.push(slide(`
 mark('method');
 slides.push(slide(`
   <div class="eyebrow">About the research</div>
-  <h2 style="font-size:52px">Scope, method and<br>limitations.</h2>
+  <h2>Scope, method and<br>limitations.</h2>
   <p class="note" style="margin-bottom:20px;max-width:950px">
     <strong>Scope.</strong> This briefing covers mandatory climate-disclosure
     obligations in Australia, Singapore and India, together with the prudential and
@@ -679,7 +741,7 @@ slides.push(slide(`
 mark('notes');
 slides.push(slide(`
   <div class="eyebrow">Endnotes</div>
-  <h2 style="font-size:46px;margin-bottom:18px">Sources.</h2>
+  <h2>Sources.</h2>
   <div style="columns:2;column-gap:44px;font-family:'DM Mono',monospace;font-size:12.8px;line-height:1.6;color:var(--ink-muted)">
     ${SRC.map(([id, title, date, host], i) =>
       `<div style="break-inside:avoid;margin-bottom:12px">
@@ -688,7 +750,6 @@ slides.push(slide(`
          <span style="opacity:.72">${host}, ${date}</span>
        </div>`).join('')}
   </div>
-  <div class="spacer"></div>
   <p class="note" style="font-size:16px;margin-top:12px">
     Figures are quoted as published by the issuing body on the dates shown. Claims that
     could not be corroborated across independent sources have been excluded rather than
@@ -699,7 +760,7 @@ slides.push(slide(`
 /* ═══════════════════ 26 · ABOUT (commercial, last, labelled) ═══════════════════ */
 slides.push(slide(`
   <div class="eyebrow">About ReGenesis Impact</div>
-  <h2 style="font-size:52px;margin-bottom:22px">Who produced this<br>briefing.</h2>
+  <h2>Who produced this<br>briefing.</h2>
   <p style="margin-bottom:24px;max-width:900px">
     ReGenesis Impact builds disclosure tooling for companies in Australia, Singapore and
     India — the GHG inventory, the ISSB and BRSR disclosure structures, scenario
@@ -716,7 +777,6 @@ slides.push(slide(`
     Corrections are welcome. If a date or threshold in this briefing has moved, or has
     been misread, please write and it will be amended in the next edition.
   </p>
-  <div class="spacer"></div>
   <p class="note" style="font-size:15.5px;line-height:1.6">
     This briefing contains general information only and does not constitute accounting,
     legal or other professional advice. It should not be relied upon as a substitute for
@@ -744,4 +804,4 @@ const resolved = html.replace(/\{\{P:(\w+)\}\}/g, (_, k) => {
 if (/\{\{P:/.test(resolved)) throw new Error('unresolved contents page token');
 writeFileSync(new URL('./board.html', import.meta.url), resolved);
 console.log(`✓ contents:`, NAV);
-console.log(`✓ board.html — ${slides.length} pages, ${FIGN} figures, ${SRC.length} endnotes`);
+console.log(`✓ board.html — ${slides.length} pages, ${EXN} figures, ${SRC.length} endnotes`);

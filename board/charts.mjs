@@ -36,7 +36,7 @@ export function hbar({ w = 928, rowH = 54, gap = 12, data, max, unit = '', label
       <rect x="${labelW}" y="${y + (rowH - barH) / 2}" width="${bw}" height="${barH}" rx="4" fill="${c}"/>
       <text x="${labelW + bw + 14}" y="${y + rowH / 2 + 1}" class="val-lab" dominant-baseline="middle">${esc(d.disp ?? d.v + unit)}</text>`;
   }).join('');
-  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img">
+  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid meet" class="chart" role="img">
     <line x1="${labelW - 14}" y1="0" x2="${labelW - 14}" y2="${h - gap}" class="ax-line"/>
     ${rows}
   </svg>`;
@@ -66,7 +66,7 @@ export function vbar({ w = 928, h = 340, data, unit = '', color = S.s1, note }) 
       <text x="${cx}" y="${y - 14}" class="val-lab" text-anchor="middle">${esc(d.disp ?? d.v + unit)}</text>
       <text x="${cx}" y="${padT + plotH + 30}" class="ax-lab" text-anchor="middle">${esc(d.label)}</text>`;
   }).join('');
-  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img">
+  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid meet" class="chart" role="img">
     <line x1="0" y1="${padT + plotH}" x2="${w}" y2="${padT + plotH}" class="ax-line"/>
     ${bars}
     ${note ? `<text x="${w}" y="${h - 6}" class="ax-lab" text-anchor="end">${esc(note)}</text>` : ''}
@@ -102,7 +102,7 @@ export function timeline({ w = 928, years, rows, laneH = 46, gap = 14, labelW = 
       ${bars}`;
   }).join('');
 
-  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img">${ticks}${lanes}</svg>`;
+  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid meet" class="chart" role="img">${ticks}${lanes}</svg>`;
 }
 
 /* ── 2×2 scenario quadrant (NGFS) ────────────────────────────────── */
@@ -129,7 +129,7 @@ export function quadrant({ w = 900, h = 620, quads, xLab, yLab }) {
       ).join('')}`;
   }).join('');
 
-  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img">
+  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid meet" class="chart" role="img">
     ${cells}
     <line x1="${pad - 26}" y1="${cy}" x2="${w - 10}" y2="${cy}" class="ax-line"/>
     <line x1="${cx}" y1="30" x2="${cx}" y2="${h - 26}" class="ax-line"/>
@@ -158,5 +158,5 @@ export function stackbar({ w = 928, h = 62, segs }) {
     x += sw;
     return r;
   }).join('');
-  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img">${parts}</svg>`;
+  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid meet" class="chart" role="img">${parts}</svg>`;
 }

@@ -54,10 +54,15 @@ try {
   }
   const avail = floor - top;
   const occupied = merged.reduce((a, b) => a + (b[1] - b[0]), 0);
+  // interior gaps are inter-block rhythm; the TRAILING gap is a hole at the
+  // foot of the page, which is what reads as unfinished.
   let gap = merged.length ? merged[0][0] - top : avail;
   for (let i = 1; i < merged.length; i++) gap = Math.max(gap, merged[i][0] - merged[i - 1][1]);
-  if (merged.length) gap = Math.max(gap, floor - merged[merged.length - 1][1]);
-  document.title = 'FILL=' + (occupied / avail * 100).toFixed(1) + ';GAP=' + Math.round(gap);
+  const tail = merged.length ? floor - merged[merged.length - 1][1] : avail;
+  const fullBleed = s.classList.contains('slide--fill') || s.classList.contains('slide--ink');
+  document.title = 'FILL=' + (occupied / avail * 100).toFixed(1)
+                 + ';GAP=' + Math.round(gap) + ';TAIL=' + Math.round(tail)
+                 + ';BLEED=' + (fullBleed ? 1 : 0);
 } catch (e) { document.title = 'ERR: ' + e.message; }
 </script>`;
 
@@ -70,17 +75,20 @@ for (let i = 1; i <= secs.length; i++) {
   const out = execFileSync(CHROME, ['--headless=new', '--disable-gpu', '--no-sandbox',
     '--virtual-time-budget=1400', '--dump-dom', `file://${process.cwd()}/${f}`],
     { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
-  const m = out.match(/FILL=([\d.]+);GAP=(\d+)/);
+  const m = out.match(/FILL=([\d.]+);GAP=(\d+);TAIL=(-?\d+);BLEED=([01])/);
   if (!m) {
     const err = out.match(/<title>(ERR:[^<]*)<\/title>/);
     throw new Error(`page ${i}: probe did not report — ${err ? err[1] : 'no title found'}`);
   }
-  rows.push({ page: i, fill: Number(m[1]), gap: Number(m[2]) });
+  rows.push({ page: i, fill: Number(m[1]), gap: Number(m[2]), tail: Number(m[3]), bleed: m[4] === '1' });
 }
 rmSync('fillmeas', { recursive: true, force: true });
 
 const MAXGAP = Number(process.env.MAXGAP ?? 120);
-const bad = rows.filter(r => r.fill < MIN || r.fill > MAX || r.gap > MAXGAP);
+const MAXTAIL = Number(process.env.MAXTAIL ?? 60);
+// a full-bleed colour page is complete by design; only its trailing hole matters
+const bad = rows.filter(r => r.bleed ? r.tail > MAXTAIL
+                                    : (r.fill < MIN || r.fill > MAX || r.gap > MAXGAP || r.tail > MAXTAIL));
 const fills = rows.map(r => r.fill);
 const mean = fills.reduce((a, b) => a + b, 0) / fills.length;
 const sd = Math.sqrt(fills.reduce((a, b) => a + (b - mean) ** 2, 0) / fills.length);
@@ -90,12 +98,15 @@ for (const r of rows) {
   const flags = [];
   if (r.fill > MAX) flags.push('OVERFLOW');
   else if (r.fill < MIN) flags.push('sparse');
-  if (r.gap > MAXGAP) flags.push(`gap ${r.gap}px`);
-  console.log(`  p${String(r.page).padStart(2, '0')} ${bar} ${r.fill.toFixed(1).padStart(5)}%  gap ${String(r.gap).padStart(4)}px  ${flags.join(' · ')}`);
+  if (!r.bleed && r.gap > MAXGAP) flags.push(`gap ${r.gap}`);
+  if (r.tail > MAXTAIL) flags.push(`TAIL ${r.tail}px`);
+  console.log(`  p${String(r.page).padStart(2, '0')} ${bar} ${r.fill.toFixed(1).padStart(5)}%  interior ${String(r.gap).padStart(4)}px  tail ${String(r.tail).padStart(4)}px  ${flags.join(' · ')}`);
 }
 console.log(`\n  mean ${mean.toFixed(1)}%  ·  spread (sd) ${sd.toFixed(1)}  ·  range ${Math.min(...fills).toFixed(1)}–${Math.max(...fills).toFixed(1)}`);
 const gaps = rows.map(r => r.gap);
-console.log(`  largest single gap ${Math.max(...gaps)}px  ·  gate: fill ≥${MIN}%, gap ≤${MAXGAP}px`);
+const tails = rows.map(r => r.tail);
+console.log(`  worst interior gap ${Math.max(...gaps)}px  ·  worst trailing hole ${Math.max(...tails)}px`);
+console.log(`  gate: fill ≥${MIN}%, interior ≤${MAXGAP}px, trailing ≤${MAXTAIL}px`);
 console.log(bad.length ? `\n  ${bad.length} page(s) failing: ${bad.map(b => b.page).join(', ')}`
                        : `\n  all ${rows.length} pages pass`);
 process.exit(bad.length ? 1 : 0);
