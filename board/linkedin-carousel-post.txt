@@ -1,45 +1,31 @@
-Australia's mandatory climate reporting threshold falls to A$50m of revenue in July 2027. Singapore moved most of its deadlines back by three years last August. India's assurance requirement reaches the full top 1,000 listed companies by FY2026-27.
+A bank's financed emissions can fall by a third without a single borrower cutting a tonne.
 
-Three markets, three different gating rules, one underlying emissions inventory.
+The attribution factor is exposure divided by the counterparty's value. For listed equity that value is EVIC — a market price. Valuations rise, the denominator rises, the reported figure falls. Nothing changed in the real economy.
 
-I spent the last few weeks compiling what the obligations actually are — the thresholds, the phase-in dates, the assurance ramp, and the supervisory stress tests now sitting behind them. It runs to 26 pages with 10 figures, and every number is referenced to a named source on the endnotes page.
+I spent a while going through PCAF properly and wrote up what I found. The part I keep coming back to is this: no emission factor database can lift a portfolio above data quality score 3. The database supplies scores 3 to 5 by construction. Scores 1 and 2 only exist where the counterparty gave you the data.
 
-A few things that surprised me while putting it together:
+Which means the problem most institutions are trying to buy their way out of can only be solved by talking to clients.
 
-The deferrals are widely read as relief. They aren't. Assurance tests prior-year comparatives, so an entity that starts measuring in FY2030 arrives at its first assured report with exactly the absence of history it would have had in FY2027. The runway moved; the baseline problem didn't.
+24 pages, nine exhibits, every figure sourced.
 
-APRA has now put a number on physical risk that is hard to argue with — expected national weather-peril losses rising from under A$7bn in 2024 to over A$16bn by 2050, and the share of freestanding-property households without home insurance going from one in seven to one in four.
-
-And the NGFS raised projected physical damages two- to four-fold in its November 2024 scenarios. Scenario analysis run on an earlier vintage will not reproduce.
-
-The part I keep coming back to is the mismatch at the bottom of the range. The standards were drafted with large filers in view and extended downward by threshold. The tooling was built for large filers and was not extended downward at all.
-
-If a date or threshold in here is wrong, or has moved since I compiled it, I would genuinely like to know.
-
-#ClimateReporting #AASBS2 #ISSB #BRSR #SustainabilityReporting
+#FinancedEmissions #PCAF #Scope3 #ClimateRisk #SustainableFinance
 
 
 --------------------------------------------------
 HOW TO POST (delete this section before posting):
 
-1. Upload the PDF as a DOCUMENT post (not an image). On LinkedIn: Start a post
-   → the document icon → upload
-   ReGenesis-Impact-Mandatory-and-Moving.pdf → title it
-   "Mandatory, and moving" (that title shows on the carousel card).
-2. Paste everything above the dashed line as the post body.
-3. Put the link in the FIRST COMMENT, not the body — LinkedIn suppresses reach
-   on posts carrying an external link, and a document post already competes for
-   that slot:
-   https://www.regenesisimpact.in/?utm_source=linkedin&utm_medium=social&utm_campaign=mandatory-and-moving
-4. Post Tue/Wed/Thu morning IST. Document posts accumulate views over several
-   days — don't judge it on day one.
-5. Reply to every comment in the first hour. The most common question will be
-   "which cohort am I in" — that is the conversation worth having, and Figure 1
-   answers it.
-6. The endnotes page is the answer to anyone who challenges a figure. That is
-   what it is for.
-
-A note on the voice: this is written as a briefing, not a promotion. There is
-no mention of ReGenesis Impact anywhere before page 26, which is deliberate and
-is the convention Big 4 research follows. Resist the urge to add a plug to the
-post body — the document earns the inference on its own.
+1. Upload as a DOCUMENT post, not an image. Title it "The denominator problem"
+   — that shows on the carousel card.
+   File: ReGenesis-Impact-The-Denominator-Problem.pdf
+2. Paste everything above the dashed line as the body.
+3. Link in the FIRST COMMENT, not the body:
+   https://www.regenesisimpact.in/?utm_source=linkedin&utm_medium=social&utm_campaign=denominator-problem
+4. Tue/Wed/Thu morning IST. This one is narrow and technical — expect fewer
+   impressions than a general climate post but a much better calibre of comment.
+   That is the trade you want here.
+5. The audience is sustainability and risk people inside banks, insurers and
+   asset managers. If you know a few by name, a direct share will do more than
+   the feed will.
+6. Likely pushback: "EVIC averaging solves this." It doesn't — page 12 covers
+   why averaging suppresses the variance without changing the fact that the
+   denominator is a price. Worth having ready.
