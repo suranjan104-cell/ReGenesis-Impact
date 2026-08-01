@@ -1,40 +1,64 @@
-# From ledger to forecast — climate disclosure briefing
+# The denominator problem — financed emissions briefing
 
-A 25-page, 4:5 briefing PDF on what climate scenario analysis and transition
-planning ask of corporate data, and what the first evidence shows.
+A 24-page, 4:5 briefing PDF on Scope 3 Category 15 financed emissions for
+financial institutions: how the calculation works, where it breaks, and what
+actually closes the data gap.
 
-**Deliverable:** `ReGenesis-Impact-From-Ledger-to-Forecast.pdf` (~0.96 MB,
-810×1013 pt, 25 pages, 9 exhibits, 25 endnotes, all fonts embedded).
+**Deliverable:** `ReGenesis-Impact-The-Denominator-Problem.pdf` (~0.96 MB,
+810×1013 pt, 24 pages, 9 exhibits, 20 endnotes, all fonts embedded).
 
-Built to the standard in **`BENCHMARK-MBB.md`** (McKinsey / BCG / Bain),
-measured from two McKinsey Global Institute PDFs parsed directly. The
-repositioning rationale is in **`OUTLINE.md`**.
+Built to the standard in **`BENCHMARK-MBB.md`**. Repositioning rationale in
+**`OUTLINE.md`**.
 
-## Subject, and what is deliberately excluded
+## Thesis
 
-The briefing does **not** cover reporting thresholds, phase-in dates or
-deferral timetables. Those are the obvious question, well documented by the
-regulators themselves, and were the subject of the previous edition. India,
-BRSR and SEBI are out of scope entirely.
+Financed emissions is the only major emissions figure where the reporting
+institution has almost no direct access to the underlying data, and where the
+reported total can fall while every borrower emits as much as before. The
+attribution denominator for listed equity is EVIC — a market value — so the
+figure is partly a function of price.
 
-The thesis: emissions accounting is a solved problem — defined boundary,
-standardised method, auditable numbers. Scenario analysis and transition
-planning are not, they need a different class of data, and they are the half of
-the disclosure that investors, lenders and insurers price.
+The value-add is not a description of PCAF. It is: where the calculation
+breaks, what each failure does to the number's usefulness, and which route out
+is closed. The last is the finding most programmes reach late — **an emission
+factor database cannot lift a portfolio above data quality score 3**, because
+the score measures distance from the counterparty and a database is not the
+counterparty.
 
-The spine, in one line: **the three disclosures stakeholders price on — Scope 3,
-scenario analysis and transition plans — are the same three built on proxy data,
-the same three receiving the least assurance, and the only three carrying
-statutory liability protection.**
+## Five failures, each with a stated mechanism
 
-## Withdrawn figure
+1. **EVIC volatility** — a 40% rise in counterparty valuation cuts attributed
+   emissions by roughly a third with exposure and physical emissions unchanged.
+2. **Three vintages in one ratio** — exposure at the reporting date, EVIC at the
+   prior year end, counterparty emissions up to two years earlier. A trend line
+   can be a vintage artefact.
+3. **Scores 4 and 5 measure the sector, not the borrower** — two companies in
+   one sector with a tenfold intensity difference get the same estimate per unit
+   of revenue.
+4. **Double counting, three kinds** — one controlled by the standard, one
+   inherent across institutions, one unquantified inside input-output estimates.
+5. **Facilitated emissions at 33%** — two-thirds attributed to no one, and a
+   balance-sheet-to-facilitated shift reduces the attributed share by two-thirds
+   with no change in activity.
 
-The previous edition carried a "19% of global income / US$38 trillion" figure
-sourced to Kotz, Levermann and Wenz (2024) in *Nature*. **That paper has been
-retracted**, and the NGFS has issued a formal statement because the same paper
-underpins the physical-risk damage function in its Phase V scenarios. The figure
-is removed. The retraction itself is now page 13, because it is material to any
-resilience assessment built on Phase V physical-risk outputs.
+## A correction carried into the briefing
+
+Financed emissions is **not** an industry-based metric. Under IFRS S2 it sits in
+the main body at paragraph 29(a)(vi)(2) with guidance at B58–B63. AASB S2
+omitted the industry-based metrics requirement but retained the
+financed-emissions package deliberately — and AASB S2025-1 amends it, which a
+requirement that did not exist could not be. The weaker "consider the
+applicability of" wording appeared in Exposure Draft SR1 (October 2023) and was
+not carried into the final standard. Australian financial institutions face the
+full package from their second reporting year.
+
+## Excluded rather than repeated
+
+Several widely circulated statistics on the share of portfolios lacking
+counterparty data trace to vendors with a commercial interest in the size of the
+gap. The counterparty Scope 3 phase-in calendar, the motor-vehicle loan formula
+circulating in secondary sources, and one bank's headline reduction figure could
+not be corroborated and are omitted.
 
 ## Page-fill gate
 
@@ -55,19 +79,18 @@ absorbs the spare height.
 ## Structure
 
 ```
-01  Cover                        14  Exhibit 6 — what the exercises said
-02  Contents                     15  Exhibit 7 — APRA protection gap
-03  Introduction                 16  Divider — 03 The data of the future
-04  Key findings                 17  Exhibit 8 — four properties
-05  Executive summary            18  Exhibit 9 — the assurance sequence
-06  Divider — 01 The standards   19  Where the regime concedes the point
-07  Exhibit 1 — resilience       20  Divider — 04 Why stakeholders read it
-08  Exhibit 2 — two scenarios    21  Exhibit 10 — who is reading
-09  Exhibit 3 — first wave       22  What this means
-10  Transition plan as object    23  About the research
-11  Divider — 02 The exercises   24  Endnotes
-12  Exhibit 4 — scenario sets    25  About ReGenesis Impact
-13  A damage function withdrawn
+01  Cover                        13  Exhibit 5 — three vintages
+02  Contents                     14  Exhibit 6 — scores 4 and 5
+03  Introduction                 15  Exhibit 7 — double counting
+04  Key findings                 16  Facilitated emissions at 33%
+05  Executive summary            17  Divider — 03 Closing the gap
+06  Divider — 01 The calculation 18  Exhibit 8 — the closed route
+07  Exhibit 1 — attribution      19  Exhibit 9 — what moves the score
+08  Exhibit 2 — denominators     20  The assurance deadline
+09  Exhibit 3 — the score ladder 21  What this means
+10  Conformance                  22  About the research
+11  Divider — 02 Where it breaks 23  Endnotes
+12  Exhibit 4 — EVIC volatility  24  About ReGenesis Impact
 ```
 
 Contents-page numbers are **computed from the slide order at build time**, not
