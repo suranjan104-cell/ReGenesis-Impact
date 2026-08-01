@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Denominator Problem — Financed Emissions Briefing | ReGenesis Impact</title>
+<meta name="description" content="Scope 3 Category 15 for financial institutions: how financed emissions is calculated, the five places the calculation breaks, and why no emission factor database can lift a portfolio above PCAF data quality score 3.">
+<link rel="canonical" href="https://www.regenesisimpact.in/research/financed-emissions.html">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Denominator Problem — a financed emissions briefing">
+<meta property="og:description" content="A bank's financed emissions can fall by a third without a single borrower cutting a tonne. How the calculation works, where it breaks, and what closes the data gap.">
+<meta property="og:url" content="https://www.regenesisimpact.in/research/financed-emissions.html">
+<meta property="og:image" content="https://www.regenesisimpact.in/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Report","name":"The Denominator Problem — a financed emissions briefing","about":"Scope 3 Category 15 financed emissions measurement for financial institutions","datePublished":"2026-08-01","inLanguage":"en","publisher":{"@type":"Organization","name":"ReGenesis Impact","url":"https://www.regenesisimpact.in/"},"url":"https://www.regenesisimpact.in/research/financed-emissions.html","encoding":{"@type":"MediaObject","contentUrl":"https://www.regenesisimpact.in/research/the-denominator-problem.pdf","encodingFormat":"application/pdf"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ReGenesis Impact","item":"https://www.regenesisimpact.in/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://www.regenesisimpact.in/research/financed-emissions.html"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why do financed emissions change when markets move?","acceptedAnswer":{"@type":"Answer","text":"The attribution factor is the outstanding amount divided by the counterparty's total value. For listed equity and corporate bonds that value is EVIC, a market value. When valuations rise the denominator rises, the attribution factor falls, and reported financed emissions fall even though exposure and physical emissions are unchanged."}},{"@type":"Question","name":"Can an emission factor database improve a PCAF data quality score?","acceptedAnswer":{"@type":"Answer","text":"Only up to a point. Emission factor databases supply scores 3 to 5 by construction. Scores 1 and 2 require reported or primary activity data from the counterparty, so every route above score 3 runs through counterparty engagement."}},{"@type":"Question","name":"Must Australian financial institutions disclose financed emissions under AASB S2?","acceptedAnswer":{"@type":"Answer","text":"Yes. Financed emissions is not an industry-based metric — under IFRS S2 it sits at paragraph 29(a)(vi)(2) with guidance at B58 to B63. AASB S2 omitted the industry-based metrics requirement but retained the financed emissions package, and AASB S2025-1 amends it. The weaker wording that circulates came from Exposure Draft SR1 and was not carried into the final standard."}}]}</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F6F1E7; --paper-hi:#fff; --ink:#0E231A;
+  --ink2:rgba(14,35,26,.72); --ink3:rgba(14,35,26,.55);
+  --line:rgba(14,35,26,.14); --emerald:#0B7A47; --signal:#C2410C;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;line-height:1.65;
+  background-image:linear-gradient(rgba(14,35,26,.035) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(14,35,26,.035) 1px,transparent 1px);
+  background-size:60px 60px}
+.wrap{max-width:860px;margin:0 auto;padding:2.5rem 1.35rem 5rem}
+a{color:var(--emerald)}
+.home{display:inline-flex;gap:.5rem;align-items:center;font-size:.82rem;text-decoration:none;margin-bottom:2.4rem;
+  border:1px solid var(--line);border-radius:2rem;padding:.42rem 1rem;color:var(--ink2)}
+.home:hover{border-color:var(--emerald);color:var(--emerald)}
+.eyebrow{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--emerald);display:flex;align-items:center;gap:.6rem;margin-bottom:.9rem}
+.eyebrow::before{content:'';width:26px;height:1px;background:var(--emerald)}
+h1{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(2.1rem,6vw,3.3rem);line-height:1.02;
+  letter-spacing:-.02em;margin-bottom:1.1rem}
+h1 em{font-style:italic;color:var(--emerald)}
+.standfirst{font-size:1.15rem;color:var(--ink2);margin-bottom:1.6rem;max-width:44rem}
+.meta{font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.1em;color:var(--ink3);
+  padding-top:1rem;border-top:1px solid var(--line);margin-bottom:2.6rem}
+
+.dl{display:flex;flex-wrap:wrap;gap:.8rem;margin-bottom:3rem}
+.btn{display:inline-flex;align-items:center;gap:.5rem;font-weight:600;font-size:.95rem;border-radius:.65rem;
+  padding:.85rem 1.5rem;text-decoration:none;border:1px solid transparent;cursor:pointer}
+.btn-primary{background:var(--emerald);color:var(--paper)}
+.btn-primary:hover{background:#085C36}
+.btn-ghost{border-color:rgba(14,35,26,.3);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--emerald);color:var(--emerald)}
+
+h2{font-family:'Playfair Display',serif;font-weight:700;font-size:1.75rem;line-height:1.15;
+  margin:2.8rem 0 1rem;letter-spacing:-.01em}
+p{margin-bottom:1rem;color:var(--ink2)}
+strong{color:var(--ink)}
+
+.pull{border-left:3px solid var(--emerald);padding:1.1rem 0 1.1rem 1.4rem;margin:1.8rem 0;
+  font-size:1.15rem;line-height:1.45;color:var(--ink)}
+
+.finds{display:grid;gap:1rem;margin:1.6rem 0 2rem}
+@media(min-width:720px){.finds{grid-template-columns:1fr 1fr}}
+.find{background:var(--paper-hi);border:1px solid var(--line);border-left:3px solid var(--signal);
+  border-radius:.7rem;padding:1.15rem 1.3rem}
+.find h3{font-size:1rem;margin-bottom:.4rem;font-weight:600}
+.find p{font-size:.9rem;margin:0;color:var(--ink2)}
+
+.toc{list-style:none;display:flex;flex-direction:column;gap:.55rem;margin:1.2rem 0 2rem}
+.toc li{display:flex;gap:.9rem;font-size:.95rem;color:var(--ink2);padding-bottom:.55rem;border-bottom:1px solid var(--line)}
+.toc span{font-family:'DM Mono',monospace;color:var(--emerald);flex:none;width:1.7rem}
+
+.note{font-size:.85rem;color:var(--ink3);border-top:1px solid var(--line);padding-top:1.2rem;margin-top:2.6rem}
+.cta{background:var(--paper-hi);border:1px solid var(--line);border-radius:.9rem;padding:1.7rem;margin-top:2.6rem}
+.cta h2{margin-top:0;font-size:1.4rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="home" href="/">← ReGenesis Impact</a>
+
+  <div class="eyebrow">Research · Financed emissions</div>
+  <h1>The denominator<br><em>problem</em></h1>
+  <p class="standfirst">
+    Scope 3 Category 15 is the only emissions figure that moves when the market moves.
+    How financed emissions is calculated, the five places the calculation breaks, and
+    what actually closes the data gap.
+  </p>
+  <div class="meta">AUGUST 2026 · 24 PAGES · 9 EXHIBITS · 20 SOURCES · FOR BANKS, INSURERS AND ASSET MANAGERS</div>
+
+  <div class="dl">
+    <a class="btn btn-primary" href="the-denominator-problem.pdf" download>Download the briefing (PDF, 1&nbsp;MB)</a>
+    <a class="btn btn-ghost" href="the-denominator-problem.pdf" target="_blank" rel="noopener">Read in browser</a>
+  </div>
+
+  <p class="pull">
+    A bank's financed emissions can fall by a third without a single borrower cutting a tonne.
+  </p>
+
+  <p>
+    The attribution factor is the outstanding amount divided by the counterparty's total
+    value. For listed equity and corporate bonds that value is <strong>EVIC</strong> — a
+    market value. When valuations rise the denominator rises, the attribution factor
+    falls, and the reported figure falls with it. Exposure unchanged, physical emissions
+    unchanged.
+  </p>
+  <p>
+    Everything downstream inherits the property: targets set against a baseline that moves
+    with markets, year-on-year movements that may be vintage artefacts, and — on the parts
+    of the book with no counterparty data — a figure that is a restatement of sector
+    exposure multiplied by fixed coefficients.
+  </p>
+
+  <h2>What the briefing covers</h2>
+  <ul class="toc">
+    <li><span>01</span>The calculation — attribution, the seven denominators, and the PCAF data quality score</li>
+    <li><span>02</span>Where it breaks — five failures, each with a stated mechanism</li>
+    <li><span>03</span>Closing the gap — what moves a portfolio up the scale, and the route that does not exist</li>
+  </ul>
+
+  <h2>Four findings</h2>
+  <div class="finds">
+    <div class="find">
+      <h3>No database reaches above score 3</h3>
+      <p>Emission factor databases supply scores 3 to 5 by construction. Scores 1 and 2
+      exist only where the counterparty supplied data — so every route above 3 runs
+      through counterparty engagement, not procurement.</p>
+    </div>
+    <div class="find">
+      <h3>Three vintages in one ratio</h3>
+      <p>Exposure at the reporting date, EVIC at the prior year end, counterparty
+      emissions up to two years earlier. A trend line is not evidence of decarbonisation
+      unless the movement is decomposed.</p>
+    </div>
+    <div class="find">
+      <h3>At scores 4 and 5 the borrower disappears</h3>
+      <p>Two companies in one sector with a tenfold difference in carbon intensity
+      receive the same estimate per unit of revenue. The figure cannot detect a
+      counterparty decarbonising.</p>
+    </div>
+    <div class="find">
+      <h3>Two-thirds attributed to no one</h3>
+      <p>Facilitated emissions carry a 33% weighting factor, so moving an exposure from
+      the balance sheet to a facilitated structure reduces the attributed share by
+      two-thirds with no change in the underlying activity.</p>
+    </div>
+  </div>
+
+  <h2>A correction worth carrying</h2>
+  <p>
+    Financed emissions is <strong>not</strong> an industry-based metric. Under IFRS S2 it
+    sits in the main body at paragraph 29(a)(vi)(2), with guidance at B58–B63 — not at
+    paragraph 32. AASB S2 omitted the industry-based metrics requirement but retained the
+    financed-emissions package deliberately, and AASB S2025-1 amends it, which a
+    requirement that did not exist could not be. The weaker <em>"consider the
+    applicability of"</em> wording that still circulates appeared in Exposure Draft SR1
+    and was not carried into the final standard.
+  </p>
+
+  <div class="cta">
+    <h2>Related tools</h2>
+    <p>The GHG inventory, ISSB and AASB disclosure structures, scenario analysis and
+    PCAF-aligned financed-emissions treatment with data quality scoring are free to use
+    and need no account to start.</p>
+    <a class="btn btn-primary" href="/">Open the tools →</a>
+  </div>
+
+  <p class="note">
+    Every figure in the briefing is referenced to a named source on the endnotes page.
+    Claims that could not be corroborated across independent sources were excluded rather
+    than qualified. Corrections are welcome at
+    <a href="mailto:info@regenesisimpact.in">info@regenesisimpact.in</a> — this briefing
+    describes a standard that is actively being revised.
+    See also the <a href="/guides/pcaf-financed-emissions-guide.html">PCAF financed
+    emissions guide</a>.
+  </p>
+</div>
+</body>
+</html>
