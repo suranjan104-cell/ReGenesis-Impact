@@ -1,91 +1,74 @@
-# Repositioning — from compliance to forward-looking analysis
+# Repositioning — Scope 3 Category 15 for financial institutions
 
 ## The change
 
-The current briefing answers *when must you file*. That is the obvious
-question, it is already well covered elsewhere, and a reader who wants it can
-get it from the regulator. This version answers a harder one.
+The previous edition covered forward-looking disclosure for companies generally.
+This edition narrows to **financed emissions** — Scope 3 Category 15 — and to
+**financial institutions** as the reader. That is a deliberate narrowing of
+audience, not a broadening of subject.
 
-**Thesis.** Emissions accounting is a solved problem: the boundary is defined,
-the method is standardised, the numbers are auditable. Scenario analysis and
-transition planning are not. They require a class of data most companies do not
-hold — forward-looking, asset-level, conditional on pathways — and they are the
-part of the disclosure that investors, lenders and insurers actually price.
+**Thesis.** Financed emissions is the only major emissions category where the
+reporting entity has almost no direct access to the underlying data, and where
+the number moves for reasons that have nothing to do with the counterparty. It
+is therefore the clearest case in corporate reporting where **the estimate, the
+method and the data quality have to be disclosed together or the figure means
+nothing.**
 
-**What this means for the spine:** the emissions inventory is the *input*, not
-the subject. The subject is what happens when a disclosure regime stops asking
-what a company emitted and starts asking what it will be worth under a set of
-futures it does not control.
+The value-add is not "here is what PCAF says". It is: here is where the
+calculation actually breaks, here is what the good institutions do about it, and
+here is the metric that tells you whether it is getting better.
 
-## Out of scope
-
-- **India / BRSR / SEBI — removed entirely.** Every reference, the exhibit, the
-  endnote, the cover metadata, the colour slot.
-- Threshold tables, phase-in dates, deferral timetables and the carbon-tax
-  trajectory. These answer the obvious question. Retain only what a
-  forward-looking argument needs: that assurance escalates, and that the
-  requirement is already in force.
-- Carbon-market measures — tangential to scenario analysis.
-
-## Spine
+## The spine
 
 ```
-01  Cover
-02  Contents
-03  Introduction        the ledger is settled; the forecast is not
-04  Key findings
-05  Executive summary
+01 · THE CALCULATION
+     The attribution factor, and why the denominator is the fragile half
+     Asset classes and their denominators — they are not the same
+     The data hierarchy: reported → physical-activity → economic-activity
+     The PCAF data quality score, 1 to 5
 
-01 · WHAT THE STANDARDS ACTUALLY ASK FOR
-    IFRS S2 / AASB S2 on climate resilience and scenario analysis
-    Anticipated financial effects — the least-discussed requirement
-    Transition plan as a disclosure object (TPT structure, now with the IFRS Foundation)
-    MAS: transition planning as a supervisory expectation, not a report
+02 · WHERE IT BREAKS
+     EVIC: the number moves when the market moves, not when the client does
+     Data lag — counterparty emissions are 1–2 years old on arrival
+     Counterparty Scope 3 — the recursion problem
+     Private companies and SMEs — no reported data exists to find
+     Double counting across asset classes and across institutions
 
-02 · WHAT SUPERVISORS HAVE ALREADY RUN
-    NGFS Phase V — the reference scenario set and what it supplies
-    APRA, Mind the Gap — physical risk priced through insurance
-    APRA banking CVA / MAS FSR — transition risk priced through credit
-    What those exercises said about their own data
+03 · SOLVING IT
+     The proxy ladder: what to use, in what order, and what error each carries
+     Sector routes that actually work — property, motor vehicles, and where a
+       national registry exists
+     Counterparty data collection as a programme, not a request
+     The metric that matters: weighted data quality score, moving over time
 
-03 · THE DATA OF THE FUTURE           ← the value-add; the heart of the piece
-    What forward-looking analysis needs that GHG accounting does not produce
-      · asset-level and location-level, not entity-level
-      · conditional on a pathway, not historical
-      · counterparty and value-chain, not own-operations
-      · capex mapped to a transition, not spend reported after the fact
-    Evidence from first-wave reporters on where the disclosures are thin
-    Why assurance makes this harder, not easier
-
-04 · WHY STAKEHOLDERS READ IT
-    The transition plan is the instrument through which capital is priced
-    Insurers withdrawing; lenders assessing counterparty transition
-    What a reader is actually looking for
-
-    What this means
-    About the research
-    Endnotes
-    About ReGenesis Impact
+04 · WHAT STAKEHOLDERS ARE ASKING FOR
+     Disclose the score alongside the number
+     Assurance over an estimate — what it can and cannot say
+     Coverage, not just intensity
 ```
 
-## Title
+## Rules for this edition
 
-Working: **From ledger to forecast** — states the shift, carries its own
-qualification, and is a claim that could be wrong.
+- **Every page carries a number, a formula, a method or a decision.** No page
+  exists to describe a standard.
+- **The failure modes must be specific enough to act on.** "Data quality is a
+  challenge" is not a finding. "The denominator is a market price, so the
+  reported figure falls when equity markets rise" is.
+- **Solutions must be things an institution can start on Monday** — a collection
+  programme, a registry lookup, a scoring target — not "engage stakeholders".
+- The audience is a bank, insurer or asset manager. The reader is assumed to
+  know what Scope 3 is and does not need it defined.
 
-## Colour
+## Open question for the research
 
-India's slot is freed. Colour follows the entity as before, but the entities are
-now analytic rather than geographic:
+Whether AASB S2's omission of industry-based metrics means Australian financial
+institutions are **not** required to disclose financed emissions as an
+industry metric, and instead pick it up only as material Scope 3 Category 15.
+If so, that is a significant and under-discussed divergence from IFRS S2 and
+belongs in the briefing. Not to be asserted until confirmed.
 
-- physical risk vs transition risk
-- the four NGFS scenario families
-- Australia and Singapore where a market comparison is genuinely being made
+## Title candidates
 
-## What must not happen
-
-The piece must not become a second compliance briefing with the deadlines moved
-to the back. If a page can be summarised as "here is a rule and its date", it
-does not belong. Every page should carry either a requirement that is genuinely
-misunderstood, a published supervisory result, or a statement about data that a
-reader could act on.
+- **The denominator problem** — names the non-obvious failure
+- **Score 5** — PCAF's lowest data quality, reportedly the common starting point
+- **Financed, estimated** — states what the number actually is
