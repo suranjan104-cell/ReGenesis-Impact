@@ -1,4 +1,6 @@
-A new briefing on transition planning and climate scenario analysis: what IFRS S2 and AASB S2 require, what four supervisory exercises found when they ran the analysis themselves, and where the first wave of Australian reporters fell short.
+The analysis is mandatory. The data is not there.
+
+IFRS S2 and AASB S2 require a resilience assessment built on climate scenarios, and a transition plan disclosed against it. Every supervisor that has run that analysis at scale has reported the same constraint — and published it.
 
 Selected findings:
 
@@ -19,7 +21,7 @@ HOW TO POST (delete this section before posting):
 
 1. ReGenesis Impact COMPANY PAGE. Document post, not an image.
    File: ReGenesis-Impact-From-Ledger-to-Forecast.pdf
-   Title it "Transition planning and climate scenario analysis" — that shows
+   Title it "The analysis is mandatory. The data is not there." — that shows
    on the carousel card and matches the cover.
 2. Body = everything above the dashed line.
 3. Link in the FIRST COMMENT once the site is deployed:

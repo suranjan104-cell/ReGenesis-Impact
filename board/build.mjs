@@ -83,11 +83,11 @@ const slides = [];
 slides.push(slide(`
   <div class="eyebrow">Climate disclosure briefing · August 2026</div>
   <div>
-    <h1 style="font-size:70px;line-height:1.04">Transition planning and<br><em style="font-style:italic;color:var(--emerald)">climate scenario analysis</em></h1>
+    <h1 style="font-size:84px;line-height:1.0">The analysis is mandatory.<br><em style="font-style:italic;color:var(--emerald)">The data is not there.</em></h1>
     <p class="lede" style="max-width:930px;margin-top:22px">
-      What IFRS S2 and AASB S2 require, what four supervisory exercises found when they
-      ran the analysis themselves, and where the first wave of Australian reporters fell
-      short.
+      IFRS S2 and AASB S2 require a resilience assessment built on climate scenarios, and
+      a transition plan disclosed against it. Every supervisor that has run that analysis
+      at scale has reported the same constraint — and published it.
     </p>
   </div>
 
