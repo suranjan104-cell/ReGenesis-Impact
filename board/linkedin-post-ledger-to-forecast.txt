@@ -1,14 +1,13 @@
-No one is required to have a transition plan.
+A new briefing on transition planning and climate scenario analysis: what IFRS S2 and AASB S2 require, what four supervisory exercises found when they ran the analysis themselves, and where the first wave of Australian reporters fell short.
 
-IFRS S2 asks an entity to disclose a plan only if it has one. Just under two-thirds of Australia's first-wave reporters disclosed one anyway — and once disclosed, it carries assumptions, dependencies, a duty to report progress, and no assurance in the first year.
-
-A new briefing on what scenario analysis and transition planning ask of corporate data:
+Selected findings:
 
 — MAS has made transition planning a supervisory expectation for banks, insurers and asset managers from September 2027, with scenario results required to feed credit, underwriting and investment decisions.
 — AASB S2 requires two scenarios, one at 1.5°C and one where warming well exceeds 2°C. IFRS S2 prescribes neither.
 — The paper behind the physical-risk estimates in NGFS Phase V has been retracted. Resilience assessments built on those outputs have a material assumption to disclose.
 — Around 70% of reported emissions in the ECB's stress test rested on proxies rather than counterparty data.
-— Reasonable assurance over all Australian climate disclosures applies from 1 July 2030.
+— IFRS S2 requires a transition plan to be disclosed only if an entity has one. Just under two-thirds of first-wave Australian reporters disclosed one anyway, and ASIC found those plans were not clearly linked to targets and actions.
+— Reasonable assurance over all Australian climate disclosures applies from 1 July 2030. Scenario analysis and transition plans attract none in the first year.
 
 25 pages, nine exhibits, every figure sourced.
 
@@ -20,7 +19,8 @@ HOW TO POST (delete this section before posting):
 
 1. ReGenesis Impact COMPANY PAGE. Document post, not an image.
    File: ReGenesis-Impact-From-Ledger-to-Forecast.pdf
-   Title it "From ledger to forecast" — that shows on the carousel card.
+   Title it "Transition planning and climate scenario analysis" — that shows
+   on the carousel card and matches the cover.
 2. Body = everything above the dashed line.
 3. Link in the FIRST COMMENT once the site is deployed:
    https://www.regenesisimpact.in/research/ (add a page for this briefing first —

@@ -83,12 +83,11 @@ const slides = [];
 slides.push(slide(`
   <div class="eyebrow">Climate disclosure briefing · August 2026</div>
   <div>
-    <h1 style="font-size:80px;line-height:1.0">No one is required to<br>have a <em style="font-style:italic;color:var(--emerald)">transition plan</em>.</h1>
-    <p class="lede" style="max-width:920px;margin-top:24px">
-      IFRS S2 asks an entity to disclose a plan only if it has one. Just under
-      two-thirds of Australia's first-wave reporters disclosed one anyway — and once
-      disclosed, it carries assumptions, dependencies, a duty to report progress, and
-      no assurance for the first year.
+    <h1 style="font-size:70px;line-height:1.04">Transition planning and<br><em style="font-style:italic;color:var(--emerald)">climate scenario analysis</em></h1>
+    <p class="lede" style="max-width:930px;margin-top:22px">
+      What IFRS S2 and AASB S2 require, what four supervisory exercises found when they
+      ran the analysis themselves, and where the first wave of Australian reporters fell
+      short.
     </p>
   </div>
 
