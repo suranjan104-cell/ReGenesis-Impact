@@ -100,11 +100,20 @@ all.sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
 const fresh = all.map(f => f.reviewed).sort().pop();
 // The oldest vintage in use is what an assurance provider asks for first, and
 // what our own Assurance Studio test checks. Compute it rather than assert it.
-const vintages = all.map(f => f.vintage).filter(v => v !== null);
+//
+// GWP values are excluded from that figure deliberately. A GWP carries the
+// publication year of its assessment report — AR4 is 2007 — but reporting
+// regimes mandate a specific assessment set, so an old GWP vintage is
+// compliance, not staleness. Grid and fuel factors are the ones that go off.
+// Reported separately so neither figure misleads.
+const activity = all.filter(f => f.category !== 'scope1_fugitive');
+const vintages = activity.map(f => f.vintage).filter(v => v !== null);
+const gwpSets = [...new Set(all.filter(f => f.gwp_set && f.gwp_set !== 'all').map(f => f.gwp_set))];
 const out = {
   fresh,
   count: all.length,
   oldestVintage: vintages.length ? Math.min(...vintages) : null,
+  gwpSet: gwpSets.length === 1 ? gwpSets[0] : gwpSets.sort().join(' + '),
   unsourced: all.filter(f => f.source.publisher === 'Not established').map(f => f.id),
   factors: all
 };
@@ -112,5 +121,5 @@ writeFileSync(join(root, 'factors.json'), JSON.stringify(out));
 
 const byConf = CONFIDENCE.map(c => `${c}: ${all.filter(f => f.confidence === c).length}`).join(', ');
 console.log(`✓ factors.json built — ${all.length} factors (${byConf})`);
-console.log(`  oldest vintage in use: ${out.oldestVintage ?? 'none dated'}`);
+console.log(`  oldest activity-factor vintage: ${out.oldestVintage ?? 'none dated'}  ·  GWP set: ${out.gwpSet || 'none'}`);
 if (out.unsourced.length) console.log(`  provenance not established: ${out.unsourced.join(', ')}`);

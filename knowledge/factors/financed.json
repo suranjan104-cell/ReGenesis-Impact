@@ -15,7 +15,9 @@
     "vintage": null,
     "editable": true,
     "input_id": "g-pcaf1-waci",
-    "applies_to": ["ghg_compute:S3 Cat 15 corporate lending"],
+    "applies_to": [
+      "ghg_compute:S3 Cat 15 corporate lending"
+    ],
     "confidence": "low",
     "reviewed": "2026-08",
     "note": "Provenance not established. A portfolio-wide WACI default is a placeholder, not a factor — PCAF data quality score 4-5 territory by construction, since scores 1-2 exist only where the counterparty supplied the data. Our own financed-emissions briefing argues this is the binding constraint. Users must override it."
@@ -36,7 +38,9 @@
     "vintage": 2022,
     "editable": true,
     "input_id": "g-pcaf2-intensity",
-    "applies_to": ["ghg_compute:S3 Cat 15 real estate"],
+    "applies_to": [
+      "ghg_compute:S3 Cat 15 real estate"
+    ],
     "confidence": "low",
     "reviewed": "2026-08",
     "note": "Attribution taken from the code comment it replaces, which cited the PCAF Standard 2022 real-estate default. Exact table not confirmed. Real-estate intensity is strongly country- and grid-dependent."
@@ -45,9 +49,9 @@
     "id": "s3-cat15-project",
     "name": "Project finance — intensity default",
     "category": "scope3_cat15",
-    "value": 0.035,
+    "value": 0,
     "unit": "tCO2e/USD mn",
-    "basis": "PCAF attribution — asset intensity",
+    "basis": "no default — user input required",
     "region": "global",
     "source": {
       "publisher": "Not established",
@@ -57,9 +61,11 @@
     "vintage": null,
     "editable": true,
     "input_id": "g-pcaf3-intensity",
-    "applies_to": ["ghg_compute:S3 Cat 15 project finance"],
+    "applies_to": [
+      "ghg_compute:S3 Cat 15 project finance"
+    ],
     "confidence": "low",
     "reviewed": "2026-08",
-    "note": "Provenance not established, and the magnitude warrants scrutiny: at 0.035 tCO2e/USD mn this is roughly four thousand times lower than the corporate-lending default in the same units, which is not plausible for project finance as an asset class. Preserved unchanged because correcting it changes user results — raised as a decision, not migrated silently."
+    "note": "Default withdrawn. The inherited value of 0.035 tCO2e/USD mn sat roughly 4,000x below the corporate-lending default in the same units, which is not plausible for project finance as an asset class. No sourced replacement could be established, and inventing one would be worse than shipping none — so the line now contributes nothing until the user supplies an intensity. Registered at zero to record the deliberate absence."
   }
 ]
