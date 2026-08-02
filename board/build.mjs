@@ -1,54 +1,55 @@
 /* ═══════════════════════════════════════════════════════════════════
-   Builds board.html — "The denominator problem".
+   Builds board.html — "From ledger to forecast".
 
-   Subject: Scope 3 Category 15 financed emissions for financial
-   institutions — how the calculation works, where it breaks, and what
-   actually closes the data gap. The reader is a bank, insurer or asset
-   manager and is assumed to know what Scope 3 is.
+   Subject: what climate scenario analysis and transition planning ask of
+   corporate data, and what the first evidence shows. NOT a compliance
+   briefing — thresholds, phase-in dates and deferral timetables are the
+   obvious question and are deliberately out of scope.
 
-   Standard: BENCHMARK-MBB.md.
-
-   SOURCING: only claims graded VERIFIED in research are asserted.
-   Single-source figures are attributed in the sentence. Items research
-   could not confirm — the counterparty Scope 3 phase-in calendar, the
-   motor-vehicle formula, the circulated SME data-gap percentages, one
-   bank's headline reduction figure — are omitted.
+   Standard: BENCHMARK-MBB.md. Exhibit stack, action titles ending in a full
+   stop, singular Note:/Source:, own analysis appended last, colour follows
+   the entity, serif is display-only, pages fill.
 
    ZERO commercial content before the endnotes.
    ═══════════════════════════════════════════════════════════════════ */
 import { writeFileSync } from 'fs';
-import { S, NEUTRAL } from './charts.mjs';
+import { hbar, vbar, timeline, quadrant, legend, S, NEUTRAL } from './charts.mjs';
 
-const DOC_ID = 'RGI-2026-03';
+const DOC_ID = 'RGI-2026-02';
 const CUTOFF = '1 August 2026';
 
-/* ── endnote registry ── */
+/* ── endnote registry: order here defines the superscript numbers ── */
 const SRC = [
-  ['pcafA',   'PCAF, The Global GHG Accounting and Reporting Standard for the Financial Industry, Part A, Third Edition', 'December 2025', 'carbonaccountingfinancials.com'],
-  ['pcaf1',   'PCAF, Part A, First Edition — the six asset classes reviewed as conformant with the GHG Protocol', 'November 2020', 'carbonaccountingfinancials.com'],
-  ['pcafB',   'PCAF, Part B — facilitated emissions for capital markets', 'December 2023', 'carbonaccountingfinancials.com'],
-  ['pcafdb',  'PCAF emission factor database, following integration of CEDA', '2025', 'carbonaccountingfinancials.com'],
-  ['pcafcdp', 'PCAF and CDP, “The importance of data quality in the journey toward decarbonization”', 'June 2023', 'carbonaccountingfinancials.com'],
-  ['ghgp15',  'GHG Protocol, Corporate Value Chain (Scope 3) Standard, Technical Guidance chapter 15 — Investments', '2013', 'ghgprotocol.org'],
-  ['ghgprev', 'GHG Protocol, Scope 3 revision discussion paper C.1 — Investments (Category 15)', '7 November 2024', 'ghgprotocol.org'],
-  ['evic',    'EU Technical Expert Group on Sustainable Finance; EVIC codified in the Benchmark Regulation delegated acts', 'July 2020', 'ec.europa.eu'],
-  ['rabo',    'Rabobank, “Double checking double counting: quantifying the overlap in input-output-table-based scope 3 emissions”', '2024', 'rabobank.com'],
-  ['ifrs2',   'IFRS S2 “Climate-related Disclosures”, paragraph 29(a)(vi)(2) and paragraphs B58–B63', 'June 2023', 'ifrs.org'],
-  ['amend',   'ISSB, Amendments to IFRS S2 — Amendments to Greenhouse Gas Emissions Disclosures (ISSB/2025/1)', '11 December 2025', 'ifrs.org'],
-  ['aasb',    'AASB S2 “Climate-related Disclosures”; AASB S2025-1 amending the financed-emissions requirements', 'September 2024; 17 December 2025', 'standards.aasb.gov.au'],
-  ['aasbkh',  'AASB S2 Knowledge Hub, on industry-based metrics and financed emissions', '2025', 'aasb.gov.au'],
-  ['edsr1',   'AASB Exposure Draft SR1, draft paragraphs AusB59.1, AusB61.1 and AusB63.1 — superseded', 'October 2023', 'aasb.gov.au'],
+  ['ifrs2',   'IFRS S2 “Climate-related Disclosures”, paragraphs 14, 15–21, 22 and 36, and Appendix B', 'June 2023, amended December 2025', 'ifrs.org'],
+  ['aasb',    'AASB S2 “Climate-related Disclosures”, Appendix B (AusB1)', 'September 2024', 'standards.aasb.gov.au'],
+  ['rg280',   'ASIC, Regulatory Guide 280 “Sustainability reporting”', '31 March 2025', 'asic.gov.au'],
+  ['afe',     'IFRS Foundation, “Disclosing information about anticipated financial effects applying ISSB Standards”', 'August 2025', 'ifrs.org'],
+  ['tpguid',  'IFRS Foundation, guidance on disclosing information about an entity’s climate-related transition', 'June 2025', 'ifrs.org'],
+  ['tpt',     'UK Transition Plan Taskforce, Disclosure Framework; materials transferred to the IFRS Foundation in 2024', 'October 2023', 'ifrs.org/knowledge-hub'],
+  ['mastp',   'MAS, Guidelines on Environmental Risk Management: transition planning, for banks, insurers and asset managers', '5 March 2026', 'mas.gov.sg'],
+  ['ngfs',    'NGFS, Climate scenarios for central banks and supervisors, Phase V', 'November 2024', 'ngfs.net'],
+  ['ngfsret', 'NGFS, “Statement regarding physical risk estimates in Phase V of NGFS long-term scenarios”', '2025', 'ngfs.net'],
+  ['ngfsst',  'NGFS, short-term climate scenarios', 'May 2025', 'ngfs.net'],
+  ['fsb',     'FSB and NGFS, “Current climate scenario analysis exercises may understate climate exposures and vulnerabilities”', 'November 2022', 'fsb.org'],
+  ['ecb',     'ECB, 2022 climate risk stress test', 'July 2022', 'bankingsupervision.europa.eu'],
+  ['boe',     'Bank of England, Climate Biennial Exploratory Scenario (CBES) results', '24 May 2022', 'bankofengland.co.uk'],
+  ['apracva', 'APRA, Climate Vulnerability Assessment results, five largest banks', 'November 2022', 'apra.gov.au'],
+  ['apra',    'APRA, “Mind the Gap: an insurance climate vulnerability assessment”', '24 March 2026', 'apra.gov.au'],
+  ['iif',     'PwC and IIF, joint financial institutions survey on sustainability disclosure', 'November–December 2025', 'iif.com'],
+  ['dtt',     'Deloitte, “Early insights into Wave 1 of Australian climate reporting”', '2026', 'deloitte.com/au'],
+  ['pwcau',   'PwC Australia, “AASB S2 unpacked”, review of 22 first-wave Group 1 reporters', 'February 2026', 'pwc.com.au'],
+  ['asic',    'ASIC, early observations on sustainability reporting, Reporting and audit update issue 4', '18 May 2026', 'asic.gov.au'],
   ['auasb',   'AUASB, ASSA 5000 and ASSA 5010 sustainability assurance standards', 'January 2025', 'auasb.gov.au'],
-  ['mastp',   'MAS, Guidelines on Environmental Risk Management: transition planning', '5 March 2026', 'mas.gov.sg'],
-  ['abs',     'Association of Banks in Singapore, Environmental Risk Questionnaire', '2022', 'abs.org.sg'],
+  ['issa',    'IAASB, ISSA 5000 “General requirements for sustainability assurance engagements”', '2024', 'iaasb.org'],
+  ['austlii', 'Treasury Laws Amendment (Financial Market Infrastructure and Other Measures) Act 2024, Schedule 4', '9 September 2024', 'legislation.gov.au'],
+  ['pwcinv',  'PwC, Global Investor Survey', '2023 and 2025 editions', 'pwc.com'],
+  ['actu',    'Actuaries Institute, home insurance affordability research', '2025', 'actuaries.asn.au'],
   ['db',      'Deutsche Bank, Transition Finance Framework', 'November 2025', 'db.com'],
-  ['exio',    'EXIOBASE multi-regional environmentally extended input-output database; US EPA USEEIO', 'current', 'exiobase.eu'],
-  ['wbpp',    'World Bank, GDP at purchasing power parity, current international dollars', 'current', 'worldbank.org'],
 ];
 const IDX = Object.fromEntries(SRC.map(([id], i) => [id, i + 1]));
 const c = (...ids) => `<sup class="cite">${ids.map(i => IDX[i]).join(',')}</sup>`;
 
-/* ── exhibit stack ── */
+/* ── exhibit stack (McKinsey Global Institute anatomy) ──────────── */
 let EXN = 0;
 const exhibit = (title, sub, body, { note, source } = {}) => {
   EXN++;
@@ -64,7 +65,7 @@ const exhibit = (title, sub, body, { note, source } = {}) => {
 
 let PAGE = 0;
 const NAV = {};
-const mark = (k) => { NAV[k] = PAGE + 1; return ''; };
+const mark = (key) => { NAV[key] = PAGE + 1; return ''; };
 const slide = (inner, { fill = false, cover = false } = {}) => {
   PAGE++;
   const prose = !fill && !/class="exhibit"/.test(inner);
@@ -76,619 +77,660 @@ const slide = (inner, { fill = false, cover = false } = {}) => {
 
 const slides = [];
 
-/* ═══ 01 COVER ═══ */
+/* ═══════════════════ 01 · COVER — INFOGRAPHIC ═══════════════════
+   The cover states the finding and proves it in one grid. A reader who
+   never swipes still leaves with the argument.                        */
 slides.push(slide(`
-  <div class="eyebrow">Financed emissions briefing</div>
+  <div class="eyebrow">Climate disclosure briefing · August 2026</div>
   <div>
-    <h1>The denominator<br><em style="font-style:italic;color:var(--emerald)">problem</em></h1>
-    <div style="height:26px"></div>
-    <p class="lede" style="max-width:860px">
-      Scope 3 Category 15 is the only emissions figure that moves when the market moves.
-      How financed emissions is calculated, the five places the calculation breaks, and
-      what actually closes the data gap.
+    <h1 style="font-size:78px">The disclosures that get<br>priced are the ones that<br>get <em style="font-style:italic;color:var(--emerald)">least scrutiny</em>.</h1>
+    <p class="lede" style="max-width:900px;margin-top:22px">
+      Scope 3, climate scenario analysis and transition plans are what investors,
+      lenders and insurers read. They are also the three the regime treats as its
+      least verifiable.
     </p>
   </div>
-  <div class="cover-meta">
-    <div><h4>In this briefing</h4><p>{{EXCOUNT}} exhibits · ${SRC.length} sources · data as at ${CUTOFF}</p></div>
-    <div><h4>For</h4><p>Banks · insurers · asset managers</p></div>
-    <div><h4>Frameworks</h4><p>PCAF Part A and B · GHG Protocol Category 15 · IFRS S2 · AASB S2</p></div>
+
+  <div class="cover-graphic">
+    <div class="cg-title">The convergence, in one grid</div>
+    <div class="matrix">
+      <div></div>
+      <div class="mx-col">Scope 3<br>emissions</div>
+      <div class="mx-col">Climate scenario<br>analysis</div>
+      <div class="mx-col">Transition<br>plans</div>
+
+      <div class="mx-row">Assured in the first Australian reporting year</div>
+      <div class="mx-cell"><span class="mx-mark mx-no"><span class="mx-dot"></span>NO</span></div>
+      <div class="mx-cell"><span class="mx-mark mx-no"><span class="mx-dot"></span>NO</span></div>
+      <div class="mx-cell"><span class="mx-mark mx-no"><span class="mx-dot"></span>NO</span></div>
+
+      <div class="mx-row">Inside the three-year modified liability window</div>
+      <div class="mx-cell"><span class="mx-mark mx-yes"><span class="mx-dot"></span>YES</span></div>
+      <div class="mx-cell"><span class="mx-mark mx-yes"><span class="mx-dot"></span>YES</span></div>
+      <div class="mx-cell"><span class="mx-mark mx-yes"><span class="mx-dot"></span>YES</span></div>
+
+      <div class="mx-row">Used to price capital, credit and cover</div>
+      <div class="mx-cell"><span class="mx-mark mx-yes"><span class="mx-dot"></span>YES</span></div>
+      <div class="mx-cell"><span class="mx-mark mx-yes"><span class="mx-dot"></span>YES</span></div>
+      <div class="mx-cell"><span class="mx-mark mx-yes"><span class="mx-dot"></span>YES</span></div>
+    </div>
+    <div class="ex-source" style="margin-top:14px">
+      <span>Source: AUASB ASSA 5000 and ASSA 5010; Treasury Laws Amendment Act 2024; PwC Global Investor Survey; Deutsche Bank; APRA. First-year assurance scope is drawn from published summaries of ASSA 5010 — see page {{P:method}}.</span>
+    </div>
   </div>
-  <div style="font-family:var(--font-mono);font-size:15px;letter-spacing:.1em;color:var(--ink-muted);
-              padding-top:20px;border-top:1px solid var(--rule)">
-    AUGUST 2026 &nbsp;·&nbsp; ${DOC_ID}
+
+  <div class="statrow statrow--3">
+    <div class="stat" style="border-left-color:var(--s2)"><div class="stat-num">~70<small>%</small></div>
+      <div class="stat-lab">of reported emissions in the ECB's stress test rested on proxies, not counterparty data${c('ecb')}</div></div>
+    <div class="stat" style="border-left-color:var(--s2)"><div class="stat-num">Withdrawn</div>
+      <div class="stat-lab">the paper behind NGFS Phase V physical-risk estimates has been retracted${c('ngfsret')}</div></div>
+    <div class="stat"><div class="stat-num">2030</div>
+      <div class="stat-lab">reasonable assurance over all Australian climate disclosures, from 1 July${c('auasb')}</div></div>
+  </div>
+
+  <div style="font-family:var(--font-mono);font-size:14px;letter-spacing:.1em;color:var(--ink-muted);
+              padding-top:16px;border-top:1px solid var(--rule)">
+    {{EXCOUNT}} EXHIBITS &nbsp;·&nbsp; ${SRC.length} SOURCES &nbsp;·&nbsp; DATA AS AT ${CUTOFF.toUpperCase()} &nbsp;·&nbsp; ${DOC_ID}
   </div>
 `, { cover: true }));
 
-/* ═══ 02 CONTENTS ═══ */
+/* ═══════════════════ 02 · CONTENTS ═══════════════════ */
 slides.push(slide(`
   <div class="eyebrow">Contents</div>
   <h2>What is in this briefing.</h2>
   <div class="toc">
-    <div class="toc-row"><span class="toc-num">—</span><span class="toc-title">Introduction</span><span class="toc-sub">Why this figure behaves unlike any other emissions number</span><span class="toc-page">{{P:intro}}</span></div>
+    <div class="toc-row"><span class="toc-num">—</span><span class="toc-title">Introduction</span><span class="toc-sub">The measurement problem is solved; the forecast is not</span><span class="toc-page">{{P:intro}}</span></div>
     <div class="toc-row"><span class="toc-num">—</span><span class="toc-title">Key findings</span><span class="toc-sub">Six figures</span><span class="toc-page">{{P:findings}}</span></div>
     <div class="toc-row"><span class="toc-num">—</span><span class="toc-title">Executive summary</span><span class="toc-sub"></span><span class="toc-page">{{P:summary}}</span></div>
-    <div class="toc-row"><span class="toc-num">01</span><span class="toc-title">The calculation</span><span class="toc-sub">Attribution, denominators and the data quality score</span><span class="toc-page">{{P:sec1}}</span></div>
-    <div class="toc-row"><span class="toc-num">02</span><span class="toc-title">Where it breaks</span><span class="toc-sub">Five failures, each with a stated mechanism</span><span class="toc-page">{{P:sec2}}</span></div>
-    <div class="toc-row"><span class="toc-num">03</span><span class="toc-title">Closing the gap</span><span class="toc-sub">What moves a portfolio up the scale, and the route that does not exist</span><span class="toc-page">{{P:sec3}}</span></div>
+    <div class="toc-row"><span class="toc-num">01</span><span class="toc-title">What the standards ask for</span><span class="toc-sub">Resilience, anticipated financial effects, transition plans</span><span class="toc-page">{{P:sec1}}</span></div>
+    <div class="toc-row"><span class="toc-num">02</span><span class="toc-title">What the exercises found</span><span class="toc-sub">Four supervisory runs and what they said about their own data</span><span class="toc-page">{{P:sec2}}</span></div>
+    <div class="toc-row"><span class="toc-num">03</span><span class="toc-title">The data of the future</span><span class="toc-sub">What forward-looking analysis needs that accounting does not produce</span><span class="toc-page">{{P:sec3}}</span></div>
+    <div class="toc-row"><span class="toc-num">04</span><span class="toc-title">Why stakeholders read it</span><span class="toc-sub">Where transition credibility is already being priced</span><span class="toc-page">{{P:sec4}}</span></div>
     <div class="toc-row"><span class="toc-num">—</span><span class="toc-title">What this means</span><span class="toc-sub">Five actions</span><span class="toc-page">{{P:means}}</span></div>
     <div class="toc-row"><span class="toc-num">—</span><span class="toc-title">About the research</span><span class="toc-sub">Scope, method and limitations</span><span class="toc-page">{{P:method}}</span></div>
-    <div class="toc-row"><span class="toc-num">—</span><span class="toc-title">Endnotes</span><span class="toc-sub">${SRC.length} sources</span><span class="toc-page">{{P:notes}}</span></div>
+    <div class="toc-row"><span class="toc-num">—</span><span class="toc-title">Endnotes</span><span class="toc-sub">Twenty-five sources</span><span class="toc-page">{{P:notes}}</span></div>
   </div>
   <div class="glance">
     <div class="glance-col">
-      <h4>Assumed knowledge</h4>
-      <p>The reader is assumed to know what Scope 3 is. Category 15 is not defined here,
-      and reporting thresholds are not covered — they are documented by the regulators
-      and are not the constraint.</p>
+      <h4>What this briefing does not cover</h4>
+      <p>Reporting thresholds, phase-in dates and deferral timetables. Those are
+      well documented by the regulators themselves and are not the constraint
+      most preparers are actually facing.</p>
     </div>
     <div class="glance-col">
-      <h4>On single-sourced figures</h4>
-      <p>Named in the sentence rather than only in the endnote. Several widely circulated
-      statistics on portfolio data gaps trace to vendors with a commercial interest in
-      the gap and are excluded rather than repeated.</p>
+      <h4>How to read the exhibits</h4>
+      <p>Each carries its own source line and, where relevant, a note on what is
+      excluded or uncertain. Superscripts resolve to the endnotes. Where a figure
+      rests on a single source, the source is named in the sentence.</p>
     </div>
   </div>
 `));
 
-/* ═══ 03 INTRODUCTION ═══ */
+/* ═══════════════════ 03 · INTRODUCTION ═══════════════════ */
 mark('intro');
 slides.push(slide(`
   <div class="eyebrow">Introduction</div>
-  <h2>A figure that moves when<br>the market moves.</h2>
-  <p class="dek">Financed emissions is the only major emissions number where the
-  reporting institution has almost no direct access to the underlying data — and where
-  the reported total can fall while every borrower emits exactly as much as before.</p>
-  <p style="max-width:955px">
-    The mechanism is arithmetic, not accounting judgement. Attribution divides an
-    institution's exposure by the counterparty's total value. For listed equity and
-    corporate bonds that denominator is <strong>EVIC</strong>, a market value. When
-    valuations rise the denominator rises, the attribution factor falls, and reported
-    financed emissions fall.${c('pcafA', 'evic')}
+  <h2>The measurement problem is<br>solved. The forecast is not.</h2>
+  <p class="dek">Emissions accounting has a defined boundary, a standardised method and
+  an audit trail. Climate scenario analysis and transition planning have none of those
+  things yet — and they are the half of the disclosure that investors, lenders and
+  insurers actually price.</p>
+  <p style="max-width:950px">
+    An emissions inventory is a backward-looking statement about an entity's own
+    operations. A resilience assessment is a forward-looking statement about assets,
+    counterparties and capital under futures the entity does not control. The two
+    require different data, and only one of them is currently produced as a matter of
+    course.
   </p>
-  <p style="max-width:955px">
-    Everything downstream inherits the property: targets set against a baseline that
-    moves with markets, year-on-year movements that may be vintage artefacts, and — on
-    the parts of the book with no counterparty data — a figure that is a restatement of
-    sector exposure multiplied by fixed coefficients.
+  <p style="max-width:950px">
+    That gap is not a preparer failing. Every supervisory exercise run to date has
+    reported the same constraint about its own results, and the FSB and NGFS warned
+    jointly in 2022 that climate scenario analysis exercises <strong>may understate
+    climate exposures and vulnerabilities</strong>.${c('fsb')} The interesting question
+    is not whether the data is missing. It is what the missing data is doing to the
+    disclosures being relied upon.
   </p>
-  <div class="finding">
-    <div class="finding-lab">What this briefing argues</div>
-    <p>Financed emissions cannot be read as a single number. The estimate, the method and
-    the data quality have to travel together — and the metric worth managing is not the
-    tonnage but the share of the portfolio for which the tonnage is actually measured.</p>
-  </div>
 `));
 
-/* ═══ 04 KEY FINDINGS ═══ */
+/* ═══════════════════ 04 · KEY FINDINGS ═══════════════════ */
 mark('findings');
 slides.push(slide(`
   <div class="eyebrow">Key findings</div>
   <h2>Six figures.</h2>
-  <p class="dek">Each is a property of the standard as written, not a criticism of any
-  institution applying it.</p>
+  <p class="dek">Three of these describe what supervisors found when they ran the
+  analysis themselves. Three describe what the regime does with the results.</p>
   <div class="statrow statrow--3 statrow--grow" style="margin-bottom:16px">
-    <div class="stat" style="border-left-color:var(--s2)"><div class="stat-num">3</div>
-      <div class="stat-lab">data vintages can sit inside one ratio — exposure, EVIC and counterparty emissions are measured at different dates${c('pcafA')}</div></div>
-    <div class="stat" style="border-left-color:var(--s2)"><div class="stat-num">3–5</div>
-      <div class="stat-lab">the only data quality scores an emission factor database can supply; scores 1 and 2 require counterparty data${c('pcafdb')}</div></div>
-    <div class="stat" style="border-left-color:var(--s2)"><div class="stat-num">33<small>%</small></div>
-      <div class="stat-lab">weighting applied to facilitated emissions, leaving the remaining two-thirds attributed to no one${c('pcafB')}</div></div>
+    <div class="stat"><div class="stat-num">~70<small>%</small></div>
+      <div class="stat-lab">of reported Scope 1, 2 and 3 emissions in the ECB's 2022 stress test relied on proxies rather than counterparty data${c('ecb')}</div></div>
+    <div class="stat"><div class="stat-num">60<small>%</small></div>
+      <div class="stat-lab">of sampled banks had no well-integrated climate risk stress-testing framework${c('ecb')}</div></div>
+    <div class="stat"><div class="stat-num">Lower</div>
+      <div class="stat-lab">loss projections were produced by CBES firms relying on third-party models they could not challenge internally${c('boe')}</div></div>
   </div>
   <div class="statrow statrow--3 statrow--grow">
-    <div class="stat"><div class="stat-num">6</div>
-      <div class="stat-lab">asset classes carry GHG Protocol conformance review; those added since 2020 do not${c('pcaf1')}</div></div>
-    <div class="stat"><div class="stat-num">10</div>
-      <div class="stat-lab">asset classes in the December 2025 third edition, from six in 2020${c('pcafA')}</div></div>
-    <div class="stat"><div class="stat-num">2030</div>
-      <div class="stat-lab">reasonable assurance over Australian climate disclosures, financed emissions included, from 1 July${c('auasb')}</div></div>
+    <div class="stat" style="border-left-color:var(--s2)"><div class="stat-num">0</div>
+      <div class="stat-lab">assurance over scenario analysis and transition plans in the first Australian reporting year${c('auasb')}</div></div>
+    <div class="stat" style="border-left-color:var(--s2)"><div class="stat-num">3 yr</div>
+      <div class="stat-lab">modified liability covering Scope 3, scenario analysis and transition plans — the same three items${c('austlii')}</div></div>
+    <div class="stat"><div class="stat-num">⅔</div>
+      <div class="stat-lab">just under two-thirds of first-wave Australian reporters disclosed a transition plan${c('pwcau')}</div></div>
   </div>
 `));
 
-/* ═══ 05 EXECUTIVE SUMMARY ═══ */
+/* ═══════════════════ 05 · EXECUTIVE SUMMARY ═══════════════════ */
 mark('summary');
 slides.push(slide(`
   <div class="eyebrow">Executive summary</div>
-  <h2>The estimate is only as good<br>as the score attached to it.</h2>
+  <h2>The least verifiable disclosures<br>are the ones being priced.</h2>
   <p style="max-width:955px">
-    Financed emissions attributes a share of a counterparty's emissions to whoever funded
-    it: exposure divided by counterparty value, multiplied by that counterparty's
-    emissions.${c('pcafA')} The design is deliberate — equity and debt are weighted
-    equally so that all capital providers to one company sum to its total emissions, and
-    that common denominator is the standard's principal control against double counting.
+    IFRS S2 requires an entity to assess the resilience of its strategy and business
+    model using climate-related scenario analysis, and to disclose the current and
+    anticipated financial effects of climate risks on its financial position,
+    performance and cash flows.${c('ifrs2')} AASB S2 goes further than the global
+    baseline, requiring at least two scenarios — one consistent with limiting warming
+    to 1.5 °C, one in which warming well exceeds 2 °C.${c('aasb')}
   </p>
   <p style="max-width:955px">
-    The difficulty is that the denominator is not one thing. For listed equity it is
-    EVIC, a market value including cash taken at fiscal year end.${c('evic')} For business
-    loans it is book equity plus debt. For mortgages and vehicles it is value at
-    origination. For sovereign debt it is PPP-adjusted GDP.${c('pcafA')} Only one of those
-    moves with markets, and it governs the largest listed exposures.
+    Those requirements are met with data that does not yet exist in most organisations.
+    The ECB found roughly <strong>70% of reported emissions rested on proxies</strong>;
+    the Bank of England found value-chain emissions and counterparty transition plans
+    simply unavailable, down to missing postcodes for physical assets; APRA attributed
+    the variance between bank submissions to data quality and the absence of a
+    standardised modelling approach.${c('ecb', 'boe', 'apracva')}
   </p>
   <p style="max-width:955px">
-    Where counterparty data is absent the calculation falls to economic-activity
-    estimation: revenue multiplied by a sector emission factor, or at the bottom of the
-    scale an exposure converted to implied revenue through sector asset-turnover ratios.
-    At that point the figure has stopped measuring the counterparty and started measuring
-    the sector.${c('pcafA')}
+    The regime has, in effect, conceded the point. In Australia, scenario analysis and
+    transition plans receive no assurance in the first reporting year and only limited
+    assurance thereafter,${c('auasb')} and they sit alongside Scope 3 inside a
+    three-year modified liability window.${c('austlii')} Those are the same three
+    disclosures that investors, lenders and insurers use to price transition
+    credibility.
   </p>
   <div class="finding">
-    <div class="finding-lab">The consequence for management</div>
-    <p>On a book scored 4 or 5, financed emissions cannot detect a borrower
-    decarbonising. It moves only when exposure moves — so the reported figure can be
-    reduced by reallocating between sector codes with no change in the real economy.
-    That is why the weighted data quality score and the coverage percentage are the
-    numbers carrying the information.${c('pcafA')}</p>
+    <div class="finding-lab">The consequence</div>
+    <p>An entity can satisfy the standard and still publish a resilience assessment that
+    nobody — including its own board — can test. ASIC's first review of Australian
+    reports found scenario disclosures lacked detail on the assumptions and dependencies
+    relied on, and transition plans were not clearly linked to targets and actions.${c('asic')}</p>
   </div>
 `));
 
-/* ═══ 06 DIVIDER 01 ═══ */
+/* ═══════════════════ 06 · DIVIDER 01 ═══════════════════ */
 mark('sec1');
 slides.push(slide(`
   <div class="sec-num">01</div>
-  <h2>The calculation</h2>
-  <p class="sec-lead">One formula, seven denominators and a five-point quality scale.
-  The mechanics matter because every failure in the next section is a property of them.</p>
+  <h2>What the standards<br>ask for</h2>
+  <p class="sec-lead">The forward-looking requirements, and the reliefs that sit
+  alongside them. Proportionality is built into the standard — but it is not a
+  permanent exemption.</p>
   <div class="sec-toc">
-    <div><span>{{P:x1}}</span>The attribution factor</div>
-    <div><span>{{P:x3}}</span>The data hierarchy and the score</div>
-    <div><span>{{P:x2}}</span>Seven denominators, one formula</div>
-    <div><span>{{P:conf}}</span>What carries conformance, and what does not</div>
+    <div><span>{{P:x1}}</span>Resilience, and the reliefs</div>
+    <div><span>{{P:x3}}</span>What the first wave disclosed</div>
+    <div><span>{{P:x2}}</span>Two scenarios, one of them hot</div>
+    <div><span>{{P:tp}}</span>A transition plan is a disclosure object</div>
   </div>
 `, { fill: true }));
 
-/* ═══ 07 EXHIBIT 1 — ATTRIBUTION ═══ */
+/* ═══════════════════ 07 · EXHIBIT 1 — REQUIREMENT MAP ═══════════════════ */
 mark('x1');
 slides.push(slide(`
-  <div class="eyebrow">01 — The calculation</div>
-  <h2>Exposure over value,<br>times emissions.</h2>
+  <div class="eyebrow">01 — What the standards ask for</div>
+  <h2>Resilience, and the reliefs.</h2>
   ${exhibit(
-    'The whole method is one ratio, and the fragile half sits underneath the line.',
-    'Attribution of counterparty emissions to a financial institution, per counterparty.',
-    `<div class="formula-wrap">
-       <div class="formula">
-         <div class="formula-term">
-           <div class="frac">
-             <div class="frac-num">Outstanding amount</div>
-             <div class="frac-bar"></div>
-             <div class="frac-den">Total value of the counterparty</div>
-           </div>
-           <div class="formula-note">ATTRIBUTION FACTOR</div>
-         </div>
-         <div class="formula-op">×</div>
-         <div class="formula-term">
-           <div class="formula-out">Counterparty emissions</div>
-           <div class="formula-note">SCOPE 1 AND 2</div>
-         </div>
-         <div class="formula-op">=</div>
-         <div class="formula-term">
-           <div class="formula-out" style="border-color:var(--emerald)">Financed emissions</div>
-           <div class="formula-note">SUMMED ACROSS THE PORTFOLIO</div>
-         </div>
-       </div>
-       <table class="dt dt--compact" style="margin-top:6px">
-         <tr><th style="width:230px">Half of the ratio</th><th>Who holds it</th><th style="width:230px">Measured</th></tr>
-         <tr><td class="k">Numerator</td><td>The institution's own book — a carrying amount it controls and can reconcile</td><td class="num">at the reporting date</td></tr>
-         <tr><td class="k">Denominator</td><td>The counterparty, or the market; seven different definitions across the asset classes</td><td class="num" style="color:var(--s2)">varies by asset class</td></tr>
-       </table>
-     </div>`,
-    {
-      note: 'PCAF applies the same attribution principle across asset classes, weighting equity and debt equally, so that all capital providers to one counterparty sum to its total emissions. That is the standard’s principal control against double counting within an institution.',
-      source: 'PCAF Part A, Third Edition, December 2025',
-    }
-  )}
-  <p style="font-size:19px;margin-top:10px">
-    The numerator is a carrying amount from the institution's own books. The denominator
-    comes from the counterparty and, for the largest asset class, from the market. The two
-    are not measured on the same basis, at the same frequency, or by the same party.
-  </p>
-`));
-
-/* ═══ 08 EXHIBIT 2 — DENOMINATORS ═══ */
-mark('x2');
-slides.push(slide(`
-  <div class="eyebrow">01 — The calculation</div>
-  <h2>Seven denominators,<br>one formula.</h2>
-  ${exhibit(
-    'Only one denominator moves with markets, and it governs the largest listed exposures.',
-    'Denominator by asset class under PCAF Part A, with the basis of measurement.',
+    'The forward-looking requirements each carry a proportionality relief.',
+    'Selected IFRS S2 requirements and the conditions under which quantitative disclosure is not required.',
     `<table class="dt">
-      <tr><th style="width:280px">Asset class</th><th>Denominator</th><th style="width:180px">Basis</th></tr>
-      <tr><td class="k">Listed equity and corporate bonds</td><td><strong>EVIC</strong> — market capitalisation of ordinary and preferred shares, plus book value of total debt and minority interests, without deducting cash</td><td class="num" style="color:var(--s2)">market value</td></tr>
-      <tr><td class="k">Business loans and unlisted equity</td><td>Total company equity plus debt</td><td class="num">book value</td></tr>
-      <tr><td class="k">Project finance</td><td>Total project equity plus debt</td><td class="num">book value</td></tr>
-      <tr><td class="k">Commercial real estate</td><td>Property value at loan origination</td><td class="num">at origination</td></tr>
-      <tr><td class="k">Mortgages</td><td>Property value at loan origination</td><td class="num">at origination</td></tr>
-      <tr><td class="k">Motor vehicle loans</td><td>Vehicle value at loan origination</td><td class="num">at origination</td></tr>
-      <tr><td class="k">Sovereign debt</td><td>PPP-adjusted GDP in international dollars</td><td class="num">national accounts</td></tr>
+      <tr><th style="width:250px">Requirement</th><th>What is required</th><th style="width:250px">Relief</th></tr>
+      <tr><td class="k">Climate resilience<br><span style="font-size:15px;opacity:.68">para 22</span></td>
+          <td>Assess the resilience of strategy and business model using scenario analysis; disclose how and when it was carried out, the key assumptions, and significant areas of uncertainty.</td>
+          <td>Approach must be commensurate with the entity's circumstances, exposure, skills, capabilities and resources.</td></tr>
+      <tr><td class="k">Anticipated financial effects<br><span style="font-size:15px;opacity:.68">paras 15–21</span></td>
+          <td>Current and anticipated effects on financial position, performance and cash flows, over short, medium and long term.</td>
+          <td>Quantitative information not required where measurement uncertainty is too high, or where the entity lacks the skills, capabilities or resources.</td></tr>
+      <tr><td class="k">Transition plan<br><span style="font-size:15px;opacity:.68">para 14</span></td>
+          <td>If the entity has one: key assumptions, dependencies it relies on, and quantitative and qualitative progress against plans disclosed previously.</td>
+          <td>Conditional — there is no requirement to have a transition plan.</td></tr>
+      <tr><td class="k">Carbon credits<br><span style="font-size:15px;opacity:.68">para 36(e)</span></td>
+          <td>Extent to which a net target relies on credits, the verifying scheme, the credit type, and factors bearing on credibility and integrity.</td>
+          <td>None. This sits in targets, not in the transition plan.</td></tr>
     </table>`,
     {
-      note: 'EVIC was proposed by the EU Technical Expert Group on Sustainable Finance and codified in the Benchmark Regulation delegated acts in July 2020; the “including cash” construction avoids treating as cash what the market does not price as cash. PCAF moved the sovereign denominator to PPP-adjusted GDP in 2022, on the reasoning that debt stock is not a proxy for the value of a country.',
-      source: 'PCAF Part A; EU Technical Expert Group on Sustainable Finance; World Bank',
+      note: 'reliefs are available to entities of any size. Where exposure to climate-related financial risk is material, the ISSB expects the effort and resources devoted to increase correspondingly — proportionality is not a permanent exemption.',
+      source: 'IFRS S2; IFRS Foundation guidance on anticipated financial effects, August 2025',
     }
   )}
 `));
 
-/* ═══ 09 EXHIBIT 3 — THE LADDER ═══ */
+/* ═══════════════════ 08 · EXHIBIT 2 — TWO SCENARIOS ═══════════════════ */
+mark('x2');
+slides.push(slide(`
+  <div class="eyebrow">01 — What the standards ask for · Australia</div>
+  <h2>Two scenarios, one of<br>them hot.</h2>
+  <p class="dek">IFRS S2 prescribes neither a number of scenarios nor a temperature.
+  AASB S2 prescribes both — the clearest departure from the global baseline, and the
+  one most often mis-stated.</p>
+  ${exhibit(
+    'Australia mandates a scenario pair; the widely quoted 2.5 °C figure is the regulator’s interpretation, not the standard.',
+    'Scenario requirements under IFRS S2 and AASB S2, with the source of each.',
+    `<table class="dt">
+      <tr><th style="width:230px">Instrument</th><th>What it says</th></tr>
+      <tr><td class="k">IFRS S2</td><td>Requires scenario analysis for the resilience assessment. Prescribes no number of scenarios and no temperature alignment.</td></tr>
+      <tr><td class="k">AASB S2<br><span style="font-size:15px;opacity:.68">Appendix B, AusB1</span></td>
+          <td><strong>At least two</strong> scenarios: one consistent with limiting warming to <strong>1.5 °C</strong> above pre-industrial levels, and one in which warming <strong>well exceeds 2 °C</strong>.</td></tr>
+      <tr><td class="k">ASIC RG 280</td><td>Clarifies that a scenario of <strong>2.5 °C or greater</strong> satisfies “well exceeds 2 °C”, and that using a lower high-warming scenario creates compliance risk.</td></tr>
+    </table>`,
+    {
+      note: 'the 2.5 °C figure does not appear in AASB S2. It is ASIC regulatory guidance interpreting the standard, and should be attributed accordingly.',
+      source: 'AASB S2, Appendix B; ASIC Regulatory Guide 280; ReGenesis Impact analysis',
+    }
+  )}
+`));
+
+/* ═══════════════════ 09 · EXHIBIT 3 — WHAT WAVE 1 DID ═══════════════════ */
 mark('x3');
 slides.push(slide(`
-  <div class="eyebrow">01 — The calculation</div>
-  <h2>Five scores, and how far<br>each sits from the borrower.</h2>
+  <div class="eyebrow">01 — What the standards ask for</div>
+  <h2>What the first wave<br>actually disclosed.</h2>
   ${exhibit(
-    'The scale measures distance from the counterparty, not precision of arithmetic.',
-    'PCAF data quality score for corporate asset classes, from reported emissions to sector estimation.',
-    `<div class="ladder">
-      <div class="ladder-row"><div class="ladder-score" style="background:var(--s1)">1</div>
-        <div class="ladder-body"><div class="ladder-t">Reported emissions, verified by a third party</div>
-        <div class="ladder-d">The counterparty measured it and someone independent checked it.</div></div></div>
-      <div class="ladder-row"><div class="ladder-score" style="background:#3f9169">2</div>
-        <div class="ladder-body"><div class="ladder-t">Reported emissions unverified, or primary energy-consumption data</div>
-        <div class="ladder-d">Self-calculated by the counterparty, or built from its actual energy use with matched factors.</div></div></div>
-      <div class="ladder-row"><div class="ladder-score" style="background:#8a9553">3</div>
-        <div class="ladder-body"><div class="ladder-t">Primary production data</div>
-        <div class="ladder-d">Physical output — tonnes, megawatt hours, square metres — with production-specific factors.</div></div></div>
-      <div class="ladder-row"><div class="ladder-score" style="background:#c9843c">4</div>
-        <div class="ladder-body"><div class="ladder-t">Company revenue with a sector emission factor</div>
-        <div class="ladder-d">The counterparty's own revenue, multiplied by tCO<sub>2</sub>e per unit of sector revenue.</div></div></div>
-      <div class="ladder-row"><div class="ladder-score" style="background:var(--s2)">5</div>
-        <div class="ladder-body"><div class="ladder-t">Outstanding amount only</div>
-        <div class="ladder-d">Revenue inferred from the exposure using sector asset-turnover ratios, then the sector factor applied. Two estimation layers.</div></div></div>
-    </div>`,
+    'Most first-wave reporters exceeded the scenario minimum, and over half quantified financial effects to some degree.',
+    'Selected findings from reviews of Australian Group 1 entities reporting for years ended 31 December 2025.',
+    `<table class="dt">
+      <tr><th style="width:300px">Observation</th><th>Finding</th></tr>
+      <tr><td class="k">Reference pathways</td><td>Most entities used established pathways from the IPCC, NGFS or IEA.</td></tr>
+      <tr><td class="k">Number of scenarios</td><td>Over half disclosed <strong>more than the required minimum</strong>.</td></tr>
+      <tr><td class="k">Anticipated financial effects</td><td>Over half provided <strong>some level of quantified information</strong>; approaches ranged from qualitative assessment to advanced quantitative modelling.</td></tr>
+      <tr><td class="k">Transition plans</td><td>Just under two-thirds disclosed one, ranging from operational initiatives to defined investment programmes.</td></tr>
+      <tr><td class="k">Scope 3</td><td>All entities reported Scope 1 and 2; <strong>40% disclosed Scope 3 voluntarily</strong> despite first-year relief.</td></tr>
+      <tr><td class="k">Risk composition</td><td>On average <strong>47% transition risk, 31% physical risk, 22% opportunity</strong>.</td></tr>
+    </table>`,
     {
-      note: 'each asset class has its own table; real estate scores are built on metered building energy, energy performance certificates and floor area rather than company financials. Institutions must disclose a weighted-average score by asset class, weighted by outstanding amount, alongside the percentage of the portfolio covered.',
-      source: 'PCAF Part A, Third Edition',
+      note: 'PwC reviewed 22 first-wave Group 1 reporters published on the ASX on or before 27 February 2026. Deloitte’s review covers the same reporting population. First-wave entities represent a small fraction of those eventually captured.',
+      source: 'Deloitte, Early insights into Wave 1; PwC Australia, AASB S2 unpacked',
     }
   )}
 `));
 
-/* ═══ 10 CONFORMANCE ═══ */
-mark('conf');
+/* ═══════════════════ 10 · TRANSITION PLAN AS OBJECT ═══════════════════ */
+mark('tp');
 slides.push(slide(`
-  <div class="eyebrow">01 — The calculation</div>
-  <h2>What carries conformance,<br>and what does not.</h2>
-  <p class="dek">"PCAF is GHG Protocol conformant" is true of the 2020 standard and its
-  six asset classes. It is not true of everything published since.</p>
-  <div class="cardgrid cardgrid--2" style="margin-bottom:16px">
+  <div class="eyebrow">01 — What the standards ask for</div>
+  <h2>A transition plan is a<br>disclosure object, not a pledge.</h2>
+  <p class="dek">Under IFRS S2 the plan is disclosed conditionally — but once disclosed
+  it carries assumptions, dependencies and a requirement to report progress against
+  what was said last year.</p>
+  <div class="cardgrid cardgrid--2" style="margin-bottom:18px">
     <div class="card">
-      <h3 style="font-size:25px">Reviewed</h3>
-      <p style="font-size:20px">The six asset classes in the 2020 first edition — listed
-      equity and corporate bonds, business loans and unlisted equity, project finance,
-      commercial real estate, mortgages, and motor vehicle loans — were reviewed and found
-      in conformance with the GHG Protocol Scope 3 Standard for Category 15.${c('pcaf1', 'ghgp15')}</p>
+      <h3 style="font-size:25px">What must accompany it</h3>
+      <p style="font-size:20px">Key assumptions used in developing the plan — assumed
+      policy settings, assumed technology availability — and the dependencies the plan
+      relies on. Then, in later periods, quantitative and qualitative progress against
+      what was previously disclosed.${c('ifrs2')}</p>
     </div>
-    <div class="card" style="border-left:3px solid var(--s2)">
-      <h3 style="font-size:25px">Not reviewed</h3>
-      <p style="font-size:20px">Sovereign debt and emission removals, added in 2023, and
-      everything added in the December 2025 third edition — sub-sovereign debt,
-      securitisations, use-of-proceeds structures and undrawn commitments. The GHG
-      Protocol has since closed the review service that granted the mark.${c('pcafA')}</p>
+    <div class="card">
+      <h3 style="font-size:25px">Where the guidance sits</h3>
+      <p style="font-size:20px">The Transition Plan Taskforce materials transferred to
+      the IFRS Foundation in 2024, and in June 2025 it published guidance on disclosing
+      climate-related transition information under IFRS S2. That guidance is
+      <strong>not new requirements</strong> — it does not amend the standard.${c('tpguid', 'tpt')}</p>
     </div>
   </div>
   <div class="finding">
-    <div class="finding-lab">Why it matters now</div>
-    <p>The GHG Protocol has a live revision of Scope 3, including a discussion paper on
-    Category 15 dated November 2024.${c('ghgprev')} An institution building a
-    financed-emissions capability today is building against a standard whose newest
-    components carry no conformance review and whose parent standard is under revision.
-    That is an argument for documenting method choices, not for waiting.</p>
+    <div class="finding-lab">The supervisory version</div>
+    <p>MAS took a different route. Rather than a disclosure requirement, its March 2026
+    guidelines make transition planning a supervisory expectation for banks, insurers
+    and asset managers from September 2027 — requiring scenario results to be integrated
+    into credit, underwriting and investment decisions, and setting expectations on the
+    governance of <em class="hl">proxy data</em>, including the choice of proxies and
+    its implications for risk assessment.${c('mastp')}</p>
   </div>
 `));
 
-/* ═══ 11 DIVIDER 02 ═══ */
+/* ═══════════════════ 11 · DIVIDER 02 ═══════════════════ */
 mark('sec2');
 slides.push(slide(`
   <div class="sec-num">02</div>
-  <h2>Where it breaks</h2>
-  <p class="sec-lead">Five failures. Each has a mechanism that can be stated precisely,
-  and each changes what the reported number can be used for.</p>
+  <h2>What the exercises<br>found</h2>
+  <p class="sec-lead">Four supervisors have now run climate scenario analysis at scale.
+  Each published what it found about the economy. Each also published what it found
+  about its own data.</p>
   <div class="sec-toc">
-    <div><span>{{P:x4}}</span>The denominator moves</div>
-    <div><span>{{P:x6}}</span>Scores 4 and 5 measure the sector</div>
-    <div><span>{{P:x5}}</span>Three vintages in one ratio</div>
-    <div><span>{{P:x7}}</span>Double counting, three kinds</div>
-    <div><span>{{P:facil}}</span>Two-thirds attributed to no one</div>
+    <div><span>{{P:x4}}</span>The reference scenario sets</div>
+    <div><span>{{P:x6}}</span>What the exercises said about their data</div>
+    <div><span>{{P:ret}}</span>A damage function withdrawn</div>
+    <div><span>{{P:x7}}</span>Physical risk, priced through insurance</div>
   </div>
 `, { fill: true }));
 
-/* ═══ 12 EXHIBIT 4 — EVIC ═══ */
+/* ═══════════════════ 12 · EXHIBIT 4 — SCENARIO SETS ═══════════════════ */
 mark('x4');
 slides.push(slide(`
-  <div class="eyebrow">02 — Where it breaks</div>
-  <h2>Reported emissions fall<br>when markets rise.</h2>
+  <div class="eyebrow">02 — What the exercises found</div>
+  <h2>Two scenario sets, two<br>different jobs.</h2>
   ${exhibit(
-    'A rising counterparty valuation cuts attributed emissions with no change in the real economy.',
-    'Effect of a change in counterparty market value, exposure and physical emissions held constant.',
+    'The short-term scenarios published in 2025 answer a question the long-term set cannot.',
+    'NGFS long-term (Phase V) and short-term scenario families, by horizon and intended use.',
     `<table class="dt">
-      <tr><th style="width:260px"></th><th>Year 1</th><th>Year 2, valuation up 40%</th></tr>
-      <tr><td class="k">Exposure held</td><td class="num">100</td><td class="num">100 — unchanged</td></tr>
-      <tr><td class="k">Counterparty EVIC</td><td class="num">1,000</td><td class="num" style="color:var(--s2)">1,400</td></tr>
-      <tr><td class="k">Attribution factor</td><td class="num">10.0%</td><td class="num" style="color:var(--s2)">7.1%</td></tr>
-      <tr><td class="k">Counterparty emissions</td><td class="num">1,000 tCO<sub>2</sub>e</td><td class="num">1,000 tCO<sub>2</sub>e — unchanged</td></tr>
-      <tr><td class="k">Financed emissions reported</td><td class="num">100 tCO<sub>2</sub>e</td><td class="num" style="color:var(--s2)"><strong>71 tCO<sub>2</sub>e</strong></td></tr>
+      <tr><th style="width:230px"></th><th>Long-term, Phase V</th><th>Short-term</th></tr>
+      <tr><td class="k">Published</td><td>November 2024</td><td>May 2025</td></tr>
+      <tr><td class="k">Horizon</td><td>To 2050 and 2100</td><td><strong>3 to 5 years</strong></td></tr>
+      <tr><td class="k">Scenarios</td><td>Seven pathways, including Net Zero 2050, Low Demand, Below 2 °C, Delayed Transition, NDCs, Current Policies and Fragmented World</td>
+          <td>Four: Highway to Paris; Sudden Wake-Up Call; Disasters and Policy Stagnation; Diverging Realities</td></tr>
+      <tr><td class="k">Intended use</td><td>Strategic and investment decisions</td><td><strong>Capital planning, credit risk, stress testing</strong></td></tr>
+      <tr><td class="k">Distinguishing feature</td><td>Macro-financial pathways by region and sector</td><td>Models climate shocks interacting with the economic cycle, capturing acute physical risk and abrupt repricing within a normal business-planning horizon</td></tr>
     </table>`,
     {
-      note: 'illustrative arithmetic, not observed data. The mechanism is the standard as written — EVIC is a market value, so the attribution factor is partly a function of price. The effect reverses in a drawdown: reported financed emissions rise in a falling market.',
-      source: 'PCAF Part A; EU Technical Expert Group on Sustainable Finance; ReGenesis Impact analysis',
+      note: 'the older six-scenario framing grouped as Orderly, Disorderly and Hot House World belongs to Phase III–IV and is superseded. “Divergent Net Zero” no longer exists as a Phase V pathway.',
+      source: 'NGFS Phase V, November 2024; NGFS short-term scenarios, May 2025',
     }
   )}
-  <p style="font-size:19px;margin-top:10px">
-    PCAF has acknowledged that institutions may apply corrections, and multi-year EVIC
-    averaging is used in practice. Averaging suppresses the variance. It does not change
-    the fact that the denominator is a price.${c('pcafA')}
-  </p>
 `));
 
-/* ═══ 13 EXHIBIT 5 — VINTAGES ═══ */
-mark('x5');
+/* ═══════════════════ 13 · EXHIBIT 5 — THE RETRACTION ═══════════════════ */
+mark('ret');
 slides.push(slide(`
-  <div class="eyebrow">02 — Where it breaks</div>
-  <h2>Three vintages in<br>one ratio.</h2>
-  ${exhibit(
-    'The three inputs to a single year’s figure are not measured at the same date.',
-    'Typical measurement dates for the components of a financed-emissions disclosure.',
-    `<table class="dt">
-      <tr><th style="width:270px">Component</th><th>Where it comes from</th><th style="width:210px">Typical vintage</th></tr>
-      <tr><td class="k">Outstanding amount</td><td>The institution's own book</td><td class="num">reporting date</td></tr>
-      <tr><td class="k">EVIC</td><td>Market data, conventionally at the counterparty's prior fiscal year end</td><td class="num" style="color:var(--s2)">prior year</td></tr>
-      <tr><td class="k">Counterparty emissions</td><td>The counterparty closes its year, compiles an inventory, obtains assurance and publishes; a provider then ingests and maps it</td><td class="num" style="color:var(--s2)">up to two years earlier</td></tr>
-    </table>`,
-    {
-      note: 'the lag is structural rather than incidental — it is the time cost of the counterparty’s own reporting cycle plus provider processing. PCAF cites reduced data lag as a benefit of integrating CEDA into its database.',
-      source: 'PCAF Part A; PCAF database documentation',
-    }
-  )}
-  <div class="finding" style="margin-top:12px">
-    <div class="finding-lab">What it does to a trend</div>
-    <p>A year-on-year movement can be produced entirely by vintages shifting — a newer
-    emissions dataset arriving, or an EVIC reference date rolling forward — with no change
-    in exposure or in counterparty behaviour. A trend line is not evidence of
-    decarbonisation unless the vintages are held constant or the movement is decomposed.</p>
-  </div>
-`));
-
-/* ═══ 14 EXHIBIT 6 — SCORES 4-5 ═══ */
-mark('x6');
-slides.push(slide(`
-  <div class="eyebrow">02 — Where it breaks</div>
-  <h2>At the bottom of the scale,<br>the borrower disappears.</h2>
-  ${exhibit(
-    'Economic-activity estimation cannot distinguish two counterparties in the same sector.',
-    'What each data option can and cannot detect.',
-    `<table class="dt">
-      <tr><th style="width:250px">Option</th><th>Detects a counterparty decarbonising</th><th>Moves when</th></tr>
-      <tr><td class="k">1 — reported</td><td><strong>Yes</strong>, once the counterparty reports it</td><td>counterparty emissions change</td></tr>
-      <tr><td class="k">2 — physical activity</td><td><strong>Yes</strong>, directly and without reporting lag</td><td>energy use or production changes</td></tr>
-      <tr><td class="k">3a — revenue × sector factor</td><td><strong>No</strong> — intra-sector dispersion is not captured</td><td>revenue changes, or the factor is updated</td></tr>
-      <tr><td class="k">3b — exposure only</td><td><strong>No</strong> — revenue is itself inferred from exposure</td><td>exposure or sector classification changes</td></tr>
-    </table>`,
-    {
-      note: 'revenue-based factors are denominated in currency, so inflation, exchange-rate movement and margin change shift the estimate with no physical change. PCAF’s 2025 edition recommends applying an inflation adjustment to economic emission factors, and a year-on-year fluctuation analysis to separate real change from mechanical change.',
-      source: 'PCAF Part A, Third Edition',
-    }
-  )}
-  <p style="font-size:19px;margin-top:10px">
-    Two companies in one sector with a tenfold difference in carbon intensity receive the
-    same estimate per unit of revenue. On a book scored 4 or 5 the reported figure is, in
-    substance, the institution's <strong>sector exposure mix multiplied by fixed
-    coefficients</strong>.
-  </p>
-`));
-
-/* ═══ 15 EXHIBIT 7 — DOUBLE COUNTING ═══ */
-mark('x7');
-slides.push(slide(`
-  <div class="eyebrow">02 — Where it breaks</div>
-  <h2>Double counting,<br>three kinds.</h2>
-  ${exhibit(
-    'One of the three is controlled by the standard; the other two are not.',
-    'Forms of double counting in financed emissions, and their treatment.',
-    `<table class="dt">
-      <tr><th style="width:230px">Kind</th><th>Mechanism</th><th style="width:210px">Treatment</th></tr>
-      <tr><td class="k">Within an institution</td><td>Holding both debt and equity in one counterparty, or lending along a single value chain</td><td class="num" style="color:var(--s1)">controlled by the common denominator</td></tr>
-      <tr><td class="k">Across institutions</td><td>Attribution is designed so all capital providers to one counterparty sum to 100% of its emissions — correct per reporter, but the figures are not additive across the system</td><td class="num" style="color:var(--s2)">inherent</td></tr>
-      <tr><td class="k">Inside input-output estimates</td><td>Multi-regional input-output models used for counterparty Scope 3 overlap statistically; Rabobank finds the overlap depends on the institution's market share, and that the multipliers give no insight into its size</td><td class="num" style="color:var(--s2)">unquantified</td></tr>
-    </table>`,
-    {
-      note: 'PCAF states that certain metrics should not be aggregated for portfolio-level comparison, citing data availability, aggregation and potential double counting. Rabobank proposes that institutions using an input-output model report the statistical double-counting percentage alongside the figure.',
-      source: 'PCAF Part A; Rabobank, “Double checking double counting”',
-    }
-  )}
-  <p style="font-size:19px;margin-top:10px">
-    Avoided emissions and emission removals must be reported separately and may not be
-    netted against Scope 1, 2 or 3 financed emissions, at facility or portfolio
-    level.${c('pcafA')}
-  </p>
-`));
-
-/* ═══ 16 FACILITATED ═══ */
-mark('facil');
-slides.push(slide(`
-  <div class="eyebrow">02 — Where it breaks</div>
-  <h2>Two-thirds attributed<br>to no one.</h2>
-  <p class="dek">Capital markets activity sits under a separate standard, with a single
-  scalar in place of a measurement — and the gap between the two standards creates an
-  arbitrage neither closes.</p>
-  <div class="statrow statrow--2" style="margin-bottom:16px">
-    <div class="stat"><div class="stat-num">100<small>%</small></div>
-      <div class="stat-lab">attribution basis when the exposure sits on the balance sheet, under Part A${c('pcafA')}</div></div>
-    <div class="stat" style="border-left-color:var(--s2)"><div class="stat-num">33<small>%</small></div>
-      <div class="stat-lab">weighting factor applied to facilitated emissions under Part B, with disclosure of the factor required${c('pcafB')}</div></div>
+  <div class="eyebrow">02 — What the exercises found</div>
+  <h2>A damage function<br>withdrawn.</h2>
+  <p class="dek">The most consequential development in climate scenario analysis in the
+  last year is not a new scenario. It is the withdrawal of the research underpinning the
+  physical-risk estimates in the set most preparers are using.</p>
+  <div class="finding" style="margin-bottom:18px">
+    <div class="finding-lab">NGFS statement</div>
+    <p style="font-size:21px">The academic paper underpinning the physical-risk damage
+    function in Phase V has been <strong>retracted</strong>. The NGFS has issued a formal
+    statement noting that it cannot be excluded that the economic effects of climate
+    change turn out to be more severe than current Phase V estimates. Scenario outputs
+    that do not incorporate those physical loss estimates are unaffected, as are all
+    short-term scenarios. An updated methodology is expected with the next long-term
+    iteration at the end of 2026.${c('ngfsret', 'ngfs')}</p>
   </div>
   <div class="cardgrid cardgrid--2">
-    <div class="card">
-      <h3 style="font-size:25px">What the factor is</h3>
-      <p style="font-size:20px">A single judgement applied uniformly, reported as derived
-      from the methodology used to classify globally systemically important banks — not
-      from an estimate of a facilitator's causal contribution to an issuance.${c('pcafB')}</p>
-    </div>
     <div class="card" style="border-left:3px solid var(--s2)">
-      <h3 style="font-size:25px">What follows from it</h3>
-      <p style="font-size:20px">Facilitated emissions are reported separately and are not
-      added to financed emissions. Moving an exposure from the balance sheet to a
-      facilitated structure reduces the attributed share from the whole to a third, with
-      no change in the underlying activity.</p>
+      <h3 style="font-size:25px">Why it is a disclosure issue</h3>
+      <p style="font-size:20px">IFRS S2 requires disclosure of the key assumptions and
+      significant areas of uncertainty in the resilience assessment.${c('ifrs2')} An
+      assessment built on a withdrawn damage function has a material assumption to
+      report.</p>
+    </div>
+    <div class="card">
+      <h3 style="font-size:25px">What it does not mean</h3>
+      <p style="font-size:20px">It is not evidence that physical risk is overstated. The
+      NGFS statement points the other way — that effects may prove more severe than
+      Phase V shows.</p>
     </div>
   </div>
 `));
 
-/* ═══ 17 DIVIDER 03 ═══ */
+/* ═══════════════════ 14 · EXHIBIT 6 — THE DATA FINDINGS ═══════════════════ */
+mark('x6');
+slides.push(slide(`
+  <div class="eyebrow">02 — What the exercises found</div>
+  <h2>Every exercise reported the<br>same constraint.</h2>
+  ${exhibit(
+    'Four supervisors ran the analysis and four reported that the data was not there.',
+    'Published findings on data quality from supervisory climate scenario exercises.',
+    `<table class="dt">
+      <tr><th style="width:230px">Exercise</th><th>What it reported about its own data</th></tr>
+      <tr><td class="k">ECB climate risk<br>stress test, 2022</td>
+          <td>About <strong>70% of reported Scope 1, 2 and 3 emissions relied on proxies</strong> rather than counterparty data. <strong>65% of banks</strong> used predominantly proxies to allocate exposures to energy-performance ratings. <strong>60%</strong> had no well-integrated climate stress-testing framework. Wide dispersion in estimated borrower Scope 3 — including between data providers for the same counterparty.</td></tr>
+      <tr><td class="k">Bank of England<br>CBES, 2022</td>
+          <td>Lack of data on corporates' value-chain emissions and future transition plans was a common issue, down to <strong>missing postcodes</strong> for physical assets and out-of-date energy-performance ratings. Firms relying on third-party models without the internal capability to challenge them produced <strong>materially lower</strong> loss projections.</td></tr>
+      <tr><td class="k">APRA Climate Vulnerability<br>Assessment, 2022</td>
+          <td>Large variance between bank submissions driven by <strong>deviations in data quality and the absence of a standardised modelling approach</strong>, described as a still-maturing approach to using scenario analysis.</td></tr>
+      <tr><td class="k">PwC and IIF survey of<br>financial institutions, 2025</td>
+          <td>Across 24 institutions managing more than <strong>US$18 trillion</strong>, anticipated financial effects were among the most-cited challenges, with respondents pointing to immature internal systems and controls.</td></tr>
+    </table>`,
+    {
+      note: 'the ECB and CBES exercises predate current disclosure requirements; they are included because they are the largest published runs and the only ones reporting data quality in this detail.',
+      source: 'ECB, July 2022; Bank of England CBES, May 2022; APRA, November 2022; PwC and IIF, 2025',
+    }
+  )}
+`));
+
+/* ═══════════════════ 15 · EXHIBIT 7 — APRA ═══════════════════ */
+mark('x7');
+slides.push(slide(`
+  <div class="eyebrow">02 — What the exercises found</div>
+  <h2>Physical risk, priced<br>through insurance.</h2>
+  ${exhibit(
+    'Expected weather losses more than double by 2050 under the higher physical-risk scenario.',
+    'Expected national annual weather-peril losses, Australia, A$ billion.',
+    vbar({
+      h: 330,
+      data: [
+        { label: '2024 actual', v: 7, disp: 'under $7bn', c: NEUTRAL },
+        { label: '2050, higher physical risk', v: 16, disp: 'over $16bn', c: S.s2 },
+      ],
+    }),
+    {
+      note: 'APRA modelled two severe but plausible scenarios to 2050. The 2024 baseline is shown recessive; the projection is the finding.',
+      source: 'APRA, Mind the Gap, March 2026',
+    }
+  )}
+  <div class="statrow statrow--2" style="margin-top:16px">
+    <div class="stat" style="border-left-color:var(--s2)"><div class="stat-num">1 in 4</div>
+      <div class="stat-lab">households in freestanding properties projected uninsured by 2050, from 1 in 7 today${c('apra')}</div></div>
+    <div class="stat"><div class="stat-num">1.6<small>m</small></div>
+      <div class="stat-lab">Australian households already in home-insurance affordability stress, up 30% year on year${c('actu')}</div></div>
+  </div>
+`));
+
+/* ═══════════════════ 16 · DIVIDER 03 ═══════════════════ */
 mark('sec3');
 slides.push(slide(`
   <div class="sec-num">03</div>
-  <h2>Closing the gap</h2>
-  <p class="sec-lead">What moves a portfolio up the quality scale — and the one route
-  that is closed, which is where most programmes start.</p>
+  <h2>The data of<br>the future</h2>
+  <p class="sec-lead">What a forward-looking assessment needs, what an emissions
+  inventory produces, and why the difference is not closing on its own.</p>
   <div class="sec-toc">
-    <div><span>{{P:x8}}</span>The route that does not exist</div>
-    <div><span>{{P:x9}}</span>What actually moves the score</div>
-    <div><span>{{P:assur}}</span>The deadline that sets the horizon</div>
+    <div><span>{{P:x8}}</span>Four properties accounting does not have</div>
+    <div><span>{{P:x9}}</span>The assurance sequence</div>
+    <div><span>{{P:conv}}</span>Where the regime concedes the point</div>
   </div>
 `, { fill: true }));
 
-/* ═══ 18 EXHIBIT 8 — THE CLOSED ROUTE ═══ */
+/* ═══════════════════ 17 · EXHIBIT 8 — THE DATA SHIFT ═══════════════════ */
 mark('x8');
 slides.push(slide(`
-  <div class="eyebrow">03 — Closing the gap</div>
-  <h2>No database reaches<br>above score 3.</h2>
+  <div class="eyebrow">03 — The data of the future</div>
+  <h2>Four properties an inventory<br>does not have.</h2>
   ${exhibit(
-    'Emission factor databases supply scores 3 to 5 by construction; 1 and 2 exist only where the counterparty supplied data.',
-    'What each source delivers, against the data quality score it can support.',
+    'Forward-looking analysis needs data with a different shape, not simply more of it.',
+    'Properties required by scenario analysis and transition planning, against what GHG accounting produces.',
     `<table class="dt">
-      <tr><th style="width:290px">Source</th><th>What it supplies</th><th style="width:140px">Score</th></tr>
-      <tr><td class="k">Counterparty, assured</td><td>Reported Scope 1 and 2, third-party verified</td><td class="num" style="color:var(--s1)">1</td></tr>
-      <tr><td class="k">Counterparty, self-reported<br>or primary energy data</td><td>Self-calculated emissions, or metered energy consumption</td><td class="num" style="color:var(--s1)">2</td></tr>
-      <tr><td class="k">Counterparty, production data</td><td>Physical output volumes with matched factors</td><td class="num">3</td></tr>
-      <tr><td class="k">PCAF emission factor database<br><span style="font-size:15px;opacity:.68">CEDA integrated, around 60,000 factors</span></td><td>Sector and regional factors, including “rest of world” coverage</td><td class="num" style="color:var(--s2)">3–5</td></tr>
-      <tr><td class="k">Input-output models<br><span style="font-size:15px;opacity:.68">EXIOBASE, USEEIO</span></td><td>Emissions per unit of spend or revenue, by sector and region</td><td class="num" style="color:var(--s2)">4–5</td></tr>
+      <tr><th style="width:200px">Property</th><th style="width:290px">What accounting produces</th><th>What the assessment needs</th></tr>
+      <tr><td class="k">Resolution</td><td>Entity-level or facility-level totals</td>
+          <td><strong>Asset and location level</strong> — hazard exposure attaches to a coordinate, not to a legal entity. The CBES failure was missing postcodes, not missing emissions.</td></tr>
+      <tr><td class="k">Direction</td><td>Historical, for a closed period</td>
+          <td><strong>Conditional on a pathway</strong> — the same asset carries different values under 1.5 °C and under well-above-2 °C, and both must be run.</td></tr>
+      <tr><td class="k">Boundary</td><td>Own operations, with Scope 3 estimated</td>
+          <td><strong>Counterparty and value chain</strong> — transition risk sits with customers and suppliers. The ECB's best performers were distinguished by obtaining clients' actual data and transition plans.</td></tr>
+      <tr><td class="k">Object</td><td>Emissions, reported after the fact</td>
+          <td><strong>Capital, mapped forward</strong> — anticipated financial effects are a statement about cash flows, not about tonnes.</td></tr>
     </table>`,
     {
-      note: 'a separate PCAF European building emission factor database serves real estate portfolios, covering EU countries plus Norway, Switzerland and the United Kingdom. CDP is the principal route to reported data at scores 1 and 2; PCAF and CDP published a joint mapping of their data quality concepts in June 2023.',
-      source: 'PCAF database documentation; PCAF and CDP, June 2023; EXIOBASE; US EPA',
+      note: 'the four properties are ReGenesis Impact’s framing of constraints reported separately by the ECB, the Bank of England and APRA; the underlying findings are those supervisors’ own.',
+      source: 'ECB, 2022; Bank of England CBES, 2022; APRA, 2022; IFRS S2; ReGenesis Impact analysis',
     }
   )}
-  <p style="font-size:19px;margin-top:10px">
-    This is the finding most programmes reach late. Buying more factors improves coverage
-    and consistency. It cannot raise the score above 3, because the score measures
-    distance from the counterparty — and a database is, by construction, not the
-    counterparty.
+`));
+
+/* ═══════════════════ 18 · EXHIBIT 9 — ASSURANCE SEQUENCE ═══════════════════ */
+mark('x9');
+slides.push(slide(`
+  <div class="eyebrow">03 — The data of the future</div>
+  <h2>The assurance arrives<br>last, by design.</h2>
+  ${exhibit(
+    'Scenario analysis and transition plans are the last disclosures to be assured, and the only ones with liability protection.',
+    'Australian assurance phasing and the statutory liability window, by disclosure.',
+    timeline({
+      years: [2025, 2026, 2027, 2028, 2029, 2030], laneH: 108, gap: 20, labelW: 268, w: 928,
+      rows: [
+        { label: 'Governance, strategy, Scope 1 and 2', c: S.s1, spans: [{ from: 2025, to: 2029, text: 'limited assurance from year one' }, { from: 2030, to: 2030, text: 'reasonable' }] },
+        { label: 'Scope 3 emissions', c: S.s2, spans: [{ from: 2025, to: 2025, soft: true, text: 'relief' }, { from: 2026, to: 2029, text: 'required, limited assurance' }, { from: 2030, to: 2030, text: 'reasonable' }] },
+        { label: 'Scenario analysis, transition plans', c: S.s2, spans: [{ from: 2025, to: 2025, soft: true, text: 'none' }, { from: 2026, to: 2029, text: 'limited assurance, widening' }, { from: 2030, to: 2030, text: 'reasonable' }] },
+        { label: 'Modified liability window', c: NEUTRAL, spans: [{ from: 2025, to: 2027, text: 'Scope 3, scenario analysis, transition plans' }] },
+      ],
+    }),
+    {
+      note: 'reasonable assurance over all climate disclosures applies for years commencing on or after 1 July 2030. The assurance phasing is drawn from ASSA 5010; readers relying on year-one scope should confirm it against the standard.',
+      source: 'AUASB, ASSA 5000 and ASSA 5010; Treasury Laws Amendment Act 2024',
+    }
+  )}
+  <p style="font-size:19px;margin-top:14px">
+    ISSA 5000 permits assurance over forward-looking information, while noting it is
+    ordinarily <strong>capable of being evaluated only with less precision</strong> than
+    historical data.${c('issa')}
   </p>
 `));
 
-/* ═══ 19 EXHIBIT 9 — WHAT MOVES IT ═══ */
-mark('x9');
+/* ═══════════════════ 19 · THE CONVERGENCE ═══════════════════ */
+mark('conv');
 slides.push(slide(`
-  <div class="eyebrow">03 — Closing the gap</div>
-  <h2>What actually moves<br>the score.</h2>
+  <div class="eyebrow">03 — The data of the future</div>
+  <h2>Three disclosures, three<br>concessions, one list.</h2>
+  <p class="dek">Scope 3, scenario analysis and transition plans appear together in every
+  concession the regime has made. That is not coincidence — it is the system recording
+  where it knows the evidence is weakest.</p>
+  <div class="statrow statrow--3" style="margin-bottom:20px">
+    <div class="stat" style="border-left-color:var(--s2)"><div class="stat-num">Relief</div>
+      <div class="stat-lab">Scope 3 not required in the first Australian reporting year${c('aasb')}</div></div>
+    <div class="stat" style="border-left-color:var(--s2)"><div class="stat-num">No<br><small>assurance</small></div>
+      <div class="stat-lab">over scenario analysis and transition plans in year one${c('auasb')}</div></div>
+    <div class="stat" style="border-left-color:var(--s2)"><div class="stat-num">3 yr</div>
+      <div class="stat-lab">modified liability covering all three${c('austlii')}</div></div>
+  </div>
+  <p style="max-width:955px">
+    ASIC's first review of Australian reports named the two weaknesses directly: scenario
+    analysis disclosures <strong>lacked detail about the underlying assumptions and
+    dependencies relied on</strong>, and transition plans <strong>could have been more
+    clearly linked to the entity's targets, actions and strategies</strong>. The same
+    review recorded a marked improvement in the quantity and quality of climate
+    information overall.${c('asic')}
+  </p>
+  <div class="finding">
+    <div class="finding-lab">What follows from that</div>
+    <p>The reliefs close. Assurance widens to the full report from year two and becomes
+    reasonable from July 2030; the liability window is three years.${c('auasb', 'austlii')}
+    The disclosures currently carrying the least scrutiny are the ones that will carry
+    the most.</p>
+  </div>
+`));
+
+/* ═══════════════════ 20 · DIVIDER 04 ═══════════════════ */
+mark('sec4');
+slides.push(slide(`
+  <div class="sec-num">04</div>
+  <h2>Why stakeholders<br>read it</h2>
+  <p class="sec-lead">Transition credibility is already priced in loan spreads,
+  underwriting and coverage decisions. The disclosure is read because something turns
+  on it.</p>
+  <div class="sec-toc">
+    <div><span>{{P:x10}}</span>Who is reading, and what for</div>
+  </div>
+`, { fill: true }));
+
+/* ═══════════════════ 21 · EXHIBIT 10 — WHO READS IT ═══════════════════ */
+mark('x10');
+slides.push(slide(`
+  <div class="eyebrow">04 — Why stakeholders read it</div>
+  <h2>Who is reading, and<br>what turns on it.</h2>
   ${exhibit(
-    'Every route above score 3 runs through the counterparty, which makes collection a programme rather than a request.',
-    'Approaches with published precedent, and what each delivers.',
+    'Each reader group has a decision attached to the disclosure, and a stated view of its reliability.',
+    'Published evidence on the use of transition plans and scenario analysis, by reader.',
     `<table class="dt">
-      <tr><th style="width:240px">Approach</th><th>What it delivers</th><th style="width:180px">Precedent</th></tr>
-      <tr><td class="k">Standardised industry<br>questionnaire</td><td>A common baseline across lenders, so clients answer once rather than once per bank; MAS points banks to the ABS Environmental Risk Questionnaire as a baseline template for collecting customer information</td><td class="num">Singapore${c('abs', 'mastp')}</td></tr>
-      <tr><td class="k">Counterparty transition<br>scoring</td><td>Converts partial counterparty data into a decision-useful signal; Deutsche Bank operates a 1–7 Transition Maturity Score with defined minimum plan requirements, combining an automated score with manual adjustment</td><td class="num">published framework${c('db')}</td></tr>
-      <tr><td class="k">Reported-data pipelines</td><td>Routes counterparty disclosure into the calculation at scores 1 and 2; PCAF and CDP have mapped their data quality concepts onto each other</td><td class="num">PCAF and CDP${c('pcafcdp')}</td></tr>
-      <tr><td class="k">Proxy governance</td><td>Documented decisions on proxy sources, assumptions, methodologies and limitations, substantiated and feeding the next iteration</td><td class="num">MAS expectation${c('mastp')}</td></tr>
+      <tr><th style="width:180px">Reader</th><th>What they do with it</th><th style="width:250px">Stated position</th></tr>
+      <tr><td class="k">Investors</td>
+          <td>Assess whether sustainability risk management bears on the investment case.</td>
+          <td>94% believed corporate sustainability reporting contains unsupported claims; 75% said sustainability risk management was an important factor in investment decisions.${c('pwcinv')}</td></tr>
+      <tr><td class="k">Lenders</td>
+          <td>Score counterparty transition maturity as a condition of transition finance.</td>
+          <td>Deutsche Bank operates a Transition Maturity Score on a 1–7 scale, assessing counterparty plans across transition management and performance.${c('db')}</td></tr>
+      <tr><td class="k">Supervisors</td>
+          <td>Require scenario results to be integrated into credit, underwriting and investment decisions.</td>
+          <td>MAS guidelines effective September 2027 for banks, insurers and asset managers.${c('mastp')}</td></tr>
+      <tr><td class="k">Insurers</td>
+          <td>Price and, at the margin, withdraw cover.</td>
+          <td>The Australian home-insurance protection gap is projected to widen from one in seven households to one in four by 2050.${c('apra')}</td></tr>
     </table>`,
     {
-      note: 'MAS sets expectations on the governance of proxy data rather than mandating a measurement method, and frames portfolio financed emissions as a metric banks may choose to use. The obligation to disclose financed emissions sits in the ISSB-aligned reporting regimes rather than in the transition planning guidelines.',
-      source: 'MAS transition planning guidelines; Association of Banks in Singapore; Deutsche Bank; PCAF and CDP',
+      note: 'the investor figures are from different editions of the same survey and are not a time series. The Deutsche Bank framework is one lender’s published methodology, cited as a concrete example rather than as market practice.',
+      source: 'PwC Global Investor Survey; Deutsche Bank Transition Finance Framework; MAS; APRA',
     }
   )}
 `));
 
-/* ═══ 20 ASSURANCE ═══ */
-mark('assur');
-slides.push(slide(`
-  <div class="eyebrow">03 — Closing the gap</div>
-  <h2>The deadline that sets<br>the horizon.</h2>
-  <p class="dek">Australian financial institutions must reach reasonable assurance over
-  financed emissions built on proxy data. That, not the first disclosure date, determines
-  how far data quality has to move and by when.</p>
-  <div class="statrow statrow--3" style="margin-bottom:16px">
-    <div class="stat"><div class="stat-num">Yr 1</div><div class="stat-lab">limited assurance over governance, parts of strategy, and Scope 1 and 2 only${c('auasb')}</div></div>
-    <div class="stat" style="border-left-color:var(--s2)"><div class="stat-num">Yr 2–3</div><div class="stat-lab">limited assurance phases across remaining disclosures — where Scope 3 and financed emissions first attract it${c('auasb')}</div></div>
-    <div class="stat" style="border-left-color:var(--s2)"><div class="stat-num">2030</div><div class="stat-lab">reasonable assurance over all climate disclosures, periods commencing on or after 1 July${c('auasb')}</div></div>
-  </div>
-  <div class="finding">
-    <div class="finding-lab">A correction worth carrying</div>
-    <p>Financed emissions is <strong>not</strong> an industry-based metric. Under IFRS S2
-    it sits in the main body at paragraph 29(a)(vi)(2), with guidance at
-    B58–B63.${c('ifrs2')} AASB S2 omitted the industry-based metrics requirement but
-    retained the financed-emissions package deliberately,${c('aasbkh')} and AASB S2025-1
-    amends it — which a requirement that did not exist could not be.${c('aasb')} The
-    weaker "consider the applicability of" wording appeared in Exposure Draft SR1 and was
-    not carried into the final standard.${c('edsr1')}</p>
-  </div>
-`));
-
-/* ═══ 21 WHAT THIS MEANS ═══ */
+/* ═══════════════════ 22 · WHAT THIS MEANS ═══════════════════ */
 mark('means');
 slides.push(slide(`
   <div class="eyebrow">What this means</div>
   <h2>Five actions.</h2>
-  <ul class="ticks" style="margin-bottom:14px">
-    <li><strong>Publish the weighted data quality score and the coverage percentage
-      beside the tonnage.</strong> PCAF requires both by asset class; a total without them
-      cannot be interpreted, and disclosing them is the cheapest credibility
-      available.${c('pcafA')}</li>
-    <li><strong>Decompose any year-on-year movement before presenting it.</strong>
-      Separate exposure change, valuation change, vintage change and real emissions
-      change — the fluctuation analysis PCAF's 2025 edition recommends.${c('pcafA')}</li>
-    <li><strong>Target the score, not the tonnage, on the book scored 4 or 5.</strong> On
-      those exposures the tonnage cannot detect decarbonisation; only moving up the data
-      hierarchy changes what the number is able to show.</li>
-    <li><strong>Treat counterparty data collection as a programme with a standard
-      instrument.</strong> Every route above score 3 runs through the counterparty, and a
-      shared questionnaire reduces client fatigue while producing comparable
-      answers.${c('abs')}</li>
-    <li><strong>Document the method choices now, while they are still
-      defensible.</strong> Denominator conventions, EVIC reference dates, averaging,
-      sector mapping and proxy sources all become assurance evidence before
-      2030.${c('auasb', 'mastp')}</li>
+  <ul class="ticks" style="margin-bottom:18px">
+    <li><strong>Record the scenario assumptions as a governed artefact, not a
+      paragraph.</strong> ASIC's stated weakness was missing detail on assumptions and
+      dependencies — which is a documentation problem before it is an analysis
+      problem.${c('asic', 'ifrs2')}</li>
+    <li><strong>Establish asset-level location data before the next assessment
+      cycle.</strong> The CBES constraint was missing postcodes. Physical hazard
+      exposure cannot be modelled against a registered office.${c('boe')}</li>
+    <li><strong>Treat counterparty transition data as a collection programme.</strong>
+      The ECB's better performers were distinguished by engaging clients for actual data
+      and their transition plans, not by better modelling.${c('ecb')}</li>
+    <li><strong>State which scenario vintage was used, and when.</strong> Phase V
+      physical-risk estimates rest on a withdrawn damage function; an assessment that
+      does not say what it ran cannot be re-run.${c('ngfsret')}</li>
+    <li><strong>Build the evidence trail for the disclosures that are not yet
+      assured.</strong> Scenario analysis and transition plans move from no assurance to
+      limited, then to reasonable by July 2030, and the liability window is three
+      years.${c('auasb', 'austlii')}</li>
   </ul>
   <div class="finding">
     <div class="finding-lab">The asymmetry</div>
-    <p>Coverage and data quality improve only at the speed counterparties respond, which
-    is measured in reporting cycles. Assurance arrives on a fixed date. The distance
-    between those two clocks is the whole of the problem.</p>
+    <p>Each of these is a data-collection decision with a lead time measured in
+    reporting cycles, not weeks. An organisation that begins after the requirement
+    bites will be assured on a baseline it did not have time to build.</p>
   </div>
 `));
 
-/* ═══ 22 ABOUT THE RESEARCH ═══ */
+/* ═══════════════════ 23 · ABOUT THE RESEARCH ═══════════════════ */
 mark('method');
 slides.push(slide(`
   <div class="eyebrow">About the research</div>
   <h2>Scope, method and<br>limitations.</h2>
   <p class="note" style="max-width:955px">
-    <strong>Scope.</strong> The measurement of Scope 3 Category 15 financed emissions
-    under the PCAF standard, its treatment in IFRS S2 and AASB S2, and the assurance
-    sequence applying in Australia. Reporting thresholds and phase-in dates are out of
-    scope, as are insurance-associated emissions under PCAF Part C.
+    <strong>Scope.</strong> Forward-looking climate disclosure requirements — resilience
+    assessment, scenario analysis, anticipated financial effects and transition planning
+    — under IFRS S2, AASB S2 and the MAS transition planning guidelines, together with
+    the published supervisory exercises that have tested them. Reporting thresholds and
+    phase-in timetables are deliberately out of scope.
   </p>
   <p class="note" style="max-width:955px">
-    <strong>Method.</strong> Compiled from the standards and supporting documentation
-    listed in the endnotes. Where a figure or characterisation rests on a single published
-    source, that source is named in the sentence. Illustrative arithmetic is labelled as
-    such. <strong>Data as at ${CUTOFF}.</strong>
+    <strong>Method.</strong> Compiled from public standards, regulatory guidance,
+    supervisory publications and published reviews of first-wave reporters, listed in
+    the endnotes. Where a figure rests on a single published source, that source is named
+    in the sentence rather than only in the endnote. Where two figures measure different
+    populations or periods, they are not combined. <strong>Data as at ${CUTOFF}.</strong>
   </p>
   <div class="finding">
     <div class="finding-lab">Limitations</div>
-    <p style="font-size:20px">Three matter. Several widely circulated statistics on the
-    share of portfolios lacking counterparty data trace to vendors with a commercial
-    interest in the size of that gap; they are excluded rather than repeated. The
-    sector-by-sector phase-in of counterparty Scope 3 reporting could not be confirmed and
-    is described only in principle. And this briefing describes the standard as published
-    — it does not report what any institution has disclosed, and the GHG Protocol's
-    revision of Category 15 remains in progress.${c('ghgprev')}</p>
+    <p style="font-size:20px">Three should be read alongside the figures. This is a
+    compilation of published positions, not a survey — it describes what supervisors and
+    reviewers reported, not what companies did. The Australian first-wave findings cover
+    22 to 25 entities reporting for years ended 31 December 2025, a small fraction of
+    those eventually captured, and should not be read as settled practice. And the
+    assurance phasing described on page 18 is drawn from secondary summaries of ASSA
+    5010; the scope of first-year assurance should be confirmed against the standard
+    before it is relied on.</p>
   </div>
 `));
 
-/* ═══ 23 ENDNOTES ═══ */
+/* ═══════════════════ 24 · ENDNOTES ═══════════════════ */
 mark('notes');
 slides.push(slide(`
   <div class="eyebrow">Endnotes</div>
   <h2>Sources.</h2>
-  <div style="columns:2;column-gap:44px;font-family:'DM Mono',monospace;font-size:12.8px;line-height:1.6;color:var(--ink-muted)">
+  <div style="columns:2;column-gap:44px;font-family:'DM Mono',monospace;font-size:12.4px;line-height:1.58;color:var(--ink-muted)">
     ${SRC.map(([id, title, date, host], i) =>
-      `<div style="break-inside:avoid;margin-bottom:12px">
+      `<div style="break-inside:avoid;margin-bottom:11px">
          <span style="color:var(--emerald);font-weight:500">${i + 1}</span>&nbsp;
          <span style="color:var(--ink)">${title}</span><br>
          <span style="opacity:.72">${host}, ${date}</span>
@@ -696,19 +738,21 @@ slides.push(slide(`
   </div>
   <p class="note" style="font-size:16px">
     Figures are quoted as published by the issuing body. Claims that could not be
-    corroborated across independent sources have been excluded rather than qualified.
+    corroborated across independent sources have been excluded rather than qualified;
+    one figure previously carried in this series was withdrawn after the underlying paper
+    was retracted.
   </p>
 `));
 
-/* ═══ 24 ABOUT ═══ */
+/* ═══════════════════ 25 · ABOUT (commercial, last, labelled) ═══════════════════ */
 slides.push(slide(`
   <div class="eyebrow">About ReGenesis Impact</div>
   <h2>Who produced this<br>briefing.</h2>
   <p style="max-width:920px">
-    ReGenesis Impact builds disclosure tooling for companies and financial institutions in
-    Australia and Singapore — the GHG inventory, the ISSB and AASB disclosure structures,
-    scenario analysis, and PCAF-aligned financed-emissions treatment with data quality
-    scoring. The tools are free to use and require no account to start.
+    ReGenesis Impact builds disclosure tooling for companies in Australia and Singapore —
+    the GHG inventory, the ISSB and AASB disclosure structures, scenario analysis and the
+    assurance evidence trail described in this briefing. The tools are free to use and
+    require no account to start.
   </p>
   <div class="statrow statrow--2">
     <div class="stat"><div class="stat-lab" style="margin-top:0">Web</div>
@@ -717,8 +761,8 @@ slides.push(slide(`
       <div style="font-family:var(--font-mono);font-size:25px;color:var(--emerald);font-weight:500;margin-top:8px">info@regenesisimpact.in</div></div>
   </div>
   <p style="font-size:19px;max-width:920px">
-    Corrections are welcome. This briefing describes a standard that is actively being
-    revised; if a requirement or figure has moved, please write and it will be amended.
+    Corrections are welcome. If a requirement, figure or date in this briefing has moved
+    or has been misread, please write and it will be amended in the next edition.
   </p>
   <p class="note" style="font-size:15.5px;line-height:1.6">
     This briefing contains general information only and does not constitute accounting,
@@ -730,23 +774,21 @@ slides.push(slide(`
   </p>
 `));
 
-/* ── assemble ── */
+/* ───────────────────────── assemble ─────────────────────────────── */
 const html = `<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
-<title>The denominator problem — ReGenesis Impact</title>
+<title>From ledger to forecast — ReGenesis Impact</title>
 <link rel="stylesheet" href="board.css">
 </head><body>
 ${slides.join('\n')}
 </body></html>`;
 
-const resolved = html
-  .replace(/\{\{EXCOUNT\}\}/g, String(EXN))
-  .replace(/\{\{P:(\w+)\}\}/g, (_, k) => {
-    if (!NAV[k]) throw new Error(`contents references unknown section "${k}"`);
-    return String(NAV[k]).padStart(2, '0');
-  });
-if (/\{\{/.test(resolved)) throw new Error('unresolved token');
+const resolved = html.replace(/\{\{EXCOUNT\}\}/g, String(EXN)).replace(/\{\{P:(\w+)\}\}/g, (_, k) => {
+  if (!NAV[k]) throw new Error(`contents references unknown section "${k}"`);
+  return String(NAV[k]).padStart(2, '0');
+});
+if (/\{\{P:/.test(resolved)) throw new Error('unresolved contents page token');
 writeFileSync(new URL('./board.html', import.meta.url), resolved);
-console.log('✓ nav:', NAV);
+console.log('✓ contents:', NAV);
 console.log(`✓ board.html — ${slides.length} pages, ${EXN} exhibits, ${SRC.length} endnotes`);

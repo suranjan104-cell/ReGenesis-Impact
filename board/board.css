@@ -508,3 +508,38 @@ h2{font-size:44px;line-height:1.08;margin-bottom:18px}
 .ex-body table.dt--compact,
 .ex-body table.dt--compact tr{height:auto}
 .ex-body table.dt--compact td{padding-top:14px;padding-bottom:14px}
+
+/* ═══════════════════════════════════════════════════════════════════
+   COVER INFOGRAPHIC
+   Slide one has to earn the swipe. A matrix that shows a pattern at a
+   glance beats a title: three disclosures down the top, three tests
+   down the side, and the answer legible without reading a word of body.
+   ═══════════════════════════════════════════════════════════════════ */
+.cover-graphic{
+  background:var(--paper-hi);border:1px solid var(--rule-soft);
+  border-radius:14px;padding:26px 30px 24px;
+}
+.cg-title{
+  font-family:var(--font-mono);font-size:13px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--emerald);margin-bottom:20px;
+}
+.matrix{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:0}
+.matrix > div{padding:15px 10px;border-bottom:1px solid var(--rule-soft);display:flex;align-items:center}
+.matrix > div:nth-child(-n+4){border-bottom:1px solid var(--rule)}
+.matrix > div:nth-last-child(-n+4){border-bottom:none}
+.mx-col{
+  font-family:var(--font-ui);font-size:17px;font-weight:500;line-height:1.25;
+  color:var(--ink);align-items:flex-end !important;
+}
+.mx-row{font-size:18px;color:var(--ink-mid);line-height:1.3}
+.mx-cell{justify-content:center}
+/* the mark carries the answer; the word beside it means colour is never alone */
+.mx-mark{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:var(--font-mono);font-size:15px;font-weight:500;letter-spacing:.04em;
+}
+.mx-dot{width:13px;height:13px;border-radius:50%;flex:none}
+.mx-no .mx-dot{background:var(--s2)}
+.mx-no{color:var(--s2)}
+.mx-yes .mx-dot{background:var(--emerald)}
+.mx-yes{color:var(--emerald)}
