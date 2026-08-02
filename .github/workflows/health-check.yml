@@ -52,16 +52,22 @@ jobs:
         run: |
           set +e
           FAILS=""
+          # Cloudflare bot protection rejects curl's default user agent with a
+          # 403, which is indistinguishable from the site being down. Identify
+          # as a browser (and name the checker) so the probe measures the site
+          # rather than the WAF.
+          UA="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36 ReGenesisHealthCheck/1.0"
           for URL in "https://regenesisimpact.in/" "https://regenesisimpact.in/og-image.png" "https://regenesisimpact.in/site.webmanifest" "https://regenesisimpact.in/knowledge/kb.json" "https://regenesisimpact.in/knowledge/factors.json"; do
-            CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 -L "$URL")
+            CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 -L -A "$UA" "$URL")
             echo "$URL -> $CODE"
             if [ "$CODE" != "200" ]; then FAILS="$FAILS\n- $URL returned $CODE"; fi
+            if [ "$CODE" = "403" ]; then echo "  (403 with a browser UA points at a WAF/access rule, not an outage)"; fi
           done
           # The two JSON assets are fetched at runtime by the page, so a 200 on
           # index.html alone does not prove the tools work. Assert their shape,
           # not just their availability — a 200 serving an HTML error page would
           # otherwise read as healthy.
-          REG=$(curl -s --max-time 30 -L "https://regenesisimpact.in/knowledge/factors.json")
+          REG=$(curl -s --max-time 30 -L -A "$UA" "https://regenesisimpact.in/knowledge/factors.json")
           COUNT=$(echo "$REG" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{console.log(JSON.parse(s).count)}catch(e){console.log("unparseable")}})')
           echo "factor register reports $COUNT factors"
           if [ "$COUNT" = "unparseable" ] || [ -z "$COUNT" ] || [ "$COUNT" = "undefined" ]; then
