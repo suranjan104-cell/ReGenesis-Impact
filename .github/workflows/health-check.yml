@@ -43,12 +43,16 @@ jobs:
             echo "status=pass" >> "$GITHUB_OUTPUT"
           fi
 
+      # Probes the APEX. www.regenesisimpact.in has no DNS record, so every
+      # www probe returned 000 — a connection failure being read as a site
+      # outage. The site is served from the apex; do not reintroduce www
+      # here unless a CNAME is added for it.
       - name: Probe live site
         id: live
         run: |
           set +e
           FAILS=""
-          for URL in "https://www.regenesisimpact.in/" "https://www.regenesisimpact.in/og-image.png" "https://www.regenesisimpact.in/site.webmanifest" "https://www.regenesisimpact.in/knowledge/kb.json" "https://www.regenesisimpact.in/knowledge/factors.json"; do
+          for URL in "https://regenesisimpact.in/" "https://regenesisimpact.in/og-image.png" "https://regenesisimpact.in/site.webmanifest" "https://regenesisimpact.in/knowledge/kb.json" "https://regenesisimpact.in/knowledge/factors.json"; do
             CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 -L "$URL")
             echo "$URL -> $CODE"
             if [ "$CODE" != "200" ]; then FAILS="$FAILS\n- $URL returned $CODE"; fi
@@ -57,7 +61,7 @@ jobs:
           # index.html alone does not prove the tools work. Assert their shape,
           # not just their availability — a 200 serving an HTML error page would
           # otherwise read as healthy.
-          REG=$(curl -s --max-time 30 -L "https://www.regenesisimpact.in/knowledge/factors.json")
+          REG=$(curl -s --max-time 30 -L "https://regenesisimpact.in/knowledge/factors.json")
           COUNT=$(echo "$REG" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{console.log(JSON.parse(s).count)}catch(e){console.log("unparseable")}})')
           echo "factor register reports $COUNT factors"
           if [ "$COUNT" = "unparseable" ] || [ -z "$COUNT" ] || [ "$COUNT" = "undefined" ]; then
@@ -111,3 +115,12 @@ jobs:
         env:
           SMOKE_RESULT: ${{ steps.smoke.outputs.result }}
           LIVE_FAILS: ${{ steps.live.outputs.fails }}
+
+      # Without this the job exits 0 after filing an issue, so the run shows
+      # green while the site is unreachable. Runs last so the issue is filed
+      # first.
+      - name: Fail the run if any check failed
+        if: steps.smoke.outputs.status == 'fail' || steps.live.outputs.status == 'fail'
+        run: |
+          echo "smoke=${{ steps.smoke.outputs.status }}  live=${{ steps.live.outputs.status }}"
+          exit 1
