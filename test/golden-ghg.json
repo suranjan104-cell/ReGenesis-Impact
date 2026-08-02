@@ -17,9 +17,9 @@
    "s1": 1515.344,
    "s2": 1778.6999999999998,
    "s2_mkt": 1778.6999999999998,
-   "s3": 53751.611999999994,
-   "fin": 40502.1,
-   "total": 57045.655999999995,
+   "s3": 53749.512,
+   "fin": 40500,
+   "total": 57043.556000000004,
    "lines": [
     [
      "Scope 1",
@@ -53,7 +53,7 @@
     ],
     [
      "Scope 1",
-     "Refrigerant R410A · GWP100 AR6",
+     "Refrigerant R410A · GWP100 AR4",
      "500 kg × GWP 2088 ÷ 1000",
      1044
     ],
@@ -116,12 +116,6 @@
      "PCAF real estate / mortgages",
      "$120mn × 25 t/$mn",
      3000
-    ],
-    [
-     "S3 Cat 15",
-     "PCAF project finance",
-     "$60mn × 0.035 t/$mn",
-     2.1
     ]
    ]
   },
@@ -167,7 +161,7 @@
     ],
     [
      "Scope 1",
-     "Refrigerant R410A · GWP100 AR6",
+     "Refrigerant R410A · GWP100 AR4",
      "500 kg × GWP 2088 ÷ 1000",
      1044
     ],
@@ -245,9 +239,9 @@
    "s1": 1515.344,
    "s2": 1778.6999999999998,
    "s2_mkt": 990.3,
-   "s3": 53751.611999999994,
-   "fin": 40502.1,
-   "total": 57045.655999999995,
+   "s3": 53749.512,
+   "fin": 40500,
+   "total": 57043.556000000004,
    "lines": [
     [
      "Scope 1",
@@ -281,7 +275,7 @@
     ],
     [
      "Scope 1",
-     "Refrigerant R410A · GWP100 AR6",
+     "Refrigerant R410A · GWP100 AR4",
      "500 kg × GWP 2088 ÷ 1000",
      1044
     ],
@@ -344,12 +338,6 @@
      "PCAF real estate / mortgages",
      "$120mn × 25 t/$mn",
      3000
-    ],
-    [
-     "S3 Cat 15",
-     "PCAF project finance",
-     "$60mn × 0.035 t/$mn",
-     2.1
     ]
    ]
   },
@@ -395,7 +383,7 @@
    "lines": [
     [
      "Scope 1",
-     "Refrigerant R410A · GWP100 AR6",
+     "Refrigerant R410A · GWP100 AR4",
      "1,000 kg × GWP 2088 ÷ 1000",
      2088
     ]
@@ -413,7 +401,7 @@
    "lines": [
     [
      "Scope 1",
-     "Refrigerant R32 · GWP100 AR6",
+     "Refrigerant R32 · GWP100 AR4",
      "1,000 kg × GWP 675 ÷ 1000",
      675
     ]
@@ -431,7 +419,7 @@
    "lines": [
     [
      "Scope 1",
-     "Refrigerant R134a · GWP100 AR6",
+     "Refrigerant R134a · GWP100 AR4",
      "1,000 kg × GWP 1430 ÷ 1000",
      1430
     ]
@@ -449,7 +437,7 @@
    "lines": [
     [
      "Scope 1",
-     "Refrigerant  · GWP100 AR6",
+     "Refrigerant  · GWP100 AR4",
      "1,000 kg × GWP 2088 ÷ 1000",
      2088
     ]
@@ -467,7 +455,7 @@
    "lines": [
     [
      "Scope 1",
-     "Refrigerant  · GWP100 AR6",
+     "Refrigerant  · GWP100 AR4",
      "1,000 kg × GWP 2088 ÷ 1000",
      2088
     ]
@@ -476,18 +464,18 @@
   {
    "name": "refrigerant-R22",
    "missingInputs": [],
-   "s1": 1760,
+   "s1": 1810,
    "s2": 0,
    "s2_mkt": 0,
    "s3": 0,
    "fin": 0,
-   "total": 1760,
+   "total": 1810,
    "lines": [
     [
      "Scope 1",
-     "Refrigerant R22 · GWP100 AR6",
-     "1,000 kg × GWP 1760 ÷ 1000",
-     1760
+     "Refrigerant R22 · GWP100 AR4",
+     "1,000 kg × GWP 1810 ÷ 1000",
+     1810
     ]
    ]
   },
@@ -503,7 +491,7 @@
    "lines": [
     [
      "Scope 1",
-     "Refrigerant  · GWP100 AR6",
+     "Refrigerant  · GWP100 AR4",
      "1,000 kg × GWP 2088 ÷ 1000",
      2088
     ]
@@ -582,5 +570,5 @@
    ]
   }
  ],
- "csv": "Category,Subcategory,Activity,Amount,Unit,Emission Factor,EF Unit,tCO2e,Source,EF Reference\r\nOrg Details,Entity,Organisation Name,Organisation,,,,,,\r\nOrg Details,Entity,Reporting Period,—,,,,,,\r\nOrg Details,Entity,Base Year,—,,,,,,\r\nOrg Details,Entity,Sector,—,,,,,,\r\nOrg Details,Entity,Employees,320,FTE,,,,,\r\nScope 1,Stationary,Diesel,12000,litres,—,kgCO2e/litre,0,—,DEFRA 2024\r\nScope 1,Stationary,Natural Gas,4500,GJ,—,kgCO2e/GJ,0,—,DEFRA 2024\r\nScope 1,Stationary,LPG,800,kg,—,kgCO2e/kg,0,—,DEFRA 2024\r\nScope 1,Mobile,Petrol (Fleet),45000,litres,2.31,kgCO2e/litre,103.95,—,DEFRA 2024\r\nScope 1,Mobile,Diesel (Fleet),30000,litres,2.68,kgCO2e/litre,80.4,—,DEFRA 2024\r\nScope 1,Fugitive,Refrigerants,500,kg,R410A,GWP100,1044,—,IPCC AR6\r\nScope 2,Purchased Electricity (LB),2400,MWh,—,tCO2e/MWh,0,—,IEA 2024\r\nScope 2,Purchased Heat/Steam,900,GJ,—,tCO2e/GJ,0,—,DEFRA 2024\r\nScope 3,Cat 1 Purchased Goods,18,USD mn,—,tCO2e/USD mn,6300,,Spend-based EEIO\r\nScope 3,Cat 5 Waste,140,tonnes,0.467,tCO2e/tonne,65.38,—,DEFRA 2024\r\nScope 3,Cat 6 Air Travel,1250000,PKM,0.0001,tCO2e/PKM,125,—,DEFRA 2024 RFI\r\nScope 3,Cat 7 Commuting,22×—×employees,km×days,0.17,kgCO2e/km,287.23,,DEFRA 2024\r\nTotals,Scope 1,,—,tCO2e,,,,,\r\nTotals,Scope 2 (Location-based),,—,tCO2e,,,,,\r\nTotals,Scope 2 (Market-based),,—,tCO2e,,,,,\r\nTotals,Scope 3 (Selected),,—,tCO2e,,,,,\r\nTotals,TOTAL,,—,tCO2e,,,,,\r\nTotals,Intensity,,—,tCO2e/₹Cr,,,,,"
+ "csv": "Category,Subcategory,Activity,Amount,Unit,Emission Factor,EF Unit,tCO2e,Source,EF Reference\r\nOrg Details,Entity,Organisation Name,Organisation,,,,,,\r\nOrg Details,Entity,Reporting Period,—,,,,,,\r\nOrg Details,Entity,Base Year,—,,,,,,\r\nOrg Details,Entity,Sector,—,,,,,,\r\nOrg Details,Entity,Employees,320,FTE,,,,,\r\nScope 1,Stationary,Diesel,12000,litres,—,kgCO2e/litre,0,—,DEFRA 2024\r\nScope 1,Stationary,Natural Gas,4500,GJ,—,kgCO2e/GJ,0,—,DEFRA 2024\r\nScope 1,Stationary,LPG,800,kg,—,kgCO2e/kg,0,—,DEFRA 2024\r\nScope 1,Mobile,Petrol (Fleet),45000,litres,2.31,kgCO2e/litre,103.95,—,DEFRA 2024\r\nScope 1,Mobile,Diesel (Fleet),30000,litres,2.68,kgCO2e/litre,80.4,—,DEFRA 2024\r\nScope 1,Fugitive,Refrigerants,500,kg,R410A,GWP100,1044,—,IPCC AR4\r\nScope 2,Purchased Electricity (LB),2400,MWh,—,tCO2e/MWh,0,—,IEA 2024\r\nScope 2,Purchased Heat/Steam,900,GJ,—,tCO2e/GJ,0,—,DEFRA 2024\r\nScope 3,Cat 1 Purchased Goods,18,USD mn,—,tCO2e/USD mn,6300,,Spend-based EEIO\r\nScope 3,Cat 5 Waste,140,tonnes,0.467,tCO2e/tonne,65.38,—,DEFRA 2024\r\nScope 3,Cat 6 Air Travel,1250000,PKM,0.0001,tCO2e/PKM,125,—,DEFRA 2024 RFI\r\nScope 3,Cat 7 Commuting,22×—×employees,km×days,0.17,kgCO2e/km,287.23,,DEFRA 2024\r\nTotals,Scope 1,,—,tCO2e,,,,,\r\nTotals,Scope 2 (Location-based),,—,tCO2e,,,,,\r\nTotals,Scope 2 (Market-based),,—,tCO2e,,,,,\r\nTotals,Scope 3 (Selected),,—,tCO2e,,,,,\r\nTotals,TOTAL,,—,tCO2e,,,,,\r\nTotals,Intensity,,—,tCO2e/₹Cr,,,,,"
 }
