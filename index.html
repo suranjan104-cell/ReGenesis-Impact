@@ -4848,7 +4848,7 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
  <div class="ghg-hdr">
  <div class="ghg-badge">GHG INVENTORY RESULTS · AUDIT TRAIL · PCAF & GHG PROTOCOL COMPLIANT</div>
  <h2>Inventory Summary & Audit Trail</h2>
- <p>Full traceable GHG inventory with data lineage per GHG Protocol. Each emission line item references its source, methodology, emission factor and PCAF data quality score.</p>
+ <p>Full traceable GHG inventory with data lineage per GHG Protocol. Each emission line item references its source, methodology, emission factor and PCAF data quality score. Every factor applied below is published with its source and vintage in the <a href="#factors" onclick="showPage('factors');return false" style="color:#0affdb;border-bottom:1px dotted rgba(10,255,219,.4);text-decoration:none">emission factor register</a>.</p>
  </div>
 
  <!-- Summary KPIs -->
@@ -8123,6 +8123,12 @@ function showPage(page) {
   // Analytics: record tool opens (not home — page_view covers that)
   if (page !== 'home' && typeof rgTrack === 'function') rgTrack('tool_open', page);
 
+  // Factor register loads on first open; fxLoad is idempotent thereafter.
+  if (page === 'factors') {
+    if (typeof rgTrack === 'function') rgTrack(RG_EVENTS.FACTOR_VIEW, 'factors');
+    if (typeof fxLoad === 'function') fxLoad();
+  }
+
   // Owner insights auto-load on dashboard open (owner only — see isOwnerUser)
   if (page === 'dashboard' && isOwnerUser() && typeof dbLoadInsights === 'function') setTimeout(dbLoadInsights, 300);
 
@@ -8917,6 +8923,80 @@ document.addEventListener('DOMContentLoaded', function() {
  var fill = document.getElementById('ghg-progress'); 
  if (fill) fill.style.width = p + '%';
  }
+
+ /* ── FACTOR REGISTER VIEW ───────────────────────────────────────────────────
+    Renders knowledge/factors.json — the same file the generated block in this
+    page is built from, so the table cannot show a factor the calculators do
+    not apply. Fetched rather than generated because the view needs the full
+    provenance metadata, not just the values. */
+ var _fxData = null;
+ window.fxLoad = function() {
+   if (_fxData) { fxRender(); return; }
+   fetch('knowledge/factors.json').then(function(r){ return r.json(); }).then(function(d){
+     _fxData = d;
+     var sel = document.getElementById('fx-cat');
+     if (sel) {
+       var cats = d.factors.map(function(f){ return f.category; })
+         .filter(function(c,i,a){ return a.indexOf(c) === i; }).sort();
+       cats.forEach(function(c){
+         var o = document.createElement('option');
+         o.value = c; o.textContent = c.replace(/_/g, ' ');
+         sel.appendChild(o);
+       });
+     }
+     fxRender();
+   }).catch(function(){
+     var rows = document.getElementById('fx-rows');
+     if (rows) rows.innerHTML = '<tr><td colspan="8" class="fx-empty">Register could not be loaded. It is committed at knowledge/factors.json.</td></tr>';
+   });
+ };
+
+ window.fxRender = function() {
+   if (!_fxData) return;
+   var esc = function(s){ var d = document.createElement('div'); d.textContent = s == null ? '' : s; return d.innerHTML; };
+   var q = (document.getElementById('fx-q') || {}).value || '';
+   var cat = (document.getElementById('fx-cat') || {}).value || '';
+   var conf = (document.getElementById('fx-conf') || {}).value || '';
+   q = q.toLowerCase().trim();
+
+   var kpi = document.getElementById('fx-kpis');
+   if (kpi && !kpi.innerHTML) {
+     var lowN = _fxData.factors.filter(function(f){ return f.confidence === 'low'; }).length;
+     kpi.innerHTML =
+       '<div class="fx-kpi"><b>' + _fxData.count + '</b><span>Factors in the register</span></div>' +
+       '<div class="fx-kpi"><b>' + (_fxData.oldestVintage || '—') + '</b><span>Oldest vintage in use</span></div>' +
+       '<div class="fx-kpi' + (_fxData.unsourced.length ? ' warn' : '') + '"><b>' + _fxData.unsourced.length + '</b><span>Provenance not established</span></div>' +
+       '<div class="fx-kpi' + (lowN ? ' warn' : '') + '"><b>' + lowN + '</b><span>Low confidence</span></div>';
+   }
+
+   var list = _fxData.factors.filter(function(f){
+     if (cat && f.category !== cat) return false;
+     if (conf && f.confidence !== conf) return false;
+     if (!q) return true;
+     return (f.name + ' ' + f.category + ' ' + f.source.publisher + ' ' + f.source.document + ' ' + (f.note || ''))
+       .toLowerCase().indexOf(q) >= 0;
+   });
+
+   var rows = document.getElementById('fx-rows');
+   if (!rows) return;
+   if (!list.length) { rows.innerHTML = '<tr><td colspan="8" class="fx-empty">No factor matches that filter.</td></tr>'; return; }
+
+   rows.innerHTML = list.map(function(f){
+     return '<tr>' +
+       '<td>' + esc(f.name) + (f.editable ? '<span class="fx-unit"> · editable</span>' : '') +
+         (f.note ? '<div class="fx-note">' + esc(f.note) + '</div>' : '') + '</td>' +
+       '<td class="fx-val">' + f.value + '<div class="fx-unit">' + esc(f.unit) + '</div></td>' +
+       '<td>' + esc(f.basis) + (f.gwp_set ? '<div class="fx-unit">' + esc(f.gwp_set) + '</div>' : '') + '</td>' +
+       '<td class="fx-val">' + esc(f.region) + '</td>' +
+       '<td class="fx-src"><a href="' + esc(f.source.url) + '" target="_blank" rel="noopener noreferrer" ' +
+         'onclick="rgTrack(RG_EVENTS.FACTOR_SOURCE_CLICK, \'' + esc(f.id) + '\')">' + esc(f.source.publisher) + '</a>' +
+         '<span class="fx-pub">' + esc(f.source.document) + '</span></td>' +
+       '<td class="fx-val">' + (f.vintage || '—') + '</td>' +
+       '<td><span class="fx-conf ' + esc(f.confidence) + '">' + esc(f.confidence) + '</span></td>' +
+       '<td class="fx-applies">' + f.applies_to.map(esc).join('<br>') + '</td>' +
+     '</tr>';
+   }).join('');
+ };
 
  // Refrigerant GWP lookup. Lives here so the engine and the CSV export share
  // one map — they previously held separate copies that could drift apart.
@@ -12214,6 +12294,83 @@ window.ciCopy = function(outId) {
      data quality, evidence packs, engagement tracking.
      Calibrated to ISSA 5000 / ISAE 3000 / ISAE 3410 / AASB S2.
      ════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-factors" style="display:none">
+<style>
+.fx-wrap{max-width:1150px;margin:0 auto;padding:2rem 1.5rem 4rem;padding-top:calc(64px + 2rem);color:#eafff3}
+.fx-eyebrow{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:#00e87a;margin-bottom:.6rem}
+.fx-eyebrow::before{content:'▸ ';color:#0affdb}
+.fx-wrap h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.7rem,3.2vw,2.5rem);font-weight:700;line-height:1.12;margin-bottom:.6rem}
+.fx-wrap h1 em{font-style:normal;background:linear-gradient(100deg,#00e87a,#0affdb);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.fx-lede{font-size:.92rem;color:rgba(234,255,243,.55);line-height:1.7;max-width:760px}
+.fx-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.8rem;margin:1.6rem 0}
+.fx-kpi{background:rgba(3,14,9,.88);border:1px solid rgba(0,232,122,.16);padding:.9rem 1rem}
+.fx-kpi b{display:block;font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700;color:#00ff9d}
+.fx-kpi span{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(234,255,243,.45)}
+.fx-kpi.warn b{color:#ffb547}
+.fx-controls{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem;align-items:center}
+.fx-controls input,.fx-controls select{font-family:'DM Mono',monospace;font-size:.7rem;padding:.5rem .7rem;background:rgba(3,14,9,.7);border:1px solid rgba(0,232,122,.18);color:#eafff3}
+.fx-controls input{flex:1;min-width:180px}
+.fx-tablewrap{overflow-x:auto;border:1px solid rgba(0,232,122,.16)}
+table.fx{width:100%;border-collapse:collapse;font-size:.76rem;min-width:900px}
+table.fx th{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;text-align:left;padding:.7rem .8rem;background:rgba(0,232,122,.07);color:rgba(0,232,122,.8);white-space:nowrap}
+table.fx td{padding:.7rem .8rem;border-top:1px solid rgba(0,232,122,.09);vertical-align:top;line-height:1.5}
+table.fx tr:hover td{background:rgba(0,232,122,.03)}
+.fx-val{font-family:'DM Mono',monospace;color:#00ff9d;white-space:nowrap}
+.fx-unit{color:rgba(234,255,243,.4);font-size:.68rem}
+.fx-conf{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;padding:.18rem .45rem;border:1px solid;white-space:nowrap}
+.fx-conf.high{color:#00ff9d;border-color:rgba(0,232,122,.4)}
+.fx-conf.medium{color:#0affdb;border-color:rgba(10,255,219,.3)}
+.fx-conf.low{color:#ffb547;border-color:rgba(255,181,71,.4)}
+.fx-src a{color:rgba(10,255,219,.85);text-decoration:none;border-bottom:1px dotted rgba(10,255,219,.35)}
+.fx-src a:hover{color:#0affdb}
+.fx-pub{display:block;color:rgba(234,255,243,.5);font-size:.68rem}
+.fx-note{margin-top:.35rem;font-size:.68rem;color:rgba(255,181,71,.75);line-height:1.5}
+.fx-applies{font-family:'DM Mono',monospace;font-size:.62rem;color:rgba(234,255,243,.38);line-height:1.6}
+.fx-empty{padding:2rem;text-align:center;color:rgba(234,255,243,.35);font-size:.8rem}
+.fx-foot{margin-top:1.4rem;padding:1rem 1.2rem;border:1px solid rgba(0,232,122,.14);background:rgba(3,14,9,.6);font-size:.76rem;color:rgba(234,255,243,.5);line-height:1.7}
+.fx-foot code{font-family:'DM Mono',monospace;color:rgba(10,255,219,.8);font-size:.72rem}
+</style>
+<div class="fx-wrap">
+  <div class="fx-eyebrow">Emission factor register</div>
+  <h1>Every factor, with its <em>source and vintage</em></h1>
+  <p class="fx-lede">
+    The Assurance Studio asks you to keep a register of factor, source, vintage and
+    applied-to. This is ours. Each value below is the one the calculators actually
+    apply — the arithmetic, the audit trail and this table read the same entry, so a
+    displayed factor cannot disagree with the one used.
+  </p>
+
+  <div class="fx-kpis" id="fx-kpis"></div>
+
+  <div class="fx-controls">
+    <input type="search" id="fx-q" placeholder="Search factor, source or category…" oninput="fxRender()">
+    <select id="fx-cat" onchange="fxRender()"><option value="">All categories</option></select>
+    <select id="fx-conf" onchange="fxRender()">
+      <option value="">All confidence</option>
+      <option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option>
+    </select>
+  </div>
+
+  <div class="fx-tablewrap">
+    <table class="fx">
+      <thead><tr>
+        <th>Factor</th><th>Value</th><th>Basis</th><th>Region</th>
+        <th>Source</th><th>Vintage</th><th>Confidence</th><th>Applied to</th>
+      </tr></thead>
+      <tbody id="fx-rows"><tr><td colspan="8" class="fx-empty">Loading register…</td></tr></tbody>
+    </table>
+  </div>
+
+  <div class="fx-foot">
+    Built deterministically from <code>knowledge/factors/*.json</code>. A factor is changed
+    by editing the register and rebuilding — never by editing application code — and the
+    build fails if the two disagree. Values flagged low confidence carry a note explaining
+    why; several were inherited without an establishable source and are published as such
+    rather than presented as sourced.
+  </div>
+</div>
+</div>
+
 <div class="page" id="page-assurance" style="display:none">
 <style>
 .axs-wrap{max-width:1150px;margin:0 auto;padding:2rem 1.5rem 4rem;padding-top:calc(64px + 2rem);color:#eafff3}
@@ -12549,7 +12706,7 @@ var AXS_GAP_FIX = [
   'Add climate risks to the ERM register with owners and escalation routes.',
   'Build the Scope 1 &amp; 2 inventory with a methodology memo — our GHG tool does this.',
   'Complete a Scope 3 relevance screen across all 15 categories, documenting exclusions.',
-  'Create an emission factor register: factor, source, vintage, applied-to.',
+  'Create an emission factor register: factor, source, vintage, applied-to — <a href="#factors" onclick="showPage(\'factors\');return false" style="color:#0affdb">ours is published here</a> if you want the shape of one.',
   'Set targets with a baseline year and interim milestones; consider science-based validation.',
   'Document the data collection process end-to-end so a walkthrough can be performed.'
 ];
