@@ -83,8 +83,9 @@ const slides = [];
 slides.push(slide(`
   <div class="eyebrow">Climate disclosure briefing · August 2026</div>
   <div>
-    <h1 style="font-size:84px;line-height:1.0">The analysis is mandatory.<br><em style="font-style:italic;color:var(--emerald)">The data is not there.</em></h1>
-    <p class="lede" style="max-width:930px;margin-top:22px">
+    <h1 style="font-size:92px;line-height:.98">From ledger<br>to forecast</h1>
+    <p class="h1-sub">What climate scenario analysis requires that reporting never collected</p>
+    <p class="lede" style="max-width:930px;margin-top:18px">
       IFRS S2 and AASB S2 require a resilience assessment built on climate scenarios, and
       a transition plan disclosed against it. Every supervisor that has run that analysis
       at scale has reported the same constraint — and published it.

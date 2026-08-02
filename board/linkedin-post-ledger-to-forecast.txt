@@ -1,4 +1,4 @@
-The analysis is mandatory. The data is not there.
+From ledger to forecast: what climate scenario analysis requires that reporting never collected.
 
 IFRS S2 and AASB S2 require a resilience assessment built on climate scenarios, and a transition plan disclosed against it. Every supervisor that has run that analysis at scale has reported the same constraint — and published it.
 
@@ -21,8 +21,8 @@ HOW TO POST (delete this section before posting):
 
 1. ReGenesis Impact COMPANY PAGE. Document post, not an image.
    File: ReGenesis-Impact-From-Ledger-to-Forecast.pdf
-   Title it "The analysis is mandatory. The data is not there." — that shows
-   on the carousel card and matches the cover.
+   Title it "From ledger to forecast" — that is what shows on the carousel
+   card, and it matches the cover.
 2. Body = everything above the dashed line.
 3. Link in the FIRST COMMENT once the site is deployed:
    https://www.regenesisimpact.in/research/ (add a page for this briefing first —
