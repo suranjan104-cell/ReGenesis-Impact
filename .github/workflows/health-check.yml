@@ -48,11 +48,21 @@ jobs:
         run: |
           set +e
           FAILS=""
-          for URL in "https://www.regenesisimpact.in/" "https://www.regenesisimpact.in/og-image.png" "https://www.regenesisimpact.in/site.webmanifest"; do
+          for URL in "https://www.regenesisimpact.in/" "https://www.regenesisimpact.in/og-image.png" "https://www.regenesisimpact.in/site.webmanifest" "https://www.regenesisimpact.in/knowledge/kb.json" "https://www.regenesisimpact.in/knowledge/factors.json"; do
             CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 -L "$URL")
             echo "$URL -> $CODE"
             if [ "$CODE" != "200" ]; then FAILS="$FAILS\n- $URL returned $CODE"; fi
           done
+          # The two JSON assets are fetched at runtime by the page, so a 200 on
+          # index.html alone does not prove the tools work. Assert their shape,
+          # not just their availability — a 200 serving an HTML error page would
+          # otherwise read as healthy.
+          REG=$(curl -s --max-time 30 -L "https://www.regenesisimpact.in/knowledge/factors.json")
+          COUNT=$(echo "$REG" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{console.log(JSON.parse(s).count)}catch(e){console.log("unparseable")}})')
+          echo "factor register reports $COUNT factors"
+          if [ "$COUNT" = "unparseable" ] || [ -z "$COUNT" ] || [ "$COUNT" = "undefined" ]; then
+            FAILS="$FAILS\n- knowledge/factors.json did not parse as a register"
+          fi
           if [ -n "$FAILS" ]; then
             echo "status=fail" >> "$GITHUB_OUTPUT"
             echo "fails<<EOF" >> "$GITHUB_OUTPUT"
