@@ -1,0 +1,550 @@
+/* ═══════════════════════════════════════════════════════════════════
+   ReGenesis Impact — Thought Leadership Board
+   Print/PDF stylesheet. 1080×1350 (4:5) — LinkedIn document-post optimal.
+
+   Surface: the product's "Regenerative Editorial" LIGHT system — warm paper
+   #F6F1E7, ink #0E231A, emerald #0B7A47. Playfair Display headlines, DM Sans
+   body, DM Mono for data and labels.
+
+   Chart palette re-validated for THIS surface (dataviz validator, light,
+   surface #F6F1E7): lightness band PASS · chroma PASS · CVD ΔE 8.1 PASS ·
+   normal-vision ΔE 25.7 PASS · contrast ≥3:1 PASS.
+   ═══════════════════════════════════════════════════════════════════ */
+
+@font-face{font-family:'Playfair Display';font-weight:400;src:url('fonts/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvUDQ.ttf') format('truetype')}
+@font-face{font-family:'Playfair Display';font-weight:700;src:url('fonts/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKeiukDQ.ttf') format('truetype')}
+@font-face{font-family:'Playfair Display';font-weight:900;src:url('fonts/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKfsukDQ.ttf') format('truetype')}
+@font-face{font-family:'DM Sans';font-weight:400;src:url('fonts/rP2tp2ywxg089UriI5-g4vlH9VoD8CmcqZG40F9JadbnoEwAopxhTg.ttf') format('truetype')}
+@font-face{font-family:'DM Sans';font-weight:500;src:url('fonts/rP2tp2ywxg089UriI5-g4vlH9VoD8CmcqZG40F9JadbnoEwAkJxhTg.ttf') format('truetype')}
+@font-face{font-family:'DM Sans';font-weight:700;src:url('fonts/rP2tp2ywxg089UriI5-g4vlH9VoD8CmcqZG40F9JadbnoEwARZthTg.ttf') format('truetype')}
+@font-face{font-family:'DM Mono';font-weight:400;src:url('fonts/aFTU7PB1QTsUX8KYhh0.ttf') format('truetype')}
+@font-face{font-family:'DM Mono';font-weight:500;src:url('fonts/aFTR7PB1QTsUX8KYvumzIYQ.ttf') format('truetype')}
+
+:root{
+  --paper:#F6F1E7; --paper-hi:#FFFFFF; --paper-sink:#EFE8DA;
+  --ink:#0E231A;
+  --ink-mid:rgba(14,35,26,.74); --ink-muted:rgba(14,35,26,.60); --ink-faint:rgba(14,35,26,.44);
+  --emerald:#0B7A47; --emerald-deep:#085C36;
+  --rule:rgba(11,122,71,.26); --rule-soft:rgba(14,35,26,.13);
+
+  /* validated categorical slots for the beige surface — colour follows the
+     entity, never its rank. Brand emerald leads as Singapore. */
+  --s1:#0B7A47;  /* Singapore */
+  --s2:#C2410C;  /* Australia */
+  --s3:#2a78d6;  /* India */
+  --s4:#b0306a;  /* other / global */
+
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-ui:'DM Sans',Helvetica,sans-serif;
+  --font-mono:'DM Mono',ui-monospace,monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+@page{size:1080px 1350px;margin:0}
+html,body{background:var(--paper)}
+body{font-family:var(--font-ui);color:var(--ink);-webkit-font-smoothing:antialiased}
+
+/* ── slide shell ───────────────────────────────────────────────── */
+.slide{
+  position:relative;width:1080px;height:1350px;overflow:hidden;
+  page-break-after:always;break-after:page;
+  background:var(--paper);
+  padding:72px 76px 92px;
+  display:flex;flex-direction:column;
+}
+.slide:last-child{page-break-after:auto;break-after:auto}
+
+/* deep-ink variant, used sparingly for the cover and the closing frame */
+.slide--ink{background:var(--ink);color:var(--paper)}
+.slide--ink h1,.slide--ink h2,.slide--ink h3,.slide--ink strong{color:var(--paper)}
+.slide--ink p,.slide--ink .lede{color:rgba(246,241,231,.72)}
+.slide--ink .eyebrow{color:#3BE38A}
+.slide--ink .eyebrow::after{background:rgba(59,227,138,.3)}
+.slide--ink .pagenum,.slide--ink .brandmark{color:rgba(246,241,231,.45)}
+.slide--ink .brandmark::before{background:#3BE38A}
+
+/* faint plotting grid — the "instrument paper" texture, kept recessive */
+.slide::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(14,35,26,.045) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(14,35,26,.045) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+.slide--ink::before{
+  background-image:linear-gradient(rgba(246,241,231,.05) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(246,241,231,.05) 1px,transparent 1px);
+}
+.slide > *{position:relative;z-index:1}
+
+/* ── type ──────────────────────────────────────────────────────── */
+.eyebrow{
+  font-family:var(--font-mono);font-size:15px;font-weight:500;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--emerald);
+  display:flex;align-items:center;gap:14px;margin-bottom:24px;
+}
+.eyebrow::after{content:'';flex:1;height:1px;background:var(--rule)}
+
+h1{font-family:var(--font-display);font-weight:900;font-size:112px;line-height:.94;letter-spacing:-.02em;color:var(--ink)}
+h2{font-family:var(--font-display);font-weight:700;font-size:64px;line-height:1.04;letter-spacing:-.015em;margin-bottom:30px;color:var(--ink)}
+h3{font-family:var(--font-display);font-weight:700;font-size:31px;line-height:1.16;margin-bottom:10px;color:var(--ink)}
+/* Cover subtitle. Published practice on flagship covers is a noun-phrase title
+   carrying the promise on a second, quieter line — not a two-sentence epigram. */
+.h1-sub{font-family:var(--font-display);font-style:italic;font-weight:400;
+  font-size:43px;line-height:1.12;letter-spacing:-.01em;color:var(--emerald);
+  margin-top:14px;max-width:960px}
+.lede{font-size:27px;line-height:1.46;color:var(--ink-mid);font-weight:400}
+p{font-size:22px;line-height:1.58;color:var(--ink-mid)}
+strong{color:var(--ink);font-weight:700}
+em.hl{font-style:normal;color:var(--emerald);font-weight:500}
+
+.rule{height:1px;background:var(--rule);margin:24px 0}
+
+/* ── citation superscript + footer source rail ─────────────────── */
+/* U+2082 is absent from all three brand fonts and would silently fall back
+   to a system face — use a real <sub>. */
+sub{font-size:.66em;vertical-align:baseline;position:relative;bottom:-.22em}
+sup.cite{
+  font-family:var(--font-mono);font-size:11.5px;font-weight:500;
+  color:var(--emerald);vertical-align:super;line-height:0;margin-left:2px;
+}
+.srcrail{
+  margin-top:auto;padding-top:16px;border-top:1px solid var(--rule-soft);
+  font-family:var(--font-mono);font-size:12.5px;line-height:1.55;color:var(--ink-faint);
+}
+.srcrail b{color:var(--ink-muted);font-weight:500}
+.slide--ink .srcrail{color:rgba(246,241,231,.42);border-top-color:rgba(246,241,231,.14)}
+.slide--ink .srcrail b{color:rgba(246,241,231,.6)}
+
+/* ── page furniture ────────────────────────────────────────────── */
+.pagenum{
+  position:absolute;left:76px;bottom:40px;z-index:2;
+  font-family:var(--font-mono);font-size:13px;letter-spacing:.16em;color:var(--ink-faint);
+}
+.brandmark{
+  position:absolute;right:76px;bottom:40px;z-index:2;
+  font-family:var(--font-mono);font-size:13px;letter-spacing:.16em;color:var(--ink-faint);
+  display:flex;align-items:center;gap:9px;
+}
+.brandmark::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--emerald)}
+
+/* ── stat tiles — a number IS a chart ──────────────────────────── */
+.statrow{display:grid;gap:18px;margin:4px 0}
+.statrow--2{grid-template-columns:1fr 1fr}
+.statrow--3{grid-template-columns:repeat(3,1fr)}
+.statrow--4{grid-template-columns:repeat(4,1fr)}
+.stat{
+  background:var(--paper-hi);border:1px solid var(--rule-soft);border-left:3px solid var(--emerald);
+  border-radius:10px;padding:26px 26px;
+}
+.slide--ink .stat{background:rgba(246,241,231,.07);border-color:rgba(246,241,231,.14);border-left-color:#3BE38A}
+.stat-num{font-family:var(--font-display);font-weight:900;font-size:64px;line-height:1;color:var(--ink);letter-spacing:-.02em}
+.slide--ink .stat-num{color:var(--paper)}
+.stat-num small{font-size:26px;font-weight:700}
+.stat-lab{
+  font-family:var(--font-mono);font-size:13.5px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink-faint);margin-top:9px;line-height:1.5;
+}
+.slide--ink .stat-lab{color:rgba(246,241,231,.5)}
+
+/* ── card ──────────────────────────────────────────────────────── */
+.card{background:var(--paper-hi);border:1px solid var(--rule-soft);border-radius:12px;padding:28px 30px}
+.slide--ink .card{background:rgba(246,241,231,.07);border-color:rgba(246,241,231,.14)}
+.cardgrid{display:grid;gap:16px}
+.cardgrid--2{grid-template-columns:1fr 1fr}
+
+/* ── legend — always present for ≥2 series ─────────────────────── */
+.legend{display:flex;flex-wrap:wrap;gap:10px 26px;margin:12px 0 4px}
+.legend-item{display:flex;align-items:center;gap:9px;font-family:var(--font-mono);font-size:14px;color:var(--ink-muted);letter-spacing:.04em}
+.legend-swatch{width:13px;height:13px;border-radius:3px;flex:none}
+
+/* ── chart scaffolding ─────────────────────────────────────────── */
+.chart-title{font-family:var(--font-mono);font-size:13.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);margin:20px 0 14px}
+svg{display:block;overflow:visible}
+.ax-line{stroke:var(--rule-soft);stroke-width:1}     /* hairline, never dashed */
+.ax-lab{font-family:'DM Mono',monospace;font-size:14px;fill:var(--ink-faint)}
+.val-lab{font-family:'DM Mono',monospace;font-size:15px;font-weight:500;fill:var(--ink)}
+.ser-lab{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;fill:var(--ink-mid)}
+
+/* ── data table ────────────────────────────────────────────────── */
+table.dt{width:100%;border-collapse:collapse;font-size:20.5px}
+table.dt th{
+  font-family:var(--font-mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-faint);text-align:left;padding:0 12px 12px 0;border-bottom:1px solid var(--rule);font-weight:500;
+}
+table.dt td{padding:19px 12px 19px 0;border-bottom:1px solid var(--rule-soft);color:var(--ink-mid);vertical-align:top;line-height:1.42}
+table.dt td.k{color:var(--ink);font-weight:500}
+table.dt td.num{font-family:var(--font-mono);font-size:17px;color:var(--ink)}
+
+/* ── misc ──────────────────────────────────────────────────────── */
+.tag{
+  display:inline-block;font-family:var(--font-mono);font-size:12.5px;letter-spacing:.1em;
+  text-transform:uppercase;padding:6px 14px;border-radius:999px;
+  border:1px solid var(--rule);color:var(--emerald);background:rgba(11,122,71,.07);
+}
+ul.ticks{list-style:none;display:flex;flex-direction:column;gap:21px}
+ul.ticks li{padding-left:34px;position:relative;font-size:22px;line-height:1.52;color:var(--ink-mid)}
+ul.ticks li::before{content:'';position:absolute;left:0;top:9px;width:15px;height:2px;background:var(--emerald)}
+.spacer{flex:1}
+
+/* ═══════════════════════════════════════════════════════════════════
+   BENCHMARK APPARATUS — conventions common to Big 4 published research:
+   numbered exhibits with a stated-finding title and an explicit source
+   line; key-finding blocks; pull quotes; section dividers; contents.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── numbered figure ───────────────────────────────────────────────
+   "Figure", not "Exhibit" — Exhibit is MBB house style; all four Big 4
+   firms use Figure. Number + finding-stating title sit ABOVE the chart;
+   the note and source lines sit BELOW it, source always last.        */
+.figure{margin:6px 0 0}
+.fig-num{
+  font-family:var(--font-mono);font-size:13px;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--emerald);margin-bottom:7px;
+}
+.fig-title{
+  font-family:var(--font-ui);font-size:23px;font-weight:500;line-height:1.32;
+  color:var(--ink);margin-bottom:6px;max-width:920px;
+}
+/* neutral descriptor of what is actually plotted — demoted below the finding */
+.fig-sub{
+  font-family:var(--font-ui);font-size:18px;line-height:1.4;
+  color:var(--ink-muted);margin-bottom:20px;
+}
+/* rounding / exclusion notes sit ABOVE the source line */
+.fig-note{
+  font-family:var(--font-mono);font-size:12.5px;line-height:1.5;
+  color:var(--ink-faint);margin-top:12px;
+}
+.fig-source{
+  display:flex;justify-content:space-between;align-items:baseline;gap:20px;
+  font-family:var(--font-mono);font-size:12.5px;line-height:1.5;color:var(--ink-faint);
+  margin-top:12px;padding-top:11px;border-top:1px solid var(--rule-soft);
+}
+/* publication wordmark, bottom-right of every figure, so a screenshotted
+   chart still carries its attribution */
+.fig-source em{font-style:normal;opacity:.8;white-space:nowrap}
+
+/* ── key-finding block ─────────────────────────────────────────────
+   The single sentence a reader should retain from the page.          */
+.finding{
+  border-left:3px solid var(--emerald);background:var(--paper-hi);
+  border:1px solid var(--rule-soft);border-left:3px solid var(--emerald);
+  border-radius:0 12px 12px 0;padding:24px 30px;
+}
+.finding-lab{
+  font-family:var(--font-mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--emerald);margin-bottom:10px;
+}
+.finding p{font-size:21px;line-height:1.5;color:var(--ink)}
+
+/* ── pull quote ────────────────────────────────────────────────────*/
+.pullquote{
+  font-family:var(--font-display);font-weight:400;font-style:italic;
+  font-size:34px;line-height:1.32;color:var(--ink);
+  padding-left:28px;border-left:2px solid var(--emerald);margin:6px 0;
+}
+.pullquote cite{
+  display:block;font-family:var(--font-mono);font-style:normal;font-size:13px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-top:16px;
+}
+
+/* ── section divider page ──────────────────────────────────────────*/
+.divider{justify-content:center}
+.divider .sec-num{
+  font-family:var(--font-display);font-weight:900;font-size:150px;line-height:.9;
+  color:var(--emerald);letter-spacing:-.03em;
+}
+.divider h2{font-size:66px;margin:20px 0 22px}
+.divider .sec-lead{font-size:24px;line-height:1.5;color:var(--ink-mid);max-width:760px}
+
+/* ── contents ──────────────────────────────────────────────────────*/
+.toc{display:flex;flex-direction:column;gap:0}
+.toc-row{
+  display:flex;align-items:baseline;gap:18px;padding:17px 0;
+  border-bottom:1px solid var(--rule-soft);
+}
+.toc-num{
+  font-family:var(--font-mono);font-size:13px;letter-spacing:.12em;color:var(--emerald);
+  width:34px;flex:none;
+}
+.toc-title{font-size:22px;color:var(--ink);font-weight:500;flex:1}
+.toc-sub{font-size:18px;color:var(--ink-muted);flex:2}
+.toc-page{font-family:var(--font-mono);font-size:15px;color:var(--ink-faint);flex:none}
+
+/* ── methodology / note text ───────────────────────────────────────*/
+.note{font-size:18.5px;line-height:1.6;color:var(--ink-muted)}
+.note strong{color:var(--ink-mid)}
+
+/* ═══════════════════════════════════════════════════════════════════
+   MBB APPARATUS (McKinsey / BCG / Bain conventions)
+
+   The defining device is the DEK: the answer sits above the body, not
+   after it. A reader who stops at the dek still leaves with the finding.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── dek / standfirst — the apex sentence of the pyramid ───────────*/
+.dek{
+  font-size:26px;line-height:1.42;color:var(--ink);font-weight:400;
+  padding-left:26px;border-left:3px solid var(--emerald);
+  margin-bottom:28px;max-width:960px;
+}
+.slide--ink .dek{color:var(--paper);border-left-color:#3BE38A}
+
+/* ── "at a glance" — factored-out so-what, before the argument ─────*/
+.glance{
+  background:var(--paper-hi);border:1px solid var(--rule-soft);
+  border-top:3px solid var(--emerald);border-radius:0 0 12px 12px;
+  padding:26px 30px;display:grid;grid-template-columns:1fr 1fr;gap:26px;
+}
+.glance-col h4{
+  font-family:var(--font-mono);font-size:12.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--emerald);margin-bottom:11px;font-weight:500;
+}
+.glance-col p{font-size:19px;line-height:1.5}
+
+/* ── takeaway strip — closes a page on the next decision ───────────*/
+.takeaway{
+  display:flex;gap:22px;align-items:flex-start;
+  background:var(--paper-hi);border:1px solid var(--rule-soft);
+  border-left:3px solid var(--emerald);border-radius:0 12px 12px 0;padding:24px 28px;
+}
+.takeaway-lab{
+  font-family:var(--font-mono);font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--emerald);white-space:nowrap;padding-top:4px;flex:none;width:150px;
+}
+.takeaway p{font-size:20px;line-height:1.5;color:var(--ink)}
+
+/* ── full-bleed section divider ────────────────────────────────────
+   MBB dividers carry a full colour field rather than an empty page —
+   which is also what keeps the page from reading as dead space.      */
+.slide--fill{background:var(--ink);color:var(--paper);justify-content:flex-end}
+.slide--fill::before{
+  background-image:linear-gradient(rgba(246,241,231,.06) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(246,241,231,.06) 1px,transparent 1px);
+}
+.slide--fill h2{color:var(--paper);font-size:76px;margin-bottom:26px}
+.slide--fill .sec-num{
+  font-family:var(--font-display);font-weight:900;font-size:300px;line-height:.8;
+  color:#3BE38A;letter-spacing:-.04em;margin-bottom:8px;
+}
+.slide--fill .sec-lead{font-size:29px;line-height:1.46;color:rgba(246,241,231,.78);max-width:860px}
+.slide--fill .eyebrow{color:#3BE38A}
+.slide--fill .eyebrow::after{background:rgba(59,227,138,.3)}
+.slide--fill .pagenum,.slide--fill .brandmark{color:rgba(246,241,231,.5)}
+.slide--fill .brandmark::before{background:#3BE38A}
+/* section contents list, so a divider carries information not just a label */
+.sec-toc{
+  margin-top:34px;padding-top:22px;border-top:1px solid rgba(246,241,231,.2);
+  display:grid;grid-template-columns:1fr 1fr;gap:12px 34px;
+}
+.sec-toc div{
+  font-family:var(--font-mono);font-size:17px;line-height:1.5;color:rgba(246,241,231,.74);
+  display:flex;gap:12px;
+}
+.sec-toc span{color:#3BE38A;flex:none}
+
+/* ── a figure that grows to fill the page ──────────────────────────*/
+.figure--grow{display:flex;flex-direction:column;flex:1;min-height:0}
+.figure--grow .fig-body{flex:1;display:flex;flex-direction:column;justify-content:center}
+
+/* ═══════════════════════════════════════════════════════════════════
+   MBB EXHIBIT SYSTEM
+   Measured from McKinsey Global Institute PDFs (see BENCHMARK-MBB.md):
+   · label quieter than the title beneath it — the number addresses,
+     the title talks
+   · everything in the stack flush left to ONE x-coordinate
+   · footer order is fixed: Note: → footnotes → Source: → signature
+   · the exhibit grows to fill the page; pages do not end early
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* the page is a column; the exhibit takes whatever is left */
+.slide{padding:64px 76px 84px}
+.pagenum,.brandmark{bottom:34px}
+
+.page-head{flex:none}
+h2{font-size:44px;line-height:1.08;margin-bottom:18px}
+.slide--fill h2{font-size:76px}
+
+/* dek sits under the page headline and carries the answer */
+.dek{font-size:23px;line-height:1.44;margin-bottom:22px;padding-left:22px}
+
+/* ── the exhibit ──────────────────────────────────────────────────*/
+.exhibit{display:flex;flex-direction:column;flex:1;min-height:0;margin:0}
+.ex-num{
+  font-family:var(--font-ui);font-size:19px;font-weight:400;color:var(--ink-muted);
+  margin-bottom:7px;letter-spacing:0;text-transform:none;
+}
+.ex-title{
+  font-family:var(--font-ui);font-size:26px;font-weight:500;line-height:1.3;
+  color:var(--ink);margin-bottom:5px;max-width:940px;
+}
+.ex-sub{
+  font-family:var(--font-ui);font-size:18.5px;line-height:1.38;
+  color:var(--ink-muted);margin-bottom:14px;
+}
+/* the plot area — this is what absorbs the spare height */
+.ex-body{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center}
+.ex-body .chart{width:100%;height:100%;max-height:100%}
+.ex-body table.dt{width:100%}
+.ex-note{
+  font-family:var(--font-ui);font-size:15px;line-height:1.45;
+  color:var(--ink-faint);margin-top:12px;
+}
+.ex-source{
+  font-family:var(--font-ui);font-size:15px;line-height:1.45;color:var(--ink-faint);
+  margin-top:8px;padding-top:9px;border-top:1px solid var(--rule-soft);
+}
+/* the signature sits on its own line beneath the source, as MGI's does, and
+   travels with the exhibit when the exhibit is excerpted */
+.ex-source em{
+  display:block;font-style:normal;margin-top:7px;
+  font-family:var(--font-mono);font-size:13px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-faint);opacity:.9;
+}
+
+/* a page whose body is prose rather than a chart still fills */
+.prose-fill{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:space-between;gap:20px}
+
+/* serif is display-only: cover, section numerals, section heads, pull quotes */
+.pullquote{font-size:36px;line-height:1.3;margin:4px 0}
+
+/* the exhibit is the only flexible child; everything else holds its size */
+.slide > .eyebrow,.slide > h2,.slide > h3,.slide > p,.slide > table,
+.slide > .dek,.slide > .statrow,.slide > .finding,.slide > .cardgrid,
+.slide > .takeaway,.slide > ul,.slide > .toc,.slide > .glance{flex:none}
+
+/* prose pages distribute their blocks so the rhythm is even and the page
+   does not stack everything at the top with a hole beneath */
+.slide--prose{justify-content:space-between}
+.slide--prose > .eyebrow{margin-bottom:0}
+.slide--prose > h2{margin-bottom:0}
+
+/* a table exhibit fills its box by distributing row height, the same way a
+   chart exhibit fills by scaling */
+.ex-body table.dt{height:100%}
+.ex-body table.dt td{padding-top:0;padding-bottom:0}
+.ex-body table.dt tr{height:1px}
+
+/* section dividers distribute rather than pinning everything to one edge */
+.slide--fill{justify-content:space-between}
+.slide--fill .sec-num{margin-bottom:0}
+.slide--fill .sec-toc{margin-top:0}
+
+/* the cover distributes: eyebrow, title block, imprint rule */
+.slide--cover{justify-content:space-between}
+/* no child grows: the four blocks distribute evenly down the page instead of
+   one of them centring its content and opening a hole above and below */
+.slide--cover > div:nth-child(2){flex:none;display:block}
+
+/* cover imprint block — MGI covers carry scope metadata above the date rule */
+.cover-meta{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:28px;
+  padding-top:26px;border-top:1px solid var(--rule-soft);
+}
+.cover-meta h4{
+  font-family:var(--font-mono);font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--emerald);margin-bottom:9px;font-weight:500;
+}
+.cover-meta p{font-size:18px;line-height:1.45;color:var(--ink-mid)}
+
+/* stat rows absorb spare height rather than leaving it between blocks */
+.statrow--grow{flex:1;align-content:stretch}
+.statrow--grow .stat{display:flex;flex-direction:column;justify-content:center}
+
+/* divider: group the numeral, title and lead so the page distributes as two
+   blocks with one measured gap, not four blocks with three */
+.sec-block{display:flex;flex-direction:column}
+
+/* ═══════════════════════════════════════════════════════════════════
+   FINANCED-EMISSIONS COMPONENTS
+   A displayed formula and a stepped data-quality ladder. Both are
+   content types this subject needs and the exhibit system did not have.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── displayed formula ─────────────────────────────────────────────
+   Numerator over denominator, set as a real fraction rather than a
+   slash, because the denominator is the part that misbehaves.       */
+.formula{
+  display:flex;align-items:center;justify-content:center;gap:18px;
+  flex-wrap:nowrap;padding:20px 0;
+}
+.formula-term{text-align:center}
+.frac{display:inline-flex;flex-direction:column;align-items:center;gap:7px}
+.frac-num,.frac-den{
+  font-family:var(--font-ui);font-size:18.5px;font-weight:500;color:var(--ink);
+  line-height:1.25;padding:0 10px;white-space:nowrap;
+}
+.frac-bar{width:100%;height:2px;background:var(--ink);opacity:.8}
+.frac-den{color:var(--s2)}          /* the denominator is the problem */
+.formula-op{font-family:var(--font-ui);font-size:26px;color:var(--ink-muted);font-weight:400;flex:none}
+.formula-out{
+  font-family:var(--font-ui);font-size:18.5px;font-weight:500;color:var(--ink);
+  padding:13px 16px;border:1px solid var(--rule);border-radius:10px;
+  background:var(--paper-hi);white-space:nowrap;
+}
+.formula-note{
+  font-family:var(--font-mono);font-size:13px;letter-spacing:.06em;
+  color:var(--ink-faint);text-align:center;margin-top:4px;
+}
+
+/* ── stepped ladder (PCAF data quality 1–5) ────────────────────────
+   Rendered as a ramp so the reader sees that score is an ordinal
+   quality scale, not a category.                                    */
+.ladder{display:flex;flex-direction:column;gap:9px;width:100%}
+.ladder-row{display:flex;align-items:stretch;gap:16px}
+.ladder-score{
+  flex:none;width:52px;display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-weight:900;font-size:30px;
+  color:var(--paper);border-radius:8px;
+}
+.ladder-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:9px 0}
+.ladder-t{font-size:20px;font-weight:500;color:var(--ink);line-height:1.3}
+.ladder-d{font-size:17.5px;color:var(--ink-muted);line-height:1.4;margin-top:3px}
+
+/* the formula and the ladder are the exhibit body on their pages; let them
+   use the full height rather than sitting compressed in the middle */
+.ex-body .formula{flex:none}
+.ex-body .formula-wrap{flex:1;display:flex;flex-direction:column;justify-content:space-evenly}
+.ex-body .ladder{flex:1;justify-content:space-evenly}
+.ex-body .ladder-row{flex:1;max-height:120px}
+
+/* a table used as annotation beside another element should keep its natural
+   height rather than distributing rows to fill the exhibit body */
+.ex-body table.dt--compact,
+.ex-body table.dt--compact tr{height:auto}
+.ex-body table.dt--compact td{padding-top:14px;padding-bottom:14px}
+
+/* ═══════════════════════════════════════════════════════════════════
+   COVER INFOGRAPHIC
+   Slide one has to earn the swipe. A matrix that shows a pattern at a
+   glance beats a title: three disclosures down the top, three tests
+   down the side, and the answer legible without reading a word of body.
+   ═══════════════════════════════════════════════════════════════════ */
+.cover-graphic{
+  background:var(--paper-hi);border:1px solid var(--rule-soft);
+  border-radius:14px;padding:26px 30px 24px;
+}
+.cg-title{
+  font-family:var(--font-mono);font-size:13px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--emerald);margin-bottom:20px;
+}
+.matrix{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:0}
+.matrix > div{padding:15px 10px;border-bottom:1px solid var(--rule-soft);display:flex;align-items:center}
+.matrix > div:nth-child(-n+4){border-bottom:1px solid var(--rule)}
+.matrix > div:nth-last-child(-n+4){border-bottom:none}
+.mx-col{
+  font-family:var(--font-ui);font-size:17px;font-weight:500;line-height:1.25;
+  color:var(--ink);align-items:flex-end !important;
+}
+.mx-row{font-size:18px;color:var(--ink-mid);line-height:1.3}
+.mx-cell{justify-content:center}
+/* the mark carries the answer; the word beside it means colour is never alone */
+.mx-mark{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:var(--font-mono);font-size:15px;font-weight:500;letter-spacing:.04em;
+}
+.mx-dot{width:13px;height:13px;border-radius:50%;flex:none}
+.mx-no .mx-dot{background:var(--s2)}
+.mx-no{color:var(--s2)}
+.mx-yes .mx-dot{background:var(--emerald)}
+.mx-yes{color:var(--emerald)}

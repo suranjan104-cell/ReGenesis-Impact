@@ -1,0 +1,65 @@
+[
+  {
+    "id": "s3-cat15-corporate",
+    "name": "Corporate lending — WACI default",
+    "category": "scope3_cat15",
+    "value": 150,
+    "unit": "tCO2e/USD mn",
+    "basis": "PCAF attribution — weighted average carbon intensity",
+    "region": "global",
+    "source": {
+      "publisher": "Not established",
+      "document": "No source recorded in the code this replaces",
+      "url": "https://carbonaccountingfinancials.com/en/standard"
+    },
+    "vintage": null,
+    "editable": true,
+    "input_id": "g-pcaf1-waci",
+    "applies_to": ["ghg_compute:S3 Cat 15 corporate lending"],
+    "confidence": "low",
+    "reviewed": "2026-08",
+    "note": "Provenance not established. A portfolio-wide WACI default is a placeholder, not a factor — PCAF data quality score 4-5 territory by construction, since scores 1-2 exist only where the counterparty supplied the data. Our own financed-emissions briefing argues this is the binding constraint. Users must override it."
+  },
+  {
+    "id": "s3-cat15-realestate",
+    "name": "Real estate and mortgages — intensity default",
+    "category": "scope3_cat15",
+    "value": 25,
+    "unit": "tCO2e/USD mn",
+    "basis": "PCAF attribution — asset intensity",
+    "region": "global",
+    "source": {
+      "publisher": "PCAF",
+      "document": "The Global GHG Accounting and Reporting Standard for the Financial Industry",
+      "url": "https://carbonaccountingfinancials.com/en/standard"
+    },
+    "vintage": 2022,
+    "editable": true,
+    "input_id": "g-pcaf2-intensity",
+    "applies_to": ["ghg_compute:S3 Cat 15 real estate"],
+    "confidence": "low",
+    "reviewed": "2026-08",
+    "note": "Attribution taken from the code comment it replaces, which cited the PCAF Standard 2022 real-estate default. Exact table not confirmed. Real-estate intensity is strongly country- and grid-dependent."
+  },
+  {
+    "id": "s3-cat15-project",
+    "name": "Project finance — intensity default",
+    "category": "scope3_cat15",
+    "value": 0.035,
+    "unit": "tCO2e/USD mn",
+    "basis": "PCAF attribution — asset intensity",
+    "region": "global",
+    "source": {
+      "publisher": "Not established",
+      "document": "No source recorded in the code this replaces",
+      "url": "https://carbonaccountingfinancials.com/en/standard"
+    },
+    "vintage": null,
+    "editable": true,
+    "input_id": "g-pcaf3-intensity",
+    "applies_to": ["ghg_compute:S3 Cat 15 project finance"],
+    "confidence": "low",
+    "reviewed": "2026-08",
+    "note": "Provenance not established, and the magnitude warrants scrutiny: at 0.035 tCO2e/USD mn this is roughly four thousand times lower than the corporate-lending default in the same units, which is not plausible for project finance as an asset class. Preserved unchanged because correcting it changes user results — raised as a decision, not migrated silently."
+  }
+]

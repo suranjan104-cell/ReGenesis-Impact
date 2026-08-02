@@ -1,0 +1,154 @@
+[
+  {
+    "id": "s3-cat1-spend",
+    "name": "Purchased goods and services — spend-based",
+    "category": "scope3_cat1",
+    "value": 350,
+    "unit": "tCO2e/USD mn",
+    "basis": "spend-based EEIO",
+    "region": "global",
+    "source": {
+      "publisher": "Not established",
+      "document": "Spend-based EEIO average — no specific EEIO model recorded in the code this replaces",
+      "url": "https://ghgprotocol.org/scope-3-calculation-guidance-2"
+    },
+    "vintage": null,
+    "editable": true,
+    "input_id": "g-cat1-ef",
+    "applies_to": ["ghg_compute:S3 Cat 1 purchased goods & services"],
+    "confidence": "low",
+    "reviewed": "2026-08",
+    "note": "Provenance not established. EEIO intensities vary by model, region and sector by more than an order of magnitude, so a single global default is a placeholder rather than a factor. Users should override it. Flagged for sourcing."
+  },
+  {
+    "id": "s3-cat5-waste",
+    "name": "Waste to landfill",
+    "category": "scope3_cat5",
+    "value": 0.467,
+    "unit": "tCO2e/t",
+    "basis": "waste-type factor",
+    "region": "global",
+    "source": {
+      "publisher": "DEFRA",
+      "document": "UK Government GHG Conversion Factors — waste disposal",
+      "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+    },
+    "vintage": 2024,
+    "editable": false,
+    "applies_to": [
+      "ghg_compute:S3 Cat 5 waste to landfill",
+      "csv_export:Cat 5 Waste"
+    ],
+    "confidence": "low",
+    "reviewed": "2026-08",
+    "note": "The superseded GHG_EF table carried 0.58 tCO2e/t for the same line from the same nominal source. 0.467 is the value that was reaching users and the one the CSV export also hardcoded, so it is recorded here. The disagreement is unresolved — flagged for sourcing."
+  },
+  {
+    "id": "s3-cat6-air",
+    "name": "Business travel — air, distance-based",
+    "category": "scope3_cat6",
+    "value": 0.0001,
+    "unit": "tCO2e/passenger-km",
+    "basis": "distance-based",
+    "region": "global",
+    "source": {
+      "publisher": "DEFRA",
+      "document": "UK Government GHG Conversion Factors — business travel, air",
+      "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+    },
+    "vintage": 2024,
+    "editable": false,
+    "applies_to": [
+      "ghg_compute:S3 Cat 6 air travel",
+      "csv_export:Cat 6 Air Travel"
+    ],
+    "confidence": "low",
+    "reviewed": "2026-08",
+    "note": "Equals 0.1 kgCO2e/passenger-km. The superseded GHG_EF table carried haul-band factors of 0.151 (short), 0.131 (medium) and 0.195 (long) kgCO2e/pkm, none of which this matches, and none of which were ever used. A single blended factor also discards the haul-band and cabin-class distinctions the source makes. Flagged for sourcing."
+  },
+  {
+    "id": "s3-cat6-hotel",
+    "name": "Business travel — hotel nights",
+    "category": "scope3_cat6",
+    "value": 0.031,
+    "unit": "tCO2e/night",
+    "basis": "night-based",
+    "region": "global",
+    "source": {
+      "publisher": "Not established",
+      "document": "No source recorded in the code this replaces",
+      "url": "https://ghgprotocol.org/scope-3-calculation-guidance-2"
+    },
+    "vintage": null,
+    "editable": false,
+    "applies_to": ["ghg_compute:S3 Cat 6 hotel nights"],
+    "confidence": "low",
+    "reviewed": "2026-08",
+    "note": "Provenance not established. Hotel-night factors are strongly country-dependent. Flagged for sourcing."
+  },
+  {
+    "id": "s3-cat7-commute",
+    "name": "Employee commuting — distance-based",
+    "category": "scope3_cat7",
+    "value": 0.17,
+    "unit": "kgCO2e/km",
+    "basis": "mixed-mode average",
+    "region": "global",
+    "source": {
+      "publisher": "DEFRA",
+      "document": "UK Government GHG Conversion Factors — passenger transport, average",
+      "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+    },
+    "vintage": 2024,
+    "editable": false,
+    "applies_to": [
+      "ghg_compute:S3 Cat 7 employee commuting",
+      "csv_export:Cat 7 Commuting"
+    ],
+    "confidence": "medium",
+    "reviewed": "2026-08",
+    "note": "Agrees with the superseded GHG_EF table (0.170)."
+  },
+  {
+    "id": "s3-cat7-workdays",
+    "name": "Employee commuting — working days per year",
+    "category": "scope3_cat7",
+    "value": 240,
+    "unit": "days/year",
+    "basis": "assumption",
+    "region": "global",
+    "source": {
+      "publisher": "ReGenesis Impact",
+      "document": "Planning assumption, not an emission factor",
+      "url": "https://www.regenesisimpact.in/"
+    },
+    "vintage": null,
+    "editable": true,
+    "input_id": "g-cat7-days",
+    "applies_to": ["ghg_compute:S3 Cat 7 employee commuting"],
+    "confidence": "medium",
+    "reviewed": "2026-08",
+    "note": "An assumption rather than a factor, registered because it multiplies into the result exactly like one. The superseded GHG_EF table assumed 250 days; the field default of 240 is what reached users."
+  },
+  {
+    "id": "s3-cat11-use",
+    "name": "Use of sold products — energy per unit",
+    "category": "scope3_cat11",
+    "value": 180,
+    "unit": "kWh/unit",
+    "basis": "assumption",
+    "region": "global",
+    "source": {
+      "publisher": "ReGenesis Impact",
+      "document": "Placeholder default — product-specific by nature",
+      "url": "https://www.regenesisimpact.in/"
+    },
+    "vintage": null,
+    "editable": true,
+    "input_id": "g-cat11-kwh",
+    "applies_to": ["ghg_compute:S3 Cat 11 use of sold products"],
+    "confidence": "low",
+    "reviewed": "2026-08",
+    "note": "Lifetime energy per unit is product-specific; no general default is defensible. Present so the calculation runs, and combined with the grid factor to produce the result. Users must override it."
+  }
+]

@@ -2203,6 +2203,10 @@ input:focus,select:focus,textarea:focus{
         <div class="db-ins-title">📡 Traffic sources</div>
         <div id="ins-sources" class="db-ins-list"><span style="color:rgba(240,237,232,.35)">Press Refresh to load…</span></div>
       </div>
+      <div class="db-ins-panel">
+        <div class="db-ins-title">🧾 Factor provenance · Gate A</div>
+        <div id="ins-provenance" class="db-ins-list"><span style="color:rgba(240,237,232,.35)">Press Refresh to load…</span></div>
+      </div>
     </div>
     <div id="ins-setup-note" style="display:none;margin-top:.9rem;padding:.8rem 1rem;border:1px solid rgba(255,181,71,.3);border-radius:.5rem;background:rgba(255,181,71,.06);font-size:.78rem;color:rgba(255,181,71,.9)">
       ⚠️ Analytics tables not found. Run the ANALYTICS block in <code>supabase-setup.sql</code> in your Supabase SQL editor once, then refresh.
@@ -2317,6 +2321,18 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
 
 /* ── SECTION SCAFFOLD ── */
 .ed-section{padding:5.5rem 0;scroll-margin-top:96px}
+/* ── Research card — links out to a standalone briefing page ── */
+.ed-research{display:block;text-decoration:none;color:inherit;background:#fff;
+  border:1px solid var(--line);border-left:3px solid var(--emerald);border-radius:1rem;
+  padding:2rem 2.2rem;max-width:52rem;transition:border-color .2s,transform .2s,box-shadow .2s}
+.ed-research:hover{border-color:var(--emerald);transform:translateY(-2px);
+  box-shadow:0 14px 40px -18px rgba(14,35,26,.35)}
+.ed-research-meta{font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink3);margin-bottom:.7rem}
+.ed-research h3{font-family:'Playfair Display',serif;font-size:1.85rem;line-height:1.1;
+  letter-spacing:-.01em;margin-bottom:.7rem}
+.ed-research p{color:var(--ink2);font-size:.95rem;margin-bottom:1.1rem}
+.ed-research-go{font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.1em;color:var(--emerald)}
 .ed-section-alt{background:var(--paper2)}
 .ed-head{max-width:44rem;margin-bottom:3rem}
 .ed-head h2{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.4vw,2.9rem);font-weight:700;line-height:1.12;letter-spacing:-.01em;margin:.9rem 0 .9rem}
@@ -2793,6 +2809,27 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
         <button class="ed-btn ed-btn-ghost" onclick="openLeadModal('pricing_partner')">Talk to us</button>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ══════════ RESEARCH ══════════ -->
+<section class="ed-section" id="research">
+  <div class="ed-wrap">
+    <div class="ed-head">
+      <div class="ed-eyebrow">Research</div>
+      <h2>Briefings, not blog posts.</h2>
+      <p style="color:var(--ink2);margin-top:.8rem;max-width:38rem">Sourced to named primary
+      documents, with the working shown. Free to read, no form.</p>
+    </div>
+    <a class="ed-research" href="/research/financed-emissions.html">
+      <div class="ed-research-meta">AUGUST 2026 · 24 PAGES · 9 EXHIBITS</div>
+      <h3>The denominator problem</h3>
+      <p>A bank's financed emissions can fall by a third without a single borrower cutting
+      a tonne. Scope 3 Category 15 — how it is calculated, the five places the calculation
+      breaks, and why no emission factor database lifts a portfolio above data quality
+      score 3.</p>
+      <span class="ed-research-go">Read the briefing →</span>
+    </a>
   </div>
 </section>
 
@@ -4811,7 +4848,7 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
  <div class="ghg-hdr">
  <div class="ghg-badge">GHG INVENTORY RESULTS · AUDIT TRAIL · PCAF & GHG PROTOCOL COMPLIANT</div>
  <h2>Inventory Summary & Audit Trail</h2>
- <p>Full traceable GHG inventory with data lineage per GHG Protocol. Each emission line item references its source, methodology, emission factor and PCAF data quality score.</p>
+ <p>Full traceable GHG inventory with data lineage per GHG Protocol. Each emission line item references its source, methodology, emission factor and PCAF data quality score. Every factor applied below is published with its source and vintage in the <a href="#factors" onclick="showPage('factors');return false" style="color:#0affdb;border-bottom:1px dotted rgba(10,255,219,.4);text-decoration:none">emission factor register</a>.</p>
  </div>
 
  <!-- Summary KPIs -->
@@ -8086,6 +8123,12 @@ function showPage(page) {
   // Analytics: record tool opens (not home — page_view covers that)
   if (page !== 'home' && typeof rgTrack === 'function') rgTrack('tool_open', page);
 
+  // Factor register loads on first open; fxLoad is idempotent thereafter.
+  if (page === 'factors') {
+    if (typeof rgTrack === 'function') rgTrack(RG_EVENTS.FACTOR_VIEW, 'factors');
+    if (typeof fxLoad === 'function') fxLoad();
+  }
+
   // Owner insights auto-load on dashboard open (owner only — see isOwnerUser)
   if (page === 'dashboard' && isOwnerUser() && typeof dbLoadInsights === 'function') setTimeout(dbLoadInsights, 300);
 
@@ -8513,6 +8556,27 @@ function rgTrack(type, page) {
     }]).then(function(){}, function(){});
   } catch(e) { /* analytics must never break the app */ }
 }
+/* ── EVENT VOCABULARY ──────────────────────────────────────────────────
+   events.event_type is free-form text, so new types need no migration. The
+   value of declaring them here is that emitters and the dashboard readout
+   below cannot drift apart on spelling.
+
+   Provenance events land ahead of the features that emit them (P1–P3 of
+   EXECUTION-PLAN.md), so Gate A has a clean before/after rather than a
+   baseline reconstructed after the fact. */
+var RG_EVENTS = Object.freeze({
+  FACTOR_VIEW:         'factor_view',         // opened the emission factor register
+  FACTOR_SOURCE_CLICK: 'factor_source_click', // followed a factor through to its source
+  WORKING_OPEN:        'working_open',        // expanded the derivation behind a number
+  DQ_SCORE_SET:        'dq_score_set'         // assigned a data quality tier to an input
+});
+var RG_PROVENANCE_EVENTS = [
+  [RG_EVENTS.FACTOR_VIEW,         'Register opened'],
+  [RG_EVENTS.WORKING_OPEN,        'Derivation expanded'],
+  [RG_EVENTS.FACTOR_SOURCE_CLICK, 'Source followed'],
+  [RG_EVENTS.DQ_SCORE_SET,        'Data quality tier set']
+];
+
 function rgLogQuery(tool, prompt) {
   try {
     if (!_supabase || !prompt) return;
@@ -8538,10 +8602,14 @@ async function dbLoadInsights() {
     setNote(false);
     var rows = ev.data || [];
     var sessions = {}; var views = 0; var tools = {}; var sources = {};
+    var toolOpens = 0; var prov = {};
+    RG_PROVENANCE_EVENTS.forEach(function(e){ prov[e[0]] = 0; });
     rows.forEach(function(r){
       sessions[r.session_id] = 1;
       if (r.event_type === 'page_view') views++;
       if (r.event_type === 'tool_open' && r.page) tools[r.page] = (tools[r.page]||0)+1;
+      if (r.event_type === 'tool_open') toolOpens++;
+      if (prov[r.event_type] != null) prov[r.event_type]++;
       var src = r.utm_source || (r.referrer ? (r.referrer.replace(/^https?:\/\//,'').split('/')[0]) : 'direct');
       sources[src] = (sources[src]||0)+1;
     });
@@ -8561,6 +8629,21 @@ async function dbLoadInsights() {
       srcEl.innerHTML = sArr.length ? sArr.slice(0,7).map(function(s){
         return '<div class="db-ins-row"><span>'+esc(s[0])+'</span><b>'+s[1]+'</b></div>';
       }).join('') : '<span style="color:rgba(240,237,232,.35)">No traffic data yet</span>';
+    }
+
+    /* Gate A readout. Rates are shown against tool opens because a raw count
+       says nothing about whether anyone reached for provenance. At low traffic
+       these are directional only — the gate is weighted on the quality checks
+       in EXECUTION-PLAN.md, not on this panel. */
+    var provEl = document.getElementById('ins-provenance');
+    if (provEl) {
+      var anyProv = RG_PROVENANCE_EVENTS.some(function(e){ return prov[e[0]] > 0; });
+      provEl.innerHTML = RG_PROVENANCE_EVENTS.map(function(e){
+        var n = prov[e[0]];
+        var rate = toolOpens > 0 ? Math.round(n / toolOpens * 100) + '%' : '—';
+        return '<div class="db-ins-row"><span>'+esc(e[1])+'</span><b>'+n+(n>0?' · '+rate:'')+'</b></div>';
+      }).join('') + (anyProv ? '' :
+        '<div style="margin-top:.5rem;font-size:.7rem;color:rgba(240,237,232,.35)">Not emitted yet — instrumented ahead of P1–P3.</div>');
     }
 
     var q = await _supabase.from('queries').select('tool,prompt,user_email,created_at').gte('created_at', since).order('created_at',{ascending:false}).limit(200);
@@ -8841,14 +8924,138 @@ document.addEventListener('DOMContentLoaded', function() {
  if (fill) fill.style.width = p + '%';
  }
 
+ /* ── FACTOR REGISTER VIEW ───────────────────────────────────────────────────
+    Renders knowledge/factors.json — the same file the generated block in this
+    page is built from, so the table cannot show a factor the calculators do
+    not apply. Fetched rather than generated because the view needs the full
+    provenance metadata, not just the values. */
+ var _fxData = null;
+ window.fxLoad = function() {
+   if (_fxData) { fxRender(); return; }
+   fetch('knowledge/factors.json').then(function(r){ return r.json(); }).then(function(d){
+     _fxData = d;
+     var sel = document.getElementById('fx-cat');
+     if (sel) {
+       var cats = d.factors.map(function(f){ return f.category; })
+         .filter(function(c,i,a){ return a.indexOf(c) === i; }).sort();
+       cats.forEach(function(c){
+         var o = document.createElement('option');
+         o.value = c; o.textContent = c.replace(/_/g, ' ');
+         sel.appendChild(o);
+       });
+     }
+     fxRender();
+   }).catch(function(){
+     var rows = document.getElementById('fx-rows');
+     if (rows) rows.innerHTML = '<tr><td colspan="8" class="fx-empty">Register could not be loaded. It is committed at knowledge/factors.json.</td></tr>';
+   });
+ };
+
+ window.fxRender = function() {
+   if (!_fxData) return;
+   var esc = function(s){ var d = document.createElement('div'); d.textContent = s == null ? '' : s; return d.innerHTML; };
+   var q = (document.getElementById('fx-q') || {}).value || '';
+   var cat = (document.getElementById('fx-cat') || {}).value || '';
+   var conf = (document.getElementById('fx-conf') || {}).value || '';
+   q = q.toLowerCase().trim();
+
+   var kpi = document.getElementById('fx-kpis');
+   if (kpi && !kpi.innerHTML) {
+     var lowN = _fxData.factors.filter(function(f){ return f.confidence === 'low'; }).length;
+     kpi.innerHTML =
+       '<div class="fx-kpi"><b>' + _fxData.count + '</b><span>Factors in the register</span></div>' +
+       '<div class="fx-kpi"><b>' + (_fxData.oldestVintage || '—') + '</b><span>Oldest vintage in use</span></div>' +
+       '<div class="fx-kpi' + (_fxData.unsourced.length ? ' warn' : '') + '"><b>' + _fxData.unsourced.length + '</b><span>Provenance not established</span></div>' +
+       '<div class="fx-kpi' + (lowN ? ' warn' : '') + '"><b>' + lowN + '</b><span>Low confidence</span></div>';
+   }
+
+   var list = _fxData.factors.filter(function(f){
+     if (cat && f.category !== cat) return false;
+     if (conf && f.confidence !== conf) return false;
+     if (!q) return true;
+     return (f.name + ' ' + f.category + ' ' + f.source.publisher + ' ' + f.source.document + ' ' + (f.note || ''))
+       .toLowerCase().indexOf(q) >= 0;
+   });
+
+   var rows = document.getElementById('fx-rows');
+   if (!rows) return;
+   if (!list.length) { rows.innerHTML = '<tr><td colspan="8" class="fx-empty">No factor matches that filter.</td></tr>'; return; }
+
+   rows.innerHTML = list.map(function(f){
+     return '<tr>' +
+       '<td>' + esc(f.name) + (f.editable ? '<span class="fx-unit"> · editable</span>' : '') +
+         (f.note ? '<div class="fx-note">' + esc(f.note) + '</div>' : '') + '</td>' +
+       '<td class="fx-val">' + f.value + '<div class="fx-unit">' + esc(f.unit) + '</div></td>' +
+       '<td>' + esc(f.basis) + (f.gwp_set ? '<div class="fx-unit">' + esc(f.gwp_set) + '</div>' : '') + '</td>' +
+       '<td class="fx-val">' + esc(f.region) + '</td>' +
+       '<td class="fx-src"><a href="' + esc(f.source.url) + '" target="_blank" rel="noopener noreferrer" ' +
+         'onclick="rgTrack(RG_EVENTS.FACTOR_SOURCE_CLICK, \'' + esc(f.id) + '\')">' + esc(f.source.publisher) + '</a>' +
+         '<span class="fx-pub">' + esc(f.source.document) + '</span></td>' +
+       '<td class="fx-val">' + (f.vintage || '—') + '</td>' +
+       '<td><span class="fx-conf ' + esc(f.confidence) + '">' + esc(f.confidence) + '</span></td>' +
+       '<td class="fx-applies">' + f.applies_to.map(esc).join('<br>') + '</td>' +
+     '</tr>';
+   }).join('');
+ };
+
+ // Refrigerant GWP lookup. Lives here so the engine and the CSV export share
+ // one map — they previously held separate copies that could drift apart.
+ window.ghgGwp = function(refType) {
+   var id = 'gwp-' + String(refType).toLowerCase();
+   return (id in RG_FACTORS) ? EF(id) : EF('gwp-r410a');
+ };
+
  window.ghg_val = function(id) { var e = document.getElementById(id); if(!e) return 0; var v=parseFloat(e.value); return isNaN(v)||v<0?0:v; };
  window.ghg_str = function(id) { var e = document.getElementById(id); return e ? (e.value || '—') : '—'; };
  window.ghg_sel = function(id) { var e = document.getElementById(id); return e ? (e.value || '—') : '—'; };
 
  // ── EMISSION FACTORS ────────────────────────────────────────────────────────
- // Sources: DEFRA UK GHG Conversion Factors 2024; IPCC AR6 WGI Table 7.SM.7 (GWP100);
- //          IEA World Energy Outlook 2024; GHG Protocol Corporate Standard (2004 rev.)
- var GHG_EF = {
+ // Every factor the engine applies now comes from knowledge/factors.json via
+ // the generated block below — one value, one source, one vintage, inspectable
+ // in the register view. Nothing here is hand-editable.
+ /* ==== GENERATED FROM knowledge/factors.json — DO NOT EDIT BY HAND ==== */
+    // Regenerate: node knowledge/sync-factors.mjs   ·   Verify: --check
+    // 27 factors · oldest vintage in use 2022
+    var RG_FACTORS = {
+    "gwp-co2": 1,
+    "gwp-r134a": 1430,
+    "gwp-r22": 1760,
+    "gwp-r32": 675,
+    "gwp-r404a": 3922,
+    "gwp-r407c": 1774,
+    "gwp-r410a": 2088,
+    "s1-diesel-fleet": 2.68,
+    "s1-diesel-stationary": 2.68,
+    "s1-lpg": 2.98,
+    "s1-natural-gas": 56.1,
+    "s1-petrol-fleet": 2.31,
+    "s2-grid-au": 0.51,
+    "s2-grid-gb": 0.207,
+    "s2-grid-in": 0.716,
+    "s2-grid-sg": 0.408,
+    "s2-heat-steam": 0.067,
+    "s3-cat1-spend": 350,
+    "s3-cat11-use": 180,
+    "s3-cat15-corporate": 150,
+    "s3-cat15-project": 0.035,
+    "s3-cat15-realestate": 25,
+    "s3-cat5-waste": 0.467,
+    "s3-cat6-air": 0.0001,
+    "s3-cat6-hotel": 0.031,
+    "s3-cat7-commute": 0.17,
+    "s3-cat7-workdays": 240
+  };
+    // Fail loudly rather than compute emissions against a missing factor.
+    function EF(id) {
+      if (!(id in RG_FACTORS)) throw new Error("unknown emission factor: " + id);
+      return RG_FACTORS[id];
+    }
+    /* ==== END GENERATED ==== */
+
+ // Retained for the reference tables the register does not cover (haul-band
+ // air travel, per-country grid factors not exposed in the UI). Values here
+ // are NOT applied by ghg_compute — see knowledge/factors.json for what is.
+ var GHG_EF_REFERENCE = {
    // Scope 1 — stationary combustion (kg CO2e per litre unless noted)
    diesel:        2.68,   // DEFRA 2024, diesel for non-road sources
    naturalGas:    2.02,   // DEFRA 2024, natural gas per litre equivalent
@@ -8892,40 +9099,52 @@ document.addEventListener('DOMContentLoaded', function() {
  // Every user-editable EF field is honoured; unit basis is shown per line.
  window.ghg_compute = function() {
   var v = ghg_val;
-  var gridEF = v('g-elec-ef') || 0.716; // tCO2e/MWh, editable, India CEA default
+  // Every factor below resolves through EF(id) against the generated register
+  // block. The arithmetic and the audit-trail label read the SAME variable, so
+  // a displayed factor can no longer disagree with the one actually applied.
+  var gridEF = v('g-elec-ef') || EF('s2-grid-in'); // tCO2e/MWh, editable
   var refType = document.getElementById('g-refrig-type') ? document.getElementById('g-refrig-type').value : 'R410A';
-  var gwp = GHG_EF.gwp[refType] || GHG_EF.gwp.R410A;
+  var gwp = ghgGwp(refType);
   var L = []; // audit-trail lines: [scope/cat, source+method, calculation, tCO2e, evidenceFieldId]
   function line(cat, src, calc, t, ev) { if (t > 0) L.push([cat, src, calc, t, ev]); return t > 0 ? t : 0; }
 
-  var dieselEF = v('g-diesel-ef') || 2.68, gasEF = v('g-gas-ef') || 56.1, lpgEF = v('g-lpg-ef') || 2.98;
+  var dieselEF = v('g-diesel-ef') || EF('s1-diesel-stationary'),
+      gasEF = v('g-gas-ef') || EF('s1-natural-gas'),
+      lpgEF = v('g-lpg-ef') || EF('s1-lpg');
+  var petrolEF = EF('s1-petrol-fleet'), fleetDieselEF = EF('s1-diesel-fleet');
   var s1 = 0;
   s1 += line('Scope 1', 'Diesel (stationary) · fuel-based', v('g-diesel-vol').toLocaleString() + ' L × ' + dieselEF + ' kg/L ÷ 1000', v('g-diesel-vol') * dieselEF / 1000, 'g-diesel-src');
   s1 += line('Scope 1', 'Natural gas · fuel-based', v('g-gas-vol').toLocaleString() + ' GJ × ' + gasEF + ' kg/GJ ÷ 1000', v('g-gas-vol') * gasEF / 1000, 'g-gas-src');
   s1 += line('Scope 1', 'LPG · fuel-based', v('g-lpg-vol').toLocaleString() + ' kg × ' + lpgEF + ' kg/kg ÷ 1000', v('g-lpg-vol') * lpgEF / 1000, 'g-lpg-src');
-  s1 += line('Scope 1', 'Fleet petrol · fuel-based', v('g-petrol-vol').toLocaleString() + ' L × 2.31 kg/L ÷ 1000', v('g-petrol-vol') * 2.31 / 1000, 'g-mob-src');
-  s1 += line('Scope 1', 'Fleet diesel · fuel-based', v('g-mob-diesel-vol').toLocaleString() + ' L × 2.68 kg/L ÷ 1000', v('g-mob-diesel-vol') * 2.68 / 1000, 'g-mob-src');
+  s1 += line('Scope 1', 'Fleet petrol · fuel-based', v('g-petrol-vol').toLocaleString() + ' L × ' + petrolEF + ' kg/L ÷ 1000', v('g-petrol-vol') * petrolEF / 1000, 'g-mob-src');
+  s1 += line('Scope 1', 'Fleet diesel · fuel-based', v('g-mob-diesel-vol').toLocaleString() + ' L × ' + fleetDieselEF + ' kg/L ÷ 1000', v('g-mob-diesel-vol') * fleetDieselEF / 1000, 'g-mob-src');
   s1 += line('Scope 1', 'Refrigerant ' + refType + ' · GWP100 AR6', v('g-refrig-vol').toLocaleString() + ' kg × GWP ' + gwp + ' ÷ 1000', v('g-refrig-vol') * gwp / 1000, 'g-refrig-src');
 
   var s2 = 0;
   s2 += line('Scope 2', 'Purchased electricity · location-based', v('g-elec-mwh').toLocaleString() + ' MWh × ' + gridEF + ' t/MWh', v('g-elec-mwh') * gridEF, 'g-elec-src');
-  var heatEF = v('g-heat-ef') || 0.067;
+  var heatEF = v('g-heat-ef') || EF('s2-heat-steam');
   s2 += line('Scope 2', 'Purchased heat/steam', v('g-heat-gj').toLocaleString() + ' GJ × ' + heatEF + ' t/GJ', v('g-heat-gj') * heatEF, 'g-heat-src');
   var s2_mkt = Math.max(0, (v('g-elec-mwh') - v('g-re-mwh'))) * (v('g-residual-ef') || gridEF) + v('g-heat-gj') * heatEF;
 
   var s3 = 0, emp = v('g-employees');
-  var cat1EF = v('g-cat1-ef') || 350;
+  var cat1EF = v('g-cat1-ef') || EF('s3-cat1-spend');
+  var wasteEF = EF('s3-cat5-waste'), airEF = EF('s3-cat6-air'), hotelEF = EF('s3-cat6-hotel'),
+      commuteEF = EF('s3-cat7-commute');
   s3 += line('S3 Cat 1', 'Purchased goods & services · spend-based EEIO', '$' + v('g-cat1-spend').toLocaleString() + 'mn × ' + cat1EF + ' t/$mn', v('g-cat1-spend') * cat1EF, 'g-cat1-src');
-  s3 += line('S3 Cat 5', 'Waste to landfill · waste-type factor', v('g-cat5-waste').toLocaleString() + ' t × 0.467 t/t', v('g-cat5-waste') * 0.467, 'g-cat5-src');
-  s3 += line('S3 Cat 6', 'Air travel · distance-based', v('g-cat6-air').toLocaleString() + ' pkm × 0.0001 t/pkm', v('g-cat6-air') * 0.0001, 'g-cat6-src');
-  s3 += line('S3 Cat 6', 'Hotel nights', v('g-cat6-hotel').toLocaleString() + ' nights × 0.031 t/night', v('g-cat6-hotel') * 0.031, 'g-cat6-src');
-  var days = v('g-cat7-days') || 240;
-  s3 += line('S3 Cat 7', 'Employee commuting · distance-based', v('g-cat7-km') + ' km/day × ' + (emp || 1).toLocaleString() + ' staff × ' + days + ' days × 0.17 kg ÷ 1000', v('g-cat7-km') * (emp || 1) * days * 0.17 / 1000, 'g-cat7-src');
-  s3 += line('S3 Cat 11', 'Use of sold products', v('g-cat11-units').toLocaleString() + ' units × ' + (v('g-cat11-kwh') || 180) + ' kWh × ' + gridEF + ' t/MWh ÷ 1000', v('g-cat11-units') * (v('g-cat11-kwh') || 180) * gridEF / 1000, 'g-cat11-src');
+  s3 += line('S3 Cat 5', 'Waste to landfill · waste-type factor', v('g-cat5-waste').toLocaleString() + ' t × ' + wasteEF + ' t/t', v('g-cat5-waste') * wasteEF, 'g-cat5-src');
+  s3 += line('S3 Cat 6', 'Air travel · distance-based', v('g-cat6-air').toLocaleString() + ' pkm × ' + airEF + ' t/pkm', v('g-cat6-air') * airEF, 'g-cat6-src');
+  s3 += line('S3 Cat 6', 'Hotel nights', v('g-cat6-hotel').toLocaleString() + ' nights × ' + hotelEF + ' t/night', v('g-cat6-hotel') * hotelEF, 'g-cat6-src');
+  var days = v('g-cat7-days') || EF('s3-cat7-workdays');
+  var cat11kwh = v('g-cat11-kwh') || EF('s3-cat11-use');
+  s3 += line('S3 Cat 7', 'Employee commuting · distance-based', v('g-cat7-km') + ' km/day × ' + (emp || 1).toLocaleString() + ' staff × ' + days + ' days × ' + commuteEF + ' kg ÷ 1000', v('g-cat7-km') * (emp || 1) * days * commuteEF / 1000, 'g-cat7-src');
+  s3 += line('S3 Cat 11', 'Use of sold products', v('g-cat11-units').toLocaleString() + ' units × ' + cat11kwh + ' kWh × ' + gridEF + ' t/MWh ÷ 1000', v('g-cat11-units') * cat11kwh * gridEF / 1000, 'g-cat11-src');
   var fin = 0;
-  fin += line('S3 Cat 15', 'PCAF corporate lending · WACI', '$' + v('g-pcaf1-amt').toLocaleString() + 'mn × ' + (v('g-pcaf1-waci') || 150) + ' t/$mn', v('g-pcaf1-amt') * (v('g-pcaf1-waci') || 150), 'g-pcaf1-dq');
-  fin += line('S3 Cat 15', 'PCAF real estate / mortgages', '$' + v('g-pcaf2-amt').toLocaleString() + 'mn × ' + (v('g-pcaf2-intensity') || 25) + ' t/$mn', v('g-pcaf2-amt') * (v('g-pcaf2-intensity') || 25), 'g-pcaf2-dq');
-  fin += line('S3 Cat 15', 'PCAF project finance', '$' + v('g-pcaf3-amt').toLocaleString() + 'mn × ' + (v('g-pcaf3-intensity') || 0.035) + ' t/$mn', v('g-pcaf3-amt') * (v('g-pcaf3-intensity') || 0.035), 'g-pcaf3-dq');
+  var waci = v('g-pcaf1-waci') || EF('s3-cat15-corporate'),
+      reInt = v('g-pcaf2-intensity') || EF('s3-cat15-realestate'),
+      pfInt = v('g-pcaf3-intensity') || EF('s3-cat15-project');
+  fin += line('S3 Cat 15', 'PCAF corporate lending · WACI', '$' + v('g-pcaf1-amt').toLocaleString() + 'mn × ' + waci + ' t/$mn', v('g-pcaf1-amt') * waci, 'g-pcaf1-dq');
+  fin += line('S3 Cat 15', 'PCAF real estate / mortgages', '$' + v('g-pcaf2-amt').toLocaleString() + 'mn × ' + reInt + ' t/$mn', v('g-pcaf2-amt') * reInt, 'g-pcaf2-dq');
+  fin += line('S3 Cat 15', 'PCAF project finance', '$' + v('g-pcaf3-amt').toLocaleString() + 'mn × ' + pfInt + ' t/$mn', v('g-pcaf3-amt') * pfInt, 'g-pcaf3-dq');
   s3 += fin;
 
   return { s1: s1, s2: s2, s2_mkt: s2_mkt, s3: s3, fin: fin, total: s1 + s2 + s3, lines: L };
@@ -9164,24 +9383,24 @@ document.addEventListener('DOMContentLoaded', function() {
        String(Math.round(ghg_val('g-gas-vol')*ghg_val('g-gas-ef')/1000*100)/100),ghg_str('g-gas-src'),'DEFRA 2024'],
      ['Scope 1','Stationary','LPG',ghg_str('g-lpg-vol'),'kg',ghg_str('g-lpg-ef'),'kgCO2e/kg',
        String(Math.round(ghg_val('g-lpg-vol')*ghg_val('g-lpg-ef')/1000*100)/100),ghg_str('g-lpg-src'),'DEFRA 2024'],
-     ['Scope 1','Mobile','Petrol (Fleet)',ghg_str('g-petrol-vol'),'litres','2.31','kgCO2e/litre',
-       String(Math.round(ghg_val('g-petrol-vol')*2.31/1000*100)/100),ghg_str('g-mob-src'),'DEFRA 2024'],
-     ['Scope 1','Mobile','Diesel (Fleet)',ghg_str('g-mob-diesel-vol'),'litres','2.68','kgCO2e/litre',
-       String(Math.round(ghg_val('g-mob-diesel-vol')*2.68/1000*100)/100),ghg_str('g-mob-src'),'DEFRA 2024'],
+     ['Scope 1','Mobile','Petrol (Fleet)',ghg_str('g-petrol-vol'),'litres',String(EF('s1-petrol-fleet')),'kgCO2e/litre',
+       String(Math.round(ghg_val('g-petrol-vol')*EF('s1-petrol-fleet')/1000*100)/100),ghg_str('g-mob-src'),'DEFRA 2024'],
+     ['Scope 1','Mobile','Diesel (Fleet)',ghg_str('g-mob-diesel-vol'),'litres',String(EF('s1-diesel-fleet')),'kgCO2e/litre',
+       String(Math.round(ghg_val('g-mob-diesel-vol')*EF('s1-diesel-fleet')/1000*100)/100),ghg_str('g-mob-src'),'DEFRA 2024'],
      ['Scope 1','Fugitive','Refrigerants',ghg_str('g-refrig-vol'),'kg',ghg_sel('g-refrig-type'),'GWP100',
-       String(Math.round(ghg_val('g-refrig-vol')*({'R134a':1430,'R410A':2088,'R32':675,'R407C':1774,'R404A':3922,'R22':1760,'CO2':1}[ghg_sel('g-refrig-type')]||2088)/1000*100)/100),ghg_str('g-refrig-src'),'IPCC AR6'],
+       String(Math.round(ghg_val('g-refrig-vol')*ghgGwp(ghg_sel('g-refrig-type'))/1000*100)/100),ghg_str('g-refrig-src'),'IPCC AR6'],
      ['Scope 2','Purchased Electricity (LB)',ghg_str('g-elec-mwh'),'MWh',ghg_str('g-elec-ef'),'tCO2e/MWh',
        String(Math.round(ghg_val('g-elec-mwh')*ghg_val('g-elec-ef')*100)/100),ghg_str('g-elec-src'),'IEA 2024'].slice(0,10),
      ['Scope 2','Purchased Heat/Steam',ghg_str('g-heat-gj'),'GJ',ghg_str('g-heat-ef'),'tCO2e/GJ',
        String(Math.round(ghg_val('g-heat-gj')*ghg_val('g-heat-ef')*100)/100),ghg_str('g-heat-src'),'DEFRA 2024'].slice(0,10),
      ['Scope 3','Cat 1 Purchased Goods',ghg_str('g-cat1-spend'),'USD mn',ghg_str('g-cat1-ef'),'tCO2e/USD mn',
-       String(Math.round(ghg_val('g-cat1-spend')*(ghg_val('g-cat1-ef')||350)*100)/100),'','Spend-based EEIO'].slice(0,10),
-     ['Scope 3','Cat 5 Waste',ghg_str('g-cat5-waste'),'tonnes','0.467','tCO2e/tonne',
-       String(Math.round(ghg_val('g-cat5-waste')*0.467*100)/100),ghg_str('g-cat5-src'),'DEFRA 2024'].slice(0,10),
-     ['Scope 3','Cat 6 Air Travel',ghg_str('g-cat6-air'),'PKM','0.0001','tCO2e/PKM',
-       String(Math.round(ghg_val('g-cat6-air')*0.0001*100)/100),ghg_str('g-cat6-src'),'DEFRA 2024 RFI'].slice(0,10),
-     ['Scope 3','Cat 7 Commuting',ghg_str('g-cat7-km')+'×'+ghg_str('g-cat7-days')+'×employees','km×days','0.17','kgCO2e/km',
-       String(Math.round(ghg_val('g-cat7-km')*(ghg_val('g-cat7-days')||240)*(ghg_val('g-employees')||1)*0.17/1000*100)/100),'','DEFRA 2024'].slice(0,10),
+       String(Math.round(ghg_val('g-cat1-spend')*(ghg_val('g-cat1-ef')||EF('s3-cat1-spend'))*100)/100),'','Spend-based EEIO'].slice(0,10),
+     ['Scope 3','Cat 5 Waste',ghg_str('g-cat5-waste'),'tonnes',String(EF('s3-cat5-waste')),'tCO2e/tonne',
+       String(Math.round(ghg_val('g-cat5-waste')*EF('s3-cat5-waste')*100)/100),ghg_str('g-cat5-src'),'DEFRA 2024'].slice(0,10),
+     ['Scope 3','Cat 6 Air Travel',ghg_str('g-cat6-air'),'PKM',String(EF('s3-cat6-air')),'tCO2e/PKM',
+       String(Math.round(ghg_val('g-cat6-air')*EF('s3-cat6-air')*100)/100),ghg_str('g-cat6-src'),'DEFRA 2024 RFI'].slice(0,10),
+     ['Scope 3','Cat 7 Commuting',ghg_str('g-cat7-km')+'×'+ghg_str('g-cat7-days')+'×employees','km×days',String(EF('s3-cat7-commute')),'kgCO2e/km',
+       String(Math.round(ghg_val('g-cat7-km')*(ghg_val('g-cat7-days')||EF('s3-cat7-workdays'))*(ghg_val('g-employees')||1)*EF('s3-cat7-commute')/1000*100)/100),'','DEFRA 2024'].slice(0,10),
      ['Totals','Scope 1','',(document.getElementById('ghg-r-s1')||{}).textContent||'','tCO2e','','','','',''],
      ['Totals','Scope 2 (Location-based)','',(document.getElementById('ghg-r-s2')||{}).textContent||'','tCO2e','','','','',''],
      ['Totals','Scope 2 (Market-based)','',(document.getElementById('ghg-r-s2mkt')||{}).textContent||'','tCO2e','','','','',''],
@@ -12075,6 +12294,83 @@ window.ciCopy = function(outId) {
      data quality, evidence packs, engagement tracking.
      Calibrated to ISSA 5000 / ISAE 3000 / ISAE 3410 / AASB S2.
      ════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-factors" style="display:none">
+<style>
+.fx-wrap{max-width:1150px;margin:0 auto;padding:2rem 1.5rem 4rem;padding-top:calc(64px + 2rem);color:#eafff3}
+.fx-eyebrow{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:#00e87a;margin-bottom:.6rem}
+.fx-eyebrow::before{content:'▸ ';color:#0affdb}
+.fx-wrap h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.7rem,3.2vw,2.5rem);font-weight:700;line-height:1.12;margin-bottom:.6rem}
+.fx-wrap h1 em{font-style:normal;background:linear-gradient(100deg,#00e87a,#0affdb);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.fx-lede{font-size:.92rem;color:rgba(234,255,243,.55);line-height:1.7;max-width:760px}
+.fx-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.8rem;margin:1.6rem 0}
+.fx-kpi{background:rgba(3,14,9,.88);border:1px solid rgba(0,232,122,.16);padding:.9rem 1rem}
+.fx-kpi b{display:block;font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700;color:#00ff9d}
+.fx-kpi span{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(234,255,243,.45)}
+.fx-kpi.warn b{color:#ffb547}
+.fx-controls{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem;align-items:center}
+.fx-controls input,.fx-controls select{font-family:'DM Mono',monospace;font-size:.7rem;padding:.5rem .7rem;background:rgba(3,14,9,.7);border:1px solid rgba(0,232,122,.18);color:#eafff3}
+.fx-controls input{flex:1;min-width:180px}
+.fx-tablewrap{overflow-x:auto;border:1px solid rgba(0,232,122,.16)}
+table.fx{width:100%;border-collapse:collapse;font-size:.76rem;min-width:900px}
+table.fx th{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;text-align:left;padding:.7rem .8rem;background:rgba(0,232,122,.07);color:rgba(0,232,122,.8);white-space:nowrap}
+table.fx td{padding:.7rem .8rem;border-top:1px solid rgba(0,232,122,.09);vertical-align:top;line-height:1.5}
+table.fx tr:hover td{background:rgba(0,232,122,.03)}
+.fx-val{font-family:'DM Mono',monospace;color:#00ff9d;white-space:nowrap}
+.fx-unit{color:rgba(234,255,243,.4);font-size:.68rem}
+.fx-conf{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;padding:.18rem .45rem;border:1px solid;white-space:nowrap}
+.fx-conf.high{color:#00ff9d;border-color:rgba(0,232,122,.4)}
+.fx-conf.medium{color:#0affdb;border-color:rgba(10,255,219,.3)}
+.fx-conf.low{color:#ffb547;border-color:rgba(255,181,71,.4)}
+.fx-src a{color:rgba(10,255,219,.85);text-decoration:none;border-bottom:1px dotted rgba(10,255,219,.35)}
+.fx-src a:hover{color:#0affdb}
+.fx-pub{display:block;color:rgba(234,255,243,.5);font-size:.68rem}
+.fx-note{margin-top:.35rem;font-size:.68rem;color:rgba(255,181,71,.75);line-height:1.5}
+.fx-applies{font-family:'DM Mono',monospace;font-size:.62rem;color:rgba(234,255,243,.38);line-height:1.6}
+.fx-empty{padding:2rem;text-align:center;color:rgba(234,255,243,.35);font-size:.8rem}
+.fx-foot{margin-top:1.4rem;padding:1rem 1.2rem;border:1px solid rgba(0,232,122,.14);background:rgba(3,14,9,.6);font-size:.76rem;color:rgba(234,255,243,.5);line-height:1.7}
+.fx-foot code{font-family:'DM Mono',monospace;color:rgba(10,255,219,.8);font-size:.72rem}
+</style>
+<div class="fx-wrap">
+  <div class="fx-eyebrow">Emission factor register</div>
+  <h1>Every factor, with its <em>source and vintage</em></h1>
+  <p class="fx-lede">
+    The Assurance Studio asks you to keep a register of factor, source, vintage and
+    applied-to. This is ours. Each value below is the one the calculators actually
+    apply — the arithmetic, the audit trail and this table read the same entry, so a
+    displayed factor cannot disagree with the one used.
+  </p>
+
+  <div class="fx-kpis" id="fx-kpis"></div>
+
+  <div class="fx-controls">
+    <input type="search" id="fx-q" placeholder="Search factor, source or category…" oninput="fxRender()">
+    <select id="fx-cat" onchange="fxRender()"><option value="">All categories</option></select>
+    <select id="fx-conf" onchange="fxRender()">
+      <option value="">All confidence</option>
+      <option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option>
+    </select>
+  </div>
+
+  <div class="fx-tablewrap">
+    <table class="fx">
+      <thead><tr>
+        <th>Factor</th><th>Value</th><th>Basis</th><th>Region</th>
+        <th>Source</th><th>Vintage</th><th>Confidence</th><th>Applied to</th>
+      </tr></thead>
+      <tbody id="fx-rows"><tr><td colspan="8" class="fx-empty">Loading register…</td></tr></tbody>
+    </table>
+  </div>
+
+  <div class="fx-foot">
+    Built deterministically from <code>knowledge/factors/*.json</code>. A factor is changed
+    by editing the register and rebuilding — never by editing application code — and the
+    build fails if the two disagree. Values flagged low confidence carry a note explaining
+    why; several were inherited without an establishable source and are published as such
+    rather than presented as sourced.
+  </div>
+</div>
+</div>
+
 <div class="page" id="page-assurance" style="display:none">
 <style>
 .axs-wrap{max-width:1150px;margin:0 auto;padding:2rem 1.5rem 4rem;padding-top:calc(64px + 2rem);color:#eafff3}
@@ -12410,7 +12706,7 @@ var AXS_GAP_FIX = [
   'Add climate risks to the ERM register with owners and escalation routes.',
   'Build the Scope 1 &amp; 2 inventory with a methodology memo — our GHG tool does this.',
   'Complete a Scope 3 relevance screen across all 15 categories, documenting exclusions.',
-  'Create an emission factor register: factor, source, vintage, applied-to.',
+  'Create an emission factor register: factor, source, vintage, applied-to — <a href="#factors" onclick="showPage(\'factors\');return false" style="color:#0affdb">ours is published here</a> if you want the shape of one.',
   'Set targets with a baseline year and interim milestones; consider science-based validation.',
   'Document the data collection process end-to-end so a walkthrough can be performed.'
 ];

@@ -1,0 +1,110 @@
+[
+  {
+    "id": "s1-diesel-stationary",
+    "name": "Diesel — stationary combustion",
+    "category": "scope1_stationary",
+    "value": 2.68,
+    "unit": "kgCO2e/L",
+    "basis": "fuel-based",
+    "region": "global",
+    "source": {
+      "publisher": "DEFRA",
+      "document": "UK Government GHG Conversion Factors for Company Reporting",
+      "table": "Fuels — gaseous and liquid fuels",
+      "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+    },
+    "vintage": 2024,
+    "editable": true,
+    "input_id": "g-diesel-ef",
+    "applies_to": ["ghg_compute:Scope 1 diesel stationary"],
+    "confidence": "medium",
+    "reviewed": "2026-08",
+    "note": "Attribution taken from the code comment it replaces. Exact DEFRA table and row not yet confirmed against the primary source."
+  },
+  {
+    "id": "s1-natural-gas",
+    "name": "Natural gas — stationary combustion",
+    "category": "scope1_stationary",
+    "value": 56.1,
+    "unit": "kgCO2e/GJ",
+    "basis": "fuel-based",
+    "region": "global",
+    "source": {
+      "publisher": "DEFRA",
+      "document": "UK Government GHG Conversion Factors for Company Reporting",
+      "table": "Fuels — gaseous fuels",
+      "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+    },
+    "vintage": 2024,
+    "editable": true,
+    "input_id": "g-gas-ef",
+    "applies_to": ["ghg_compute:Scope 1 natural gas"],
+    "confidence": "medium",
+    "reviewed": "2026-08",
+    "note": "Energy basis (per GJ). The superseded GHG_EF table carried an unused volumetric value of 2.02 kgCO2e/L for the same fuel; the two are different bases, not a disagreement."
+  },
+  {
+    "id": "s1-lpg",
+    "name": "LPG — stationary combustion",
+    "category": "scope1_stationary",
+    "value": 2.98,
+    "unit": "kgCO2e/kg",
+    "basis": "fuel-based",
+    "region": "global",
+    "source": {
+      "publisher": "DEFRA",
+      "document": "UK Government GHG Conversion Factors for Company Reporting",
+      "table": "Fuels — liquid fuels",
+      "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+    },
+    "vintage": 2024,
+    "editable": true,
+    "input_id": "g-lpg-ef",
+    "applies_to": ["ghg_compute:Scope 1 LPG"],
+    "confidence": "medium",
+    "reviewed": "2026-08",
+    "note": "Mass basis (per kg). The superseded GHG_EF table carried 1.51 kgCO2e/L on a volumetric basis; different bases, not a disagreement."
+  },
+  {
+    "id": "s1-petrol-fleet",
+    "name": "Petrol — fleet mobile combustion",
+    "category": "scope1_mobile",
+    "value": 2.31,
+    "unit": "kgCO2e/L",
+    "basis": "fuel-based",
+    "region": "global",
+    "source": {
+      "publisher": "DEFRA",
+      "document": "UK Government GHG Conversion Factors for Company Reporting",
+      "table": "Fuels — liquid fuels",
+      "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+    },
+    "vintage": 2024,
+    "editable": false,
+    "applies_to": ["ghg_compute:Scope 1 fleet petrol"],
+    "confidence": "medium",
+    "reviewed": "2026-08",
+    "note": "Not user-editable. Before the register this value existed twice — once in the arithmetic and once in the audit-trail label — so editing one left the other misstating the factor applied."
+  },
+  {
+    "id": "s1-diesel-fleet",
+    "name": "Diesel — fleet mobile combustion",
+    "category": "scope1_mobile",
+    "value": 2.68,
+    "unit": "kgCO2e/L",
+    "basis": "fuel-based",
+    "region": "global",
+    "source": {
+      "publisher": "DEFRA",
+      "document": "UK Government GHG Conversion Factors for Company Reporting",
+      "table": "Fuels — liquid fuels",
+      "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+    },
+    "vintage": 2024,
+    "editable": false,
+    "applies_to": ["ghg_compute:Scope 1 fleet diesel"],
+    "confidence": "medium",
+    "reviewed": "2026-08",
+    "note": "Fuel-based, same factor as stationary diesel. The superseded GHG_EF table also held an unused distance-based value of 0.268 kgCO2e/vehicle-km for HGV diesel."
+  }
+]

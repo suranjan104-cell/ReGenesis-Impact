@@ -6,3 +6,13 @@
 README.md
 wrangler.jsonc
 worker.js
+
+# build sources — the outputs they produce are committed separately and served:
+#   seo/          -> guides/*.html and sitemap.xml
+#   board/        -> research/the-denominator-problem.pdf
+#   platform-app/ -> platform/
+# knowledge/ is NOT excluded: index.html fetches knowledge/kb.json at runtime.
+seo
+board
+platform-app
+*.md

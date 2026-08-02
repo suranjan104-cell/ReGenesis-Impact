@@ -1,0 +1,149 @@
+[
+  {
+    "id": "gwp-r410a",
+    "name": "R-410A — GWP100",
+    "category": "scope1_fugitive",
+    "value": 2088,
+    "unit": "tCO2e/t",
+    "basis": "GWP100",
+    "gwp_set": "unverified",
+    "region": "global",
+    "source": {
+      "publisher": "IPCC",
+      "document": "GWP100 — assessment report not established",
+      "url": "https://ghgprotocol.org/sites/default/files/2024-08/Global-Warming-Potential-Values%20(August%202024).pdf"
+    },
+    "vintage": null,
+    "editable": false,
+    "applies_to": ["ghg_compute:Scope 1 refrigerant"],
+    "confidence": "low",
+    "reviewed": "2026-08",
+    "note": "Value carried over unchanged from the code it replaces. The code comment claimed IPCC AR6 WGI Table 7.SM.7, but that attribution is unconfirmed — the primary table could not be retrieved. Verify against the GHG Protocol GWP values table before any change; changing it changes user results."
+  },
+  {
+    "id": "gwp-r32",
+    "name": "R-32 — GWP100",
+    "category": "scope1_fugitive",
+    "value": 675,
+    "unit": "tCO2e/t",
+    "basis": "GWP100",
+    "gwp_set": "unverified",
+    "region": "global",
+    "source": {
+      "publisher": "IPCC",
+      "document": "GWP100 — assessment report not established",
+      "url": "https://ghgprotocol.org/sites/default/files/2024-08/Global-Warming-Potential-Values%20(August%202024).pdf"
+    },
+    "vintage": null,
+    "editable": false,
+    "applies_to": ["ghg_compute:Scope 1 refrigerant"],
+    "confidence": "low",
+    "reviewed": "2026-08",
+    "note": "Carried over unchanged. Assessment-report vintage unconfirmed — see gwp-r410a."
+  },
+  {
+    "id": "gwp-r134a",
+    "name": "R-134a — GWP100",
+    "category": "scope1_fugitive",
+    "value": 1430,
+    "unit": "tCO2e/t",
+    "basis": "GWP100",
+    "gwp_set": "unverified",
+    "region": "global",
+    "source": {
+      "publisher": "IPCC",
+      "document": "GWP100 — assessment report not established",
+      "url": "https://ghgprotocol.org/sites/default/files/2024-08/Global-Warming-Potential-Values%20(August%202024).pdf"
+    },
+    "vintage": null,
+    "editable": false,
+    "applies_to": ["ghg_compute:Scope 1 refrigerant"],
+    "confidence": "low",
+    "reviewed": "2026-08",
+    "note": "Carried over unchanged. Assessment-report vintage unconfirmed — see gwp-r410a."
+  },
+  {
+    "id": "gwp-r407c",
+    "name": "R-407C — GWP100",
+    "category": "scope1_fugitive",
+    "value": 1774,
+    "unit": "tCO2e/t",
+    "basis": "GWP100",
+    "gwp_set": "unverified",
+    "region": "global",
+    "source": {
+      "publisher": "IPCC",
+      "document": "GWP100 — assessment report not established",
+      "url": "https://ghgprotocol.org/sites/default/files/2024-08/Global-Warming-Potential-Values%20(August%202024).pdf"
+    },
+    "vintage": null,
+    "editable": false,
+    "applies_to": ["ghg_compute:Scope 1 refrigerant"],
+    "confidence": "low",
+    "reviewed": "2026-08",
+    "note": "Carried over unchanged. Assessment-report vintage unconfirmed — see gwp-r410a. Not selectable in the current UI, which offers only R-22, R-410A, R-32 and R-134a."
+  },
+  {
+    "id": "gwp-r404a",
+    "name": "R-404A — GWP100",
+    "category": "scope1_fugitive",
+    "value": 3922,
+    "unit": "tCO2e/t",
+    "basis": "GWP100",
+    "gwp_set": "unverified",
+    "region": "global",
+    "source": {
+      "publisher": "IPCC",
+      "document": "GWP100 — assessment report not established",
+      "url": "https://ghgprotocol.org/sites/default/files/2024-08/Global-Warming-Potential-Values%20(August%202024).pdf"
+    },
+    "vintage": null,
+    "editable": false,
+    "applies_to": ["ghg_compute:Scope 1 refrigerant"],
+    "confidence": "low",
+    "reviewed": "2026-08",
+    "note": "Carried over unchanged. Assessment-report vintage unconfirmed — see gwp-r410a. Not selectable in the current UI."
+  },
+  {
+    "id": "gwp-r22",
+    "name": "R-22 — GWP100",
+    "category": "scope1_fugitive",
+    "value": 1760,
+    "unit": "tCO2e/t",
+    "basis": "GWP100",
+    "gwp_set": "unverified",
+    "region": "global",
+    "source": {
+      "publisher": "IPCC",
+      "document": "GWP100 — assessment report not established",
+      "url": "https://ghgprotocol.org/sites/default/files/2024-08/Global-Warming-Potential-Values%20(August%202024).pdf"
+    },
+    "vintage": null,
+    "editable": false,
+    "applies_to": ["ghg_compute:Scope 1 refrigerant"],
+    "confidence": "low",
+    "reviewed": "2026-08",
+    "note": "KNOWN INCONSISTENCY, verifiable in our own repo and preserved deliberately rather than silently corrected: the engine computes with 1760 while the selector label shown to the user reads 'R-22 (GWP: 1810)'. The two disagree, and the audit trail describes the set as AR6. Resolving this changes user results, so it is a decision to take explicitly — not a side effect of the migration."
+  },
+  {
+    "id": "gwp-co2",
+    "name": "CO2 — GWP100",
+    "category": "scope1_fugitive",
+    "value": 1,
+    "unit": "tCO2e/t",
+    "basis": "GWP100",
+    "gwp_set": "all",
+    "region": "global",
+    "source": {
+      "publisher": "IPCC",
+      "document": "GWP100 — CO2 is the reference gas and is 1 in every assessment report",
+      "url": "https://ghgprotocol.org/sites/default/files/2024-08/Global-Warming-Potential-Values%20(August%202024).pdf"
+    },
+    "vintage": null,
+    "editable": false,
+    "applies_to": ["ghg_compute:Scope 1 refrigerant"],
+    "confidence": "high",
+    "reviewed": "2026-08",
+    "note": "The only GWP in this file that needs no assessment-report attribution. Not selectable in the current UI."
+  }
+]
