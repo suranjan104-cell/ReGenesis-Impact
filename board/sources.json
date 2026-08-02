@@ -1,0 +1,154 @@
+{
+  "_note": "Citation registry for the thought-leadership board. Every claim on a slide carries a superscript that resolves to an entry here. Entries marked verified:false are NOT used in the deck.",
+  "sources": [
+    {
+      "id": "ifrs-jurisdictions",
+      "n": null,
+      "org": "IFRS Foundation",
+      "title": "IFRS Foundation publishes jurisdictional profiles on ISSB Standards adoption",
+      "date": "2025-06-12",
+      "url": "https://www.ifrs.org/news-and-events/news/2025/06/ifrs-foundation-publishes-jurisdictional-profiles-issb-standards/",
+      "claims": [
+        "36 jurisdictions have adopted, are using, or are finalising steps to introduce ISSB Standards",
+        "Together representing ~60% of global GDP and ~40% of global market capitalisation",
+        "Initial set of 17 jurisdictional profiles published; 14 committing to full adoption"
+      ],
+      "verified": true
+    },
+    {
+      "id": "iea-nzr",
+      "n": null,
+      "org": "International Energy Agency",
+      "title": "Net Zero Roadmap: A Global Pathway to Keep the 1.5 °C Goal in Reach",
+      "date": "2023-09",
+      "url": "https://www.iea.org/reports/net-zero-roadmap-a-global-pathway-to-keep-the-15-c-goal-in-reach/executive-summary",
+      "claims": [
+        "Clean-energy investment must rise to ~US$4.5 trillion per year by the early 2030s",
+        "Up from a record ~US$1.8 trillion in 2023"
+      ],
+      "verified": true
+    },
+    {
+      "id": "tpt",
+      "n": null,
+      "org": "UK Transition Plan Taskforce",
+      "title": "TPT Disclosure Framework",
+      "date": "2023-10-09",
+      "url": "https://www.ifrs.org/content/dam/ifrs/knowledge-hub/resources/tpt/disclosure-framework-oct-2023.pdf",
+      "claims": [
+        "Final Disclosure Framework published 9 October 2023",
+        "Aligns with GFANZ transition-planning guidance and builds on ISSB standards",
+        "TPT concluded in 2024; disclosure materials transferred to the IFRS Foundation"
+      ],
+      "verified": true
+    },
+    {
+      "id": "ngfs-scenarios",
+      "n": null,
+      "org": "Network for Greening the Financial System (NGFS)",
+      "title": "NGFS publishes latest long-term climate macro-financial scenarios (Phase V, v5.0)",
+      "date": "2024-11",
+      "url": "https://www.ngfs.net/en/press-release/ngfs-publishes-latest-long-term-climate-macro-financial-scenarios-climate-risks-assessment",
+      "claims": [
+        "Phase V climate scenarios (version 5.0) published November 2024",
+        "Scenario families: Orderly, Disorderly, Hot House World, Too Little Too Late",
+        "Phase V projects physical-risk GDP losses 2-4x higher than prior NGFS vintages",
+        "Used by central banks and supervisors for climate risk assessment and stress testing"
+      ],
+      "verified": true
+    },
+    {
+      "id": "pik-nature",
+      "n": null,
+      "org": "Kotz, Levermann & Wenz (PIK), Nature vol. 628",
+      "title": "The economic commitment of climate change",
+      "date": "2024-04-17",
+      "url": "https://www.pik-potsdam.de/en/news/latest-news/38-trillion-dollars-in-damages-each-year-world-economy-already-committed-to-income-reduction-of-19-due-to-climate-change",
+      "claims": [
+        "World economy already committed to a ~19% reduction in global income by 2050",
+        "Equivalent to ~US$38 trillion per year in damages by 2050 (likely range US$19-59 trillion)",
+        "Independent of near-term emissions choices"
+      ],
+      "verified": true
+    },
+    {
+      "id": "em-sovcm",
+      "n": null,
+      "org": "Ecosystem Marketplace (Forest Trends)",
+      "title": "State of the Voluntary Carbon Market 2025",
+      "date": "2025-05-29",
+      "url": "https://www.ecosystemmarketplace.com/articles/sovcm-2025-finds-the-voluntary-carbon-market-in-transition-demand-holding-steady-as-turnover-stabilizes/",
+      "claims": [
+        "VCM reported transaction value US$535 million in 2024, down 29% from US$723 million in 2023",
+        "Transaction volume down 25%; average price down 5.5%",
+        "~182 million credits retired across top-10 standards in 2024"
+      ],
+      "verified": true
+    },
+    {
+      "id": "msci-carbon",
+      "n": null,
+      "org": "MSCI Carbon Markets",
+      "title": "Carbon Credits Come of Age in 2025",
+      "date": "2025",
+      "url": "https://www.msci.com/research-and-insights/blog-post/carbon-credits-come-of-age-in-2025",
+      "claims": [
+        "VCM valued at ~US$1.5 billion in 2024 (whole-market basis)",
+        "305 million credits issued and 180 million retired in 2024",
+        "Projected US$7-35 billion by 2030 and US$45-250 billion by 2050"
+      ],
+      "verified": true
+    },
+    {
+      "id": "wb-carbon-pricing",
+      "n": null,
+      "org": "World Bank",
+      "title": "State and Trends of Carbon Pricing 2025",
+      "date": "2025-06-10",
+      "url": "https://www.worldbank.org/en/news/press-release/2025/06/10/global-carbon-pricing-mobilizes-over-100-billion-for-public-budgets",
+      "claims": [
+        "Global carbon-pricing revenues exceeded US$100 billion in 2024 (ETS + carbon taxes, not VCM)",
+        "Carbon-pricing instruments cover >24% of global emissions",
+        "~1 billion unretired credits from independent crediting mechanisms"
+      ],
+      "verified": true
+    },
+    {
+      "id": "sebi-brsr",
+      "n": null,
+      "org": "Securities and Exchange Board of India (SEBI)",
+      "title": "Business Responsibility and Sustainability Reporting (BRSR) / BRSR Core",
+      "date": "2023-07",
+      "url": "https://www.sebi.gov.in/legal/circulars/jul-2023/brsr-core-framework-for-assurance-and-esg-disclosures-for-value-chain_74186.html",
+      "claims": [
+        "BRSR mandatory for the top 1,000 listed companies by market capitalisation (from FY2022-23)",
+        "BRSR Core assurance phased by market-cap rank: top 150 FY2023-24, top 250 FY2024-25, top 500 FY2025-26, top 1,000 FY2026-27"
+      ],
+      "verified": true
+    },
+    {
+      "id": "EXCLUDED-gfanz",
+      "org": "GFANZ",
+      "note": "Membership scale and US$130tn figures could not be verified against a primary source this session. NOT USED in the deck.",
+      "verified": false
+    },
+    {
+      "id": "EXCLUDED-ngfs-pct",
+      "org": "NGFS",
+      "note": "Precise '15% GDP by 2050 / 30% by 2100' percentages traced only to secondary coverage. Deck uses the verified '2-4x higher than prior vintages' framing instead.",
+      "verified": false
+    },
+    {
+      "id": "EXCLUDED-issb-39",
+      "org": "secondary trackers",
+      "note": "'39 jurisdictions' (Dec 2025) unverified against IFRS primary. Deck uses the verified 36 / June 2025 figure.",
+      "verified": false
+    },
+    {
+      "id": "EXCLUDED-sebi-valuechain",
+      "org": "SEBI",
+      "note": "2024-25 value-chain/assurance relaxations traced only to secondary advisories and are actively being amended. NOT asserted in the deck.",
+      "verified": false
+    }
+  ]
+}

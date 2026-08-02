@@ -1,0 +1,31 @@
+A bank's financed emissions can fall by a third without a single borrower cutting a tonne.
+
+Attribution divides exposure by counterparty value. For listed equity that value is EVIC — a market price. Valuations rise, the denominator rises, the reported figure falls. Nothing changed in the real economy.
+
+A new briefing on Scope 3 Category 15: how the calculation works, the five places it breaks, and the route out that does not exist — no emission factor database lifts a portfolio above PCAF data quality score 3, because scores 1 and 2 only exist where the counterparty supplied the data.
+
+Useful for teams building a financed emissions inventory ahead of assurance, and for anyone deciding whether to buy data or go and collect it.
+
+24 pages, nine exhibits, every figure sourced.
+
+#FinancedEmissions #PCAF #Scope3 #ClimateRisk #SustainableFinance
+
+
+--------------------------------------------------
+HOW TO POST (delete this section before posting):
+
+1. From the ReGenesis Impact COMPANY PAGE, not a personal profile.
+2. Upload as a DOCUMENT post, not an image. Title it "The denominator problem"
+   — that is what shows on the carousel card.
+   File: ReGenesis-Impact-The-Denominator-Problem.pdf
+3. Body = everything above the dashed line.
+4. Link in the FIRST COMMENT, not the body:
+   https://www.regenesisimpact.in/research/financed-emissions.html?utm_source=linkedin&utm_medium=social&utm_campaign=denominator-problem
+   The link only resolves once the site is deployed — run `npx wrangler deploy`.
+5. Tue/Wed/Thu morning IST. Narrow and technical: fewer impressions than a
+   general climate post, better calibre of comment. That is the intended trade.
+6. Company pages get less organic reach than people. Have a few colleagues
+   reshare it to their own profiles within the first hour.
+7. Likely pushback: "EVIC averaging solves this." It does not — averaging
+   suppresses the variance without changing the fact that the denominator is a
+   price. Page 12 covers it.

@@ -1,0 +1,33 @@
+From ledger to forecast: what climate scenario analysis requires that reporting never collected.
+
+Reporting produces a number for last year. IFRS S2 and AASB S2 also require a resilience assessment built on forward-looking climate scenarios, and a transition plan disclosed against it. That is a different data problem, and largely one nobody has been collecting for.
+
+Three findings from the briefing:
+
+— Around 70% of reported emissions in the ECB's stress test rested on proxies rather than counterparty data.
+— The paper behind the physical-risk estimates in NGFS Phase V has been retracted. Resilience assessments built on those outputs carry an assumption worth disclosing.
+— Scenario analysis and transition plans sit inside the three-year modified liability window and attract no assurance in the first Australian reporting year.
+
+25 pages, nine exhibits, every figure sourced.
+
+#ClimateRisk #ScenarioAnalysis #TransitionPlanning #AASBS2 #ISSB
+
+
+--------------------------------------------------
+HOW TO POST (delete this section before posting):
+
+1. ReGenesis Impact COMPANY PAGE. Document post, not an image.
+   File: ReGenesis-Impact-From-Ledger-to-Forecast.pdf
+   Title it "From ledger to forecast" — that is what shows on the carousel
+   card, and it matches the cover.
+2. Body = everything above the dashed line.
+3. Link in the FIRST COMMENT once the site is deployed:
+   https://www.regenesisimpact.in/research/ (add a page for this briefing first —
+   only the financed emissions one exists so far)
+4. The cover does the work here: the grid is readable at thumbnail size, which is
+   what earns the swipe. Do not add a separate cover image.
+5. The retraction line is the most shareable item in the post. Expect questions —
+   the NGFS statement is endnote 9 and page 13 covers it in full, including what
+   it does not mean.
+6. Colleague reshares within the first hour; company pages under-reach personal
+   profiles.

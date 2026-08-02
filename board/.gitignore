@@ -1,0 +1,3 @@
+# generated build artefacts — rebuild with: node build.mjs && chrome --print-to-pdf
+board.html
+board.pdf

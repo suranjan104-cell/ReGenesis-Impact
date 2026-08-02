@@ -1,0 +1,586 @@
+{
+ "scenarios": [
+  {
+   "name": "empty",
+   "missingInputs": [],
+   "s1": 0,
+   "s2": 0,
+   "s2_mkt": 0,
+   "s3": 0,
+   "fin": 0,
+   "total": 0,
+   "lines": []
+  },
+  {
+   "name": "defaults",
+   "missingInputs": [],
+   "s1": 1515.344,
+   "s2": 1778.6999999999998,
+   "s2_mkt": 1778.6999999999998,
+   "s3": 53751.611999999994,
+   "fin": 40502.1,
+   "total": 57045.655999999995,
+   "lines": [
+    [
+     "Scope 1",
+     "Diesel (stationary) · fuel-based",
+     "12,000 L × 2.68 kg/L ÷ 1000",
+     32.160000000000004
+    ],
+    [
+     "Scope 1",
+     "Natural gas · fuel-based",
+     "4,500 GJ × 56.1 kg/GJ ÷ 1000",
+     252.45
+    ],
+    [
+     "Scope 1",
+     "LPG · fuel-based",
+     "800 kg × 2.98 kg/kg ÷ 1000",
+     2.384
+    ],
+    [
+     "Scope 1",
+     "Fleet petrol · fuel-based",
+     "45,000 L × 2.31 kg/L ÷ 1000",
+     103.95
+    ],
+    [
+     "Scope 1",
+     "Fleet diesel · fuel-based",
+     "30,000 L × 2.68 kg/L ÷ 1000",
+     80.4
+    ],
+    [
+     "Scope 1",
+     "Refrigerant R410A · GWP100 AR6",
+     "500 kg × GWP 2088 ÷ 1000",
+     1044
+    ],
+    [
+     "Scope 2",
+     "Purchased electricity · location-based",
+     "2,400 MWh × 0.716 t/MWh",
+     1718.3999999999999
+    ],
+    [
+     "Scope 2",
+     "Purchased heat/steam",
+     "900 GJ × 0.067 t/GJ",
+     60.300000000000004
+    ],
+    [
+     "S3 Cat 1",
+     "Purchased goods & services · spend-based EEIO",
+     "$18mn × 350 t/$mn",
+     6300
+    ],
+    [
+     "S3 Cat 5",
+     "Waste to landfill · waste-type factor",
+     "140 t × 0.467 t/t",
+     65.38000000000001
+    ],
+    [
+     "S3 Cat 6",
+     "Air travel · distance-based",
+     "1,250,000 pkm × 0.0001 t/pkm",
+     125
+    ],
+    [
+     "S3 Cat 6",
+     "Hotel nights",
+     "900 nights × 0.031 t/night",
+     27.9
+    ],
+    [
+     "S3 Cat 7",
+     "Employee commuting · distance-based",
+     "22 km/day × 320 staff × 240 days × 0.17 kg ÷ 1000",
+     287.232
+    ],
+    [
+     "S3 Cat 11",
+     "Use of sold products",
+     "50,000 units × 180 kWh × 0.716 t/MWh ÷ 1000",
+     6444
+    ],
+    [
+     "S3 Cat 15",
+     "PCAF corporate lending · WACI",
+     "$250mn × 150 t/$mn",
+     37500
+    ],
+    [
+     "S3 Cat 15",
+     "PCAF real estate / mortgages",
+     "$120mn × 25 t/$mn",
+     3000
+    ],
+    [
+     "S3 Cat 15",
+     "PCAF project finance",
+     "$60mn × 0.035 t/$mn",
+     2.1
+    ]
+   ]
+  },
+  {
+   "name": "overrides",
+   "missingInputs": [],
+   "s1": 1505.2359999999999,
+   "s2": 1043.1,
+   "s2_mkt": 1043.1,
+   "s3": 59618.096,
+   "fin": 47472.52,
+   "total": 62166.432,
+   "lines": [
+    [
+     "Scope 1",
+     "Diesel (stationary) · fuel-based",
+     "12,000 L × 2.51 kg/L ÷ 1000",
+     30.119999999999997
+    ],
+    [
+     "Scope 1",
+     "Natural gas · fuel-based",
+     "4,500 GJ × 54.3 kg/GJ ÷ 1000",
+     244.35
+    ],
+    [
+     "Scope 1",
+     "LPG · fuel-based",
+     "800 kg × 3.02 kg/kg ÷ 1000",
+     2.416
+    ],
+    [
+     "Scope 1",
+     "Fleet petrol · fuel-based",
+     "45,000 L × 2.31 kg/L ÷ 1000",
+     103.95
+    ],
+    [
+     "Scope 1",
+     "Fleet diesel · fuel-based",
+     "30,000 L × 2.68 kg/L ÷ 1000",
+     80.4
+    ],
+    [
+     "Scope 1",
+     "Refrigerant R410A · GWP100 AR6",
+     "500 kg × GWP 2088 ÷ 1000",
+     1044
+    ],
+    [
+     "Scope 2",
+     "Purchased electricity · location-based",
+     "2,400 MWh × 0.408 t/MWh",
+     979.1999999999999
+    ],
+    [
+     "Scope 2",
+     "Purchased heat/steam",
+     "900 GJ × 0.071 t/GJ",
+     63.89999999999999
+    ],
+    [
+     "S3 Cat 1",
+     "Purchased goods & services · spend-based EEIO",
+     "$18mn × 410 t/$mn",
+     7380
+    ],
+    [
+     "S3 Cat 5",
+     "Waste to landfill · waste-type factor",
+     "140 t × 0.467 t/t",
+     65.38000000000001
+    ],
+    [
+     "S3 Cat 6",
+     "Air travel · distance-based",
+     "1,250,000 pkm × 0.0001 t/pkm",
+     125
+    ],
+    [
+     "S3 Cat 6",
+     "Hotel nights",
+     "900 nights × 0.031 t/night",
+     27.9
+    ],
+    [
+     "S3 Cat 7",
+     "Employee commuting · distance-based",
+     "22 km/day × 320 staff × 220 days × 0.17 kg ÷ 1000",
+     263.296
+    ],
+    [
+     "S3 Cat 11",
+     "Use of sold products",
+     "50,000 units × 210 kWh × 0.408 t/MWh ÷ 1000",
+     4284
+    ],
+    [
+     "S3 Cat 15",
+     "PCAF corporate lending · WACI",
+     "$250mn × 175 t/$mn",
+     43750
+    ],
+    [
+     "S3 Cat 15",
+     "PCAF real estate / mortgages",
+     "$120mn × 31 t/$mn",
+     3720
+    ],
+    [
+     "S3 Cat 15",
+     "PCAF project finance",
+     "$60mn × 0.042 t/$mn",
+     2.52
+    ]
+   ]
+  },
+  {
+   "name": "market-based",
+   "missingInputs": [],
+   "s1": 1515.344,
+   "s2": 1778.6999999999998,
+   "s2_mkt": 990.3,
+   "s3": 53751.611999999994,
+   "fin": 40502.1,
+   "total": 57045.655999999995,
+   "lines": [
+    [
+     "Scope 1",
+     "Diesel (stationary) · fuel-based",
+     "12,000 L × 2.68 kg/L ÷ 1000",
+     32.160000000000004
+    ],
+    [
+     "Scope 1",
+     "Natural gas · fuel-based",
+     "4,500 GJ × 56.1 kg/GJ ÷ 1000",
+     252.45
+    ],
+    [
+     "Scope 1",
+     "LPG · fuel-based",
+     "800 kg × 2.98 kg/kg ÷ 1000",
+     2.384
+    ],
+    [
+     "Scope 1",
+     "Fleet petrol · fuel-based",
+     "45,000 L × 2.31 kg/L ÷ 1000",
+     103.95
+    ],
+    [
+     "Scope 1",
+     "Fleet diesel · fuel-based",
+     "30,000 L × 2.68 kg/L ÷ 1000",
+     80.4
+    ],
+    [
+     "Scope 1",
+     "Refrigerant R410A · GWP100 AR6",
+     "500 kg × GWP 2088 ÷ 1000",
+     1044
+    ],
+    [
+     "Scope 2",
+     "Purchased electricity · location-based",
+     "2,400 MWh × 0.716 t/MWh",
+     1718.3999999999999
+    ],
+    [
+     "Scope 2",
+     "Purchased heat/steam",
+     "900 GJ × 0.067 t/GJ",
+     60.300000000000004
+    ],
+    [
+     "S3 Cat 1",
+     "Purchased goods & services · spend-based EEIO",
+     "$18mn × 350 t/$mn",
+     6300
+    ],
+    [
+     "S3 Cat 5",
+     "Waste to landfill · waste-type factor",
+     "140 t × 0.467 t/t",
+     65.38000000000001
+    ],
+    [
+     "S3 Cat 6",
+     "Air travel · distance-based",
+     "1,250,000 pkm × 0.0001 t/pkm",
+     125
+    ],
+    [
+     "S3 Cat 6",
+     "Hotel nights",
+     "900 nights × 0.031 t/night",
+     27.9
+    ],
+    [
+     "S3 Cat 7",
+     "Employee commuting · distance-based",
+     "22 km/day × 320 staff × 240 days × 0.17 kg ÷ 1000",
+     287.232
+    ],
+    [
+     "S3 Cat 11",
+     "Use of sold products",
+     "50,000 units × 180 kWh × 0.716 t/MWh ÷ 1000",
+     6444
+    ],
+    [
+     "S3 Cat 15",
+     "PCAF corporate lending · WACI",
+     "$250mn × 150 t/$mn",
+     37500
+    ],
+    [
+     "S3 Cat 15",
+     "PCAF real estate / mortgages",
+     "$120mn × 25 t/$mn",
+     3000
+    ],
+    [
+     "S3 Cat 15",
+     "PCAF project finance",
+     "$60mn × 0.035 t/$mn",
+     2.1
+    ]
+   ]
+  },
+  {
+   "name": "financed-only",
+   "missingInputs": [],
+   "s1": 0,
+   "s2": 0,
+   "s2_mkt": 0,
+   "s3": 40502.1,
+   "fin": 40502.1,
+   "total": 40502.1,
+   "lines": [
+    [
+     "S3 Cat 15",
+     "PCAF corporate lending · WACI",
+     "$250mn × 150 t/$mn",
+     37500
+    ],
+    [
+     "S3 Cat 15",
+     "PCAF real estate / mortgages",
+     "$120mn × 25 t/$mn",
+     3000
+    ],
+    [
+     "S3 Cat 15",
+     "PCAF project finance",
+     "$60mn × 0.035 t/$mn",
+     2.1
+    ]
+   ]
+  },
+  {
+   "name": "refrigerant-R410A",
+   "missingInputs": [],
+   "s1": 2088,
+   "s2": 0,
+   "s2_mkt": 0,
+   "s3": 0,
+   "fin": 0,
+   "total": 2088,
+   "lines": [
+    [
+     "Scope 1",
+     "Refrigerant R410A · GWP100 AR6",
+     "1,000 kg × GWP 2088 ÷ 1000",
+     2088
+    ]
+   ]
+  },
+  {
+   "name": "refrigerant-R32",
+   "missingInputs": [],
+   "s1": 675,
+   "s2": 0,
+   "s2_mkt": 0,
+   "s3": 0,
+   "fin": 0,
+   "total": 675,
+   "lines": [
+    [
+     "Scope 1",
+     "Refrigerant R32 · GWP100 AR6",
+     "1,000 kg × GWP 675 ÷ 1000",
+     675
+    ]
+   ]
+  },
+  {
+   "name": "refrigerant-R134a",
+   "missingInputs": [],
+   "s1": 1430,
+   "s2": 0,
+   "s2_mkt": 0,
+   "s3": 0,
+   "fin": 0,
+   "total": 1430,
+   "lines": [
+    [
+     "Scope 1",
+     "Refrigerant R134a · GWP100 AR6",
+     "1,000 kg × GWP 1430 ÷ 1000",
+     1430
+    ]
+   ]
+  },
+  {
+   "name": "refrigerant-R407C",
+   "missingInputs": [],
+   "s1": 2088,
+   "s2": 0,
+   "s2_mkt": 0,
+   "s3": 0,
+   "fin": 0,
+   "total": 2088,
+   "lines": [
+    [
+     "Scope 1",
+     "Refrigerant  · GWP100 AR6",
+     "1,000 kg × GWP 2088 ÷ 1000",
+     2088
+    ]
+   ]
+  },
+  {
+   "name": "refrigerant-R404A",
+   "missingInputs": [],
+   "s1": 2088,
+   "s2": 0,
+   "s2_mkt": 0,
+   "s3": 0,
+   "fin": 0,
+   "total": 2088,
+   "lines": [
+    [
+     "Scope 1",
+     "Refrigerant  · GWP100 AR6",
+     "1,000 kg × GWP 2088 ÷ 1000",
+     2088
+    ]
+   ]
+  },
+  {
+   "name": "refrigerant-R22",
+   "missingInputs": [],
+   "s1": 1760,
+   "s2": 0,
+   "s2_mkt": 0,
+   "s3": 0,
+   "fin": 0,
+   "total": 1760,
+   "lines": [
+    [
+     "Scope 1",
+     "Refrigerant R22 · GWP100 AR6",
+     "1,000 kg × GWP 1760 ÷ 1000",
+     1760
+    ]
+   ]
+  },
+  {
+   "name": "refrigerant-CO2",
+   "missingInputs": [],
+   "s1": 2088,
+   "s2": 0,
+   "s2_mkt": 0,
+   "s3": 0,
+   "fin": 0,
+   "total": 2088,
+   "lines": [
+    [
+     "Scope 1",
+     "Refrigerant  · GWP100 AR6",
+     "1,000 kg × GWP 2088 ÷ 1000",
+     2088
+    ]
+   ]
+  },
+  {
+   "name": "grid-IN",
+   "missingInputs": [],
+   "s1": 0,
+   "s2": 1718.3999999999999,
+   "s2_mkt": 1718.3999999999999,
+   "s3": 0,
+   "fin": 0,
+   "total": 1718.3999999999999,
+   "lines": [
+    [
+     "Scope 2",
+     "Purchased electricity · location-based",
+     "2,400 MWh × 0.716 t/MWh",
+     1718.3999999999999
+    ]
+   ]
+  },
+  {
+   "name": "grid-AU",
+   "missingInputs": [],
+   "s1": 0,
+   "s2": 1224,
+   "s2_mkt": 1224,
+   "s3": 0,
+   "fin": 0,
+   "total": 1224,
+   "lines": [
+    [
+     "Scope 2",
+     "Purchased electricity · location-based",
+     "2,400 MWh × 0.51 t/MWh",
+     1224
+    ]
+   ]
+  },
+  {
+   "name": "grid-SG",
+   "missingInputs": [],
+   "s1": 0,
+   "s2": 979.1999999999999,
+   "s2_mkt": 979.1999999999999,
+   "s3": 0,
+   "fin": 0,
+   "total": 979.1999999999999,
+   "lines": [
+    [
+     "Scope 2",
+     "Purchased electricity · location-based",
+     "2,400 MWh × 0.408 t/MWh",
+     979.1999999999999
+    ]
+   ]
+  },
+  {
+   "name": "grid-GB",
+   "missingInputs": [],
+   "s1": 0,
+   "s2": 496.79999999999995,
+   "s2_mkt": 496.79999999999995,
+   "s3": 0,
+   "fin": 0,
+   "total": 496.79999999999995,
+   "lines": [
+    [
+     "Scope 2",
+     "Purchased electricity · location-based",
+     "2,400 MWh × 0.207 t/MWh",
+     496.79999999999995
+    ]
+   ]
+  }
+ ],
+ "csv": "Category,Subcategory,Activity,Amount,Unit,Emission Factor,EF Unit,tCO2e,Source,EF Reference\r\nOrg Details,Entity,Organisation Name,Organisation,,,,,,\r\nOrg Details,Entity,Reporting Period,—,,,,,,\r\nOrg Details,Entity,Base Year,—,,,,,,\r\nOrg Details,Entity,Sector,—,,,,,,\r\nOrg Details,Entity,Employees,320,FTE,,,,,\r\nScope 1,Stationary,Diesel,12000,litres,—,kgCO2e/litre,0,—,DEFRA 2024\r\nScope 1,Stationary,Natural Gas,4500,GJ,—,kgCO2e/GJ,0,—,DEFRA 2024\r\nScope 1,Stationary,LPG,800,kg,—,kgCO2e/kg,0,—,DEFRA 2024\r\nScope 1,Mobile,Petrol (Fleet),45000,litres,2.31,kgCO2e/litre,103.95,—,DEFRA 2024\r\nScope 1,Mobile,Diesel (Fleet),30000,litres,2.68,kgCO2e/litre,80.4,—,DEFRA 2024\r\nScope 1,Fugitive,Refrigerants,500,kg,R410A,GWP100,1044,—,IPCC AR6\r\nScope 2,Purchased Electricity (LB),2400,MWh,—,tCO2e/MWh,0,—,IEA 2024\r\nScope 2,Purchased Heat/Steam,900,GJ,—,tCO2e/GJ,0,—,DEFRA 2024\r\nScope 3,Cat 1 Purchased Goods,18,USD mn,—,tCO2e/USD mn,6300,,Spend-based EEIO\r\nScope 3,Cat 5 Waste,140,tonnes,0.467,tCO2e/tonne,65.38,—,DEFRA 2024\r\nScope 3,Cat 6 Air Travel,1250000,PKM,0.0001,tCO2e/PKM,125,—,DEFRA 2024 RFI\r\nScope 3,Cat 7 Commuting,22×—×employees,km×days,0.17,kgCO2e/km,287.23,,DEFRA 2024\r\nTotals,Scope 1,,—,tCO2e,,,,,\r\nTotals,Scope 2 (Location-based),,—,tCO2e,,,,,\r\nTotals,Scope 2 (Market-based),,—,tCO2e,,,,,\r\nTotals,Scope 3 (Selected),,—,tCO2e,,,,,\r\nTotals,TOTAL,,—,tCO2e,,,,,\r\nTotals,Intensity,,—,tCO2e/₹Cr,,,,,"
+}

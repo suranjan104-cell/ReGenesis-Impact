@@ -1,0 +1,114 @@
+[
+  {
+    "id": "s2-grid-in",
+    "name": "Grid electricity — India (default)",
+    "category": "scope2_electricity",
+    "value": 0.716,
+    "unit": "tCO2e/MWh",
+    "basis": "location-based",
+    "region": "IN",
+    "source": {
+      "publisher": "Central Electricity Authority (India)",
+      "document": "CO2 Baseline Database for the Indian Power Sector",
+      "url": "https://cea.nic.in/cdm-co2-baseline-database/"
+    },
+    "vintage": 2024,
+    "editable": true,
+    "input_id": "g-elec-ef",
+    "applies_to": [
+      "ghg_compute:Scope 2 purchased electricity",
+      "ghg_compute:Scope 2 market-based residual",
+      "ghg_compute:S3 Cat 11 use of sold products"
+    ],
+    "confidence": "medium",
+    "reviewed": "2026-08",
+    "note": "The field default, user-editable, and the fallback the engine uses when the field is blank. The superseded GHG_EF table carried 0.82 tCO2e/MWh for India from the same nominal source — a genuine disagreement between two values in the same file, not a difference of basis. 0.716 is the one that was actually reaching users, so it is the one recorded here."
+  },
+  {
+    "id": "s2-grid-au",
+    "name": "Grid electricity — Australia (NEM average)",
+    "category": "scope2_electricity",
+    "value": 0.51,
+    "unit": "tCO2e/MWh",
+    "basis": "location-based",
+    "region": "AU",
+    "source": {
+      "publisher": "DCCEEW",
+      "document": "National Greenhouse Accounts Factors",
+      "url": "https://www.dcceew.gov.au/climate-change/publications/national-greenhouse-accounts-factors"
+    },
+    "vintage": 2024,
+    "editable": true,
+    "input_id": "g-elec-ef",
+    "applies_to": ["ghg_compute:Scope 2 purchased electricity"],
+    "confidence": "medium",
+    "reviewed": "2026-08",
+    "note": "Reference value for the market selector. Not a default — the user enters it into g-elec-ef."
+  },
+  {
+    "id": "s2-grid-sg",
+    "name": "Grid electricity — Singapore",
+    "category": "scope2_electricity",
+    "value": 0.408,
+    "unit": "tCO2e/MWh",
+    "basis": "location-based",
+    "region": "SG",
+    "source": {
+      "publisher": "Energy Market Authority (Singapore)",
+      "document": "Singapore Energy Statistics — grid emission factor",
+      "url": "https://www.ema.gov.sg/resources/singapore-energy-statistics"
+    },
+    "vintage": 2024,
+    "editable": true,
+    "input_id": "g-elec-ef",
+    "applies_to": ["ghg_compute:Scope 2 purchased electricity"],
+    "confidence": "medium",
+    "reviewed": "2026-08",
+    "note": "Reference value for the market selector."
+  },
+  {
+    "id": "s2-grid-gb",
+    "name": "Grid electricity — United Kingdom",
+    "category": "scope2_electricity",
+    "value": 0.207,
+    "unit": "tCO2e/MWh",
+    "basis": "location-based",
+    "region": "GB",
+    "source": {
+      "publisher": "DESNZ",
+      "document": "UK Government GHG Conversion Factors — UK electricity",
+      "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+    },
+    "vintage": 2024,
+    "editable": true,
+    "input_id": "g-elec-ef",
+    "applies_to": ["ghg_compute:Scope 2 purchased electricity"],
+    "confidence": "medium",
+    "reviewed": "2026-08",
+    "note": "Reference value for the market selector."
+  },
+  {
+    "id": "s2-heat-steam",
+    "name": "Purchased heat and steam",
+    "category": "scope2_heat",
+    "value": 0.067,
+    "unit": "tCO2e/GJ",
+    "basis": "location-based",
+    "region": "global",
+    "source": {
+      "publisher": "DEFRA",
+      "document": "UK Government GHG Conversion Factors — heat and steam",
+      "url": "https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting"
+    },
+    "vintage": 2024,
+    "editable": true,
+    "input_id": "g-heat-ef",
+    "applies_to": [
+      "ghg_compute:Scope 2 purchased heat/steam",
+      "ghg_compute:Scope 2 market-based"
+    ],
+    "confidence": "medium",
+    "reviewed": "2026-08",
+    "note": "Applied identically in the location-based and market-based paths."
+  }
+]
