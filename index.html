@@ -2203,6 +2203,10 @@ input:focus,select:focus,textarea:focus{
         <div class="db-ins-title">📡 Traffic sources</div>
         <div id="ins-sources" class="db-ins-list"><span style="color:rgba(240,237,232,.35)">Press Refresh to load…</span></div>
       </div>
+      <div class="db-ins-panel">
+        <div class="db-ins-title">🧾 Factor provenance · Gate A</div>
+        <div id="ins-provenance" class="db-ins-list"><span style="color:rgba(240,237,232,.35)">Press Refresh to load…</span></div>
+      </div>
     </div>
     <div id="ins-setup-note" style="display:none;margin-top:.9rem;padding:.8rem 1rem;border:1px solid rgba(255,181,71,.3);border-radius:.5rem;background:rgba(255,181,71,.06);font-size:.78rem;color:rgba(255,181,71,.9)">
       ⚠️ Analytics tables not found. Run the ANALYTICS block in <code>supabase-setup.sql</code> in your Supabase SQL editor once, then refresh.
@@ -8546,6 +8550,27 @@ function rgTrack(type, page) {
     }]).then(function(){}, function(){});
   } catch(e) { /* analytics must never break the app */ }
 }
+/* ── EVENT VOCABULARY ──────────────────────────────────────────────────
+   events.event_type is free-form text, so new types need no migration. The
+   value of declaring them here is that emitters and the dashboard readout
+   below cannot drift apart on spelling.
+
+   Provenance events land ahead of the features that emit them (P1–P3 of
+   EXECUTION-PLAN.md), so Gate A has a clean before/after rather than a
+   baseline reconstructed after the fact. */
+var RG_EVENTS = Object.freeze({
+  FACTOR_VIEW:         'factor_view',         // opened the emission factor register
+  FACTOR_SOURCE_CLICK: 'factor_source_click', // followed a factor through to its source
+  WORKING_OPEN:        'working_open',        // expanded the derivation behind a number
+  DQ_SCORE_SET:        'dq_score_set'         // assigned a data quality tier to an input
+});
+var RG_PROVENANCE_EVENTS = [
+  [RG_EVENTS.FACTOR_VIEW,         'Register opened'],
+  [RG_EVENTS.WORKING_OPEN,        'Derivation expanded'],
+  [RG_EVENTS.FACTOR_SOURCE_CLICK, 'Source followed'],
+  [RG_EVENTS.DQ_SCORE_SET,        'Data quality tier set']
+];
+
 function rgLogQuery(tool, prompt) {
   try {
     if (!_supabase || !prompt) return;
@@ -8571,10 +8596,14 @@ async function dbLoadInsights() {
     setNote(false);
     var rows = ev.data || [];
     var sessions = {}; var views = 0; var tools = {}; var sources = {};
+    var toolOpens = 0; var prov = {};
+    RG_PROVENANCE_EVENTS.forEach(function(e){ prov[e[0]] = 0; });
     rows.forEach(function(r){
       sessions[r.session_id] = 1;
       if (r.event_type === 'page_view') views++;
       if (r.event_type === 'tool_open' && r.page) tools[r.page] = (tools[r.page]||0)+1;
+      if (r.event_type === 'tool_open') toolOpens++;
+      if (prov[r.event_type] != null) prov[r.event_type]++;
       var src = r.utm_source || (r.referrer ? (r.referrer.replace(/^https?:\/\//,'').split('/')[0]) : 'direct');
       sources[src] = (sources[src]||0)+1;
     });
@@ -8594,6 +8623,21 @@ async function dbLoadInsights() {
       srcEl.innerHTML = sArr.length ? sArr.slice(0,7).map(function(s){
         return '<div class="db-ins-row"><span>'+esc(s[0])+'</span><b>'+s[1]+'</b></div>';
       }).join('') : '<span style="color:rgba(240,237,232,.35)">No traffic data yet</span>';
+    }
+
+    /* Gate A readout. Rates are shown against tool opens because a raw count
+       says nothing about whether anyone reached for provenance. At low traffic
+       these are directional only — the gate is weighted on the quality checks
+       in EXECUTION-PLAN.md, not on this panel. */
+    var provEl = document.getElementById('ins-provenance');
+    if (provEl) {
+      var anyProv = RG_PROVENANCE_EVENTS.some(function(e){ return prov[e[0]] > 0; });
+      provEl.innerHTML = RG_PROVENANCE_EVENTS.map(function(e){
+        var n = prov[e[0]];
+        var rate = toolOpens > 0 ? Math.round(n / toolOpens * 100) + '%' : '—';
+        return '<div class="db-ins-row"><span>'+esc(e[1])+'</span><b>'+n+(n>0?' · '+rate:'')+'</b></div>';
+      }).join('') + (anyProv ? '' :
+        '<div style="margin-top:.5rem;font-size:.7rem;color:rgba(240,237,232,.35)">Not emitted yet — instrumented ahead of P1–P3.</div>');
     }
 
     var q = await _supabase.from('queries').select('tool,prompt,user_email,created_at').gte('created_at', since).order('created_at',{ascending:false}).limit(200);
