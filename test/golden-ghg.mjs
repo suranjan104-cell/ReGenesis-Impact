@@ -95,6 +95,7 @@ const probe = `<script>
   function run(){
   try {
     var SC = ${JSON.stringify(SCENARIOS)};
+    var BASE_CSV = ${JSON.stringify(BASE)};
     // Every id the engine reads, so each scenario starts from a clean slate.
     var ALL = ${JSON.stringify([...new Set(SCENARIOS.flatMap(s => Object.keys(s.inputs)))])};
     var out = [];
@@ -121,7 +122,28 @@ const probe = `<script>
         lines: r.lines.map(function(l){ return [l[0], l[1], l[2], l[3]]; })
       });
     }
-    report({ scenarios: out });
+    /* The CSV export is a second calculation surface — it re-derived every
+       factor independently of the engine. Captured here so the migration can
+       be proved against it too. Blob is stubbed to intercept the payload
+       without triggering a download. */
+    var csv = null;
+    if (typeof window.ghgExportCSV === 'function') {
+      var RealBlob = window.Blob, captured = null;
+      window.Blob = function(parts){ captured = String(parts && parts[0] || ''); return new RealBlob(parts, {type:'text/plain'}); };
+      var realCreate = URL.createObjectURL, realRevoke = URL.revokeObjectURL, realOpen = window.open;
+      URL.createObjectURL = function(){ return 'blob:stub'; };
+      URL.revokeObjectURL = function(){};
+      window.open = function(){ return null; };
+      try {
+        ALL.forEach(function(id){ var el=document.getElementById(id); if(el){ if(el.tagName==='SELECT') el.selectedIndex=0; else el.value=''; } });
+        for (var k in BASE_CSV) { var e2 = document.getElementById(k); if (e2) e2.value = String(BASE_CSV[k]); }
+        window.ghgExportCSV();
+        csv = captured;
+      } catch (ce) { csv = 'ERROR: ' + (ce && ce.message || ce); }
+      window.Blob = RealBlob; URL.createObjectURL = realCreate;
+      URL.revokeObjectURL = realRevoke; window.open = realOpen;
+    }
+    report({ scenarios: out, csv: csv });
   } catch (e) { report({ error: String(e && e.message || e) }); }
   }
 })();
@@ -156,12 +178,14 @@ if (result.error) throw new Error(`probe failed: ${result.error}`);
 const missing = result.scenarios.flatMap(s => s.missingInputs.map(id => `${s.name}:${id}`));
 if (missing.length) throw new Error(`inputs not found in the page: ${missing.join(', ')}`);
 
-const actual = JSON.stringify(result.scenarios, null, 1) + '\n';
+if (result.csv == null) throw new Error('CSV export did not report — ghgExportCSV may have been renamed');
+if (/^ERROR: /.test(result.csv)) throw new Error(`CSV export threw — ${result.csv}`);
+const actual = JSON.stringify({ scenarios: result.scenarios, csv: result.csv }, null, 1) + '\n';
 
 if (WRITE || !existsSync(FIXTURE)) {
   writeFileSync(FIXTURE, actual);
   const lines = result.scenarios.reduce((a, s) => a + s.lines.length, 0);
-  console.log(`  wrote fixture — ${result.scenarios.length} scenarios, ${lines} audit-trail lines`);
+  console.log(`  wrote fixture — ${result.scenarios.length} scenarios, ${lines} audit-trail lines, ${String(result.csv).split('\n').length} CSV rows`);
   console.log(`  ${FIXTURE}`);
   process.exit(0);
 }
@@ -169,13 +193,22 @@ if (WRITE || !existsSync(FIXTURE)) {
 const expected = readFileSync(FIXTURE, 'utf8');
 if (actual === expected) {
   const lines = result.scenarios.reduce((a, s) => a + s.lines.length, 0);
-  console.log(`  ✓ golden values unchanged — ${result.scenarios.length} scenarios, ${lines} audit-trail lines`);
+  console.log(`  ✓ golden values unchanged — ${result.scenarios.length} scenarios, ${lines} audit-trail lines, CSV export identical`);
   process.exit(0);
 }
 
 // Report the first differing scenario precisely rather than dumping both files.
-const exp = JSON.parse(expected);
+const parsed = JSON.parse(expected);
+const exp = parsed.scenarios;
 console.error('  ✗ GHG engine output changed\n');
+if (parsed.csv !== result.csv) {
+  console.error('  CSV export differs:');
+  const ea = String(parsed.csv).split('\n'), ba = String(result.csv).split('\n');
+  for (let i = 0; i < Math.max(ea.length, ba.length); i++) {
+    if (ea[i] !== ba[i]) { console.error(`    line ${i + 1}\n      was  ${ea[i]}\n      now  ${ba[i]}`); }
+  }
+  console.error('');
+}
 for (let i = 0; i < Math.max(exp.length, result.scenarios.length); i++) {
   const a = exp[i], b = result.scenarios[i];
   if (JSON.stringify(a) === JSON.stringify(b)) continue;

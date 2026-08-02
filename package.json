@@ -4,6 +4,10 @@
   "scripts": {
     "deploy": "bash deploy.sh",
     "test:golden": "node test/golden-ghg.mjs",
-    "test:golden:write": "node test/golden-ghg.mjs --write"
+    "test:golden:write": "node test/golden-ghg.mjs --write",
+    "factors:build": "node knowledge/build-factors.mjs",
+    "factors:sync": "node knowledge/sync-factors.mjs",
+    "test:literals": "node test/factor-literals.mjs",
+    "test": "node knowledge/build-factors.mjs && node knowledge/sync-factors.mjs --check && node test/factor-literals.mjs && node test/golden-ghg.mjs"
   }
 }
