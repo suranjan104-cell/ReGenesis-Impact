@@ -2,6 +2,8 @@
   "name": "regenesis-impact-site",
   "private": true,
   "scripts": {
-    "deploy": "bash deploy.sh"
+    "deploy": "bash deploy.sh",
+    "test:golden": "node test/golden-ghg.mjs",
+    "test:golden:write": "node test/golden-ghg.mjs --write"
   }
 }
