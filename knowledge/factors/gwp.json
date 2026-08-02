@@ -19,8 +19,7 @@
       "ghg_compute:Scope 1 refrigerant"
     ],
     "confidence": "medium",
-    "reviewed": "2026-08",
-    "note": "Assessment set established from our own data rather than an external table: refrigerant blends are defined mass fractions, so solving R-410A (50/50 R-32/R-125) against our R-32 implies R-125 = 3501, the AR4 value. That component set then reproduces our R-407C (1774.1 vs 1774) and R-404A (3922.0 vs 3922). Five of six values are mutually consistent on AR4."
+    "reviewed": "2026-08"
   },
   {
     "id": "gwp-r32",
@@ -42,8 +41,7 @@
       "ghg_compute:Scope 1 refrigerant"
     ],
     "confidence": "medium",
-    "reviewed": "2026-08",
-    "note": "Assessment set established from our own data rather than an external table: refrigerant blends are defined mass fractions, so solving R-410A (50/50 R-32/R-125) against our R-32 implies R-125 = 3501, the AR4 value. That component set then reproduces our R-407C (1774.1 vs 1774) and R-404A (3922.0 vs 3922). Five of six values are mutually consistent on AR4."
+    "reviewed": "2026-08"
   },
   {
     "id": "gwp-r134a",
@@ -65,8 +63,7 @@
       "ghg_compute:Scope 1 refrigerant"
     ],
     "confidence": "medium",
-    "reviewed": "2026-08",
-    "note": "Assessment set established from our own data rather than an external table: refrigerant blends are defined mass fractions, so solving R-410A (50/50 R-32/R-125) against our R-32 implies R-125 = 3501, the AR4 value. That component set then reproduces our R-407C (1774.1 vs 1774) and R-404A (3922.0 vs 3922). Five of six values are mutually consistent on AR4."
+    "reviewed": "2026-08"
   },
   {
     "id": "gwp-r407c",
@@ -89,7 +86,7 @@
     ],
     "confidence": "medium",
     "reviewed": "2026-08",
-    "note": "Assessment set established from our own data rather than an external table: refrigerant blends are defined mass fractions, so solving R-410A (50/50 R-32/R-125) against our R-32 implies R-125 = 3501, the AR4 value. That component set then reproduces our R-407C (1774.1 vs 1774) and R-404A (3922.0 vs 3922). Five of six values are mutually consistent on AR4. Not selectable in the current UI."
+    "note": "Not selectable in the current UI."
   },
   {
     "id": "gwp-r404a",
@@ -112,7 +109,7 @@
     ],
     "confidence": "medium",
     "reviewed": "2026-08",
-    "note": "Assessment set established from our own data rather than an external table: refrigerant blends are defined mass fractions, so solving R-410A (50/50 R-32/R-125) against our R-32 implies R-125 = 3501, the AR4 value. That component set then reproduces our R-407C (1774.1 vs 1774) and R-404A (3922.0 vs 3922). Five of six values are mutually consistent on AR4. Not selectable in the current UI."
+    "note": "Not selectable in the current UI."
   },
   {
     "id": "gwp-r22",
@@ -135,7 +132,7 @@
     ],
     "confidence": "medium",
     "reviewed": "2026-08",
-    "note": "Corrected from 1760 to 1810. 1760 is the AR5 value and was the sole outlier in an otherwise AR4 set; the selector label shown to users already read 1810. Assessment set established from our own data rather than an external table: refrigerant blends are defined mass fractions, so solving R-410A (50/50 R-32/R-125) against our R-32 implies R-125 = 3501, the AR4 value. That component set then reproduces our R-407C (1774.1 vs 1774) and R-404A (3922.0 vs 3922). Five of six values are mutually consistent on AR4. This raises reported emissions for R-22 users by 2.84%."
+    "note": "Corrected from 1760 to 1810. 1760 is the AR5 value and was the sole outlier in an otherwise AR4 set; the selector label shown to users already read 1810. Raises reported emissions for R-22 users by 2.84%."
   },
   {
     "id": "gwp-co2",
@@ -158,6 +155,6 @@
     ],
     "confidence": "high",
     "reviewed": "2026-08",
-    "note": "The only GWP in this file that needs no assessment-report attribution. Not selectable in the current UI."
+    "note": "The reference gas — 1 in every assessment report, so it needs no attribution. Not selectable in the current UI."
   }
 ]
