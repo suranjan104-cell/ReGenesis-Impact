@@ -83,11 +83,12 @@ const slides = [];
 slides.push(slide(`
   <div class="eyebrow">Climate disclosure briefing · August 2026</div>
   <div>
-    <h1 style="font-size:104px;line-height:.98">Priced now.<br><em style="font-style:italic;color:var(--emerald)">Assured later.</em></h1>
-    <p class="lede" style="max-width:900px;margin-top:24px">
-      Scope 3, climate scenario analysis and transition plans are what investors,
-      lenders and insurers read. They are also the last three to be assured, and the
-      only three the regime shields from liability while they are unverified.
+    <h1 style="font-size:80px;line-height:1.0">No one is required to<br>have a <em style="font-style:italic;color:var(--emerald)">transition plan</em>.</h1>
+    <p class="lede" style="max-width:920px;margin-top:24px">
+      IFRS S2 asks an entity to disclose a plan only if it has one. Just under
+      two-thirds of Australia's first-wave reporters disclosed one anyway — and once
+      disclosed, it carries assumptions, dependencies, a duty to report progress, and
+      no assurance for the first year.
     </p>
   </div>
 

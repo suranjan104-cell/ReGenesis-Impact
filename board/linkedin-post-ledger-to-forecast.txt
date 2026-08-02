@@ -1,9 +1,10 @@
-Priced now. Assured later.
+No one is required to have a transition plan.
 
-Scope 3, climate scenario analysis and transition plans are what investors, lenders and insurers actually read. They are also the last three to be assured, and the only three the regime shields from liability while they are unverified.
+IFRS S2 asks an entity to disclose a plan only if it has one. Just under two-thirds of Australia's first-wave reporters disclosed one anyway — and once disclosed, it carries assumptions, dependencies, a duty to report progress, and no assurance in the first year.
 
 A new briefing on what scenario analysis and transition planning ask of corporate data:
 
+— MAS has made transition planning a supervisory expectation for banks, insurers and asset managers from September 2027, with scenario results required to feed credit, underwriting and investment decisions.
 — AASB S2 requires two scenarios, one at 1.5°C and one where warming well exceeds 2°C. IFRS S2 prescribes neither.
 — The paper behind the physical-risk estimates in NGFS Phase V has been retracted. Resilience assessments built on those outputs have a material assumption to disclose.
 — Around 70% of reported emissions in the ECB's stress test rested on proxies rather than counterparty data.
