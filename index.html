@@ -4886,6 +4886,24 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
  <span>tCO₂e</span>
  <span>EVIDENCE REF</span>
  </div>
+ <style>
+ #page-ghg .at-line{border-top:1px solid rgba(255,255,255,.05)}
+ #page-ghg .at-header{cursor:pointer;position:relative;transition:background .15s}
+ #page-ghg .at-line:hover .at-header{background:rgba(126,217,87,.04)}
+ #page-ghg .at-tog{font-family:'DM Mono',monospace;font-size:.55rem;color:rgba(126,217,87,.55);letter-spacing:.08em}
+ #page-ghg .at-line.open .at-tog{color:#7ed957}
+ #page-ghg .at-deriv{display:none;padding:.9rem 1rem 1.1rem;margin:0 0 .6rem;background:rgba(0,0,0,.28);border-left:2px solid rgba(126,217,87,.35)}
+ #page-ghg .at-line.open .at-deriv{display:block}
+ #page-ghg .at-step{font-family:'DM Mono',monospace;font-size:.68rem;color:rgba(245,240,232,.82);margin-bottom:.75rem;line-height:1.7}
+ #page-ghg .at-fx{border-top:1px solid rgba(255,255,255,.06);padding-top:.6rem;margin-top:.55rem}
+ #page-ghg .at-fx-name{font-size:.72rem;color:rgba(245,240,232,.9);margin-bottom:.25rem}
+ #page-ghg .at-fx-meta{font-family:'DM Mono',monospace;font-size:.6rem;color:rgba(245,240,232,.45);line-height:1.75}
+ #page-ghg .at-fx-meta a{color:rgba(10,255,219,.8);text-decoration:none;border-bottom:1px dotted rgba(10,255,219,.35)}
+ #page-ghg .at-chip{display:inline-block;font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;padding:.12rem .4rem;border:1px solid;margin-left:.4rem;vertical-align:middle}
+ #page-ghg .at-chip.low{color:#ffb547;border-color:rgba(255,181,71,.45)}
+ #page-ghg .at-chip.over{color:#0affdb;border-color:rgba(10,255,219,.4)}
+ #page-ghg .at-chip.unsourced{color:#ff8f6b;border-color:rgba(255,143,107,.45)}
+ </style>
  <div id="ghg-audit-rows"></div>
  <div class="integrity-badge">
  <span class="ib-icon">✅</span>
@@ -8128,6 +8146,9 @@ function showPage(page) {
     if (typeof rgTrack === 'function') rgTrack(RG_EVENTS.FACTOR_VIEW, 'factors');
     if (typeof fxLoad === 'function') fxLoad();
   }
+  // The GHG audit trail renders factor provenance, so the register has to be
+  // in memory before the first calculation is shown.
+  if (page === 'ghg' && typeof fxLoad === 'function') fxLoad();
 
   // Owner insights auto-load on dashboard open (owner only — see isOwnerUser)
   if (page === 'dashboard' && isOwnerUser() && typeof dbLoadInsights === 'function') setTimeout(dbLoadInsights, 300);
@@ -8999,6 +9020,14 @@ document.addEventListener('DOMContentLoaded', function() {
    }).join('');
  };
 
+ window.ghgToggleWorking = function(i) {
+   var el = document.getElementById('at-l' + i);
+   if (!el) return;
+   var opening = !el.classList.contains('open');
+   el.classList.toggle('open');
+   if (opening && typeof rgTrack === 'function') rgTrack(RG_EVENTS.WORKING_OPEN, 'ghg');
+ };
+
  // Refrigerant GWP lookup. Lives here so the engine and the CSV export share
  // one map — they previously held separate copies that could drift apart.
  window.ghgGwp = function(refType) {
@@ -9100,55 +9129,68 @@ document.addEventListener('DOMContentLoaded', function() {
  // Every user-editable EF field is honoured; unit basis is shown per line.
  window.ghg_compute = function() {
   var v = ghg_val;
+  var L = []; // audit-trail lines: [cat, source+method, calculation, tCO2e, evidenceFieldId, factorIds]
+  var prov = {};
+  /* Resolves a factor and records what was actually applied. An assurance
+     provider's first question about any number is which factor produced it and
+     whether the preparer overrode the default — so both are captured here
+     rather than reconstructed from the UI afterwards. */
+  function ef(id, userVal) {
+    var reg = EF(id);
+    var v = (typeof userVal === 'number' && userVal > 0) ? userVal : reg;
+    prov[id] = { value: v, overridden: v !== reg };
+    return v;
+  }
   // Every factor below resolves through EF(id) against the generated register
   // block. The arithmetic and the audit-trail label read the SAME variable, so
   // a displayed factor can no longer disagree with the one actually applied.
-  var gridEF = v('g-elec-ef') || EF('s2-grid-in'); // tCO2e/MWh, editable
+  var gridEF = ef('s2-grid-in', v('g-elec-ef')); // tCO2e/MWh, editable
   var refType = document.getElementById('g-refrig-type') ? document.getElementById('g-refrig-type').value : 'R410A';
-  var gwp = ghgGwp(refType);
-  var L = []; // audit-trail lines: [scope/cat, source+method, calculation, tCO2e, evidenceFieldId]
-  function line(cat, src, calc, t, ev) { if (t > 0) L.push([cat, src, calc, t, ev]); return t > 0 ? t : 0; }
+  var gwpId = 'gwp-' + String(refType).toLowerCase();
+  if (!(gwpId in RG_FACTORS)) gwpId = 'gwp-r410a';
+  var gwp = ef(gwpId);
+  function line(cat, src, calc, t, ev, ids) { if (t > 0) L.push([cat, src, calc, t, ev, ids || []]); return t > 0 ? t : 0; }
 
-  var dieselEF = v('g-diesel-ef') || EF('s1-diesel-stationary'),
-      gasEF = v('g-gas-ef') || EF('s1-natural-gas'),
-      lpgEF = v('g-lpg-ef') || EF('s1-lpg');
-  var petrolEF = EF('s1-petrol-fleet'), fleetDieselEF = EF('s1-diesel-fleet');
+  var dieselEF = ef('s1-diesel-stationary', v('g-diesel-ef')),
+      gasEF = ef('s1-natural-gas', v('g-gas-ef')),
+      lpgEF = ef('s1-lpg', v('g-lpg-ef'));
+  var petrolEF = ef('s1-petrol-fleet'), fleetDieselEF = ef('s1-diesel-fleet');
   var s1 = 0;
-  s1 += line('Scope 1', 'Diesel (stationary) · fuel-based', v('g-diesel-vol').toLocaleString() + ' L × ' + dieselEF + ' kg/L ÷ 1000', v('g-diesel-vol') * dieselEF / 1000, 'g-diesel-src');
-  s1 += line('Scope 1', 'Natural gas · fuel-based', v('g-gas-vol').toLocaleString() + ' GJ × ' + gasEF + ' kg/GJ ÷ 1000', v('g-gas-vol') * gasEF / 1000, 'g-gas-src');
-  s1 += line('Scope 1', 'LPG · fuel-based', v('g-lpg-vol').toLocaleString() + ' kg × ' + lpgEF + ' kg/kg ÷ 1000', v('g-lpg-vol') * lpgEF / 1000, 'g-lpg-src');
-  s1 += line('Scope 1', 'Fleet petrol · fuel-based', v('g-petrol-vol').toLocaleString() + ' L × ' + petrolEF + ' kg/L ÷ 1000', v('g-petrol-vol') * petrolEF / 1000, 'g-mob-src');
-  s1 += line('Scope 1', 'Fleet diesel · fuel-based', v('g-mob-diesel-vol').toLocaleString() + ' L × ' + fleetDieselEF + ' kg/L ÷ 1000', v('g-mob-diesel-vol') * fleetDieselEF / 1000, 'g-mob-src');
-  s1 += line('Scope 1', 'Refrigerant ' + refType + ' · GWP100 AR4', v('g-refrig-vol').toLocaleString() + ' kg × GWP ' + gwp + ' ÷ 1000', v('g-refrig-vol') * gwp / 1000, 'g-refrig-src');
+  s1 += line('Scope 1', 'Diesel (stationary) · fuel-based', v('g-diesel-vol').toLocaleString() + ' L × ' + dieselEF + ' kg/L ÷ 1000', v('g-diesel-vol') * dieselEF / 1000, 'g-diesel-src', ['s1-diesel-stationary']);
+  s1 += line('Scope 1', 'Natural gas · fuel-based', v('g-gas-vol').toLocaleString() + ' GJ × ' + gasEF + ' kg/GJ ÷ 1000', v('g-gas-vol') * gasEF / 1000, 'g-gas-src', ['s1-natural-gas']);
+  s1 += line('Scope 1', 'LPG · fuel-based', v('g-lpg-vol').toLocaleString() + ' kg × ' + lpgEF + ' kg/kg ÷ 1000', v('g-lpg-vol') * lpgEF / 1000, 'g-lpg-src', ['s1-lpg']);
+  s1 += line('Scope 1', 'Fleet petrol · fuel-based', v('g-petrol-vol').toLocaleString() + ' L × ' + petrolEF + ' kg/L ÷ 1000', v('g-petrol-vol') * petrolEF / 1000, 'g-mob-src', ['s1-petrol-fleet']);
+  s1 += line('Scope 1', 'Fleet diesel · fuel-based', v('g-mob-diesel-vol').toLocaleString() + ' L × ' + fleetDieselEF + ' kg/L ÷ 1000', v('g-mob-diesel-vol') * fleetDieselEF / 1000, 'g-mob-src', ['s1-diesel-fleet']);
+  s1 += line('Scope 1', 'Refrigerant ' + refType + ' · GWP100 AR4', v('g-refrig-vol').toLocaleString() + ' kg × GWP ' + gwp + ' ÷ 1000', v('g-refrig-vol') * gwp / 1000, 'g-refrig-src', [gwpId]);
 
   var s2 = 0;
-  s2 += line('Scope 2', 'Purchased electricity · location-based', v('g-elec-mwh').toLocaleString() + ' MWh × ' + gridEF + ' t/MWh', v('g-elec-mwh') * gridEF, 'g-elec-src');
-  var heatEF = v('g-heat-ef') || EF('s2-heat-steam');
-  s2 += line('Scope 2', 'Purchased heat/steam', v('g-heat-gj').toLocaleString() + ' GJ × ' + heatEF + ' t/GJ', v('g-heat-gj') * heatEF, 'g-heat-src');
+  s2 += line('Scope 2', 'Purchased electricity · location-based', v('g-elec-mwh').toLocaleString() + ' MWh × ' + gridEF + ' t/MWh', v('g-elec-mwh') * gridEF, 'g-elec-src', ['s2-grid-in']);
+  var heatEF = ef('s2-heat-steam', v('g-heat-ef'));
+  s2 += line('Scope 2', 'Purchased heat/steam', v('g-heat-gj').toLocaleString() + ' GJ × ' + heatEF + ' t/GJ', v('g-heat-gj') * heatEF, 'g-heat-src', ['s2-heat-steam']);
   var s2_mkt = Math.max(0, (v('g-elec-mwh') - v('g-re-mwh'))) * (v('g-residual-ef') || gridEF) + v('g-heat-gj') * heatEF;
 
   var s3 = 0, emp = v('g-employees');
-  var cat1EF = v('g-cat1-ef') || EF('s3-cat1-spend');
-  var wasteEF = EF('s3-cat5-waste'), airEF = EF('s3-cat6-air'), hotelEF = EF('s3-cat6-hotel'),
-      commuteEF = EF('s3-cat7-commute');
-  s3 += line('S3 Cat 1', 'Purchased goods & services · spend-based EEIO', '$' + v('g-cat1-spend').toLocaleString() + 'mn × ' + cat1EF + ' t/$mn', v('g-cat1-spend') * cat1EF, 'g-cat1-src');
-  s3 += line('S3 Cat 5', 'Waste to landfill · waste-type factor', v('g-cat5-waste').toLocaleString() + ' t × ' + wasteEF + ' t/t', v('g-cat5-waste') * wasteEF, 'g-cat5-src');
-  s3 += line('S3 Cat 6', 'Air travel · distance-based', v('g-cat6-air').toLocaleString() + ' pkm × ' + airEF + ' t/pkm', v('g-cat6-air') * airEF, 'g-cat6-src');
-  s3 += line('S3 Cat 6', 'Hotel nights', v('g-cat6-hotel').toLocaleString() + ' nights × ' + hotelEF + ' t/night', v('g-cat6-hotel') * hotelEF, 'g-cat6-src');
-  var days = v('g-cat7-days') || EF('s3-cat7-workdays');
-  var cat11kwh = v('g-cat11-kwh') || EF('s3-cat11-use');
-  s3 += line('S3 Cat 7', 'Employee commuting · distance-based', v('g-cat7-km') + ' km/day × ' + (emp || 1).toLocaleString() + ' staff × ' + days + ' days × ' + commuteEF + ' kg ÷ 1000', v('g-cat7-km') * (emp || 1) * days * commuteEF / 1000, 'g-cat7-src');
-  s3 += line('S3 Cat 11', 'Use of sold products', v('g-cat11-units').toLocaleString() + ' units × ' + cat11kwh + ' kWh × ' + gridEF + ' t/MWh ÷ 1000', v('g-cat11-units') * cat11kwh * gridEF / 1000, 'g-cat11-src');
+  var cat1EF = ef('s3-cat1-spend', v('g-cat1-ef'));
+  var wasteEF = ef('s3-cat5-waste'), airEF = ef('s3-cat6-air'), hotelEF = ef('s3-cat6-hotel'),
+      commuteEF = ef('s3-cat7-commute');
+  s3 += line('S3 Cat 1', 'Purchased goods & services · spend-based EEIO', '$' + v('g-cat1-spend').toLocaleString() + 'mn × ' + cat1EF + ' t/$mn', v('g-cat1-spend') * cat1EF, 'g-cat1-src', ['s3-cat1-spend']);
+  s3 += line('S3 Cat 5', 'Waste to landfill · waste-type factor', v('g-cat5-waste').toLocaleString() + ' t × ' + wasteEF + ' t/t', v('g-cat5-waste') * wasteEF, 'g-cat5-src', ['s3-cat5-waste']);
+  s3 += line('S3 Cat 6', 'Air travel · distance-based', v('g-cat6-air').toLocaleString() + ' pkm × ' + airEF + ' t/pkm', v('g-cat6-air') * airEF, 'g-cat6-src', ['s3-cat6-air']);
+  s3 += line('S3 Cat 6', 'Hotel nights', v('g-cat6-hotel').toLocaleString() + ' nights × ' + hotelEF + ' t/night', v('g-cat6-hotel') * hotelEF, 'g-cat6-src', ['s3-cat6-hotel']);
+  var days = ef('s3-cat7-workdays', v('g-cat7-days'));
+  var cat11kwh = ef('s3-cat11-use', v('g-cat11-kwh'));
+  s3 += line('S3 Cat 7', 'Employee commuting · distance-based', v('g-cat7-km') + ' km/day × ' + (emp || 1).toLocaleString() + ' staff × ' + days + ' days × ' + commuteEF + ' kg ÷ 1000', v('g-cat7-km') * (emp || 1) * days * commuteEF / 1000, 'g-cat7-src', ['s3-cat7-commute','s3-cat7-workdays']);
+  s3 += line('S3 Cat 11', 'Use of sold products', v('g-cat11-units').toLocaleString() + ' units × ' + cat11kwh + ' kWh × ' + gridEF + ' t/MWh ÷ 1000', v('g-cat11-units') * cat11kwh * gridEF / 1000, 'g-cat11-src', ['s3-cat11-use','s2-grid-in']);
   var fin = 0;
-  var waci = v('g-pcaf1-waci') || EF('s3-cat15-corporate'),
-      reInt = v('g-pcaf2-intensity') || EF('s3-cat15-realestate'),
-      pfInt = v('g-pcaf3-intensity') || EF('s3-cat15-project');
-  fin += line('S3 Cat 15', 'PCAF corporate lending · WACI', '$' + v('g-pcaf1-amt').toLocaleString() + 'mn × ' + waci + ' t/$mn', v('g-pcaf1-amt') * waci, 'g-pcaf1-dq');
-  fin += line('S3 Cat 15', 'PCAF real estate / mortgages', '$' + v('g-pcaf2-amt').toLocaleString() + 'mn × ' + reInt + ' t/$mn', v('g-pcaf2-amt') * reInt, 'g-pcaf2-dq');
-  fin += line('S3 Cat 15', 'PCAF project finance', '$' + v('g-pcaf3-amt').toLocaleString() + 'mn × ' + pfInt + ' t/$mn', v('g-pcaf3-amt') * pfInt, 'g-pcaf3-dq');
+  var waci = ef('s3-cat15-corporate', v('g-pcaf1-waci')),
+      reInt = ef('s3-cat15-realestate', v('g-pcaf2-intensity')),
+      pfInt = ef('s3-cat15-project', v('g-pcaf3-intensity'));
+  fin += line('S3 Cat 15', 'PCAF corporate lending · WACI', '$' + v('g-pcaf1-amt').toLocaleString() + 'mn × ' + waci + ' t/$mn', v('g-pcaf1-amt') * waci, 'g-pcaf1-dq', ['s3-cat15-corporate']);
+  fin += line('S3 Cat 15', 'PCAF real estate / mortgages', '$' + v('g-pcaf2-amt').toLocaleString() + 'mn × ' + reInt + ' t/$mn', v('g-pcaf2-amt') * reInt, 'g-pcaf2-dq', ['s3-cat15-realestate']);
+  fin += line('S3 Cat 15', 'PCAF project finance', '$' + v('g-pcaf3-amt').toLocaleString() + 'mn × ' + pfInt + ' t/$mn', v('g-pcaf3-amt') * pfInt, 'g-pcaf3-dq', ['s3-cat15-project']);
   s3 += fin;
 
-  return { s1: s1, s2: s2, s2_mkt: s2_mkt, s3: s3, fin: fin, total: s1 + s2 + s3, lines: L };
+  return { s1: s1, s2: s2, s2_mkt: s2_mkt, s3: s3, fin: fin, total: s1 + s2 + s3, lines: L, prov: prov };
  };
 
  function _ghgRender(r) {
@@ -9190,14 +9232,51 @@ document.addEventListener('DOMContentLoaded', function() {
   // Audit trail — every non-zero line with its calculation
   var rows = document.getElementById('ghg-audit-rows');
   if (rows) {
-    rows.innerHTML = r.lines.length ? r.lines.map(function(l) {
+    /* Every line opens to its derivation: the arithmetic, then each factor
+       applied with its source, vintage and confidence straight from the
+       register. The point is that a reader never has to take a number on
+       trust — the working is one click away, per line. */
+    var esc = function(x){ var d=document.createElement('div'); d.textContent = x==null?'':x; return d.innerHTML; };
+    var fxById = {};
+    if (typeof _fxData !== 'undefined' && _fxData) _fxData.factors.forEach(function(f){ fxById[f.id] = f; });
+
+    rows.innerHTML = r.lines.length ? r.lines.map(function(l, i) {
       var evEl = document.getElementById(l[4]);
       var ev = evEl && evEl.value ? evEl.value : '—';
-      return '<div class="at-header" style="border-top:1px solid rgba(255,255,255,.05)">' +
-        '<span>' + l[0] + '</span><span>' + l[1] + '</span>' +
-        '<span style="font-family:var(--mono);font-size:.6rem">' + l[2] + '</span>' +
+      var ids = l[5] || [];
+      var deriv = ids.map(function(id) {
+        var f = fxById[id], p = (r.prov || {})[id] || {};
+        if (!f) return '<div class="at-fx"><div class="at-fx-name">' + esc(id) + '</div>' +
+          '<div class="at-fx-meta">Register not loaded — open the factor register once to populate provenance.</div></div>';
+        var chips = '';
+        if (p.overridden) chips += '<span class="at-chip over">your value</span>';
+        if (f.confidence === 'low') chips += '<span class="at-chip low">low confidence</span>';
+        if (f.source.publisher === 'Not established') chips += '<span class="at-chip unsourced">unsourced</span>';
+        return '<div class="at-fx">' +
+          '<div class="at-fx-name">' + esc(f.name) + chips + '</div>' +
+          '<div class="at-fx-meta">' +
+            'applied ' + (p.value != null ? p.value : f.value) + ' ' + esc(f.unit) +
+            (p.overridden ? ' &nbsp;·&nbsp; register default ' + f.value : '') + '<br>' +
+            esc(f.basis) + (f.gwp_set && f.gwp_set !== 'all' ? ' · ' + esc(f.gwp_set) : '') +
+            ' · ' + esc(f.region) + ' · vintage ' + (f.vintage || 'undated') + '<br>' +
+            '<a href="' + esc(f.source.url) + '" target="_blank" rel="noopener noreferrer" ' +
+            'onclick="rgTrack(RG_EVENTS.FACTOR_SOURCE_CLICK, \'' + esc(f.id) + '\')">' +
+            esc(f.source.publisher) + '</a> — ' + esc(f.source.document) +
+            (f.note ? '<br><span style="color:rgba(255,181,71,.7)">' + esc(f.note) + '</span>' : '') +
+          '</div></div>';
+      }).join('');
+
+      return '<div class="at-line" id="at-l' + i + '">' +
+        '<div class="at-header" onclick="ghgToggleWorking(' + i + ')">' +
+        '<span>' + esc(l[0]) + '</span><span>' + esc(l[1]) + '</span>' +
+        '<span style="font-family:var(--mono);font-size:.6rem">' + esc(l[2]) + '</span>' +
         '<span style="font-family:var(--mono)">' + l[3].toFixed(2) + '</span>' +
-        '<span style="overflow:hidden;text-overflow:ellipsis">' + String(ev).replace(/</g,'&lt;') + '</span></div>';
+        '<span style="overflow:hidden;text-overflow:ellipsis">' + esc(ev) +
+          '<span class="at-tog"> · SHOW WORKING</span></span></div>' +
+        '<div class="at-deriv">' +
+          '<div class="at-step">' + esc(l[2]) + '  =  ' + l[3].toFixed(3) + ' tCO&#8322;e</div>' +
+          deriv +
+        '</div></div>';
     }).join('') : '<div style="font-size:.7rem;color:rgba(245,240,232,.4);padding:.5rem 0">No activity data entered yet.</div>';
   }
 
