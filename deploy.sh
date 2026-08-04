@@ -23,5 +23,5 @@ echo "▸ Deploying to Cloudflare (a browser window will open for login)…"
 npx --yes wrangler deploy
 
 echo ""
-echo "✓ Done. https://www.regenesisimpact.in should now show the latest build."
+echo "✓ Done. https://regenesisimpact.in should now show the latest build."
 echo "  If it looks cached, hard-refresh: Cmd/Ctrl + Shift + R."

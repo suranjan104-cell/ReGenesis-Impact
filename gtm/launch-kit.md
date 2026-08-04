@@ -19,7 +19,7 @@ carry UTM tags so the Supabase dashboard attributes every lead to its post.
 > analysis — free to use, no sign-up, built for Asia-Pacific rules first.
 >
 > Try it and tell me what breaks:
-> https://www.regenesisimpact.in/?utm_source=linkedin&utm_medium=social&utm_campaign=launch_why
+> https://regenesisimpact.in/?utm_source=linkedin&utm_medium=social&utm_campaign=launch_why
 
 ## LinkedIn post #2 — BRSR deadline explainer (Week 2)
 
@@ -32,10 +32,10 @@ carry UTM tags so the Supabase dashboard attributes every lead to its post.
 > • Top 250: value-chain disclosures on comply-or-explain
 >
 > I wrote up the full picture, with sources, here:
-> https://www.regenesisimpact.in/guides/brsr-core-assurance-india.html?utm_source=linkedin&utm_medium=social&utm_campaign=launch_brsr
+> https://regenesisimpact.in/guides/brsr-core-assurance-india.html?utm_source=linkedin&utm_medium=social&utm_campaign=launch_brsr
 >
 > And if you want your draft BRSR sections written today, the tool that does
-> it is free: https://www.regenesisimpact.in/#issb
+> it is free: https://regenesisimpact.in/#issb
 
 ## LinkedIn post #3 — AASB S2 group checker (Week 3)
 
@@ -47,9 +47,9 @@ carry UTM tags so the Supabase dashboard attributes every lead to its post.
 > • Group 3 (FY from 1 Jul 2027): A$50m / A$25m / 100
 >
 > Guide with the full timeline and assurance phasing:
-> https://www.regenesisimpact.in/guides/aasb-s2-australia-climate-reporting.html?utm_source=linkedin&utm_medium=social&utm_campaign=launch_aasb
+> https://regenesisimpact.in/guides/aasb-s2-australia-climate-reporting.html?utm_source=linkedin&utm_medium=social&utm_campaign=launch_aasb
 >
-> Readiness scan (free, 3 minutes): https://www.regenesisimpact.in/#assurance
+> Readiness scan (free, 3 minutes): https://regenesisimpact.in/#assurance
 
 ## LinkedIn launch post (Week 4, with testimonials)
 
@@ -58,7 +58,7 @@ carry UTM tags so the Supabase dashboard attributes every lead to its post.
 >
 > Today it's on Product Hunt. If APAC climate compliance is your problem,
 > this is the fastest path from "we need a report" to a defensible draft:
-> [PH link] · https://www.regenesisimpact.in/?utm_source=linkedin&utm_medium=social&utm_campaign=launch_ph
+> [PH link] · https://regenesisimpact.in/?utm_source=linkedin&utm_medium=social&utm_campaign=launch_ph
 
 ---
 
@@ -73,7 +73,7 @@ carry UTM tags so the Supabase dashboard attributes every lead to its post.
 > conversions, entity coverage are the usual findings.
 >
 > I built a free readiness scan that flags exactly those gaps in ~3 minutes
-> (no sign-up): https://www.regenesisimpact.in/#assurance
+> (no sign-up): https://regenesisimpact.in/#assurance
 >
 > If it surfaces anything interesting, happy to walk through it — I run
 > ReGenesis Impact, an AI climate-reporting platform built for Indian rules.
@@ -91,8 +91,8 @@ carry UTM tags so the Supabase dashboard attributes every lead to its post.
 > assurance — that's where the findings cluster.
 >
 > Free tools I built for exactly this (no sign-up):
-> • GHG inventory with full audit trail: https://www.regenesisimpact.in/#ghg
-> • Group checker + readiness scan: https://www.regenesisimpact.in/#assurance
+> • GHG inventory with full audit trail: https://regenesisimpact.in/#ghg
+> • Group checker + readiness scan: https://regenesisimpact.in/#assurance
 >
 > Worth 10 minutes before you scope consultants. Happy to compare notes.
 >
