@@ -12,7 +12,7 @@ import { GUIDES } from './guides-data.mjs';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const kb = JSON.parse(readFileSync(join(root, 'knowledge', 'kb.json'), 'utf8'));
 const kbById = new Map(kb.entries.map(e => [e.id, e]));
-const SITE = 'https://www.regenesisimpact.in';
+const SITE = 'https://regenesisimpact.in';
 // Deterministic date stamp: newest KB review month (not "today"), so
 // rebuilding unchanged sources yields byte-identical pages and sitemap.
 const today = kb.entries.map(e => e.reviewed).sort().pop() + '-01';

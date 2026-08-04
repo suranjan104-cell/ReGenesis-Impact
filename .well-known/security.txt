@@ -2,9 +2,9 @@
 Contact: mailto:security@regenesisimpact.in
 Contact: mailto:info@regenesisimpact.in
 Preferred-Languages: en
-Canonical: https://www.regenesisimpact.in/.well-known/security.txt
+Canonical: https://regenesisimpact.in/.well-known/security.txt
 Expires: 2027-12-31T23:59:59Z
-Policy: https://www.regenesisimpact.in/#faq
+Policy: https://regenesisimpact.in/#faq
 
 # We welcome responsible disclosure. Please report vulnerabilities to the
 # contact above; we aim to acknowledge within 3 business days. Do not run

@@ -69,7 +69,7 @@ Last 30 days, refresh on demand.
 user's email. Sage queries from signed-in users carry their email too.
 
 **Which marketing works** — share links with UTM tags, e.g.
-`https://www.regenesisimpact.in/?utm_source=linkedin&utm_campaign=launch`
+`https://regenesisimpact.in/?utm_source=linkedin&utm_campaign=launch`
 and the Traffic sources panel shows which channel each visitor came from.
 
 **Self-improvement loop**
