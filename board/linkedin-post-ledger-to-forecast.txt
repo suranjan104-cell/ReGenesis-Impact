@@ -22,8 +22,7 @@ HOW TO POST (delete this section before posting):
    card, and it matches the cover.
 2. Body = everything above the dashed line.
 3. Link in the FIRST COMMENT once the site is deployed:
-   https://www.regenesisimpact.in/research/ (add a page for this briefing first —
-   only the financed emissions one exists so far)
+   https://regenesisimpact.in/research/?utm_source=linkedin&utm_medium=social&utm_campaign=ledger-to-forecast
 4. The cover does the work here: the grid is readable at thumbnail size, which is
    what earns the swipe. Do not add a separate cover image.
 5. The retraction line is the most shareable item in the post. Expect questions —

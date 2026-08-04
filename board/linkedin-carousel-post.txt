@@ -20,7 +20,7 @@ HOW TO POST (delete this section before posting):
    File: ReGenesis-Impact-The-Denominator-Problem.pdf
 3. Body = everything above the dashed line.
 4. Link in the FIRST COMMENT, not the body:
-   https://www.regenesisimpact.in/research/financed-emissions.html?utm_source=linkedin&utm_medium=social&utm_campaign=denominator-problem
+   https://regenesisimpact.in/research/financed-emissions.html?utm_source=linkedin&utm_medium=social&utm_campaign=denominator-problem
    The link only resolves once the site is deployed — run `npx wrangler deploy`.
 5. Tue/Wed/Thu morning IST. Narrow and technical: fewer impressions than a
    general climate post, better calibre of comment. That is the intended trade.
