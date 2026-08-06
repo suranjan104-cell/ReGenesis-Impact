@@ -170,7 +170,15 @@ jobs:
             const existing = await github.rest.search.issuesAndPullRequests({
               q: `repo:${owner}/${repo} is:issue is:open in:title "weekly site audit" label:auto-improve`,
             });
-            if (existing.data.total_count > 0) return;
+            // Same fix as health-check.yml: record on the open issue rather
+            // than skipping, so a stale issue cannot silence the audit.
+            if (existing.data.total_count > 0) {
+              await github.rest.issues.createComment({
+                owner, repo, issue_number: existing.data.items[0].number,
+                body: `Still failing — ${new Date().toISOString().slice(0,10)}.\n\nRun: ${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`
+              });
+              return;
+            }
             await github.rest.issues.create({
               owner, repo, title,
               labels: ['auto-improve'],
