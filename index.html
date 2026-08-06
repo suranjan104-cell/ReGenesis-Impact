@@ -9105,6 +9105,123 @@ document.addEventListener('DOMContentLoaded', function() {
    }).join('');
  };
 
+ /* ── ASSURANCE PACK ─────────────────────────────────────────────────────
+    One document an assurance provider can work from: the inventory, the
+    methodology, the factors actually applied with their provenance, the data
+    quality method and scores, the gap list, and the full derivation of every
+    line.
+
+    Assembled from the ledger, the register and a live recompute — nothing is
+    restated by hand, so the pack cannot drift from the tool.
+
+    It states its own limitations. A pack that only presents strengths is the
+    one an auditor distrusts, and every weakness here is already visible in
+    the product. */
+ window.rgLedgerPack = function() {
+   var r = (typeof ghg_compute === 'function') ? ghg_compute() : null;
+   if (!r || !(r.total > 0)) { alert('Run the GHG inventory first — the pack is built from a live calculation.'); return; }
+   var fx = {};
+   if (typeof _fxData !== 'undefined' && _fxData) _fxData.factors.forEach(function(f){ fx[f.id] = f; });
+
+   var esc = function(x){ var d = document.createElement('div'); d.textContent = x == null ? '' : x; return d.innerHTML; };
+   var entity = ghg_str('g-entity') !== '—' ? ghg_str('g-entity') : 'Unnamed entity';
+   var period = ghg_str('g-period') !== '—' ? ghg_str('g-period') : 'Period not stated';
+   var now = new Date().toISOString().slice(0, 16).replace('T', ' ');
+
+   // Only the factors this inventory actually applied — an extract, not the
+   // whole register, so the reader is not asked to filter it themselves.
+   var usedIds = {};
+   r.lines.forEach(function(l){ (l[5] || []).forEach(function(id){ usedIds[id] = 1; }); });
+   var used = Object.keys(usedIds).map(function(id){ return fx[id]; }).filter(Boolean)
+     .sort(function(a, b){ return a.id < b.id ? -1 : 1; });
+
+   var rows = function(arr){ return arr.join(''); };
+   var fig = function(k, v){ return '<tr><th>' + esc(k) + '</th><td class="n">' + v.toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2}) + '</td></tr>'; };
+
+   var html = '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">' +
+     '<title>Assurance pack — ' + esc(entity) + ' — ' + esc(period) + '</title><style>' +
+     'body{font-family:Georgia,serif;color:#111;max-width:52rem;margin:0 auto;padding:2.5rem 1.5rem 4rem;line-height:1.55}' +
+     'h1{font-size:1.9rem;margin:0 0 .3rem}h2{font-size:1.15rem;margin:2.2rem 0 .6rem;border-bottom:1px solid #ccc;padding-bottom:.3rem}' +
+     '.sub{color:#555;margin-bottom:1.6rem}table{width:100%;border-collapse:collapse;font-size:.85rem;margin-bottom:.8rem}' +
+     'th,td{text-align:left;padding:.42rem .5rem;border-bottom:1px solid #e5e5e5;vertical-align:top}' +
+     'th{font-weight:600;width:16rem}td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}' +
+     '.mono{font-family:ui-monospace,Menlo,monospace;font-size:.76rem}.muted{color:#666}' +
+     '.warn{color:#9a3412}.note{background:#faf7f0;border-left:3px solid #999;padding:.8rem 1rem;margin:1rem 0;font-size:.85rem}' +
+     '@media print{body{padding:0}h2{page-break-after:avoid}tr{page-break-inside:avoid}}' +
+     '</style></head><body>' +
+     '<h1>Assurance pack</h1><div class="sub">' + esc(entity) + ' · ' + esc(period) + ' · generated ' + now + ' UTC</div>' +
+
+     '<h2>1 · Inventory</h2><table>' +
+     fig('Scope 1', r.s1) + fig('Scope 2 (location-based)', r.s2) + fig('Scope 2 (market-based)', r.s2_mkt) +
+     fig('Scope 3 (selected categories)', r.s3) + fig('of which financed (Cat 15)', r.fin) + fig('Total (tCO2e)', r.total) +
+     '<tr><th>Inventory data quality</th><td class="n">' + (r.dq != null ? r.dq.toFixed(1) : '—') + ' / 5</td></tr></table>' +
+
+     '<h2>2 · Methodology</h2><table>' +
+     '<tr><th>Standard</th><td>GHG Protocol Corporate Standard; PCAF Standard for Category 15</td></tr>' +
+     '<tr><th>Consolidation approach</th><td>' + esc(ghg_sel('g-consolidation')) + '</td></tr>' +
+     '<tr><th>Base year</th><td>' + esc(ghg_str('g-baseyear')) + '</td></tr>' +
+     '<tr><th>GWP set</th><td>' + esc((typeof _fxData !== 'undefined' && _fxData && _fxData.gwpSet) || 'see register') + ' (GWP100)</td></tr>' +
+     '<tr><th>Verification status</th><td>' + esc(ghg_sel('g-verification')) + '</td></tr>' +
+     '<tr><th>Scope 2 method</th><td>Location-based and market-based both presented</td></tr></table>' +
+
+     '<h2>3 · Emission factors applied</h2>' +
+     '<p class="muted">Only the factors this inventory used. Provenance as published in the register.</p><table>' +
+     '<tr><th>Factor</th><th class="n">Value</th><th>Source</th><th class="n">Vintage</th><th class="n">Confidence</th></tr>' +
+     rows(used.map(function(f){
+       return '<tr><td>' + esc(f.name) + '</td><td class="n mono">' + f.value + ' ' + esc(f.unit) + '</td>' +
+         '<td>' + esc(f.source.publisher) + (f.source.publisher === 'Not established' ? ' <span class="warn">— unsourced</span>' : '') +
+         '<br><span class="muted mono">' + esc(f.source.document) + '</span></td>' +
+         '<td class="n mono">' + (f.vintage || '—') + '</td>' +
+         '<td class="n mono' + (f.confidence === 'low' ? ' warn' : '') + '">' + esc(f.confidence) + '</td></tr>';
+     })) + '</table>' +
+
+     '<h2>4 · Data quality</h2>' +
+     '<p class="muted">Scored 1–5, 1 best. Inventory score is emissions-weighted. This is ReGenesis Impact’s scheme, ' +
+     'not a published standard — PCAF specifies 1–5 for financed emissions, and no equivalent scale exists for ' +
+     'general activity data, so this mirrors its logic without claiming to be it.</p><table>' +
+     rows(Object.keys(RG_DQ).map(function(k){ return '<tr><th>Tier ' + k + '</th><td>' + esc(RG_DQ[k]) + '</td></tr>'; })) + '</table>' +
+
+     '<h2>5 · Gaps, largest first</h2>' +
+     (function(){
+       var g = r.lines.filter(function(l){ return l[6] >= 4; }).sort(function(a,b){ return b[3] - a[3]; });
+       if (!g.length) return '<p>No line scores below data quality tier 3.</p>';
+       return '<p class="muted">Ordered by tonnage: the gap worth closing first is the one carrying the most emissions.</p><table>' +
+         '<tr><th>Line</th><th class="n">tCO2e</th><th class="n">Share</th><th class="n">DQ</th></tr>' +
+         rows(g.map(function(l){
+           return '<tr><td>' + esc(l[1]) + '</td><td class="n mono">' + l[3].toFixed(2) + '</td>' +
+             '<td class="n mono">' + (l[3] / r.total * 100).toFixed(1) + '%</td>' +
+             '<td class="n mono warn">' + l[6] + '</td></tr>';
+         })) + '</table>';
+     })() +
+
+     '<h2>6 · Audit trail</h2><table>' +
+     '<tr><th>Scope / category</th><th>Method</th><th>Calculation</th><th class="n">tCO2e</th><th class="n">DQ</th></tr>' +
+     rows(r.lines.map(function(l){
+       var ev = document.getElementById(l[4]);
+       return '<tr><td>' + esc(l[0]) + '</td><td>' + esc(l[1]) +
+         (ev && ev.value ? '<br><span class="muted mono">evidence: ' + esc(ev.value) + '</span>' : '') + '</td>' +
+         '<td class="mono">' + esc(l[2]) + '</td><td class="n mono">' + l[3].toFixed(2) + '</td>' +
+         '<td class="n mono">' + l[6] + '</td></tr>';
+     })) + '</table>' +
+
+     '<h2>7 · Limitations</h2><div class="note">' +
+     '<p>Stated so a reviewer does not have to discover them.</p><ul>' +
+     '<li>Scope 3 covers selected categories only, not a full screen across all fifteen.</li>' +
+     '<li>' + used.filter(function(f){ return f.source.publisher === 'Not established'; }).length +
+       ' of the ' + used.length + ' factors applied have no establishable source and are marked as such above.</li>' +
+     '<li>Factors marked low confidence carry a note in the register explaining why.</li>' +
+     '<li>Activity data is as entered by the preparer; nothing here has been independently verified.</li>' +
+     '<li>This pack is generated from a live calculation and is not itself assurance.</li>' +
+     '</ul></div>' +
+     '<p class="muted mono" style="margin-top:2rem">Generated by ReGenesis Impact · regenesisimpact.in</p>' +
+     '</body></html>';
+
+   var w = window.open('', '_blank');
+   if (!w) { alert('Allow pop-ups to open the assurance pack.'); return; }
+   w.document.write(html); w.document.close();
+   if (typeof rgTrack === 'function') rgTrack('pack_export', 'ghg');
+ };
+
  window.rgLedgerExport = function() {
    var blob = new Blob([JSON.stringify({ exported: new Date().toISOString(), entries: rgLedger.all() }, null, 2)],
      { type: 'application/json' });
@@ -12578,6 +12695,7 @@ window.ciCopy = function(outId) {
   <div class="lg-priv">&#128274; Stored in this browser only &mdash; never transmitted</div>
   <div id="lg-entries"></div>
   <div class="lg-actions">
+    <button class="lg-btn" style="border-color:rgba(0,232,122,.55);color:#00ff9d" onclick="rgLedgerPack()">&rarr; Build assurance pack</button>
     <button class="lg-btn" onclick="rgLedgerExport()">&darr; Export ledger (JSON)</button>
     <button class="lg-btn" onclick="if(confirm('Clear the evidence ledger? This cannot be undone.')) rgLedger.clear()">Clear ledger</button>
   </div>
