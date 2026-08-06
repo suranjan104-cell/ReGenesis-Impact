@@ -45,6 +45,9 @@ for (const [name, opener] of TARGETS) {
     .replace(/(^|[^:])\/\/[^\n]*/g, '$1')  // line comments, keeping URLs intact
     .replace(/'(?:[^'\\]|\\.)*'/g, "''")   // string literals — display text, not maths
     .replace(/"(?:[^"\\]|\\.)*"/g, '""')
+    // Array subscripts — l[6], l[3]. An emission factor is never written as
+    // an index, and the audit-trail tuple is read by position throughout.
+    .replace(/\[\s*\d+\s*\]/g, '[i]')
     // Regex literals — character classes like [^a-z0-9] are not arithmetic.
     // Anchored to positions where a regex can legally start, so division is
     // not mistaken for one.

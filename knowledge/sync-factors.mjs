@@ -29,11 +29,26 @@ const END = '/* ==== END GENERATED ==== */';
 const values = {};
 for (const f of reg.factors) values[f.id] = f.value;
 
+/* Data quality scoring needs to know how good each factor is, and the engine
+   runs synchronously — it cannot wait on the factors.json fetch. So a compact
+   metadata map ships alongside the values:
+     c = confidence initial · u = provenance not established · a = an
+     assumption rather than a measured factor. */
+const meta = {};
+for (const f of reg.factors) {
+  meta[f.id] = {
+    c: f.confidence[0],
+    u: f.source.publisher === 'Not established' ? 1 : 0,
+    a: /assumption|no default/.test(f.basis) ? 1 : 0,
+  };
+}
+
 const body = [
   START,
   '  // Regenerate: node knowledge/sync-factors.mjs   ·   Verify: --check',
   `  // ${reg.count} factors · oldest vintage in use ${reg.oldestVintage ?? 'none dated'}`,
   '  var RG_FACTORS = ' + JSON.stringify(values, null, 2).split('\n').join('\n  ') + ';',
+  '  var RG_FACTOR_META = ' + JSON.stringify(meta) + ';',
   '  // Fail loudly rather than compute emissions against a missing factor.',
   '  function EF(id) {',
   '    if (!(id in RG_FACTORS)) throw new Error("unknown emission factor: " + id);',
