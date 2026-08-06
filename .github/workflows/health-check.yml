@@ -96,8 +96,21 @@ jobs:
               owner: context.repo.owner, repo: context.repo.repo,
               state: 'open', labels: 'auto-improve'
             });
-            if (existing.data.some(i => i.title.startsWith('[health]'))) {
-              core.info('Open health issue already exists — skipping.');
+            /* An open issue used to suppress every later failure entirely, so
+               one unresolved issue silenced the alarm indefinitely — #20 sat
+               open from 5 July while the check failed nightly and said
+               nothing. Now the run is recorded on the existing issue instead,
+               so the signal keeps arriving without issue spam. */
+            const open = existing.data.find(i => i.title.startsWith('[health]'));
+            if (open) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo, issue_number: open.number,
+                body: `Still failing — ${new Date().toISOString().slice(0,10)}.\n\n`
+                  + `Smoke: ${smoke} · Live: ${live}\n`
+                  + (liveFails ? `\n${liveFails}\n` : '')
+                  + `\nRun: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`
+              });
+              core.info(`Recorded on existing issue #${open.number}.`);
               return;
             }
             const body = [

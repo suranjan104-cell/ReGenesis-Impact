@@ -1,0 +1,151 @@
+name: Daily digest
+
+# One post a day, on one rolling issue, saying what is true about the app.
+#
+# The existing automation only spoke when something broke — and because a
+# stale open issue suppressed new ones, it stopped speaking at all. This runs
+# every check and reports the result whether or not anything failed, so
+# silence stops being ambiguous: a missing digest means the workflow itself
+# did not run, and everything else is stated explicitly.
+
+on:
+  schedule:
+    - cron: '0 2 * * *'     # 02:00 UTC = 07:30 IST daily
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 30 }
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # Every check writes a line and never aborts the job. A digest that
+      # stops halfway is worse than one that reports a failure, because a
+      # partial digest looks like a pass for everything after the failure.
+      - name: Run the gates
+        id: gates
+        run: |
+          set +e
+          LINES=""
+          FAIL=0
+          run_check () {
+            NAME="$1"; shift
+            OUT=$("$@" 2>&1); CODE=$?
+            if [ $CODE -eq 0 ]; then
+              LINES="$LINES\n| $NAME | ✅ | $(echo "$OUT" | tail -1 | cut -c1-90) |"
+            else
+              LINES="$LINES\n| $NAME | ❌ | $(echo "$OUT" | grep -iE 'error|✗|failed' | head -1 | cut -c1-90) |"
+              FAIL=1
+            fi
+          }
+
+          run_check "Factor register builds"  node knowledge/build-factors.mjs
+          run_check "Register in sync"        node knowledge/sync-factors.mjs --check
+          run_check "No factor literals"      node test/factor-literals.mjs
+          run_check "Golden values unchanged" node test/golden-ghg.mjs
+          run_check "Knowledge base builds"   node knowledge/build.mjs
+          run_check "Guides + sitemap build"  node seo/build-guides.mjs
+
+          # Generated artefacts must match what is committed, or the site
+          # serves something nobody reviewed.
+          if git diff --quiet knowledge/kb.json knowledge/factors.json guides sitemap.xml index.html; then
+            LINES="$LINES\n| Generated artefacts committed | ✅ | no drift |"
+          else
+            LINES="$LINES\n| Generated artefacts committed | ❌ | $(git diff --name-only | tr '\n' ' ' | cut -c1-80) |"
+            FAIL=1
+          fi
+
+          {
+            echo "table<<EOF"
+            echo -e "$LINES"
+            echo "EOF"
+            echo "fail=$FAIL"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Probe the live site
+        id: live
+        run: |
+          set +e
+          UA="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36 ReGenesisDigest/1.0"
+          LINES=""
+          for URL in "https://regenesisimpact.in/" "https://regenesisimpact.in/research/" "https://regenesisimpact.in/knowledge/kb.json" "https://regenesisimpact.in/knowledge/factors.json"; do
+            CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 -L -A "$UA" "$URL")
+            MARK="✅"; [ "$CODE" != "200" ] && MARK="❌"
+            NOTE=""; [ "$CODE" = "403" ] && NOTE=" (WAF/access rule, not an outage)"
+            LINES="$LINES\n| \`$(echo "$URL" | sed 's#https://regenesisimpact.in##')\` | $MARK | $CODE$NOTE |"
+          done
+          { echo "table<<EOF"; echo -e "$LINES"; echo "EOF"; } >> "$GITHUB_OUTPUT"
+
+      - name: What changed
+        id: changed
+        run: |
+          SINCE=$(date -u -d '1 day ago' '+%Y-%m-%dT%H:%M:%SZ')
+          LOG=$(git log --since="$SINCE" --pretty='- %s' | head -12)
+          [ -z "$LOG" ] && LOG="- no commits to main in the last 24h"
+          { echo "log<<EOF"; echo "$LOG"; echo "EOF"; } >> "$GITHUB_OUTPUT"
+
+      - name: Post the digest
+        uses: actions/github-script@v7
+        env:
+          GATES: ${{ steps.gates.outputs.table }}
+          LIVE: ${{ steps.live.outputs.table }}
+          CHANGED: ${{ steps.changed.outputs.log }}
+          GATES_FAIL: ${{ steps.gates.outputs.fail }}
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const today = new Date().toISOString().slice(0, 10);
+            const failed = process.env.GATES_FAIL === '1';
+
+            const body = [
+              `## ${failed ? '❌' : '✅'} Daily digest — ${today}`,
+              '',
+              '### Gates',
+              '| Check | | Detail |',
+              '|---|---|---|',
+              process.env.GATES.trim(),
+              '',
+              '### Live site',
+              '| Path | | Code |',
+              '|---|---|---|',
+              process.env.LIVE.trim(),
+              '',
+              '### Shipped in the last 24h',
+              process.env.CHANGED,
+              '',
+              `[Run](${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId})`
+            ].join('\n');
+
+            // One rolling issue, commented daily, rather than a new issue per
+            // day. Subscribe to it once and the updates arrive; the history
+            // stays in one place instead of scattered across closed issues.
+            const TITLE = 'Daily digest — ReGenesis Impact';
+            const open = await github.rest.issues.listForRepo({
+              owner, repo, state: 'open', labels: 'daily-digest'
+            });
+            const rolling = open.data.find(i => i.title === TITLE);
+
+            if (rolling) {
+              await github.rest.issues.createComment({ owner, repo, issue_number: rolling.number, body });
+            } else {
+              await github.rest.issues.create({
+                owner, repo, title: TITLE, body,
+                labels: ['daily-digest']
+              });
+            }
+
+      # Reported first, then the run reflects reality. Live-probe failures do
+      # not fail the job — a WAF 403 is not a regression in the app, and a red
+      # run every day would train everyone to ignore it.
+      - name: Reflect gate failures in the run status
+        if: steps.gates.outputs.fail == '1'
+        run: exit 1
