@@ -1,0 +1,41 @@
+Our assurance tool told users to build an emission factor register: factor, source, vintage, applied-to. We did not have one ourselves.
+
+So we built it, and audited our own code against it. Four things we found:
+
+— One factor existed in three places — the arithmetic, the label shown to the user, and the CSV export. Changing one did not change the others, so an audit trail could state a factor that was not the one applied.
+
+— R-22 computed at 1760 while the selector beside it displayed 1810, and the trail described the set as AR6. Three vintages in one control. The set is AR4; the label was right and the engine was wrong.
+
+— A project finance intensity sat roughly 4,000x below the corporate lending default in the same units. Not plausible for the asset class. No sourced replacement could be established, so the default was withdrawn rather than replaced with a better-looking guess.
+
+— A table of factors nobody used disagreed with the values users actually got: India grid 0.82 against 0.716, waste 0.58 against 0.467.
+
+The register is now public, and it publishes what is weak: 8 of 27 factors are low confidence, and 4 have no establishable source at all. Every calculated number opens to show the factor applied, its vintage, its source, and our own caveat about it.
+
+None of this is unusual in emissions software. It is unusual to publish it.
+
+Register: regenesisimpact.in/#factors
+
+#GHGProtocol #EmissionFactors #ClimateDisclosure #Assurance #PCAF
+
+
+--------------------------------------------------
+HOW TO POST (delete this section before posting):
+
+1. ReGenesis Impact COMPANY PAGE. Text post with one screenshot of the
+   register — the KPI strip reading "27 factors · 2022 oldest activity-factor
+   vintage · AR4 GWP set · 4 provenance not established · 8 low confidence"
+   is the image that makes the argument.
+2. Link in the FIRST COMMENT, not the body:
+   https://regenesisimpact.in/#factors?utm_source=linkedin&utm_medium=social&utm_campaign=factor-register
+3. Expect the obvious challenge: "why would you advertise your own weaknesses?"
+   The answer is the post's last line, and it is worth repeating in replies
+   rather than defending. An assurance provider asks for the factor register
+   first; a vendor who cannot produce one has already answered the question.
+4. This targets practitioners, not volume. Assurance managers and ESG data
+   leads recognise all four findings from their own systems. Fewer
+   impressions, better comments — that is the intended trade.
+5. Do not name Credibl or any competitor. The post is stronger as a statement
+   about our own code than as a comparison.
+6. Colleague reshares within the first hour; company pages under-reach
+   personal profiles.
