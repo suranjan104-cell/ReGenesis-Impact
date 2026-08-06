@@ -157,8 +157,11 @@ jobs:
           npm install --no-audit --no-fund 2>&1 | tail -1
           npm run build
           npm run lint
-          npm audit --omit=dev --audit-level=high || {
-            echo "::error::high/critical vulnerability in production dependencies"; exit 1; }
+          # Fails on any high/critical production advisory without a reasoned
+          # entry in audit-exceptions.json. A permanently red audit is one
+          # nobody reads; a blanket skip is worse. See that file.
+          node audit-check.mjs || {
+            echo "::error::undocumented high/critical vulnerability in production dependencies"; exit 1; }
 
       - name: File auto-improve issue on failure
         if: failure()
