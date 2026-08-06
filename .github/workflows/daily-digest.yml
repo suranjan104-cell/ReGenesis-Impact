@@ -28,6 +28,12 @@ jobs:
         with:
           node-version: 22
 
+      # The golden-value gate drives the real page in a headless browser, so
+      # one has to exist on the runner. Without this the gate fails with
+      # spawnSync ENOENT, which is indistinguishable from the engine drifting.
+      - name: Install puppeteer (provides Chromium for the golden gate)
+        run: npm install puppeteer --no-save
+
       # Every check writes a line and never aborts the job. A digest that
       # stops halfway is worse than one that reports a failure, because a
       # partial digest looks like a pass for everything after the failure.
