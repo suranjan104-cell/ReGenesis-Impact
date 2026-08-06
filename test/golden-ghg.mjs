@@ -11,10 +11,39 @@
    It drives the real page in headless Chromium rather than re-implementing the
    maths — a reimplementation would only prove the reimplementation agrees with
    itself. */
-import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync, readdirSync } from 'fs';
 import { execFileSync } from 'child_process';
 
-const CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
+/* Chromium is resolved rather than hardcoded. The original absolute path
+   exists only in the authoring sandbox, so this test could not run on a
+   GitHub runner at all — it failed with spawnSync ENOENT and reported as a
+   gate failure, which looks identical to the engine having drifted. */
+const CHROME = (() => {
+  const candidates = [
+    process.env.CHROME,
+    process.env.PUPPETEER_EXECUTABLE_PATH,
+    '/opt/pw-browsers/chromium-1194/chrome-linux/chrome',
+    '/usr/bin/google-chrome',
+    '/usr/bin/chromium-browser',
+    '/usr/bin/chromium',
+  ].filter(Boolean);
+  for (const c of candidates) if (existsSync(c)) return c;
+  // Puppeteer downloads its own build; ask it where that is.
+  for (const dir of ['/home/runner/.cache/puppeteer', `${process.env.HOME || ''}/.cache/puppeteer`]) {
+    try {
+      for (const rev of readdirSync(dir)) {
+        const p = `${dir}/${rev}`;
+        for (const sub of readdirSync(p)) {
+          const exe = `${p}/${sub}/chrome-linux64/chrome`;
+          if (existsSync(exe)) return exe;
+          const exe2 = `${p}/${sub}/chrome-linux/chrome`;
+          if (existsSync(exe2)) return exe2;
+        }
+      }
+    } catch { /* directory absent — try the next candidate */ }
+  }
+  throw new Error('no Chromium found — set CHROME=/path/to/chrome, or `npm install puppeteer` so one is downloaded');
+})();
 const ROOT = new URL('..', import.meta.url).pathname.replace(/\/$/, '');
 const FIXTURE = `${ROOT}/test/golden-ghg.json`;
 const WRITE = process.argv.includes('--write');
