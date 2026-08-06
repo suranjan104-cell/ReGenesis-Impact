@@ -9075,6 +9075,7 @@ document.addEventListener('DOMContentLoaded', function() {
     "s3-cat7-commute": 0.17,
     "s3-cat7-workdays": 240
   };
+    var RG_FACTOR_META = {"gwp-co2":{"c":"h","u":0,"a":0},"gwp-r134a":{"c":"m","u":0,"a":0},"gwp-r22":{"c":"m","u":0,"a":0},"gwp-r32":{"c":"m","u":0,"a":0},"gwp-r404a":{"c":"m","u":0,"a":0},"gwp-r407c":{"c":"m","u":0,"a":0},"gwp-r410a":{"c":"m","u":0,"a":0},"s1-diesel-fleet":{"c":"m","u":0,"a":0},"s1-diesel-stationary":{"c":"m","u":0,"a":0},"s1-lpg":{"c":"m","u":0,"a":0},"s1-natural-gas":{"c":"m","u":0,"a":0},"s1-petrol-fleet":{"c":"m","u":0,"a":0},"s2-grid-au":{"c":"m","u":0,"a":0},"s2-grid-gb":{"c":"m","u":0,"a":0},"s2-grid-in":{"c":"m","u":0,"a":0},"s2-grid-sg":{"c":"m","u":0,"a":0},"s2-heat-steam":{"c":"m","u":0,"a":0},"s3-cat1-spend":{"c":"l","u":1,"a":0},"s3-cat11-use":{"c":"l","u":0,"a":1},"s3-cat15-corporate":{"c":"l","u":1,"a":0},"s3-cat15-project":{"c":"l","u":1,"a":1},"s3-cat15-realestate":{"c":"l","u":0,"a":0},"s3-cat5-waste":{"c":"l","u":0,"a":0},"s3-cat6-air":{"c":"l","u":0,"a":0},"s3-cat6-hotel":{"c":"l","u":1,"a":0},"s3-cat7-commute":{"c":"m","u":0,"a":0},"s3-cat7-workdays":{"c":"m","u":0,"a":1}};
     // Fail loudly rather than compute emissions against a missing factor.
     function EF(id) {
       if (!(id in RG_FACTORS)) throw new Error("unknown emission factor: " + id);
@@ -12447,6 +12448,21 @@ table.fx tr:hover td{background:rgba(0,232,122,.03)}
     build fails if the two disagree. Values flagged low confidence carry a note explaining
     why; several were inherited without an establishable source and are published as such
     rather than presented as sourced.
+    <br><br>
+    <b style="color:rgba(234,255,243,.75)">Data quality tiers.</b>
+    Every emission line is scored 1&ndash;5, 1 being best, and the inventory score is the
+    emissions-weighted mean &mdash; so a weak line carrying a fraction of a percent does not
+    drag the whole figure. <b style="color:rgba(234,255,243,.75)">This is our scheme, not a
+    standard.</b> PCAF specifies a 1&ndash;5 scale for financed emissions; there is no
+    equivalent published scale for general activity data, so this mirrors PCAF's logic
+    without claiming to be it.
+    <br><br>
+    The tier is derived, not asked for: <b>1</b> you supplied the factor and an evidence
+    reference; <b>2</b> published factor with an established source, evidence referenced;
+    <b>3</b> published factor, no evidence reference; <b>4</b> the factor is low confidence
+    or its provenance is not established; <b>5</b> a placeholder assumption rather than a
+    measured factor. A line takes the worst tier among the factors behind it &mdash; the
+    reading an assurance provider would take.
     <br><br>
     <b style="color:rgba(234,255,243,.75)">How the GWP assessment set was established.</b>
     Refrigerant blends are defined mass fractions, so the set is recoverable by arithmetic
