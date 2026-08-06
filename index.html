@@ -9080,6 +9080,8 @@ document.addEventListener('DOMContentLoaded', function() {
    var el = document.getElementById('lg-entries');
    if (!el) return;
    var esc = function(x){ var d=document.createElement('div'); d.textContent = x==null?'':x; return d.innerHTML; };
+   var cb = document.getElementById('lg-ai');
+   if (cb) cb.checked = rgLedgerAiOn();
    var recs = rgLedger.all().sort(function(a,b){ return (b.ts||'').localeCompare(a.ts||''); });
    if (!recs.length) {
      el.innerHTML = '<div class="lg-empty">Nothing recorded yet. Run the GHG inventory and it will appear here.</div>';
@@ -9117,6 +9119,60 @@ document.addEventListener('DOMContentLoaded', function() {
     It states its own limitations. A pack that only presents strengths is the
     one an auditor distrusts, and every weakness here is already visible in
     the product. */
+ /* ── LEDGER CONTEXT FOR SAGE ────────────────────────────────────────────
+    Sage retrieves from the knowledge base, so it answers about the regulation.
+    Given the ledger it can answer about this inventory — which line is the
+    largest exposure, what a tier would need to improve, where the reported
+    figure is least defensible.
+
+    This is the one place in the product where user data would leave the
+    browser, and the whole position is that it does not. So:
+      · OFF by default, opted into explicitly, per browser.
+      · Derived aggregates only — scope totals, tiers, weak lines. No activity
+        inputs, no evidence references, and the entity name is withheld.
+      · The exact payload is shown before it is ever sent.
+    Asking is not a compliance gesture here; it is the feature working as
+    advertised. */
+ var RG_LEDGER_AI_KEY = 'rg_ledger_ai';
+ window.rgLedgerAiOn = function() {
+   try { return localStorage.getItem(RG_LEDGER_AI_KEY) === '1'; } catch (e) { return false; }
+ };
+ window.rgLedgerAiToggle = function(on) {
+   try { on ? localStorage.setItem(RG_LEDGER_AI_KEY, '1') : localStorage.removeItem(RG_LEDGER_AI_KEY); } catch (e) {}
+   if (typeof rgLedgerRender === 'function') rgLedgerRender();
+   if (typeof rgTrack === 'function') rgTrack('ledger_ai_' + (on ? 'on' : 'off'), 'ledger');
+ };
+
+ /* Built whether or not sharing is on, so the payload preview and the thing
+    actually sent are the same code path — a preview that is generated
+    separately is a preview you cannot trust. */
+ window.rgLedgerPayload = function() {
+   var recs = (typeof rgLedger !== 'undefined') ? rgLedger.all() : [];
+   if (!recs.length) return '';
+   return recs.map(function(r) {
+     var f = r.figures || {};
+     var lines = ['Tool: ' + r.tool + (r.period && r.period !== '—' ? ' (' + r.period + ')' : '')];
+     Object.keys(f).forEach(function(k) { lines.push('  ' + k.replace(/_/g, ' ') + ': ' + f[k] + ' tCO2e'); });
+     if (r.dq != null) lines.push('  inventory data quality: ' + r.dq.toFixed(1) + ' of 5 (1 best, emissions-weighted)');
+     (r.gaps || []).forEach(function(g) {
+       lines.push('  weak line: "' + g.line + '" — ' + g.tCO2e + ' tCO2e, ' + g.share + '% of total, data quality tier ' + g.dq);
+     });
+     return lines.join('\n');
+   }).join('\n\n');
+ };
+
+ window.rgLedgerContext = function() {
+   if (!rgLedgerAiOn()) return '';
+   var p = rgLedgerPayload();
+   if (!p) return '';
+   return '\n\nThe user has chosen to share their working inventory with you. Ground your '
+     + 'answer in it and name specific lines and figures rather than giving generic advice. '
+     + 'Data quality tiers are ReGenesis Impact\'s own scheme, not a published standard: '
+     + '1 entity-specific factor with evidence, 2 published factor with evidence, 3 published '
+     + 'factor without evidence, 4 low confidence or unsourced factor, 5 placeholder assumption. '
+     + 'The entity name has been withheld deliberately.\n\n' + p;
+ };
+
  window.rgLedgerPack = function() {
    var r = (typeof ghg_compute === 'function') ? ghg_compute() : null;
    if (!r || !(r.total > 0)) { alert('Run the GHG inventory first — the pack is built from a live calculation.'); return; }
@@ -9220,6 +9276,15 @@ document.addEventListener('DOMContentLoaded', function() {
    if (!w) { alert('Allow pop-ups to open the assurance pack.'); return; }
    w.document.write(html); w.document.close();
    if (typeof rgTrack === 'function') rgTrack('pack_export', 'ghg');
+ };
+
+ window.rgLedgerShowPayload = function() {
+   var el = document.getElementById('lg-payload');
+   if (!el) return;
+   if (el.style.display === 'block') { el.style.display = 'none'; return; }
+   var p = rgLedgerPayload();
+   el.textContent = p || 'Nothing recorded yet — run the GHG inventory and this will show the exact text.';
+   el.style.display = 'block';
  };
 
  window.rgLedgerExport = function() {
@@ -11117,7 +11182,8 @@ window.issb_backToForm = function() {
  system: 'You are Sage, an expert AI sustainability advisor for ReGenesis Impact. You have deep expertise in ESG frameworks (GRI, SASB, TCFD, ISSB IFRS S1/S2), climate risk, GHG Protocol, PCAF, net-zero strategies, and corporate sustainability reporting. Be concise, professional, and specific. Always cite relevant frameworks.'
    + (snipMode ? '\n\nSNIPPET MODE: respond with a ready-to-paste disclosure snippet in formal annual-report language, inside a code block, followed by at most two sentences of usage notes.' : '')
    + (_fileContext ? '\n\nThe user has uploaded a report for analysis. Report extract:\n' + _fileContext.substring(0,2000) : '')
-   + (typeof rgKbContext === 'function' ? rgKbContext('advisor', text) : ''),
+   + (typeof rgKbContext === 'function' ? rgKbContext('advisor', text) : '')
+   + (typeof rgLedgerContext === 'function' ? rgLedgerContext() : ''),
  messages: _hist
  })
  });
@@ -11526,6 +11592,8 @@ window.issb_backToForm = function() {
    : /^(issb|gri|brsr|sr|assb|cdp)/.test(wrapperId) ? 'issb'
    : /^ghg/.test(wrapperId) ? 'ghg' : 'advisor';
  var kbCtx = (typeof rgKbContext === 'function') ? rgKbContext(kbTool, prompt) : '';
+ // Opted-in only; returns '' otherwise. See rgLedgerContext.
+ kbCtx += (typeof rgLedgerContext === 'function') ? rgLedgerContext() : '';
  try {
  var res=await fetch('https://sageai.suranjan104.workers.dev',{
  method:'POST',headers:{'Content-Type':'application/json'},
@@ -12679,6 +12747,13 @@ window.ciCopy = function(outId) {
 .lg-gap{display:flex;justify-content:space-between;gap:1rem;font-size:.76rem;padding:.4rem 0;border-top:1px solid rgba(255,255,255,.05);color:rgba(234,255,243,.75)}
 .lg-gap span{font-family:'DM Mono',monospace;font-size:.68rem;color:rgba(255,181,71,.8);white-space:nowrap}
 .lg-empty{padding:2.5rem 1.5rem;text-align:center;color:rgba(234,255,243,.4);font-size:.85rem;border:1px dashed rgba(0,232,122,.2)}
+.lg-share{margin-top:1.6rem;border:1px solid rgba(0,232,122,.18);background:rgba(3,14,9,.6);padding:1.1rem 1.25rem}
+.lg-share-row{display:flex;gap:.7rem;align-items:flex-start;font-size:.84rem;color:rgba(234,255,243,.85);cursor:pointer;line-height:1.6}
+.lg-share-row input{margin-top:.25rem;flex:none;width:16px;height:16px;accent-color:#00e87a}
+.lg-share-note{margin-top:.7rem;padding-left:1.4rem;font-size:.75rem;color:rgba(234,255,243,.5);line-height:1.65}
+.lg-share-note a{color:rgba(10,255,219,.85);text-decoration:none;border-bottom:1px dotted rgba(10,255,219,.35)}
+#lg-payload{margin-top:.8rem;padding:.9rem 1rem;background:rgba(0,0,0,.35);border-left:2px solid rgba(0,232,122,.35);
+  font-family:'DM Mono',monospace;font-size:.68rem;line-height:1.65;color:rgba(234,255,243,.7);white-space:pre-wrap;overflow-x:auto}
 .lg-actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.4rem}
 .lg-btn{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;padding:.55rem 1.1rem;background:rgba(3,14,9,.7);border:1px solid rgba(0,232,122,.25);color:rgba(234,255,243,.75);cursor:pointer}
 .lg-btn:hover{border-color:rgba(0,232,122,.6);color:#00ff9d}
@@ -12694,6 +12769,21 @@ window.ciCopy = function(outId) {
   </p>
   <div class="lg-priv">&#128274; Stored in this browser only &mdash; never transmitted</div>
   <div id="lg-entries"></div>
+  <div class="lg-share">
+    <label class="lg-share-row">
+      <input type="checkbox" id="lg-ai" onchange="rgLedgerAiToggle(this.checked)">
+      <span><b>Let Sage read this ledger</b> &mdash; off by default. Sage answers about the
+      regulation; given the ledger it answers about <em>your</em> inventory.</span>
+    </label>
+    <div class="lg-share-note">
+      This is the only place anything you enter leaves this browser. Scope totals, data
+      quality tiers and weak lines are sent &mdash; no activity data, no evidence references,
+      and the entity name is withheld.
+      <a href="#" onclick="rgLedgerShowPayload();return false">See exactly what would be sent</a>
+    </div>
+    <pre id="lg-payload" style="display:none"></pre>
+  </div>
+
   <div class="lg-actions">
     <button class="lg-btn" style="border-color:rgba(0,232,122,.55);color:#00ff9d" onclick="rgLedgerPack()">&rarr; Build assurance pack</button>
     <button class="lg-btn" onclick="rgLedgerExport()">&darr; Export ledger (JSON)</button>
