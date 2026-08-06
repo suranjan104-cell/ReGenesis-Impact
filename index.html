@@ -4903,6 +4903,13 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
  #page-ghg .at-chip.low{color:#ffb547;border-color:rgba(255,181,71,.45)}
  #page-ghg .at-chip.over{color:#0affdb;border-color:rgba(10,255,219,.4)}
  #page-ghg .at-chip.unsourced{color:#ff8f6b;border-color:rgba(255,143,107,.45)}
+ #page-ghg .at-dq{display:inline-block;font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.06em;
+   padding:.12rem .42rem;border:1px solid;margin-left:.45rem;vertical-align:middle;white-space:nowrap}
+ #page-ghg .at-dq.t1,#page-ghg .at-dq.t2{color:#7ed957;border-color:rgba(126,217,87,.45)}
+ #page-ghg .at-dq.t3{color:#0affdb;border-color:rgba(10,255,219,.35)}
+ #page-ghg .at-dq.t4{color:#ffb547;border-color:rgba(255,181,71,.45)}
+ #page-ghg .at-dq.t5{color:#ff8f6b;border-color:rgba(255,143,107,.5)}
+ #page-ghg .at-dq-why{margin-top:.55rem;font-size:.68rem;color:rgba(245,240,232,.55);line-height:1.6}
  </style>
  <div id="ghg-audit-rows"></div>
  <div class="integrity-badge">
@@ -4929,6 +4936,8 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
   <span>Scope 2 Market-based: <strong id="ghg-r-s2mkt" style="color:#3cb9ff">—</strong> tCO₂e</span>
   <span>·</span>
   <span>Intensity: <strong id="ghg-r-intensity" style="color:#ffb23c">—</strong> tCO₂e/₹Cr</span>
+  <span>·</span>
+  <span title="Emissions-weighted across every line. 1 is best. Our scheme, mirroring PCAF's logic — the method is on the factor register page.">Data quality: <strong id="ghg-r-dq" style="color:#7ed957">—</strong> / 5</span>
 </div>
 <button class="btn-ghg-p" onclick="ghg_generate()">⚡ Generate AI Inventory Report</button>
  <div id="ghg-ai-report" style="display:none;margin-top:1.25rem;background:rgba(255,178,60,.04);border:1px solid rgba(255,178,60,.15);border-radius:.45rem;padding:1.1rem 1.25rem;">
@@ -8149,6 +8158,7 @@ function showPage(page) {
   // The GHG audit trail renders factor provenance, so the register has to be
   // in memory before the first calculation is shown.
   if (page === 'ghg' && typeof fxLoad === 'function') fxLoad();
+  if (page === 'ledger' && typeof rgLedgerRender === 'function') rgLedgerRender();
 
   // Owner insights auto-load on dashboard open (owner only — see isOwnerUser)
   if (page === 'dashboard' && isOwnerUser() && typeof dbLoadInsights === 'function') setTimeout(dbLoadInsights, 300);
@@ -8951,6 +8961,7 @@ document.addEventListener('DOMContentLoaded', function() {
     not apply. Fetched rather than generated because the view needs the full
     provenance metadata, not just the values. */
  var _fxData = null;
+ var _dqLogged = false;
  window.fxLoad = function() {
    if (_fxData) { fxRender(); return; }
    fetch('knowledge/factors.json').then(function(r){ return r.json(); }).then(function(d){
@@ -9030,6 +9041,116 @@ document.addEventListener('DOMContentLoaded', function() {
 
  // Refrigerant GWP lookup. Lives here so the engine and the CSV export share
  // one map — they previously held separate copies that could drift apart.
+ /* ── EVIDENCE LEDGER ────────────────────────────────────────────────────
+    A cross-tool record of what was computed, what it rests on, and where it
+    is weak. Every tool appends; nothing is transmitted.
+
+    This is the artefact an assurance provider asks for, and it is the reason
+    to use more than one tool — today each is a one-shot calculator, and the
+    ledger makes the suite cumulative.
+
+    It stays in localStorage deliberately. A competitor whose agents do the
+    work has to hold the data to produce this; we produce it without ever
+    receiving it, and that difference is the product. */
+ var RG_LEDGER_KEY = 'rg_ledger_v1';
+ window.rgLedger = {
+   all: function() {
+     try { var raw = localStorage.getItem(RG_LEDGER_KEY); return raw ? JSON.parse(raw) : []; }
+     catch (e) { return []; }   // a corrupt store must never break a tool
+   },
+   /* Keyed, and replaced in place rather than appended, so re-running a
+      calculation corrects the record instead of stacking near-duplicates an
+      auditor would have to reconcile. */
+   put: function(rec) {
+     try {
+       var all = rgLedger.all().filter(function(r) { return r.key !== rec.key; });
+       rec.ts = new Date().toISOString();
+       all.push(rec);
+       localStorage.setItem(RG_LEDGER_KEY, JSON.stringify(all.slice(-50)));
+       if (typeof rgLedgerRender === 'function') rgLedgerRender();
+     } catch (e) { /* quota or private mode — the tool still works */ }
+   },
+   clear: function() {
+     try { localStorage.removeItem(RG_LEDGER_KEY); } catch (e) {}
+     if (typeof rgLedgerRender === 'function') rgLedgerRender();
+   }
+ };
+
+ window.rgLedgerRender = function() {
+   var el = document.getElementById('lg-entries');
+   if (!el) return;
+   var esc = function(x){ var d=document.createElement('div'); d.textContent = x==null?'':x; return d.innerHTML; };
+   var recs = rgLedger.all().sort(function(a,b){ return (b.ts||'').localeCompare(a.ts||''); });
+   if (!recs.length) {
+     el.innerHTML = '<div class="lg-empty">Nothing recorded yet. Run the GHG inventory and it will appear here.</div>';
+     return;
+   }
+   el.innerHTML = recs.map(function(r) {
+     var figs = Object.keys(r.figures || {}).map(function(k) {
+       return '<div class="lg-fig"><b>' + r.figures[k].toLocaleString() + '</b><span>' + esc(k.replace(/_/g,' ')) + '</span></div>';
+     }).join('');
+     if (r.dq != null) figs += '<div class="lg-fig dq"><b>' + r.dq.toFixed(1) + ' / 5</b><span>data quality</span></div>';
+     var gaps = (r.gaps || []).length
+       ? '<div class="lg-gaps"><div class="lg-gaps-t">Close these first \u2014 ' + r.gaps.length + ' line(s) at DQ 4 or worse</div>' +
+         r.gaps.map(function(g) {
+           return '<div class="lg-gap"><div>' + esc(g.line) + '</div>' +
+             '<span>' + g.tCO2e.toLocaleString() + ' t \u00b7 ' + g.share + '% \u00b7 DQ ' + g.dq + '</span></div>';
+         }).join('') + '</div>'
+       : '<div class="lg-gaps"><div class="lg-gaps-t" style="color:rgba(0,232,122,.8)">No line scores below DQ 3</div></div>';
+     return '<div class="lg-card">' +
+       '<div class="lg-head"><div><div class="lg-tool">' + esc(r.tool) + '</div>' +
+       '<div class="lg-title">' + esc(r.title) + (r.period && r.period !== '\u2014' ? ' \u00b7 ' + esc(r.period) : '') + '</div></div>' +
+       '<div class="lg-ts">' + esc((r.ts || '').replace('T',' ').slice(0,16)) + ' UTC</div></div>' +
+       '<div class="lg-figs">' + figs + '</div>' + gaps + '</div>';
+   }).join('');
+ };
+
+ window.rgLedgerExport = function() {
+   var blob = new Blob([JSON.stringify({ exported: new Date().toISOString(), entries: rgLedger.all() }, null, 2)],
+     { type: 'application/json' });
+   var a = document.createElement('a');
+   a.href = URL.createObjectURL(blob);
+   a.download = 'regenesis-evidence-ledger.json';
+   a.click();
+   setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
+ };
+
+ /* ── DATA QUALITY TIERS ─────────────────────────────────────────────────
+    Our own scheme, and labelled as such. PCAF specifies a 1-5 scale for
+    financed emissions; there is no equivalent published scale for general
+    activity data, so this mirrors PCAF's logic without claiming to be it.
+    1 is best.
+
+    The tier is DERIVED from evidence the system already holds — whether the
+    preparer supplied an evidence reference, whether they replaced the default
+    factor, and how well sourced that factor is. Nothing extra is asked of the
+    user, and every tier explains itself in one line.
+
+    A line takes the WORST tier among its factors — the conservative reading,
+    and the one an assurance provider would take. */
+ var RG_DQ = {
+   1: 'Entity-specific factor supplied by you, with an evidence reference',
+   2: 'Published factor with an established source, with an evidence reference',
+   3: 'Published factor with an established source, no evidence reference',
+   4: 'Factor is low confidence or its provenance is not established',
+   5: 'Placeholder assumption rather than a measured factor'
+ };
+ window.ghgDqTier = function(ids, prov, hasEvidence) {
+   var worst = 1;
+   (ids || []).forEach(function(id) {
+     var m = (typeof RG_FACTOR_META !== 'undefined' && RG_FACTOR_META[id]) || null;
+     var t;
+     if (!m) t = 4;                                        // unknown — do not flatter it
+     else if (m.a) t = 5;                                  // assumption, not a factor
+     else if (m.u || m.c === 'l') t = 4;                   // unsourced or low confidence
+     else if ((prov[id] || {}).overridden && hasEvidence) t = 1;
+     else if (hasEvidence) t = 2;
+     else t = 3;
+     if (t > worst) worst = t;
+   });
+   return worst;
+ };
+
  window.ghgGwp = function(refType) {
    var id = 'gwp-' + String(refType).toLowerCase();
    return (id in RG_FACTORS) ? EF(id) : EF('gwp-r410a');
@@ -9150,7 +9271,14 @@ document.addEventListener('DOMContentLoaded', function() {
   var gwpId = 'gwp-' + String(refType).toLowerCase();
   if (!(gwpId in RG_FACTORS)) gwpId = 'gwp-r410a';
   var gwp = ef(gwpId);
-  function line(cat, src, calc, t, ev, ids) { if (t > 0) L.push([cat, src, calc, t, ev, ids || []]); return t > 0 ? t : 0; }
+  function line(cat, src, calc, t, ev, ids) {
+    if (t > 0) {
+      var evEl = document.getElementById(ev);
+      var hasEv = !!(evEl && String(evEl.value || '').trim());
+      L.push([cat, src, calc, t, ev, ids || [], ghgDqTier(ids, prov, hasEv)]);
+    }
+    return t > 0 ? t : 0;
+  }
 
   var dieselEF = ef('s1-diesel-stationary', v('g-diesel-ef')),
       gasEF = ef('s1-natural-gas', v('g-gas-ef')),
@@ -9191,7 +9319,15 @@ document.addEventListener('DOMContentLoaded', function() {
   fin += line('S3 Cat 15', 'PCAF project finance', '$' + v('g-pcaf3-amt').toLocaleString() + 'mn × ' + pfInt + ' t/$mn', v('g-pcaf3-amt') * pfInt, 'g-pcaf3-dq', ['s3-cat15-project']);
   s3 += fin;
 
-  return { s1: s1, s2: s2, s2_mkt: s2_mkt, s3: s3, fin: fin, total: s1 + s2 + s3, lines: L, prov: prov };
+  /* Emissions-weighted, because a tier-5 line carrying a fraction of a percent
+     should not drag the score the way a simple mean would. This is how PCAF
+     rolls portfolio scores up and the same logic applies here. */
+  var wsum = 0, wtot = 0;
+  L.forEach(function(l) { wsum += l[6] * l[3]; wtot += l[3]; });
+  var dq = wtot > 0 ? Math.round(wsum / wtot * 10) / 10 : null;
+
+  return { s1: s1, s2: s2, s2_mkt: s2_mkt, s3: s3, fin: fin, total: s1 + s2 + s3,
+           lines: L, prov: prov, dq: dq };
  };
 
  function _ghgRender(r) {
@@ -9211,6 +9347,30 @@ document.addEventListener('DOMContentLoaded', function() {
   setEl('r-financed', r.fin > 0 ? r.fin.toFixed(1) : '—');
   var aum = ghg_val('g-aum');
   setEl('ghg-r-intensity', aum > 0 && r.total > 0 ? (r.total / aum * 1000).toFixed(1) : '—');
+  setEl('ghg-r-dq', r.dq != null ? r.dq.toFixed(1) : '—');
+  if (r.dq != null && typeof rgTrack === 'function' && !_dqLogged) {
+    _dqLogged = true; rgTrack(RG_EVENTS.DQ_SCORE_SET, 'ghg:' + r.dq.toFixed(1));
+  }
+  /* Record the inventory. Weak lines are listed largest-first by tonnage,
+     because the gap a preparer should close first is the one carrying the
+     most emissions, not the one with the worst tier. */
+  if (r.total > 0 && typeof rgLedger !== 'undefined') {
+    var gaps = r.lines.filter(function(l) { return l[6] >= 4; })
+      .sort(function(a, b) { return b[3] - a[3]; })
+      .map(function(l) {
+        return { line: l[1], tCO2e: Math.round(l[3] * 100) / 100, dq: l[6],
+                 share: Math.round(l[3] / r.total * 1000) / 10 };
+      });
+    rgLedger.put({
+      key: 'ghg-inventory', tool: 'GHG inventory',
+      title: ghg_str('g-entity') !== '—' ? ghg_str('g-entity') : 'Unnamed entity',
+      period: ghg_str('g-period'),
+      figures: { scope1: +r.s1.toFixed(2), scope2: +r.s2.toFixed(2),
+                 scope2_market: +r.s2_mkt.toFixed(2), scope3: +r.s3.toFixed(2),
+                 financed: +r.fin.toFixed(2), total: +r.total.toFixed(2) },
+      dq: r.dq, lineCount: r.lines.length, gaps: gaps
+    });
+  }
 
   // Scope split bar chart
   var chart = document.getElementById('ghg-bar-chart');
@@ -9273,9 +9433,12 @@ document.addEventListener('DOMContentLoaded', function() {
         '<span style="font-family:var(--mono);font-size:.6rem">' + esc(l[2]) + '</span>' +
         '<span style="font-family:var(--mono)">' + l[3].toFixed(2) + '</span>' +
         '<span style="overflow:hidden;text-overflow:ellipsis">' + esc(ev) +
+          '<span class="at-dq t' + l[6] + '">DQ ' + l[6] + '</span>' +
           '<span class="at-tog"> · SHOW WORKING</span></span></div>' +
         '<div class="at-deriv">' +
           '<div class="at-step">' + esc(l[2]) + '  =  ' + l[3].toFixed(3) + ' tCO&#8322;e</div>' +
+          '<div class="at-dq-why"><b style="color:rgba(245,240,232,.8)">Data quality ' + l[6] + ' of 5</b> \u2014 ' +
+            esc(RG_DQ[l[6]] || '') + '</div>' +
           deriv +
         '</div></div>';
     }).join('') : '<div style="font-size:.7rem;color:rgba(245,240,232,.4);padding:.5rem 0">No activity data entered yet.</div>';
@@ -12375,6 +12538,52 @@ window.ciCopy = function(outId) {
      data quality, evidence packs, engagement tracking.
      Calibrated to ISSA 5000 / ISAE 3000 / ISAE 3410 / AASB S2.
      ════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-ledger" style="display:none">
+<style>
+.lg-wrap{max-width:1000px;margin:0 auto;padding:2rem 1.5rem 4rem;padding-top:calc(64px + 2rem);color:#eafff3}
+.lg-eyebrow{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:#00e87a;margin-bottom:.6rem}
+.lg-eyebrow::before{content:'\25B8 ';color:#0affdb}
+.lg-wrap h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.7rem,3.2vw,2.5rem);font-weight:700;line-height:1.12;margin-bottom:.6rem}
+.lg-wrap h1 em{font-style:normal;background:linear-gradient(100deg,#00e87a,#0affdb);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.lg-lede{font-size:.92rem;color:rgba(234,255,243,.55);line-height:1.7;max-width:720px;margin-bottom:1.6rem}
+.lg-priv{display:inline-flex;align-items:center;gap:.5rem;font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:.35rem .8rem;border:1px solid rgba(0,232,122,.28);color:rgba(0,232,122,.85);background:rgba(0,232,122,.05);margin-bottom:1.8rem}
+.lg-card{background:rgba(3,14,9,.88);border:1px solid rgba(0,232,122,.16);padding:1.4rem 1.5rem;margin-bottom:1.1rem}
+.lg-head{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;margin-bottom:.9rem}
+.lg-tool{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:#00e87a}
+.lg-title{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700}
+.lg-ts{font-family:'DM Mono',monospace;font-size:.6rem;color:rgba(234,255,243,.35)}
+.lg-figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.7rem;margin-bottom:1rem}
+.lg-fig{border-left:2px solid rgba(0,232,122,.3);padding-left:.7rem}
+.lg-fig b{display:block;font-family:'Space Grotesk',sans-serif;font-size:1.1rem;color:#00ff9d}
+.lg-fig span{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(234,255,243,.4)}
+.lg-fig.dq b{color:#ffb547}
+.lg-gaps{border-top:1px solid rgba(0,232,122,.12);padding-top:.9rem}
+.lg-gaps-t{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,181,71,.85);margin-bottom:.6rem}
+.lg-gap{display:flex;justify-content:space-between;gap:1rem;font-size:.76rem;padding:.4rem 0;border-top:1px solid rgba(255,255,255,.05);color:rgba(234,255,243,.75)}
+.lg-gap span{font-family:'DM Mono',monospace;font-size:.68rem;color:rgba(255,181,71,.8);white-space:nowrap}
+.lg-empty{padding:2.5rem 1.5rem;text-align:center;color:rgba(234,255,243,.4);font-size:.85rem;border:1px dashed rgba(0,232,122,.2)}
+.lg-actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.4rem}
+.lg-btn{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;padding:.55rem 1.1rem;background:rgba(3,14,9,.7);border:1px solid rgba(0,232,122,.25);color:rgba(234,255,243,.75);cursor:pointer}
+.lg-btn:hover{border-color:rgba(0,232,122,.6);color:#00ff9d}
+</style>
+<div class="lg-wrap">
+  <div class="lg-eyebrow">Evidence ledger</div>
+  <h1>What your numbers <em>rest on</em></h1>
+  <p class="lg-lede">
+    Every tool records what it computed, which factors it applied, and where the result is
+    weak. This is the running state an assurance provider asks for &mdash; and the gap list
+    is ordered by tonnage, because the gap worth closing first is the one carrying the most
+    emissions, not the one with the worst tier.
+  </p>
+  <div class="lg-priv">\ud83d\udd12 Stored in this browser only &mdash; never transmitted</div>
+  <div id="lg-entries"></div>
+  <div class="lg-actions">
+    <button class="lg-btn" onclick="rgLedgerExport()">\u2193 Export ledger (JSON)</button>
+    <button class="lg-btn" onclick="if(confirm('Clear the evidence ledger? This cannot be undone.')) rgLedger.clear()">Clear ledger</button>
+  </div>
+</div>
+</div>
+
 <div class="page" id="page-factors" style="display:none">
 <style>
 .fx-wrap{max-width:1150px;margin:0 auto;padding:2rem 1.5rem 4rem;padding-top:calc(64px + 2rem);color:#eafff3}
