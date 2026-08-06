@@ -1,0 +1,23 @@
+{
+  "_comment": [
+    "Advisories that do not apply to how this app is actually built and served.",
+    "",
+    "Suppressing an advisory is how real vulnerabilities get ignored, so each entry",
+    "must name the advisory, state why it cannot apply here, and name the change",
+    "that would make it apply again. Anything not listed here still fails the audit.",
+    "",
+    "Review whenever the app gains a server, SSR, or React Server Components."
+  ],
+  "exceptions": [
+    {
+      "advisory": "GHSA-qwww-vcr4-c8h2",
+      "package": "react-router",
+      "title": "RSC Mode CSRF Bypass Allows Action Execution Before 400 Response",
+      "severity": "high",
+      "why_not_applicable": "The advisory requires React Server Components mode. This app is a static Vite build using HashRouter (src/main.tsx) with no server, no SSR, no server actions and no RSC entry point. It is served as static assets by the Cloudflare Worker, so there is no request the bypass could execute an action before.",
+      "applies_again_if": "The app adds SSR, server actions, or a React Server Components entry point — at which point react-router must be upgraded past 8.2.0 before that ships.",
+      "fix_when_available": "Requires react-router 8.x, a breaking major. Not taken for a vector this app cannot reach.",
+      "reviewed": "2026-08"
+    }
+  ]
+}
