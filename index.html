@@ -9278,6 +9278,98 @@ document.addEventListener('DOMContentLoaded', function() {
    if (typeof rgTrack === 'function') rgTrack('pack_export', 'ghg');
  };
 
+ /* ── SAGE: EVIDENCE ASSEMBLY AND GROUNDING ─────────────────────────────
+    Sage was one call: prompt in, prose out. This puts two deterministic
+    stages either side of it.
+
+    BEFORE — route the question and assemble the evidence it actually needs.
+    Routing is local and rule-based rather than a second model call: it is
+    cheaper, it cannot hallucinate a route, and a wrong route is debuggable.
+
+    AFTER — check the answer against that evidence. Any figure Sage states
+    that does not appear in what it was given is flagged, in the answer, to
+    the reader.
+
+    That last stage is the point. Everything else in this product refuses to
+    show a number without its provenance; an assistant that quietly invents
+    one would undo that in a sentence. No competitor does this because it
+    requires having the evidence assembled in the first place — which is what
+    the register and the ledger are for. */
+ var RG_ROUTES = [
+   { id: 'factor',    test: /emission factor|which factor|factor for|vintage|defra|gwp|ar4|ar5|ar6|source of|where does .* come from/i },
+   { id: 'inventory', test: /my (inventory|emissions|scope|number|figure)|our (inventory|emissions|scope)|data quality|weakest|biggest gap|exposure|dq \d/i },
+   { id: 'assurance', test: /assur|auditor|evidence|assa|issa|limited assurance|reasonable assurance|audit trail/i },
+   { id: 'drafting',  test: /draft|write|disclosure statement|wording|snippet/i }
+ ];
+ window.rgSageRoute = function(text) {
+   for (var i = 0; i < RG_ROUTES.length; i++) if (RG_ROUTES[i].test.test(text || '')) return RG_ROUTES[i].id;
+   return 'general';
+ };
+
+ /* Assembles only what the route needs. Sending everything every time buries
+    the relevant evidence and makes the grounding check meaningless. */
+ window.rgSageEvidence = function(text) {
+   var route = rgSageRoute(text);
+   var parts = [];
+   var facts = [];   // numbers the answer is allowed to state
+
+   if ((route === 'factor' || route === 'assurance') && typeof _fxData !== 'undefined' && _fxData) {
+     var q = String(text || '').toLowerCase();
+     var hits = _fxData.factors.filter(function(f) {
+       return (f.name + ' ' + f.category + ' ' + f.source.publisher).toLowerCase()
+         .split(/[^a-z0-9]+/).some(function(w) { return w.length > 3 && q.indexOf(w) >= 0; });
+     }).slice(0, 6);
+     if (hits.length) {
+       parts.push('Factors from our register relevant to this question:\n' + hits.map(function(f) {
+         return '- ' + f.name + ': ' + f.value + ' ' + f.unit + ' · ' + f.source.publisher +
+           (f.vintage ? ' ' + f.vintage : '') + ' · ' + f.confidence + ' confidence' +
+           (f.source.publisher === 'Not established' ? ' · PROVENANCE NOT ESTABLISHED' : '') +
+           (f.note ? '\n  note: ' + f.note : '');
+       }).join('\n'));
+       hits.forEach(function(f) { facts.push(f.value); if (f.vintage) facts.push(f.vintage); });
+     }
+   }
+
+   if (route === 'inventory' || route === 'assurance') {
+     var led = (typeof rgLedgerContext === 'function') ? rgLedgerContext() : '';
+     if (led) {
+       parts.push(led);
+       (String(led).match(/-?\d+(?:\.\d+)?/g) || []).forEach(function(n) { facts.push(Number(n)); });
+     }
+   }
+
+   return { route: route, context: parts.join('\n\n'), facts: facts };
+ };
+
+ /* Flags figures the answer states that are not in the evidence. Deliberately
+    conservative: years, small integers and percentages are excluded, because
+    those appear legitimately in prose and flagging them would make the warning
+    noise — and a warning people learn to ignore is worse than none. */
+ window.rgSageGroundCheck = function(answer, facts) {
+   if (!facts || !facts.length) return [];
+   var stated = (String(answer).match(/(?<![\w.])\d[\d,]*(?:\.\d+)?/g) || [])
+     .map(function(t) { return Number(t.replace(/,/g, '')); })
+     .filter(function(n) {
+       return isFinite(n) && n >= 100 && !(n >= 1900 && n <= 2100);   // skip years and small counts
+     });
+   var near = function(a, b) { return Math.abs(a - b) <= 0.01 * Math.max(Math.abs(a), Math.abs(b), 1); };
+   var unsupported = stated.filter(function(n) {
+     return !facts.some(function(f) { return near(n, f); });
+   });
+   return unsupported.filter(function(v, i, arr) { return arr.indexOf(v) === i; }).slice(0, 6);
+ };
+
+ window.rgSageGroundNotice = function(unsupported) {
+   if (!unsupported.length) return '';
+   return '<div style="margin-top:.7rem;padding:.6rem .8rem;border-left:2px solid #ffb547;' +
+     'background:rgba(255,181,71,.07);font-size:.72rem;line-height:1.6;color:#ffb547">' +
+     '⚠ ' + unsupported.map(function(n){ return n.toLocaleString(); }).join(', ') +
+     ' &mdash; not from your register or ledger. Sage may have produced ' +
+     (unsupported.length === 1 ? 'this figure' : 'these figures') +
+     ' from general knowledge; verify before using ' +
+     (unsupported.length === 1 ? 'it' : 'them') + ' in a disclosure.</div>';
+ };
+
  window.rgLedgerShowPayload = function() {
    var el = document.getElementById('lg-payload');
    if (!el) return;
@@ -11592,8 +11684,10 @@ window.issb_backToForm = function() {
    : /^(issb|gri|brsr|sr|assb|cdp)/.test(wrapperId) ? 'issb'
    : /^ghg/.test(wrapperId) ? 'ghg' : 'advisor';
  var kbCtx = (typeof rgKbContext === 'function') ? rgKbContext(kbTool, prompt) : '';
- // Opted-in only; returns '' otherwise. See rgLedgerContext.
- kbCtx += (typeof rgLedgerContext === 'function') ? rgLedgerContext() : '';
+ // Route, then assemble only the evidence that route needs, then check the
+ // answer against it. Opted-in ledger data is included by rgSageEvidence.
+ var _ev = (typeof rgSageEvidence === 'function') ? rgSageEvidence(prompt) : { context:'', facts:[] };
+ if (_ev.context) kbCtx += '\n\n' + _ev.context;
  try {
  var res=await fetch('https://sageai.suranjan104.workers.dev',{
  method:'POST',headers:{'Content-Type':'application/json'},
@@ -11604,7 +11698,9 @@ window.issb_backToForm = function() {
  var d=await res.json();
  var text=(d.choices&&d.choices[0]&&d.choices[0].message&&d.choices[0].message.content)||
  (d.content&&d.content[0]&&d.content[0].text)||'Unable to generate response.';
- textEl.innerHTML=text.replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+ textEl.innerHTML=text.replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+   + ((typeof rgSageGroundCheck === 'function')
+      ? rgSageGroundNotice(rgSageGroundCheck(text, _ev.facts)) : '');
  } catch(e) {
  var _p = prompt;
  var _w = wrapperId; var _t = textId;
