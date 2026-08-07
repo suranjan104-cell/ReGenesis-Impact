@@ -58,6 +58,7 @@ jobs:
           run_check "Register in sync"        node knowledge/sync-factors.mjs --check
           run_check "No factor literals"      node test/factor-literals.mjs
           run_check "Golden values unchanged" node test/golden-ghg.mjs
+          run_check "Engine properties hold" node test/simulate.mjs
           run_check "Knowledge base builds"   node knowledge/build.mjs
           run_check "Guides + sitemap build"  node seo/build-guides.mjs
 
