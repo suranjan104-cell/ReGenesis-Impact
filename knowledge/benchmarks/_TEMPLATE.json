@@ -1,0 +1,46 @@
+[
+  {
+    "_instructions": [
+      "Copy this file to a real name (e.g. au-banks.json) and delete this key.",
+      "Files starting with _ are ignored by the build.",
+      "",
+      "One entry per company per reporting period. Every field below is required",
+      "unless marked optional. source.page is mandatory on purpose: a figure whose",
+      "page cannot be cited was not properly read, and the register's lesson is that",
+      "an unciteable number should be visible as such rather than smoothed over.",
+      "",
+      "Do not add an entry you have not read in the original document.",
+      "Run: node knowledge/build-benchmarks.mjs"
+    ],
+    "id": "example-fy2024",
+    "entity": "Exact legal name as printed in the report",
+    "market": "AU",
+    "sector": "Banking",
+    "period": "FY2024",
+    "figures": {
+      "scope1": 0,
+      "scope2_location": 0,
+      "scope2_market": 0,
+      "scope3_total": 0,
+      "scope3_cat15": null,
+      "unit": "tCO2e"
+    },
+    "scope3_categories_reported": [1, 3, 5, 6, 7],
+    "scope3_categories_omitted": [2, 4, 8, 9, 10, 11, 12, 13, 14, 15],
+    "assurance": {
+      "level": "limited",
+      "provider": "Name of the assurance firm, or null"
+    },
+    "source": {
+      "document": "Full title of the report",
+      "publisher": "Who published it — usually the company",
+      "url": "https://…",
+      "page": 42
+    },
+    "extracted_by": "who read it",
+    "extracted_on": "2026-08",
+    "confidence": "high",
+    "reviewed": "2026-08",
+    "note": "Optional. Anything a reader needs in order not to misuse the figure — restatements, boundary changes, a category reported on a different basis."
+  }
+]
