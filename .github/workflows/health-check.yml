@@ -52,6 +52,7 @@ jobs:
         run: |
           set +e
           FAILS=""
+          BLOCKED=""
           # Cloudflare bot protection rejects curl's default user agent with a
           # 403, which is indistinguishable from the site being down. Identify
           # as a browser (and name the checker) so the probe measures the site
@@ -60,18 +61,38 @@ jobs:
           for URL in "https://regenesisimpact.in/" "https://regenesisimpact.in/og-image.png" "https://regenesisimpact.in/site.webmanifest" "https://regenesisimpact.in/knowledge/kb.json" "https://regenesisimpact.in/knowledge/factors.json"; do
             CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 -L -A "$UA" "$URL")
             echo "$URL -> $CODE"
-            if [ "$CODE" != "200" ]; then FAILS="$FAILS\n- $URL returned $CODE"; fi
-            if [ "$CODE" = "403" ]; then echo "  (403 with a browser UA points at a WAF/access rule, not an outage)"; fi
+            # 403 means Cloudflare's bot protection refused the probe, not that
+            # the site is down — a browser gets through where curl does not. It
+            # is recorded as unverifiable rather than counted as a failure. The
+            # daily digest already treats it that way; this workflow did not,
+            # which made it the only red run in the repo every single night. A
+            # check that cries wolf nightly is a check nobody reads.
+            if [ "$CODE" = "403" ]; then
+              BLOCKED="$BLOCKED\n- $URL returned 403 (WAF refused the probe — not an outage)"
+            elif [ "$CODE" != "200" ]; then
+              FAILS="$FAILS\n- $URL returned $CODE"
+            fi
           done
           # The two JSON assets are fetched at runtime by the page, so a 200 on
           # index.html alone does not prove the tools work. Assert their shape,
           # not just their availability — a 200 serving an HTML error page would
           # otherwise read as healthy.
-          REG=$(curl -s --max-time 30 -L -A "$UA" "https://regenesisimpact.in/knowledge/factors.json")
-          COUNT=$(echo "$REG" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{console.log(JSON.parse(s).count)}catch(e){console.log("unparseable")}})')
-          echo "factor register reports $COUNT factors"
-          if [ "$COUNT" = "unparseable" ] || [ -z "$COUNT" ] || [ "$COUNT" = "undefined" ]; then
-            FAILS="$FAILS\n- knowledge/factors.json did not parse as a register"
+          # Only meaningful if the probe got through at all — parsing a WAF
+          # challenge page and calling it a broken register is a false alarm.
+          REGCODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 -L -A "$UA" "https://regenesisimpact.in/knowledge/factors.json")
+          if [ "$REGCODE" = "200" ]; then
+            REG=$(curl -s --max-time 30 -L -A "$UA" "https://regenesisimpact.in/knowledge/factors.json")
+            COUNT=$(echo "$REG" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{console.log(JSON.parse(s).count)}catch(e){console.log("unparseable")}})')
+            echo "factor register reports $COUNT factors"
+            if [ "$COUNT" = "unparseable" ] || [ -z "$COUNT" ] || [ "$COUNT" = "undefined" ]; then
+              FAILS="$FAILS\n- knowledge/factors.json did not parse as a register"
+            fi
+          else
+            echo "register shape not checked — probe blocked ($REGCODE)"
+          fi
+          if [ -n "$BLOCKED" ]; then
+            echo "status_blocked=1" >> "$GITHUB_OUTPUT"
+            echo -e "Unverifiable (WAF):$BLOCKED"
           fi
           if [ -n "$FAILS" ]; then
             echo "status=fail" >> "$GITHUB_OUTPUT"
