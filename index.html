@@ -1762,6 +1762,49 @@ input:focus,select:focus,textarea:focus{
   }
 }
 </style>
+<style id="rg-rail-css">
+/* Evidence rail — pinned to the foot of the viewport on tool pages.
+   Sits above content rather than in flow so it survives every tool's own
+   layout without touching any of them. */
+#rg-rail{position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;
+  background:rgba(3,14,9,.96);border-top:1px solid rgba(0,232,122,.28);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  box-shadow:0 -8px 28px rgba(0,0,0,.4)}
+#rg-rail .rl-inner{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
+  max-width:1200px;margin:0 auto;padding:.65rem 1.2rem}
+#rg-rail.collapsed .rl-inner{display:none}
+#rg-rail .rl-toggle{position:absolute;right:.7rem;top:-1.55rem;
+  background:rgba(3,14,9,.96);border:1px solid rgba(0,232,122,.28);border-bottom:none;
+  color:rgba(0,232,122,.8);font-size:.6rem;line-height:1;padding:.3rem .6rem;cursor:pointer;
+  border-radius:.35rem .35rem 0 0}
+#rg-rail .rl-toggle:hover{color:#00ff9d}
+#rg-rail .rl-lab{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.16em;
+  text-transform:uppercase;color:rgba(0,232,122,.75);flex:none}
+#rg-rail .rl-chips{display:flex;gap:.4rem;flex-wrap:wrap}
+#rg-rail .rl-chip{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.04em;
+  padding:.2rem .5rem;border:1px solid rgba(0,232,122,.28);color:rgba(234,255,243,.72);white-space:nowrap}
+#rg-rail .rl-chip b{color:#00ff9d;font-weight:500}
+#rg-rail .rl-chip.warn{border-color:rgba(255,181,71,.45)}
+#rg-rail .rl-chip.warn b{color:#ffb547}
+#rg-rail .rl-gap{flex:1;min-width:190px;font-size:.72rem;color:rgba(234,255,243,.7);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#rg-rail .rl-gap b{font-family:'DM Mono',monospace;color:#ffb547;font-weight:500}
+#rg-rail .rl-gap-lab{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.14em;
+  text-transform:uppercase;color:rgba(255,181,71,.8);margin-right:.5rem}
+#rg-rail .rl-dq{font-family:'DM Mono',monospace;font-size:.58rem;color:#ffb547}
+#rg-rail .rl-acts{display:flex;gap:.4rem;flex:none}
+#rg-rail .rl-acts button{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.08em;
+  text-transform:uppercase;padding:.3rem .7rem;background:transparent;
+  border:1px solid rgba(0,232,122,.3);color:rgba(234,255,243,.75);cursor:pointer}
+#rg-rail .rl-acts button:hover{border-color:rgba(0,232,122,.65);color:#00ff9d}
+/* The rail overlays the foot of the page, so give tool pages room to scroll
+   past it rather than hiding their last control behind it. */
+body:not(.rg-editorial) .page{padding-bottom:4.5rem}
+@media(max-width:720px){
+  #rg-rail .rl-gap{min-width:100%;order:3}
+  #rg-rail .rl-inner{padding:.55rem .8rem;gap:.6rem}
+}
+</style>
 </head>
 <body class="rg-editorial">
 <!-- REGULATORY ALERT BAR -->
@@ -4920,8 +4963,14 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
 
  <!-- PCAF Weighted Average DQ Score -->
  <div class="ghg-card" id="pcaf-dq-card" style="margin-top:1.5rem">
- <div class="ghg-card-title"><span></span> PCAF WEIGHTED AVERAGE DATA QUALITY SCORE</div>
+ <div class="ghg-card-title"><span></span> PCAF DATA QUALITY — FINANCED EMISSIONS ONLY</div>
  <div id="pcaf-dq-display" style="font-size:.85rem;color:rgba(245,240,232,0.7);line-height:1.8;"></div>
+ <div style="margin-top:.7rem;padding-top:.7rem;border-top:1px solid rgba(255,255,255,.06);font-size:.72rem;line-height:1.6;color:rgba(245,240,232,.45)">
+   This is PCAF's own 1&ndash;5 scale, as you declared it per asset class in step 7, weighted by
+   exposure &mdash; it covers Category 15 only. The <strong style="color:rgba(245,240,232,.7)">inventory data quality</strong>
+   shown with the results is ours, covers every line, and is weighted by emissions. Two different
+   scores measuring two different things; neither replaces the other.
+ </div>
  </div>
 
  <div class="ghg-actions">
@@ -8159,6 +8208,7 @@ function showPage(page) {
   // in memory before the first calculation is shown.
   if (page === 'ghg' && typeof fxLoad === 'function') fxLoad();
   if (page === 'ledger' && typeof rgLedgerRender === 'function') rgLedgerRender();
+  if (typeof rgRailRender === 'function') setTimeout(rgRailRender, 0);
 
   // Owner insights auto-load on dashboard open (owner only — see isOwnerUser)
   if (page === 'dashboard' && isOwnerUser() && typeof dbLoadInsights === 'function') setTimeout(dbLoadInsights, 300);
@@ -9068,6 +9118,7 @@ document.addEventListener('DOMContentLoaded', function() {
        all.push(rec);
        localStorage.setItem(RG_LEDGER_KEY, JSON.stringify(all.slice(-50)));
        if (typeof rgLedgerRender === 'function') rgLedgerRender();
+       if (typeof rgRailRender === 'function') rgRailRender();
      } catch (e) { /* quota or private mode — the tool still works */ }
    },
    clear: function() {
@@ -9368,6 +9419,69 @@ document.addEventListener('DOMContentLoaded', function() {
      (unsupported.length === 1 ? 'this figure' : 'these figures') +
      ' from general knowledge; verify before using ' +
      (unsupported.length === 1 ? 'it' : 'them') + ' in a disclosure.</div>';
+ };
+
+ /* ── EVIDENCE RAIL ──────────────────────────────────────────────────────
+    A persistent strip across every tool showing what the ledger already
+    holds. Before this the tools were seven separate one-shot calculators
+    that happened to share a nav; the ledger connected them conceptually but
+    nothing surfaced it unless you navigated to it deliberately.
+
+    It shows the weakest thing first, because that is the number a preparer
+    has to act on and the one a reviewer will find. Hidden entirely when the
+    ledger is empty — an empty chrome element is noise. */
+ var RG_RAIL_KEY = 'rg_rail_collapsed';
+ window.rgRailToggle = function() {
+   try {
+     var now = localStorage.getItem(RG_RAIL_KEY) === '1';
+     now ? localStorage.removeItem(RG_RAIL_KEY) : localStorage.setItem(RG_RAIL_KEY, '1');
+   } catch (e) {}
+   rgRailRender();
+ };
+ window.rgRailRender = function() {
+   var el = document.getElementById('rg-rail');
+   if (!el) return;
+   var onToolPage = !document.body.classList.contains('rg-editorial');
+   var recs = (typeof rgLedger !== 'undefined') ? rgLedger.all() : [];
+   if (!onToolPage || !recs.length) { el.style.display = 'none'; return; }
+   el.style.display = 'block';
+
+   var esc = function(x){ var d=document.createElement('div'); d.textContent = x==null?'':x; return d.innerHTML; };
+   var collapsed = false;
+   try { collapsed = localStorage.getItem(RG_RAIL_KEY) === '1'; } catch (e) {}
+   el.className = collapsed ? 'collapsed' : '';
+
+   var inv = recs.filter(function(r){ return r.dq != null; })
+     .sort(function(a,b){ return b.dq - a.dq; })[0];
+   // Weakest line across every tool, ranked by tonnage where it exists.
+   var gaps = recs.reduce(function(a, r){ return a.concat(r.gaps || []); }, [])
+     .sort(function(a,b){ return (b.tCO2e || 0) - (a.tCO2e || 0); });
+
+   var chips = recs.map(function(r) {
+     var v = r.dq != null ? ('DQ ' + r.dq.toFixed(1))
+       : (r.figures && r.figures.readiness_percent != null ? r.figures.readiness_percent + '%' : '✓');
+     var warn = (r.dq != null && r.dq >= 4) ||
+                (r.figures && r.figures.readiness_percent != null && r.figures.readiness_percent < 70);
+     return '<span class="rl-chip' + (warn ? ' warn' : '') + '">' + esc(r.tool) + ' <b>' + esc(v) + '</b></span>';
+   }).join('');
+
+   el.innerHTML =
+     '<button class="rl-toggle" onclick="rgRailToggle()" title="' +
+       (collapsed ? 'Show evidence rail' : 'Hide evidence rail') + '">' +
+       (collapsed ? '▲' : '▼') + '</button>' +
+     '<div class="rl-inner">' +
+       '<div class="rl-lab">Evidence</div>' +
+       '<div class="rl-chips">' + chips + '</div>' +
+       (gaps.length
+         ? '<div class="rl-gap"><span class="rl-gap-lab">Weakest</span>' + esc(gaps[0].line) +
+           (gaps[0].tCO2e ? ' <b>' + gaps[0].tCO2e.toLocaleString() + ' t</b>' : '') +
+           ' <span class="rl-dq">DQ ' + gaps[0].dq + '</span></div>'
+         : '<div class="rl-gap"><span class="rl-gap-lab" style="color:#7ed957">No weak lines</span></div>') +
+       '<div class="rl-acts">' +
+         '<button onclick="showPage(\'ledger\')">Ledger</button>' +
+         '<button onclick="showPage(\'factors\')">Register</button>' +
+       '</div>' +
+     '</div>';
  };
 
  window.rgLedgerShowPayload = function() {
@@ -9730,7 +9844,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (amt > 0 && isFinite(score)) { wsum += amt * score; w += amt; det.push(p[2] + ': DQ ' + score + ' ($' + amt.toLocaleString() + 'mn)'); }
     });
     dq.innerHTML = w > 0
-      ? 'Weighted average DQ score: <strong style="color:#ffb23c">' + (wsum / w).toFixed(2) + '</strong> / 5 (1 = audited actuals, 5 = estimated proxies)<br>' + det.join(' · ')
+      ? 'Exposure-weighted PCAF score, Category 15 only: <strong style="color:#ffb23c">' + (wsum / w).toFixed(2) + '</strong> / 5 (1 = audited actuals, 5 = estimated proxies)<br>' + det.join(' · ')
       : 'Enter PCAF outstanding amounts and data-quality scores in step 7 to see the exposure-weighted score.';
   }
  }
@@ -13422,6 +13536,17 @@ function axsRunReadiness(){
     gh = '<div class="axs-flag pass"><span class="tag">READY</span><span>All ten readiness items in place — you are in strong shape for fieldwork. Generate your evidence pack next.</span></div>';
   }
   document.getElementById('axs-rr-gaps').innerHTML = gh;
+  /* The ledger is meant to be cross-tool. Until now only the GHG inventory
+     wrote to it, which made the suite look cumulative without being it. */
+  if (typeof rgLedger !== 'undefined') {
+    rgLedger.put({
+      key: 'assurance-readiness', tool: 'Assurance readiness',
+      title: cls.group + ' · ' + cls.level, period: 'Due ' + cls.due,
+      figures: { readiness_percent: pct, items_in_place: got, items_total: AXS_CHECKS.length },
+      dq: null,
+      gaps: gaps.map(function(i) { return { line: AXS_CHECKS[i][1], tCO2e: 0, dq: 4, share: 0 }; })
+    });
+  }
   var rr = document.getElementById('axs-ready-result');
   rr.classList.add('show');
   rr.scrollIntoView({behavior:'smooth', block:'nearest'});
@@ -15167,5 +15292,6 @@ document.addEventListener('DOMContentLoaded', function(){
 })();
 </script>
 
+<div id="rg-rail" aria-live="polite"></div>
 </body>
 </html>
