@@ -1,0 +1,40 @@
+Most carbon tools can give you a number. Ask one where the number came from and the answer is a spreadsheet nobody can open.
+
+Six steps, from a reported figure to the evidence behind it:
+
+37,500 tCO2e of financed emissions
+→ $250mn × 150 t/$mn
+→ the factor: corporate lending WACI default
+→ its source: not established
+→ so the line scores data quality 4 of 5, and says why
+→ and the ledger ranks it first, because it is 72% of the inventory
+
+The last step is the one that matters. The assurance pack prints "2 of the 7 factors applied have no establishable source" — computed, not written. A pack that presents only strengths is the one an auditor distrusts.
+
+Every figure above is real output. Your data never leaves the browser to produce any of it.
+
+Walk through it yourself: regenesisimpact.in/demo/how-it-works.html
+
+#GHGProtocol #PCAF #ClimateDisclosure #Assurance #EmissionFactors
+
+
+--------------------------------------------------
+HOW TO POST (delete this section before posting):
+
+1. ReGenesis Impact COMPANY PAGE. Upload regenesis-how-it-works.gif as an
+   IMAGE post — LinkedIn animates GIFs in feed. Do not upload it as a
+   document; that kills the animation.
+2. Body = everything above the dashed line.
+3. Link in the FIRST COMMENT, not the body:
+   https://regenesisimpact.in/demo/how-it-works.html?utm_source=linkedin&utm_medium=social&utm_campaign=how-it-works
+4. The GIF is a 23-second loop across six frames. Frame 3 — "Source: Not
+   established" in red — is the one that stops the scroll, because no vendor
+   shows that. Do not replace it with something more flattering.
+5. LinkedIn cannot host anything interactive. The GIF is the hook; the
+   walkthrough on the site is the interaction. Both are generated from the
+   same page, so they can never disagree.
+6. Likely question: "why would you show a factor you cannot source?"
+   Answer: because an assurance provider will find it anyway, and finding it
+   in our own register is a better first meeting than finding it in yours.
+7. Colleague reshares within the first hour; company pages under-reach
+   personal profiles.

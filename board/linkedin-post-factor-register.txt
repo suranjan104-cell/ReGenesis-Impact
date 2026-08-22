@@ -14,7 +14,7 @@ The register is now public, and it publishes what is weak: 8 of 27 factors are l
 
 None of this is unusual in emissions software. It is unusual to publish it.
 
-Register: regenesisimpact.in/#factors
+The register, and what it found: regenesisimpact.in/research/emission-factor-register.html
 
 #GHGProtocol #EmissionFactors #ClimateDisclosure #Assurance #PCAF
 
@@ -27,7 +27,8 @@ HOW TO POST (delete this section before posting):
    vintage · AR4 GWP set · 4 provenance not established · 8 low confidence"
    is the image that makes the argument.
 2. Link in the FIRST COMMENT, not the body:
-   https://regenesisimpact.in/#factors?utm_source=linkedin&utm_medium=social&utm_campaign=factor-register
+   https://regenesisimpact.in/research/emission-factor-register.html?utm_source=linkedin&utm_medium=social&utm_campaign=factor-register
+   (a hash route like /#factors gets the homepage's link preview — this page has its own)
 3. Expect the obvious challenge: "why would you advertise your own weaknesses?"
    The answer is the post's last line, and it is worth repeating in replies
    rather than defending. An assurance provider asks for the factor register

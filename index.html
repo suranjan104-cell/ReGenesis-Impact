@@ -9013,7 +9013,7 @@ document.addEventListener('DOMContentLoaded', function() {
  var _fxData = null;
  var _dqLogged = false;
  window.fxLoad = function() {
-   if (_fxData) { fxRender(); return; }
+   if (_fxData) { fxRender(); rgAnnotateFactorInputs(); return; }
    fetch('knowledge/factors.json').then(function(r){ return r.json(); }).then(function(d){
      _fxData = d;
      var sel = document.getElementById('fx-cat');
@@ -9027,6 +9027,7 @@ document.addEventListener('DOMContentLoaded', function() {
        });
      }
      fxRender();
+     if (typeof rgAnnotateFactorInputs === 'function') rgAnnotateFactorInputs();
    }).catch(function(){
      var rows = document.getElementById('fx-rows');
      if (rows) rows.innerHTML = '<tr><td colspan="8" class="fx-empty">Register could not be loaded. It is committed at knowledge/factors.json.</td></tr>';
@@ -9482,6 +9483,40 @@ document.addEventListener('DOMContentLoaded', function() {
          '<button onclick="showPage(\'factors\')">Register</button>' +
        '</div>' +
      '</div>';
+ };
+
+ /* Provenance at the point of entry, not only in the audit trail afterwards.
+    A preparer deciding whether to override a default is deciding it here, so
+    this is where they need to know the factor is unsourced — finding out in
+    the register later is finding out too late. Driven from the same register
+    the calculation reads, so the warning cannot go stale. */
+ window.rgAnnotateFactorInputs = function() {
+   if (typeof _fxData === 'undefined' || !_fxData) return;
+   _fxData.factors.forEach(function(f) {
+     if (!f.input_id) return;
+     var input = document.getElementById(f.input_id);
+     if (!input) return;
+     var wrap = input.parentElement;
+     if (!wrap) return;
+     var hint = wrap.querySelector('.field-hint');
+     if (!hint) {
+       hint = document.createElement('div');
+       hint.className = 'field-hint';
+       wrap.appendChild(hint);
+     }
+     if (hint.querySelector('.fh-prov')) return;   // already annotated
+     var unsourced = f.source.publisher === 'Not established';
+     var weak = unsourced || f.confidence === 'low';
+     var note = document.createElement('div');
+     note.className = 'fh-prov';
+     note.style.cssText = 'margin-top:.3rem;font-family:\'DM Mono\',monospace;font-size:.58rem;line-height:1.55;' +
+       (weak ? 'color:#ffb547' : 'color:rgba(126,217,87,.7)');
+     note.textContent = weak
+       ? (unsourced ? '\u26a0 Unsourced placeholder \u2014 override with your own figure'
+                    : '\u26a0 Low confidence \u2014 ' + f.source.publisher + (f.vintage ? ' ' + f.vintage : ''))
+       : 'Default: ' + f.source.publisher + (f.vintage ? ' ' + f.vintage : '') + ' \u00b7 ' + f.confidence + ' confidence';
+     hint.appendChild(note);
+   });
  };
 
  window.rgLedgerShowPayload = function() {

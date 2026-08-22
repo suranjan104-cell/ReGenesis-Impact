@@ -138,6 +138,8 @@ for (const g of GUIDES) {
 const RESEARCH = [
   { path: 'research/', priority: '0.9' },
   { path: 'research/financed-emissions.html', priority: '0.9' },
+  { path: 'research/emission-factor-register.html', priority: '0.9' },
+  { path: 'demo/how-it-works.html', priority: '0.8' },
 ];
 const urls = [
   `  <url><loc>${SITE}/</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>`,
