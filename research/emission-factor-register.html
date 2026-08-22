@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The emission factor register — every factor with its source and vintage | ReGenesis Impact</title>
+<meta name="description" content="We audited our own emission factors against the control we tell clients to build. 27 factors published with source, vintage and confidence — including the 4 we cannot source.">
+<link rel="canonical" href="https://regenesisimpact.in/research/emission-factor-register.html">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+<meta property="og:type" content="article">
+<meta property="og:title" content="We audited our own emission factors. Here is what we found.">
+<meta property="og:description" content="One factor lived in three places. R-22 carried three vintages in one control. A project finance intensity sat 4,000x off. 27 factors now published with source, vintage and confidence — including the 4 with no establishable source.">
+<meta property="og:url" content="https://regenesisimpact.in/research/emission-factor-register.html">
+<meta property="og:image" content="https://regenesisimpact.in/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"The emission factor register","description":"Every emission factor ReGenesis Impact applies, published with source, vintage and confidence.","url":"https://regenesisimpact.in/research/emission-factor-register.html","publisher":{"@type":"Organization","name":"ReGenesis Impact"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://regenesisimpact.in/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://regenesisimpact.in/research/"},{"@type":"ListItem","position":3,"name":"Emission factor register","item":"https://regenesisimpact.in/research/emission-factor-register.html"}]}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#F6F1E7;--paper-hi:#fff;--ink:#0E231A;--ink2:rgba(14,35,26,.72);--ink3:rgba(14,35,26,.55);
+  --line:rgba(14,35,26,.14);--emerald:#0B7A47;--signal:#C2410C}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;line-height:1.65;
+  background-image:linear-gradient(rgba(14,35,26,.035) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(14,35,26,.035) 1px,transparent 1px);background-size:60px 60px}
+.wrap{max-width:860px;margin:0 auto;padding:2.5rem 1.35rem 5rem}
+a{color:var(--emerald)}
+.home{display:inline-flex;gap:.5rem;align-items:center;font-size:.82rem;text-decoration:none;margin-bottom:2.4rem;
+  border:1px solid var(--line);border-radius:2rem;padding:.42rem 1rem;color:var(--ink2)}
+.home:hover{border-color:var(--emerald);color:var(--emerald)}
+.eyebrow{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--emerald);display:flex;align-items:center;gap:.6rem;margin-bottom:.9rem}
+.eyebrow::before{content:'';width:26px;height:1px;background:var(--emerald)}
+h1{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(2rem,5.5vw,3.1rem);line-height:1.04;
+  letter-spacing:-.02em;margin-bottom:1.1rem}
+h1 em{font-style:italic;color:var(--emerald)}
+.standfirst{font-size:1.13rem;color:var(--ink2);margin-bottom:1.5rem;max-width:44rem}
+.meta{font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.1em;color:var(--ink3);
+  padding-top:1rem;border-top:1px solid var(--line);margin-bottom:2.4rem}
+h2{font-family:'Playfair Display',serif;font-weight:700;font-size:1.65rem;line-height:1.15;margin:2.6rem 0 .9rem}
+p{margin-bottom:1rem;color:var(--ink2)}
+strong{color:var(--ink)}
+.find{border-left:3px solid var(--signal);padding:.9rem 0 .9rem 1.3rem;margin:1.4rem 0}
+.find b{display:block;color:var(--ink);margin-bottom:.25rem}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.9rem;margin:1.8rem 0 2.2rem}
+.kpi{background:var(--paper-hi);border:1px solid var(--line);border-radius:.6rem;padding:.9rem 1rem}
+.kpi b{display:block;font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--emerald)}
+.kpi.warn b{color:var(--signal)}
+.kpi span{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3)}
+.cta{display:inline-flex;align-items:center;gap:.5rem;font-weight:600;font-size:.95rem;border-radius:.65rem;
+  padding:.85rem 1.5rem;text-decoration:none;background:var(--emerald);color:var(--paper);margin-top:.6rem}
+.cta:hover{background:#085C36}
+.pull{border-left:3px solid var(--emerald);padding:1.1rem 0 1.1rem 1.4rem;margin:2rem 0;font-size:1.05rem;color:var(--ink)}
+footer{margin-top:3.5rem;padding-top:1.4rem;border-top:1px solid var(--line);
+  font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.08em;color:var(--ink3)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="home" href="./">&larr; Research</a>
+  <div class="eyebrow">Emission factor register</div>
+  <h1>We audited our own<br>emission factors</h1>
+  <p class="standfirst">
+    Our assurance tool told users to build a register &mdash; factor, source, vintage,
+    applied-to &mdash; and to treat a factor older than three years as a finding. We did not
+    have one ourselves. So we built it, ran our own code against it, and published the result
+    including the parts that do not flatter us.
+  </p>
+  <div class="meta">27 factors &middot; 4 with no establishable source &middot; 8 low confidence</div>
+
+  <div class="kpis">
+    <div class="kpi"><b>27</b><span>Factors in the register</span></div>
+    <div class="kpi"><b>AR4</b><span>GWP assessment set</span></div>
+    <div class="kpi warn"><b>4</b><span>Provenance not established</span></div>
+    <div class="kpi warn"><b>8</b><span>Low confidence</span></div>
+  </div>
+
+  <h2>Four things we found in our own code</h2>
+
+  <div class="find">
+    <b>One factor lived in three places.</b>
+    The arithmetic, the label shown to the user, and the CSV export each held their own copy.
+    Changing one did not change the others &mdash; so an audit trail could state a factor that
+    was not the one applied.
+  </div>
+
+  <div class="find">
+    <b>R-22 carried three vintages in one control.</b>
+    The engine computed with 1760, the selector beside it displayed 1810, and the audit trail
+    described the set as AR6. The set is AR4, recoverable by arithmetic from our own blend
+    values: solving R-410A against our R-32 implies R-125 = 3501, which then reproduces our
+    R-407C and R-404A. The label was right; the engine was wrong.
+  </div>
+
+  <div class="find">
+    <b>A project finance intensity sat roughly 4,000&times; too low.</b>
+    0.035 tCO<sub>2</sub>e per USD mn against 150 for corporate lending in the same units. Not
+    plausible for the asset class. No sourced replacement could be established, so the default
+    was withdrawn rather than replaced with a better-looking guess.
+  </div>
+
+  <div class="find">
+    <b>A table nobody used disagreed with what users got.</b>
+    India grid 0.82 against the 0.716 actually applied; waste 0.58 against 0.467. Dead
+    configuration that read as authoritative.
+  </div>
+
+  <h2>What the register does now</h2>
+  <p>
+    Every factor carries its value, unit, basis, region, source, vintage, confidence and the
+    calculation lines it feeds. Every computed number opens to show the factor applied and its
+    provenance. Every editable factor warns you at the point of entry if it is unsourced, so
+    the decision to override is made with that in front of you rather than discovered later.
+  </p>
+  <p>
+    Emission lines are scored 1&ndash;5 for data quality and rolled up, emissions-weighted, to
+    an inventory score. That scheme is ours, not a standard &mdash; PCAF specifies 1&ndash;5 for
+    financed emissions and no equivalent scale exists for general activity data, so it mirrors
+    the logic without claiming to be it.
+  </p>
+
+  <div class="pull">
+    None of this is unusual in emissions software. It is unusual to publish it.
+  </div>
+
+  <p>
+    The four unsourced factors are still unsourced. They are named in the register, ranked in
+    the gap list of any inventory that uses them, and printed in the assurance pack a reviewer
+    reads. That is the point: a number you cannot defend should be visible before someone else
+    finds it.
+  </p>
+
+  <p>
+    <a href="../demo/how-it-works.html">See the whole chain in six steps &rarr;</a>
+  </p>
+
+  <a class="cta" href="../#factors">Open the register &rarr;</a>
+  <footer>ReGenesis Impact &middot; regenesisimpact.in</footer>
+</div>
+</body>
+</html>

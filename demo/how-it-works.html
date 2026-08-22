@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How it works — a number that shows its receipts | ReGenesis Impact</title>
+<meta name="description" content="Six steps from a reported figure to the evidence behind it — including the part we cannot source. An interactive walkthrough of the ReGenesis Impact provenance chain.">
+<link rel="canonical" href="https://regenesisimpact.in/demo/how-it-works.html">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A number that shows its receipts">
+<meta property="og:description" content="Six steps from a reported figure to the factor, the vintage, the source, the data quality tier, and the gap it creates — including the part we cannot source.">
+<meta property="og:url" content="https://regenesisimpact.in/demo/how-it-works.html">
+<meta property="og:image" content="https://regenesisimpact.in/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#03110a;--panel:rgba(3,20,12,.9);--line:rgba(0,232,122,.18);
+  --ink:#eafff3;--ink2:rgba(234,255,243,.62);--ink3:rgba(234,255,243,.38);
+  --green:#00e87a;--cyan:#0affdb;--amber:#ffb547;--red:#ff8f6b}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;
+  line-height:1.6;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem 1rem;
+  background-image:radial-gradient(circle at 20% 15%,rgba(0,232,122,.07),transparent 45%),
+                   radial-gradient(circle at 80% 85%,rgba(10,255,219,.05),transparent 45%)}
+.stage{width:100%;max-width:860px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.6rem}
+.brand{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem;letter-spacing:-.01em}
+.brand span{color:var(--green)}
+.counter{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.16em;color:var(--ink3)}
+h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,4vw,2.15rem);line-height:1.14;margin-bottom:.5rem}
+h1 em{font-style:normal;color:var(--green)}
+.sub{font-size:.92rem;color:var(--ink2);margin-bottom:1.5rem;min-height:2.9em}
+.panel{background:var(--panel);border:1px solid var(--line);padding:1.5rem 1.6rem;min-height:310px;
+  position:relative;overflow:hidden}
+.panel::before{content:'';position:absolute;top:-1px;left:-1px;width:14px;height:14px;
+  border-top:2px solid var(--green);border-left:2px solid var(--green)}
+.big{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.4rem,7vw,3.6rem);line-height:1;color:var(--green)}
+.biglab{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink3);margin-top:.5rem}
+.row{display:flex;gap:.7rem;align-items:baseline;padding:.55rem 0;border-top:1px solid rgba(255,255,255,.06);
+  font-size:.84rem}
+.row:first-of-type{border-top:none}
+.k{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink3);flex:none;width:118px}
+.v{color:var(--ink);flex:1}
+.v.mono{font-family:'DM Mono',monospace;font-size:.78rem}
+.warn{color:var(--amber)}.bad{color:var(--red)}.good{color:var(--green)}
+.calc{font-family:'DM Mono',monospace;font-size:.9rem;color:var(--ink);padding:.9rem 1rem;
+  background:rgba(0,0,0,.3);border-left:2px solid var(--green);margin-bottom:1rem;line-height:1.7}
+.chip{display:inline-block;font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.08em;
+  text-transform:uppercase;padding:.15rem .45rem;border:1px solid;margin-left:.4rem}
+.chip.b{color:var(--red);border-color:rgba(255,143,107,.5)}
+.chip.a{color:var(--amber);border-color:rgba(255,181,71,.5)}
+.bar{height:9px;background:rgba(255,255,255,.06);margin:.5rem 0 .2rem;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--amber)}
+.note{margin-top:1rem;padding:.75rem .9rem;border-left:2px solid var(--amber);
+  background:rgba(255,181,71,.06);font-size:.78rem;line-height:1.6;color:var(--amber)}
+.note.g{border-color:var(--green);background:rgba(0,232,122,.06);color:var(--ink2)}
+.note.g b{color:var(--green)}
+.nav{display:flex;gap:.5rem;align-items:center;margin-top:1.4rem;flex-wrap:wrap}
+button{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
+  padding:.6rem 1.2rem;background:transparent;border:1px solid rgba(0,232,122,.35);color:var(--ink);cursor:pointer}
+button:hover{border-color:var(--green);color:var(--green)}
+button.p{background:var(--green);color:#03110a;border-color:var(--green);font-weight:500}
+button.p:hover{background:#00ff9d}
+button:disabled{opacity:.3;cursor:default}
+.dots{display:flex;gap:.35rem;margin-left:auto}
+.dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.15)}
+.dot.on{background:var(--green)}
+.foot{margin-top:1.4rem;font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;color:var(--ink3)}
+.foot a{color:var(--cyan);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="top">
+    <div class="brand">ReGenesis <span>Impact</span></div>
+    <div class="counter" id="counter">STEP 1 / 6</div>
+  </div>
+  <h1 id="title">A number, like any other tool gives you</h1>
+  <p class="sub" id="sub">Financed emissions for a lending book. Every carbon tool on the market can produce this figure. None of them can tell you what it rests on.</p>
+  <div class="panel" id="panel"></div>
+  <div class="nav">
+    <button id="prev" onclick="go(step-1)">&larr; Back</button>
+    <button class="p" id="next" onclick="go(step+1)">Show me &rarr;</button>
+    <div class="dots" id="dots"></div>
+  </div>
+  <div class="foot">
+    Real output from the live tool &middot; <a href="../#factors">the register</a> &middot;
+    <a href="../#ghg">try it yourself</a>
+  </div>
+</div>
+<script>
+/* One source for both outputs. The GIF posted to LinkedIn is rendered from
+   this same page with ?frame=N, so the animation cannot drift from what the
+   interactive walkthrough actually shows. */
+var STEPS = [
+  { t:'A number, like any other tool gives you',
+    s:'Financed emissions for a lending book. Every carbon tool on the market can produce this figure. None of them can tell you what it rests on.',
+    h:'<div class="big">37,500</div><div class="biglab">tCO&#8322;e &middot; Scope 3 Category 15 &middot; corporate lending</div>' },
+  { t:'Click it, and the working opens',
+    s:'Not a tooltip. The actual arithmetic, with the factor that produced it named.',
+    h:'<div class="calc">$250mn &times; 150 t/$mn  =  37,500.00 tCO&#8322;e</div>' +
+      '<div class="row"><div class="k">Line</div><div class="v">PCAF corporate lending &middot; WACI</div></div>' +
+      '<div class="row"><div class="k">Method</div><div class="v">Attribution, weighted average carbon intensity</div></div>' },
+  { t:'The factor names its own source',
+    s:'Value, unit, basis, region, vintage, confidence &mdash; from a register that is published, versioned, and built deterministically.',
+    h:'<div class="row"><div class="k">Factor</div><div class="v">Corporate lending &mdash; WACI default<span class="chip b">Unsourced</span></div></div>' +
+      '<div class="row"><div class="k">Applied</div><div class="v mono">150 tCO&#8322;e / USD mn</div></div>' +
+      '<div class="row"><div class="k">Source</div><div class="v bad">Not established</div></div>' +
+      '<div class="row"><div class="k">Vintage</div><div class="v mono">&mdash;</div></div>' +
+      '<div class="row"><div class="k">Confidence</div><div class="v warn">Low</div></div>' +
+      '<div class="note">We could not source this figure. Rather than quietly ship a number that looks authoritative, the register says so &mdash; here, and in every document it reaches.</div>' },
+  { t:'So the line is scored, and told why',
+    s:'Every emission line gets a data quality tier, derived from evidence the system already holds. Nothing extra is asked of you.',
+    h:'<div class="row"><div class="k">Tier</div><div class="v warn">4 of 5<span class="chip a">Weak</span></div></div>' +
+      '<div class="row"><div class="k">Because</div><div class="v">The factor is low confidence and its provenance is not established</div></div>' +
+      '<div class="bar"><i style="width:80%"></i></div>' +
+      '<div class="row"><div class="k">Inventory</div><div class="v">4.1 of 5, emissions-weighted across every line</div></div>' +
+      '<div class="note">A line takes the worst tier among the factors behind it &mdash; the reading an assurance provider would take.</div>' },
+  { t:'The ledger ranks it against everything else',
+    s:'Not by how bad the tier is. By how much of your inventory is sitting on it.',
+    h:'<div class="row"><div class="k">1</div><div class="v">PCAF corporate lending &middot; WACI <span class="v mono warn">37,500 t &middot; 72% &middot; DQ 4</span></div></div>' +
+      '<div class="row"><div class="k">2</div><div class="v">Use of sold products <span class="v mono warn">6,444 t &middot; 12% &middot; DQ 5</span></div></div>' +
+      '<div class="row"><div class="k">3</div><div class="v">Purchased goods &amp; services <span class="v mono warn">6,300 t &middot; 12% &middot; DQ 4</span></div></div>' +
+      '<div class="row"><div class="k">4</div><div class="v">Waste to landfill <span class="v mono">65 t &middot; 0.1% &middot; DQ 4</span></div></div>' +
+      '<div class="note">Waste is also tier 4. It is a rounding error. Sorting by severity would have put it beside the number carrying the whole report.</div>' },
+  { t:'And the pack tells your auditor first',
+    s:'One document, assembled from the register and the ledger. It computes its own limitations rather than presenting only strengths.',
+    h:'<div class="row"><div class="k">Section 3</div><div class="v">Emission factors applied &mdash; 7 rows, 2 flagged unsourced</div></div>' +
+      '<div class="row"><div class="k">Section 5</div><div class="v">Gaps, largest first</div></div>' +
+      '<div class="row"><div class="k">Section 6</div><div class="v">Audit trail, every line with its calculation</div></div>' +
+      '<div class="row"><div class="k">Section 7</div><div class="v bad">&ldquo;2 of the 7 factors applied have no establishable source&rdquo;</div></div>' +
+      '<div class="note g"><b>That sentence is computed, not written.</b> A pack that presents only strengths is the one an auditor distrusts. Your data never leaves the browser to produce any of this.</div>' }
+];
+var step = 0;
+function go(n){
+  step = Math.max(0, Math.min(STEPS.length-1, n));
+  var s = STEPS[step];
+  document.getElementById('title').innerHTML = s.t;
+  document.getElementById('sub').innerHTML = s.s;
+  document.getElementById('panel').innerHTML = s.h;
+  document.getElementById('counter').textContent = 'STEP ' + (step+1) + ' / ' + STEPS.length;
+  document.getElementById('prev').disabled = step === 0;
+  var nx = document.getElementById('next');
+  nx.disabled = step === STEPS.length-1;
+  nx.textContent = step === STEPS.length-1 ? 'That is the whole idea' : (step === 0 ? 'Show me →' : 'Next →');
+  document.getElementById('dots').innerHTML = STEPS.map(function(_,i){
+    return '<div class="dot' + (i<=step?' on':'') + '"></div>'; }).join('');
+}
+var qs = new URLSearchParams(location.search);
+go(qs.has('frame') ? Number(qs.get('frame')) : 0);
+document.addEventListener('keydown', function(e){
+  if (e.key === 'ArrowRight') go(step+1);
+  if (e.key === 'ArrowLeft') go(step-1);
+});
+</script>
+</body>
+</html>
