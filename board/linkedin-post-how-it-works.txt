@@ -21,9 +21,15 @@ Walk through it yourself: regenesisimpact.in/demo/how-it-works.html
 --------------------------------------------------
 HOW TO POST (delete this section before posting):
 
-1. ReGenesis Impact COMPANY PAGE. Upload regenesis-how-it-works.gif as an
-   IMAGE post — LinkedIn animates GIFs in feed. Do not upload it as a
-   document; that kills the animation.
+1. ReGenesis Impact COMPANY PAGE. Two formats are provided — pick one, do
+   not post both:
+
+   a) ReGenesis-How-It-Works.pdf as a DOCUMENT post. Recommended. Swiping
+      beats autoplay for dwell time, and a reader controls the pace on the
+      dense frames. Title it "How it works" — that shows on the card.
+   b) regenesis-how-it-works.gif as an IMAGE post. LinkedIn animates GIFs
+      in feed. Do NOT upload the GIF as a document; that kills the
+      animation.
 2. Body = everything above the dashed line.
 3. Link in the FIRST COMMENT, not the body:
    https://regenesisimpact.in/demo/how-it-works.html?utm_source=linkedin&utm_medium=social&utm_campaign=how-it-works
