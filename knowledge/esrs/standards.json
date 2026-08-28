@@ -1,0 +1,122 @@
+[
+  {
+    "code": "ESRS 1",
+    "name": "General requirements",
+    "pillar": "cross-cutting",
+    "always_required": true,
+    "dr_count": 0,
+    "confidence": "high",
+    "note": "Sets the architecture rather than asking for disclosures — double materiality, reporting boundary, value chain, time horizons, and how to apply the topical standards. Nothing is filed against it directly, which is why its disclosure count is zero, but every judgement in this tool is made under it.",
+    "reviewed": "2026-08"
+  },
+  {
+    "code": "ESRS 2",
+    "name": "General disclosures",
+    "pillar": "cross-cutting",
+    "always_required": true,
+    "dr_count": 13,
+    "confidence": "high",
+    "note": "Applies in full regardless of the materiality assessment — it is the one standard a preparer cannot screen out. Covers basis of preparation, governance, strategy and business model, and the impact/risk/opportunity management process itself.",
+    "reviewed": "2026-08"
+  },
+  {
+    "code": "ESRS E1",
+    "name": "Climate change",
+    "pillar": "environment",
+    "always_required": false,
+    "dr_count": 9,
+    "confidence": "high",
+    "note": "In practice assessed as material by almost every preparer, and the only topical standard where omission attracts an explicit explanation requirement. Includes the transition plan, gross Scope 1, 2 and 3, removals and carbon credits, internal carbon pricing, and anticipated financial effects.",
+    "reviewed": "2026-08"
+  },
+  {
+    "code": "ESRS E2",
+    "name": "Pollution",
+    "pillar": "environment",
+    "always_required": false,
+    "dr_count": null,
+    "confidence": "medium",
+    "note": "Disclosure-requirement detail deliberately not enumerated here — see the pending-simplification note below.",
+    "reviewed": "2026-08"
+  },
+  {
+    "code": "ESRS E3",
+    "name": "Water and marine resources",
+    "pillar": "environment",
+    "always_required": false,
+    "dr_count": null,
+    "confidence": "medium",
+    "note": "Disclosure-requirement detail deliberately not enumerated here.",
+    "reviewed": "2026-08"
+  },
+  {
+    "code": "ESRS E4",
+    "name": "Biodiversity and ecosystems",
+    "pillar": "environment",
+    "always_required": false,
+    "dr_count": null,
+    "confidence": "medium",
+    "note": "Disclosure-requirement detail deliberately not enumerated here.",
+    "reviewed": "2026-08"
+  },
+  {
+    "code": "ESRS E5",
+    "name": "Resource use and circular economy",
+    "pillar": "environment",
+    "always_required": false,
+    "dr_count": null,
+    "confidence": "medium",
+    "note": "Disclosure-requirement detail deliberately not enumerated here.",
+    "reviewed": "2026-08"
+  },
+  {
+    "code": "ESRS S1",
+    "name": "Own workforce",
+    "pillar": "social",
+    "always_required": false,
+    "dr_count": null,
+    "confidence": "medium",
+    "note": "The largest topical standard in Set 1 by disclosure count, and the one most affected by the simplification.",
+    "reviewed": "2026-08"
+  },
+  {
+    "code": "ESRS S2",
+    "name": "Workers in the value chain",
+    "pillar": "social",
+    "always_required": false,
+    "dr_count": null,
+    "confidence": "medium",
+    "note": "Value-chain data is where transitional relief applied under Set 1.",
+    "reviewed": "2026-08"
+  },
+  {
+    "code": "ESRS S3",
+    "name": "Affected communities",
+    "pillar": "social",
+    "always_required": false,
+    "dr_count": null,
+    "confidence": "medium",
+    "note": "Disclosure-requirement detail deliberately not enumerated here.",
+    "reviewed": "2026-08"
+  },
+  {
+    "code": "ESRS S4",
+    "name": "Consumers and end-users",
+    "pillar": "social",
+    "always_required": false,
+    "dr_count": null,
+    "confidence": "medium",
+    "note": "Disclosure-requirement detail deliberately not enumerated here.",
+    "reviewed": "2026-08"
+  },
+  {
+    "code": "ESRS G1",
+    "name": "Business conduct",
+    "pillar": "governance",
+    "always_required": false,
+    "dr_count": null,
+    "confidence": "medium",
+    "note": "Disclosure-requirement detail deliberately not enumerated here.",
+    "reviewed": "2026-08"
+  }
+]

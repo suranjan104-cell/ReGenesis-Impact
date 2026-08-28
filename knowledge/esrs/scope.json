@@ -1,0 +1,44 @@
+{
+  "_comment": [
+    "CSRD scope as amended by the Omnibus package. These thresholds and dates are",
+    "the single most consequential thing this tool asserts, so they carry their",
+    "sources and a confidence grade like every factor in the register does.",
+    "",
+    "Primary sources (EUR-Lex, EFRAG) could not be reached from the build",
+    "environment, so these are taken from professional-firm summaries and graded",
+    "medium rather than high. Verify against the directive before relying on them",
+    "for a filing decision."
+  ],
+  "confidence": "medium",
+  "reviewed": "2026-08",
+  "sources": [
+    { "publisher": "KPMG", "title": "EU agrees Omnibus changes", "url": "https://kpmg.com/xx/en/our-insights/ifrg/2025/esrs-eu-omnibus.html" },
+    { "publisher": "PwC", "title": "'Omnibus' directive finalised", "url": "https://viewpoint.pwc.com/gx/en/pwc/in-briefs/ib_int202527.html" },
+    { "publisher": "BDO", "title": "CSRD post-Omnibus revised scope and requirements", "url": "https://www.bdo.com/insights/sustainability-and-esg/csrd-post-omnibus-revised-scope-and-requirements" }
+  ],
+  "thresholds": {
+    "eu_company": {
+      "employees_over": 1000,
+      "net_turnover_over_eur_m": 450,
+      "logic": "AND",
+      "note": "Both conditions must be met. The Omnibus raised the employee threshold substantially and added a turnover test, taking a large number of previously in-scope companies out."
+    },
+    "non_eu_group": {
+      "eu_turnover_over_eur_m": 450,
+      "note": "Non-EU parent groups generating more than this in the EU."
+    }
+  },
+  "waves": [
+    { "wave": "Wave 1", "status": "reporting now",
+      "note": "Companies already in scope continue reporting — FY2025 published in 2026, FY2026 published in 2027." },
+    { "wave": "Wave 2", "first_report_year": 2028, "covering_fy": 2027,
+      "note": "Deferred by the Omnibus from its original timetable." }
+  ],
+  "simplified_esrs": {
+    "status": "pending",
+    "expected_mandatory_from_fy": 2027,
+    "expected_first_reports": 2028,
+    "early_adoption_optional_fy": 2026,
+    "note": "The simplified ESRS set had not been published when this tool was built. It is expected to reduce the number of disclosures substantially and lean harder on materiality. Any datapoint-level gap analysis built against ESRS Set 1 (Delegated Regulation (EU) 2023/2772) is therefore provisional — which is why this tool works at standard level and says so rather than enumerating datapoints that are about to change."
+  }
+}

@@ -8208,6 +8208,7 @@ function showPage(page) {
   // in memory before the first calculation is shown.
   if (page === 'ghg' && typeof fxLoad === 'function') fxLoad();
   if (page === 'ledger' && typeof rgLedgerRender === 'function') rgLedgerRender();
+  if (page === 'esrs' && typeof esrsLoad === 'function') esrsLoad();
   if (typeof rgRailRender === 'function') setTimeout(rgRailRender, 0);
 
   // Owner insights auto-load on dashboard open (owner only — see isOwnerUser)
@@ -9517,6 +9518,158 @@ document.addEventListener('DOMContentLoaded', function() {
        : 'Default: ' + f.source.publisher + (f.vintage ? ' ' + f.vintage : '') + ' \u00b7 ' + f.confidence + ' confidence';
      hint.appendChild(note);
    });
+ };
+
+ /* ── ESRS · CSRD ────────────────────────────────────────────────────────
+    Scoping against the Omnibus thresholds, then double materiality across the
+    ten topical standards.
+
+    Two things this deliberately does not do. It does not enumerate datapoints:
+    the simplified ESRS set had not been published when this was built, so a
+    datapoint-level gap analysis would be built against a standard being
+    replaced. And it does not present the thresholds as settled fact — they are
+    graded medium confidence and carry their sources, because EUR-Lex could not
+    be reached to confirm them and a scoping answer decides whether a company
+    files at all. */
+ var _esrs = null;
+ var _esrsMat = {};
+
+ window.esrsLoad = function() {
+   if (_esrs) { esrsRender(); return; }
+   fetch('knowledge/esrs.json').then(function(r){ return r.json(); }).then(function(d){
+     _esrs = d; esrsRender();
+   }).catch(function(){
+     var el = document.getElementById('es-dm-rows');
+     if (el) el.innerHTML = '<tr><td colspan="4" style="padding:1.5rem;color:rgba(234,255,243,.4)">Could not load the ESRS data. It is committed at knowledge/esrs.json.</td></tr>';
+   });
+ };
+
+ window.esrsRender = function() {
+   if (!_esrs) return;
+   var esc = function(x){ var d=document.createElement('div'); d.textContent = x==null?'':x; return d.innerHTML; };
+   var sim = _esrs.scope.simplified_esrs;
+
+   var alert = document.getElementById('es-alert');
+   if (alert) alert.innerHTML = '<b>The simplified ESRS set is ' + esc(sim.status) + '.</b> ' + esc(sim.note);
+
+   var rows = document.getElementById('es-dm-rows');
+   if (rows) {
+     rows.innerHTML = _esrs.standards.map(function(st) {
+       var m = _esrsMat[st.code] || { i:false, f:false };
+       if (st.always_required) {
+         return '<tr><td><span class="es-code">' + esc(st.code) + '</span> ' + esc(st.name) +
+           '<span class="es-always">always</span>' +
+           '<div class="es-note">' + esc(st.note) + '</div></td>' +
+           '<td class="n es-mat no">n/a</td><td class="n es-mat no">n/a</td>' +
+           '<td class="es-mat yes">Reported in full</td></tr>';
+       }
+       var sw = function(kind, on) {
+         return '<div class="es-sw">' +
+           '<button class="' + (on ? 'on' : '') + '" onclick="esrsMat(\'' + st.code + '\',\'' + kind + '\',true)">Yes</button>' +
+           '<button class="' + (!on ? 'on' : '') + '" onclick="esrsMat(\'' + st.code + '\',\'' + kind + '\',false)">No</button></div>';
+       };
+       var material = m.i || m.f;
+       return '<tr><td><span class="es-code">' + esc(st.code) + '</span> ' + esc(st.name) +
+         (st.dr_count != null ? ' <span class="es-note" style="display:inline">&middot; ' + st.dr_count + ' disclosure requirements</span>' : '') +
+         '</td>' +
+         '<td class="n">' + sw('i', m.i) + '</td>' +
+         '<td class="n">' + sw('f', m.f) + '</td>' +
+         '<td class="es-mat ' + (material ? 'yes' : 'no') + '">' +
+           (material ? 'Reportable' + (m.i && m.f ? ' · both' : m.i ? ' · impact' : ' · financial')
+                     : 'Omit — explain why') + '</td></tr>';
+     }).join('');
+   }
+
+   var src = document.getElementById('es-sources');
+   if (src) {
+     src.innerHTML = 'Thresholds and dates carry <b style="color:rgba(234,255,243,.75)">' +
+       esc(_esrs.scope.confidence) + '</b> confidence and are drawn from ' +
+       _esrs.scope.sources.map(function(x){
+         return '<a href="' + esc(x.url) + '" target="_blank" rel="noopener noreferrer" style="color:rgba(10,255,219,.85);text-decoration:none">' + esc(x.publisher) + '</a>';
+       }).join(', ') + '. Primary sources could not be reached from the build environment, so verify against the directive before relying on this for a filing decision. Built from <code>knowledge/esrs/</code> &middot; reviewed ' + esc(_esrs.scope.reviewed) + '.';
+   }
+ };
+
+ window.esrsMat = function(code, kind, val) {
+   _esrsMat[code] = _esrsMat[code] || { i:false, f:false };
+   _esrsMat[code][kind] = val;
+   esrsRender();
+ };
+
+ window.esrsScope = function() {
+   if (!_esrs) return;
+   var t = _esrs.scope.thresholds;
+   var entity = document.getElementById('es-entity').value;
+   var emp = parseFloat(document.getElementById('es-emp').value) || 0;
+   var turn = parseFloat(document.getElementById('es-turn').value) || 0;
+   var euturn = parseFloat(document.getElementById('es-euturn').value) || 0;
+   var already = document.getElementById('es-wave').value === 'yes';
+
+   var inScope, why;
+   if (entity === 'noneu') {
+     inScope = euturn > t.non_eu_group.eu_turnover_over_eur_m;
+     why = 'EU-generated turnover of €' + euturn + 'mn against a €' +
+           t.non_eu_group.eu_turnover_over_eur_m + 'mn threshold.';
+   } else {
+     // Both tests, not either — the Omnibus made this an AND.
+     var e = emp > t.eu_company.employees_over, r = turn > t.eu_company.net_turnover_over_eur_m;
+     inScope = e && r;
+     why = 'Employees ' + emp + ' vs ' + t.eu_company.employees_over + ' (' + (e ? 'met' : 'not met') +
+           ') and turnover €' + turn + 'mn vs €' + t.eu_company.net_turnover_over_eur_m +
+           'mn (' + (r ? 'met' : 'not met') + '). Both are required.';
+   }
+
+   var wave = _esrs.scope.waves.filter(function(w){ return already ? w.wave === 'Wave 1' : w.wave === 'Wave 2'; })[0];
+   var el = document.getElementById('es-scope-res');
+   el.className = 'es-res show';
+   el.innerHTML =
+     '<div class="es-verdict ' + (inScope ? 'in' : 'out') + '">' +
+       (inScope ? 'In scope for CSRD' : 'Below the CSRD thresholds') + '</div>' +
+     '<div class="es-kv"><div class="k">Why</div><div>' + why + '</div></div>' +
+     (inScope
+       ? '<div class="es-kv"><div class="k">Track</div><div>' + wave.wave + ' — ' + wave.note + '</div></div>'
+       : '<div class="es-kv"><div class="k">Note</div><div>Below the mandatory thresholds you may still be asked for data by an in-scope customer or lender. Voluntary reporting under the SME standard is the usual route.</div></div>') +
+     '<div class="es-kv"><div class="k">Simplified set</div><div>' + _esrs.scope.simplified_esrs.status +
+       ' — expected mandatory from FY' + _esrs.scope.simplified_esrs.expected_mandatory_from_fy + '</div></div>';
+
+   if (typeof rgTrack === 'function') rgTrack('esrs_scope', inScope ? 'in' : 'out');
+ };
+
+ window.esrsAssess = function() {
+   if (!_esrs) return;
+   var topical = _esrs.standards.filter(function(s){ return !s.always_required; });
+   var material = topical.filter(function(s){ var m=_esrsMat[s.code]||{}; return m.i || m.f; });
+   var omitted = topical.filter(function(s){ var m=_esrsMat[s.code]||{}; return !(m.i || m.f); });
+   var always = _esrs.standards.filter(function(s){ return s.always_required; });
+
+   var el = document.getElementById('es-dm-res');
+   el.className = 'es-res show';
+   el.innerHTML =
+     '<div class="es-verdict in">' + (always.length + material.length) + ' standards to report</div>' +
+     '<div class="es-kv"><div class="k">Always</div><div>' + always.map(function(s){return s.code;}).join(', ') + '</div></div>' +
+     '<div class="es-kv"><div class="k">Material</div><div>' +
+       (material.length ? material.map(function(s){return s.code;}).join(', ') : 'none marked yet') + '</div></div>' +
+     '<div class="es-kv"><div class="k">Omitted</div><div>' +
+       (omitted.length ? omitted.map(function(s){return s.code;}).join(', ') +
+         ' — each needs a stated reason, and omitting E1 attracts an explicit explanation requirement'
+        : 'none') + '</div></div>';
+
+   /* Into the ledger, so ESRS joins the evidence rail alongside the inventory
+      and the assurance readiness rather than being a seventh silo. */
+   if (typeof rgLedger !== 'undefined') {
+     rgLedger.put({
+       key: 'esrs-materiality', tool: 'ESRS materiality',
+       title: (always.length + material.length) + ' standards reportable',
+       period: 'Set 1 · simplified set ' + _esrs.scope.simplified_esrs.status,
+       figures: { standards_reportable: always.length + material.length,
+                  topical_material: material.length, topical_omitted: omitted.length },
+       dq: null,
+       gaps: omitted.map(function(s){
+         return { line: s.code + ' ' + s.name + ' — omitted, reason required', tCO2e: 0, dq: 4, share: 0 };
+       })
+     });
+   }
+   if (typeof rgTrack === 'function') rgTrack('esrs_materiality', String(material.length));
  };
 
  window.rgLedgerShowPayload = function() {
@@ -13034,6 +13187,88 @@ window.ciCopy = function(outId) {
     <button class="lg-btn" onclick="rgLedgerExport()">&darr; Export ledger (JSON)</button>
     <button class="lg-btn" onclick="if(confirm('Clear the evidence ledger? This cannot be undone.')) rgLedger.clear()">Clear ledger</button>
   </div>
+</div>
+</div>
+
+<div class="page" id="page-esrs" style="display:none">
+<style>
+.es-wrap{max-width:1080px;margin:0 auto;padding:2rem 1.5rem 4rem;padding-top:calc(64px + 2rem);color:#eafff3}
+.es-eyebrow{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:#00e87a;margin-bottom:.6rem}
+.es-eyebrow::before{content:'\25B8 ';color:#0affdb}
+.es-wrap h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.7rem,3.2vw,2.5rem);font-weight:700;line-height:1.12;margin-bottom:.6rem}
+.es-wrap h1 em{font-style:normal;background:linear-gradient(100deg,#00e87a,#0affdb);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.es-lede{font-size:.92rem;color:rgba(234,255,243,.55);line-height:1.7;max-width:740px;margin-bottom:1.4rem}
+.es-alert{border:1px solid rgba(255,181,71,.35);background:rgba(255,181,71,.06);padding:1rem 1.15rem;margin-bottom:1.8rem;font-size:.8rem;line-height:1.7;color:rgba(255,181,71,.92)}
+.es-alert b{color:#ffb547}
+.es-panel{background:rgba(3,14,9,.88);border:1px solid rgba(0,232,122,.16);padding:1.4rem 1.5rem;margin-bottom:1.2rem;position:relative}
+.es-panel::before{content:'';position:absolute;top:-1px;left:-1px;width:12px;height:12px;border-top:2px solid #00e87a;border-left:2px solid #00e87a}
+.es-ptitle{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;margin-bottom:.3rem}
+.es-psub{font-size:.76rem;color:rgba(234,255,243,.45);margin-bottom:1.1rem;line-height:1.6}
+.es-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.9rem}
+.es-field label{display:block;font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(234,255,243,.45);margin-bottom:.35rem}
+.es-field input,.es-field select{width:100%;padding:.55rem .7rem;background:rgba(0,0,0,.3);border:1px solid rgba(0,232,122,.2);color:#eafff3;font-family:'DM Mono',monospace;font-size:.8rem}
+.es-btn{font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;padding:.6rem 1.2rem;background:rgba(0,232,122,.1);border:1px solid rgba(0,232,122,.45);color:#00ff9d;cursor:pointer;margin-top:1rem}
+.es-btn:hover{background:rgba(0,232,122,.18)}
+.es-res{display:none;margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid rgba(0,232,122,.14)}
+.es-res.show{display:block}
+.es-verdict{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;margin-bottom:.5rem}
+.es-verdict.in{color:#00ff9d}.es-verdict.out{color:#ffb547}
+.es-kv{display:flex;gap:.7rem;padding:.45rem 0;border-top:1px solid rgba(255,255,255,.05);font-size:.82rem}
+.es-kv .k{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(234,255,243,.4);width:150px;flex:none}
+table.es-dm{width:100%;border-collapse:collapse;font-size:.8rem}
+table.es-dm th{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;text-align:left;padding:.5rem .6rem;color:rgba(0,232,122,.75);background:rgba(0,232,122,.06)}
+table.es-dm td{padding:.5rem .6rem;border-top:1px solid rgba(0,232,122,.09);vertical-align:middle}
+table.es-dm td.n{text-align:center}
+.es-code{font-family:'DM Mono',monospace;font-size:.72rem;color:#0affdb}
+.es-always{font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;color:#00e87a;border:1px solid rgba(0,232,122,.4);padding:.1rem .35rem;margin-left:.4rem}
+.es-sw{display:inline-flex;gap:.25rem}
+.es-sw button{font-family:'DM Mono',monospace;font-size:.56rem;padding:.2rem .45rem;background:transparent;border:1px solid rgba(255,255,255,.14);color:rgba(234,255,243,.45);cursor:pointer}
+.es-sw button.on{border-color:#00e87a;color:#00ff9d;background:rgba(0,232,122,.12)}
+.es-mat{font-family:'DM Mono',monospace;font-size:.6rem}
+.es-mat.yes{color:#00ff9d}.es-mat.no{color:rgba(234,255,243,.3)}
+.es-note{font-size:.72rem;color:rgba(234,255,243,.45);line-height:1.6;margin-top:.4rem}
+.es-foot{margin-top:1.4rem;padding:1rem 1.2rem;border:1px solid rgba(0,232,122,.14);background:rgba(3,14,9,.6);font-size:.75rem;color:rgba(234,255,243,.5);line-height:1.7}
+.es-foot code{font-family:'DM Mono',monospace;color:rgba(10,255,219,.8);font-size:.7rem}
+</style>
+<div class="es-wrap">
+  <div class="es-eyebrow">ESRS &middot; CSRD &middot; European Union</div>
+  <h1>Are you in scope, and <em>which standards apply</em></h1>
+  <p class="es-lede">
+    CSRD scoping against the Omnibus thresholds, then a double materiality assessment across the
+    ten topical standards. Double materiality is what separates ESRS from IFRS S2: a topic counts
+    if it is material to the world <em>or</em> material to the company, not only the second.
+  </p>
+
+  <div class="es-alert" id="es-alert"></div>
+
+  <div class="es-panel">
+    <div class="es-ptitle">1 &middot; Scope</div>
+    <div class="es-psub">Both the employee and turnover tests must be met for an EU company. Non-EU parent groups are tested on EU-generated turnover.</div>
+    <div class="es-grid">
+      <div class="es-field"><label>Entity</label>
+        <select id="es-entity"><option value="eu">EU company</option><option value="noneu">Non-EU parent group</option></select></div>
+      <div class="es-field"><label>Employees</label><input type="number" id="es-emp" placeholder="e.g. 1200"></div>
+      <div class="es-field"><label>Net turnover (EUR mn)</label><input type="number" id="es-turn" placeholder="e.g. 600"></div>
+      <div class="es-field"><label>EU turnover (EUR mn)</label><input type="number" id="es-euturn" placeholder="non-EU groups only"></div>
+      <div class="es-field"><label>Already reporting?</label>
+        <select id="es-wave"><option value="no">No &mdash; not yet in scope</option><option value="yes">Yes &mdash; Wave 1</option></select></div>
+    </div>
+    <button class="es-btn" onclick="esrsScope()">Check scope &rarr;</button>
+    <div class="es-res" id="es-scope-res"></div>
+  </div>
+
+  <div class="es-panel">
+    <div class="es-ptitle">2 &middot; Double materiality</div>
+    <div class="es-psub">Mark each topic for impact materiality (effect on people and environment) and financial materiality (effect on the company). Either one makes the standard reportable.</div>
+    <table class="es-dm">
+      <thead><tr><th>Standard</th><th style="text-align:center">Impact</th><th style="text-align:center">Financial</th><th>Result</th></tr></thead>
+      <tbody id="es-dm-rows"></tbody>
+    </table>
+    <button class="es-btn" onclick="esrsAssess()">Record assessment &rarr;</button>
+    <div class="es-res" id="es-dm-res"></div>
+  </div>
+
+  <div class="es-foot" id="es-sources"></div>
 </div>
 </div>
 
