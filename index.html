@@ -1902,6 +1902,11 @@ body:not(.rg-editorial) .page{padding-bottom:4.5rem}
           <div class="lm-market-name">India</div>
           <div class="lm-market-sub">BRSR · SEBI · ISSB S2</div>
         </div>
+        <div class="lm-market-tile" data-market="eu" onclick="lmSelectMarket(this,'eu')">
+          <div class="lm-market-flag">🇪🇺</div>
+          <div class="lm-market-name">Europe</div>
+          <div class="lm-market-sub">CSRD · ESRS · Omnibus</div>
+        </div>
         <div class="lm-market-tile" data-market="other" onclick="lmSelectMarket(this,'other')">
           <div class="lm-market-flag">🌐</div>
           <div class="lm-market-name">Other / Global</div>
@@ -2024,6 +2029,7 @@ body:not(.rg-editorial) .page{padding-bottom:4.5rem}
   <div class="nl-tool" id="nl-ghg"><span class="nl-pill nl-amber">GHG Inventory · PCAF Protocol</span><span class="nl-prog-wrap" id="prog-ghg"><span class="nl-prog-bar" id="prog-ghg-fill"></span><span class="nl-prog-label" id="prog-ghg-label">0%</span></span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
   <div class="nl-tool" id="nl-climate"><span class="nl-pill nl-teal">Climate Intelligence · TCFD · NGFS v5</span><span class="nl-prog-wrap" id="prog-climate"><span class="nl-prog-bar" id="prog-climate-fill"></span><span class="nl-prog-label" id="prog-climate-label">0%</span></span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
   <div class="nl-tool" id="nl-tools"><span class="nl-pill nl-purple">ESG Due Diligence Suite</span><span class="nl-prog-wrap" id="prog-tools"><span class="nl-prog-bar" id="prog-tools-fill"></span><span class="nl-prog-label" id="prog-tools-label">0%</span></span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
+  <div class="nl-tool" id="nl-esrs"><span class="nl-pill nl-blue">ESRS · CSRD · Double Materiality</span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
   <div class="nl-tool" id="nl-credits"><span class="nl-pill" style="background:linear-gradient(90deg,#16a34a,#0ea5e9)">🪙 Carbon Credit Exchange · ERC-1155 · Polygon</span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
   <div class="nl-tool" id="nl-assurance"><span class="nl-pill" style="background:linear-gradient(90deg,rgba(0,232,122,.18),rgba(10,255,219,.1));color:#00e87a">🛡️ Assurance Studio · ISSA 5000 · AASB S2</span><span class="nl-prog-wrap" id="prog-assurance"><span class="nl-prog-bar" id="prog-assurance-fill"></span><span class="nl-prog-label" id="prog-assurance-label">0%</span></span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
 </nav>
@@ -2150,6 +2156,13 @@ body:not(.rg-editorial) .page{padding-bottom:4.5rem}
       <div class="db-card-name">GHG Inventory</div>
       <div class="db-card-desc">Calculate Scope 1, 2 and all 15 Scope 3 categories. PCAF financed emissions for banks. AI-generated audit-ready report.</div>
       <div class="db-card-tags"><span class="db-card-tag">GHG Protocol</span><span class="db-card-tag">PCAF</span><span class="db-card-tag">Scope 3</span></div>
+      <button class="db-card-open">Open Tool →</button>
+    </div>
+    <div class="db-card" onclick="showPage('esrs')">
+      <div class="db-card-ico">🇪🇺</div>
+      <div class="db-card-name">ESRS &amp; CSRD</div>
+      <div class="db-card-desc">Scope against the Omnibus thresholds, then a double materiality assessment across all twelve ESRS. States what the pending simplified set changes rather than hiding it.</div>
+      <div class="db-card-tags"><span class="db-card-tag">ESRS</span><span class="db-card-tag">CSRD</span><span class="db-card-tag">Double materiality</span></div>
       <button class="db-card-open">Open Tool →</button>
     </div>
     <div class="db-card" onclick="showPage('climate')">
@@ -2745,7 +2758,7 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
     <div class="ed-head">
       <div class="ed-eyebrow">Built for your regulator</div>
       <h2>Three markets, native rules.</h2>
-      <p>Not translations of EU tooling — the thresholds, deadlines and KPI sets your regulator actually enforces.</p>
+      <p>Built per regulator rather than one framework retrofitted — the thresholds, deadlines and KPI sets yours actually enforces.</p>
     </div>
     <div class="ed-markets">
       <div class="ed-market fade-up">
@@ -2761,6 +2774,13 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
         <ul><li>AASB S2 — Groups 1–3</li><li>APRA CPS 229 alignment</li><li>Protected statements regime</li><li>Reasonable assurance by 2030</li></ul>
         <span class="ed-deadline">GROUP 2 FROM 1 JUL 2026</span>
         <a href="guides/aasb-s2-australia-climate-reporting.html">Read the Australia guide →</a>
+      </div>
+      <div class="ed-market fade-up">
+        <span class="flag">🇪🇺</span>
+        <h3>Europe</h3>
+        <ul><li>CSRD — 1,000+ staff and €450mn+</li><li>ESRS double materiality</li><li>Wave 2 first reports 2028</li><li>Simplified set pending</li></ul>
+        <span class="ed-deadline">WAVE 2 COVERS FY2027</span>
+        <a href="#esrs" onclick="showPage('esrs');return false;">Open the ESRS tool →</a>
       </div>
       <div class="ed-market fade-up">
         <span class="flag">🇸🇬</span>
@@ -11865,6 +11885,7 @@ window.issb_backToForm = function() {
    sg:    {e:0.40, s:0.25, g:0.35, label:'MAS ERM / SGX Climate Disclosure'},
    au:    {e:0.40, s:0.25, g:0.35, label:'AASB S2 / APRA CPS 229'},
    in:    {e:0.30, s:0.40, g:0.30, label:'SEBI BRSR Core'},
+   eu:    {e:0.35, s:0.35, g:0.30, label:'ESRS double materiality / CSRD'},
    other: {e:0.35, s:0.30, g:0.35, label:'PRI DDQ / ICMA GBP'}
  };
  function _mktWeights() {
@@ -13500,6 +13521,7 @@ table.fx tr:hover td{background:rgba(0,232,122,.03)}
             <option value="au">🇦🇺 Australia — AASB S2 / ASRS</option>
             <option value="sg">🇸🇬 Singapore — SGX ISSB-aligned</option>
             <option value="in">🇮🇳 India — SEBI BRSR Core</option>
+            <option value="eu">🇪🇺 Europe — CSRD / ESRS</option>
             <option value="global">🌐 Other — IFRS S2 baseline</option>
           </select>
         </div>
@@ -13756,6 +13778,16 @@ function axsClassify(jur, rev, assets, emp, listed){
     return {group:'NOT IN SCOPE', due:'Voluntary', level:'OPTIONAL', scope:'Below mandatory thresholds — voluntary reporting under AASB S1/ISSB still builds investor credibility.'};
   }
   if (jur === 'sg') return {group: listed==='yes'?'SGX LISTED':'LARGE NON-LISTED', due: listed==='yes'?'FY2025':'FY2027 (≥S$1B revenue)', level:'ENCOURAGED', scope:'ISSB-aligned climate reporting applies; external assurance is strongly signalled on the regulatory roadmap — prepare as if mandatory.'};
+  /* CSRD thresholds are both-or-neither, unlike the AASB group tests which are
+     any-two-of-three. Getting that wrong would put companies in scope who are
+     not. Turnover is read in EUR mn from the same field as the other regimes. */
+  if (jur === 'eu'){
+    var inScope = (emp > 1000) && (rev > 450);
+    if (inScope) return {group:'CSRD IN SCOPE', due:'Wave 2 — FY2027, reported 2028', level:'LIMITED',
+      scope:'ESRS 1 and ESRS 2 apply in full; topical standards follow your double materiality assessment. The simplified ESRS set is still pending — see the ESRS tool.'};
+    return {group:'BELOW CSRD THRESHOLDS', due:'Voluntary', level:'OPTIONAL',
+      scope:'Below 1,000 employees or €450mn turnover — both are required post-Omnibus. You may still be asked for data by an in-scope customer or lender.'};
+  }
   if (jur === 'in') return {group:'BRSR REGIME', due:'Active now (top 1000)', level:'BRSR CORE', scope:'Top 150 listed entities require reasonable assurance over BRSR Core KPIs, expanding toward the top 1000. Value-chain disclosures phase in.'};
   return {group:'IFRS S2 BASELINE', due:'Jurisdiction-specific', level:'CHECK LOCAL', scope:'40+ jurisdictions are adopting ISSB standards; most pair them with phased limited→reasonable assurance. Prepare to the AASB S2 pattern.'};
 }
@@ -13766,8 +13798,10 @@ function axsRunReadiness(){
   var assets = parseFloat(document.getElementById('axs-assets').value)||0;
   var emp = parseFloat(document.getElementById('axs-emp').value)||0;
   var listed = document.getElementById('axs-listed').value;
-  if (jur === 'au' && !rev && !assets && !emp) {
-    rgToast('Enter revenue, assets or employees first — the AASB group depends on them', true);
+  if ((jur === 'au' || jur === 'eu') && !rev && !assets && !emp) {
+    rgToast(jur === 'eu'
+      ? 'Enter employees and turnover first — CSRD scope needs both'
+      : 'Enter revenue, assets or employees first — the AASB group depends on them', true);
     return;
   }
   var cls = axsClassify(jur, rev, assets, emp, listed);
