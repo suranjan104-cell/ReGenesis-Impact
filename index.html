@@ -2762,32 +2762,25 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
     </div>
     <div class="ed-markets">
       <div class="ed-market fade-up">
-        <span class="flag">🇮🇳</span>
-        <h3>India</h3>
-        <ul><li>SEBI BRSR — top 1,000 listed</li><li>BRSR Core assured KPIs</li><li>Value-chain disclosures</li><li>CCTS carbon market</li></ul>
-        <span class="ed-deadline">ASSURANCE PHASING TO TOP 1000</span>
-        <a href="guides/brsr-core-assurance-india.html">Read the India guide →</a>
+        <span class="flag">🌐</span>
+        <h3>ISSB</h3>
+        <ul><li>IFRS S1 and S2 — the global baseline</li><li>Adopted or aligned across 30+ jurisdictions</li><li>SGX, SEBI BRSR and others map to it</li><li>Financial materiality only</li></ul>
+        <span class="ed-deadline">THE BASELINE OTHERS BUILD ON</span>
+        <a href="guides/ifrs-s2-reporting-guide.html">Read the IFRS S2 guide →</a>
       </div>
       <div class="ed-market fade-up">
         <span class="flag">🇦🇺</span>
-        <h3>Australia</h3>
-        <ul><li>AASB S2 — Groups 1–3</li><li>APRA CPS 229 alignment</li><li>Protected statements regime</li><li>Reasonable assurance by 2030</li></ul>
+        <h3>Australia — AASB S2</h3>
+        <ul><li>Groups 1–3 phased by size</li><li>Scope 3 from your second year</li><li>Three-year modified liability window</li><li>Reasonable assurance by 2030</li></ul>
         <span class="ed-deadline">GROUP 2 FROM 1 JUL 2026</span>
         <a href="guides/aasb-s2-australia-climate-reporting.html">Read the Australia guide →</a>
       </div>
       <div class="ed-market fade-up">
         <span class="flag">🇪🇺</span>
-        <h3>Europe</h3>
-        <ul><li>CSRD — 1,000+ staff and €450mn+</li><li>ESRS double materiality</li><li>Wave 2 first reports 2028</li><li>Simplified set pending</li></ul>
+        <h3>Europe — ESRS / CSRD</h3>
+        <ul><li>1,000+ staff <em>and</em> €450mn+ turnover</li><li>Double materiality, not financial only</li><li>Wave 2 first reports 2028, covering FY2027</li><li>Simplified ESRS set still pending</li></ul>
         <span class="ed-deadline">WAVE 2 COVERS FY2027</span>
         <a href="#esrs" onclick="showPage('esrs');return false;">Open the ESRS tool →</a>
-      </div>
-      <div class="ed-market fade-up">
-        <span class="flag">🇸🇬</span>
-        <h3>Singapore</h3>
-        <ul><li>SGX ISSB-aligned reporting</li><li>MAS ERM guidelines</li><li>Large non-listed from FY2027</li><li>Green Finance Action Plan</li></ul>
-        <span class="ed-deadline">LISTED ISSUERS FROM FY2025</span>
-        <a href="guides/sgx-climate-reporting-singapore.html">Read the Singapore guide →</a>
       </div>
     </div>
   </div>
@@ -9600,6 +9593,8 @@ document.addEventListener('DOMContentLoaded', function() {
      }).join('');
    }
 
+   esrsDrRender();
+
    var src = document.getElementById('es-sources');
    if (src) {
      src.innerHTML = 'Thresholds and dates carry <b style="color:rgba(234,255,243,.75)">' +
@@ -9608,6 +9603,95 @@ document.addEventListener('DOMContentLoaded', function() {
          return '<a href="' + esc(x.url) + '" target="_blank" rel="noopener noreferrer" style="color:rgba(10,255,219,.85);text-decoration:none">' + esc(x.publisher) + '</a>';
        }).join(', ') + '. Primary sources could not be reached from the build environment, so verify against the directive before relying on this for a filing decision. Built from <code>knowledge/esrs/</code> &middot; reviewed ' + esc(_esrs.scope.reviewed) + '.';
    }
+ };
+
+ /* Disclosure-requirement tracking for the two standards that always bind:
+    ESRS 2, which cannot be screened out, and E1, which almost nobody screens
+    out. The other eight stay at standard level until the simplified set lands.
+
+    E1-6 is cross-linked to the GHG inventory. If the ledger already holds one,
+    the tool says so and carries its data quality score across rather than
+    asking a preparer to re-enter what another tool computed — which is the
+    whole point of having a ledger. */
+ var _esrsDr = {};
+ window.esrsDrSet = function(std, code, status) {
+   _esrsDr[std + '|' + code] = status;
+   esrsDrRender();
+ };
+ window.esrsDrEvidence = function(key) {
+   if (!key || typeof rgLedger === 'undefined') return null;
+   var rec = rgLedger.all().filter(function(r){ return r.key === key; })[0];
+   if (!rec) return null;
+   return { tool: rec.tool, dq: rec.dq, total: rec.figures && rec.figures.total };
+ };
+ window.esrsDrRender = function() {
+   if (!_esrs) return;
+   var el = document.getElementById('es-dr-blocks');
+   if (!el) return;
+   var esc = function(x){ var d=document.createElement('div'); d.textContent = x==null?'':x; return d.innerHTML; };
+   var withDrs = _esrs.standards.filter(function(s){ return Array.isArray(s.drs); });
+
+   el.innerHTML = withDrs.map(function(st) {
+     return '<div class="es-dr-std"><div class="es-dr-hd">' + esc(st.code) + ' &middot; ' +
+       esc(st.name) + ' &middot; ' + st.drs.length + ' disclosure requirements</div>' +
+       st.drs.map(function(dr) {
+         var k = st.code + '|' + dr.code, cur = _esrsDr[k] || 'none';
+         var ev = esrsDrEvidence(dr.evidence_from);
+         var btn = function(v, lab, cls) {
+           return '<button class="' + (cur === v ? 'on ' + (cls||'') : '') +
+             '" onclick="esrsDrSet(\'' + st.code + '\',\'' + dr.code + '\',\'' + v + '\')">' + lab + '</button>';
+         };
+         return '<div class="es-dr">' +
+           '<span class="es-dr-code">' + esc(dr.code) + '</span>' +
+           '<span class="es-dr-name">' + esc(dr.name) +
+             (ev ? '<span class="es-dr-ev">' + esc(ev.tool) +
+                   (ev.dq != null ? ' · DQ ' + ev.dq.toFixed(1) : '') + '</span>'
+                 : (dr.evidence_from ? '<span class="es-dr-ev none">no inventory yet</span>' : '')) +
+           '</span>' +
+           '<span class="es-dr-sw">' + btn('none','Not started') + btn('part','Partial','part') + btn('done','Ready') + '</span>' +
+           '</div>';
+       }).join('') + '</div>';
+   }).join('');
+ };
+
+ window.esrsDrSave = function() {
+   if (!_esrs) return;
+   var withDrs = _esrs.standards.filter(function(s){ return Array.isArray(s.drs); });
+   var all = [], open = [];
+   withDrs.forEach(function(st) {
+     st.drs.forEach(function(dr) {
+       var st_ = _esrsDr[st.code + '|' + dr.code] || 'none';
+       all.push(st_);
+       if (st_ !== 'done') open.push({ std: st.code, code: dr.code, name: dr.name, status: st_ });
+     });
+   });
+   var done = all.filter(function(x){ return x === 'done'; }).length;
+   var pct = all.length ? Math.round(done / all.length * 100) : 0;
+
+   var el = document.getElementById('es-dr-res');
+   el.className = 'es-res show';
+   el.innerHTML =
+     '<div class="es-verdict ' + (pct === 100 ? 'in' : 'out') + '">' + done + ' of ' + all.length + ' ready · ' + pct + '%</div>' +
+     '<div class="es-kv"><div class="k">Outstanding</div><div>' +
+       (open.length ? open.slice(0, 6).map(function(o){ return o.code; }).join(', ') +
+         (open.length > 6 ? ' and ' + (open.length - 6) + ' more' : '')
+        : 'none — every enumerated DR marked ready') + '</div></div>' +
+     '<div class="es-kv"><div class="k">Scope</div><div>ESRS 2 and E1 only. The other eight topical standards stay at standard level until the simplified set is published.</div></div>';
+
+   if (typeof rgLedger !== 'undefined') {
+     rgLedger.put({
+       key: 'esrs-disclosures', tool: 'ESRS disclosures',
+       title: done + ' of ' + all.length + ' disclosure requirements ready',
+       period: 'ESRS 2 + E1',
+       figures: { ready: done, total: all.length, readiness_percent: pct },
+       dq: null,
+       gaps: open.map(function(o) {
+         return { line: o.std + ' ' + o.code + ' — ' + o.name, tCO2e: 0,
+                  dq: o.status === 'part' ? 3 : 4, share: 0 };
+       })
+     });
+   }
+   if (typeof rgTrack === 'function') rgTrack('esrs_disclosures', String(pct));
  };
 
  window.esrsMat = function(code, kind, val) {
@@ -13248,6 +13332,18 @@ table.es-dm td.n{text-align:center}
 .es-mat{font-family:'DM Mono',monospace;font-size:.6rem}
 .es-mat.yes{color:#00ff9d}.es-mat.no{color:rgba(234,255,243,.3)}
 .es-note{font-size:.72rem;color:rgba(234,255,243,.45);line-height:1.6;margin-top:.4rem}
+.es-dr-std{margin-bottom:1.3rem}
+.es-dr-hd{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:#0affdb;padding-bottom:.4rem;border-bottom:1px solid rgba(0,232,122,.14);margin-bottom:.2rem}
+.es-dr{display:flex;gap:.7rem;align-items:center;padding:.45rem 0;border-top:1px solid rgba(255,255,255,.045);font-size:.8rem}
+.es-dr:first-of-type{border-top:none}
+.es-dr-code{font-family:'DM Mono',monospace;font-size:.68rem;color:#00ff9d;width:60px;flex:none}
+.es-dr-name{flex:1;color:rgba(234,255,243,.8)}
+.es-dr-ev{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.06em;text-transform:uppercase;color:#00e87a;border:1px solid rgba(0,232,122,.4);padding:.1rem .38rem;margin-left:.5rem;white-space:nowrap}
+.es-dr-ev.none{color:rgba(234,255,243,.3);border-color:rgba(255,255,255,.12)}
+.es-dr-sw{display:inline-flex;gap:.22rem;flex:none}
+.es-dr-sw button{font-family:'DM Mono',monospace;font-size:.54rem;padding:.18rem .4rem;background:transparent;border:1px solid rgba(255,255,255,.14);color:rgba(234,255,243,.4);cursor:pointer}
+.es-dr-sw button.on{border-color:#00e87a;color:#00ff9d;background:rgba(0,232,122,.12)}
+.es-dr-sw button.on.part{border-color:#ffb547;color:#ffb547;background:rgba(255,181,71,.1)}
 .es-foot{margin-top:1.4rem;padding:1rem 1.2rem;border:1px solid rgba(0,232,122,.14);background:rgba(3,14,9,.6);font-size:.75rem;color:rgba(234,255,243,.5);line-height:1.7}
 .es-foot code{font-family:'DM Mono',monospace;color:rgba(10,255,219,.8);font-size:.7rem}
 </style>
@@ -13287,6 +13383,17 @@ table.es-dm td.n{text-align:center}
     </table>
     <button class="es-btn" onclick="esrsAssess()">Record assessment &rarr;</button>
     <div class="es-res" id="es-dm-res"></div>
+  </div>
+
+  <div class="es-panel">
+    <div class="es-ptitle">3 &middot; Disclosure requirements</div>
+    <div class="es-psub">
+      Enumerated for ESRS 2 and E1 only &mdash; the two that always bind in practice. Mark each as
+      you go. Where another tool already holds the evidence, it says so rather than asking you twice.
+    </div>
+    <div id="es-dr-blocks"></div>
+    <button class="es-btn" onclick="esrsDrSave()">Record disclosure status &rarr;</button>
+    <div class="es-res" id="es-dr-res"></div>
   </div>
 
   <div class="es-foot" id="es-sources"></div>
