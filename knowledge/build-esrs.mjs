@@ -39,6 +39,24 @@ for (const s of standards) {
     errors.push(`${where}: dr_count must be null or a non-negative integer`);
   if (!CONFIDENCE.includes(s.confidence)) errors.push(`${where}: confidence must be ${CONFIDENCE.join('|')}`);
   if (!s.note) errors.push(`${where}: note required — say why the count is what it is`);
+  /* Where disclosure requirements are enumerated, the list and the count must
+     agree. A standard claiming nine DRs while listing eight is the same defect
+     as a factor whose label disagrees with its value. */
+  if (s.drs !== undefined) {
+    if (!Array.isArray(s.drs) || !s.drs.length) errors.push(`${where}: drs must be a non-empty array when present`);
+    else {
+      if (s.dr_count !== s.drs.length)
+        errors.push(`${where}: dr_count ${s.dr_count} does not match ${s.drs.length} enumerated DRs`);
+      const codes = new Set();
+      for (const dr of s.drs) {
+        if (!dr.code) errors.push(`${where}: every DR needs a code`);
+        else if (codes.has(dr.code)) errors.push(`${where}: duplicate DR ${dr.code}`);
+        else codes.add(dr.code);
+        if (!dr.name) errors.push(`${where} ${dr.code}: name required`);
+        if (!('evidence_from' in dr)) errors.push(`${where} ${dr.code}: evidence_from required (null if none)`);
+      }
+    }
+  }
   if (!/^\d{4}-\d{2}$/.test(s.reviewed ?? '')) errors.push(`${where}: reviewed must be YYYY-MM`);
 }
 

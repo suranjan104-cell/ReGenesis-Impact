@@ -14,10 +14,72 @@
     "name": "General disclosures",
     "pillar": "cross-cutting",
     "always_required": true,
-    "dr_count": 13,
+    "dr_count": 12,
     "confidence": "high",
-    "note": "Applies in full regardless of the materiality assessment — it is the one standard a preparer cannot screen out. Covers basis of preparation, governance, strategy and business model, and the impact/risk/opportunity management process itself.",
-    "reviewed": "2026-08"
+    "note": "Applies in full regardless of the materiality assessment — the one standard a preparer cannot screen out. The twelve named disclosure requirements are listed. ESRS 2 also carries the minimum disclosure requirements for policies, actions, targets and metrics (MDR-P/A/T/M), which are not separate DRs but are applied through each topical standard, so they are not counted here.",
+    "reviewed": "2026-08",
+    "drs": [
+      {
+        "code": "BP-1",
+        "name": "General basis for preparation of the sustainability statement",
+        "evidence_from": null
+      },
+      {
+        "code": "BP-2",
+        "name": "Disclosures in relation to specific circumstances",
+        "evidence_from": null
+      },
+      {
+        "code": "GOV-1",
+        "name": "Role of the administrative, management and supervisory bodies",
+        "evidence_from": null
+      },
+      {
+        "code": "GOV-2",
+        "name": "Information provided to and sustainability matters addressed by those bodies",
+        "evidence_from": null
+      },
+      {
+        "code": "GOV-3",
+        "name": "Integration of sustainability-related performance in incentive schemes",
+        "evidence_from": null
+      },
+      {
+        "code": "GOV-4",
+        "name": "Statement on due diligence",
+        "evidence_from": null
+      },
+      {
+        "code": "GOV-5",
+        "name": "Risk management and internal controls over sustainability reporting",
+        "evidence_from": null
+      },
+      {
+        "code": "SBM-1",
+        "name": "Strategy, business model and value chain",
+        "evidence_from": null
+      },
+      {
+        "code": "SBM-2",
+        "name": "Interests and views of stakeholders",
+        "evidence_from": null
+      },
+      {
+        "code": "SBM-3",
+        "name": "Material impacts, risks and opportunities and their interaction with strategy",
+        "evidence_from": null
+      },
+      {
+        "code": "IRO-1",
+        "name": "Process to identify and assess material impacts, risks and opportunities",
+        "evidence_from": null
+      },
+      {
+        "code": "IRO-2",
+        "name": "Disclosure requirements covered by the sustainability statement",
+        "evidence_from": null
+      }
+    ]
   },
   {
     "code": "ESRS E1",
@@ -26,8 +88,55 @@
     "always_required": false,
     "dr_count": 9,
     "confidence": "high",
-    "note": "In practice assessed as material by almost every preparer, and the only topical standard where omission attracts an explicit explanation requirement. Includes the transition plan, gross Scope 1, 2 and 3, removals and carbon credits, internal carbon pricing, and anticipated financial effects.",
-    "reviewed": "2026-08"
+    "note": "Assessed as material by almost every preparer, and the only topical standard where omission attracts an explicit explanation requirement. E1-6 is cross-linked to the GHG inventory in the evidence ledger — if an inventory exists, that DR already has evidence and its data quality score travels with it.",
+    "reviewed": "2026-08",
+    "drs": [
+      {
+        "code": "E1-1",
+        "name": "Transition plan for climate change mitigation",
+        "evidence_from": null
+      },
+      {
+        "code": "E1-2",
+        "name": "Policies related to climate change mitigation and adaptation",
+        "evidence_from": null
+      },
+      {
+        "code": "E1-3",
+        "name": "Actions and resources in relation to climate change policies",
+        "evidence_from": null
+      },
+      {
+        "code": "E1-4",
+        "name": "Targets related to climate change mitigation and adaptation",
+        "evidence_from": null
+      },
+      {
+        "code": "E1-5",
+        "name": "Energy consumption and mix",
+        "evidence_from": null
+      },
+      {
+        "code": "E1-6",
+        "name": "Gross Scopes 1, 2, 3 and total GHG emissions",
+        "evidence_from": "ghg-inventory"
+      },
+      {
+        "code": "E1-7",
+        "name": "GHG removals and mitigation projects financed through carbon credits",
+        "evidence_from": null
+      },
+      {
+        "code": "E1-8",
+        "name": "Internal carbon pricing",
+        "evidence_from": null
+      },
+      {
+        "code": "E1-9",
+        "name": "Anticipated financial effects from physical and transition risks",
+        "evidence_from": null
+      }
+    ]
   },
   {
     "code": "ESRS E2",
