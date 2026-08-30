@@ -1,0 +1,79 @@
+[
+  {
+    "id": "standards-001",
+    "tool": "standards",
+    "title": "GHG Protocol organisational boundary choices",
+    "market": "global",
+    "tags": ["ghg protocol", "boundary", "consolidation", "control"],
+    "facts": [
+      "Three consolidation approaches: equity share (emissions by share of equity, reflecting economic interest), financial control (100% of emissions where the company has financial control) and operational control (100% where it has authority to introduce and implement operating policies).",
+      "The choice must be disclosed, not merely made, and applied consistently. Changing it is a structural change that triggers base year recalculation.",
+      "Under a control approach a company accounts for none of the emissions of operations it holds an interest in but does not control — which is why two companies can report very different totals for the same joint venture."
+    ],
+    "source": "https://epa.gov/climateleadership/determine-organizational-boundaries",
+    "confidence": "medium",
+    "reviewed": "2026-08"
+  },
+  {
+    "id": "standards-002",
+    "tool": "standards",
+    "title": "What a GHG Protocol report must disclose",
+    "market": "global",
+    "tags": ["ghg protocol", "reporting", "disclosure", "base year"],
+    "facts": [
+      "A reporting company must disclose its organisational boundary including the consolidation approach, its operational boundary including the activity types covered where Scope 3 is reported, and its base year with the recalculation policy and significance threshold.",
+      "Gross emissions for the chosen inventory boundary must be presented separately from and independently of any GHG trades or offsets.",
+      "Scope 1 and Scope 2 are the minimum. Scope 3 is optional under the Corporate Standard itself — the reason companies report it is usually IFRS S2 paragraph 29(a), ESRS E1-6 or a customer's value chain request, not the Corporate Standard.",
+      "The Scope 2 Guidance requires dual reporting: a location-based figure using average grid factors and a market-based figure reflecting contractual instruments. Neither replaces the other."
+    ],
+    "source": "https://dart.deloitte.com/USDART/home/publications/deloitte/additional-deloitte-guidance/greenhouse-gas-protocol-reporting-considerations/chapter-4-calculating-ghg-emissions-choosing/4-3-reporting",
+    "confidence": "medium",
+    "reviewed": "2026-08"
+  },
+  {
+    "id": "standards-003",
+    "tool": "standards",
+    "title": "ISO 14064-1:2018 six categories",
+    "market": "global",
+    "tags": ["iso 14064", "categories", "scopes", "mapping"],
+    "facts": [
+      "ISO 14064-1:2018 replaced the three-scope model with six categories: 1 direct emissions and removals, 2 imported energy, 3 transportation, 4 products used by the organisation, 5 use of products from the organisation, and 6 other sources.",
+      "Category 1 maps to Scope 1 and category 2 to Scope 2. Categories 3 to 6 together are Scope 3, split on a different principle — ISO groups all transportation into one category where the GHG Protocol spreads it across four Scope 3 categories.",
+      "The totals reconcile exactly; the presentation does not. Reporting under both means presenting one inventory two ways, not computing it twice."
+    ],
+    "source": "https://www.glocertinternational.com/resources/articles/ghg-protocol-vs-iso-14064-1/",
+    "confidence": "medium",
+    "reviewed": "2026-08"
+  },
+  {
+    "id": "standards-004",
+    "tool": "standards",
+    "title": "Where ISO 14064-1 is stricter than the GHG Protocol",
+    "market": "global",
+    "tags": ["iso 14064", "significance", "scope 3", "exclusions"],
+    "facts": [
+      "ISO 14064-1:2018 requires an organisation to assess the significance of every indirect emission category and document its justification for anything excluded from the inventory.",
+      "That is a stronger obligation than the GHG Protocol's optional Scope 3. An inventory that satisfies the Corporate Standard by omitting Scope 3 does not satisfy ISO 14064-1.",
+      "Direct removals sit inside ISO category 1 alongside direct emissions, where the GHG Protocol handles removals separately — so a company with material removals shows a different category 1 than its Scope 1."
+    ],
+    "source": "https://www.glocertinternational.com/resources/guides/what-is-iso-14064-1-verification/",
+    "confidence": "medium",
+    "reviewed": "2026-08"
+  },
+  {
+    "id": "standards-005",
+    "tool": "standards",
+    "title": "ISO 14064-3 verification",
+    "market": "global",
+    "tags": ["iso 14064-3", "verification", "assurance", "materiality"],
+    "facts": [
+      "ISO 14064-3:2019 specifies requirements for validating and verifying GHG statements: selecting the verifier, agreeing the level of assurance, and setting objectives, criteria and scope.",
+      "Two levels: limited assurance gives a negative-form conclusion — nothing came to the verifier's attention suggesting material misstatement; reasonable assurance gives a positive-form conclusion after more extensive procedures.",
+      "Materiality is commonly set at 5% for reasonable assurance, and it drives the nature, timing and extent of the verification work.",
+      "The GHG Protocol has no verification standard of its own, so a GHG Protocol inventory is typically verified against ISO 14064-3 or ISAE 3410 — the accounting standard and the assurance standard are separate choices."
+    ],
+    "source": "https://www.iso.org/standard/66455.html",
+    "confidence": "medium",
+    "reviewed": "2026-08"
+  }
+]
