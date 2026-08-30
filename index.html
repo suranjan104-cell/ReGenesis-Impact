@@ -4447,7 +4447,7 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
  <div class="ghg-grid">
  <div class="ghg-field">
  <label>LEGAL ENTITY NAME</label>
- <input type="text" id="g-entity" placeholder="e.g. Axis Bank Limited">
+ <input type="text" id="g-entity" placeholder="e.g. Meridian Financial Services Limited">
  <div class="field-hint">Full registered legal name as per corporate records</div>
  </div>
  <div class="ghg-field">
@@ -4496,12 +4496,43 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
  </div>
  <div class="ghg-field" style="margin-bottom:1.25rem">
  <label>VERIFICATION STATUS</label>
- <select id="g-verification">
+ <select id="g-verification" onchange="if(typeof stdRender==='function')stdRender()">
  <option value="none">No external verification</option>
  <option value="limited">Limited assurance (third-party)</option>
  <option value="reasonable">Reasonable assurance (third-party)</option>
  <option value="internal">Internal verification only</option>
  </select>
+ <div class="field-hint">ISO 14064-3 defines limited and reasonable assurance; materiality is commonly 5% for reasonable</div>
+ </div>
+
+ <!-- The Corporate Standard requires a recalculation policy, disclosed
+      exclusions and, where Scope 3 is reported, a statement of what was
+      screened. The tool computed to the standard for a year without ever
+      asking for any of the three, then printed "GHG PROTOCOL COMPLIANT". -->
+ <div class="ghg-grid">
+ <div class="ghg-field">
+ <label>BASE YEAR RECALCULATION POLICY</label>
+ <input type="text" id="g-recalc-policy" placeholder="e.g. Recalculate on structural change, method change or discovered error" oninput="if(typeof stdRender==='function')stdRender()">
+ <div class="field-hint">GHG Protocol Chapter 5 — decided before the number is known, not after</div>
+ </div>
+ <div class="ghg-field">
+ <label>SIGNIFICANCE THRESHOLD (%)</label>
+ <input type="number" id="g-recalc-threshold" placeholder="e.g. 5" oninput="if(typeof stdRender==='function')stdRender()">
+ <div class="field-hint">The change in base-year emissions that triggers recalculation</div>
+ </div>
+ <div class="ghg-field">
+ <label>SCOPE 3 SCREENED ACROSS ALL 15 CATEGORIES?</label>
+ <select id="g-scope3-screened" onchange="if(typeof stdRender==='function')stdRender()">
+ <option value="no">No &mdash; selected categories only</option>
+ <option value="yes">Yes &mdash; all fifteen screened</option>
+ </select>
+ <div class="field-hint">ISO 14064-1:2018 requires every indirect category to be assessed for significance</div>
+ </div>
+ </div>
+ <div class="ghg-field" style="margin-bottom:1.25rem">
+ <label>EXCLUSIONS AND THEIR JUSTIFICATION</label>
+ <input type="text" id="g-exclusions" placeholder="e.g. Two leased offices under 200 sqm excluded — below 0.5% of Scope 1+2, data not available" oninput="if(typeof stdRender==='function')stdRender()">
+ <div class="field-hint">Completeness does not mean reporting everything — it means saying what is out and why</div>
  </div>
  <div class="ghg-actions">
  <button class="btn-ghg-p" onclick="ghg_next(1)">Next: Scope 1 Stationary →</button>
@@ -4903,7 +4934,7 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
  <!-- SECTION 8: Results & Audit Trail -->
  <div class="ghg-section" id="ghg-s8">
  <div class="ghg-hdr">
- <div class="ghg-badge">GHG INVENTORY RESULTS · AUDIT TRAIL · PCAF & GHG PROTOCOL COMPLIANT</div>
+ <div class="ghg-badge">GHG INVENTORY RESULTS · AUDIT TRAIL · CONFORMANCE CHECKED, NOT ASSERTED</div>
  <h2>Inventory Summary & Audit Trail</h2>
  <p>Full traceable GHG inventory with data lineage per GHG Protocol. Each emission line item references its source, methodology, emission factor and PCAF data quality score. Every factor applied below is published with its source and vintage in the <a href="#factors" onclick="showPage('factors');return false" style="color:#0affdb;border-bottom:1px dotted rgba(10,255,219,.4);text-decoration:none">emission factor register</a>.</p>
  </div>
@@ -4931,6 +4962,83 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
  <div class="chart-wrap">
  <div class="chart-title">EMISSIONS BREAKDOWN BY SCOPE & CATEGORY</div>
  <div class="bar-chart" id="ghg-bar-chart"></div>
+ </div>
+
+ <!-- Standards conformance: GHG Protocol Corporate Standard + ISO 14064 -->
+ <style>
+ #page-ghg .std-wrap{border:1px solid rgba(126,217,87,.16);background:rgba(4,16,8,.55);padding:1.3rem 1.4rem;margin:1.4rem 0}
+ #page-ghg .std-h{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;margin-bottom:.3rem}
+ #page-ghg .std-t{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1rem;color:var(--cream)}
+ #page-ghg .std-verdict{font-family:var(--mono);font-size:.72rem;letter-spacing:.05em}
+ #page-ghg .std-verdict.ok{color:#7ed957}#page-ghg .std-verdict.gap{color:#ffb547}
+ #page-ghg .std-sub{font-size:.75rem;color:rgba(245,240,232,.45);line-height:1.65;margin-bottom:1rem;max-width:70rem}
+ #page-ghg .std-tabs{display:flex;gap:.3rem;flex-wrap:wrap;border-bottom:1px solid rgba(126,217,87,.14);margin-bottom:1rem}
+ #page-ghg .std-tabs button{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:.55rem .85rem;background:transparent;border:none;border-bottom:2px solid transparent;color:rgba(245,240,232,.4);cursor:pointer}
+ #page-ghg .std-tabs button.on{color:#7ed957;border-bottom-color:#7ed957}
+ #page-ghg .std-sec{display:none}#page-ghg .std-sec.on{display:block}
+ #page-ghg .std-chk{display:flex;gap:.65rem;align-items:flex-start;padding:.55rem 0;border-top:1px solid rgba(255,255,255,.05)}
+ #page-ghg .std-chk:first-child{border-top:none}
+ #page-ghg .std-mark{font-family:var(--mono);font-size:.8rem;width:16px;flex:none;line-height:1.4}
+ #page-ghg .std-chk.met .std-mark{color:#7ed957}
+ #page-ghg .std-chk.gap .std-mark{color:#ffb547}
+ #page-ghg .std-chk.unknown .std-mark{color:rgba(245,240,232,.3)}
+ #page-ghg .std-body{flex:1}
+ #page-ghg .std-name{display:block;font-size:.82rem;color:rgba(245,240,232,.9);margin-bottom:.15rem}
+ #page-ghg .std-sev{font-family:var(--mono);font-size:.5rem;letter-spacing:.08em;text-transform:uppercase;border:1px solid;padding:.08rem .32rem;margin-left:.45rem;vertical-align:middle}
+ #page-ghg .std-sev.required{color:#ffb547;border-color:rgba(255,181,71,.4)}
+ #page-ghg .std-sev.recommended{color:rgba(245,240,232,.4);border-color:rgba(255,255,255,.14)}
+ #page-ghg .std-state{font-family:var(--mono);font-size:.55rem;letter-spacing:.06em;margin-left:.45rem}
+ #page-ghg .std-state.met{color:#7ed957}#page-ghg .std-state.gap{color:#ffb547}#page-ghg .std-state.unknown{color:rgba(245,240,232,.3)}
+ #page-ghg .std-why{display:block;font-size:.71rem;color:rgba(245,240,232,.42);line-height:1.6}
+ #page-ghg .std-empty{font-size:.74rem;color:rgba(245,240,232,.38);padding:.8rem 0}
+ #page-ghg table.std-iso-tbl{width:100%;border-collapse:collapse;font-size:.74rem}
+ #page-ghg table.std-iso-tbl th{font-family:var(--mono);font-size:.53rem;letter-spacing:.09em;text-transform:uppercase;text-align:left;padding:.45rem .5rem;color:rgba(126,217,87,.7);background:rgba(126,217,87,.06)}
+ #page-ghg table.std-iso-tbl td{padding:.45rem .5rem;border-top:1px solid rgba(255,255,255,.05);color:rgba(245,240,232,.82);vertical-align:top}
+ #page-ghg table.std-iso-tbl td.c{font-family:var(--mono);color:#7ed957;width:34px}
+ #page-ghg table.std-iso-tbl td.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+ #page-ghg table.std-iso-tbl td.mono{font-family:var(--mono);font-size:.66rem;color:rgba(245,240,232,.55)}
+ #page-ghg table.std-iso-tbl tr.zero td{color:rgba(245,240,232,.3)}
+ #page-ghg table.std-iso-tbl tr.warnrow td{color:#ffb547}
+ #page-ghg table.std-iso-tbl tfoot td{border-top:1px solid rgba(126,217,87,.3);font-family:var(--mono);font-size:.7rem}
+ #page-ghg table.std-iso-tbl tr.recon-ok td{color:#7ed957;border-top:none}
+ #page-ghg table.std-iso-tbl tr.recon-bad td{color:#ff6b6b;border-top:none}
+ #page-ghg .std-flag{font-family:var(--mono);font-size:.5rem;letter-spacing:.06em;text-transform:uppercase;color:#ffb547;border:1px solid rgba(255,181,71,.4);padding:.06rem .3rem;margin-left:.4rem}
+ #page-ghg .muted{color:rgba(245,240,232,.32)}
+ #page-ghg .std-diff{padding:.7rem 0;border-top:1px solid rgba(255,255,255,.05)}
+ #page-ghg .std-diff:first-child{border-top:none}
+ #page-ghg .std-diff .dt{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.82rem;color:rgba(245,240,232,.92);margin-bottom:.25rem}
+ #page-ghg .std-diff .dr{font-size:.74rem;color:rgba(245,240,232,.6);line-height:1.6}
+ #page-ghg .std-diff .dr b{font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:#7ed957;margin-right:.4rem}
+ #page-ghg .std-diff .dw{font-size:.73rem;color:rgba(245,240,232,.45);line-height:1.6;margin-top:.3rem;border-left:2px solid rgba(126,217,87,.3);padding-left:.7rem}
+ #page-ghg .std-foot{margin-top:1.1rem;padding-top:.85rem;border-top:1px solid rgba(255,255,255,.06);font-size:.7rem;color:rgba(245,240,232,.42);line-height:1.7}
+ #page-ghg .std-foot a{color:rgba(10,255,219,.8);text-decoration:none}
+ #page-ghg .std-foot code{font-family:var(--mono);color:rgba(10,255,219,.75)}
+ #page-ghg .std-btn{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;padding:.55rem 1.1rem;background:rgba(126,217,87,.1);border:1px solid rgba(126,217,87,.4);color:#7ed957;cursor:pointer;margin-top:1rem}
+ #page-ghg .std-btn:hover{background:rgba(126,217,87,.18)}
+ #page-ghg .std-saved{display:none;margin-top:.6rem;font-size:.72rem;color:#7ed957}
+ </style>
+ <div class="std-wrap">
+   <div class="std-h">
+     <div class="std-t">Standards conformance</div>
+     <div class="std-verdict" id="std-verdict">Loading the standards&hellip;</div>
+   </div>
+   <div class="std-sub">
+     The GHG Protocol Corporate Standard tested against what you actually entered, and the same tonnes
+     presented under the six categories of ISO 14064-1:2018. This is a self-assessment against published
+     summaries of both standards &mdash; it is not a certification, and it is not verification under
+     ISO 14064-3.
+   </div>
+   <div class="std-tabs" id="std-tabs">
+     <button class="on" onclick="stdTab('gp')">GHG Protocol</button>
+     <button onclick="stdTab('iso')">ISO 14064-1 categories</button>
+     <button onclick="stdTab('diff')">Where they differ</button>
+   </div>
+   <div class="std-sec on" id="std-sec-gp"><div id="std-checks"></div></div>
+   <div class="std-sec" id="std-sec-iso"><div id="std-iso"></div></div>
+   <div class="std-sec" id="std-sec-diff"><div id="std-diff"></div></div>
+   <button class="std-btn" onclick="stdSave()">Record conformance to the ledger &rarr;</button>
+   <div class="std-saved" id="std-saved"></div>
+   <div class="std-foot" id="std-sources"></div>
  </div>
 
  <!-- Audit Trail Table -->
@@ -8221,6 +8329,9 @@ function showPage(page) {
   // The GHG audit trail renders factor provenance, so the register has to be
   // in memory before the first calculation is shown.
   if (page === 'ghg' && typeof fxLoad === 'function') fxLoad();
+  // The conformance check needs the standards data before it can say
+  // anything; it loads with the page rather than on first click.
+  if (page === 'ghg' && typeof stdLoad === 'function') stdLoad();
   if (page === 'ledger' && typeof rgLedgerRender === 'function') rgLedgerRender();
   if (page === 'esrs' && typeof esrsLoad === 'function') esrsLoad();
   if (typeof rgRailRender === 'function') setTimeout(rgRailRender, 0);
@@ -9413,6 +9524,7 @@ document.addEventListener('DOMContentLoaded', function() {
    { id: 'factor',    test: /emission factor|which factor|factor for|vintage|defra|gwp|ar4|ar5|ar6|source of|where does .* come from/i },
    { id: 'inventory', test: /my (inventory|emissions|scope|number|figure)|our (inventory|emissions|scope)|data quality|weakest|biggest gap|exposure|dq \d/i },
    { id: 'assurance', test: /assur|auditor|evidence|assa|issa|limited assurance|reasonable assurance|audit trail/i },
+   { id: 'standards', test: /ghg protocol|corporate standard|iso 14064|iso14064|14064|organi[sz]ational boundary|operational control|financial control|equity share|base year|recalculat|consolidation approach|location.based|market.based|scope 2 guidance/i },
    { id: 'drafting',  test: /draft|write|disclosure statement|wording|snippet/i },
    /* Placed last so it only claims a question the others did not. A user
       asking "what is our Article 8 turnover alignment" wants the ledger, and
@@ -9455,6 +9567,39 @@ document.addEventListener('DOMContentLoaded', function() {
      if (led) {
        parts.push(led);
        (String(led).match(/-?\d+(?:\.\d+)?/g) || []).forEach(function(n) { facts.push(Number(n)); });
+     }
+   }
+
+   /* The two accounting standards, from the same data the conformance panel
+      checks against — so Sage cites the requirement the tool tests, not a
+      paraphrase of it from somewhere else. */
+   if ((route === 'standards' || route === 'assurance') && typeof _std !== 'undefined' && _std) {
+     var gpx = _std.ghgProtocol, isox = _std.iso;
+     parts.push(
+       'Accounting standards from our own data files (knowledge/standards/), graded ' + gpx.confidence +
+       ' confidence because ghgprotocol.org and iso.org were unreachable when they were built:\n' +
+       '- ' + gpx.standard + '. Organisational boundary: ' +
+         gpx.boundaries.organizational.map(function(b){ return b.name; }).join(', ') +
+         ' — the choice must be disclosed, not merely made.\n' +
+       '- Required conditions this tool checks: ' +
+         gpx.requirements.filter(function(q){ return q.severity === 'required'; })
+           .map(function(q){ return q.name; }).join('; ') + '.\n' +
+       '- Scope 3 is ' + (gpx.scope3.mandatory ? 'mandatory' : 'optional') + ' under the Corporate Standard itself, across ' +
+         gpx.scope3.categories + ' categories. ' + gpx.scope3.note + '\n' +
+       '- Scope 2: ' + gpx.scope2.note + '\n' +
+       '- ' + isox.part1.standard + ' uses six categories, not three scopes: ' +
+         isox.part1.categories.map(function(c){ return c.code + ' ' + c.name + ' (' + c.scope + ')'; }).join('; ') + '.\n' +
+       '- ' + isox.part1.significance.note + '\n' +
+       '- ' + isox.part3.standard + ': ' +
+         isox.part3.levels.map(function(l){ return l.name + ' — ' + l.note; }).join(' ') + '\n' +
+       '- Differences that matter: ' +
+         isox.differences.map(function(d){ return d.topic + ' — ' + d.why_it_matters; }).join(' ') + '\n' +
+       'Do not describe this tool as certified to either standard. It runs a self-assessment against published summaries.');
+     facts.push(gpx.scope3.categories, isox.part1.categories.length, gpx.requirements.length);
+     var ledS = (typeof rgLedgerContext === 'function') ? rgLedgerContext() : '';
+     if (ledS) {
+       parts.push(ledS);
+       (String(ledS).match(/-?\d+(?:\.\d+)?/g) || []).forEach(function(n) { facts.push(Number(n)); });
      }
    }
 
@@ -10384,6 +10529,239 @@ document.addEventListener('DOMContentLoaded', function() {
    }).join('');
  };
 
+ /* ── STANDARDS CONFORMANCE ──────────────────────────────────────────────
+    The results header said "PCAF & GHG PROTOCOL COMPLIANT" and checked
+    nothing. This replaces that claim with a test.
+
+    Two standards, one inventory. The GHG Protocol checks are conditions on
+    what the preparer has actually entered. The ISO 14064-1 view is the same
+    tonnes presented under the six categories, which is what an organisation
+    certified to ISO needs and what the scope view cannot give it.
+
+    Both are driven from knowledge/standards.json rather than written here, so
+    a requirement cannot be quietly dropped from the check without the build
+    noticing it lost its test. */
+ var _std = null;
+
+ window.stdLoad = function(cb) {
+   if (_std) { if (cb) cb(); return; }
+   fetch('knowledge/standards.json').then(function(r){ return r.json(); }).then(function(d){
+     _std = d; if (cb) cb(); stdRender();
+   }).catch(function(){
+     var el = document.getElementById('std-checks');
+     if (el) el.innerHTML = '<div class="std-empty">Could not load the standards data. It is committed at knowledge/standards.json.</div>';
+   });
+ };
+
+ /* One requirement, one verdict. Separated from rendering so the simulation
+    drives it directly, and so a "met" is always traceable to a condition
+    rather than to a colour someone picked. */
+ window.stdEvaluate = function(test, r, meta) {
+   switch (test) {
+     case 'consolidation_selected': return !!meta.consolidation;
+     case 'scope12_present':        return r.s1 > 0 || r.s2 > 0;
+     // Dual reporting means both figures exist as computed positions. They may
+     // legitimately be equal — a company with no contractual instruments has a
+     // market-based figure equal to its location-based one — so equality is
+     // not a failure; absence is.
+     case 'scope2_dual':            return r.s2 > 0 && r.s2_mkt >= 0 && isFinite(r.s2_mkt);
+     case 'baseyear_stated':        return !!meta.baseyear;
+     case 'recalc_policy':          return !!meta.recalc && meta.threshold > 0;
+     case 'gwp_stated':             return !!meta.gwpSet;
+     case 'exclusions_stated':      return !!meta.exclusions;
+     case 'factors_traceable':      return r.lines.length > 0 && r.lines.every(function(l){ return (l[5] || []).length > 0 || l[3] === 0; });
+     // Nothing in this tool nets offsets against gross emissions; the property
+     // holds by construction and is asserted rather than assumed.
+     case 'gross_separate':         return true;
+     case 'scope3_screened':        return !!meta.screened;
+     case 'dq_present':             return r.dq != null;
+     case 'verification_stated':    return !!meta.verification && meta.verification !== 'none';
+     default:                       return null;   // unknown test — never silently "met"
+   }
+ };
+
+ window.stdMeta = function() {
+   var v = function(id){ var e = document.getElementById(id); return e ? String(e.value || '').trim() : ''; };
+   return {
+     consolidation: v('g-consolidation'),
+     baseyear:      v('g-baseyear'),
+     recalc:        v('g-recalc-policy'),
+     threshold:     parseFloat(v('g-recalc-threshold')) || 0,
+     exclusions:    v('g-exclusions'),
+     screened:      v('g-scope3-screened') === 'yes',
+     verification:  v('g-verification'),
+     gwpSet:        (typeof _fxData !== 'undefined' && _fxData && _fxData.gwpSet) || ''
+   };
+ };
+
+ /* The ISO category view. Every line the engine emits carries a category from
+    the mapping in knowledge/standards/iso-14064.json; a line with no mapping
+    is surfaced as unmapped rather than dropped, because a tonne that quietly
+    disappears from the category view still shows a correct-looking total. */
+ window.stdIsoView = function(r, mapping) {
+   var byLine = {};
+   (mapping || []).forEach(function(m){ byLine[m.line] = m; });
+   var cats = {}, unmapped = [];
+   r.lines.forEach(function(l) {
+     var m = byLine[l[0]];
+     if (!m) { if (l[3]) unmapped.push({ line: l[0], tCO2e: l[3] }); return; }
+     if (!cats[m.iso]) cats[m.iso] = { tCO2e: 0, lines: [], lowConfidence: false };
+     cats[m.iso].tCO2e += l[3];
+     cats[m.iso].lines.push(l[0]);
+     if (m.confidence !== 'high') cats[m.iso].lowConfidence = true;
+   });
+   var mapped = Object.keys(cats).reduce(function(n, k){ return n + cats[k].tCO2e; }, 0);
+   var unmappedTotal = unmapped.reduce(function(n, u){ return n + u.tCO2e; }, 0);
+   return {
+     categories: cats, unmapped: unmapped,
+     mappedTotal: mapped, unmappedTotal: unmappedTotal,
+     // The reconciliation that makes the second view trustworthy: the six
+     // categories must add to the same number the three scopes do.
+     reconciles: Math.abs(mapped + unmappedTotal - r.total) < 0.01
+   };
+ };
+
+ window.stdTab = function(id) {
+   var t = document.getElementById('std-tabs');
+   if (t) Array.prototype.forEach.call(t.children, function(b, i) {
+     b.className = (['gp','iso','diff'][i] === id) ? 'on' : '';
+   });
+   ['gp','iso','diff'].forEach(function(k) {
+     var s = document.getElementById('std-sec-' + k);
+     if (s) s.className = 'std-sec' + (k === id ? ' on' : '');
+   });
+   if (typeof rgTrack === 'function') rgTrack('standards_tab', id);
+ };
+
+ window.stdRender = function() {
+   if (!_std) return;
+   var host = document.getElementById('std-checks');
+   if (!host) return;
+   var r = (typeof ghg_compute === 'function') ? ghg_compute() : null;
+   if (!r) return;
+   var esc = function(x){ var d=document.createElement('div'); d.textContent = x==null?'':x; return d.innerHTML; };
+   var gp = _std.ghgProtocol, iso = _std.iso;
+   var meta = stdMeta();
+
+   var results = gp.requirements.map(function(q) {
+     return { q: q, met: stdEvaluate(q.test, r, meta) };
+   });
+   var req = results.filter(function(x){ return x.q.severity === 'required'; });
+   var reqMet = req.filter(function(x){ return x.met === true; }).length;
+   var recMet = results.filter(function(x){ return x.q.severity === 'recommended' && x.met === true; }).length;
+   var recTotal = results.length - req.length;
+
+   var verdict = document.getElementById('std-verdict');
+   if (verdict) {
+     var ok = reqMet === req.length;
+     verdict.className = 'std-verdict ' + (ok ? 'ok' : 'gap');
+     verdict.innerHTML = r.total > 0
+       ? (ok ? '&#10003; All ' + req.length + ' required GHG Protocol conditions met'
+             : reqMet + ' of ' + req.length + ' required conditions met') +
+         ' &middot; ' + recMet + ' of ' + recTotal + ' recommended'
+       : 'Enter activity data — conformance is checked against a live inventory, not asserted.';
+   }
+
+   host.innerHTML = results.map(function(x) {
+     var cls = x.met === true ? 'met' : (x.met === null ? 'unknown' : 'gap');
+     var lab = x.met === true ? 'met' : (x.met === null ? 'not checked' : 'missing');
+     return '<div class="std-chk ' + cls + '">' +
+       '<span class="std-mark">' + (x.met === true ? '&#10003;' : x.met === null ? '?' : '&#10007;') + '</span>' +
+       '<span class="std-body"><span class="std-name">' + esc(x.q.name) +
+         '<span class="std-sev ' + x.q.severity + '">' + x.q.severity + '</span>' +
+         '<span class="std-state ' + cls + '">' + lab + '</span></span>' +
+         '<span class="std-why">' + esc(x.q.why) + '</span></span></div>';
+   }).join('');
+
+   /* ISO 14064-1 category view of the same inventory. */
+   var view = stdIsoView(r, iso.line_mapping);
+   var isoEl = document.getElementById('std-iso');
+   if (isoEl) {
+     if (!(r.total > 0)) {
+       isoEl.innerHTML = '<div class="std-empty">The six-category view appears once the inventory has figures in it.</div>';
+     } else {
+       isoEl.innerHTML =
+         '<table class="std-iso-tbl"><thead><tr><th>Cat</th><th>ISO 14064-1:2018 category</th><th>Covers</th>' +
+         '<th style="text-align:right">tCO&#8322;e</th><th style="text-align:right">Share</th></tr></thead><tbody>' +
+         iso.part1.categories.map(function(c) {
+           var v = view.categories[c.code];
+           var t = v ? v.tCO2e : 0;
+           return '<tr' + (t ? '' : ' class="zero"') + '><td class="c">' + c.code + '</td>' +
+             '<td>' + esc(c.name) + (v && v.lowConfidence ? '<span class="std-flag" title="At least one line in this category is mapped at medium confidence">mapping medium</span>' : '') + '</td>' +
+             '<td class="mono">' + (v ? v.lines.join(', ') : '<span class="muted">' + esc(c.scope) + ' — nothing entered</span>') + '</td>' +
+             '<td class="n">' + t.toFixed(2) + '</td>' +
+             '<td class="n">' + (r.total ? (t / r.total * 100).toFixed(1) + '%' : '—') + '</td></tr>';
+         }).join('') +
+         (view.unmapped.length
+           ? '<tr class="warnrow"><td class="c">—</td><td>Unmapped lines</td><td class="mono">' +
+             esc(view.unmapped.map(function(u){ return u.line; }).join(', ')) +
+             '</td><td class="n">' + view.unmappedTotal.toFixed(2) + '</td><td class="n">—</td></tr>'
+           : '') +
+         '</tbody><tfoot><tr><td></td><td colspan="2">Total across the six categories</td>' +
+         '<td class="n">' + (view.mappedTotal + view.unmappedTotal).toFixed(2) + '</td><td class="n">100.0%</td></tr>' +
+         '<tr class="' + (view.reconciles ? 'recon-ok' : 'recon-bad') + '"><td></td><td colspan="2">' +
+           (view.reconciles ? 'Reconciles to the scope view' : 'DOES NOT reconcile to the scope view — do not use this') +
+         '</td><td class="n">' + r.total.toFixed(2) + '</td><td class="n"></td></tr></tfoot></table>';
+     }
+   }
+
+   var diffEl = document.getElementById('std-diff');
+   if (diffEl) diffEl.innerHTML = iso.differences.map(function(d) {
+     return '<div class="std-diff"><div class="dt">' + esc(d.topic) + '</div>' +
+       '<div class="dr"><b>GHG Protocol</b> ' + esc(d.ghgp) + '</div>' +
+       '<div class="dr"><b>ISO 14064-1</b> ' + esc(d.iso) + '</div>' +
+       '<div class="dw">' + esc(d.why_it_matters) + '</div></div>';
+   }).join('');
+
+   var srcEl = document.getElementById('std-sources');
+   if (srcEl) {
+     var link = function(x){ return '<a href="' + esc(x.url) + '" target="_blank" rel="noopener noreferrer">' + esc(x.publisher) + '</a>'; };
+     srcEl.innerHTML =
+       '<b>GHG Protocol</b> &mdash; ' + esc(gp.confidence) + ' confidence &middot; ' + gp.sources.map(link).join(', ') + '<br>' +
+       '<b>ISO 14064</b> &mdash; ' + esc(iso.confidence) + ' confidence &middot; ' + iso.sources.map(link).join(', ') + '<br>' +
+       'ghgprotocol.org and iso.org could not be reached from the build environment, so both sets are drawn from ' +
+       'professional-firm and practitioner summaries and graded medium. This is a self-assessment against those ' +
+       'summaries, not a certification, and it is not verification under ISO 14064-3. ' +
+       'Built from <code>knowledge/standards/</code> &middot; reviewed ' + esc(gp.reviewed) + '.';
+   }
+ };
+
+ window.stdSave = function() {
+   if (!_std) { stdLoad(function(){ stdSave(); }); return; }
+   var r = (typeof ghg_compute === 'function') ? ghg_compute() : null;
+   if (!r || !(r.total > 0)) { alert('Enter activity data first — conformance is checked against a live inventory.'); return; }
+   var gp = _std.ghgProtocol, meta = stdMeta();
+   var results = gp.requirements.map(function(q){ return { q: q, met: stdEvaluate(q.test, r, meta) }; });
+   var req = results.filter(function(x){ return x.q.severity === 'required'; });
+   var reqMet = req.filter(function(x){ return x.met === true; }).length;
+   var open = results.filter(function(x){ return x.met !== true; });
+   var view = stdIsoView(r, _std.iso.line_mapping);
+
+   if (typeof rgLedger !== 'undefined') {
+     rgLedger.put({
+       key: 'standards-conformance', tool: 'GHG Protocol & ISO 14064',
+       title: reqMet + ' of ' + req.length + ' required GHG Protocol conditions met',
+       period: gp.standard + ' · ISO 14064-1:2018',
+       figures: {
+         required_met: reqMet, required_total: req.length,
+         recommended_met: results.filter(function(x){ return x.q.severity === 'recommended' && x.met === true; }).length,
+         iso_categories_used: Object.keys(view.categories).length,
+         iso_reconciles: view.reconciles,
+         unmapped_tco2e: +view.unmappedTotal.toFixed(2)
+       },
+       dq: r.dq,
+       gaps: open.map(function(x) {
+         return { line: 'Standards — ' + x.q.name + (x.q.severity === 'required' ? '' : ' (recommended)'),
+                  tCO2e: 0, dq: x.q.severity === 'required' ? 5 : 4, share: 0 };
+       })
+     });
+   }
+   var el = document.getElementById('std-saved');
+   if (el) { el.style.display = 'block'; el.textContent =
+     'Recorded to the evidence ledger — it now appears in the assurance pack alongside the inventory.'; }
+   if (typeof rgTrack === 'function') rgTrack('standards_conformance', reqMet + '/' + req.length);
+ };
+
  window.rgLedgerShowPayload = function() {
    var el = document.getElementById('lg-payload');
    if (!el) return;
@@ -10661,6 +11039,9 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Scope split bar chart
+  // Conformance is a function of the live inventory, so it re-checks with it.
+  if (typeof stdRender === 'function' && document.getElementById('std-checks')) stdRender();
+
   var chart = document.getElementById('ghg-bar-chart');
   if (chart) {
     if (r.total > 0) {

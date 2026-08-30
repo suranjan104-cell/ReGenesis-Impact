@@ -63,6 +63,8 @@ jobs:
           run_check "Benchmarks validate"    node knowledge/build-benchmarks.mjs
           run_check "ESRS data validates"   node knowledge/build-esrs.mjs
           run_check "Article 8 properties hold" node test/simulate-esrs.mjs
+          run_check "Standards data validates" node knowledge/build-standards.mjs
+          run_check "Conformance properties hold" node test/simulate-standards.mjs
           run_check "Knowledge base builds"   node knowledge/build.mjs
           run_check "Guides + sitemap build"  node seo/build-guides.mjs
 
