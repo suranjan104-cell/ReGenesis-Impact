@@ -2778,8 +2778,8 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
       <div class="ed-market fade-up">
         <span class="flag">🇪🇺</span>
         <h3>Europe — ESRS / CSRD</h3>
-        <ul><li>1,000+ staff <em>and</em> €450mn+ turnover</li><li>Double materiality, not financial only</li><li>Wave 2 first reports 2028, covering FY2027</li><li>Simplified ESRS set still pending</li></ul>
-        <span class="ed-deadline">WAVE 2 COVERS FY2027</span>
+        <ul><li>1,000+ staff <em>and</em> €450mn+ turnover</li><li>Double materiality, not financial only</li><li>EU Taxonomy Article 8 alignment KPIs</li><li>Revised ESRS adopted 3 Jul 2026 — applies FY2027</li></ul>
+        <span class="ed-deadline">REVISED ESRS APPLY FROM FY2027</span>
         <a href="#esrs" onclick="showPage('esrs');return false;">Open the ESRS tool →</a>
       </div>
     </div>
@@ -9562,8 +9562,13 @@ document.addEventListener('DOMContentLoaded', function() {
    var esc = function(x){ var d=document.createElement('div'); d.textContent = x==null?'':x; return d.innerHTML; };
    var sim = _esrs.scope.simplified_esrs;
 
+   /* This banner said "pending" for weeks after the set was adopted on
+      3 July 2026. It is driven off the data file now and states the date, so
+      the next time it goes stale it goes stale visibly. */
    var alert = document.getElementById('es-alert');
-   if (alert) alert.innerHTML = '<b>The simplified ESRS set is ' + esc(sim.status) + '.</b> ' + esc(sim.note);
+   if (alert) alert.innerHTML = sim.status === 'published'
+     ? '<b>The revised ESRS were adopted on ' + esc(sim.adopted) + '.</b> ' + esc(sim.note)
+     : '<b>The simplified ESRS set is ' + esc(sim.status) + '.</b> ' + esc(sim.note);
 
    var rows = document.getElementById('es-dm-rows');
    if (rows) {
@@ -9594,14 +9599,35 @@ document.addEventListener('DOMContentLoaded', function() {
    }
 
    esrsDrRender();
+   esrsMarketRender();
+   esrsReliefsRender();
+   esrsTxRender();
+   esrsTagRender();
+   esrsIoRender();
+   esrsBenchRender();
 
    var src = document.getElementById('es-sources');
    if (src) {
-     src.innerHTML = 'Thresholds and dates carry <b style="color:rgba(234,255,243,.75)">' +
-       esc(_esrs.scope.confidence) + '</b> confidence and are drawn from ' +
-       _esrs.scope.sources.map(function(x){
-         return '<a href="' + esc(x.url) + '" target="_blank" rel="noopener noreferrer" style="color:rgba(10,255,219,.85);text-decoration:none">' + esc(x.publisher) + '</a>';
-       }).join(', ') + '. Primary sources could not be reached from the build environment, so verify against the directive before relying on this for a filing decision. Built from <code>knowledge/esrs/</code> &middot; reviewed ' + esc(_esrs.scope.reviewed) + '.';
+     /* Every assertion on this page traces to one of four data files, so the
+        footer lists all four rather than only the scoping sources. A reader
+        who wants to check the 10% threshold should not have to guess which
+        link carries it. */
+     var link = function(x) {
+       return '<a href="' + esc(x.url) + '" target="_blank" rel="noopener noreferrer" style="color:rgba(10,255,219,.85);text-decoration:none">' + esc(x.publisher || x.title) + '</a>';
+     };
+     src.innerHTML =
+       '<div><b style="color:rgba(234,255,243,.8)">Scope and thresholds</b> &mdash; ' +
+         esc(_esrs.scope.confidence) + ' confidence &middot; ' + _esrs.scope.sources.map(link).join(', ') + '</div>' +
+       '<div style="margin-top:.5rem"><b style="color:rgba(234,255,243,.8)">EU Taxonomy Article 8</b> &mdash; ' +
+         esc(_esrs.taxonomy.confidence) + ' confidence &middot; ' + _esrs.taxonomy.sources.map(link).join(', ') + '</div>' +
+       '<div style="margin-top:.5rem"><b style="color:rgba(234,255,243,.8)">Digital tagging</b> &mdash; ' +
+         esc(_esrs.digital.confidence) + ' confidence &middot; ' + _esrs.digital.sources.map(link).join(', ') + '</div>' +
+       '<div style="margin-top:.5rem"><b style="color:rgba(234,255,243,.8)">IFRS S2 interoperability</b> &mdash; ' +
+         esc(_esrs.interop.confidence) + ' confidence &middot; ' + _esrs.interop.sources.map(link).join(', ') + '</div>' +
+       '<div style="margin-top:.75rem">Every file is graded medium, not high: EUR-Lex, EFRAG, ESMA and the Commission could not be ' +
+         'reached from the build environment, so all of this rests on professional-firm and vendor summaries. ' +
+         'Verify against the instruments themselves before a filing decision rests on it. ' +
+         'Built from <code>knowledge/esrs/</code> &middot; reviewed ' + esc(_esrs.scope.reviewed) + '.</div>';
    }
  };
 
@@ -9774,6 +9800,428 @@ document.addEventListener('DOMContentLoaded', function() {
      });
    }
    if (typeof rgTrack === 'function') rgTrack('esrs_materiality', String(material.length));
+ };
+
+ /* ── EU market context ──────────────────────────────────────────────────
+    Four regime facts a European preparer needs before touching a form, three
+    of which moved in 2026. The tool asserted for weeks that the simplified
+    ESRS set was pending; it was adopted on 3 July 2026. That is exactly the
+    kind of staleness a status strip makes visible instead of burying. */
+ window.esrsMarketRender = function() {
+   if (!_esrs) return;
+   var el = document.getElementById('es-mkt');
+   if (!el) return;
+   var esc = function(x){ var d=document.createElement('div'); d.textContent = x==null?'':x; return d.innerHTML; };
+   var s = _esrs.scope, sim = s.simplified_esrs, tx = _esrs.taxonomy, dg = _esrs.digital;
+   var tiles = [
+     { k: 'CSRD threshold', v: '>' + s.thresholds.eu_company.employees_over + ' staff AND €' +
+          s.thresholds.eu_company.net_turnover_over_eur_m + 'mn',
+       n: 'Post-Omnibus. Both tests, not either.' },
+     { k: 'Revised ESRS', v: sim.status === 'published' ? 'Adopted ' + sim.adopted : 'Pending',
+       n: sim.mandatory_datapoint_reduction_percent + '% fewer mandatory datapoints. Applies FY' +
+          sim.mandatory_from_fy + ' onward; scrutiny still running.' },
+     { k: 'EU Taxonomy Art. 8', v: tx.simplification.materiality_threshold_percent + '% materiality floor',
+       n: tx.simplification.regulation + ', in force ' + tx.simplification.in_force + '.' },
+     { k: 'XBRL tagging', v: dg.status.mandate === 'suspended' ? 'Suspended' : dg.status.mandate,
+       warn: dg.status.mandate === 'suspended',
+       n: dg.status.suspended_by + '. Resumes when ESEF is amended — no firm date exists.' }
+   ];
+   el.innerHTML = tiles.map(function(t) {
+     return '<div class="es-mtile' + (t.warn ? ' warn' : '') + '">' +
+       '<div class="mk">' + esc(t.k) + '</div><div class="mv">' + esc(t.v) + '</div>' +
+       '<div class="mn">' + esc(t.n) + '</div></div>';
+   }).join('');
+ };
+
+ window.esrsTab = function(id) {
+   var tabs = document.getElementById('es-tabs');
+   if (tabs) Array.prototype.forEach.call(tabs.children, function(b, i) {
+     b.className = (['scope','dma','dr','tx','tag','io','bm'][i] === id) ? 'on' : '';
+   });
+   ['scope','dma','dr','tx','tag','io','bm'].forEach(function(k) {
+     var s = document.getElementById('es-sec-' + k);
+     if (s) s.className = 'es-sec' + (k === id ? ' on' : '');
+   });
+   if (typeof rgTrack === 'function') rgTrack('esrs_tab', id);
+ };
+
+ window.esrsReliefsRender = function() {
+   if (!_esrs) return;
+   var el = document.getElementById('es-reliefs');
+   if (!el) return;
+   var esc = function(x){ var d=document.createElement('div'); d.textContent = x==null?'':x; return d.innerHTML; };
+   var sim = _esrs.scope.simplified_esrs;
+   el.innerHTML =
+     '<div class="es-kv"><div class="k">Transitional</div><div>' + esc(sim.transitional || '—') + '</div></div>' +
+     '<div class="es-kv"><div class="k">Value chain cap</div><div>' + esc(sim.value_chain_cap || '—') + '</div></div>' +
+     '<div class="es-kv"><div class="k">DR set in use</div><div>' + esc(sim.dr_enumeration_set || '—') +
+       '. The revised set applies from FY' + sim.mandatory_from_fy + ', so reports being prepared now are still filed against this one.</div></div>' +
+     '<div class="es-kv"><div class="k">Scrutiny</div><div>' + esc(sim.scrutiny || '—') + '</div></div>';
+ };
+
+ /* ── EU Taxonomy Article 8 ──────────────────────────────────────────────
+    Three KPIs, each a ratio of an aligned numerator over a stated denominator.
+    The denominators are entered rather than summed from the activity rows,
+    because total turnover is not the sum of the taxonomy-eligible activities —
+    assuming it is inflates every alignment percentage, which is the single
+    most common way this disclosure goes wrong.
+
+    Alignment requires all four gates: the activity is eligible (it is listed),
+    it substantially contributes, it does no significant harm, and the entity
+    passes minimum safeguards. Safeguards are entity-level, so failing them
+    zeroes alignment across all three KPIs rather than dropping one activity.
+
+    The 10% materiality threshold from Delegated Regulation (EU) 2026/73 is
+    applied per KPI independently, so the same activity can be excluded from
+    the OpEx KPI and assessed in the turnover KPI. Excluded value is shown as
+    its own band rather than folded into "not eligible", because those are
+    different statements: one was assessed and did not qualify, the other was
+    never assessed. */
+ var _esrsTx = [];
+ var _esrsTxSeq = 0;
+ var ESRS_TX_KPIS = ['turnover', 'capex', 'opex'];
+
+ window.esrsTxAdd = function() {
+   _esrsTx.push({ id: ++_esrsTxSeq, name: '', obj: 'CCM', turnover: 0, capex: 0, opex: 0, sc: false, dnsh: false });
+   esrsTxRender();
+ };
+ window.esrsTxDel = function(id) {
+   _esrsTx = _esrsTx.filter(function(r){ return r.id !== id; });
+   esrsTxRender();
+ };
+ window.esrsTxSet = function(id, field, val) {
+   var r = _esrsTx.filter(function(x){ return x.id === id; })[0];
+   if (!r) return;
+   r[field] = (field === 'name' || field === 'obj') ? val : (parseFloat(val) || 0);
+   if (field !== 'name') esrsTxRender();
+ };
+ window.esrsTxGate = function(id, gate) {
+   var r = _esrsTx.filter(function(x){ return x.id === id; })[0];
+   if (!r) return;
+   r[gate] = !r[gate];
+   // DNSH is only meaningful once the activity substantially contributes.
+   if (gate === 'sc' && !r.sc) r.dnsh = false;
+   esrsTxRender();
+ };
+
+ /* One KPI's arithmetic, kept separate from the rendering so the simulation
+    can drive it directly. Returns shares of the denominator, all in [0,1]. */
+ window.esrsTxCompute = function(kpi, rows, denom, safeguards, threshold) {
+   var d = denom > 0 ? denom : 0;
+   /* The threshold has one home: knowledge/esrs/taxonomy.json. Defaulting it to
+      a literal here would put the same number in two places, which is the exact
+      defect the factor register audit found in our emission factors. So it
+      throws instead, and the simulation passes the value it read from the
+      compiled data rather than a copy of it. */
+   var thr = threshold;
+   if (thr == null) {
+     if (!_esrs) throw new Error('esrsTxCompute: no threshold given and the ESRS data is not loaded');
+     thr = _esrs.taxonomy.simplification.materiality_threshold_percent / 100;
+   }
+   var eligible = 0, aligned = 0, below = 0, assessed = 0, skipped = 0;
+   (rows || []).forEach(function(r) {
+     var v = Math.max(0, r[kpi] || 0);
+     if (!v) return;
+     if (d && v / d < thr) { below += v; skipped++; return; }
+     eligible += v; assessed++;
+     if (r.sc && r.dnsh && safeguards) aligned += v;
+   });
+   // Cap at the denominator rather than reporting a share above 100%: the
+   // entered activities exceeding the entered total is a data error, and it
+   // should read as one instead of producing a plausible-looking 140%.
+   var over = d ? (eligible + below) > d + 1e-9 : false;
+   var sh = function(x){ return d ? Math.min(1, x / d) : 0; };
+   return { denom: d, eligibleValue: eligible, alignedValue: aligned, belowValue: below,
+            assessed: assessed, skipped: skipped, over: over,
+            eligible: sh(eligible), aligned: sh(aligned), below: sh(below),
+            notEligible: d ? Math.max(0, 1 - sh(eligible) - sh(below)) : 0 };
+ };
+
+ window.esrsTxRender = function() {
+   if (!_esrs) return;
+   var esc = function(x){ var d=document.createElement('div'); d.textContent = x==null?'':x; return d.innerHTML; };
+   var tx = _esrs.taxonomy;
+
+   var sub = document.getElementById('es-tx-sub');
+   if (sub) sub.innerHTML =
+     'Article 8 of Regulation (EU) 2020/852: the share of turnover, CapEx and OpEx associated with ' +
+     'Taxonomy-aligned activities. Alignment needs all four gates &mdash; eligible, substantial ' +
+     'contribution, do no significant harm, and entity-level minimum safeguards. Activities below ' +
+     tx.simplification.materiality_threshold_percent + '% of a KPI need not be assessed for that KPI under ' +
+     esc(tx.simplification.regulation) + ', applied per KPI independently. ' +
+     'Financial undertakings report the ' + esc(tx.financial_undertakings.main_kpi) + ' instead; this tool covers ' +
+     'the non-financial KPIs only.';
+
+   var rows = document.getElementById('es-tx-rows');
+   if (rows) {
+     if (!_esrsTx.length) {
+       rows.innerHTML = '<tr><td colspan="8" style="padding:1.1rem;color:rgba(234,255,243,.35);font-size:.76rem">' +
+         'No activities yet. Add the economic activities you believe are Taxonomy-eligible &mdash; the ones described in a delegated act, whether or not they meet the criteria.</td></tr>';
+     } else {
+       rows.innerHTML = _esrsTx.map(function(r) {
+         var num = function(f) {
+           return '<td><input class="num" type="number" value="' + (r[f] || '') +
+             '" placeholder="0" oninput="esrsTxSet(' + r.id + ',\'' + f + '\',this.value)"></td>';
+         };
+         return '<tr>' +
+           '<td><input type="text" value="' + esc(r.name) + '" placeholder="e.g. Manufacture of renewable energy technologies" onchange="esrsTxSet(' + r.id + ',\'name\',this.value)"></td>' +
+           '<td><select onchange="esrsTxSet(' + r.id + ',\'obj\',this.value)">' +
+             tx.objectives.map(function(o) {
+               return '<option value="' + o.code + '"' + (r.obj === o.code ? ' selected' : '') + ' title="' + esc(o.name) + '">' + o.code + '</option>';
+             }).join('') + '</select></td>' +
+           num('turnover') + num('capex') + num('opex') +
+           '<td class="gate"><button class="es-gate' + (r.sc ? ' on' : '') + '" title="Substantial contribution to ' + esc(r.obj) + '" onclick="esrsTxGate(' + r.id + ',\'sc\')">&#10003;</button></td>' +
+           '<td class="gate"><button class="es-gate' + (r.dnsh ? ' on' : '') + '"' + (r.sc ? '' : ' disabled') +
+             ' title="' + (r.sc ? 'Does no significant harm to the other five objectives' : 'Assessed only once substantial contribution is met') +
+             '" onclick="esrsTxGate(' + r.id + ',\'dnsh\')">&#10003;</button></td>' +
+           '<td><button class="es-del" title="Remove" onclick="esrsTxDel(' + r.id + ')">&times;</button></td>' +
+         '</tr>';
+       }).join('');
+     }
+   }
+ };
+
+ window.esrsTxSave = function() {
+   if (!_esrs) return;
+   var esc = function(x){ var d=document.createElement('div'); d.textContent = x==null?'':x; return d.innerHTML; };
+   var tx = _esrs.taxonomy;
+   var safe = document.getElementById('es-tx-safe').value === 'yes';
+   var opexMat = document.getElementById('es-tx-opexmat').value === 'yes';
+   var denoms = {
+     turnover: parseFloat(document.getElementById('es-tx-dturn').value) || 0,
+     capex: parseFloat(document.getElementById('es-tx-dcapex').value) || 0,
+     opex: parseFloat(document.getElementById('es-tx-dopex').value) || 0
+   };
+
+   var pct = function(x){ return (x * 100).toFixed(1) + '%'; };
+   var results = {}, cards = '', gaps = [];
+
+   tx.kpis.forEach(function(k) {
+     var exempt = (k.code === 'opex' && !opexMat && tx.simplification.opex_exemption);
+     var r = esrsTxCompute(k.code, _esrsTx, denoms[k.code], safe);
+     results[k.code] = r;
+     if (exempt) {
+       cards += '<div class="es-kpicard muted">' +
+         '<div class="kh"><span class="kn">' + esc(k.name) + '</span><span class="kf">exempt</span></div>' +
+         '<div class="kd">Reported as not material to the business model under ' + esc(tx.simplification.regulation) +
+         '. You still disclose the total value of the KPI (€' + denoms.opex + 'mn) and why it is not material.</div></div>';
+       return;
+     }
+     cards += '<div class="es-kpicard">' +
+       '<div class="kh"><span class="kn">' + esc(k.name) + '</span><span class="kf">' + pct(r.aligned) + ' aligned</span></div>' +
+       '<div class="es-bar">' +
+         '<i class="al" style="width:' + (r.aligned * 100) + '%"></i>' +
+         '<i class="el" style="width:' + ((r.eligible - r.aligned) * 100) + '%"></i>' +
+         '<i class="bt" style="width:' + (r.below * 100) + '%"></i>' +
+         '<i class="ne" style="width:' + (r.notEligible * 100) + '%"></i>' +
+       '</div>' +
+       '<div class="es-legend">' +
+         '<span><b style="background:#00e87a"></b>aligned ' + pct(r.aligned) + '</span>' +
+         '<span><b style="background:rgba(0,232,122,.34)"></b>eligible not aligned ' + pct(r.eligible - r.aligned) + '</span>' +
+         '<span><b style="background:rgba(255,181,71,.42)"></b>below ' + tx.simplification.materiality_threshold_percent + '% ' + pct(r.below) + '</span>' +
+         '<span><b style="background:rgba(255,255,255,.07)"></b>not eligible ' + pct(r.notEligible) + '</span>' +
+       '</div>' +
+       '<div class="kd">' + esc(k.numerator) + ' &divide; ' + esc(k.denominator).toLowerCase() +
+         '. Denominator €' + r.denom + 'mn' + (r.denom ? '' : ' — enter it or every share reads zero') +
+         '. ' + r.assessed + ' activit' + (r.assessed === 1 ? 'y' : 'ies') + ' assessed, ' + r.skipped + ' below the threshold.' +
+         (r.over ? ' <span style="color:#ffb547">The activities entered exceed the denominator — one of the two is wrong.</span>' : '') +
+       '</div></div>';
+
+     if (!r.denom) gaps.push({ line: k.name + ' — denominator not entered', tCO2e: 0, dq: 5, share: 0 });
+     else if (r.eligible > r.aligned)
+       gaps.push({ line: k.name + ' — ' + pct(r.eligible - r.aligned) + ' eligible but not aligned', tCO2e: 0, dq: 3, share: 0 });
+   });
+
+   if (!safe) gaps.push({ line: 'Minimum safeguards not assessed — alignment is zero across all three KPIs until they are', tCO2e: 0, dq: 5, share: 0 });
+
+   var el = document.getElementById('es-tx-res');
+   el.className = 'es-res show';
+   el.innerHTML =
+     '<div class="es-verdict ' + (safe ? 'in' : 'out') + '">' +
+       (safe ? 'Article 8 KPIs computed' : 'Minimum safeguards not met — alignment is zero') + '</div>' +
+     cards +
+     '<div class="es-kv"><div class="k">Safeguards</div><div>' +
+       (safe ? 'Asserted as met. This is an entity-level test against the OECD Guidelines and the UN Guiding Principles, assessed once and applied to every activity.'
+             : 'Not met or not assessed. No activity can be aligned while this is the case, whatever its screening criteria say.') +
+     '</div></div>' +
+     '<div class="es-kv"><div class="k">Basis</div><div>' + esc(tx.simplification.note) + '</div></div>';
+
+   if (typeof rgLedger !== 'undefined') {
+     rgLedger.put({
+       key: 'esrs-taxonomy', tool: 'EU Taxonomy Article 8',
+       title: (results.turnover.aligned * 100).toFixed(1) + '% turnover aligned across ' + _esrsTx.length + ' activities',
+       period: tx.simplification.regulation,
+       figures: {
+         turnover_aligned_percent: +(results.turnover.aligned * 100).toFixed(2),
+         turnover_eligible_percent: +(results.turnover.eligible * 100).toFixed(2),
+         capex_aligned_percent: +(results.capex.aligned * 100).toFixed(2),
+         capex_eligible_percent: +(results.capex.eligible * 100).toFixed(2),
+         opex_aligned_percent: opexMat ? +(results.opex.aligned * 100).toFixed(2) : null,
+         opex_exempt: !opexMat,
+         activities: _esrsTx.length,
+         minimum_safeguards: safe
+       },
+       dq: null, gaps: gaps
+     });
+   }
+   if (typeof rgTrack === 'function') rgTrack('esrs_taxonomy', (results.turnover.aligned * 100).toFixed(0));
+ };
+
+ /* ── Digital tagging readiness ──────────────────────────────────────────
+    We do not tag and are not going to. What we can do is state where the
+    mandate actually stands — suspended by Directive (EU) 2026/470 pending an
+    ESEF amendment that has not been made — and score whether a statement
+    could be tagged when it resumes. Most of that score is about whether each
+    figure has one home, which is the same discipline the factor register
+    imposed on our own code. */
+ var _esrsTag = {};
+ window.esrsTagToggle = function(code) { _esrsTag[code] = !_esrsTag[code]; esrsTagRender(); };
+ window.esrsTagRender = function() {
+   if (!_esrs) return;
+   var esc = function(x){ var d=document.createElement('div'); d.textContent = x==null?'':x; return d.innerHTML; };
+   var dg = _esrs.digital;
+
+   var sub = document.getElementById('es-tag-sub');
+   if (sub) sub.innerHTML =
+     'Mandatory XBRL tagging of the sustainability statement is <b style="color:#ffb547">' + esc(dg.status.mandate) +
+     '</b> by ' + esc(dg.status.suspended_by) + ', in force ' + esc(dg.status.suspension_in_force) +
+     ', until ' + esc(dg.status.resumes_when) + '. The ESRS Set 1 taxonomy itself exists and covers over ' +
+     dg.status.set1_taxonomy_datapoints_over + ' datapoints; EFRAG is due to deliver an updated one by ' +
+     esc(dg.status.efrag_updated_taxonomy_due) + '. ' + esc(dg.status.note);
+
+   var seq = document.getElementById('es-tag-seq');
+   if (seq) seq.innerHTML = dg.sequence.map(function(s) {
+     var cls = s.state === 'done' ? 'done' : (s.state === 'in progress' ? 'prog' : '');
+     return '<div class="es-seq"><span class="sn">' + s.step + '</span>' +
+       '<span class="ss ' + cls + '">' + esc(s.state) + '</span>' +
+       '<span>' + esc(s.what) + (s.on ? ' <span style="color:rgba(234,255,243,.35)">· ' + esc(s.on) + '</span>' : '') + '</span></div>';
+   }).join('');
+
+   var chk = document.getElementById('es-tag-chk');
+   if (chk) chk.innerHTML = dg.checklist.map(function(c) {
+     return '<div class="es-chk">' +
+       '<span class="es-dr-sw"><button class="' + (_esrsTag[c.code] ? 'on' : '') + '" onclick="esrsTagToggle(\'' + c.code + '\')">' +
+         (_esrsTag[c.code] ? 'In place' : 'Not yet') + '</button></span>' +
+       '<span class="cn">' + esc(c.name) + '<div class="cw">' + esc(c.why) + '</div></span></div>';
+   }).join('');
+ };
+
+ window.esrsTagSave = function() {
+   if (!_esrs) return;
+   var list = _esrs.digital.checklist;
+   var done = list.filter(function(c){ return _esrsTag[c.code]; });
+   var open = list.filter(function(c){ return !_esrsTag[c.code]; });
+   var pct = Math.round(done.length / list.length * 100);
+
+   var el = document.getElementById('es-tag-res');
+   el.className = 'es-res show';
+   el.innerHTML =
+     '<div class="es-verdict ' + (pct === 100 ? 'in' : 'out') + '">' + done.length + ' of ' + list.length + ' in place · ' + pct + '%</div>' +
+     '<div class="es-kv"><div class="k">Outstanding</div><div>' +
+       (open.length ? open.map(function(c){ return c.name; }).join('; ') : 'none') + '</div></div>' +
+     '<div class="es-kv"><div class="k">Timing</div><div>The mandate is suspended, so none of this is due on a date anyone can name. It is also the cheapest work to do before a statement is written and the most expensive after.</div></div>';
+
+   if (typeof rgLedger !== 'undefined') {
+     rgLedger.put({
+       key: 'esrs-tagging', tool: 'Digital tagging readiness',
+       title: done.length + ' of ' + list.length + ' tag-readiness controls in place',
+       period: _esrs.digital.status.suspended_by + ' — mandate ' + _esrs.digital.status.mandate,
+       figures: { ready: done.length, total: list.length, readiness_percent: pct },
+       dq: null,
+       gaps: open.map(function(c){ return { line: 'Tag-readiness — ' + c.name, tCO2e: 0, dq: 4, share: 0 }; })
+     });
+   }
+   if (typeof rgTrack === 'function') rgTrack('esrs_tagging', String(pct));
+ };
+
+ /* ── ESRS against IFRS S2 ───────────────────────────────────────────────
+    The reason this belongs in our tool rather than someone else's: we already
+    run an ISSB hub, so a company arriving at CSRD from IFRS S2 or AASB S2 has
+    most of the climate disclosure built. This says which parts carry and which
+    do not, in both directions. */
+ var _esrsIoF = 'all';
+ window.esrsIoFilter = function(f) {
+   _esrsIoF = f;
+   var sw = document.querySelector('#es-sec-io .es-sw');
+   if (sw) Array.prototype.forEach.call(sw.children, function(b, i) {
+     b.className = (['all','aligned','esrs-additional','issb-additional'][i] === f) ? 'on' : '';
+   });
+   esrsIoRender();
+ };
+ window.esrsIoRender = function() {
+   if (!_esrs) return;
+   var esc = function(x){ var d=document.createElement('div'); d.textContent = x==null?'':x; return d.innerHTML; };
+   var io = _esrs.interop;
+   var sub = document.getElementById('es-io-sub');
+   if (sub) sub.innerHTML = esc(io.basis) + ' Published ' + esc(io.published) +
+     ' by the IFRS Foundation and EFRAG jointly. Graded <b style="color:rgba(234,255,243,.75)">' + esc(io.confidence) +
+     '</b> confidence here: the guidance itself could not be retrieved from the build environment, so check the mapping table before relying on it.';
+
+   var rows = io.mappings.filter(function(m){ return _esrsIoF === 'all' || m.relationship === _esrsIoF; });
+   var lab = { 'aligned': 'carries across', 'esrs-additional': 'ESRS more', 'issb-additional': 'IFRS S2 more' };
+   var el = document.getElementById('es-io-rows');
+   if (el) el.innerHTML = rows.length ? rows.map(function(m) {
+     return '<div class="es-io">' +
+       '<span class="ic">' + esc(m.esrs) + '</span>' +
+       '<span class="ii">' + esc(m.issb) + '</span>' +
+       '<span class="ir ' + m.relationship + '">' + lab[m.relationship] + '</span>' +
+       '<span class="inote">' + esc(m.note) + '</span></div>';
+   }).join('') : '<div style="padding:.8rem;color:rgba(234,255,243,.35);font-size:.78rem">Nothing in this category.</div>';
+ };
+
+ /* ── Competitive benchmark ──────────────────────────────────────────────
+    Rendered from knowledge/esrs/competitors.json, which the build refuses to
+    compile unless every vendor carries a source and every capability we grade
+    ourselves below "yes" carries a written reason. The point of putting it in
+    the product rather than a slide is that the weaknesses ship with it. */
+ window.esrsBenchRender = function() {
+   if (!_esrs) return;
+   var esc = function(x){ var d=document.createElement('div'); d.textContent = x==null?'':x; return d.innerHTML; };
+   var bm = _esrs.competitors;
+   var lab = { yes: 'full', partial: 'partial', no: 'no', unknown: '—' };
+
+   var sub = document.getElementById('es-bm-sub');
+   if (sub) sub.innerHTML = esc(bm.method) +
+     ' Coverage is graded full, partial, not offered, or not stated. <b style="color:rgba(234,255,243,.75)">Not stated</b> means the vendor’s published material does not say &mdash; ' +
+     'marking a competitor down for something we simply could not find is how a benchmark turns into marketing. ' +
+     'Our own row is graded on the same scale, and every gap in it is written out below the table.';
+
+   var tbl = document.getElementById('es-bm-tbl');
+   if (tbl) {
+     tbl.innerHTML =
+       '<thead><tr><th class="cap">Capability</th>' +
+         '<th class="us">' + esc(bm.us.name) + '</th>' +
+         bm.vendors.map(function(v){ return '<th>' + esc(v.name) + '</th>'; }).join('') +
+       '</tr></thead><tbody>' +
+       bm.capabilities.map(function(c) {
+         return '<tr><td class="cap"><span class="es-capn">' + esc(c.name) + '</span>' +
+           '<div class="es-capw">' + esc(c.why) + '</div></td>' +
+           '<td class="us"><span class="es-cov ' + bm.us.covers[c.code] + '">' + lab[bm.us.covers[c.code]] + '</span></td>' +
+           bm.vendors.map(function(v) {
+             return '<td><span class="es-cov ' + v.covers[c.code] + '">' + lab[v.covers[c.code]] + '</span></td>';
+           }).join('') + '</tr>';
+       }).join('') + '</tbody>';
+   }
+
+   var hon = document.getElementById('es-bm-honest');
+   if (hon) {
+     var byCode = {};
+     bm.capabilities.forEach(function(c){ byCode[c.code] = c.name; });
+     hon.innerHTML = '<div style="margin-top:1.2rem">' +
+       bm.us.honest.map(function(h) {
+         return '<div class="es-honest"><b>' + esc(byCode[h.cap] || h.cap) + ' — where we fall short</b>' + esc(h.why) + '</div>';
+       }).join('') +
+       '<div class="es-kv"><div class="k">Net of it</div><div>' + esc(bm.us.note) + '</div></div></div>';
+   }
+
+   var ven = document.getElementById('es-bm-vendors');
+   if (ven) ven.innerHTML = bm.vendors.map(function(v) {
+     return '<div class="es-vend"><div class="vh"><b>' + esc(v.name) + '</b> · ' + esc(v.hq) + '</div>' +
+       esc(v.position) + (v.note ? ' ' + esc(v.note) : '') + '<br>' +
+       v.sources.map(function(s) {
+         return '<a href="' + esc(s.url) + '" target="_blank" rel="noopener noreferrer">' + esc(s.title) + ' &nearr;</a>';
+       }).join(' &nbsp;·&nbsp; ') + '</div>';
+   }).join('');
  };
 
  window.rgLedgerShowPayload = function() {
@@ -13297,14 +13745,27 @@ window.ciCopy = function(outId) {
 
 <div class="page" id="page-esrs" style="display:none">
 <style>
-.es-wrap{max-width:1080px;margin:0 auto;padding:2rem 1.5rem 4rem;padding-top:calc(64px + 2rem);color:#eafff3}
+.es-wrap{max-width:1180px;margin:0 auto;padding:2rem 1.5rem 4rem;padding-top:calc(64px + 2rem);color:#eafff3}
 .es-eyebrow{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:#00e87a;margin-bottom:.6rem}
 .es-eyebrow::before{content:'\25B8 ';color:#0affdb}
 .es-wrap h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.7rem,3.2vw,2.5rem);font-weight:700;line-height:1.12;margin-bottom:.6rem}
 .es-wrap h1 em{font-style:normal;background:linear-gradient(100deg,#00e87a,#0affdb);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.es-lede{font-size:.92rem;color:rgba(234,255,243,.55);line-height:1.7;max-width:740px;margin-bottom:1.4rem}
-.es-alert{border:1px solid rgba(255,181,71,.35);background:rgba(255,181,71,.06);padding:1rem 1.15rem;margin-bottom:1.8rem;font-size:.8rem;line-height:1.7;color:rgba(255,181,71,.92)}
+.es-lede{font-size:.92rem;color:rgba(234,255,243,.55);line-height:1.7;max-width:760px;margin-bottom:1.4rem}
+.es-alert{border:1px solid rgba(255,181,71,.35);background:rgba(255,181,71,.06);padding:1rem 1.15rem;margin-bottom:1.4rem;font-size:.8rem;line-height:1.7;color:rgba(255,181,71,.92)}
 .es-alert b{color:#ffb547}
+/* Regime status strip. Four things a European preparer needs to know before
+   anything else, three of which moved in 2026 and one of which is suspended. */
+.es-mkt{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:.7rem;margin-bottom:1.5rem}
+.es-mtile{background:rgba(3,14,9,.88);border:1px solid rgba(0,232,122,.16);padding:.85rem .95rem;position:relative}
+.es-mtile .mk{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.13em;text-transform:uppercase;color:rgba(234,255,243,.42);margin-bottom:.32rem}
+.es-mtile .mv{font-family:'Space Grotesk',sans-serif;font-size:1.02rem;font-weight:700;color:#00ff9d;line-height:1.25;margin-bottom:.25rem}
+.es-mtile.warn .mv{color:#ffb547}
+.es-mtile .mn{font-size:.68rem;color:rgba(234,255,243,.45);line-height:1.55}
+.es-tabs{display:flex;gap:.3rem;flex-wrap:wrap;border-bottom:1px solid rgba(0,232,122,.16);margin-bottom:1.3rem}
+.es-tabs button{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.11em;text-transform:uppercase;padding:.62rem .9rem;background:transparent;border:none;border-bottom:2px solid transparent;color:rgba(234,255,243,.42);cursor:pointer;white-space:nowrap}
+.es-tabs button:hover{color:rgba(234,255,243,.75)}
+.es-tabs button.on{color:#00ff9d;border-bottom-color:#00e87a}
+.es-sec{display:none}.es-sec.on{display:block}
 .es-panel{background:rgba(3,14,9,.88);border:1px solid rgba(0,232,122,.16);padding:1.4rem 1.5rem;margin-bottom:1.2rem;position:relative}
 .es-panel::before{content:'';position:absolute;top:-1px;left:-1px;width:12px;height:12px;border-top:2px solid #00e87a;border-left:2px solid #00e87a}
 .es-ptitle{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;margin-bottom:.3rem}
@@ -13314,6 +13775,8 @@ window.ciCopy = function(outId) {
 .es-field input,.es-field select{width:100%;padding:.55rem .7rem;background:rgba(0,0,0,.3);border:1px solid rgba(0,232,122,.2);color:#eafff3;font-family:'DM Mono',monospace;font-size:.8rem}
 .es-btn{font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;padding:.6rem 1.2rem;background:rgba(0,232,122,.1);border:1px solid rgba(0,232,122,.45);color:#00ff9d;cursor:pointer;margin-top:1rem}
 .es-btn:hover{background:rgba(0,232,122,.18)}
+.es-btn.ghost{background:transparent;border-color:rgba(255,255,255,.18);color:rgba(234,255,243,.6)}
+.es-btn.ghost:hover{border-color:rgba(0,232,122,.45);color:#00ff9d}
 .es-res{display:none;margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid rgba(0,232,122,.14)}
 .es-res.show{display:block}
 .es-verdict{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;margin-bottom:.5rem}
@@ -13346,18 +13809,107 @@ table.es-dm td.n{text-align:center}
 .es-dr-sw button.on.part{border-color:#ffb547;color:#ffb547;background:rgba(255,181,71,.1)}
 .es-foot{margin-top:1.4rem;padding:1rem 1.2rem;border:1px solid rgba(0,232,122,.14);background:rgba(3,14,9,.6);font-size:.75rem;color:rgba(234,255,243,.5);line-height:1.7}
 .es-foot code{font-family:'DM Mono',monospace;color:rgba(10,255,219,.8);font-size:.7rem}
+.es-foot a{color:rgba(10,255,219,.85);text-decoration:none}
+/* EU Taxonomy activity table */
+.es-txwrap{overflow-x:auto;border:1px solid rgba(0,232,122,.14)}
+table.es-tx{width:100%;border-collapse:collapse;font-size:.76rem;min-width:860px}
+table.es-tx th{font-family:'DM Mono',monospace;font-size:.53rem;letter-spacing:.1em;text-transform:uppercase;text-align:left;padding:.45rem .55rem;color:rgba(0,232,122,.75);background:rgba(0,232,122,.06);white-space:nowrap}
+table.es-tx td{padding:.35rem .55rem;border-top:1px solid rgba(0,232,122,.08);vertical-align:middle}
+table.es-tx input,table.es-tx select{width:100%;padding:.35rem .45rem;background:rgba(0,0,0,.32);border:1px solid rgba(0,232,122,.16);color:#eafff3;font-family:'DM Mono',monospace;font-size:.72rem}
+table.es-tx input.num{text-align:right}
+table.es-tx td.gate{text-align:center}
+.es-gate{width:19px;height:19px;border:1px solid rgba(255,255,255,.2);background:transparent;color:transparent;cursor:pointer;font-size:.62rem;line-height:1}
+.es-gate.on{border-color:#00e87a;background:rgba(0,232,122,.16);color:#00ff9d}
+.es-gate:disabled{opacity:.3;cursor:not-allowed}
+.es-del{background:transparent;border:none;color:rgba(255,110,110,.55);cursor:pointer;font-size:.85rem;padding:0 .2rem}
+.es-del:hover{color:#ff6e6e}
+/* Stacked alignment bar — aligned, eligible-not-aligned, below threshold, not eligible */
+.es-bar{display:flex;height:24px;border:1px solid rgba(0,232,122,.18);margin:.35rem 0 .3rem;overflow:hidden}
+.es-bar i{display:block;height:100%}
+.es-bar i.al{background:#00e87a}
+.es-bar i.el{background:rgba(0,232,122,.34)}
+.es-bar i.bt{background:rgba(255,181,71,.42)}
+.es-bar i.ne{background:rgba(255,255,255,.07)}
+.es-legend{display:flex;gap:1rem;flex-wrap:wrap;font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(234,255,243,.45)}
+.es-legend span{display:inline-flex;align-items:center;gap:.32rem}
+.es-legend b{width:9px;height:9px;display:inline-block}
+.es-kpicard{border:1px solid rgba(0,232,122,.14);padding:.85rem 1rem;margin-bottom:.7rem;background:rgba(0,0,0,.18)}
+.es-kpicard .kh{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;margin-bottom:.15rem}
+.es-kpicard .kn{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.9rem}
+.es-kpicard .kf{font-family:'DM Mono',monospace;font-size:.95rem;color:#00ff9d}
+.es-kpicard .kd{font-size:.7rem;color:rgba(234,255,243,.45);line-height:1.55;margin-top:.35rem}
+.es-kpicard.muted .kf{color:rgba(234,255,243,.4)}
+/* Benchmark matrix */
+.es-bmwrap{overflow-x:auto;border:1px solid rgba(0,232,122,.14)}
+table.es-bm{width:100%;border-collapse:collapse;font-size:.74rem;min-width:820px}
+table.es-bm th{font-family:'DM Mono',monospace;font-size:.53rem;letter-spacing:.09em;text-transform:uppercase;padding:.5rem .5rem;color:rgba(0,232,122,.75);background:rgba(0,232,122,.06);text-align:center;vertical-align:bottom}
+table.es-bm th.cap{text-align:left;width:34%}
+table.es-bm th.us{color:#0affdb;background:rgba(10,255,219,.09)}
+table.es-bm td{padding:.45rem .5rem;border-top:1px solid rgba(0,232,122,.08);text-align:center;vertical-align:top}
+table.es-bm td.cap{text-align:left}
+table.es-bm td.us{background:rgba(10,255,219,.045)}
+.es-capn{color:rgba(234,255,243,.85)}
+.es-capw{font-size:.68rem;color:rgba(234,255,243,.4);line-height:1.5;margin-top:.15rem}
+.es-cov{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.05em}
+.es-cov.yes{color:#00ff9d}
+.es-cov.partial{color:#ffb547}
+.es-cov.no{color:rgba(255,110,110,.7)}
+.es-cov.unknown{color:rgba(234,255,243,.28)}
+.es-vend{margin-top:1.1rem;padding-top:.9rem;border-top:1px solid rgba(0,232,122,.12);font-size:.76rem;color:rgba(234,255,243,.55);line-height:1.65}
+.es-vend b{color:rgba(234,255,243,.9);font-family:'Space Grotesk',sans-serif}
+.es-vend .vh{margin-bottom:.2rem}
+.es-vend a{color:rgba(10,255,219,.8);text-decoration:none;font-family:'DM Mono',monospace;font-size:.66rem}
+.es-honest{border-left:3px solid #ffb547;padding:.5rem 0 .5rem 1rem;margin:.6rem 0;font-size:.76rem;color:rgba(234,255,243,.6);line-height:1.65}
+.es-honest b{color:#ffb547;font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:.1rem}
+/* Tagging checklist + interop */
+.es-chk{display:flex;gap:.7rem;align-items:flex-start;padding:.55rem 0;border-top:1px solid rgba(255,255,255,.05);font-size:.8rem}
+.es-chk:first-of-type{border-top:none}
+.es-chk .cn{flex:1}
+.es-chk .cw{font-size:.7rem;color:rgba(234,255,243,.42);line-height:1.55;margin-top:.18rem}
+.es-seq{display:flex;gap:.7rem;align-items:flex-start;padding:.45rem 0;font-size:.78rem;color:rgba(234,255,243,.65)}
+.es-seq .sn{font-family:'DM Mono',monospace;font-size:.62rem;width:20px;flex:none;color:rgba(234,255,243,.35)}
+.es-seq .ss{font-family:'DM Mono',monospace;font-size:.54rem;letter-spacing:.08em;text-transform:uppercase;border:1px solid rgba(255,255,255,.14);padding:.08rem .35rem;flex:none;color:rgba(234,255,243,.4)}
+.es-seq .ss.done{border-color:rgba(0,232,122,.45);color:#00ff9d}
+.es-seq .ss.prog{border-color:rgba(255,181,71,.45);color:#ffb547}
+.es-io{display:flex;gap:.7rem;align-items:flex-start;padding:.5rem 0;border-top:1px solid rgba(255,255,255,.05);font-size:.78rem}
+.es-io:first-of-type{border-top:none}
+.es-io .ic{font-family:'DM Mono',monospace;font-size:.66rem;color:#00ff9d;width:150px;flex:none}
+.es-io .ii{font-family:'DM Mono',monospace;font-size:.66rem;color:rgba(10,255,219,.8);width:180px;flex:none}
+.es-io .ir{font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.07em;text-transform:uppercase;border:1px solid rgba(255,255,255,.14);padding:.08rem .35rem;flex:none;height:fit-content}
+.es-io .ir.aligned{border-color:rgba(0,232,122,.45);color:#00ff9d}
+.es-io .ir.esrs-additional{border-color:rgba(255,181,71,.45);color:#ffb547}
+.es-io .ir.issb-additional{border-color:rgba(10,255,219,.4);color:#0affdb}
+.es-io .inote{flex:1;color:rgba(234,255,243,.55);line-height:1.6}
+@media(max-width:720px){
+  .es-io{flex-wrap:wrap}.es-io .ic,.es-io .ii{width:auto}
+  .es-kv{flex-direction:column;gap:.15rem}.es-kv .k{width:auto}
+}
 </style>
 <div class="es-wrap">
-  <div class="es-eyebrow">ESRS &middot; CSRD &middot; European Union</div>
-  <h1>Are you in scope, and <em>which standards apply</em></h1>
+  <div class="es-eyebrow">ESRS &middot; CSRD &middot; EU Taxonomy &middot; European Union</div>
+  <h1>The European stack, <em>end to end</em></h1>
   <p class="es-lede">
-    CSRD scoping against the Omnibus thresholds, then a double materiality assessment across the
-    ten topical standards. Double materiality is what separates ESRS from IFRS S2: a topic counts
-    if it is material to the world <em>or</em> material to the company, not only the second.
+    CSRD scoping, double materiality, disclosure-requirement tracking, EU Taxonomy Article 8
+    alignment, digital tagging readiness and the IFRS S2 carry-across &mdash; in one browser tab,
+    with nothing leaving it. Every threshold, date and instrument below carries its source and a
+    confidence grade, because a European filing decision made on an unsourced number is the
+    expensive kind of mistake.
   </p>
 
+  <div class="es-mkt" id="es-mkt"></div>
   <div class="es-alert" id="es-alert"></div>
 
+  <div class="es-tabs" id="es-tabs">
+    <button class="on" onclick="esrsTab('scope')">1 &middot; Scope</button>
+    <button onclick="esrsTab('dma')">2 &middot; Double materiality</button>
+    <button onclick="esrsTab('dr')">3 &middot; Disclosures</button>
+    <button onclick="esrsTab('tx')">4 &middot; EU Taxonomy</button>
+    <button onclick="esrsTab('tag')">5 &middot; Digital tagging</button>
+    <button onclick="esrsTab('io')">6 &middot; IFRS S2 carry-across</button>
+    <button onclick="esrsTab('bm')">7 &middot; Benchmark</button>
+  </div>
+
+  <div class="es-sec on" id="es-sec-scope">
   <div class="es-panel">
     <div class="es-ptitle">1 &middot; Scope</div>
     <div class="es-psub">Both the employee and turnover tests must be met for an EU company. Non-EU parent groups are tested on EU-generated turnover.</div>
@@ -13373,7 +13925,14 @@ table.es-dm td.n{text-align:center}
     <button class="es-btn" onclick="esrsScope()">Check scope &rarr;</button>
     <div class="es-res" id="es-scope-res"></div>
   </div>
+  <div class="es-panel">
+    <div class="es-ptitle">Transitional reliefs and the value chain cap</div>
+    <div class="es-psub">Two things the Omnibus changed that decide how much of the standard you actually apply in year one, and how much you may ask of your suppliers.</div>
+    <div id="es-reliefs"></div>
+  </div>
+  </div>
 
+  <div class="es-sec" id="es-sec-dma">
   <div class="es-panel">
     <div class="es-ptitle">2 &middot; Double materiality</div>
     <div class="es-psub">Mark each topic for impact materiality (effect on people and environment) and financial materiality (effect on the company). Either one makes the standard reportable.</div>
@@ -13384,7 +13943,9 @@ table.es-dm td.n{text-align:center}
     <button class="es-btn" onclick="esrsAssess()">Record assessment &rarr;</button>
     <div class="es-res" id="es-dm-res"></div>
   </div>
+  </div>
 
+  <div class="es-sec" id="es-sec-dr">
   <div class="es-panel">
     <div class="es-ptitle">3 &middot; Disclosure requirements</div>
     <div class="es-psub">
@@ -13394,6 +13955,94 @@ table.es-dm td.n{text-align:center}
     <div id="es-dr-blocks"></div>
     <button class="es-btn" onclick="esrsDrSave()">Record disclosure status &rarr;</button>
     <div class="es-res" id="es-dr-res"></div>
+  </div>
+  </div>
+
+  <div class="es-sec" id="es-sec-tx">
+  <div class="es-panel">
+    <div class="es-ptitle">4 &middot; EU Taxonomy Article 8</div>
+    <div class="es-psub" id="es-tx-sub"></div>
+    <div class="es-grid" style="margin-bottom:1rem">
+      <div class="es-field"><label>Total net turnover (EUR mn)</label><input type="number" id="es-tx-dturn" placeholder="denominator" oninput="esrsTxRender()"></div>
+      <div class="es-field"><label>Total CapEx additions (EUR mn)</label><input type="number" id="es-tx-dcapex" placeholder="denominator" oninput="esrsTxRender()"></div>
+      <div class="es-field"><label>Total qualifying OpEx (EUR mn)</label><input type="number" id="es-tx-dopex" placeholder="denominator" oninput="esrsTxRender()"></div>
+      <div class="es-field"><label>Minimum safeguards met?</label>
+        <select id="es-tx-safe" onchange="esrsTxRender()">
+          <option value="yes">Yes &mdash; OECD / UNGP assessed</option>
+          <option value="no">No or not assessed</option></select></div>
+      <div class="es-field"><label>OpEx material to the business model?</label>
+        <select id="es-tx-opexmat" onchange="esrsTxRender()">
+          <option value="yes">Yes &mdash; report the KPI</option>
+          <option value="no">No &mdash; use the 2026 exemption</option></select></div>
+    </div>
+    <div class="es-txwrap">
+      <table class="es-tx">
+        <thead><tr>
+          <th style="min-width:190px">Economic activity</th>
+          <th style="min-width:120px">Objective</th>
+          <th style="text-align:right">Turnover</th>
+          <th style="text-align:right">CapEx</th>
+          <th style="text-align:right">OpEx</th>
+          <th title="Substantial contribution — meets the technical screening criteria">SC</th>
+          <th title="Do no significant harm to the other five objectives">DNSH</th>
+          <th></th>
+        </tr></thead>
+        <tbody id="es-tx-rows"></tbody>
+      </table>
+    </div>
+    <button class="es-btn ghost" onclick="esrsTxAdd()">+ Add activity</button>
+    <button class="es-btn" onclick="esrsTxSave()">Compute Article 8 KPIs &rarr;</button>
+    <div class="es-res" id="es-tx-res"></div>
+    <div class="es-honest" style="margin-top:1.2rem">
+      <b>What this does not do</b>
+      It does not carry the technical screening criteria for each activity against each objective.
+      You assert whether substantial contribution and DNSH are met; the tool records the assertion,
+      applies the minimum safeguards at entity level, applies the 10% materiality threshold per KPI,
+      and computes the ratios. A platform that ships the criteria themselves does something we do
+      not &mdash; that is stated on the benchmark tab too, not only here.
+    </div>
+  </div>
+  </div>
+
+  <div class="es-sec" id="es-sec-tag">
+  <div class="es-panel">
+    <div class="es-ptitle">5 &middot; Digital tagging readiness</div>
+    <div class="es-psub" id="es-tag-sub"></div>
+    <div id="es-tag-seq" style="margin-bottom:1.3rem"></div>
+    <div id="es-tag-chk"></div>
+    <button class="es-btn" onclick="esrsTagSave()">Score tag-readiness &rarr;</button>
+    <div class="es-res" id="es-tag-res"></div>
+  </div>
+  </div>
+
+  <div class="es-sec" id="es-sec-io">
+  <div class="es-panel">
+    <div class="es-ptitle">6 &middot; ESRS against IFRS S2</div>
+    <div class="es-psub" id="es-io-sub"></div>
+    <div class="es-sw" style="margin-bottom:.9rem">
+      <button class="on" onclick="esrsIoFilter('all')">All</button>
+      <button onclick="esrsIoFilter('aligned')">Carries across</button>
+      <button onclick="esrsIoFilter('esrs-additional')">ESRS asks more</button>
+      <button onclick="esrsIoFilter('issb-additional')">IFRS S2 asks more</button>
+    </div>
+    <div id="es-io-rows"></div>
+  </div>
+  </div>
+
+  <div class="es-sec" id="es-sec-bm">
+  <div class="es-panel">
+    <div class="es-ptitle">7 &middot; How this compares</div>
+    <div class="es-psub" id="es-bm-sub"></div>
+    <div class="es-bmwrap"><table class="es-bm" id="es-bm-tbl"></table></div>
+    <div class="es-legend" style="margin-top:.7rem">
+      <span><b style="background:#00ff9d"></b>full</span>
+      <span><b style="background:#ffb547"></b>partial</span>
+      <span><b style="background:rgba(255,110,110,.7)"></b>not offered</span>
+      <span><b style="background:rgba(234,255,243,.28)"></b>not stated in published material</span>
+    </div>
+    <div id="es-bm-honest"></div>
+    <div id="es-bm-vendors"></div>
+  </div>
   </div>
 
   <div class="es-foot" id="es-sources"></div>

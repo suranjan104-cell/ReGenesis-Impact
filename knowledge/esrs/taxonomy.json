@@ -1,0 +1,101 @@
+{
+  "_comment": [
+    "EU Taxonomy Article 8 — the disclosure every CSRD reporter owes alongside the",
+    "ESRS narrative, and the one our tool had no coverage of at all until the",
+    "competitor benchmark made the gap obvious.",
+    "",
+    "Article 8 of Regulation (EU) 2020/852 requires an undertaking in scope of the",
+    "CSRD to publish the proportion of its turnover, capital expenditure and",
+    "operating expenditure associated with Taxonomy-aligned economic activities.",
+    "Three KPIs, each computed as an aligned numerator over a defined denominator,",
+    "each passed through the same four gates.",
+    "",
+    "Primary sources (EUR-Lex, the Commission's sustainable finance pages) could",
+    "not be reached from the build environment, so this is drawn from law-firm and",
+    "professional-firm summaries and graded medium. Verify against Delegated",
+    "Regulation (EU) 2021/2178 as amended by (EU) 2026/73 before filing."
+  ],
+  "confidence": "medium",
+  "reviewed": "2026-08",
+  "sources": [
+    { "publisher": "Linklaters", "title": "ESG Quick Guide: EU Taxonomy Regulation — Article 8 reporting obligations", "url": "https://sustainablefutures.linklaters.com/post/102l7by/quick-guide-key-sustainability-disclosure-regimes-eu-taxonomy-regulation-artic" },
+    { "publisher": "European Commission", "title": "FAQ: What is the EU Taxonomy Article 8 delegated act and how will it work in practice?", "url": "https://finance.ec.europa.eu/system/files/2021-07/sustainable-finance-taxonomy-article-8-faq_en.pdf" },
+    { "publisher": "A&O Shearman", "title": "Delegated regulation to simplify EU taxonomy reporting and screening criteria published in OJ", "url": "https://finreg.aoshearman.com/delegated-regulation-to-simplify-eu-taxonomy-reporting-and-screening-criteria-published-in-oj" },
+    { "publisher": "Arthur Cox", "title": "EU Taxonomy: Simplification measures adopted", "url": "https://www.arthurcox.com/insights/eu-taxonomy-simplification-measures-adopted/" },
+    { "publisher": "Grant Thornton", "title": "European Commission adopts a new Delegated Act to simplify EU Taxonomy reporting requirements", "url": "https://www.grantthornton.global/en/insights/articles/new-delegated-act-released-to-simplify-eu-taxonomy-reporting/" }
+  ],
+  "objectives": [
+    { "code": "CCM", "name": "Climate change mitigation" },
+    { "code": "CCA", "name": "Climate change adaptation" },
+    { "code": "WTR", "name": "Sustainable use and protection of water and marine resources" },
+    { "code": "CE",  "name": "Transition to a circular economy" },
+    { "code": "PPC", "name": "Pollution prevention and control" },
+    { "code": "BIO", "name": "Protection and restoration of biodiversity and ecosystems" }
+  ],
+  "kpis": [
+    {
+      "code": "turnover",
+      "name": "Turnover KPI",
+      "numerator": "Net turnover derived from products or services associated with Taxonomy-aligned economic activities",
+      "denominator": "Total net turnover",
+      "note": "The share of the business that is already green. The one investors read first, and the hardest to move in a single year."
+    },
+    {
+      "code": "capex",
+      "name": "CapEx KPI",
+      "numerator": "Additions to tangible and intangible assets relating to Taxonomy-aligned activities, or to a credible plan to make an activity aligned",
+      "denominator": "Total additions to tangible and intangible assets",
+      "note": "The forward-looking one. A CapEx plan lets spend on becoming aligned count before the activity itself is aligned, which is why CapEx alignment typically runs ahead of turnover alignment in a transitioning company."
+    },
+    {
+      "code": "opex",
+      "name": "OpEx KPI",
+      "numerator": "Direct non-capitalised costs relating to Taxonomy-aligned activities — research and development, building renovation, short-term lease, maintenance and repair",
+      "denominator": "Total direct non-capitalised costs of that same defined type",
+      "note": "A narrow definition, not total operating costs. Under the 2026 simplification it can be omitted entirely where it is not material to the business model, on stating the total and why."
+    }
+  ],
+  "gates": [
+    {
+      "code": "eligible",
+      "name": "Taxonomy-eligible",
+      "test": "The activity is described in a delegated act, whether or not it meets the criteria",
+      "note": "Eligibility is a classification, not an achievement. Reporting high eligibility and low alignment is the normal result and is not a failure."
+    },
+    {
+      "code": "contribution",
+      "name": "Substantial contribution",
+      "test": "The activity meets the technical screening criteria for at least one of the six environmental objectives",
+      "note": "The threshold test — a numeric or qualitative criterion set per activity per objective."
+    },
+    {
+      "code": "dnsh",
+      "name": "Do no significant harm",
+      "test": "The activity does not significantly harm any of the other five objectives",
+      "note": "Assessed against all remaining objectives, not only the one contributed to. The 2026 delegated act changed the DNSH criteria for pollution prevention and control."
+    },
+    {
+      "code": "safeguards",
+      "name": "Minimum safeguards",
+      "test": "Alignment with the OECD Guidelines for Multinational Enterprises and the UN Guiding Principles on Business and Human Rights, including the ILO core conventions and the International Bill of Human Rights",
+      "note": "An entity-level test, not an activity-level one. It fails whole KPIs rather than single activities, which is why it is assessed once and applied to everything."
+    }
+  ],
+  "simplification": {
+    "regulation": "Commission Delegated Regulation (EU) 2026/73",
+    "amends": ["(EU) 2021/2178", "(EU) 2021/2139", "(EU) 2023/2486"],
+    "adopted": "2025-07-04",
+    "published_oj": "2026-01-08",
+    "in_force": "2026-01-28",
+    "applies_from": "2026-01-01",
+    "materiality_threshold_percent": 10,
+    "per_kpi_independent": true,
+    "opex_exemption": true,
+    "datapoint_reduction_percent": { "non_financial": 64, "financial": 89 },
+    "note": "Activities below 10% of turnover, CapEx or OpEx need not be assessed for eligibility or alignment. The test is applied to each KPI independently, so the same activity can be excluded from one KPI and assessed in another. Reporting templates were consolidated into one summary table and up to three per-activity tables. Undertakings could elect to apply the pre-amendment regulations for a financial year starting in 2025."
+  },
+  "financial_undertakings": {
+    "main_kpi": "Green Asset Ratio (GAR)",
+    "note": "The turnover, CapEx and OpEx KPIs are treated as less relevant for financial undertakings. Credit institutions report the GAR instead. This tool covers the non-financial undertaking KPIs only and says so rather than producing a GAR it cannot defend."
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "_comment": [
+    "ESRS against IFRS S2, for the preparer doing both. This is the file that",
+    "earns its place in our tool specifically because we already run an ISSB hub:",
+    "a company reporting under IFRS S2 or AASB S2 and then pulled into CSRD should",
+    "not rebuild its climate disclosure from nothing.",
+    "",
+    "Built from the joint IFRS Foundation / EFRAG Interoperability Guidance",
+    "(2 May 2024) and secondary summaries of it. The guidance PDF could not be",
+    "retrieved from the build environment, so relationships below are graded",
+    "medium and should be checked against the source table before being relied on."
+  ],
+  "confidence": "medium",
+  "reviewed": "2026-08",
+  "sources": [
+    { "publisher": "IFRS Foundation and EFRAG", "title": "ESRS–ISSB Standards Interoperability Guidance", "url": "https://www.ifrs.org/content/dam/ifrs/supporting-implementation/issb-standards/esrs-issb-standards-interoperability-guidance.pdf" },
+    { "publisher": "IFRS Foundation", "title": "IFRS Foundation and EFRAG publish interoperability guidance", "url": "https://www.ifrs.org/news-and-events/news/2024/05/ifrs-foundation-and-efrag-publish-interoperability-guidance/" },
+    { "publisher": "KPMG", "title": "Joint guidance on interoperability", "url": "https://kpmg.com/xx/en/our-insights/ifrg/2024/issb-esrs-interoperability-guidance.html" },
+    { "publisher": "Linklaters", "title": "IFRS and EFRAG publish Interoperability Guidance on ISSB Standards and ESRS", "url": "https://sustainablefutures.linklaters.com/post/102j6tm/ifrs-and-efrag-publish-interoperability-guidance-on-issb-standards-and-esrs" }
+  ],
+  "published": "2024-05-02",
+  "basis": "A bottom-up comparison of the climate requirements of IFRS S2 against ESRS 1, ESRS 2 and ESRS E1, plus commentary on shared general principles including presentation and materiality.",
+  "mappings": [
+    { "esrs": "ESRS 2 GOV-1", "issb": "IFRS S2 governance", "relationship": "aligned",
+      "note": "Both ask who oversees climate and how. ESRS asks it once for all sustainability matters; a preparer writes it once and scopes it." },
+    { "esrs": "ESRS 2 SBM-3", "issb": "IFRS S2 strategy — risks and opportunities", "relationship": "aligned",
+      "note": "Material impacts, risks and opportunities against business model and strategy. The ESRS version carries impact as well as financial materiality, so the ISSB answer is a subset of it." },
+    { "esrs": "ESRS 2 IRO-1", "issb": "IFRS S2 risk management", "relationship": "aligned",
+      "note": "The process for identifying and assessing climate risk. Substantially the same disclosure." },
+    { "esrs": "ESRS E1-6", "issb": "IFRS S2 paragraph 29(a) — gross Scopes 1, 2, 3", "relationship": "aligned",
+      "note": "The single strongest carry-across. Both require gross Scope 1, 2 and 3 measured under the GHG Protocol, and Scope 2 on both location and market basis. An inventory built for one is the inventory for the other." },
+    { "esrs": "ESRS E1-6 (financial institutions)", "issb": "IFRS S2 financed emissions", "relationship": "aligned",
+      "note": "ESRS E1 directs financial institutions to consider PCAF for Scope 3; IFRS S2 requires financed emissions disclosure for the relevant activities. Our financed emissions tool serves both." },
+    { "esrs": "ESRS E1-4", "issb": "IFRS S2 climate-related targets", "relationship": "esrs-additional",
+      "note": "ESRS asks for GHG reduction targets in absolute and intensity terms with base year and milestone years, and for consistency with a 1.5°C pathway. The ISSB requirement is less prescriptive about the pathway." },
+    { "esrs": "ESRS E1-1", "issb": "IFRS S2 transition plan", "relationship": "esrs-additional",
+      "note": "ESRS requires a transition plan disclosure with defined content, including locked-in emissions and alignment with the Paris Agreement. IFRS S2 asks for the plan where one exists." },
+    { "esrs": "ESRS E1-9", "issb": "IFRS S2 anticipated financial effects", "relationship": "aligned",
+      "note": "Both ask for the anticipated financial effects of material climate risks and opportunities, and both allow phase-in relief in early years." },
+    { "esrs": "ESRS E1-3", "issb": "no direct equivalent", "relationship": "esrs-additional",
+      "note": "Actions and resources allocated to climate policies, with the operating and capital expenditure attached. There is no standalone ISSB disclosure requiring the spend be broken out this way." },
+    { "esrs": "no direct equivalent", "issb": "IFRS S2 industry-based metrics (SASB)", "relationship": "issb-additional",
+      "note": "IFRS S2 requires industry-based metrics with reference to the SASB Standards. ESRS Set 1 has no sector standards in force, so an ISSB preparer carries this across and an ESRS-only preparer does not produce it." },
+    { "esrs": "ESRS materiality (double)", "issb": "IFRS S2 materiality (financial)", "relationship": "esrs-additional",
+      "note": "The structural difference. ESRS reports a topic material to the world or to the company; IFRS S2 reports what is material to the company. An ISSB assessment is never sufficient evidence for an ESRS omission." }
+  ]
+}

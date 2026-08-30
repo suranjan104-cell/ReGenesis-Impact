@@ -12,9 +12,36 @@
   "confidence": "medium",
   "reviewed": "2026-08",
   "sources": [
-    { "publisher": "KPMG", "title": "EU agrees Omnibus changes", "url": "https://kpmg.com/xx/en/our-insights/ifrg/2025/esrs-eu-omnibus.html" },
-    { "publisher": "PwC", "title": "'Omnibus' directive finalised", "url": "https://viewpoint.pwc.com/gx/en/pwc/in-briefs/ib_int202527.html" },
-    { "publisher": "BDO", "title": "CSRD post-Omnibus revised scope and requirements", "url": "https://www.bdo.com/insights/sustainability-and-esg/csrd-post-omnibus-revised-scope-and-requirements" }
+    {
+      "publisher": "KPMG",
+      "title": "EU agrees Omnibus changes",
+      "url": "https://kpmg.com/xx/en/our-insights/ifrg/2025/esrs-eu-omnibus.html"
+    },
+    {
+      "publisher": "PwC",
+      "title": "'Omnibus' directive finalised",
+      "url": "https://viewpoint.pwc.com/gx/en/pwc/in-briefs/ib_int202527.html"
+    },
+    {
+      "publisher": "BDO",
+      "title": "CSRD post-Omnibus revised scope and requirements",
+      "url": "https://www.bdo.com/insights/sustainability-and-esg/csrd-post-omnibus-revised-scope-and-requirements"
+    },
+    {
+      "publisher": "Cooley",
+      "title": "European Commission Adopts Revised EU CSRD Reporting Standards",
+      "url": "https://www.cooley.com/news/insight/2026/2026-07-21-european-commission-adopts-revised-eu-csrd-reporting-standards"
+    },
+    {
+      "publisher": "EFRAG",
+      "title": "European Commission Publishes Delegated Act on Revised ESRS and Voluntary Sustainability Reporting Standard",
+      "url": "https://www.efrag.org/en/news-and-calendar/news/european-commission-publishes-delegated-act-on-revised-esrs-and-voluntary-sustainability-reporting"
+    },
+    {
+      "publisher": "Grant Thornton",
+      "title": "European Commission adopts revised ESRS and voluntary standard",
+      "url": "https://www.grantthornton.global/en/insights/articles/european-commission-adopts-revised-esrs-and-voluntary-standard/"
+    }
   ],
   "thresholds": {
     "eu_company": {
@@ -29,16 +56,29 @@
     }
   },
   "waves": [
-    { "wave": "Wave 1", "status": "reporting now",
-      "note": "Companies already in scope continue reporting — FY2025 published in 2026, FY2026 published in 2027." },
-    { "wave": "Wave 2", "first_report_year": 2028, "covering_fy": 2027,
-      "note": "Deferred by the Omnibus from its original timetable." }
+    {
+      "wave": "Wave 1",
+      "status": "reporting now",
+      "note": "Companies already in scope continue reporting — FY2025 published in 2026, FY2026 published in 2027."
+    },
+    {
+      "wave": "Wave 2",
+      "first_report_year": 2028,
+      "covering_fy": 2027,
+      "note": "Deferred by the Omnibus from its original timetable."
+    }
   ],
   "simplified_esrs": {
-    "status": "pending",
-    "expected_mandatory_from_fy": 2027,
-    "expected_first_reports": 2028,
-    "early_adoption_optional_fy": 2026,
-    "note": "The simplified ESRS set had not been published when this tool was built. It is expected to reduce the number of disclosures substantially and lean harder on materiality. Any datapoint-level gap analysis built against ESRS Set 1 (Delegated Regulation (EU) 2023/2772) is therefore provisional — which is why this tool works at standard level and says so rather than enumerating datapoints that are about to change."
+    "status": "published",
+    "adopted": "2026-07-03",
+    "instrument": "Commission delegated act revising the ESRS, adopted 3 July 2026",
+    "scrutiny": "Two months with the European Parliament and the Council, extendable by a further two. Entry into force is expected on publication in the Official Journal, reported as 20 November 2026 — a date that depends on scrutiny concluding and is therefore not yet certain.",
+    "mandatory_from_fy": 2027,
+    "first_reports": 2028,
+    "mandatory_datapoint_reduction_percent": 61,
+    "dr_enumeration_set": "ESRS Set 1 (2023) — Delegated Regulation (EU) 2023/2772",
+    "note": "The simplified set was adopted on 3 July 2026 and cuts mandatory datapoints by 61%, moves mandatory requirements into the body of each standard, reduces the granularity of GOV-1, GOV-2 and SBM-1, relocates topical incremental requirements into ESRS 2, and replaces the minimum disclosure requirements with general disclosure requirements. The twelve-standard architecture is retained. It applies to financial years beginning on or after 1 January 2027. Reports being prepared now — FY2025 and FY2026 — are still filed under ESRS Set 1 (2023), which is the set this tool enumerates disclosure requirements against, and it says so rather than showing a preparer a DR list they cannot file against yet.",
+    "transitional": "Wave-one undertakings get transitional relief: larger ones may omit certain topical standards and phase in anticipated financial effects while still reporting other material topical standards; smaller ones may omit all topical standards until financial year 2027 and report only the cross-cutting standards.",
+    "value_chain_cap": "A CSRD reporter may not require a value chain company with 1,000 employees or fewer to provide more sustainability information than the voluntary standard requires. Gross Scope 1, 2 and 3 GHG emissions are carved out of that cap."
   }
 }
