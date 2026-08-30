@@ -9438,6 +9438,38 @@ document.addEventListener('DOMContentLoaded', function() {
          '<td class="n mono">' + l[6] + '</td></tr>';
      })) + '</table>' +
 
+     /* The ISO 14064-1 presentation of the same inventory. A company
+        certified to ISO hands this table to its verifier; splitting it from
+        the pack would mean exporting the inventory twice. Only rendered once
+        the standards data has loaded, and it prints its own reconciliation
+        so the reader is not asked to add the column up themselves. */
+     (function(){
+       if (typeof _std === 'undefined' || !_std || typeof stdIsoView !== 'function') return '';
+       var view = stdIsoView(r, _std.iso.line_mapping);
+       return '<h2>7 · ISO 14064-1:2018 category view</h2>' +
+         '<p class="muted">The same emissions under the six categories of ISO 14064-1:2018 rather than ' +
+         'the three scopes. Categories 1 and 2 correspond to Scope 1 and Scope 2; categories 3 to 6 ' +
+         'together are Scope 3, split on a different principle. Mapping graded ' + esc(_std.iso.confidence) +
+         ' confidence and published at <span class="mono">knowledge/standards/iso-14064.json</span>.</p><table>' +
+         '<tr><th>Cat</th><th>Category</th><th>Covers</th><th class="n">tCO2e</th></tr>' +
+         rows(_std.iso.part1.categories.map(function(c){
+           var v = view.categories[c.code], t = v ? v.tCO2e : 0;
+           return '<tr><td class="mono">' + c.code + '</td><td>' + esc(c.name) + '</td>' +
+             '<td class="muted mono">' + (v ? esc(v.lines.join(', ')) : 'nothing entered') + '</td>' +
+             '<td class="n mono">' + t.toFixed(2) + '</td></tr>';
+         })) +
+         (view.unmapped.length
+           ? '<tr><td class="mono warn">—</td><td class="warn">Unmapped lines</td><td class="mono warn">' +
+             esc(view.unmapped.map(function(u){ return u.line; }).join(', ')) + '</td><td class="n mono warn">' +
+             view.unmappedTotal.toFixed(2) + '</td></tr>'
+           : '') +
+         '<tr><th>Total across categories</th><td></td><td></td><td class="n mono">' +
+           (view.mappedTotal + view.unmappedTotal).toFixed(2) + '</td></tr>' +
+         '<tr><th>Scope 1 + 2 + 3 total</th><td colspan="2" class="' + (view.reconciles ? 'muted' : 'warn') + '">' +
+           (view.reconciles ? 'The two views reconcile.' : 'THE TWO VIEWS DO NOT RECONCILE — do not rely on this table.') +
+           '</td><td class="n mono">' + r.total.toFixed(2) + '</td></tr></table>';
+     })() +
+
      /* Everything else the ledger holds. The pack was GHG-only while the
         ledger had grown to carry the ESRS materiality assessment, disclosure
         readiness, Article 8 KPIs and tag-readiness — so a reviewer read the
@@ -9446,7 +9478,8 @@ document.addEventListener('DOMContentLoaded', function() {
        var other = (typeof rgLedger === 'undefined') ? []
          : rgLedger.all().filter(function(e){ return e.key !== 'ghg-inventory'; });
        if (!other.length) return '';
-       return '<h2>7 · Other assessments recorded</h2>' +
+       var isoShown = (typeof _std !== 'undefined' && _std) ? 1 : 0;
+       return '<h2>' + (7 + isoShown) + ' · Other assessments recorded</h2>' +
          '<p class="muted">Held in the same evidence ledger as the inventory above, and reproduced here so ' +
          'one document covers what the preparer actually did. These are recorded assertions, not computed ' +
          'from activity data, and are marked as such in the limitations below.</p>' +
@@ -9468,7 +9501,10 @@ document.addEventListener('DOMContentLoaded', function() {
          }));
      })() +
 
-     '<h2>' + ((typeof rgLedger !== 'undefined' && rgLedger.all().filter(function(e){ return e.key !== 'ghg-inventory'; }).length) ? '8' : '7') +
+     /* Section numbering follows what is actually present: the ISO view needs
+        the standards data loaded, and the assessments section needs entries. */
+     '<h2>' + (7 + ((typeof _std !== 'undefined' && _std) ? 1 : 0) +
+       ((typeof rgLedger !== 'undefined' && rgLedger.all().filter(function(e){ return e.key !== 'ghg-inventory'; }).length) ? 1 : 0)) +
        ' · Limitations</h2><div class="note">' +
      '<p>Stated so a reviewer does not have to discover them.</p><ul>' +
      '<li>Scope 3 covers selected categories only, not a full screen across all fifteen.</li>' +
@@ -9476,11 +9512,16 @@ document.addEventListener('DOMContentLoaded', function() {
        ' of the ' + used.length + ' factors applied have no establishable source and are marked as such above.</li>' +
      '<li>Factors marked low confidence carry a note in the register explaining why.</li>' +
      '<li>Activity data is as entered by the preparer; nothing here has been independently verified.</li>' +
+     ((typeof _std !== 'undefined' && _std)
+       ? '<li>The ISO 14064-1 category view is a presentation of the same inventory, mapped at ' +
+         esc(_std.iso.confidence) + ' confidence from published summaries of the standard. It is not verification ' +
+         'under ISO 14064-3, and this tool is not certified to either standard.</li>'
+       : '') +
      (function(){
        var o = (typeof rgLedger === 'undefined') ? []
          : rgLedger.all().filter(function(e){ return e.key !== 'ghg-inventory'; });
        if (!o.length) return '';
-       var bits = ['<li>The assessments in section 7 record what the preparer asserted, not what was tested. ' +
+       var bits = ['<li>The assessments recorded above state what the preparer asserted, not what was tested. ' +
                    'Materiality conclusions, disclosure readiness and Taxonomy gate decisions are judgements ' +
                    'entered here, and carry no evidence beyond that entry.</li>'];
        if (o.some(function(e){ return e.key === 'esrs-taxonomy'; }))

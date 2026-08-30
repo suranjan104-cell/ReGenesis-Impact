@@ -99,6 +99,21 @@ the engine's total and its line list would look like.
 Every other property was verified the same way: inject the defect, confirm the
 simulation catches it.
 
+## In the assurance pack
+
+The category table is in the assurance pack too, not only on screen. A company
+certified to ISO hands that table to its verifier, and splitting it from the pack
+would mean exporting the same inventory twice. It prints its own reconciliation
+line — the six categories and the three scopes side by side — so the reader is
+not asked to add the column up themselves, and it carries a limitation stating
+that the mapping is graded medium and that none of this is verification under
+ISO 14064-3.
+
+The pack's section numbering follows what is actually present: the ISO view needs
+the standards data loaded and the assessments section needs ledger entries, so a
+bare inventory still reads 1 through 7 with Limitations last. Both branches were
+driven in a browser.
+
 ## What this is not
 
 It is a self-assessment against published summaries of both standards. It is not
