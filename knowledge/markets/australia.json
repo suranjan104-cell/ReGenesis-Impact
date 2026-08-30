@@ -1,0 +1,44 @@
+{
+  "_comment": [
+    "AASB S2 — Australian Sustainability Reporting Standards. Phased by size in",
+    "three groups, each caught by meeting at least two of three size tests, or by",
+    "an NGER or asset-owner trigger regardless of size.",
+    "",
+    "aasb.gov.au could not be reached from the build environment, so thresholds",
+    "and dates come from professional-firm and practitioner summaries and are",
+    "graded medium. Verify before a scoping decision rests on them."
+  ],
+  "code": "au",
+  "name": "Australia",
+  "regime": "AASB S2",
+  "standard": "AASB S2 Climate-related Disclosures (Australian Sustainability Reporting Standards)",
+  "materiality": "financial",
+  "confidence": "medium",
+  "reviewed": "2026-08",
+  "sources": [
+    { "publisher": "AASB", "title": "Overview of the Australian Sustainability Reporting Standards", "url": "https://aasb.gov.au/media/xpilzp2e/overviewofasrs_04-25.pdf" },
+    { "publisher": "Anthesis", "title": "ASRS and AASB S2: a guide to mandatory climate reporting in Australia", "url": "https://www.anthesisgroup.com/au/insights/asrs-and-aasb-s2-a-guide-to-mandatory-climate-reporting-in-australia/" },
+    { "publisher": "PwC Australia", "title": "AASB S2 unpacked: how did Australia's Group 1 climate reporting fare?", "url": "https://www.pwc.com.au/assurance/sustainability-reporting-and-assurance/aasb-s2-unpacked.html" },
+    { "publisher": "BDO Australia", "title": "Approved changes to climate-related disclosure requirements in Australia", "url": "https://www.bdo.com.au/en-au/insights/esg-sustainability/changes-to-climate-related-disclosures-in-australia" }
+  ],
+  "test": "At least two of the three size tests, on a consolidated basis. An NGER publication-threshold reporter or a qualifying asset owner is caught regardless of size.",
+  "cohorts": [
+    { "code": "g1", "name": "Group 1", "first_period_from": "2025-01-01", "first_reports": 2026,
+      "revenue_over_aud_m": 500, "assets_over_aud_m": 1000, "employees_over": 500,
+      "also": "NGER publication-threshold reporters",
+      "note": "The largest entities. First annual reporting periods began on or after 1 January 2025, with the first reports lodged for December 2025 year ends." },
+    { "code": "g2", "name": "Group 2", "first_period_from": "2026-07-01", "first_reports": 2027,
+      "revenue_over_aud_m": 200, "assets_over_aud_m": 500, "employees_over": 250,
+      "also": "NGER reporters not in Group 1, and asset owners with AUD 5bn or more under management",
+      "note": "Entered their first mandatory reporting period on 1 July 2026." },
+    { "code": "g3", "name": "Group 3", "first_period_from": "2027-07-01", "first_reports": 2028,
+      "revenue_over_aud_m": 50, "assets_over_aud_m": 25, "employees_over": 100,
+      "also": null,
+      "note": "Financial years beginning on or after 1 July 2027." }
+  ],
+  "scope3": "Not required in an entity's first AASB S2 reporting period; mandatory from the second.",
+  "assurance": "Phased to reasonable assurance over the full disclosure by 2030.",
+  "reliefs": "A three-year modified liability regime limits private litigation over certain forward-looking climate statements in the early years.",
+  "digital_tagging": "Not specified",
+  "taxonomy_kpis": null
+}
