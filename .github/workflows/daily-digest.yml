@@ -62,6 +62,7 @@ jobs:
           run_check "Tool properties hold"   node test/simulate-tools.mjs
           run_check "Benchmarks validate"    node knowledge/build-benchmarks.mjs
           run_check "ESRS data validates"   node knowledge/build-esrs.mjs
+          run_check "Article 8 properties hold" node test/simulate-esrs.mjs
           run_check "Knowledge base builds"   node knowledge/build.mjs
           run_check "Guides + sitemap build"  node seo/build-guides.mjs
 

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESRS and CSRD — Practical Guide for European Reporters | ReGenesis Impact</title>
+<meta name="description" content="Who is in scope after the Omnibus, how double materiality works, what EU Taxonomy Article 8 asks for, and where XBRL tagging actually stands.">
+<link rel="canonical" href="https://regenesisimpact.in/guides/esrs-csrd-reporting-guide.html">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ESRS and CSRD — Practical Guide for European Reporters">
+<meta property="og:description" content="Who is in scope after the Omnibus, how double materiality works, what EU Taxonomy Article 8 asks for, and where XBRL tagging actually stands.">
+<meta property="og:url" content="https://regenesisimpact.in/guides/esrs-csrd-reporting-guide.html">
+<meta property="og:image" content="https://regenesisimpact.in/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Am I in scope for CSRD after the Omnibus?","acceptedAnswer":{"@type":"Answer","text":"An EU company is in scope only if it exceeds both 1,000 employees and EUR 450mn net turnover — the Omnibus made this an AND test, not an either/or. Non-EU parent groups are tested on EU-generated turnover above EUR 450mn."}},{"@type":"Question","name":"Which ESRS do I file against for FY2026?","acceptedAnswer":{"@type":"Answer","text":"ESRS Set 1, Delegated Regulation (EU) 2023/2772. The revised simplified standards were adopted on 3 July 2026 but apply to financial years beginning on or after 1 January 2027, so a FY2026 report is prepared under Set 1."}},{"@type":"Question","name":"Is my IFRS S2 materiality assessment enough for ESRS?","acceptedAnswer":{"@type":"Answer","text":"No. ESRS reports a topic material to people and the environment OR to the company; IFRS S2 covers only the second. The impact side has to be assessed separately, and every omitted topical standard needs a stated reason."}},{"@type":"Question","name":"Do I have to report the OpEx Taxonomy KPI?","acceptedAnswer":{"@type":"Answer","text":"Not necessarily. Delegated Regulation (EU) 2026/73 lets you omit the OpEx KPI where it is not material to your business model, disclosing only its total value and why it is not material. The same regulation lets you skip assessing any activity below 10% of a KPI, applied per KPI independently."}},{"@type":"Question","name":"When does XBRL tagging become mandatory?","acceptedAnswer":{"@type":"Answer","text":"There is no date. Mandatory tagging of the sustainability statement is suspended by Directive (EU) 2026/470, in force 18 March 2026, until the ESEF Delegated Regulation is amended to cover it — which requires ESMA technical standards that have not been drafted. Any vendor quoting you a resumption date is guessing."}},{"@type":"Question","name":"Does the value chain cap get my suppliers off the hook?","acceptedAnswer":{"@type":"Answer","text":"Partly. You cannot require a value chain company of 1,000 employees or fewer to provide more than the voluntary standard asks — but gross Scope 1, 2 and 3 emissions are carved out of that cap, so the emissions request survives it."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ReGenesis Impact","item":"https://regenesisimpact.in/"},{"@type":"ListItem","position":2,"name":"ESRS and CSRD — Practical Guide for European Reporters","item":"https://regenesisimpact.in/guides/esrs-csrd-reporting-guide.html"}]}</script>
+<style>
+:root{color-scheme:dark}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#030a06;color:#eafff3;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;line-height:1.7;
+background-image:radial-gradient(ellipse 70% 45% at 50% 0%,rgba(0,232,122,.08),transparent 70%)}
+.wrap{max-width:760px;margin:0 auto;padding:2.5rem 1.25rem 4rem}
+a{color:#00e87a}
+.home{display:inline-flex;gap:.5rem;align-items:center;font-size:.85rem;text-decoration:none;margin-bottom:2rem;
+border:1px solid rgba(0,232,122,.25);border-radius:2rem;padding:.4rem 1rem}
+.eyebrow{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(0,232,122,.7);margin-bottom:.6rem;font-family:ui-monospace,monospace}
+h1{font-size:2rem;line-height:1.2;margin-bottom:1rem;letter-spacing:-.01em}
+.intro{color:rgba(234,255,243,.75);font-size:1.02rem;margin-bottom:2rem}
+h2{font-size:1.25rem;margin:2.4rem 0 1rem;color:#00ff9d}
+.fact{background:rgba(3,14,9,.85);border:1px solid rgba(0,232,122,.16);border-radius:.7rem;padding:1.1rem 1.25rem;margin-bottom:1rem;
+box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+.fact h3{font-size:.95rem;margin-bottom:.5rem}
+.fact ul{padding-left:1.1rem;color:rgba(234,255,243,.8);font-size:.9rem}
+.fact li{margin-bottom:.35rem}
+.src{font-size:.72rem;color:rgba(234,255,243,.45);margin-top:.6rem}
+details{background:rgba(3,14,9,.6);border:1px solid rgba(0,232,122,.14);border-radius:.6rem;padding:.85rem 1.1rem;margin-bottom:.7rem}
+summary{cursor:pointer;font-weight:600;font-size:.94rem}
+details p{margin-top:.6rem;color:rgba(234,255,243,.75);font-size:.9rem}
+.cta{display:block;text-align:center;background:linear-gradient(135deg,#00e87a,#0affdb);color:#020806;font-weight:700;
+text-decoration:none;border-radius:.6rem;padding:1rem;margin:2.6rem 0 1rem;box-shadow:0 6px 30px -8px rgba(0,232,122,.5)}
+.foot{margin-top:3rem;padding-top:1.25rem;border-top:1px solid rgba(0,232,122,.12);font-size:.75rem;color:rgba(234,255,243,.4)}
+.foot a{margin-right:1rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="home" href="../">← ReGenesis Impact</a>
+  <div class="eyebrow">European Union · Guide · Updated 2026-08-01</div>
+  <h1>ESRS and CSRD — Practical Guide for European Reporters</h1>
+  <p class="intro">The CSRD is the broadest sustainability reporting regime in force, and it moved twice in 2026: the Omnibus cut who has to file, and the revised ESRS cut how much they file. This guide covers who is in scope now, what double materiality changes about your assessment, how the EU Taxonomy Article 8 KPIs are actually computed, and why the XBRL tagging deadline you were quoted no longer exists.</p>
+
+  <h2>Key facts — verified &amp; sourced</h2>
+  <div class="fact">
+      <h3>CSRD scope after the Omnibus</h3>
+      <ul><li>An EU company is in scope only if it exceeds BOTH 1,000 employees AND EUR 450mn net turnover — the Omnibus made this an AND test, taking a large number of previously in-scope companies out.</li><li>Non-EU parent groups are tested instead on EU-generated turnover above EUR 450mn.</li><li>Wave 1 companies continue reporting; Wave 2 first reports are due in 2028 covering FY2027, deferred by the Omnibus from the original timetable.</li></ul>
+      <p class="src">Source: <a href="https://www.bdo.com/insights/sustainability-and-esg/csrd-post-omnibus-revised-scope-and-requirements" rel="noopener" target="_blank">bdo.com</a> · reviewed 2026-08</p>
+    </div>
+<div class="fact">
+      <h3>The revised ESRS adopted July 2026</h3>
+      <ul><li>The European Commission adopted the delegated act containing the revised, simplified ESRS on 3 July 2026, cutting mandatory datapoints by 61% against the 2023 standards.</li><li>The revised standards apply to financial years beginning on or after 1 January 2027. Reports being prepared now for FY2025 and FY2026 are still filed against ESRS Set 1, Delegated Regulation (EU) 2023/2772.</li><li>A scrutiny period of two months with the Parliament and Council, extendable by two more, runs before entry into force — so the commencement date is not yet certain.</li></ul>
+      <p class="src">Source: <a href="https://www.cooley.com/news/insight/2026/2026-07-21-european-commission-adopts-revised-eu-csrd-reporting-standards" rel="noopener" target="_blank">cooley.com</a> · reviewed 2026-08</p>
+    </div>
+<div class="fact">
+      <h3>Double materiality against financial materiality</h3>
+      <ul><li>ESRS requires a topic to be reported if it is material to people and the environment OR material to the company. IFRS S2 requires only the second.</li><li>An IFRS S2 or AASB S2 materiality assessment is therefore never sufficient evidence for omitting an ESRS topical standard — the impact side has to be assessed separately.</li><li>Every omitted topical standard needs a stated reason, and omitting ESRS E1 attracts an explicit explanation requirement.</li></ul>
+      <p class="src">Source: <a href="https://www.ifrs.org/content/dam/ifrs/supporting-implementation/issb-standards/esrs-issb-standards-interoperability-guidance.pdf" rel="noopener" target="_blank">ifrs.org</a> · reviewed 2026-08</p>
+    </div>
+<div class="fact">
+      <h3>EU Taxonomy Article 8 KPIs</h3>
+      <ul><li>Article 8 of Regulation (EU) 2020/852 requires disclosure of the proportion of turnover, CapEx and OpEx associated with Taxonomy-aligned activities — three separate KPIs, each a ratio over its own defined denominator.</li><li>Alignment requires four things: the activity is eligible, it substantially contributes to one of the six environmental objectives, it does no significant harm to the other five, and the entity meets minimum safeguards.</li><li>Minimum safeguards are assessed at entity level against the OECD Guidelines and the UN Guiding Principles, so failing them zeroes alignment across all three KPIs rather than dropping a single activity.</li><li>Credit institutions report the Green Asset Ratio instead; the turnover, CapEx and OpEx KPIs are treated as less relevant for financial undertakings.</li></ul>
+      <p class="src">Source: <a href="https://sustainablefutures.linklaters.com/post/102l7by/quick-guide-key-sustainability-disclosure-regimes-eu-taxonomy-regulation-artic" rel="noopener" target="_blank">sustainablefutures.linklaters.com</a> · reviewed 2026-08</p>
+    </div>
+<div class="fact">
+      <h3>EU Taxonomy reporting simplification 2026</h3>
+      <ul><li>Commission Delegated Regulation (EU) 2026/73 was published in the Official Journal on 8 January 2026 and entered into force on 28 January 2026, applying from 1 January 2026.</li><li>Activities representing less than 10% of turnover, CapEx or OpEx need not be assessed, and the test is applied to each KPI independently — so the same activity can be excluded from one KPI and assessed in another.</li><li>A company may omit the OpEx KPI entirely where it is not material to its business model, disclosing only the total value and why it is not material.</li><li>Reporting templates were cut by roughly 64% of datapoints for non-financial undertakings and 89% for financial institutions, consolidated into one summary table and up to three per-activity tables.</li></ul>
+      <p class="src">Source: <a href="https://www.arthurcox.com/insights/eu-taxonomy-simplification-measures-adopted/" rel="noopener" target="_blank">arthurcox.com</a> · reviewed 2026-08</p>
+    </div>
+<div class="fact">
+      <h3>XBRL tagging of the sustainability statement</h3>
+      <ul><li>Mandatory XBRL tagging of the CSRD sustainability statement is suspended by Directive (EU) 2026/470, in force 18 March 2026, until the ESEF Delegated Regulation (EU) 2019/815 is amended to cover sustainability tagging.</li><li>The ESRS Set 1 XBRL taxonomy itself exists and is published by EFRAG, covering over 1,200 datapoints; EFRAG is committed to delivering an updated taxonomy against the revised standards by December 2026.</li><li>Resumption depends on ESMA drafting regulatory technical standards and the Commission amending the ESEF regulation — neither has happened, so no firm resumption date exists.</li></ul>
+      <p class="src">Source: <a href="https://www.xbrl.org/news/efrags-2026-work-programme-puts-xbrl-taxonomy-front-and-centre/" rel="noopener" target="_blank">xbrl.org</a> · reviewed 2026-08</p>
+    </div>
+
+  <h2>Frequently asked questions</h2>
+  <details><summary>Am I in scope for CSRD after the Omnibus?</summary><p>An EU company is in scope only if it exceeds both 1,000 employees and EUR 450mn net turnover — the Omnibus made this an AND test, not an either/or. Non-EU parent groups are tested on EU-generated turnover above EUR 450mn.</p></details>
+  <details><summary>Which ESRS do I file against for FY2026?</summary><p>ESRS Set 1, Delegated Regulation (EU) 2023/2772. The revised simplified standards were adopted on 3 July 2026 but apply to financial years beginning on or after 1 January 2027, so a FY2026 report is prepared under Set 1.</p></details>
+  <details><summary>Is my IFRS S2 materiality assessment enough for ESRS?</summary><p>No. ESRS reports a topic material to people and the environment OR to the company; IFRS S2 covers only the second. The impact side has to be assessed separately, and every omitted topical standard needs a stated reason.</p></details>
+  <details><summary>Do I have to report the OpEx Taxonomy KPI?</summary><p>Not necessarily. Delegated Regulation (EU) 2026/73 lets you omit the OpEx KPI where it is not material to your business model, disclosing only its total value and why it is not material. The same regulation lets you skip assessing any activity below 10% of a KPI, applied per KPI independently.</p></details>
+  <details><summary>When does XBRL tagging become mandatory?</summary><p>There is no date. Mandatory tagging of the sustainability statement is suspended by Directive (EU) 2026/470, in force 18 March 2026, until the ESEF Delegated Regulation is amended to cover it — which requires ESMA technical standards that have not been drafted. Any vendor quoting you a resumption date is guessing.</p></details>
+  <details><summary>Does the value chain cap get my suppliers off the hook?</summary><p>Partly. You cannot require a value chain company of 1,000 employees or fewer to provide more than the voluntary standard asks — but gross Scope 1, 2 and 3 emissions are carved out of that cap, so the emissions request survives it.</p></details>
+
+  <a class="cta" href="../#esrs">Open the free ESRS tool →</a>
+  <p style="text-align:center;font-size:.78rem;color:rgba(234,255,243,.5)">No sign-up required · AI-assisted · SG / AU / IN frameworks built in</p>
+
+  <div class="foot">
+    <p>Educational guidance, not professional advice — verify against the cited primary sources.
+    Facts above are drawn from the <a href="https://github.com/suranjan104-cell/ReGenesis-Impact/tree/main/knowledge">ReGenesis verified knowledge base</a>.</p>
+    <p style="margin-top:.6rem">
+      <a href="ifrs-s2-reporting-guide.html">IFRS S2 Climate Disclosure</a>
+      <a href="aasb-s2-australia-climate-reporting.html">AASB S2</a>
+      <a href="brsr-core-assurance-india.html">BRSR &amp; BRSR Core</a>
+      <a href="sgx-climate-reporting-singapore.html">Singapore Climate Reporting</a>
+      <a href="ghg-protocol-inventory-guide.html">GHG Protocol Inventory</a>
+    </p>
+  </div>
+</div>
+</body>
+</html>

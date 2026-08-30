@@ -10,8 +10,10 @@ import { fileURLToPath } from 'node:url';
 const root = dirname(fileURLToPath(import.meta.url));
 const entriesDir = join(root, 'entries');
 
-const TOOLS = ['issb', 'ghg', 'climate', 'credits', 'assurance', 'dd', 'advisor'];
-const MARKETS = ['sg', 'au', 'in', 'global'];
+const TOOLS = ['issb', 'ghg', 'climate', 'credits', 'assurance', 'dd', 'advisor', 'esrs'];
+// 'eu' was added when the ESRS tool made Europe a market we answer for
+// rather than a footnote in the global regime map.
+const MARKETS = ['sg', 'au', 'in', 'eu', 'global'];
 const CONFIDENCE = ['high', 'medium'];
 
 const errors = [];
