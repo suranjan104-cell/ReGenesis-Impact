@@ -74,9 +74,9 @@ printed in the product beneath the comparison table:
   the technical screening criteria per activity per objective. You assert whether
   substantial contribution and DNSH are met; we record the assertion.
 - **Tagging** — we assess readiness. We do not tag. Workiva does.
-- **Assurance** — the pack prints provenance, data quality and its own
-  limitations. It is not a reviewer workflow with sign-offs and role separation,
-  which is what an audit firm actually works in.
+- **Assurance** — the pack prints provenance, data quality, every assessment in
+  the ledger and its own limitations. It is not a reviewer workflow with
+  sign-offs and role separation, which is what an audit firm actually works in.
 
 ## Where the win is narrow and real
 
@@ -144,6 +144,16 @@ Sage now routes European questions to the regime facts in
 `knowledge/esrs/` instead of answering from general knowledge. That matters
 because general knowledge is exactly what would have told someone the simplified
 set was still pending two months after it was adopted.
+
+The assurance pack was GHG-only while the ledger had quietly grown to hold four
+more assessments — materiality, disclosure readiness, Article 8 KPIs and
+tag-readiness. A reviewer read the inventory and never saw them. The pack now
+carries a section 7 reproducing all of it, and adds two limitations that only
+appear when the entries do: that Article 8 substantial contribution and DNSH are
+preparer assertions rather than screening criteria this tool applies, and that
+the disclosure requirements are Set 1 built from published summaries. With an
+inventory-only ledger the section disappears and Limitations stays at 7. Both
+branches were driven in a real browser rather than reasoned about.
 
 Europe also has a guide page now — `guides/esrs-csrd-reporting-guide.html` — so
 it has the same crawlable entry point ISSB and Australia already had, backed by

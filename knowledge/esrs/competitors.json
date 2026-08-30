@@ -239,7 +239,7 @@
       },
       {
         "cap": "assurance",
-        "why": "The assurance pack prints provenance, data quality and its own limitations. It is not a reviewer workflow with sign-offs and role separation, which is what an audit firm actually works in."
+        "why": "The pack prints the inventory, the factors applied with their provenance, the data quality scheme, the gaps ranked by tonnage, the full audit trail, every other assessment held in the ledger, and its own limitations. It is not a reviewer workflow with sign-offs, role separation and review notes, which is what an audit firm actually works in."
       }
     ],
     "note": "Where we win is narrow and real: every number opens to the factor behind it with source, vintage and confidence, including the four factors we cannot source; nothing leaves the browser; and there is no sales call. Where we lose is also real and is printed above rather than left out."
