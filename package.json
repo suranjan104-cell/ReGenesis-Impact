@@ -8,11 +8,12 @@
     "factors:build": "node knowledge/build-factors.mjs",
     "factors:sync": "node knowledge/sync-factors.mjs",
     "test:literals": "node test/factor-literals.mjs",
-    "test": "node knowledge/build-factors.mjs && node knowledge/sync-factors.mjs --check && node test/factor-literals.mjs && node test/golden-ghg.mjs && node test/simulate.mjs && node knowledge/build-benchmarks.mjs && node test/simulate-tools.mjs && node knowledge/build-esrs.mjs",
+    "test": "node knowledge/build-factors.mjs && node knowledge/sync-factors.mjs --check && node test/factor-literals.mjs && node test/golden-ghg.mjs && node test/simulate.mjs && node knowledge/build-benchmarks.mjs && node test/simulate-tools.mjs && node knowledge/build-esrs.mjs && node test/simulate-esrs.mjs",
     "test:simulate": "node test/simulate.mjs",
     "benchmarks:build": "node knowledge/build-benchmarks.mjs",
     "benchmarks:check": "node knowledge/build-benchmarks.mjs && node test/benchmark-defaults.mjs",
     "test:simulate:tools": "node test/simulate-tools.mjs",
+    "test:simulate:esrs": "node test/simulate-esrs.mjs",
     "esrs:build": "node knowledge/build-esrs.mjs"
   }
 }

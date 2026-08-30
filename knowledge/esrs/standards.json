@@ -18,6 +18,7 @@
     "confidence": "high",
     "note": "Applies in full regardless of the materiality assessment — the one standard a preparer cannot screen out. The twelve named disclosure requirements are listed. ESRS 2 also carries the minimum disclosure requirements for policies, actions, targets and metrics (MDR-P/A/T/M), which are not separate DRs but are applied through each topical standard, so they are not counted here.",
     "reviewed": "2026-08",
+    "dr_source": "The twelve named disclosure requirements of ESRS Set 1 — BP-1 and BP-2, GOV-1 to GOV-5, SBM-1 to SBM-3, IRO-1 and IRO-2 — taken from published summaries of the standard. The minimum disclosure requirements (MDR-P/A/T/M) are applied through each topical standard rather than filed against ESRS 2 directly, so they are not counted as separate requirements here.",
     "drs": [
       {
         "code": "BP-1",
@@ -90,6 +91,7 @@
     "confidence": "high",
     "note": "Assessed as material by almost every preparer, and the only topical standard where omission attracts an explicit explanation requirement. E1-6 is cross-linked to the GHG inventory in the evidence ledger — if an inventory exists, that DR already has evidence and its data quality score travels with it.",
     "reviewed": "2026-08",
+    "dr_source": "The nine disclosure requirements of ESRS Set 1, taken from published summaries. E1-6 remains the gross Scope 1, 2 and 3 emissions requirement under the revised 2026 standard, which is why the cross-link to the GHG inventory still holds.",
     "drs": [
       {
         "code": "E1-1",
@@ -143,89 +145,334 @@
     "name": "Pollution",
     "pillar": "environment",
     "always_required": false,
-    "dr_count": null,
-    "confidence": "medium",
-    "note": "Disclosure-requirement detail deliberately not enumerated here — see the pending-simplification note below.",
-    "reviewed": "2026-08"
+    "dr_count": 6,
+    "confidence": "high",
+    "note": "The 6 disclosure requirements of ESRS Set 1 are enumerated. ",
+    "reviewed": "2026-08",
+    "dr_source": "Disclosure requirement names taken verbatim from published summaries of ESRS Set 1.",
+    "drs": [
+      {
+        "code": "E2-1",
+        "name": "Policies related to pollution",
+        "evidence_from": null
+      },
+      {
+        "code": "E2-2",
+        "name": "Actions and resources related to pollution",
+        "evidence_from": null
+      },
+      {
+        "code": "E2-3",
+        "name": "Targets related to pollution",
+        "evidence_from": null
+      },
+      {
+        "code": "E2-4",
+        "name": "Pollution of air, water and soil",
+        "evidence_from": null
+      },
+      {
+        "code": "E2-5",
+        "name": "Substances of concern and substances of very high concern",
+        "evidence_from": null
+      },
+      {
+        "code": "E2-6",
+        "name": "Anticipated financial effects from pollution-related risks and opportunities",
+        "evidence_from": null
+      }
+    ]
   },
   {
     "code": "ESRS E3",
     "name": "Water and marine resources",
     "pillar": "environment",
     "always_required": false,
-    "dr_count": null,
+    "dr_count": 5,
     "confidence": "medium",
-    "note": "Disclosure-requirement detail deliberately not enumerated here.",
-    "reviewed": "2026-08"
+    "note": "The 5 disclosure requirements of ESRS Set 1 are enumerated. ",
+    "reviewed": "2026-08",
+    "dr_source": "Codes and topics taken from published summaries of ESRS Set 1. The revised 2026 standard renames E3 to Water and moves marine resource use into E5, so this list is the Set 1 one a FY2026 report is filed against, not the revised one.",
+    "drs": [
+      {
+        "code": "E3-1",
+        "name": "Policies related to water and marine resources",
+        "evidence_from": null
+      },
+      {
+        "code": "E3-2",
+        "name": "Actions and resources related to water and marine resources",
+        "evidence_from": null
+      },
+      {
+        "code": "E3-3",
+        "name": "Targets related to water and marine resources",
+        "evidence_from": null
+      },
+      {
+        "code": "E3-4",
+        "name": "Water consumption",
+        "evidence_from": null
+      },
+      {
+        "code": "E3-5",
+        "name": "Anticipated financial effects from water and marine resources-related risks and opportunities",
+        "evidence_from": null
+      }
+    ]
   },
   {
     "code": "ESRS E4",
     "name": "Biodiversity and ecosystems",
     "pillar": "environment",
     "always_required": false,
-    "dr_count": null,
-    "confidence": "medium",
-    "note": "Disclosure-requirement detail deliberately not enumerated here.",
-    "reviewed": "2026-08"
+    "dr_count": 6,
+    "confidence": "high",
+    "note": "The 6 disclosure requirements of ESRS Set 1 are enumerated. ",
+    "reviewed": "2026-08",
+    "dr_source": "Disclosure requirement names taken verbatim from published summaries of ESRS Set 1.",
+    "drs": [
+      {
+        "code": "E4-1",
+        "name": "Transition plan and consideration of biodiversity and ecosystems in strategy and business model",
+        "evidence_from": null
+      },
+      {
+        "code": "E4-2",
+        "name": "Policies related to biodiversity and ecosystems",
+        "evidence_from": null
+      },
+      {
+        "code": "E4-3",
+        "name": "Actions and resources related to biodiversity and ecosystems",
+        "evidence_from": null
+      },
+      {
+        "code": "E4-4",
+        "name": "Targets related to biodiversity and ecosystems",
+        "evidence_from": null
+      },
+      {
+        "code": "E4-5",
+        "name": "Impact metrics related to biodiversity and ecosystems change",
+        "evidence_from": null
+      },
+      {
+        "code": "E4-6",
+        "name": "Anticipated financial effects from biodiversity and ecosystem-related risks and opportunities",
+        "evidence_from": null
+      }
+    ]
   },
   {
     "code": "ESRS E5",
     "name": "Resource use and circular economy",
     "pillar": "environment",
     "always_required": false,
-    "dr_count": null,
+    "dr_count": 6,
     "confidence": "medium",
-    "note": "Disclosure-requirement detail deliberately not enumerated here.",
-    "reviewed": "2026-08"
+    "note": "The 6 disclosure requirements of ESRS Set 1 are enumerated. ",
+    "reviewed": "2026-08",
+    "dr_source": "Codes and topics taken from published summaries of ESRS Set 1; the policy, action and target names follow the structure those summaries describe. The revised 2026 standard deletes the standalone financial effects requirement (E5-6) and adds a critical raw materials metric, so this is the Set 1 list.",
+    "drs": [
+      {
+        "code": "E5-1",
+        "name": "Policies related to resource use and circular economy",
+        "evidence_from": null
+      },
+      {
+        "code": "E5-2",
+        "name": "Actions and resources related to resource use and circular economy",
+        "evidence_from": null
+      },
+      {
+        "code": "E5-3",
+        "name": "Targets related to resource use and circular economy",
+        "evidence_from": null
+      },
+      {
+        "code": "E5-4",
+        "name": "Resource inflows",
+        "evidence_from": null
+      },
+      {
+        "code": "E5-5",
+        "name": "Resource outflows",
+        "evidence_from": null
+      },
+      {
+        "code": "E5-6",
+        "name": "Anticipated financial effects from resource use and circular economy-related risks and opportunities",
+        "evidence_from": null
+      }
+    ]
   },
   {
     "code": "ESRS S1",
     "name": "Own workforce",
     "pillar": "social",
     "always_required": false,
-    "dr_count": null,
+    "dr_count": 17,
     "confidence": "medium",
-    "note": "The largest topical standard in Set 1 by disclosure count, and the one most affected by the simplification.",
-    "reviewed": "2026-08"
+    "note": "Seventeen disclosure requirements — the largest topical standard in Set 1 by disclosure count, and the one most affected by the simplification. The count is stated; the individual names are not, because they could not be sourced.",
+    "reviewed": "2026-08",
+    "dr_source": "Count sourced: S1-1 to S1-4 cover impacts, risks and opportunities management and S1-5 to S1-17 cover metrics and targets. The seventeen individual requirement names could not be established from a source reachable here, so they are not enumerated rather than invented. This is the one standard in Set 1 this tool still tracks at standard level."
   },
   {
     "code": "ESRS S2",
     "name": "Workers in the value chain",
     "pillar": "social",
     "always_required": false,
-    "dr_count": null,
-    "confidence": "medium",
-    "note": "Value-chain data is where transitional relief applied under Set 1.",
-    "reviewed": "2026-08"
+    "dr_count": 5,
+    "confidence": "high",
+    "note": "The 5 disclosure requirements of ESRS Set 1 are enumerated. Value-chain data is where transitional relief applied under Set 1.",
+    "reviewed": "2026-08",
+    "dr_source": "Disclosure requirement names taken verbatim from published summaries of ESRS Set 1.",
+    "drs": [
+      {
+        "code": "S2-1",
+        "name": "Policies related to value chain workers",
+        "evidence_from": null
+      },
+      {
+        "code": "S2-2",
+        "name": "Processes for engaging with value chain workers about impacts",
+        "evidence_from": null
+      },
+      {
+        "code": "S2-3",
+        "name": "Processes to remediate negative impacts and channels for value chain workers to raise concerns",
+        "evidence_from": null
+      },
+      {
+        "code": "S2-4",
+        "name": "Taking action on material impacts, managing material risks and pursuing material opportunities related to value chain workers, and effectiveness of those actions",
+        "evidence_from": null
+      },
+      {
+        "code": "S2-5",
+        "name": "Targets related to managing material negative impacts, advancing positive impacts, and managing material risks and opportunities",
+        "evidence_from": null
+      }
+    ]
   },
   {
     "code": "ESRS S3",
     "name": "Affected communities",
     "pillar": "social",
     "always_required": false,
-    "dr_count": null,
+    "dr_count": 5,
     "confidence": "medium",
-    "note": "Disclosure-requirement detail deliberately not enumerated here.",
-    "reviewed": "2026-08"
+    "note": "The 5 disclosure requirements of ESRS Set 1 are enumerated. ",
+    "reviewed": "2026-08",
+    "dr_source": "Policies, engagement, remediation, actions and targets — the five-requirement structure ESRS S1 to S4 share. S3-1, S3-2 and S3-4 were taken verbatim from published summaries; the remaining two follow that shared structure and are graded medium accordingly.",
+    "drs": [
+      {
+        "code": "S3-1",
+        "name": "Policies related to affected communities",
+        "evidence_from": null
+      },
+      {
+        "code": "S3-2",
+        "name": "Processes for engaging with affected communities about impacts",
+        "evidence_from": null
+      },
+      {
+        "code": "S3-3",
+        "name": "Processes to remediate negative impacts and channels for affected communities to raise concerns",
+        "evidence_from": null
+      },
+      {
+        "code": "S3-4",
+        "name": "Taking action on material impacts on affected communities, managing material risks and pursuing material opportunities, and effectiveness of those actions",
+        "evidence_from": null
+      },
+      {
+        "code": "S3-5",
+        "name": "Targets related to managing material negative impacts, advancing positive impacts, and managing material risks and opportunities",
+        "evidence_from": null
+      }
+    ]
   },
   {
     "code": "ESRS S4",
     "name": "Consumers and end-users",
     "pillar": "social",
     "always_required": false,
-    "dr_count": null,
+    "dr_count": 5,
     "confidence": "medium",
-    "note": "Disclosure-requirement detail deliberately not enumerated here.",
-    "reviewed": "2026-08"
+    "note": "The 5 disclosure requirements of ESRS Set 1 are enumerated. ",
+    "reviewed": "2026-08",
+    "dr_source": "S4-1 and S4-3 were taken verbatim from published summaries; the remaining three follow the five-requirement structure ESRS S1 to S4 share, and are graded medium accordingly.",
+    "drs": [
+      {
+        "code": "S4-1",
+        "name": "Policies related to consumers and end-users",
+        "evidence_from": null
+      },
+      {
+        "code": "S4-2",
+        "name": "Processes for engaging with consumers and end-users about impacts",
+        "evidence_from": null
+      },
+      {
+        "code": "S4-3",
+        "name": "Processes to remediate negative impacts and channels for consumers and end-users to raise concerns",
+        "evidence_from": null
+      },
+      {
+        "code": "S4-4",
+        "name": "Taking action on material impacts on consumers and end-users, managing material risks and pursuing material opportunities, and effectiveness of those actions",
+        "evidence_from": null
+      },
+      {
+        "code": "S4-5",
+        "name": "Targets related to managing material negative impacts, advancing positive impacts, and managing material risks and opportunities",
+        "evidence_from": null
+      }
+    ]
   },
   {
     "code": "ESRS G1",
     "name": "Business conduct",
     "pillar": "governance",
     "always_required": false,
-    "dr_count": null,
-    "confidence": "medium",
-    "note": "Disclosure-requirement detail deliberately not enumerated here.",
-    "reviewed": "2026-08"
+    "dr_count": 6,
+    "confidence": "high",
+    "note": "The 6 disclosure requirements of ESRS Set 1 are enumerated. ",
+    "reviewed": "2026-08",
+    "dr_source": "Disclosure requirement names taken verbatim from published summaries of ESRS Set 1.",
+    "drs": [
+      {
+        "code": "G1-1",
+        "name": "Business conduct policies and corporate culture",
+        "evidence_from": null
+      },
+      {
+        "code": "G1-2",
+        "name": "Management of relationships with suppliers",
+        "evidence_from": null
+      },
+      {
+        "code": "G1-3",
+        "name": "Prevention and detection of corruption and bribery",
+        "evidence_from": null
+      },
+      {
+        "code": "G1-4",
+        "name": "Confirmed incidents of corruption or bribery",
+        "evidence_from": null
+      },
+      {
+        "code": "G1-5",
+        "name": "Political influence and lobbying activities",
+        "evidence_from": null
+      },
+      {
+        "code": "G1-6",
+        "name": "Payment practices",
+        "evidence_from": null
+      }
+    ]
   }
 ]

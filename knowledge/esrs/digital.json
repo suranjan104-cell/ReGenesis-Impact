@@ -1,0 +1,47 @@
+{
+  "_comment": [
+    "Digital tagging readiness. Workiva's differentiator in this market is that",
+    "iXBRL tagging happens inside the authoring workflow rather than as a separate",
+    "technical pass after the document is signed off. We are not going to build a",
+    "tagging engine in a browser tab. What we can honestly do is tell a preparer",
+    "where the tagging mandate actually stands and what makes a statement",
+    "tag-ready, because the mandate is currently suspended and a lot of vendors",
+    "are still selling against the old timetable.",
+    "",
+    "Graded medium: primary sources (EUR-Lex, EFRAG, ESMA) could not be reached",
+    "from the build environment."
+  ],
+  "confidence": "medium",
+  "reviewed": "2026-08",
+  "sources": [
+    { "publisher": "XBRL International", "title": "EFRAG's 2026 work programme puts XBRL taxonomy front and centre", "url": "https://www.xbrl.org/news/efrags-2026-work-programme-puts-xbrl-taxonomy-front-and-centre/" },
+    { "publisher": "EFRAG", "title": "Digital Reporting with XBRL", "url": "https://www.efrag.org/en/sustainability-reporting/esrs-workstreams/digital-reporting-with-xbrl" },
+    { "publisher": "EFRAG", "title": "ESRS Set 1 XBRL Taxonomy — Explanatory Note and Basis for Conclusions", "url": "https://xbrl.efrag.org/downloads/ESRS-Set1-XBRL-Taxonomy-Explanatory-Note-and-Basis-for-Conclusions.pdf" },
+    { "publisher": "Workiva", "title": "How to prepare for the ESRS XBRL Taxonomy", "url": "https://www.workiva.com/en-nl/blog/how-prepare-esrs-xbrl-taxonomy" }
+  ],
+  "status": {
+    "mandate": "suspended",
+    "suspended_by": "Directive (EU) 2026/470",
+    "suspension_in_force": "2026-03-18",
+    "resumes_when": "the ESEF Delegated Regulation (EU) 2019/815 is amended to cover sustainability tagging",
+    "efrag_updated_taxonomy_due": "2026-12",
+    "set1_taxonomy_datapoints_over": 1200,
+    "note": "The ESRS Set 1 XBRL taxonomy exists and is published. Mandatory tagging of the sustainability statement is what is suspended, and it is suspended pending an instrument that has not been made — so nobody can give you a firm resumption date, and any vendor quoting one is guessing."
+  },
+  "sequence": [
+    { "step": 1, "what": "Commission adopts the revised ESRS delegated act", "state": "done", "on": "2026-07-03" },
+    { "step": 2, "what": "EFRAG reworks the XBRL taxonomy against the revised standards", "state": "in progress", "on": "due 2026-12" },
+    { "step": 3, "what": "ESMA prepares draft regulatory technical standards for tagging", "state": "pending", "on": null },
+    { "step": 4, "what": "Commission amends the ESEF Delegated Regulation (EU) 2019/815 to cover sustainability tagging", "state": "pending", "on": null },
+    { "step": 5, "what": "Tagging obligation resumes", "state": "pending", "on": null }
+  ],
+  "checklist": [
+    { "code": "block", "name": "Every reported figure traces to one stored value", "why": "A tagged datapoint points at a number. If the same number is retyped into the narrative, the table and the appendix, tagging surfaces the three of them disagreeing." },
+    { "code": "unit", "name": "Units and scale are recorded with the figure, not in the prose around it", "why": "tCO2e against ktCO2e is a tagging error that reads fine to a human and fails validation." },
+    { "code": "period", "name": "Reporting period and comparatives are explicit per figure", "why": "The taxonomy demands a context for every fact. Figures with an implied period cannot be tagged without a preparer deciding what they meant." },
+    { "code": "entity", "name": "Consolidation boundary is stated and matches the financial statements", "why": "A sustainability statement scoped differently from the accounts produces facts that cannot share a context with them." },
+    { "code": "dr", "name": "Each disclosure is anchored to the disclosure requirement it answers", "why": "Tagging maps narrative to DR. A statement organised by internal chapter rather than by DR gets re-cut before it can be tagged." },
+    { "code": "estimate", "name": "Estimated and value-chain figures are flagged as such at source", "why": "The taxonomy carries the distinction. Deciding it at tagging time means deciding it after the number has already been signed off." },
+    { "code": "trail", "name": "Every figure has provenance a reviewer can open", "why": "Not a tagging requirement. It is what makes the assurance that follows tagging survivable, and it is the part most preparers leave until last." }
+  ]
+}

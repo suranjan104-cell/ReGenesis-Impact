@@ -1,0 +1,247 @@
+{
+  "_comment": [
+    "The competitive benchmark, as data rather than as a claim in a slide.",
+    "",
+    "Rules this file is held to, enforced by knowledge/build-esrs.mjs:",
+    "  1. Every vendor carries at least one source URL. No coverage assertion",
+    "     without one.",
+    "  2. Coverage is yes | partial | no | unknown. 'unknown' is the default and",
+    "     is used whenever the vendor's own material does not say. Marking a",
+    "     competitor 'no' because we did not find it is how benchmarks become",
+    "     marketing.",
+    "  3. Our own row is graded on the same scale by the same rules, and every",
+    "     'no' against us stays visible in the product.",
+    "",
+    "This is a documentary review of published vendor material, not a product",
+    "trial. We have not run these platforms. Read it as 'what they say they do'."
+  ],
+  "reviewed": "2026-08",
+  "method": "Desk review of vendor and analyst material reachable from the build environment, August 2026. No platform was trialled.",
+  "capabilities": [
+    {
+      "code": "scope",
+      "name": "CSRD scoping",
+      "why": "Whether the company files at all, against the post-Omnibus thresholds."
+    },
+    {
+      "code": "dma",
+      "name": "Double materiality",
+      "why": "The assessment that decides which topical standards are reported and which are omitted with a reason."
+    },
+    {
+      "code": "dr",
+      "name": "Disclosure-requirement tracking",
+      "why": "Progress against named DRs rather than a single completion percentage."
+    },
+    {
+      "code": "ghg",
+      "name": "GHG inventory built in",
+      "why": "E1-6 is the largest quantitative disclosure in the standard. A CSRD tool that cannot produce the inventory sends you elsewhere for it."
+    },
+    {
+      "code": "taxonomy",
+      "name": "EU Taxonomy Article 8",
+      "why": "Mandatory alongside the ESRS narrative — turnover, CapEx and OpEx alignment KPIs."
+    },
+    {
+      "code": "xbrl",
+      "name": "XBRL / iXBRL tagging",
+      "why": "The digital filing layer. Currently suspended, but the taxonomy exists and the mandate returns."
+    },
+    {
+      "code": "interop",
+      "name": "ESRS ↔ IFRS S2 interoperability",
+      "why": "For the preparer filing under both, so the climate disclosure is built once."
+    },
+    {
+      "code": "assurance",
+      "name": "Assurance-ready audit trail",
+      "why": "Limited assurance is mandatory. Every figure needs provenance a reviewer can open."
+    },
+    {
+      "code": "prov",
+      "name": "Published factor provenance",
+      "why": "Whether the emission factors behind the numbers are published with source, vintage and confidence — including the weak ones."
+    },
+    {
+      "code": "free",
+      "name": "Usable without a sales call",
+      "why": "Whether a preparer can get a real answer today without procurement."
+    },
+    {
+      "code": "nodata",
+      "name": "No data leaves the browser",
+      "why": "Whether the tool can be used on live commercial figures before a vendor has been cleared."
+    }
+  ],
+  "vendors": [
+    {
+      "name": "Workiva",
+      "hq": "United States",
+      "position": "The enterprise incumbent. Connected reporting platform linking financial and sustainability data in one audit-ready environment; iXBRL tagging built into the authoring workflow rather than run as a separate technical pass after sign-off.",
+      "sources": [
+        {
+          "title": "CSRD Software | Workiva CSRD Tools for Sustainability Reports",
+          "url": "https://www.workiva.com/solutions/csrd-reporting"
+        },
+        {
+          "title": "Use the ESRS XBRL taxonomy for sustainability reporting",
+          "url": "https://support.workiva.com/hc/en-us/articles/22929364571796-Use-the-ESRS-XBRL-taxonomy-for-sustainability-reporting"
+        }
+      ],
+      "covers": {
+        "scope": "unknown",
+        "dma": "yes",
+        "dr": "yes",
+        "ghg": "partial",
+        "taxonomy": "yes",
+        "xbrl": "yes",
+        "interop": "unknown",
+        "assurance": "yes",
+        "prov": "unknown",
+        "free": "no",
+        "nodata": "no"
+      },
+      "note": "The benchmark for tagging and for audit trail. Multi-framework collection across GRI, TCFD, SASB and CDP. GHG marked partial because the platform's stated strength is collecting and reporting the number rather than computing the inventory."
+    },
+    {
+      "name": "Position Green (with Greenomy)",
+      "hq": "Norway / Belgium",
+      "position": "European consolidator. Acquired Greenomy, adding digitised ESRS and EU Taxonomy reporting to its own reporting, carbon management, supply chain and advisory stack.",
+      "sources": [
+        {
+          "title": "Position Green Acquires Sustainability Reporting and Compliance Solutions Provider Greenomy",
+          "url": "https://www.esgtoday.com/position-green-acquires-sustainability-reporting-and-compliance-solutions-provider-greenomy/"
+        },
+        {
+          "title": "Greenomy — ESG & Sustainability Reporting Software",
+          "url": "https://www.greenomy.io/esg-reporting-free-trial"
+        }
+      ],
+      "covers": {
+        "scope": "unknown",
+        "dma": "yes",
+        "dr": "yes",
+        "ghg": "yes",
+        "taxonomy": "yes",
+        "xbrl": "yes",
+        "interop": "unknown",
+        "assurance": "unknown",
+        "prov": "unknown",
+        "free": "no",
+        "nodata": "no"
+      },
+      "note": "Greenomy's material states the official reporting template can be exported already filled out in Excel, PDF or XBRL, and that the ESRS and EU Taxonomy requirements are navigable in-product. Closest competitor to what this tool is trying to be, with a company behind it."
+    },
+    {
+      "name": "Cozero",
+      "hq": "Germany",
+      "position": "EU-native carbon management and decarbonisation platform, positioned on European data residency with no US subprocessors.",
+      "sources": [
+        {
+          "title": "Workiva EU Alternative 2026: CSRD ESG Reporting Without CLOUD Act Exposure",
+          "url": "https://sota.io/blog/workiva-eu-alternative-csrd-esg-reporting-gdpr-cloud-act-2026"
+        }
+      ],
+      "covers": {
+        "scope": "unknown",
+        "dma": "unknown",
+        "dr": "unknown",
+        "ghg": "yes",
+        "taxonomy": "unknown",
+        "xbrl": "unknown",
+        "interop": "unknown",
+        "assurance": "unknown",
+        "prov": "unknown",
+        "free": "no",
+        "nodata": "no"
+      },
+      "note": "Mostly unknown here, and left that way. The single reachable source is a comparison piece by another vendor, which is not a basis for asserting what Cozero does or does not do."
+    },
+    {
+      "name": "Sweep",
+      "hq": "France",
+      "position": "Carbon and ESG data management, named repeatedly in CSRD software comparisons as an EU-native alternative.",
+      "sources": [
+        {
+          "title": "Workiva EU Alternative 2026: CSRD ESG Reporting Without CLOUD Act Exposure",
+          "url": "https://sota.io/blog/workiva-eu-alternative-csrd-esg-reporting-gdpr-cloud-act-2026"
+        }
+      ],
+      "covers": {
+        "scope": "unknown",
+        "dma": "unknown",
+        "dr": "unknown",
+        "ghg": "yes",
+        "taxonomy": "unknown",
+        "xbrl": "unknown",
+        "interop": "unknown",
+        "assurance": "unknown",
+        "prov": "unknown",
+        "free": "no",
+        "nodata": "no"
+      },
+      "note": "Same caveat as Cozero. Listed because a benchmark that omits the obvious European names is not a benchmark."
+    },
+    {
+      "name": "Plan A",
+      "hq": "Germany",
+      "position": "Carbon accounting and decarbonisation software with CSRD reporting positioning.",
+      "sources": [
+        {
+          "title": "Workiva EU Alternative 2026: CSRD ESG Reporting Without CLOUD Act Exposure",
+          "url": "https://sota.io/blog/workiva-eu-alternative-csrd-esg-reporting-gdpr-cloud-act-2026"
+        }
+      ],
+      "covers": {
+        "scope": "unknown",
+        "dma": "unknown",
+        "dr": "unknown",
+        "ghg": "yes",
+        "taxonomy": "unknown",
+        "xbrl": "unknown",
+        "interop": "unknown",
+        "assurance": "unknown",
+        "prov": "unknown",
+        "free": "no",
+        "nodata": "no"
+      },
+      "note": "As above."
+    }
+  ],
+  "us": {
+    "name": "ReGenesis Impact",
+    "covers": {
+      "scope": "yes",
+      "dma": "yes",
+      "dr": "partial",
+      "ghg": "yes",
+      "taxonomy": "partial",
+      "xbrl": "partial",
+      "interop": "yes",
+      "assurance": "partial",
+      "prov": "yes",
+      "free": "yes",
+      "nodata": "yes"
+    },
+    "honest": [
+      {
+        "cap": "dr",
+        "why": "65 of Set 1's disclosure requirements are enumerated across ten standards, and the list follows your materiality assessment rather than showing all of them. ESRS S1 is the exception: its count of 17 is stated but the individual requirement names could not be established from a source reachable here, so it is tracked as one switch weighted at 17 rather than named. And the whole list is ESRS Set 1 (2023) — the revised 2026 standards renumber and restructure several topical standards, and that list is not built yet."
+      },
+      {
+        "cap": "taxonomy",
+        "why": "The Article 8 tool computes the three KPIs from activities you enter and applies the four gates. It does not carry the technical screening criteria per activity per objective — you assert whether each gate is met, and it records that assertion. A platform that ships the criteria does something we do not."
+      },
+      {
+        "cap": "xbrl",
+        "why": "We assess tag-readiness and state where the mandate stands. We do not tag, and are not going to. Workiva does."
+      },
+      {
+        "cap": "assurance",
+        "why": "The pack prints the inventory, the factors applied with their provenance, the data quality scheme, the gaps ranked by tonnage, the full audit trail, every other assessment held in the ledger, and its own limitations. It is not a reviewer workflow with sign-offs, role separation and review notes, which is what an audit firm actually works in."
+      }
+    ],
+    "note": "Where we win is narrow and real: every number opens to the factor behind it with source, vintage and confidence, including the four factors we cannot source; nothing leaves the browser; and there is no sales call. Where we lose is also real and is printed above rather than left out."
+  }
+}
