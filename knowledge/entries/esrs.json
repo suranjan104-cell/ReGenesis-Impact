@@ -1,0 +1,123 @@
+[
+  {
+    "id": "esrs-001",
+    "tool": "esrs",
+    "title": "CSRD scope after the Omnibus",
+    "market": "eu",
+    "tags": ["csrd", "scope", "omnibus", "thresholds"],
+    "facts": [
+      "An EU company is in scope only if it exceeds BOTH 1,000 employees AND EUR 450mn net turnover — the Omnibus made this an AND test, taking a large number of previously in-scope companies out.",
+      "Non-EU parent groups are tested instead on EU-generated turnover above EUR 450mn.",
+      "Wave 1 companies continue reporting; Wave 2 first reports are due in 2028 covering FY2027, deferred by the Omnibus from the original timetable."
+    ],
+    "source": "https://www.bdo.com/insights/sustainability-and-esg/csrd-post-omnibus-revised-scope-and-requirements",
+    "confidence": "medium",
+    "reviewed": "2026-08"
+  },
+  {
+    "id": "esrs-002",
+    "tool": "esrs",
+    "title": "The revised ESRS adopted July 2026",
+    "market": "eu",
+    "tags": ["esrs", "simplification", "delegated act", "datapoints"],
+    "facts": [
+      "The European Commission adopted the delegated act containing the revised, simplified ESRS on 3 July 2026, cutting mandatory datapoints by 61% against the 2023 standards.",
+      "The revised standards apply to financial years beginning on or after 1 January 2027. Reports being prepared now for FY2025 and FY2026 are still filed against ESRS Set 1, Delegated Regulation (EU) 2023/2772.",
+      "A scrutiny period of two months with the Parliament and Council, extendable by two more, runs before entry into force — so the commencement date is not yet certain."
+    ],
+    "source": "https://www.cooley.com/news/insight/2026/2026-07-21-european-commission-adopts-revised-eu-csrd-reporting-standards",
+    "confidence": "medium",
+    "reviewed": "2026-08"
+  },
+  {
+    "id": "esrs-003",
+    "tool": "esrs",
+    "title": "Double materiality against financial materiality",
+    "market": "eu",
+    "tags": ["double materiality", "esrs", "ifrs s2", "omission"],
+    "facts": [
+      "ESRS requires a topic to be reported if it is material to people and the environment OR material to the company. IFRS S2 requires only the second.",
+      "An IFRS S2 or AASB S2 materiality assessment is therefore never sufficient evidence for omitting an ESRS topical standard — the impact side has to be assessed separately.",
+      "Every omitted topical standard needs a stated reason, and omitting ESRS E1 attracts an explicit explanation requirement."
+    ],
+    "source": "https://www.ifrs.org/content/dam/ifrs/supporting-implementation/issb-standards/esrs-issb-standards-interoperability-guidance.pdf",
+    "confidence": "medium",
+    "reviewed": "2026-08"
+  },
+  {
+    "id": "esrs-004",
+    "tool": "esrs",
+    "title": "EU Taxonomy Article 8 KPIs",
+    "market": "eu",
+    "tags": ["eu taxonomy", "article 8", "alignment", "capex"],
+    "facts": [
+      "Article 8 of Regulation (EU) 2020/852 requires disclosure of the proportion of turnover, CapEx and OpEx associated with Taxonomy-aligned activities — three separate KPIs, each a ratio over its own defined denominator.",
+      "Alignment requires four things: the activity is eligible, it substantially contributes to one of the six environmental objectives, it does no significant harm to the other five, and the entity meets minimum safeguards.",
+      "Minimum safeguards are assessed at entity level against the OECD Guidelines and the UN Guiding Principles, so failing them zeroes alignment across all three KPIs rather than dropping a single activity.",
+      "Credit institutions report the Green Asset Ratio instead; the turnover, CapEx and OpEx KPIs are treated as less relevant for financial undertakings."
+    ],
+    "source": "https://sustainablefutures.linklaters.com/post/102l7by/quick-guide-key-sustainability-disclosure-regimes-eu-taxonomy-regulation-artic",
+    "confidence": "medium",
+    "reviewed": "2026-08"
+  },
+  {
+    "id": "esrs-005",
+    "tool": "esrs",
+    "title": "EU Taxonomy reporting simplification 2026",
+    "market": "eu",
+    "tags": ["eu taxonomy", "simplification", "materiality threshold", "opex"],
+    "facts": [
+      "Commission Delegated Regulation (EU) 2026/73 was published in the Official Journal on 8 January 2026 and entered into force on 28 January 2026, applying from 1 January 2026.",
+      "Activities representing less than 10% of turnover, CapEx or OpEx need not be assessed, and the test is applied to each KPI independently — so the same activity can be excluded from one KPI and assessed in another.",
+      "A company may omit the OpEx KPI entirely where it is not material to its business model, disclosing only the total value and why it is not material.",
+      "Reporting templates were cut by roughly 64% of datapoints for non-financial undertakings and 89% for financial institutions, consolidated into one summary table and up to three per-activity tables."
+    ],
+    "source": "https://www.arthurcox.com/insights/eu-taxonomy-simplification-measures-adopted/",
+    "confidence": "medium",
+    "reviewed": "2026-08"
+  },
+  {
+    "id": "esrs-006",
+    "tool": "esrs",
+    "title": "XBRL tagging of the sustainability statement",
+    "market": "eu",
+    "tags": ["xbrl", "esef", "tagging", "efrag"],
+    "facts": [
+      "Mandatory XBRL tagging of the CSRD sustainability statement is suspended by Directive (EU) 2026/470, in force 18 March 2026, until the ESEF Delegated Regulation (EU) 2019/815 is amended to cover sustainability tagging.",
+      "The ESRS Set 1 XBRL taxonomy itself exists and is published by EFRAG, covering over 1,200 datapoints; EFRAG is committed to delivering an updated taxonomy against the revised standards by December 2026.",
+      "Resumption depends on ESMA drafting regulatory technical standards and the Commission amending the ESEF regulation — neither has happened, so no firm resumption date exists."
+    ],
+    "source": "https://www.xbrl.org/news/efrags-2026-work-programme-puts-xbrl-taxonomy-front-and-centre/",
+    "confidence": "medium",
+    "reviewed": "2026-08"
+  },
+  {
+    "id": "esrs-007",
+    "tool": "esrs",
+    "title": "What carries across from IFRS S2 to ESRS",
+    "market": "eu",
+    "tags": ["interoperability", "ifrs s2", "esrs e1", "ghg protocol"],
+    "facts": [
+      "The IFRS Foundation and EFRAG published joint Interoperability Guidance on 2 May 2024, mapping the climate requirements of IFRS S2 against ESRS 1, ESRS 2 and ESRS E1.",
+      "The strongest carry-across is the GHG inventory: both require gross Scope 1, 2 and 3 measured under the GHG Protocol, with Scope 2 on both location and market basis, so an inventory built for one serves the other.",
+      "ESRS asks for more on transition plans, on targets consistent with a 1.5°C pathway, and on the operating and capital expenditure attached to climate actions. IFRS S2 asks for industry-based metrics referencing SASB, which ESRS Set 1 has no equivalent for."
+    ],
+    "source": "https://www.ifrs.org/news-and-events/news/2024/05/ifrs-foundation-and-efrag-publish-interoperability-guidance/",
+    "confidence": "medium",
+    "reviewed": "2026-08"
+  },
+  {
+    "id": "esrs-008",
+    "tool": "esrs",
+    "title": "The value chain cap",
+    "market": "eu",
+    "tags": ["value chain", "scope 3", "suppliers", "vsme"],
+    "facts": [
+      "A CSRD reporter may not require a company in its value chain with 1,000 employees or fewer to provide more sustainability information than the voluntary standard requires.",
+      "Gross Scope 1, 2 and 3 GHG emissions are carved out of that cap, so the emissions ask survives it — which is why an SME supplier still needs an inventory even when the rest of the questionnaire is capped."
+    ],
+    "source": "https://www.grantthornton.global/en/insights/articles/european-commission-adopts-revised-esrs-and-voluntary-standard/",
+    "confidence": "medium",
+    "reviewed": "2026-08"
+  }
+]

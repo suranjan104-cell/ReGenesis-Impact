@@ -64,7 +64,12 @@ stale it goes stale visibly.
 Written into `competitors.json` under `us.honest`, enforced by the build, and
 printed in the product beneath the comparison table:
 
-- **Disclosure requirements** are enumerated for ESRS 2 and E1 only.
+- **Disclosure requirements** — 65 of Set 1's requirements are enumerated across ten
+  standards, and the list follows your materiality assessment rather than dumping
+  all of them. ESRS S1 is the exception: its count of 17 is sourced but the
+  individual names are not, so it is tracked whole and weighted at 17 in the
+  readiness percentage. The whole list is Set 1 (2023); the revised 2026
+  standards renumber several topical standards and that list is not built yet.
 - **Article 8** computes the KPIs and applies the four gates, but does not ship
   the technical screening criteria per activity per objective. You assert whether
   substantial contribution and DNSH are met; we record the assertion.
@@ -115,6 +120,34 @@ and this is the gate that stops it recurring here.
 
 All ten arithmetic properties were verified by injecting the corresponding defect
 and confirming the simulation caught it.
+
+## What shipped after the first pass
+
+The benchmark said `partial` on disclosure-requirement tracking and it was
+right — three standards were enumerated out of twelve. Now eleven are, 65
+requirements in total, and the panel follows the materiality assessment so a
+preparer who screened out four topical standards does not scroll past them.
+Marking a standard material adds its requirements in the same click, which is
+what makes tab 2 consequential rather than a form you fill in and leave.
+
+Two build gates came out of doing it. A standard that enumerates requirement
+names must now declare where those names came from — eight of these lists were
+built from published summaries rather than the regulation, and two of the eight
+pattern part of the list from the structure S1–S4 share; a reader deciding
+whether to trust a requirement name is entitled to know which. And a requirement
+code must belong to its standard, so an `E5-1` cannot hide inside ESRS E4. Both
+were verified by breaking them, and the first one immediately caught two
+pre-existing entries — ESRS 2 and E1 — that had never said where their names
+came from.
+
+Sage now routes European questions to the regime facts in
+`knowledge/esrs/` instead of answering from general knowledge. That matters
+because general knowledge is exactly what would have told someone the simplified
+set was still pending two months after it was adopted.
+
+Europe also has a guide page now — `guides/esrs-csrd-reporting-guide.html` — so
+it has the same crawlable entry point ISSB and Australia already had, backed by
+eight new sourced knowledge-base entries under a new `eu` market.
 
 ## Sources
 

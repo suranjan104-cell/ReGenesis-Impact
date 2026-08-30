@@ -2780,7 +2780,8 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
         <h3>Europe — ESRS / CSRD</h3>
         <ul><li>1,000+ staff <em>and</em> €450mn+ turnover</li><li>Double materiality, not financial only</li><li>EU Taxonomy Article 8 alignment KPIs</li><li>Revised ESRS adopted 3 Jul 2026 — applies FY2027</li></ul>
         <span class="ed-deadline">REVISED ESRS APPLY FROM FY2027</span>
-        <a href="#esrs" onclick="showPage('esrs');return false;">Open the ESRS tool →</a>
+        <a href="guides/esrs-csrd-reporting-guide.html">Read the ESRS &amp; CSRD guide →</a>
+        <a href="#esrs" style="margin-top:.4rem;font-weight:500;color:rgba(10,255,219,.85)" onclick="showPage('esrs');return false;">Open the ESRS tool →</a>
       </div>
     </div>
   </div>
@@ -9365,7 +9366,13 @@ document.addEventListener('DOMContentLoaded', function() {
    { id: 'factor',    test: /emission factor|which factor|factor for|vintage|defra|gwp|ar4|ar5|ar6|source of|where does .* come from/i },
    { id: 'inventory', test: /my (inventory|emissions|scope|number|figure)|our (inventory|emissions|scope)|data quality|weakest|biggest gap|exposure|dq \d/i },
    { id: 'assurance', test: /assur|auditor|evidence|assa|issa|limited assurance|reasonable assurance|audit trail/i },
-   { id: 'drafting',  test: /draft|write|disclosure statement|wording|snippet/i }
+   { id: 'drafting',  test: /draft|write|disclosure statement|wording|snippet/i },
+   /* Placed last so it only claims a question the others did not. A user
+      asking "what is our Article 8 turnover alignment" wants the ledger, and
+      the inventory route already reaches that; a user asking "when does XBRL
+      tagging become mandatory" wants the regime facts, and nothing else
+      carried them. */
+   { id: 'esrs',      test: /esrs|csrd|omnibus|double materiality|eu taxonomy|article 8|taxonomy.aligned|dnsh|do no significant harm|minimum safeguards|xbrl|esef|tagging|efrag|vsme|green asset ratio|interoperab/i }
  ];
  window.rgSageRoute = function(text) {
    for (var i = 0; i < RG_ROUTES.length; i++) if (RG_ROUTES[i].test.test(text || '')) return RG_ROUTES[i].id;
@@ -9401,6 +9408,48 @@ document.addEventListener('DOMContentLoaded', function() {
      if (led) {
        parts.push(led);
        (String(led).match(/-?\d+(?:\.\d+)?/g) || []).forEach(function(n) { facts.push(Number(n)); });
+     }
+   }
+
+   /* The European regime facts, assembled from the same data files the tool
+      renders. Sage was previously answering CSRD questions from general
+      knowledge — which is how it would have told someone the simplified set
+      was still pending two months after it was adopted. */
+   if (route === 'esrs' && typeof _esrs !== 'undefined' && _esrs) {
+     var sc = _esrs.scope, sim = sc.simplified_esrs, txn = _esrs.taxonomy, dgt = _esrs.digital;
+     parts.push(
+       'European regime facts from our own data files (knowledge/esrs/), all graded ' + sc.confidence +
+       ' confidence because primary sources were unreachable when they were built:\n' +
+       '- CSRD scope: an EU company is in scope above ' + sc.thresholds.eu_company.employees_over +
+         ' employees AND €' + sc.thresholds.eu_company.net_turnover_over_eur_m +
+         'mn net turnover. Both tests, not either. Non-EU parent groups: €' +
+         sc.thresholds.non_eu_group.eu_turnover_over_eur_m + 'mn of EU-generated turnover.\n' +
+       '- Revised ESRS: ' + sim.status + ', adopted ' + sim.adopted + '. ' +
+         sim.mandatory_datapoint_reduction_percent + '% fewer mandatory datapoints. Applies to financial years ' +
+         'beginning on or after 1 January ' + sim.mandatory_from_fy + '. Reports being prepared now are still filed ' +
+         'against ' + sim.dr_enumeration_set + '.\n' +
+       '- EU Taxonomy Article 8: three KPIs (turnover, CapEx, OpEx). Alignment needs eligibility, substantial ' +
+         'contribution, DNSH and entity-level minimum safeguards. ' + txn.simplification.regulation +
+         ' introduced a ' + txn.simplification.materiality_threshold_percent + '% materiality floor applied per KPI ' +
+         'independently, in force ' + txn.simplification.in_force + '. Financial undertakings report the ' +
+         txn.financial_undertakings.main_kpi + ' instead.\n' +
+       '- Digital tagging: mandatory XBRL tagging is ' + dgt.status.mandate + ' by ' + dgt.status.suspended_by +
+         ', in force ' + dgt.status.suspension_in_force + ', until ' + dgt.status.resumes_when +
+         '. No resumption date exists — do not state one.\n' +
+       '- Value chain cap: ' + sim.value_chain_cap + '\n' +
+       '- Standards: ' + _esrs.count + ' in Set 1. ' +
+         _esrs.standards.filter(function(s){ return Array.isArray(s.drs); })
+           .map(function(s){ return s.code + ' (' + s.dr_count + ' DRs)'; }).join(', ') +
+         '. ESRS S1 has 17 disclosure requirements whose individual names we could not source — say so rather than naming them.');
+     facts.push(sc.thresholds.eu_company.employees_over, sc.thresholds.eu_company.net_turnover_over_eur_m,
+                sc.thresholds.non_eu_group.eu_turnover_over_eur_m, sim.mandatory_from_fy,
+                sim.mandatory_datapoint_reduction_percent, txn.simplification.materiality_threshold_percent,
+                dgt.status.set1_taxonomy_datapoints_over, _esrs.count);
+     _esrs.standards.forEach(function(s){ if (s.dr_count) facts.push(s.dr_count); });
+     var led2 = (typeof rgLedgerContext === 'function') ? rgLedgerContext() : '';
+     if (led2) {
+       parts.push(led2);
+       (String(led2).match(/-?\d+(?:\.\d+)?/g) || []).forEach(function(n) { facts.push(Number(n)); });
      }
    }
 
@@ -9655,61 +9704,123 @@ document.addEventListener('DOMContentLoaded', function() {
    var el = document.getElementById('es-dr-blocks');
    if (!el) return;
    var esc = function(x){ var d=document.createElement('div'); d.textContent = x==null?'':x; return d.innerHTML; };
-   var withDrs = _esrs.standards.filter(function(s){ return Array.isArray(s.drs); });
 
-   el.innerHTML = withDrs.map(function(st) {
-     return '<div class="es-dr-std"><div class="es-dr-hd">' + esc(st.code) + ' &middot; ' +
-       esc(st.name) + ' &middot; ' + st.drs.length + ' disclosure requirements</div>' +
-       st.drs.map(function(dr) {
-         var k = st.code + '|' + dr.code, cur = _esrsDr[k] || 'none';
-         var ev = esrsDrEvidence(dr.evidence_from);
-         var btn = function(v, lab, cls) {
-           return '<button class="' + (cur === v ? 'on ' + (cls||'') : '') +
-             '" onclick="esrsDrSet(\'' + st.code + '\',\'' + dr.code + '\',\'' + v + '\')">' + lab + '</button>';
-         };
-         return '<div class="es-dr">' +
-           '<span class="es-dr-code">' + esc(dr.code) + '</span>' +
-           '<span class="es-dr-name">' + esc(dr.name) +
-             (ev ? '<span class="es-dr-ev">' + esc(ev.tool) +
-                   (ev.dq != null ? ' · DQ ' + ev.dq.toFixed(1) : '') + '</span>'
-                 : (dr.evidence_from ? '<span class="es-dr-ev none">no inventory yet</span>' : '')) +
-           '</span>' +
-           '<span class="es-dr-sw">' + btn('none','Not started') + btn('part','Partial','part') + btn('done','Ready') + '</span>' +
-           '</div>';
-       }).join('') + '</div>';
+   /* Only what this company actually files. Sixty-five disclosure requirements
+      is the whole of Set 1; a preparer who screened out four topical standards
+      should not have to scroll past them. So the list follows the materiality
+      assessment on the previous tab — which is also what makes that assessment
+      consequential rather than a form you fill in and leave behind. */
+   var shown = _esrs.standards.filter(function(s) {
+     if (s.dr_count === 0 || s.dr_count == null) return false;
+     if (s.always_required) return true;
+     var m = _esrsMat[s.code] || {};
+     return !!(m.i || m.f);
+   });
+
+   var topicalShown = shown.filter(function(s){ return !s.always_required; });
+   var hint = '<div class="es-note" style="margin-bottom:1rem">' +
+     'Showing ' + shown.length + ' of ' + _esrs.standards.filter(function(s){ return s.dr_count; }).length +
+     ' standards that carry disclosure requirements: the cross-cutting ones, plus ' +
+     (topicalShown.length ? 'the ' + topicalShown.length + ' topical standard' + (topicalShown.length === 1 ? '' : 's') +
+        ' you marked material (' + topicalShown.map(function(s){ return s.code; }).join(', ') + ')'
+      : 'any topical standards you mark material on the double materiality tab — none yet') +
+     '.</div>';
+
+   el.innerHTML = hint + shown.map(function(st) {
+     var head = '<div class="es-dr-std"><div class="es-dr-hd">' + esc(st.code) + ' &middot; ' +
+       esc(st.name) + ' &middot; ' + st.dr_count + ' disclosure requirements' +
+       (st.confidence !== 'high' ? ' &middot; ' + esc(st.confidence) + ' confidence' : '') + '</div>';
+
+     /* A count we can defend without names we cannot. ESRS S1 is the one
+        standard in Set 1 still tracked whole rather than requirement by
+        requirement, and it says so where a preparer will see it. */
+     if (!Array.isArray(st.drs)) {
+       var cur0 = _esrsDr[st.code + '|*'] || 'none';
+       var b0 = function(v, lab, cls) {
+         return '<button class="' + (cur0 === v ? 'on ' + (cls||'') : '') +
+           '" onclick="esrsDrSet(\'' + st.code + '\',\'*\',\'' + v + '\')">' + lab + '</button>';
+       };
+       return head +
+         '<div class="es-dr"><span class="es-dr-code">' + esc(st.code.replace('ESRS ','')) + '</span>' +
+         '<span class="es-dr-name">All ' + st.dr_count + ' requirements, tracked as one' +
+           '<span class="es-dr-ev none">not enumerated</span>' +
+           '<div class="es-note">' + esc(st.dr_source) + '</div></span>' +
+         '<span class="es-dr-sw">' + b0('none','Not started') + b0('part','Partial','part') + b0('done','Ready') + '</span>' +
+         '</div></div>';
+     }
+
+     return head + st.drs.map(function(dr) {
+       var k = st.code + '|' + dr.code, cur = _esrsDr[k] || 'none';
+       var ev = esrsDrEvidence(dr.evidence_from);
+       var btn = function(v, lab, cls) {
+         return '<button class="' + (cur === v ? 'on ' + (cls||'') : '') +
+           '" onclick="esrsDrSet(\'' + st.code + '\',\'' + dr.code + '\',\'' + v + '\')">' + lab + '</button>';
+       };
+       return '<div class="es-dr">' +
+         '<span class="es-dr-code">' + esc(dr.code) + '</span>' +
+         '<span class="es-dr-name">' + esc(dr.name) +
+           (ev ? '<span class="es-dr-ev">' + esc(ev.tool) +
+                 (ev.dq != null ? ' · DQ ' + ev.dq.toFixed(1) : '') + '</span>'
+               : (dr.evidence_from ? '<span class="es-dr-ev none">no inventory yet</span>' : '')) +
+         '</span>' +
+         '<span class="es-dr-sw">' + btn('none','Not started') + btn('part','Partial','part') + btn('done','Ready') + '</span>' +
+         '</div>';
+     }).join('') +
+     '<div class="es-note" style="padding-top:.5rem">Source of this list: ' + esc(st.dr_source) + '</div></div>';
    }).join('');
  };
 
  window.esrsDrSave = function() {
    if (!_esrs) return;
-   var withDrs = _esrs.standards.filter(function(s){ return Array.isArray(s.drs); });
-   var all = [], open = [];
-   withDrs.forEach(function(st) {
+   var shown = _esrs.standards.filter(function(s) {
+     if (s.dr_count === 0 || s.dr_count == null) return false;
+     if (s.always_required) return true;
+     var m = _esrsMat[s.code] || {};
+     return !!(m.i || m.f);
+   });
+
+   /* Weighted by requirement count, not by standard. ESRS S1 is tracked as one
+      switch but stands for seventeen requirements, and a readiness percentage
+      that treats it as one would overstate progress for exactly the standard
+      with the most work in it. */
+   var total = 0, done = 0, open = [];
+   shown.forEach(function(st) {
+     if (!Array.isArray(st.drs)) {
+       var s0 = _esrsDr[st.code + '|*'] || 'none';
+       total += st.dr_count;
+       if (s0 === 'done') done += st.dr_count;
+       if (s0 !== 'done') open.push({ std: st.code, code: st.code.replace('ESRS ',''),
+                                      name: 'all ' + st.dr_count + ' requirements', status: s0, weight: st.dr_count });
+       return;
+     }
      st.drs.forEach(function(dr) {
-       var st_ = _esrsDr[st.code + '|' + dr.code] || 'none';
-       all.push(st_);
-       if (st_ !== 'done') open.push({ std: st.code, code: dr.code, name: dr.name, status: st_ });
+       var s1 = _esrsDr[st.code + '|' + dr.code] || 'none';
+       total += 1;
+       if (s1 === 'done') done += 1;
+       else open.push({ std: st.code, code: dr.code, name: dr.name, status: s1, weight: 1 });
      });
    });
-   var done = all.filter(function(x){ return x === 'done'; }).length;
-   var pct = all.length ? Math.round(done / all.length * 100) : 0;
+   var pct = total ? Math.round(done / total * 100) : 0;
 
    var el = document.getElementById('es-dr-res');
    el.className = 'es-res show';
    el.innerHTML =
-     '<div class="es-verdict ' + (pct === 100 ? 'in' : 'out') + '">' + done + ' of ' + all.length + ' ready · ' + pct + '%</div>' +
+     '<div class="es-verdict ' + (pct === 100 ? 'in' : 'out') + '">' + done + ' of ' + total + ' ready · ' + pct + '%</div>' +
+     '<div class="es-kv"><div class="k">Standards in play</div><div>' +
+       (shown.length ? shown.map(function(s){ return s.code + ' (' + s.dr_count + ')'; }).join(', ')
+                     : 'none — mark topical standards material on the previous tab') + '</div></div>' +
      '<div class="es-kv"><div class="k">Outstanding</div><div>' +
-       (open.length ? open.slice(0, 6).map(function(o){ return o.code; }).join(', ') +
-         (open.length > 6 ? ' and ' + (open.length - 6) + ' more' : '')
-        : 'none — every enumerated DR marked ready') + '</div></div>' +
-     '<div class="es-kv"><div class="k">Scope</div><div>ESRS 2 and E1 only. The other eight topical standards stay at standard level until the simplified set is published.</div></div>';
+       (open.length ? open.slice(0, 10).map(function(o){ return o.code; }).join(', ') +
+         (open.length > 10 ? ' and ' + (open.length - 10) + ' more' : '')
+        : (total ? 'none — every requirement in scope marked ready' : 'nothing in scope yet')) + '</div></div>' +
+     '<div class="es-kv"><div class="k">Not enumerated</div><div>ESRS S1 is tracked as one switch standing for its 17 requirements, because those 17 names could not be sourced. It is weighted at 17 in the percentage above, not at 1.</div></div>';
 
    if (typeof rgLedger !== 'undefined') {
      rgLedger.put({
        key: 'esrs-disclosures', tool: 'ESRS disclosures',
-       title: done + ' of ' + all.length + ' disclosure requirements ready',
-       period: 'ESRS 2 + E1',
-       figures: { ready: done, total: all.length, readiness_percent: pct },
+       title: done + ' of ' + total + ' disclosure requirements ready',
+       period: _esrs.scope.simplified_esrs.dr_enumeration_set,
+       figures: { ready: done, total: total, readiness_percent: pct, standards_in_scope: shown.length },
        dq: null,
        gaps: open.map(function(o) {
          return { line: o.std + ' ' + o.code + ' — ' + o.name, tCO2e: 0,
@@ -9723,6 +9834,8 @@ document.addEventListener('DOMContentLoaded', function() {
  window.esrsMat = function(code, kind, val) {
    _esrsMat[code] = _esrsMat[code] || { i:false, f:false };
    _esrsMat[code][kind] = val;
+   // esrsRender re-runs esrsDrRender, so marking a standard material adds its
+   // requirements to the disclosure tab in the same click.
    esrsRender();
  };
 
@@ -13949,8 +14062,11 @@ table.es-bm td.us{background:rgba(10,255,219,.045)}
   <div class="es-panel">
     <div class="es-ptitle">3 &middot; Disclosure requirements</div>
     <div class="es-psub">
-      Enumerated for ESRS 2 and E1 only &mdash; the two that always bind in practice. Mark each as
-      you go. Where another tool already holds the evidence, it says so rather than asking you twice.
+      65 disclosure requirements of ESRS Set 1, enumerated across ten standards. The list follows your
+      double materiality assessment, so you see the cross-cutting standards plus the topical ones you
+      marked material &mdash; not all sixty-five. Where another tool already holds the evidence, it says
+      so rather than asking you twice. ESRS S1 is the exception: its count of 17 is stated but its
+      individual requirement names could not be sourced, so it is tracked whole and weighted at 17.
     </div>
     <div id="es-dr-blocks"></div>
     <button class="es-btn" onclick="esrsDrSave()">Record disclosure status &rarr;</button>

@@ -46,6 +46,13 @@ for (const s of standards) {
   /* Where disclosure requirements are enumerated, the list and the count must
      agree. A standard claiming nine DRs while listing eight is the same defect
      as a factor whose label disagrees with its value. */
+  /* Where names are enumerated, say where they came from. Eight of these
+     standards were built from published summaries of Set 1 rather than the
+     regulation, and two of those eight pattern part of the list from the
+     structure S1–S4 share. A reader deciding whether to trust a requirement
+     name is entitled to know which of those it is. */
+  if (s.dr_count !== null && s.dr_count > 0 && !s.dr_source)
+    errors.push(`${where}: dr_source required — say how the requirement list or count was established`);
   if (s.drs !== undefined) {
     if (!Array.isArray(s.drs) || !s.drs.length) errors.push(`${where}: drs must be a non-empty array when present`);
     else {
@@ -57,6 +64,11 @@ for (const s of standards) {
         else if (codes.has(dr.code)) errors.push(`${where}: duplicate DR ${dr.code}`);
         else codes.add(dr.code);
         if (!dr.name) errors.push(`${where} ${dr.code}: name required`);
+        // "ESRS E4" -> codes must start "E4-". A mis-filed requirement shows a
+        // preparer a disclosure that belongs to a standard they screened out.
+        const stem = (s.code || '').replace(/^ESRS /, '');
+        if (stem !== '2' && dr.code && dr.code.indexOf(stem + '-') !== 0)
+          errors.push(`${where}: DR ${dr.code} does not belong to ${s.code}`);
         if (!('evidence_from' in dr)) errors.push(`${where} ${dr.code}: evidence_from required (null if none)`);
       }
     }
@@ -209,7 +221,10 @@ const out = {
   competitors,
 };
 writeFileSync(join(root, 'esrs.json'), JSON.stringify(out));
+const listed = standards.filter(s => Array.isArray(s.drs));
+const drTotal = listed.reduce((n, s) => n + s.drs.length, 0);
 console.log(`✓ esrs.json built — ${out.count} standards (${out.topical} topical, ${out.enumerated} with disclosure counts stated)`);
+console.log(`  disclosure requirements: ${drTotal} enumerated across ${listed.length} standards · ${standards.filter(s => s.dr_count > 0 && !s.drs).map(s => s.code).join(', ') || 'none'} counted but not named`);
 console.log(`  scope confidence: ${scope.confidence} · ${scope.sources.length} sources · simplified set: ${scope.simplified_esrs.status}`);
 console.log(`  taxonomy: ${taxonomy.kpis.length} KPIs · ${taxonomy.gates.length} gates · ${taxonomy.objectives.length} objectives · threshold ${taxonomy.simplification.materiality_threshold_percent}%`);
 console.log(`  digital: tagging ${digital.status.mandate}${digital.status.suspended_by ? ' by ' + digital.status.suspended_by : ''}`);

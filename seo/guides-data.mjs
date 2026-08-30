@@ -5,6 +5,23 @@
 
 export const GUIDES = [
   {
+    slug: 'esrs-csrd-reporting-guide',
+    title: 'ESRS and CSRD — Practical Guide for European Reporters',
+    description: 'Who is in scope after the Omnibus, how double materiality works, what EU Taxonomy Article 8 asks for, and where XBRL tagging actually stands.',
+    tool: 'esrs', toolHash: 'esrs', toolLabel: 'Open the free ESRS tool',
+    market: 'European Union',
+    kbIds: ['esrs-001', 'esrs-002', 'esrs-003', 'esrs-004', 'esrs-005', 'esrs-006'],
+    intro: 'The CSRD is the broadest sustainability reporting regime in force, and it moved twice in 2026: the Omnibus cut who has to file, and the revised ESRS cut how much they file. This guide covers who is in scope now, what double materiality changes about your assessment, how the EU Taxonomy Article 8 KPIs are actually computed, and why the XBRL tagging deadline you were quoted no longer exists.',
+    faq: [
+      ['Am I in scope for CSRD after the Omnibus?', 'An EU company is in scope only if it exceeds both 1,000 employees and EUR 450mn net turnover — the Omnibus made this an AND test, not an either/or. Non-EU parent groups are tested on EU-generated turnover above EUR 450mn.'],
+      ['Which ESRS do I file against for FY2026?', 'ESRS Set 1, Delegated Regulation (EU) 2023/2772. The revised simplified standards were adopted on 3 July 2026 but apply to financial years beginning on or after 1 January 2027, so a FY2026 report is prepared under Set 1.'],
+      ['Is my IFRS S2 materiality assessment enough for ESRS?', 'No. ESRS reports a topic material to people and the environment OR to the company; IFRS S2 covers only the second. The impact side has to be assessed separately, and every omitted topical standard needs a stated reason.'],
+      ['Do I have to report the OpEx Taxonomy KPI?', 'Not necessarily. Delegated Regulation (EU) 2026/73 lets you omit the OpEx KPI where it is not material to your business model, disclosing only its total value and why it is not material. The same regulation lets you skip assessing any activity below 10% of a KPI, applied per KPI independently.'],
+      ['When does XBRL tagging become mandatory?', 'There is no date. Mandatory tagging of the sustainability statement is suspended by Directive (EU) 2026/470, in force 18 March 2026, until the ESEF Delegated Regulation is amended to cover it — which requires ESMA technical standards that have not been drafted. Any vendor quoting you a resumption date is guessing.'],
+      ['Does the value chain cap get my suppliers off the hook?', 'Partly. You cannot require a value chain company of 1,000 employees or fewer to provide more than the voluntary standard asks — but gross Scope 1, 2 and 3 emissions are carved out of that cap, so the emissions request survives it.'],
+    ],
+  },
+  {
     slug: 'ifrs-s2-reporting-guide',
     title: 'IFRS S2 Climate Disclosure — Practical Guide',
     description: 'What IFRS S2 requires: the four pillars, Scope 1–3 rules, transition reliefs and how to build a compliant climate disclosure.',
