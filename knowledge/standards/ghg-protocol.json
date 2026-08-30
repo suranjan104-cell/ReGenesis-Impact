@@ -1,0 +1,98 @@
+{
+  "_comment": [
+    "The GHG Protocol Corporate Standard, as requirements a tool can check rather",
+    "than a logo on a marketing page. The tool already computed to the standard;",
+    "it never told a preparer whether their inventory would actually satisfy it.",
+    "",
+    "Each requirement carries the field or condition that satisfies it, so the",
+    "conformance check is data-driven and a reader can see why it passed.",
+    "",
+    "ghgprotocol.org could not be reached from the build environment, so this is",
+    "drawn from professional-firm and practitioner summaries of the standard and",
+    "graded medium. Verify against the Corporate Standard before relying on a",
+    "conformance verdict for a filing."
+  ],
+  "standard": "GHG Protocol Corporate Accounting and Reporting Standard (Revised Edition)",
+  "confidence": "medium",
+  "reviewed": "2026-08",
+  "sources": [
+    { "publisher": "GHG Protocol", "title": "A Corporate Accounting and Reporting Standard (Revised Edition)", "url": "https://ghgprotocol.org/sites/default/files/standards/ghg-protocol-revised.pdf" },
+    { "publisher": "Deloitte", "title": "GHG Protocol reporting considerations — Reporting", "url": "https://dart.deloitte.com/USDART/home/publications/deloitte/additional-deloitte-guidance/greenhouse-gas-protocol-reporting-considerations/chapter-4-calculating-ghg-emissions-choosing/4-3-reporting" },
+    { "publisher": "US EPA", "title": "Determine organizational boundaries", "url": "https://epa.gov/climateleadership/determine-organizational-boundaries" },
+    { "publisher": "Exponential Roadmap Initiative", "title": "Key requirements of the GHG Protocol Corporate Standard", "url": "https://exponentialroadmap.org/wp-content/uploads/2025/12/GHGP-Corporate-Standard-Requirements.pdf" }
+  ],
+  "principles": [
+    { "code": "relevance",    "name": "Relevance",    "note": "The inventory reflects the emissions of the company and serves the decision-making needs of its users." },
+    { "code": "completeness", "name": "Completeness", "note": "All emission sources within the chosen boundary are accounted for, and any exclusion is disclosed and justified." },
+    { "code": "consistency",  "name": "Consistency",  "note": "Methodologies allow meaningful comparison over time; any change in method, boundary or data is documented." },
+    { "code": "transparency", "name": "Transparency", "note": "Assumptions, references and methodologies are disclosed so a reader can follow the number to its source." },
+    { "code": "accuracy",     "name": "Accuracy",     "note": "Quantification is neither systematically over nor under actual emissions, so far as can be judged." }
+  ],
+  "boundaries": {
+    "organizational": [
+      { "code": "equity",      "name": "Equity share",       "note": "Emissions accounted according to the share of equity in the operation, reflecting economic interest." },
+      { "code": "financial",   "name": "Financial control",  "note": "100% of emissions from operations under financial control; nothing from operations held but not financially controlled." },
+      { "code": "operational", "name": "Operational control", "note": "100% of emissions from operations where the company has authority to introduce and implement operating policies." }
+    ],
+    "note": "The choice must be disclosed, and applied consistently. Changing it is a structural change that triggers base-year recalculation."
+  },
+  "requirements": [
+    { "code": "gp-boundary-org", "name": "Organisational boundary stated",
+      "test": "consolidation_selected",
+      "why": "A reader cannot interpret a total without knowing which entities are inside it. The standard requires the consolidation approach to be disclosed, not merely chosen.",
+      "severity": "required" },
+    { "code": "gp-boundary-op", "name": "Operational boundary stated",
+      "test": "scope12_present",
+      "why": "Scope 1 and Scope 2 are the minimum. A company reporting Scope 3 must also list the activity types covered by it.",
+      "severity": "required" },
+    { "code": "gp-scope2-dual", "name": "Scope 2 reported location-based and market-based",
+      "test": "scope2_dual",
+      "why": "The Scope 2 Guidance requires both. A market-based figure alone hides the grid the company actually draws on; a location-based figure alone hides the contracts it has signed.",
+      "severity": "required" },
+    { "code": "gp-baseyear", "name": "Base year stated",
+      "test": "baseyear_stated",
+      "why": "Targets and trends are meaningless without the year they run from. The standard requires a base year — a specific year or an average of several — to be established and disclosed.",
+      "severity": "required" },
+    { "code": "gp-recalc", "name": "Base year recalculation policy stated, with a significance threshold",
+      "test": "recalc_policy",
+      "why": "Structural changes, methodology changes and discovered errors all trigger recalculation. Without a stated threshold, the decision to recalculate is made after the number is known — which is the wrong order.",
+      "severity": "required" },
+    { "code": "gp-gwp", "name": "GWP assessment set stated",
+      "test": "gwp_stated",
+      "why": "The same activity yields different tonnes under AR4, AR5 and AR6. A total without its assessment set cannot be compared with anything.",
+      "severity": "required" },
+    { "code": "gp-exclusions", "name": "Exclusions disclosed and justified",
+      "test": "exclusions_stated",
+      "why": "Completeness does not require reporting everything; it requires saying what was left out and why. An unstated exclusion is the difference between an incomplete inventory and a misleading one.",
+      "severity": "required" },
+    { "code": "gp-methods", "name": "Methodologies and emission factors disclosed",
+      "test": "factors_traceable",
+      "why": "Transparency. Every calculated figure must trace to the factor applied, its source and its vintage.",
+      "severity": "required" },
+    { "code": "gp-gross", "name": "Gross emissions presented separately from any offsets or trades",
+      "test": "gross_separate",
+      "why": "The standard requires gross emissions for the chosen inventory boundary to stand separate from and independent of any GHG trades. Netting them makes the inventory unusable.",
+      "severity": "required" },
+    { "code": "gp-scope3-screen", "name": "Scope 3 screened across all fifteen categories",
+      "test": "scope3_screened",
+      "why": "Scope 3 is optional under the Corporate Standard, but a partial Scope 3 presented without saying which categories were screened reads as a complete one.",
+      "severity": "recommended" },
+    { "code": "gp-uncertainty", "name": "Data quality or uncertainty assessed",
+      "test": "dq_present",
+      "why": "A total carries no information about how much of it is measured and how much estimated. The standard asks for an uncertainty assessment; this tool scores data quality 1–5 and rolls it up emissions-weighted.",
+      "severity": "recommended" },
+    { "code": "gp-verification", "name": "Verification status stated",
+      "test": "verification_stated",
+      "why": "Whether the figures were checked by anyone independent, and to what level, changes what a reader may rely on them for.",
+      "severity": "recommended" }
+  ],
+  "scope2": {
+    "requirement": "dual reporting",
+    "note": "The GHG Protocol Scope 2 Guidance requires both a location-based figure, using average grid emission factors for the area consumption occurs in, and a market-based figure, reflecting contractual instruments the company has purchased. Both are reported; neither replaces the other."
+  },
+  "scope3": {
+    "mandatory": false,
+    "categories": 15,
+    "note": "Scope 3 is optional under the Corporate Standard itself, and the reason to report it is rarely the Corporate Standard — IFRS S2 paragraph 29(a), ESRS E1-6 and CSRD's value chain provisions all require it. A partial Scope 3 must say which categories are in and which are out."
+  }
+}
