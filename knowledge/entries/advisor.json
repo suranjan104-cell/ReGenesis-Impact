@@ -4,7 +4,13 @@
     "tool": "advisor",
     "title": "Global disclosure regime map",
     "market": "global",
-    "tags": ["csrd", "esrs", "sec", "issb adoption", "regimes"],
+    "tags": [
+      "csrd",
+      "esrs",
+      "sec",
+      "issb adoption",
+      "regimes"
+    ],
     "facts": [
       "EU: CSRD/ESRS applies double materiality with phased scope from FY2024 (large public-interest entities), though the 2025 Omnibus package reduced scope and delayed later waves.",
       "US: the SEC climate rule (adopted March 2024) was stayed pending litigation and later withdrawn from defence; California SB 253/261 press ahead for large companies doing business there.",
@@ -19,10 +25,16 @@
     "tool": "advisor",
     "title": "EU CBAM essentials",
     "market": "global",
-    "tags": ["cbam", "eu", "carbon border", "exporters", "india"],
+    "tags": [
+      "cbam",
+      "eu",
+      "carbon border",
+      "exporters",
+      "india"
+    ],
     "facts": [
       "CBAM covers iron & steel, aluminium, cement, fertilisers, electricity and hydrogen; transitional reporting ran from October 2023, with financial obligations (certificate purchase) from 2026.",
-      "Exporters to the EU must report embedded emissions per product using EU methodology — a direct commercial driver for Indian steel/aluminium GHG accounting."
+      "Exporters to the EU must report embedded emissions per product using EU methodology — a direct commercial driver for GHG accounting in every exporting steel and aluminium producer."
     ],
     "source": "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism_en",
     "confidence": "high",
@@ -33,7 +45,12 @@
     "tool": "advisor",
     "title": "Case study — Interface Mission Zero",
     "market": "global",
-    "tags": ["case study", "interface", "manufacturing", "net zero"],
+    "tags": [
+      "case study",
+      "interface",
+      "manufacturing",
+      "net zero"
+    ],
     "facts": [
       "Interface (carpet tiles) ran Mission Zero (1994–2019), cutting manufacturing GHG intensity ~96% and proving industrial decarbonisation pays back through material efficiency and recycled inputs.",
       "Its successor programme, Climate Take Back, targets carbon-negative products — carbon-storing tiles reached market in 2020."
@@ -47,7 +64,13 @@
     "tool": "advisor",
     "title": "Case study — IKEA value-chain programme",
     "market": "global",
-    "tags": ["case study", "ikea", "scope 3", "supply chain", "renewables"],
+    "tags": [
+      "case study",
+      "ikea",
+      "scope 3",
+      "supply chain",
+      "renewables"
+    ],
     "facts": [
       "IKEA targets halving absolute value-chain emissions by 2030 (vs FY2016) while growing — its footprint is >95% Scope 3, driving supplier renewable-energy financing programmes.",
       "Pattern to reuse: when Scope 3 dominates, capital support for supplier decarbonisation beats reporting requests alone."
@@ -61,7 +84,12 @@
     "tool": "advisor",
     "title": "Internal carbon pricing practice",
     "market": "global",
-    "tags": ["internal carbon price", "shadow price", "fee", "capex"],
+    "tags": [
+      "internal carbon price",
+      "shadow price",
+      "fee",
+      "capex"
+    ],
     "facts": [
       "Two models: shadow price (stress-tests capex decisions; typical US$40–150/t) and internal fee (charges business units real money — Microsoft's fee funds its removals portfolio).",
       "CDP data shows >2,000 companies using or planning internal carbon pricing; effectiveness depends on the price actually binding in investment decisions."
@@ -75,7 +103,12 @@
     "tool": "advisor",
     "title": "SBTi validation process",
     "market": "global",
-    "tags": ["sbti", "validation", "process", "commitment"],
+    "tags": [
+      "sbti",
+      "validation",
+      "process",
+      "commitment"
+    ],
     "facts": [
       "Route: commit (letter) → develop targets within 24 months → submit for validation (fee-based, booked via SBTi portal) → announce within 6 months of approval → disclose progress annually.",
       "Common rejection causes: base-year emissions coverage below 95% of Scope 1+2, missing Scope 3 target when ≥40% of footprint, and intensity targets where absolute is required."
@@ -89,11 +122,17 @@
     "tool": "advisor",
     "title": "Renewable procurement instruments",
     "market": "global",
-    "tags": ["ppa", "rec", "re100", "24/7", "procurement"],
+    "tags": [
+      "ppa",
+      "rec",
+      "re100",
+      "24/7",
+      "procurement"
+    ],
     "facts": [
       "Hierarchy of credibility: on-site generation > physical PPA > virtual PPA > bundled RECs/green tariffs > unbundled RECs (RE100 accepts all but market rules apply).",
       "24/7 carbon-free energy matching (hourly, not annual) is the emerging leadership bar, pioneered by Google's 2030 commitment.",
-      "In India, open-access renewables and green tariffs are the main corporate routes; RECs trade on power exchanges."
+      "Routes vary by market: corporate PPAs and guarantees of origin dominate in Europe, while other markets rely on green tariffs and tradable certificates on power exchanges."
     ],
     "source": "https://www.there100.org/technical-guidance",
     "confidence": "high",
@@ -104,7 +143,12 @@
     "tool": "advisor",
     "title": "Report gap-analysis method",
     "market": "global",
-    "tags": ["gap analysis", "report review", "method", "disclosure"],
+    "tags": [
+      "gap analysis",
+      "report review",
+      "method",
+      "disclosure"
+    ],
     "facts": [
       "A rigorous gap analysis maps each disclosure to specific framework paragraphs (e.g. IFRS S2 para 29(a) for Scope 3), classifies coverage as full/partial/absent, and ranks gaps by regulatory exposure and investor salience.",
       "Quick wins usually found: missing methodology notes (GWP set, factor vintages), no base-year recalculation policy, and targets stated without interim milestones."

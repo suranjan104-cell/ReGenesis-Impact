@@ -4,7 +4,14 @@
     "tool": "issb",
     "title": "IFRS S2 core structure",
     "market": "global",
-    "tags": ["ifrs s2", "structure", "tcfd", "pillars", "governance", "strategy"],
+    "tags": [
+      "ifrs s2",
+      "structure",
+      "tcfd",
+      "pillars",
+      "governance",
+      "strategy"
+    ],
     "facts": [
       "IFRS S2 requires disclosure across four TCFD-aligned pillars: Governance (paras 5–9), Strategy (paras 8–23), Risk Management (paras 24–26), Metrics & Targets (paras 27–37).",
       "Scope 1, 2 and 3 GHG emissions are mandatory under para 29(a), measured per the GHG Protocol Corporate Standard unless a jurisdiction requires otherwise.",
@@ -19,7 +26,12 @@
     "tool": "issb",
     "title": "IFRS S2 transition reliefs",
     "market": "global",
-    "tags": ["transition relief", "scope 3", "first year", "comparatives"],
+    "tags": [
+      "transition relief",
+      "scope 3",
+      "first year",
+      "comparatives"
+    ],
     "facts": [
       "First-year reliefs: entities may omit Scope 3 emissions, comparatives, and may report sustainability disclosures with second-quarter interim reporting rather than with the annual report.",
       "The Scope 3 relief lasts one annual reporting period; after that, Scope 3 measurement per the GHG Protocol Corporate Value Chain (Scope 3) Standard is required."
@@ -33,7 +45,13 @@
     "tool": "issb",
     "title": "AASB S2 Australian phase-in groups",
     "market": "au",
-    "tags": ["aasb s2", "australia", "group 1", "thresholds", "mandatory"],
+    "tags": [
+      "aasb s2",
+      "australia",
+      "group 1",
+      "thresholds",
+      "mandatory"
+    ],
     "facts": [
       "Group 1 (two of: revenue ≥ A$500m, assets ≥ A$1bn, employees ≥ 500) reports for financial years starting 1 January 2025.",
       "Group 2 (two of: A$200m revenue, A$500m assets, 250 employees) starts FYs from 1 July 2026; Group 3 (A$50m revenue, A$25m assets, 100 employees) from 1 July 2027.",
@@ -44,26 +62,17 @@
     "reviewed": "2026-07"
   },
   {
-    "id": "issb-004",
-    "tool": "issb",
-    "title": "SEBI BRSR and BRSR Core in India",
-    "market": "in",
-    "tags": ["brsr", "sebi", "india", "assurance", "top 1000", "core kpis"],
-    "facts": [
-      "BRSR is mandatory for the top 1,000 listed companies by market cap; BRSR Core adds a subset of KPIs requiring assurance, phased from the top 150 companies (FY2023-24) toward the top 1,000.",
-      "BRSR Core KPIs cover GHG intensity, water and energy footprint, waste, employee wellbeing/safety spend, gender diversity in wages, and supply-chain metrics.",
-      "SEBI's 2023 circular also introduced value-chain ESG disclosures for the top 250 companies on a comply-or-explain basis."
-    ],
-    "source": "https://www.sebi.gov.in/legal/circulars/jul-2023/brsr-core-framework-for-assurance-and-esg-disclosures-for-value-chain_73854.html",
-    "confidence": "high",
-    "reviewed": "2026-07"
-  },
-  {
     "id": "issb-005",
     "tool": "issb",
     "title": "Singapore SGX climate reporting timeline",
     "market": "sg",
-    "tags": ["sgx", "singapore", "mas", "issb adoption", "mandatory"],
+    "tags": [
+      "sgx",
+      "singapore",
+      "mas",
+      "issb adoption",
+      "mandatory"
+    ],
     "facts": [
       "SGX-listed issuers move to mandatory ISSB-aligned climate reporting from FY2025, starting with larger issuers; large non-listed companies (revenue ≥ S$1bn) follow from FY2027.",
       "Reporting was previously phased comply-or-explain from FY2022 under SGX's sustainability reporting regime, with mandatory climate reporting for finance, agri-food and energy sectors from FY2023."
@@ -77,7 +86,12 @@
     "tool": "issb",
     "title": "GRI–ISSB interoperability",
     "market": "global",
-    "tags": ["gri", "interoperability", "double materiality", "single materiality"],
+    "tags": [
+      "gri",
+      "interoperability",
+      "double materiality",
+      "single materiality"
+    ],
     "facts": [
       "ISSB standards use investor-focused (single) materiality; GRI uses impact materiality — companies commonly report both, and the GRI–IFRS Foundation interoperability work maps GRI 305 emissions disclosures to IFRS S2 requirements.",
       "GRI 305 (Emissions) categories align with GHG Protocol scopes, so one inventory can feed both a GRI report and an IFRS S2 disclosure."
@@ -87,25 +101,17 @@
     "reviewed": "2026-07"
   },
   {
-    "id": "issb-007",
-    "tool": "issb",
-    "title": "Case study — Tata Steel integrated & BRSR reporting",
-    "market": "in",
-    "tags": ["case study", "tata steel", "brsr", "steel", "integrated reporting"],
-    "facts": [
-      "Tata Steel publishes an Integrated Report combined with BRSR disclosures, reporting Scope 1, 2 and 3 emissions and a stated ambition of net zero by 2045.",
-      "Its disclosures pair CO2-intensity-per-tonne-of-crude-steel metrics with capex plans for EAF/scrap and hydrogen pathways — a useful template for hard-to-abate sector reporting."
-    ],
-    "source": "https://www.tatasteel.com/investors/integrated-report/",
-    "confidence": "medium",
-    "reviewed": "2026-07"
-  },
-  {
     "id": "issb-008",
     "tool": "issb",
     "title": "Case study — DBS climate disclosure practice",
     "market": "sg",
-    "tags": ["case study", "dbs", "bank", "tcfd", "financed emissions"],
+    "tags": [
+      "case study",
+      "dbs",
+      "bank",
+      "tcfd",
+      "financed emissions"
+    ],
     "facts": [
       "DBS has published TCFD-aligned disclosures since 2018 and detailed sector-level financed-emissions targets in its 'Our Path to Net Zero' report (2022), covering nine sectors including power, oil & gas, and real estate.",
       "Its approach — sector glidepaths benchmarked to IEA NZE — is a widely cited template for bank ISSB S2 metrics & targets sections."
@@ -119,7 +125,12 @@
     "tool": "issb",
     "title": "Materiality assessment good practice",
     "market": "global",
-    "tags": ["materiality", "assessment", "stakeholder", "process"],
+    "tags": [
+      "materiality",
+      "assessment",
+      "stakeholder",
+      "process"
+    ],
     "facts": [
       "A defensible materiality process documents: stakeholder groups consulted, scoring criteria, threshold for 'material', board sign-off, and refresh cadence (typically annual or biennial).",
       "Under IFRS S1/S2, information is material if omitting it could influence investor decisions — impact-only topics belong in GRI/CSRD-style reports instead."
@@ -133,7 +144,12 @@
     "tool": "issb",
     "title": "CDP alignment with ISSB",
     "market": "global",
-    "tags": ["cdp", "questionnaire", "alignment", "scoring"],
+    "tags": [
+      "cdp",
+      "questionnaire",
+      "alignment",
+      "scoring"
+    ],
     "facts": [
       "CDP's climate questionnaire incorporated IFRS S2 from the 2024 cycle, so an IFRS S2-ready disclosure substantially pre-fills CDP responses.",
       "CDP scores A to D-; an A requires leadership-level disclosure including verified emissions and robust scenario-informed transition planning."

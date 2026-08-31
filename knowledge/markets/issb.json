@@ -1,0 +1,35 @@
+{
+  "_comment": [
+    "The ISSB baseline itself, as a market row rather than a jurisdiction. IFRS S1",
+    "and S2 bind nobody on their own — a jurisdiction has to adopt them — which is",
+    "the single most misunderstood thing about the standard and the reason this",
+    "file exists rather than being folded into the others.",
+    "",
+    "Adoption count is deliberately expressed as a floor, not a precise number:",
+    "jurisdictions move between 'adopted', 'aligned' and 'consulting' and no",
+    "reachable source gives a stable figure."
+  ],
+  "code": "issb",
+  "name": "ISSB",
+  "regime": "IFRS S1 / S2",
+  "standard": "IFRS S2 Climate-related Disclosures",
+  "materiality": "financial",
+  "confidence": "medium",
+  "reviewed": "2026-08",
+  "sources": [
+    { "publisher": "IFRS Foundation", "title": "Use of IFRS Standards by jurisdiction", "url": "https://www.ifrs.org/use-around-the-world/use-of-ifrs-standards-by-jurisdiction/" },
+    { "publisher": "IFRS Foundation and EFRAG", "title": "ESRS–ISSB Standards Interoperability Guidance", "url": "https://www.ifrs.org/content/dam/ifrs/supporting-implementation/issb-standards/esrs-issb-standards-interoperability-guidance.pdf" }
+  ],
+  "test": "Nothing on its own. IFRS S2 applies where a jurisdiction has adopted or aligned to it — Australia and Singapore below are two such jurisdictions.",
+  "jurisdictions_over": 30,
+  "cohorts": [
+    { "code": "adopt", "name": "Adopting jurisdictions", "first_period_from": "2024-01-01", "first_reports": 2025,
+      "also": "Set by each jurisdiction, not by the ISSB",
+      "note": "More than 30 jurisdictions have adopted or aligned. The commencement date, the entities caught and the assurance requirement are all local decisions." }
+  ],
+  "scope3": "Required under paragraph 29(a), with a one-year transition relief allowing first-time reporters to omit it in year one.",
+  "assurance": "Set by the adopting jurisdiction; the standard itself does not require it.",
+  "reliefs": "First-year reliefs cover Scope 3, comparatives, and reporting timing relative to the financial statements.",
+  "digital_tagging": "An IFRS Sustainability Disclosure Taxonomy exists; mandating its use is a jurisdictional decision.",
+  "taxonomy_kpis": null
+}

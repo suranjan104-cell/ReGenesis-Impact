@@ -1,0 +1,45 @@
+{
+  "_comment": [
+    "Singapore — ISSB-aligned climate reporting, run jointly by SGX RegCo for",
+    "listed issuers and ACRA for large non-listed companies.",
+    "",
+    "The timeline moved in August 2025: ACRA and SGX RegCo extended it, and the",
+    "large non-listed company obligation was pushed from FY2027 to FY2030. Any",
+    "tool still quoting FY2027 for non-listed companies is out of date.",
+    "",
+    "acra.gov.sg could not be reached from the build environment, so this comes",
+    "from law-firm and practitioner summaries and is graded medium."
+  ],
+  "code": "sg",
+  "name": "Singapore",
+  "regime": "SGX · ACRA (IFRS S2-aligned)",
+  "standard": "IFRS S2 as adopted for Singapore reporting",
+  "materiality": "financial",
+  "confidence": "medium",
+  "reviewed": "2026-08",
+  "sources": [
+    { "publisher": "ACRA", "title": "Sustainability reporting and assurance requirements — timeline", "url": "https://www.acra.gov.sg/regulations/sustainability-reporting/requirements-timeline/" },
+    { "publisher": "Linklaters", "title": "ESG Quick Guide: Singapore mandatory climate reporting regime", "url": "https://sustainablefutures.linklaters.com/post/102l789/esg-quick-guide-singapore-mandatory-climate-reporting-regime" },
+    { "publisher": "Anthesis", "title": "Sustainability reporting in Singapore: preparing for mandatory ISSB climate disclosures", "url": "https://www.anthesisgroup.com/insights/sustainability-reporting-singapore-how-to-prepare-for-mandatory-climate-reporting-to-the-issb-standards/" }
+  ],
+  "test": "Listing status first: every SGX-listed issuer is caught. A large non-listed company is caught on both revenue and assets, not either.",
+  "cohorts": [
+    { "code": "sgx", "name": "SGX-listed issuers", "first_period_from": "2025-01-01", "first_reports": 2026,
+      "revenue_over_sgd_m": null, "assets_over_sgd_m": null, "employees_over": null,
+      "also": "All listed issuers, regardless of size",
+      "note": "Climate disclosures aligned with IFRS S2 from FY2025, with Scope 1 and Scope 2 emissions from the same year." },
+    { "code": "sti", "name": "STI constituents — Scope 3", "first_period_from": "2026-01-01", "first_reports": 2027,
+      "revenue_over_sgd_m": null, "assets_over_sgd_m": null, "employees_over": null,
+      "also": "Straits Times Index constituents",
+      "note": "Scope 3 becomes mandatory for STI constituents from FY2026. For other listed issuers it stays voluntary." },
+    { "code": "nlco", "name": "Large non-listed companies", "first_period_from": "2030-01-01", "first_reports": 2031,
+      "revenue_over_sgd_m": 1000, "assets_over_sgd_m": 500, "employees_over": null,
+      "also": null,
+      "note": "Revenue of at least SGD 1bn AND total assets of at least SGD 500mn. Deferred from FY2027 to FY2030 by ACRA's August 2025 update." }
+  ],
+  "scope3": "Mandatory for STI constituents from FY2026; voluntary for other listed issuers.",
+  "assurance": "External limited assurance over Scope 1 and 2, phased with the reporting timeline.",
+  "reliefs": "The August 2025 update extended the timeline generally, explicitly to let companies build reporting capacity.",
+  "digital_tagging": "Not specified",
+  "taxonomy_kpis": null
+}
