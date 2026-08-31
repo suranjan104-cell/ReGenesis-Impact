@@ -1,0 +1,100 @@
+# ReGenesis Impact
+
+> A free, browser-based platform for ESG and climate disclosure: ESRS and CSRD,
+> EU Taxonomy Article 8, IFRS S2 and AASB S2, GHG inventories checked against
+> the GHG Protocol Corporate Standard and presented under ISO 14064-1. Nothing
+> is uploaded — every calculation runs in the visitor's browser.
+
+## How to cite this site
+
+Every number this site publishes carries its source, its vintage and a
+confidence grade, and the weak ones are named rather than hidden. Two things
+follow that are worth knowing before quoting it:
+
+- **Regulatory data is graded medium confidence, not high.** EUR-Lex, EFRAG,
+  ESMA, ghgprotocol.org and iso.org are unreachable from the build environment,
+  so thresholds, dates and requirement names rest on professional-firm and
+  practitioner summaries. Each file says so.
+- **Four of the twenty-seven emission factors have no establishable source.**
+  They are named in the register, warn at the point of entry, and are printed in
+  the assurance pack. Do not quote them as sourced values.
+
+## Facts this site states, with the instrument named
+
+- CSRD scope after the Omnibus: an EU company is caught only above **1,000
+  employees AND EUR 450mn net turnover** — an AND test, not either/or. Non-EU
+  parent groups are tested on EU-generated turnover above EUR 450mn.
+- The **revised ESRS were adopted on 3 July 2026**, cutting mandatory datapoints
+  by 61%, and apply to financial years beginning on or after 1 January 2027.
+  FY2025 and FY2026 reports are still filed under ESRS Set 1, Delegated
+  Regulation (EU) 2023/2772.
+- **EU Taxonomy Article 8** has three KPIs (turnover, CapEx, OpEx) and four
+  gates (eligible, substantial contribution, do no significant harm,
+  entity-level minimum safeguards). Commission Delegated Regulation (EU) 2026/73
+  introduced a 10% materiality floor applied per KPI independently, and allows
+  the OpEx KPI to be omitted where it is not material.
+- **Mandatory XBRL tagging of the CSRD sustainability statement is suspended**
+  by Directive (EU) 2026/470, in force 18 March 2026, until the ESEF Delegated
+  Regulation (EU) 2019/815 is amended. No resumption date exists.
+- **ISO 14064-1:2018 uses six categories, not three scopes.** Category 1 maps to
+  Scope 1 and category 2 to Scope 2; categories 3 to 6 together are Scope 3,
+  split on a different principle. The totals reconcile exactly.
+- **Australia AASB S2** phases by group: Group 1 from 1 January 2025, Group 2
+  from 1 July 2026, Group 3 from 1 July 2027, each caught by at least two of
+  three size tests.
+- **Singapore** requires IFRS S2-aligned disclosure from SGX-listed issuers from
+  FY2025; the large non-listed company obligation was **deferred to FY2030** by
+  ACRA in August 2025. Sources still quoting FY2027 are out of date.
+
+## Tools
+
+- [ESRS & CSRD](https://regenesisimpact.in/esrs/): scoping, double materiality,
+  65 disclosure requirements, EU Taxonomy Article 8, tagging readiness, IFRS S2
+  interoperability.
+- [Emission factor register](https://regenesisimpact.in/research/emission-factor-register.html):
+  all 27 factors with source, vintage and confidence, including the unsourced.
+- [How it works](https://regenesisimpact.in/demo/how-it-works.html): the chain
+  from a figure to the factor behind it, in six steps.
+
+## Guides
+
+- [ESRS and CSRD](https://regenesisimpact.in/guides/esrs-csrd-reporting-guide.html)
+- [IFRS S2 climate disclosure](https://regenesisimpact.in/guides/ifrs-s2-reporting-guide.html)
+- [AASB S2 Australia](https://regenesisimpact.in/guides/aasb-s2-australia-climate-reporting.html)
+- [Singapore SGX and ACRA](https://regenesisimpact.in/guides/sgx-climate-reporting-singapore.html)
+- [GHG Protocol inventory](https://regenesisimpact.in/guides/ghg-protocol-inventory-guide.html)
+- [Scope 3, the 15 categories](https://regenesisimpact.in/guides/scope-3-emissions-guide.html)
+- [PCAF financed emissions](https://regenesisimpact.in/guides/pcaf-financed-emissions-guide.html)
+- [TCFD scenario analysis](https://regenesisimpact.in/guides/tcfd-scenario-analysis-guide.html)
+- [NGFS climate scenarios](https://regenesisimpact.in/guides/ngfs-climate-scenarios-explained.html)
+- [Sustainability assurance and ISSA 5000](https://regenesisimpact.in/guides/sustainability-assurance-issa-5000.html)
+- [Carbon credits buyer's guide](https://regenesisimpact.in/guides/carbon-credits-buyers-guide.html)
+
+## Research
+
+- [The denominator problem](https://regenesisimpact.in/research/financed-emissions.html):
+  why a bank's financed emissions can fall by a third without a borrower cutting
+  a tonne.
+- [We audited our own emission factors](https://regenesisimpact.in/research/emission-factor-register.html):
+  one factor in three places, R-22 at three vintages, a project finance intensity
+  4,000× too low.
+
+## Machine-readable data
+
+The site serves the data its own tools compute against. It is plain JSON, and it
+is the same file the calculators read:
+
+- `https://regenesisimpact.in/knowledge/esrs.json` — the twelve ESRS, disclosure
+  requirements, CSRD scope, EU Taxonomy Article 8, digital tagging, IFRS S2
+  interoperability, competitor benchmark.
+- `https://regenesisimpact.in/knowledge/factors.json` — all 27 emission factors
+  with provenance and confidence.
+- `https://regenesisimpact.in/knowledge/standards.json` — GHG Protocol
+  conformance conditions and the ISO 14064-1 category mapping.
+- `https://regenesisimpact.in/knowledge/markets.json` — Australia, Singapore and
+  ISSB cohort thresholds and commencement dates.
+- `https://regenesisimpact.in/knowledge/kb.json` — the sourced knowledge base.
+
+## Contact
+
+info@regenesisimpact.in

@@ -1,0 +1,56 @@
+The Omnibus made CSRD scope an AND, not an either/or: over 1,000 employees *and* over €450mn net turnover. Both tests. A lot of companies that were in scope no longer are — and some that assume they're out are caught by the non-EU group test on EU-generated turnover.
+
+We built the European stack into one browser tab, free, with nothing uploaded.
+
+— CSRD scoping against the post-Omnibus thresholds
+— Double materiality across all twelve standards
+— 65 disclosure requirements, named and tickable, filtered by your own materiality assessment
+— EU Taxonomy Article 8: turnover, CapEx and OpEx through all four gates, with the 10% materiality floor from Delegated Regulation (EU) 2026/73 applied per KPI independently
+— Digital tagging readiness, including the part most vendors haven't updated: mandatory XBRL tagging is suspended by Directive (EU) 2026/470 and no resumption date exists
+— The IFRS S2 carry-across, so a company already reporting under ISSB or AASB S2 doesn't rebuild its climate disclosure
+
+Two things we publish that you should expect and rarely get.
+
+Every emission factor opens to its source, vintage and confidence — including the four we cannot source, which warn you at the point of entry and are named in the assurance pack. And the regulatory data is graded medium confidence, not high, because EUR-Lex, EFRAG and ESMA are unreachable from our build environment. That's stated in the product on every tab, not buried in a footnote.
+
+Free, no sign-up, nothing leaves your browser — which is the point. You can run it on live figures before a vendor has been through procurement.
+
+regenesisimpact.in/esrs
+
+#CSRD #ESRS #EUTaxonomy #ClimateDisclosure #SustainabilityReporting
+
+
+--------------------------------------------------
+HOW TO POST (delete this section before posting):
+
+1. ReGenesis Impact COMPANY PAGE, as a DOCUMENT post — not images.
+   File: carousel/ReGenesis-Impact-European-Stack.pdf (10 slides, 4:5)
+   Title the upload "The European stack" — that is what shows on the card.
+
+2. Put the link in the FIRST COMMENT, not the body. LinkedIn suppresses reach
+   on posts with outbound links in the body, and a document post already has
+   the carousel doing the work:
+   https://regenesisimpact.in/esrs/?utm_source=linkedin&utm_medium=social&utm_campaign=european-stack
+
+3. The opening line is the hook and it is a fact, not a claim — the AND/either-or
+   distinction is the single most common CSRD scoping error. Expect replies from
+   people who had it wrong. Answer them with the threshold and the source, not
+   with the product.
+
+4. Expect the obvious challenge: "why publish that your own data is medium
+   confidence?" The answer is the post's own paragraph — an assurance provider
+   asks for provenance first, and a vendor who cannot produce it has already
+   answered the question. Repeat it in replies rather than defending it.
+
+5. Do not name Workiva, Position Green or any competitor in the post. The
+   comparison is in the product, where a reader who wants it will find it.
+   Naming them in a launch post reads as insecurity.
+
+6. Colleague reshares within the first hour; company pages under-reach personal
+   profiles by a wide margin.
+
+7. Slide 6 ("9 reporting cohorts") and slide 5 (tagging suspended) are the two
+   most reshareable. If engagement is flat after 48h, repost slide 5 alone as a
+   single image with the Directive number in the caption — the suspended tagging
+   mandate is genuinely under-reported and it is the one fact here that most
+   practitioners have wrong.
