@@ -235,7 +235,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 #page-home{display:block}
 #page-advisor.active{height:100vh;overflow:hidden}
 /* HOME PAGE — always visible, stacks above fixed canvas layers */
-#page-home{color:#0E231A;background:#F6F1E7;position:relative;z-index:1}
+#page-home{color:#E7EEF8;background:#080B16;position:relative;z-index:1}
 #page-issb{min-height:100vh}
 /* UNIFIED NAV — Climate Mission Control (fx) theme */
 nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:calc(.8rem + env(safe-area-inset-top)) 5% .8rem;display:flex!important;align-items:center;justify-content:space-between;background:rgba(2,8,6,0.88);backdrop-filter:blur(24px) saturate(160%);border-bottom:1px solid rgba(0,232,122,0.14)}
@@ -2309,10 +2309,70 @@ body:not(.rg-editorial) .page{padding-bottom:4.5rem}
    All classes prefixed .ed- ; scoped to #page-home + body.rg-editorial
    ════════════════════════════════════════════════════════════════ */
 #page-home{
-  --paper:#F6F1E7; --paper2:#EDE6D5; --ink:#0E231A; --ink2:rgba(14,35,26,.64);
-  --ink3:rgba(14,35,26,.55); --line:rgba(14,35,26,.14); --emerald:#0B7A47;
-  --signal:#E8622C; --window:#071A11;
+  /* ── LUMINOUS DEPTH ──────────────────────────────────────────────
+     Deep space ground, aurora light behind glass. Foreground and surface are
+     declared as raw rgb triples as well as hex, because the rest of this sheet
+     composes alpha values from them. Flipping these two triples turns the whole
+     page over — and it turns every drop shadow into a glow, because a light
+     shadow on a dark ground is a glow. */
+  --ink-rgb:231,238,248; --paper-rgb:8,11,22;
+  --paper:#080B16; --paper2:#0B1020; --ink:#E7EEF8;
+  --ink2:rgba(var(--ink-rgb),.72); --ink3:rgba(var(--ink-rgb),.55);
+  --line:rgba(var(--ink-rgb),.13); --emerald:#3BE38A;
+  --glass:rgba(255,255,255,.045); --glass-line:rgba(255,255,255,.10);
+  --aurora-1:#16AD6E; --aurora-2:#4187EE; --aurora-3:#9163E6;
+  --signal:#FF8A4C; --window:#05070F;
   font-family:'DM Sans',sans-serif; background:var(--paper); color:var(--ink);
+  position:relative; isolation:isolate;
+}
+
+/* The aurora: three wide radial washes over the ground, drifting slowly.
+   Fixed, behind everything, inert to the pointer. */
+#page-home::before{
+  content:'';position:fixed;inset:-20%;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(58% 44% at 12% 6%,  color-mix(in oklab, var(--aurora-1) 34%, transparent) 0%, transparent 68%),
+    radial-gradient(64% 48% at 88% 14%, color-mix(in oklab, var(--aurora-2) 32%, transparent) 0%, transparent 70%),
+    radial-gradient(70% 52% at 50% 52%, color-mix(in oklab, var(--aurora-3) 22%, transparent) 0%, transparent 72%),
+    radial-gradient(66% 50% at 20% 92%, color-mix(in oklab, var(--aurora-1) 26%, transparent) 0%, transparent 70%);
+  filter:blur(52px) saturate(125%);
+  animation:ed-aurora 42s ease-in-out infinite alternate;
+}
+/* A fine grid over the aurora gives the depth something to read against —
+   without it the washes have no scale and the page is just a gradient. */
+#page-home::after{
+  content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.55;
+  background-image:
+    linear-gradient(rgba(var(--ink-rgb),.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--ink-rgb),.05) 1px, transparent 1px);
+  background-size:64px 64px;
+  -webkit-mask-image:radial-gradient(120% 90% at 50% 0%, #000 0%, transparent 78%);
+  mask-image:radial-gradient(120% 90% at 50% 0%, #000 0%, transparent 78%);
+}
+@keyframes ed-aurora{
+  0%  {transform:translate3d(0,0,0) scale(1)}
+  50% {transform:translate3d(-3%,2%,0) scale(1.06)}
+  100%{transform:translate3d(2%,-2%,0) scale(1.03)}
+}
+@media (prefers-reduced-motion: reduce){ #page-home::before{animation:none} }
+
+/* Glass. One rule over every panel the page already had, so surfaces pick up
+   the aurora behind them instead of sitting on a flat fill. */
+#page-home .ed-market,#page-home .ed-research,#page-home .ed-price:not(.ink),
+#page-home .an-card,#page-home .an-kpi,#page-home .ed-step,
+#page-home .ed-faq details,#page-home .ed-scope-inner,#page-home .ed-proof{
+  background:var(--glass);
+  border-color:var(--glass-line);
+  backdrop-filter:blur(14px) saturate(130%);
+  -webkit-backdrop-filter:blur(14px) saturate(130%);
+}
+#page-home .an-kpis{background:var(--glass-line)}
+#page-home .ed-section-alt{background:rgba(var(--ink-rgb),.03)}
+/* A hard white shadow reads as a halo on this ground, so panels lift with
+   colour instead. */
+#page-home .ed-market:hover,#page-home .ed-research:hover{
+  box-shadow:0 24px 60px -28px color-mix(in oklab, var(--aurora-1) 55%, transparent);
+  border-color:color-mix(in oklab, var(--emerald) 45%, transparent);
 }
 #page-home ::selection{background:var(--ink);color:var(--paper)}
 .ed-wrap{max-width:1180px;margin:0 auto;padding:0 5%}
@@ -2321,44 +2381,48 @@ body:not(.rg-editorial) .page{padding-bottom:4.5rem}
 .ed-serif{font-family:'Playfair Display',serif}
 
 /* ── Nav & chrome become editorial while home is active ── */
-body.rg-editorial nav{background:rgba(246,241,231,.88)!important;border-bottom:1px solid var(--line, rgba(14,35,26,.14))}
-body.rg-editorial nav::after{background:linear-gradient(90deg,#0B7A47,transparent)}
-body.rg-editorial .nav-logo{color:#0E231A}
-body.rg-editorial .nav-logo span{color:#0B7A47}
-body.rg-editorial .nav-logo::before{color:rgba(11,122,71,.7)}
-body.rg-editorial .nav-links a,body.rg-editorial .nav-links button,body.rg-editorial .nav-dropdown-btn{color:rgba(14,35,26,.62)}
-body.rg-editorial .nav-links a:hover,body.rg-editorial .nav-links button:hover,body.rg-editorial .nav-dropdown-btn:hover{color:#0B7A47}
-body.rg-editorial #nb-cmdk{border-color:rgba(14,35,26,.28)!important}
-body.rg-editorial .nav-cta{background:#0E231A!important;color:#F6F1E7!important;box-shadow:0 2px 14px rgba(14,35,26,.28)!important}
-body.rg-editorial .nav-dropdown-menu{background:#F6F1E7;border:1px solid rgba(14,35,26,.16);box-shadow:0 18px 50px -18px rgba(14,35,26,.35)}
-body.rg-editorial .nav-dropdown-menu button{color:rgba(14,35,26,.72)!important}
-body.rg-editorial .nav-dropdown-menu button:hover{color:#0B7A47!important;background:rgba(11,122,71,.07)}
-body.rg-editorial .nav-hamburger span{background:#0E231A}
-body.rg-editorial #reg-alert-bar{background:#0E231A}
+body.rg-editorial nav{background:rgba(8,11,22,.72)!important;backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border-bottom:1px solid var(--line, rgba(var(--ink-rgb),.14))}
+body.rg-editorial nav::after{background:linear-gradient(90deg,var(--emerald),transparent)}
+body.rg-editorial .nav-logo{color:var(--ink)}
+body.rg-editorial .nav-logo span{color:var(--emerald)}
+body.rg-editorial .nav-logo::before{color:var(--emerald);filter:drop-shadow(0 0 6px color-mix(in oklab, var(--emerald) 60%, transparent))}
+body.rg-editorial .nav-links a,body.rg-editorial .nav-links button,body.rg-editorial .nav-dropdown-btn{color:rgba(var(--ink-rgb),.62)}
+body.rg-editorial .nav-links a:hover,body.rg-editorial .nav-links button:hover,body.rg-editorial .nav-dropdown-btn:hover{color:var(--emerald)}
+body.rg-editorial #nb-cmdk{border-color:rgba(var(--ink-rgb),.28)!important}
+body.rg-editorial .nav-cta{background:var(--ink)!important;color:var(--paper)!important;box-shadow:0 2px 14px rgba(var(--ink-rgb),.28)!important}
+body.rg-editorial .nav-dropdown-menu{background:var(--paper);border:1px solid rgba(var(--ink-rgb),.16);box-shadow:0 18px 50px -18px rgba(var(--ink-rgb),.35)}
+body.rg-editorial .nav-dropdown-menu button{color:rgba(var(--ink-rgb),.72)!important}
+body.rg-editorial .nav-dropdown-menu button:hover{color:var(--emerald)!important;background:rgba(59,227,138,.07)}
+body.rg-editorial .nav-hamburger span{background:var(--ink)}
+body.rg-editorial #reg-alert-bar{background:var(--ink)}
 /* aurora field + cursor spotlight are dark-surface instruments — off on paper */
 body.rg-editorial #rg-aurora-field,body.rg-editorial #rg-spot{display:none}
-body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A);box-shadow:none}
+body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,var(--emerald),var(--ink));box-shadow:none}
 
 /* ── HERO ── */
 .ed-hero{padding:calc(96px + env(safe-area-inset-top)) 0 4rem;position:relative;overflow:hidden}
 .ed-hero::after{content:'';position:absolute;right:-12%;top:-8%;width:520px;height:520px;border-radius:50%;
-  background:radial-gradient(circle,rgba(11,122,71,.10),transparent 65%);pointer-events:none}
+  background:radial-gradient(circle,rgba(59,227,138,.10),transparent 65%);pointer-events:none}
 .ed-hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:3.5rem;align-items:center}
 .ed-hero h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(2.7rem,5.6vw,4.7rem);line-height:1.04;letter-spacing:-.015em;margin:1.1rem 0 1.3rem}
 .ed-hero h1 em{font-style:italic;color:var(--emerald);white-space:nowrap;
-  background:linear-gradient(transparent 78%,rgba(11,122,71,.22) 78%,rgba(11,122,71,.22) 92%,transparent 92%)}
+  background:linear-gradient(transparent 78%,rgba(59,227,138,.22) 78%,rgba(59,227,138,.22) 92%,transparent 92%)}
 .ed-hero-sub{font-size:1.08rem;line-height:1.7;color:var(--ink2);max-width:34rem;margin-bottom:1.9rem}
 .ed-cta-row{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
 .ed-btn{display:inline-flex;align-items:center;gap:.55rem;font-weight:600;font-size:.95rem;border-radius:.65rem;
   padding:.95rem 1.7rem;cursor:pointer;border:1px solid transparent;transition:transform .2s,box-shadow .25s;text-decoration:none}
-.ed-btn-ink{background:var(--ink);color:var(--paper);box-shadow:0 10px 30px -12px rgba(14,35,26,.55)}
-.ed-btn-ink:hover{transform:translateY(-2px);box-shadow:0 16px 40px -14px rgba(14,35,26,.6)}
-.ed-btn-ghost{background:none;color:var(--ink);border-color:rgba(14,35,26,.3)}
+.ed-btn-ink{background:var(--ink);color:var(--paper);box-shadow:0 10px 30px -12px rgba(var(--ink-rgb),.55)}
+.ed-btn-ink:hover{transform:translateY(-2px);box-shadow:0 16px 40px -14px rgba(var(--ink-rgb),.6)}
+.ed-btn-ghost{background:none;color:var(--ink);border-color:rgba(var(--ink-rgb),.3)}
 .ed-btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
 .ed-trust{margin-top:1.6rem;font-family:'DM Mono',monospace;font-size:.64rem;letter-spacing:.14em;color:var(--ink3)}
 
 /* dark product window — the bridge into the instrument suite */
-.ed-window{background:var(--window);border-radius:1rem;box-shadow:0 40px 90px -30px rgba(14,35,26,.55),0 0 0 1px rgba(14,35,26,.2);
+.ed-window{background:linear-gradient(160deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
+  border-radius:1rem;border:1px solid var(--glass-line);
+  backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);
+  box-shadow:0 40px 100px -40px color-mix(in oklab, var(--aurora-2) 70%, transparent),
+             inset 0 1px 0 rgba(255,255,255,.10);
   overflow:hidden;transform:rotate(.6deg)}
 .ed-window-bar{display:flex;align-items:center;gap:.45rem;padding:.8rem 1.1rem;border-bottom:1px solid rgba(0,232,122,.14)}
 .ed-window-bar i{width:9px;height:9px;border-radius:50%;background:rgba(234,255,243,.15)}
@@ -2372,9 +2436,9 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
 .ed-progress i{display:block;height:100%;width:86%;border-radius:3px;background:linear-gradient(90deg,#00e87a,#0affdb);
   animation:ed-fill 2.4s cubic-bezier(.2,.8,.25,1)}
 @keyframes ed-fill{from{width:8%}}
-.ed-w-foot{margin-top:.9rem;font-size:.58rem;letter-spacing:.08em;line-height:1.6;color:rgba(234,255,243,.4)}
+.ed-w-foot{margin-top:.9rem;font-size:.58rem;letter-spacing:.08em;line-height:1.6;color:rgba(234,255,243,.62)}
 .ed-chip{position:absolute;background:var(--paper);border:1px solid var(--line);border-radius:.7rem;padding:.6rem .9rem;
-  box-shadow:0 16px 40px -18px rgba(14,35,26,.4);font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.08em;color:var(--ink2)}
+  box-shadow:0 16px 40px -18px rgba(var(--ink-rgb),.4);font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.08em;color:var(--ink2)}
 .ed-chip b{display:block;font-family:'DM Sans',sans-serif;font-size:1.05rem;color:var(--ink);letter-spacing:0}
 .ed-chip-1{top:-1.6rem;right:-2%}
 .ed-chip-2{bottom:-1.2rem;left:-4%}
@@ -2384,7 +2448,7 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
 .ed-marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:1.05rem 0;overflow:hidden;background:var(--paper)}
 .ed-marquee-track{display:flex;gap:3.2rem;width:max-content;animation:ed-marquee 36s linear infinite}
 .ed-marquee span{font-family:'Playfair Display',serif;font-style:italic;font-size:1.15rem;color:transparent;
-  -webkit-text-stroke:1px rgba(14,35,26,.4);white-space:nowrap}
+  -webkit-text-stroke:1px rgba(var(--ink-rgb),.4);white-space:nowrap}
 .ed-marquee span.solid{color:var(--emerald);-webkit-text-stroke:0}
 .ed-marquee:hover .ed-marquee-track{animation-play-state:paused}
 @keyframes ed-marquee{to{transform:translateX(-50%)}}
@@ -2397,7 +2461,7 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
   border:1px solid var(--line);border-left:3px solid var(--emerald);border-radius:1rem;
   padding:2rem 2.2rem;max-width:52rem;transition:border-color .2s,transform .2s,box-shadow .2s}
 .ed-research:hover{border-color:var(--emerald);transform:translateY(-2px);
-  box-shadow:0 14px 40px -18px rgba(14,35,26,.35)}
+  box-shadow:0 14px 40px -18px rgba(var(--ink-rgb),.35)}
 .ed-research-meta{font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:.16em;
   text-transform:uppercase;color:var(--ink3);margin-bottom:.7rem}
 .ed-research h3{font-family:'Playfair Display',serif;font-size:1.85rem;line-height:1.1;
@@ -2411,7 +2475,7 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
 
 /* ── SCOPE CHECKER — interactive "am I in scope?" ── */
 .ed-scope{background:var(--window);border-radius:1.4rem;padding:3rem clamp(1.4rem,4vw,3rem);position:relative;overflow:hidden;
-  box-shadow:0 40px 100px -40px rgba(14,35,26,.6)}
+  box-shadow:0 40px 100px -40px rgba(var(--ink-rgb),.6)}
 .ed-scope::before{content:'';position:absolute;inset:0;pointer-events:none;background:
   radial-gradient(ellipse 55% 60% at 15% 0%,rgba(0,232,122,.12),transparent 60%),
   radial-gradient(ellipse 45% 55% at 90% 100%,rgba(10,255,219,.09),transparent 60%)}
@@ -2424,7 +2488,7 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
 .ed-scope-step.on{display:block;animation:ed-scope-in .35s cubic-bezier(.2,.8,.25,1)}
 @keyframes ed-scope-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .ed-scope-q{font-family:'Playfair Display',serif;font-size:1.25rem;color:#EAFFF3;text-align:center;margin-bottom:.35rem}
-.ed-scope-hint{text-align:center;color:rgba(234,255,243,.42);font-size:.78rem;margin-bottom:1.5rem}
+.ed-scope-hint{text-align:center;color:rgba(234,255,243,.62);font-size:.78rem;margin-bottom:1.5rem}
 .ed-scope-opts{display:grid;gap:.7rem}
 .ed-scope-opts.two{grid-template-columns:1fr 1fr}
 .ed-scope-opt{background:rgba(234,255,243,.04);border:1px solid rgba(0,232,122,.2);border-radius:.7rem;padding:1rem 1.15rem;
@@ -2457,7 +2521,7 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
 .ed-scope-cta .b2{background:none;color:#EAFFF3;border:1px solid rgba(234,255,243,.3);border-radius:.6rem;padding:.9rem 1.5rem;
   cursor:pointer;font-size:.92rem;transition:border-color .2s}
 .ed-scope-cta .b2:hover{border-color:#EAFFF3}
-.ed-scope-restart{background:none;border:none;color:rgba(234,255,243,.4);font-family:'DM Mono',monospace;font-size:.66rem;
+.ed-scope-restart{background:none;border:none;color:rgba(234,255,243,.62);font-family:'DM Mono',monospace;font-size:.66rem;
   letter-spacing:.08em;cursor:pointer;margin-top:1.5rem}
 .ed-scope-restart:hover{color:#00e87a}
 @media (max-width:560px){.ed-scope-opts.two{grid-template-columns:1fr}}
@@ -2473,13 +2537,13 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
 .ed-row .go{font-size:1.3rem;color:var(--ink3);transition:transform .25s}
 .ed-row:hover{background:var(--ink);color:var(--paper)}
 .ed-row:focus-visible{outline:none;background:var(--ink);color:var(--paper)}
-.ed-row:focus-visible .num{color:rgba(246,241,231,.5)}
-.ed-row:focus-visible .desc{color:rgba(246,241,231,.72)}
+.ed-row:focus-visible .num{color:rgba(var(--paper-rgb),.5)}
+.ed-row:focus-visible .desc{color:rgba(var(--paper-rgb),.72)}
 .ed-row:focus-visible .go{color:#00e87a;transform:translateX(6px)}
-.ed-row:hover .num{color:rgba(246,241,231,.5)}
-.ed-row:hover .desc{color:rgba(246,241,231,.72)}
+.ed-row:hover .num{color:rgba(var(--paper-rgb),.5)}
+.ed-row:hover .desc{color:rgba(var(--paper-rgb),.72)}
 .ed-row:hover .go{color:#00e87a;transform:translateX(6px)}
-.ed-row .free{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.14em;color:var(--emerald);border:1px solid rgba(11,122,71,.35);
+.ed-row .free{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.14em;color:var(--emerald);border:1px solid rgba(59,227,138,.35);
   border-radius:2rem;padding:.18rem .6rem;margin-left:.7rem;vertical-align:middle}
 .ed-row:hover .free{color:#00e87a;border-color:rgba(0,232,122,.4)}
 
@@ -2487,7 +2551,7 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
 .ed-markets{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
 .ed-market{background:var(--paper);border:1px solid var(--line);border-radius:1rem;padding:2rem 1.8rem;display:flex;flex-direction:column;gap:.9rem;
   transition:transform .3s,box-shadow .3s}
-.ed-market:hover{transform:translateY(-5px);box-shadow:0 24px 55px -24px rgba(14,35,26,.4)}
+.ed-market:hover{transform:translateY(-5px);box-shadow:0 24px 55px -24px rgba(var(--ink-rgb),.4)}
 .ed-market .flag{font-size:2rem}
 .ed-market h3{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700}
 .ed-market ul{list-style:none;display:flex;flex-direction:column;gap:.45rem;font-family:'DM Mono',monospace;font-size:.68rem;color:var(--ink2)}
@@ -2500,7 +2564,7 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
 /* ── HOW IT WORKS ── */
 .ed-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1.6rem}
 .ed-step .big{font-family:'Playfair Display',serif;font-size:4.2rem;font-weight:900;line-height:1;color:transparent;
-  -webkit-text-stroke:1.5px rgba(11,122,71,.5)}
+  -webkit-text-stroke:1.5px color-mix(in oklab, var(--emerald) 55%, transparent)}
 .ed-step h3{font-family:'Playfair Display',serif;font-size:1.2rem;margin:.8rem 0 .5rem}
 .ed-step p{font-size:.86rem;color:var(--ink2);line-height:1.6}
 
@@ -2522,17 +2586,21 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
 /* ── PRICING ── */
 .ed-pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;align-items:stretch}
 .ed-price{background:var(--paper);border:1px solid var(--line);border-radius:1rem;padding:2.1rem 1.9rem;display:flex;flex-direction:column;gap:.4rem}
-.ed-price.ink{background:var(--ink);color:var(--paper);box-shadow:0 30px 70px -28px rgba(14,35,26,.6)}
+#page-home .ed-price.ink{background:var(--ink);color:var(--paper);border-color:transparent;
+  box-shadow:0 30px 80px -30px color-mix(in oklab, var(--aurora-1) 60%, transparent)}
+#page-home .ed-price.ink li{color:rgba(var(--paper-rgb),.86)}
+#page-home .ed-price.ink .tier,#page-home .ed-price.ink .ed-badge{color:#07603A}
+#page-home .ed-price.ink .ed-badge{background:rgba(7,96,58,.12);border-color:rgba(7,96,58,.3)}
 .ed-price .tier{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--emerald)}
 .ed-price.ink .tier{color:#00e87a}
 .ed-price .amt{font-family:'Playfair Display',serif;font-size:2.1rem;font-weight:700;margin:.35rem 0 .9rem}
 .ed-price .amt small{font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:400;opacity:.55}
 .ed-price ul{list-style:none;display:flex;flex-direction:column;gap:.55rem;font-size:.86rem;color:var(--ink2);margin-bottom:1.6rem}
-.ed-price.ink ul{color:rgba(246,241,231,.75)}
+.ed-price.ink ul{color:rgba(var(--paper-rgb),.75)}
 .ed-price ul li::before{content:'✓';color:var(--emerald);margin-right:.55rem;font-weight:700}
 .ed-price.ink ul li::before{color:#00e87a}
 .ed-price .ed-btn{margin-top:auto;justify-content:center}
-.ed-price.ink .ed-btn-ghost{color:var(--paper);border-color:rgba(246,241,231,.35)}
+.ed-price.ink .ed-btn-ghost{color:var(--paper);border-color:rgba(var(--paper-rgb),.35)}
 .ed-price.ink .ed-btn-ghost:hover{border-color:var(--paper)}
 .ed-badge{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.14em;background:rgba(0,232,122,.14);color:#00e87a;
   border-radius:2rem;padding:.2rem .65rem;width:max-content;margin-bottom:.6rem}
@@ -2551,7 +2619,7 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
 
 /* ── FINAL CTA — the dark bridge ── */
 .ed-cta-band{background:var(--window);border-radius:1.4rem;padding:4.5rem 3rem;text-align:center;position:relative;overflow:hidden;
-  box-shadow:0 50px 110px -40px rgba(14,35,26,.65)}
+  box-shadow:0 50px 110px -40px rgba(var(--ink-rgb),.65)}
 .ed-cta-band::before{content:'';position:absolute;inset:0;background:
   radial-gradient(ellipse 60% 70% at 25% 10%,rgba(0,232,122,.14),transparent 60%),
   radial-gradient(ellipse 50% 60% at 80% 90%,rgba(10,255,219,.1),transparent 60%);pointer-events:none}
@@ -2815,11 +2883,15 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
    #F6F1E7: 3-slot categorical #0B7A47 / #2E6BC7 / #B5501A, worst adjacent pair
    ΔE 20.7 deutan and 22.0 normal-vision. Colour never carries identity alone —
    every segment is direct-labelled and every chart has a table view. */
-.an{--surface:var(--paper);--surface-2:#fff;
-  --s-eu:#0B7A47;--s-au:#2E6BC7;--s-issb:#B5501A;--s-sg:#7A3FA8;
-  --seq-3:#0B7A47;--seq-2:#4E9E74;--seq-1:#A9CDB9;
-  --status-gap:#B8860B;--status-none:#C0392B;
-  --de:rgba(14,35,26,.16)}
+/* Chart palette, dark ground. Validated with the dataviz palette checker
+   against the #080B16 surface: four-slot categorical worst adjacent pair
+   ΔE 22.9 deutan and 24.8 normal vision; the confidence ramp is one hue with
+   monotone lightness. Colour still never carries identity alone. */
+.an{--surface:var(--paper);--surface-2:var(--glass);
+  --s-eu:#16AD6E;--s-au:#4187EE;--s-issb:#D9761F;--s-sg:#9163E6;
+  --seq-3:#6BE0AC;--seq-2:#16AD6E;--seq-1:#0C6E47;
+  --status-gap:#E0A82E;--status-none:#E05252;
+  --de:rgba(var(--ink-rgb),.14)}
 .an-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;
   background:var(--de);border:1px solid var(--de);border-radius:var(--rad-md);overflow:hidden;margin-bottom:3rem}
 .an-kpi{background:var(--surface-2);padding:1.25rem 1.15rem}
@@ -2863,21 +2935,21 @@ table.an-mx th{font-family:var(--font-mono);font-size:.58rem;letter-spacing:.1em
   text-align:left;padding:.6rem .7rem;color:var(--ink3);border-bottom:1px solid var(--de);vertical-align:bottom}
 table.an-mx th.mk{color:var(--ink)}
 table.an-mx th.mk i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:.4rem}
-table.an-mx td{padding:.62rem .7rem;border-bottom:1px solid rgba(14,35,26,.07);color:var(--ink2);vertical-align:top;line-height:1.5}
+table.an-mx td{padding:.62rem .7rem;border-bottom:1px solid rgba(var(--ink-rgb),.07);color:var(--ink2);vertical-align:top;line-height:1.5}
 table.an-mx td.dim{color:var(--ink);font-weight:500}
 table.an-mx tr:last-child td{border-bottom:none}
-.an-yes{color:var(--sem-accent);font-weight:600}
+.an-yes{color:var(--emerald);font-weight:600}
 .an-no{color:var(--ink3)}
 .an-tblbtn{background:none;border:none;font-family:var(--font-mono);font-size:.62rem;letter-spacing:.1em;
   text-transform:uppercase;color:var(--ink3);cursor:pointer;padding:.3rem 0;margin-top:.5rem;
   border-bottom:1px dotted var(--de)}
-.an-tblbtn:hover{color:var(--sem-accent);border-bottom-color:var(--sem-accent)}
+.an-tblbtn:hover{color:var(--emerald);border-bottom-color:var(--emerald)}
 .an-alt{display:none;margin-top:.9rem}
 .an-alt.on{display:block}
 table.an-alt-t{width:100%;border-collapse:collapse;font-size:.75rem}
 table.an-alt-t th{text-align:left;font-family:var(--font-mono);font-size:.56rem;letter-spacing:.09em;
   text-transform:uppercase;color:var(--ink3);padding:.35rem .5rem;border-bottom:1px solid var(--de)}
-table.an-alt-t td{padding:.35rem .5rem;border-bottom:1px solid rgba(14,35,26,.06);color:var(--ink2)}
+table.an-alt-t td{padding:.35rem .5rem;border-bottom:1px solid rgba(var(--ink-rgb),.06);color:var(--ink2)}
 table.an-alt-t td.n{text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums}
 /* Schedule rows. The axis is a year scale, so bars are positioned on it rather
    than sized by magnitude — the reader compares start points, not lengths. */
@@ -2892,7 +2964,7 @@ table.an-alt-t td.n{text-align:right;font-family:var(--font-mono);font-variant-n
   transition:filter .15s}
 .an-prow .pt i:hover{filter:brightness(1.12)}
 .an-prow .pt em{position:absolute;top:2px;font-family:var(--font-mono);font-size:.6rem;
-  font-style:normal;color:#fff;pointer-events:none;line-height:14px}
+  font-style:normal;color:#07100B;pointer-events:none;line-height:14px}
 .an-sub{font-size:.68rem;color:var(--ink3);line-height:1.45;margin-top:.2rem}
 .an-mksub{font-family:var(--font-mono);font-size:.55rem;color:var(--ink3);margin-top:.2rem;letter-spacing:.06em;text-transform:none}
 .an-mx-cap{font-size:.7rem;color:var(--ink3);margin-top:.7rem;line-height:1.6}
@@ -10723,6 +10795,14 @@ document.addEventListener('DOMContentLoaded', function() {
  };
  window.anTipOff = function() { if (_anTip) _anTip.className = 'an-tip'; };
 
+ /* A numeral printed inside a coloured fill has to clear contrast against that
+    fill, and on this ground all but the darkest ramp step are light enough that
+    white fails. Measured per fill: dark ink clears 4.7:1 to 11.8:1 everywhere
+    except seq-1, where white clears 6.3:1 and dark ink does not. One table, so
+    a new fill cannot quietly inherit the wrong ink. */
+ var AN_FILL_INK = { 'seq-1':'#FFFFFF' };
+ function anInk(slot) { return AN_FILL_INK[slot] || '#07100B'; }
+
  window.anLoad = function() {
    if (_anData) { anRender(); return; }
    var get = function(u) { return fetch(u).then(function(r){ return r.json(); }).catch(function(){ return null; }); };
@@ -10825,9 +10905,10 @@ document.addEventListener('DOMContentLoaded', function() {
      var seg = function(n, cls, label) {
        if (!n) return '';
        var pct = n / s.dr_count * 100;
+       var ink = anInk(cls);
        return '<i style="width:' + pct + '%;background:var(--' + cls + ')" ' +
          'onmousemove="anTip(event,\'' + esc(s.code) + '\',\'' + n + ' ' + label + '\')" ' +
-         'onmouseleave="anTipOff()">' + (pct > 22 ? '<span>' + n + '</span>' : '') + '</i>';
+         'onmouseleave="anTipOff()">' + (pct > 22 ? '<span style="color:' + ink + '">' + n + '</span>' : '') + '</i>';
      };
      return '<div class="an-row"><div class="an-rowhd">' +
        '<span class="lb">' + esc(s.code) + ' · ' + esc(s.name) + '</span>' +
@@ -10909,11 +10990,10 @@ document.addEventListener('DOMContentLoaded', function() {
          var n = r.v[s[0]] || 0;
          if (!n) return '';
          var pct = n / r.v.total * 100;
-         // Low-confidence fill is pale, so its inline label takes ink, not paper.
-         var ink = s[1] === 'seq-1' ? ';color:var(--ink)' : '';
+         var ink = anInk(s[1]);
          return '<i style="width:' + pct + '%;background:var(--' + s[1] + ')" ' +
            'onmousemove="anTip(event,\'' + esc(label) + '\',\'' + n + ' factor' + (n === 1 ? '' : 's') + ' ' + s[2] + '\')" ' +
-           'onmouseleave="anTipOff()">' + (pct > 22 ? '<span style="' + ink.slice(1) + '">' + n + '</span>' : '') + '</i>';
+           'onmouseleave="anTipOff()">' + (pct > 22 ? '<span style="color:' + ink + '">' + n + '</span>' : '') + '</i>';
        }).join('') + '</div></div>';
    }).join('');
 

@@ -100,6 +100,72 @@ const probe = `<script>
       });
       window.anToggle('an-dr-alt', null); window.anToggle('an-fx-alt', null);
       window.anToggle('an-phase-alt', null);
+      /* Contrast audit. The redesign flipped the homepage to a dark ground by
+         swapping two colour tokens, which is exactly the change that leaves
+         individual dark-on-dark survivors behind — four of them, on the first
+         pass. Every element with its own text is measured against the nearest
+         opaque background it sits on, at the WCAG AA threshold for its size.
+         Elements painted by a gradient are skipped: backgroundColor cannot see
+         a gradient, so measuring them yields false failures. */
+      function lum(c){
+        var m = c.match(/[\\d.]+/g); if(!m) return null;
+        if (m.length > 3 && parseFloat(m[3]) === 0) return null;
+        var v = [0,1,2].map(function(i){ var x=parseInt(m[i],10)/255;
+          return x<=0.03928 ? x/12.92 : Math.pow((x+0.055)/1.055,2.4); });
+        return 0.2126*v[0]+0.7152*v[1]+0.0722*v[2];
+      }
+      /* Composite the stack rather than hunting for the first opaque ancestor.
+         This page is built from translucent glass over a dark ground, so the
+         effective background of a label is the whole stack flattened — taking
+         the first ancestor with any fill reports the glass alone and measures
+         nothing real. */
+      function parse(c){
+        var m = c.match(/[\\d.]+/g);
+        if (!m) return null;
+        return { r:+m[0], g:+m[1], b:+m[2], a: m.length > 3 ? parseFloat(m[3]) : 1 };
+      }
+      function bgOf(el){
+        var stack = [], n = el;
+        while (n) { stack.push(getComputedStyle(n).backgroundColor); n = n.parentElement; }
+        // Start from the root and paint each layer over the last.
+        var out = { r:255, g:255, b:255, a:1 };
+        for (var i = stack.length - 1; i >= 0; i--) {
+          var c = parse(stack[i]);
+          if (!c || !c.a) continue;
+          out = { r: c.r*c.a + out.r*(1-c.a),
+                  g: c.g*c.a + out.g*(1-c.a),
+                  b: c.b*c.a + out.b*(1-c.a), a:1 };
+        }
+        return 'rgb(' + Math.round(out.r) + ', ' + Math.round(out.g) + ', ' + Math.round(out.b) + ')';
+      }
+      var contrast = [], seenC = {};
+      Array.prototype.forEach.call(
+        document.querySelectorAll('#page-home h1,#page-home h2,#page-home h3,#page-home p,#page-home li,#page-home span,#page-home button,#page-home a,#page-home b,#page-home td,#page-home th,#page-home strong,#page-home div'),
+        function(el){
+          if (!el.offsetParent) return;
+          if (!Array.prototype.some.call(el.childNodes, function(n){ return n.nodeType===3 && n.textContent.trim(); })) return;
+          var cs = getComputedStyle(el);
+          if (cs.visibility==='hidden' || parseFloat(cs.opacity) < 0.3) return;
+          if (cs.webkitTextFillColor === 'rgba(0, 0, 0, 0)') return;
+          if (cs.backgroundImage && cs.backgroundImage.indexOf('gradient') >= 0) return;
+          var bg = bgOf(el), fg = parse(cs.color), bgc = parse(bg);
+          if (!fg || !bgc || !fg.a) return;
+          // Translucent text is likewise composited over what it sits on.
+          var flat = 'rgb(' + Math.round(fg.r*fg.a + bgc.r*(1-fg.a)) + ', ' +
+                              Math.round(fg.g*fg.a + bgc.g*(1-fg.a)) + ', ' +
+                              Math.round(fg.b*fg.a + bgc.b*(1-fg.a)) + ')';
+          var f = lum(flat), b = lum(bg);
+          if (f === null || b === null) return;
+          var r = (Math.max(f,b)+0.05)/(Math.min(f,b)+0.05);
+          var size = parseFloat(cs.fontSize), bold = parseInt(cs.fontWeight,10) >= 700;
+          var need = (size >= 24 || (size >= 18.66 && bold)) ? 3.0 : 4.5;
+          if (r >= need) return;
+          var key = el.className + '|' + cs.color + '|' + bg;
+          if (seenC[key]) return; seenC[key] = 1;
+          contrast.push(r.toFixed(2) + ':1 (needs ' + need + ') — ' + cs.color + ' on ' + bg +
+                        ' — "' + (el.textContent||'').trim().slice(0,32) + '"');
+        });
+
       var home = document.getElementById('page-home').textContent;
       report({
         kpis: kpis,
@@ -113,6 +179,7 @@ const probe = `<script>
         phaseAltRows: q('#an-phase-alt tbody tr').length,
         phaseTicks: q('#an-axis span').length || q('.an-axis span').length,
         phaseLegend: txt('an-phase-legend').length > 0,
+        contrast: contrast.slice(0, 12),
         legends: (txt('an-dr-legend').length > 0) && (txt('an-fx-legend').length > 0),
         footMentionsConfidence: txt('an-foot').indexOf('medium') >= 0,
         badBars: badBars,
@@ -166,6 +233,7 @@ if (out.mxRows < 5) fail.push(`regime matrix has only ${out.mxRows} rows`);
 // Dimension column plus one per market: Europe, Australia, Singapore, ISSB.
 if (out.mxCols !== 5) fail.push(`regime matrix has ${out.mxCols} columns, expected 5`);
 if (!out.phaseLegend) fail.push('the phasing chart is missing its legend');
+for (const c of out.contrast || []) fail.push(`text fails contrast — ${c}`);
 if (out.phaseTicks < 2) fail.push(`phasing axis has ${out.phaseTicks} year ticks`);
 if (!out.legends) fail.push('a chart is missing its legend — colour would be carrying identity alone');
 if (!out.footMentionsConfidence) fail.push('the analytics footnote no longer states the confidence grade');
@@ -197,4 +265,4 @@ if (fail.length) {
   for (const f of fail) console.error('  - ' + f);
   process.exit(1);
 }
-console.log(`  ✓ homepage analytics — ${Object.keys(out.kpis).length} KPIs, ${out.drRows}+${out.fxRows}+${out.phaseRows} chart rows and ${out.mxRows}×${out.mxCols} matrix, all matching the data`);
+console.log(`  ✓ homepage analytics — ${Object.keys(out.kpis).length} KPIs, ${out.drRows}+${out.fxRows}+${out.phaseRows} chart rows and ${out.mxRows}×${out.mxCols} matrix, all matching the data, no contrast failures`);
