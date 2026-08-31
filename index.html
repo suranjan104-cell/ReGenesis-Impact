@@ -235,7 +235,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 #page-home{display:block}
 #page-advisor.active{height:100vh;overflow:hidden}
 /* HOME PAGE — always visible, stacks above fixed canvas layers */
-#page-home{color:#E4F2EC;background:#04120F;position:relative;z-index:1}
+#page-home{color:#EDEEEE;background:#0A0B0B;position:relative;z-index:1}
 #page-issb{min-height:100vh}
 /* UNIFIED NAV — Climate Mission Control (fx) theme */
 nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:calc(.8rem + env(safe-area-inset-top)) 5% .8rem;display:flex!important;align-items:center;justify-content:space-between;background:rgba(2,8,6,0.88);backdrop-filter:blur(24px) saturate(160%);border-bottom:1px solid rgba(0,232,122,0.14)}
@@ -2310,69 +2310,52 @@ body:not(.rg-editorial) .page{padding-bottom:4.5rem}
    ════════════════════════════════════════════════════════════════ */
 #page-home{
   /* ── LUMINOUS DEPTH ──────────────────────────────────────────────
-     Deep space ground, aurora light behind glass. Foreground and surface are
+     Neutral near-black, no wash, hairline structure. Foreground and surface are
      declared as raw rgb triples as well as hex, because the rest of this sheet
      composes alpha values from them. Flipping these two triples turns the whole
      page over — and it turns every drop shadow into a glow, because a light
      shadow on a dark ground is a glow. */
-  --ink-rgb:228,242,236; --paper-rgb:4,18,15;
-  --paper:#04120F; --paper2:#071A14; --ink:#E4F2EC;
-  --ink2:rgba(var(--ink-rgb),.72); --ink3:rgba(var(--ink-rgb),.55);
-  --line:rgba(var(--ink-rgb),.13); --emerald:#3BE38A;
-  --glass:rgba(255,255,255,.045); --glass-line:rgba(255,255,255,.10);
-  --aurora-1:#16AD6E; --aurora-2:#12A5A5; --aurora-3:#2E8F6B;
-  --signal:#FF8A4C; --window:#03100D;
+  /* ── EDITORIAL INSTRUMENT ──────────────────────────────────────────
+     Neutral near-black, no coloured wash, hairline structure, one accent used
+     sparingly. The type is the design; nothing sits behind it. What this
+     replaced and why is in DESIGN-BENCHMARK.md. */
+  --ink-rgb:237,238,238; --paper-rgb:10,11,11;
+  --paper:#0A0B0B; --paper2:#0F1011; --ink:#EDEEEE;
+  --ink2:rgba(var(--ink-rgb),.70); --ink3:rgba(var(--ink-rgb),.52);
+  --line:rgba(var(--ink-rgb),.12); --emerald:#3BE38A;
+  --glass:rgba(var(--ink-rgb),.032); --glass-line:rgba(var(--ink-rgb),.10);
+  --signal:#FF8A4C; --window:#08090A;
   font-family:'DM Sans',sans-serif; background:var(--paper); color:var(--ink);
   position:relative; isolation:isolate;
 }
 
-/* The aurora: three wide radial washes over the ground, drifting slowly.
-   Fixed, behind everything, inert to the pointer. */
+/* No wash. A single very faint horizon so the page has a top, and hairlines
+   doing the structural work. The restraint is functional as well as stylistic:
+   on a flat neutral ground every contrast ratio is stable, the chart palette
+   needs no per-region validation, and the accent means something because it is
+   rare. */
 #page-home::before{
-  content:'';position:fixed;inset:-20%;z-index:-2;pointer-events:none;
-  background:
-    radial-gradient(58% 44% at 12% 6%,  color-mix(in oklab, var(--aurora-1) 34%, transparent) 0%, transparent 68%),
-    radial-gradient(64% 48% at 88% 14%, color-mix(in oklab, var(--aurora-2) 40%, transparent) 0%, transparent 70%),
-    radial-gradient(70% 52% at 50% 52%, color-mix(in oklab, var(--aurora-3) 22%, transparent) 0%, transparent 72%),
-    radial-gradient(66% 50% at 20% 92%, color-mix(in oklab, var(--aurora-1) 26%, transparent) 0%, transparent 70%);
-  filter:blur(52px) saturate(125%);
-  animation:ed-aurora 42s ease-in-out infinite alternate;
+  content:'';position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background:radial-gradient(120% 78% at 50% -12%, rgba(var(--ink-rgb),.05) 0%, transparent 62%);
 }
-/* A fine grid over the aurora gives the depth something to read against —
-   without it the washes have no scale and the page is just a gradient. */
-#page-home::after{
-  content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.55;
-  background-image:
-    linear-gradient(rgba(var(--ink-rgb),.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(var(--ink-rgb),.05) 1px, transparent 1px);
-  background-size:64px 64px;
-  -webkit-mask-image:radial-gradient(120% 90% at 50% 0%, #000 0%, transparent 78%);
-  mask-image:radial-gradient(120% 90% at 50% 0%, #000 0%, transparent 78%);
-}
-@keyframes ed-aurora{
-  0%  {transform:translate3d(0,0,0) scale(1)}
-  50% {transform:translate3d(-3%,2%,0) scale(1.06)}
-  100%{transform:translate3d(2%,-2%,0) scale(1.03)}
-}
-@media (prefers-reduced-motion: reduce){ #page-home::before{animation:none} }
 
-/* Glass. One rule over every panel the page already had, so surfaces pick up
-   the aurora behind them instead of sitting on a flat fill. */
+/* Panels are a lift in the ground with a hairline edge — no blur, nothing
+   behind them to show through. */
 #page-home .ed-market,#page-home .ed-research,#page-home .ed-price:not(.ink),
 #page-home .an-card,#page-home .an-kpi,#page-home .ed-step,
 #page-home .ed-faq details,#page-home .ed-scope-inner,#page-home .ed-proof{
   background:var(--glass);
   border-color:var(--glass-line);
-  backdrop-filter:blur(14px) saturate(130%);
-  -webkit-backdrop-filter:blur(14px) saturate(130%);
 }
 #page-home .an-kpis{background:var(--glass-line)}
-#page-home .ed-section-alt{background:rgba(var(--ink-rgb),.03)}
-/* A hard white shadow reads as a halo on this ground, so panels lift with
-   colour instead. */
+#page-home .ed-section-alt{background:rgba(var(--ink-rgb),.022)}
+/* Hover is a hairline and a lift, not a glow. */
+#page-home .ed-market,#page-home .ed-research,#page-home .an-card{
+  transition:border-color .18s, transform .18s, background .18s}
 #page-home .ed-market:hover,#page-home .ed-research:hover{
-  box-shadow:0 24px 60px -28px color-mix(in oklab, var(--aurora-1) 55%, transparent);
-  border-color:color-mix(in oklab, var(--emerald) 45%, transparent);
+  border-color:rgba(var(--ink-rgb),.30);
+  background:rgba(var(--ink-rgb),.05);
+  transform:translateY(-2px);
 }
 #page-home ::selection{background:var(--ink);color:var(--paper)}
 .ed-wrap{max-width:1180px;margin:0 auto;padding:0 5%}
@@ -2381,7 +2364,7 @@ body:not(.rg-editorial) .page{padding-bottom:4.5rem}
 .ed-serif{font-family:'Playfair Display',serif}
 
 /* ── Nav & chrome become editorial while home is active ── */
-body.rg-editorial nav{background:rgba(4,18,15,.72)!important;backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border-bottom:1px solid var(--line, rgba(var(--ink-rgb),.14))}
+body.rg-editorial nav{background:rgba(10,11,11,.82)!important;backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border-bottom:1px solid var(--line, rgba(var(--ink-rgb),.14))}
 body.rg-editorial nav::after{background:linear-gradient(90deg,var(--emerald),transparent)}
 body.rg-editorial .nav-logo{color:var(--ink)}
 body.rg-editorial .nav-logo span{color:var(--emerald)}
@@ -2404,10 +2387,13 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,var(--emerald),
 .ed-hero::after{content:'';position:absolute;right:-12%;top:-8%;width:520px;height:520px;border-radius:50%;
   background:radial-gradient(circle,rgba(59,227,138,.10),transparent 65%);pointer-events:none}
 .ed-hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:3.5rem;align-items:center}
-.ed-hero h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(2.7rem,5.6vw,4.7rem);line-height:1.04;letter-spacing:-.015em;margin:1.1rem 0 1.3rem}
-.ed-hero h1 em{font-style:italic;color:var(--emerald);white-space:nowrap;
-  background:linear-gradient(transparent 78%,rgba(59,227,138,.22) 78%,rgba(59,227,138,.22) 92%,transparent 92%)}
-.ed-hero-sub{font-size:1.08rem;line-height:1.7;color:var(--ink2);max-width:34rem;margin-bottom:1.9rem}
+/* Type is the primary device now: bigger, tighter, with italic carrying the
+   emphasis. The highlighter bar under the emphasis is gone — it was decoration
+   standing in for typographic contrast the italic provides on its own. */
+.ed-hero h1{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(2.9rem,5.4vw,4.9rem);
+  line-height:1.0;letter-spacing:-.032em;margin:1.3rem 0 1.5rem;max-width:19ch}
+.ed-hero h1 em{font-style:italic;font-weight:700;color:var(--emerald);white-space:nowrap}
+.ed-hero-sub{font-size:1.14rem;line-height:1.72;color:var(--ink2);max-width:36rem;margin-bottom:2.1rem}
 .ed-cta-row{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
 .ed-btn{display:inline-flex;align-items:center;gap:.55rem;font-weight:600;font-size:.95rem;border-radius:.65rem;
   padding:.95rem 1.7rem;cursor:pointer;border:1px solid transparent;transition:transform .2s,box-shadow .25s;text-decoration:none}
@@ -2418,11 +2404,9 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,var(--emerald),
 .ed-trust{margin-top:1.6rem;font-family:'DM Mono',monospace;font-size:.64rem;letter-spacing:.14em;color:var(--ink3)}
 
 /* dark product window — the bridge into the instrument suite */
-.ed-window{background:linear-gradient(160deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
+.ed-window{background:var(--window);
   border-radius:1rem;border:1px solid var(--glass-line);
-  backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);
-  box-shadow:0 40px 100px -40px color-mix(in oklab, var(--aurora-2) 70%, transparent),
-             inset 0 1px 0 rgba(255,255,255,.10);
+  box-shadow:0 24px 70px -40px rgba(0,0,0,.8), inset 0 1px 0 rgba(var(--ink-rgb),.08);
   overflow:hidden;transform:rotate(.6deg)}
 .ed-window-bar{display:flex;align-items:center;gap:.45rem;padding:.8rem 1.1rem;border-bottom:1px solid rgba(0,232,122,.14)}
 .ed-window-bar i{width:9px;height:9px;border-radius:50%;background:rgba(234,255,243,.15)}
@@ -2470,7 +2454,9 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,var(--emerald),
 .ed-research-go{font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.1em;color:var(--emerald)}
 .ed-section-alt{background:var(--paper2)}
 .ed-head{max-width:44rem;margin-bottom:3rem}
-.ed-head h2{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.4vw,2.9rem);font-weight:700;line-height:1.12;letter-spacing:-.01em;margin:.9rem 0 .9rem}
+.ed-head h2{font-family:'Playfair Display',serif;font-size:clamp(2.1rem,4.2vw,3.6rem);font-weight:900;
+  line-height:1.04;letter-spacing:-.028em;margin:1rem 0 .9rem;max-width:20ch}
+.ed-head h2 em{font-style:italic;font-weight:700;color:var(--emerald)}
 .ed-head p{color:var(--ink2);font-size:1rem;line-height:1.7}
 
 /* ── SCOPE CHECKER — interactive "am I in scope?" ── */
@@ -2529,13 +2515,31 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,var(--emerald),
 
 /* ── INSTRUMENT INDEX (features) ── */
 .ed-index{border-top:1px solid var(--line)}
-.ed-row{display:grid;grid-template-columns:76px 1.25fr 1fr auto;gap:1.6rem;align-items:center;padding:1.45rem .9rem;
+/* Bento. The instruments were a uniform list, which cannot say that two of
+   them matter more than the rest. Three cell sizes over a six-column grid: the
+   report generator and the GHG inventory carry the argument, the rest support,
+   and the last cell runs full width so nine cells leave no gap. */
+.ed-index{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.ed-index .ed-row{grid-column:span 2}
+.ed-index .ed-row:nth-child(1),.ed-index .ed-row:nth-child(2){grid-column:span 3}
+.ed-index .ed-row:last-child{grid-column:span 6;flex-direction:row;align-items:center;gap:1.4rem}
+.ed-index .ed-row:last-child .desc{flex:1}
+.ed-index .ed-row:last-child .go{align-self:center;margin-top:0}
+@media(max-width:900px){.ed-index{grid-template-columns:repeat(2,1fr)}
+  .ed-index .ed-row,.ed-index .ed-row:nth-child(1),.ed-index .ed-row:nth-child(2),
+  .ed-index .ed-row:last-child{grid-column:span 2;flex-direction:column;align-items:flex-start}}
+.ed-row{display:flex;flex-direction:column;align-items:flex-start;gap:.55rem;
+  padding:1.6rem 1.5rem 1.4rem;border-radius:14px;
+  background:rgba(var(--ink-rgb),.032);border:1px solid rgba(var(--ink-rgb),.10);
   border-bottom:1px solid var(--line);cursor:pointer;transition:background .25s,color .25s;position:relative}
-.ed-row .num{font-family:'DM Mono',monospace;font-size:.72rem;color:var(--ink3);letter-spacing:.1em}
-.ed-row .name{font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:700;letter-spacing:-.01em}
-.ed-row .desc{font-size:.86rem;color:var(--ink2);line-height:1.55}
-.ed-row .go{font-size:1.3rem;color:var(--ink3);transition:transform .25s}
-.ed-row:hover{background:var(--ink);color:var(--paper)}
+.ed-row .num{font-family:'DM Mono',monospace;font-size:.66rem;color:var(--ink3);letter-spacing:.16em}
+.ed-row .name{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;letter-spacing:-.02em;
+  display:flex;align-items:center;gap:.55rem;flex-wrap:wrap}
+.ed-index .ed-row:nth-child(1) .name,.ed-index .ed-row:nth-child(2) .name{font-size:1.95rem}
+.ed-row .desc{font-size:.87rem;color:var(--ink2);line-height:1.58;flex:1}
+.ed-row .go{font-size:1.15rem;color:var(--ink3);transition:transform .25s;align-self:flex-end;margin-top:.3rem}
+.ed-row:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.ed-row:hover .go{transform:translateX(4px)}
 .ed-row:focus-visible{outline:none;background:var(--ink);color:var(--paper)}
 .ed-row:focus-visible .num{color:rgba(var(--paper-rgb),.5)}
 .ed-row:focus-visible .desc{color:rgba(var(--paper-rgb),.72)}
@@ -2587,7 +2591,7 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,var(--emerald),
 .ed-pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;align-items:stretch}
 .ed-price{background:var(--paper);border:1px solid var(--line);border-radius:1rem;padding:2.1rem 1.9rem;display:flex;flex-direction:column;gap:.4rem}
 #page-home .ed-price.ink{background:var(--ink);color:var(--paper);border-color:transparent;
-  box-shadow:0 30px 80px -30px color-mix(in oklab, var(--aurora-1) 60%, transparent)}
+  box-shadow:0 24px 70px -34px rgba(0,0,0,.75)}
 #page-home .ed-price.ink li{color:rgba(var(--paper-rgb),.86)}
 #page-home .ed-price.ink .tier,#page-home .ed-price.ink .ed-badge{color:#07603A}
 #page-home .ed-price.ink .ed-badge{background:rgba(7,96,58,.12);border-color:rgba(7,96,58,.3)}
@@ -2675,7 +2679,7 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,var(--emerald),
           <button class="ed-btn ed-btn-ink" onclick="showPage('issb')">Start a report — free →</button>
           <button class="ed-btn ed-btn-ghost" onclick="showPage('advisor')">Ask Sage AI</button>
         </div>
-        <div class="ed-trust">NO SIGN-UP · 7 INSTRUMENTS · ESRS / AASB S2 / IFRS S2 BUILT IN</div>
+        <div class="ed-trust">NO SIGN-UP · 9 INSTRUMENTS · ESRS / AASB S2 / IFRS S2 BUILT IN</div>
       </div>
       <div class="ed-hero-right fade-up">
         <div class="ed-window" aria-hidden="true">
@@ -2713,7 +2717,7 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,var(--emerald),
   <div class="ed-wrap">
     <div class="ed-head">
       <div class="ed-eyebrow">The instrument suite</div>
-      <h2>Seven instruments. One living system.</h2>
+      <h2>Nine instruments. <em>One living system.</em></h2>
       <p>Every tool works alone and feeds the others — your GHG numbers flow into reports, materiality and credits.
          Press <strong>Ctrl K</strong> anywhere to jump.</p>
     </div>
@@ -2730,38 +2734,44 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,var(--emerald),
         <span class="desc">Scope 1–3 with a full audit trail, editable factors and PCAF financed emissions.</span>
         <span class="go">→</span>
       </div>
-      <div class="ed-row" onclick="showPage('climate')" role="link" tabindex="0" onkeydown="if(event.key==='Enter')showPage('climate')">
+      <div class="ed-row" onclick="showPage('esrs')" role="link" tabindex="0" onkeydown="if(event.key==='Enter')showPage('esrs')">
         <span class="num">03</span>
+        <span class="name">ESRS &amp; CSRD<span class="free">FREE</span></span>
+        <span class="desc">Scoping, double materiality, 65 disclosure requirements and the EU Taxonomy Article 8 KPIs.</span>
+        <span class="go">&rarr;</span>
+      </div>
+      <div class="ed-row" onclick="showPage('climate')" role="link" tabindex="0" onkeydown="if(event.key==='Enter')showPage('climate')">
+        <span class="num">04</span>
         <span class="name">Climate Intelligence<span class="free">FREE</span></span>
         <span class="desc">NGFS scenarios, company impact modelling, geospatial hazards and TCFD generation.</span>
         <span class="go">→</span>
       </div>
       <div class="ed-row" onclick="showPage('tools')" role="link" tabindex="0" onkeydown="if(event.key==='Enter')showPage('tools')">
-        <span class="num">04</span>
+        <span class="num">05</span>
         <span class="name">ESG Due Diligence<span class="free">FREE</span></span>
         <span class="desc">PRI-aligned portfolio scoring, SPO generation and Scope 3 supplier screening.</span>
         <span class="go">→</span>
       </div>
       <div class="ed-row" onclick="showPage('credits')" role="link" tabindex="0" onkeydown="if(event.key==='Enter')showPage('credits')">
-        <span class="num">05</span>
+        <span class="num">06</span>
         <span class="name">Carbon Credits<span class="free">FREE</span></span>
         <span class="desc">Browse verified carbon, blue-carbon and plastic credits; retire with certificates.</span>
         <span class="go">→</span>
       </div>
       <div class="ed-row" onclick="showPage('assurance')" role="link" tabindex="0" onkeydown="if(event.key==='Enter')showPage('assurance')">
-        <span class="num">06</span>
+        <span class="num">07</span>
         <span class="name">Assurance Studio<span class="free">FREE</span></span>
         <span class="desc">ISSA 5000 readiness scans, materiality math and evidence packs before fieldwork.</span>
         <span class="go">→</span>
       </div>
       <div class="ed-row" onclick="showPage('advisor')" role="link" tabindex="0" onkeydown="if(event.key==='Enter')showPage('advisor')">
-        <span class="num">07</span>
+        <span class="num">08</span>
         <span class="name">Sage AI Advisor<span class="free">FREE</span></span>
         <span class="desc">Ask anything, upload a report for gap analysis — answers cite a public knowledge base.</span>
         <span class="go">→</span>
       </div>
       <div class="ed-row" onclick="window.location.href='platform/'" role="link" tabindex="0" onkeydown="if(event.key==='Enter')window.location.href='platform/'">
-        <span class="num">08</span>
+        <span class="num">09</span>
         <span class="name">IMM Platform</span>
         <span class="desc">Impact measurement &amp; management for funds — IRIS+ metrics, scoring, LP reports.</span>
         <span class="go">→</span>
@@ -3062,7 +3072,7 @@ table.an-alt-t td.n{text-align:right;font-family:var(--font-mono);font-variant-n
       <div class="ed-stats">
         <!-- Sourced entries is read from kb.json at runtime rather than typed
              here; it sat at 64 for weeks after the corpus passed seventy. -->
-        <div class="ed-stat"><b class="count-up" data-target="7">0</b><span>Instruments</span></div>
+        <div class="ed-stat"><b class="count-up" id="ed-stat-tools" data-target="9">0</b><span>Instruments</span></div>
         <div class="ed-stat"><b class="count-up" id="ed-stat-kb" data-target="0">0</b><span>Sourced entries</span></div>
         <div class="ed-stat"><b class="count-up" id="ed-stat-guides" data-target="11">0</b><span>Deep guides</span></div>
         <div class="ed-stat"><b class="count-up" data-target="3">0</b><span>Markets native</span></div>

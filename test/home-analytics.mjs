@@ -248,6 +248,16 @@ if (!out.homeEurope) fail.push('the homepage no longer leads with ESRS/CSRD');
    body matches its own pattern and always "finds" a name. */
 /* The "Deep guides" stat is typed into the page, so it drifts the moment a
    guide is added or removed — it said 13 while eleven were published. */
+/* The instrument count is claimed in three places — the section heading, the
+   hero trust line and a counter — and was wrong in all three before the bento
+   grid made nine cells visible where a list had hidden them. */
+{
+  const cells = (html.match(/class="ed-row"/g) || []).length;
+  const counter = (html.match(/id="ed-stat-tools"[^>]*data-target="(\d+)"/) || [])[1];
+  if (Number(counter) !== cells) fail.push(`instrument counter says ${counter}, ${cells} cells exist`);
+  if (!html.includes(`${cells} INSTRUMENTS`)) fail.push(`hero trust line does not say ${cells} INSTRUMENTS`);
+}
+
 {
   const guides = (html.match(/id="ed-stat-guides"[^>]*data-target="(\d+)"/) || [])[1];
   const actual = readdirSync(`${ROOT}/guides`).filter(f => f.endsWith('.html')).length;
