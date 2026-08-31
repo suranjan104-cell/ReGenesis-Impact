@@ -141,7 +141,7 @@
   ]
 }
 </script>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700;1,900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════════════════════════════════════
    DESIGN SYSTEM v1 — Direction A "Regenerative Editorial" (Phase 3, tokens)
@@ -7157,6 +7157,23 @@ window.rgToast = function(msg, isError) {
   setTimeout(function(){ d.style.opacity = '0'; setTimeout(function(){ d.remove(); }, 400); }, 3200);
 };
 
+/* One in-flight fetch per JSON file, shared by everything that wants it.
+   kb.json was being pulled twice on the homepage — the Sage knowledge
+   preloader and the analytics loader each fetched their own copy of the same
+   49 KB — and any future consumer would have added a third. Returns the same
+   promise, so callers that arrive later get the already-resolved value. */
+window.rgJson = (function(){
+  var cache = {};
+  return function(url) {
+    if (!cache[url]) {
+      cache[url] = fetch(url)
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .catch(function(){ return null; });
+    }
+    return cache[url];
+  };
+})();
+
 // ── KNOWLEDGE BASE (RAG) ─────────────────────────────────────────────
 // The repo's knowledge/ corpus, compiled to kb.json, is fetched once and
 // retrieved per-question: the top-scoring entries are injected into every
@@ -7164,10 +7181,7 @@ window.rgToast = function(msg, isError) {
 var _RG_KB = null;
 (function rgKbPreload(){
   try {
-    fetch('knowledge/kb.json')
-      .then(function(r){ return r.ok ? r.json() : null; })
-      .then(function(d){ _RG_KB = d || { entries: [] }; })
-      .catch(function(){ _RG_KB = { entries: [] }; });
+    rgJson('knowledge/kb.json').then(function(d){ _RG_KB = d || { entries: [] }; });
   } catch(e) { _RG_KB = { entries: [] }; }
 })();
 
@@ -9848,6 +9862,7 @@ document.addEventListener('DOMContentLoaded', function() {
    esrsTagRender();
    esrsIoRender();
    esrsBenchRender();
+   esrsCasesRender();
 
    var src = document.getElementById('es-sources');
    if (src) {
@@ -10143,9 +10158,9 @@ document.addEventListener('DOMContentLoaded', function() {
  window.esrsTab = function(id) {
    var tabs = document.getElementById('es-tabs');
    if (tabs) Array.prototype.forEach.call(tabs.children, function(b, i) {
-     b.className = (['scope','dma','dr','tx','tag','io','bm'][i] === id) ? 'on' : '';
+     b.className = (['scope','dma','dr','tx','tag','io','bm','cases'][i] === id) ? 'on' : '';
    });
-   ['scope','dma','dr','tx','tag','io','bm'].forEach(function(k) {
+   ['scope','dma','dr','tx','tag','io','bm','cases'].forEach(function(k) {
      var s = document.getElementById('es-sec-' + k);
      if (s) s.className = 'es-sec' + (k === id ? ' on' : '');
    });
@@ -10815,7 +10830,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
  window.anLoad = function() {
    if (_anData) { anRender(); return; }
-   var get = function(u) { return fetch(u).then(function(r){ return r.json(); }).catch(function(){ return null; }); };
+   var get = rgJson;
    Promise.all([
      get('knowledge/esrs.json'), get('knowledge/factors.json'),
      get('knowledge/standards.json'), get('knowledge/kb.json'), get('knowledge/markets.json')
@@ -11184,6 +11199,84 @@ document.addEventListener('DOMContentLoaded', function() {
    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
    else go();
  })();
+
+
+ /* ── Worked cases ───────────────────────────────────────────────────────
+    Each case loads into the real engine rather than describing a result. The
+    reader presses one button, the inputs land in the actual form, the actual
+    calculation runs, and the figure they see is the one the tool produced —
+    which is the only kind of case study this product can honestly publish. */
+ window.esrsCaseLoad = function(id) {
+   if (!_esrs || !_esrs.cases) return;
+   var c = _esrs.cases.cases.filter(function(x){ return x.id === id; })[0];
+   if (!c) return;
+   var set = function(el, v) { var e = document.getElementById(el); if (e) e.value = String(v); };
+
+   /* Clear every result panel first. Without this a case that sets only
+      taxonomy inputs leaves the previous case's scope verdict on screen, and
+      the reader attributes one case's numbers to another. */
+   ['es-scope-res', 'es-dm-res', 'es-dr-res', 'es-tx-res', 'es-tag-res'].forEach(function(p) {
+     var e = document.getElementById(p);
+     if (e) { e.className = 'es-res'; e.innerHTML = ''; }
+   });
+   if (!c.taxonomy) { _esrsTx = []; _esrsTxSeq = 0; esrsTxRender(); }
+   if (!c.materiality) { _esrsMat = {}; }
+   _esrsDr = {};
+   esrsRender();
+
+   if (c.scope) {
+     set('es-entity', c.scope.entity); set('es-emp', c.scope.employees);
+     set('es-turn', c.scope.turnover); set('es-euturn', c.scope.euturnover);
+     set('es-wave', c.scope.wave || 'no');
+     esrsScope();
+   }
+   if (c.materiality) {
+     _esrsMat = {};
+     c.materiality.forEach(function(code){ _esrsMat[code] = { i: true, f: false }; });
+     esrsRender(); esrsAssess();
+   }
+   if (c.taxonomy) {
+     var t = c.taxonomy;
+     _esrsTx = []; _esrsTxSeq = 0;
+     t.activities.forEach(function(a) {
+       _esrsTx.push({ id: ++_esrsTxSeq, name: a.name, obj: a.obj,
+                      turnover: a.turnover, capex: a.capex, opex: a.opex,
+                      sc: a.sc, dnsh: a.dnsh });
+     });
+     set('es-tx-dturn', t.denominators.turnover);
+     set('es-tx-dcapex', t.denominators.capex);
+     set('es-tx-dopex', t.denominators.opex);
+     set('es-tx-safe', t.safeguards ? 'yes' : 'no');
+     set('es-tx-opexmat', t.opexMaterial ? 'yes' : 'no');
+     esrsTxRender(); esrsTxSave();
+   }
+   // Send the reader to the tab the case actually demonstrates.
+   esrsTab(c.taxonomy ? 'tx' : (c.materiality ? 'dma' : 'scope'));
+   var el = document.getElementById('es-case-loaded');
+   if (el) {
+     el.className = 'es-caseload show';
+     el.innerHTML = '<b>' + (c.name || '') + '</b> loaded — the figures on this tab are computed from it. ' +
+       'Expected: ' + (c.expect || '');
+   }
+   if (typeof rgTrack === 'function') rgTrack('esrs_case', id);
+ };
+
+ window.esrsCasesRender = function() {
+   if (!_esrs || !_esrs.cases) return;
+   var el = document.getElementById('es-cases');
+   if (!el) return;
+   var esc = function(x){ var d=document.createElement('div'); d.textContent = x==null?'':x; return d.innerHTML; };
+   el.innerHTML = _esrs.cases.cases.map(function(c) {
+     return '<div class="es-case">' +
+       '<div class="es-case-hd"><span class="nm">' + esc(c.name) + '</span>' +
+         '<span class="sec">' + esc(c.sector) + '</span></div>' +
+       '<div class="es-case-teach"><b>Shows</b>' + esc(c.teaches) + '</div>' +
+       '<div class="es-case-trap"><b>The mistake it exposes</b>' + esc(c.trap) + '</div>' +
+       '<div class="es-case-note">' + esc(c.note) + '</div>' +
+       '<button class="es-btn ghost" onclick="esrsCaseLoad(\'' + c.id + '\')">Load this case &rarr;</button>' +
+     '</div>';
+   }).join('');
+ };
 
  window.rgLedgerShowPayload = function() {
    var el = document.getElementById('lg-payload');
@@ -12756,7 +12849,8 @@ window.issb_backToForm = function() {
    }
  };
 
- function sendGapAnalysis(filename) {
+ /* Same: called from an inline onclick on the uploaded-report gap analysis. */
+ window.sendGapAnalysis = function(filename) {
    var typing = showTyping();
    var prompt = 'You have been given the contents of a sustainability/ESG report called "' + filename + '". ' +
      'Provide a structured ESG Gap Analysis with these exact sections:\n\n' +
@@ -12815,11 +12909,16 @@ window.issb_backToForm = function() {
  if(e.key==='Enter' && !e.shiftKey) { e.preventDefault(); window.send(); }
  };
 
- function arz(input) {
- if(!input) return;
- input.style.height = 'auto';
- input.style.height = Math.min(input.scrollHeight, 160) + 'px';
- }
+ /* Exposed on window, not left as a bare declaration. This block is inside a
+    closure, so the inline oninput="arz(this)" on the Sage textarea could not
+    see it and threw ReferenceError on every keystroke — which meant the box
+    never grew as you typed. It never surfaced in a page-load audit because the
+    handler only fires on input. */
+ window.arz = function(input) {
+   if (!input) return;
+   input.style.height = 'auto';
+   input.style.height = Math.min(input.scrollHeight, 160) + 'px';
+ };
 
  function gt() { return Date.now(); }
 
@@ -13309,7 +13408,10 @@ window.issb_backToForm = function() {
  var pc=document.getElementById('bk-port-cos'); if(pc) pc.textContent=_bkPortfolio.length;
  }
 
- async function call_sage_ai(wrapperId, textId, prompt) {
+ /* On window: every "Draft with Sage AI" button in the report generators
+    calls this from an inline onclick, and this block is inside a closure, so
+    the buttons were throwing ReferenceError and doing nothing. */
+ window.call_sage_ai = async function(wrapperId, textId, prompt) {
  var wrapper=document.getElementById(wrapperId); var textEl=document.getElementById(textId);
  if(!wrapper||!textEl) return;
  wrapper.style.display='block';
@@ -14588,6 +14690,21 @@ table.es-dm td.n{text-align:center}
 .es-dr-sw button{font-family:'DM Mono',monospace;font-size:.54rem;padding:.18rem .4rem;background:transparent;border:1px solid rgba(255,255,255,.14);color:rgba(234,255,243,.4);cursor:pointer}
 .es-dr-sw button.on{border-color:#00e87a;color:#00ff9d;background:rgba(0,232,122,.12)}
 .es-dr-sw button.on.part{border-color:#ffb547;color:#ffb547;background:rgba(255,181,71,.1)}
+.es-case{border:1px solid rgba(0,232,122,.14);background:rgba(0,0,0,.18);padding:1.1rem 1.2rem;margin-bottom:.9rem}
+.es-case-hd{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;margin-bottom:.6rem}
+.es-case-hd .nm{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem}
+.es-case-hd .sec{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(234,255,243,.45)}
+.es-case-teach,.es-case-trap{font-size:.8rem;line-height:1.6;color:rgba(234,255,243,.72);margin-bottom:.45rem}
+.es-case-teach b,.es-case-trap b{display:block;font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.1em;
+  text-transform:uppercase;margin-bottom:.15rem}
+.es-case-teach b{color:#00e87a}
+.es-case-trap b{color:#ffb547}
+.es-case-note{font-size:.76rem;line-height:1.6;color:rgba(234,255,243,.5);border-left:2px solid rgba(0,232,122,.25);
+  padding-left:.8rem;margin:.6rem 0 .3rem}
+.es-caseload{display:none;border:1px solid rgba(0,232,122,.35);background:rgba(0,232,122,.07);
+  padding:.75rem .95rem;margin-bottom:1rem;font-size:.8rem;line-height:1.6;color:rgba(234,255,243,.85)}
+.es-caseload.show{display:block}
+.es-caseload b{color:#00ff9d}
 .es-foot{margin-top:1.4rem;padding:1rem 1.2rem;border:1px solid rgba(0,232,122,.14);background:rgba(3,14,9,.6);font-size:.75rem;color:rgba(234,255,243,.5);line-height:1.7}
 .es-foot code{font-family:'DM Mono',monospace;color:rgba(10,255,219,.8);font-size:.7rem}
 .es-foot a{color:rgba(10,255,219,.85);text-decoration:none}
@@ -14688,6 +14805,7 @@ table.es-bm td.us{background:rgba(10,255,219,.045)}
     <button onclick="esrsTab('tag')">5 &middot; Digital tagging</button>
     <button onclick="esrsTab('io')">6 &middot; IFRS S2 carry-across</button>
     <button onclick="esrsTab('bm')">7 &middot; Benchmark</button>
+    <button onclick="esrsTab('cases')">8 &middot; Worked cases</button>
   </div>
 
   <div class="es-sec on" id="es-sec-scope">
@@ -14826,6 +14944,20 @@ table.es-bm td.us{background:rgba(10,255,219,.045)}
     </div>
     <div id="es-bm-honest"></div>
     <div id="es-bm-vendors"></div>
+  </div>
+  </div>
+
+  <div class="es-sec" id="es-sec-cases">
+  <div class="es-panel">
+    <div class="es-ptitle">8 &middot; Worked cases</div>
+    <div class="es-psub">
+      Six fictional entities, each built to make one rule visible. They are not
+      illustrations &mdash; pressing load puts the inputs into the real form and runs the real
+      calculation, so the figure you land on is the one this tool produced. Every entity here is
+      invented on purpose: a worked example attributed to a real company is a fabricated record.
+    </div>
+    <div class="es-caseload" id="es-case-loaded"></div>
+    <div id="es-cases"></div>
   </div>
   </div>
 
