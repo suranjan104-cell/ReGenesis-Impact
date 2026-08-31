@@ -2816,7 +2816,7 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,#0B7A47,#0E231A
    ΔE 20.7 deutan and 22.0 normal-vision. Colour never carries identity alone —
    every segment is direct-labelled and every chart has a table view. */
 .an{--surface:var(--paper);--surface-2:#fff;
-  --s-eu:#0B7A47;--s-au:#2E6BC7;--s-issb:#B5501A;
+  --s-eu:#0B7A47;--s-au:#2E6BC7;--s-issb:#B5501A;--s-sg:#7A3FA8;
   --seq-3:#0B7A47;--seq-2:#4E9E74;--seq-1:#A9CDB9;
   --status-gap:#B8860B;--status-none:#C0392B;
   --de:rgba(14,35,26,.16)}
@@ -2879,6 +2879,28 @@ table.an-alt-t th{text-align:left;font-family:var(--font-mono);font-size:.56rem;
   text-transform:uppercase;color:var(--ink3);padding:.35rem .5rem;border-bottom:1px solid var(--de)}
 table.an-alt-t td{padding:.35rem .5rem;border-bottom:1px solid rgba(14,35,26,.06);color:var(--ink2)}
 table.an-alt-t td.n{text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+/* Schedule rows. The axis is a year scale, so bars are positioned on it rather
+   than sized by magnitude — the reader compares start points, not lengths. */
+.an-axis{position:relative;height:18px;margin:0 0 .5rem 190px;border-bottom:1px solid var(--de)}
+.an-axis span{position:absolute;top:0;transform:translateX(-50%);font-family:var(--font-mono);
+  font-size:.6rem;color:var(--ink3)}
+.an-prow{display:flex;align-items:center;gap:.6rem;margin-bottom:.42rem}
+.an-prow .pl{width:184px;flex:none;font-size:.75rem;color:var(--ink2);text-align:right;line-height:1.35}
+.an-prow .pl b{display:block;color:var(--ink);font-weight:500}
+.an-prow .pt{position:relative;flex:1;height:18px}
+.an-prow .pt i{position:absolute;top:3px;height:12px;border-radius:2px 4px 4px 2px;cursor:default;
+  transition:filter .15s}
+.an-prow .pt i:hover{filter:brightness(1.12)}
+.an-prow .pt em{position:absolute;top:2px;font-family:var(--font-mono);font-size:.6rem;
+  font-style:normal;color:#fff;pointer-events:none;line-height:14px}
+.an-sub{font-size:.68rem;color:var(--ink3);line-height:1.45;margin-top:.2rem}
+.an-mksub{font-family:var(--font-mono);font-size:.55rem;color:var(--ink3);margin-top:.2rem;letter-spacing:.06em;text-transform:none}
+.an-mx-cap{font-size:.7rem;color:var(--ink3);margin-top:.7rem;line-height:1.6}
+.an-mx-cap code{font-family:var(--font-mono);font-size:.66rem}
+@media(max-width:700px){
+  .an-axis{margin-left:110px}
+  .an-prow .pl{width:104px;font-size:.68rem}
+}
 .an-foot{margin-top:2rem;font-size:.76rem;color:var(--ink3);line-height:1.7}
 .an-foot a{color:var(--emerald)}
 .an-foot code{font-family:var(--font-mono);font-size:.72rem}
@@ -2921,10 +2943,21 @@ table.an-alt-t td.n{text-align:right;font-family:var(--font-mono);font-variant-n
     </div>
 
     <div class="an-card" style="margin-top:1.5rem">
+      <h3>When each regime bites</h3>
+      <p class="sub">Every reporting cohort across the four regimes on one axis. A bar starts in the
+        year that cohort's first reports are due and runs on, because the obligation does not stop.</p>
+      <div class="an-legend" id="an-phase-legend"></div>
+      <div id="an-phase"></div>
+      <button class="an-tblbtn" onclick="anToggle('an-phase-alt',this)">Show as table</button>
+      <div class="an-alt" id="an-phase-alt"></div>
+    </div>
+
+    <div class="an-card" style="margin-top:1.5rem">
       <h3>What each regime actually asks for</h3>
-      <p class="sub">Six dimensions where the three regimes genuinely diverge. Read across a row to
+      <p class="sub">Six dimensions where the four regimes genuinely diverge. Read across a row to
         see what changes when you cross a border.</p>
       <div class="an-tablewrap"><table class="an-mx" id="an-mx"></table></div>
+      <div class="an-mx-cap" id="an-mx-cap"></div>
     </div>
 
     <div class="an-foot" id="an-foot"></div>
@@ -2959,7 +2992,7 @@ table.an-alt-t td.n{text-align:right;font-family:var(--font-mono);font-variant-n
              here; it sat at 64 for weeks after the corpus passed seventy. -->
         <div class="ed-stat"><b class="count-up" data-target="7">0</b><span>Instruments</span></div>
         <div class="ed-stat"><b class="count-up" id="ed-stat-kb" data-target="0">0</b><span>Sourced entries</span></div>
-        <div class="ed-stat"><b class="count-up" data-target="13">0</b><span>Deep guides</span></div>
+        <div class="ed-stat"><b class="count-up" id="ed-stat-guides" data-target="11">0</b><span>Deep guides</span></div>
         <div class="ed-stat"><b class="count-up" data-target="3">0</b><span>Markets native</span></div>
       </div>
       <a class="src-link" href="https://github.com/suranjan104-cell/ReGenesis-Impact/tree/main/knowledge" rel="noopener" target="_blank">Inspect the knowledge base →</a>
@@ -10695,9 +10728,9 @@ document.addEventListener('DOMContentLoaded', function() {
    var get = function(u) { return fetch(u).then(function(r){ return r.json(); }).catch(function(){ return null; }); };
    Promise.all([
      get('knowledge/esrs.json'), get('knowledge/factors.json'),
-     get('knowledge/standards.json'), get('knowledge/kb.json')
+     get('knowledge/standards.json'), get('knowledge/kb.json'), get('knowledge/markets.json')
    ]).then(function(a) {
-     _anData = { esrs: a[0], fx: a[1], std: a[2], kb: a[3] };
+     _anData = { esrs: a[0], fx: a[1], std: a[2], kb: a[3], mkt: a[4] };
      anRender();
    });
  };
@@ -10722,6 +10755,10 @@ document.addEventListener('DOMContentLoaded', function() {
    var gpAll = d.std ? d.std.ghgProtocol.requirements.length : 0;
    var isoCats = d.std ? d.std.iso.part1.categories.length : 0;
    var kbCount = d.kb ? d.kb.count : 0;
+   // Europe's cohorts live in the ESRS scope file rather than markets.json, so
+   // that the CSRD thresholds keep a single home; they are counted here.
+   var cohortCount = (d.mkt ? d.mkt.markets.reduce(function(n, m){ return n + m.cohorts.length; }, 0) : 0) +
+                     (d.esrs ? d.esrs.scope.waves.length : 0);
 
    var tiles = [
      { v: drNamed + drCounted, k: 'ESRS disclosure requirements',
@@ -10733,7 +10770,9 @@ document.addEventListener('DOMContentLoaded', function() {
      { v: isoCats, k: 'ISO 14064-1 categories',
        n: 'The same tonnes presented a second way, reconciled to the scope view.' },
      { v: kbCount, k: 'Sourced knowledge entries',
-       n: 'Every Sage answer is grounded in these, with the citation shown.' }
+       n: 'Every Sage answer is grounded in these, with the citation shown.' },
+     { v: cohortCount, k: 'Reporting cohorts tracked',
+       n: 'Across Europe, Australia, Singapore and the ISSB baseline, each with its own commencement date.' }
    ];
    host.innerHTML = tiles.map(function(t) {
      return '<div class="an-kpi"><b>' + t.v + '</b><div class="k">' + esc(t.k) + '</div>' +
@@ -10742,6 +10781,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
    anRenderDr(d, esc);
    anRenderFx(d, esc);
+   anRenderPhasing(d, esc);
    anRenderMatrix(d, esc);
 
    /* The traction counter above shares this number, so it cannot disagree
@@ -10749,7 +10789,8 @@ document.addEventListener('DOMContentLoaded', function() {
    var kbStat = document.getElementById('ed-stat-kb');
    if (kbStat && kbCount) {
      kbStat.setAttribute('data-target', String(kbCount));
-     if (kbStat.textContent === '0' || kbStat.textContent === '') kbStat.textContent = String(kbCount);
+     // If it already animated (to zero, before the data landed), run it again.
+     if (kbStat.getAttribute('data-counted') === '1' && typeof rgRunCounter === 'function') rgRunCounter(kbStat);
    }
 
    var foot = document.getElementById('an-foot');
@@ -10891,55 +10932,155 @@ document.addEventListener('DOMContentLoaded', function() {
  /* Six dimensions across three regimes. More than a handful of classes that all
     carry meaning belongs in a table, not in more colours — the market hues here
     are identity chips on the column heads, not an encoding. */
+
+ /* When each regime bites. Every cohort across the four markets on one year
+    axis — the only view that answers "what happens to us, and when" without a
+    reader holding four timetables in their head.
+
+    A schedule is the one job a bar chart does that a table cannot: the reader
+    is comparing positions along an axis, not magnitudes. Colour is identity by
+    market, from the validated four-slot set, and every bar is also direct
+    labelled, so the encoding never rests on hue alone. */
+ function anRenderPhasing(d, esc) {
+   var el = document.getElementById('an-phase');
+   if (!el) return;
+   if (!d.mkt || !d.esrs) { el.innerHTML = '<div class="an-empty">Could not load the market data.</div>'; return; }
+
+   var rows = [];
+   d.mkt.markets.forEach(function(m) {
+     m.cohorts.forEach(function(c) {
+       rows.push({ mk: m.code, mkName: m.name, regime: m.regime, name: c.name,
+                   year: c.first_reports, from: c.first_period_from, note: c.note });
+     });
+   });
+   // Europe comes from the ESRS scope file, which is richer than a cohort list
+   // and stays its own source of truth.
+   d.esrs.scope.waves.forEach(function(w) {
+     rows.push({ mk: 'eu', mkName: 'Europe', regime: 'ESRS / CSRD', name: w.wave,
+                 year: w.first_report_year || 2026,
+                 from: w.covering_fy ? ('FY' + w.covering_fy) : 'reporting now', note: w.note });
+   });
+   rows.sort(function(a, b){ return a.year - b.year || a.mkName.localeCompare(b.mkName); });
+
+   var years = rows.map(function(r){ return r.year; });
+   var lo = Math.min.apply(null, years), hi = Math.max.apply(null, years);
+   var span = (hi - lo) || 1;
+   var HUE = { eu:'--s-eu', au:'--s-au', issb:'--s-issb', sg:'--s-sg' };
+
+   var lg = document.getElementById('an-phase-legend');
+   if (lg) lg.innerHTML = [['eu','Europe · ESRS'],['au','Australia · AASB S2'],
+                           ['sg','Singapore · SGX'],['issb','ISSB · IFRS S2']]
+     .map(function(p){ return '<span><i style="background:var(' + HUE[p[0]] + ')"></i>' + esc(p[1]) + '</span>'; }).join('');
+
+   // The axis: one tick per year across the span the cohorts actually occupy.
+   var ticks = '';
+   for (var y = lo; y <= hi; y++)
+     ticks += '<span style="left:' + ((y - lo) / span * 100) + '%">' + y + '</span>';
+
+   el.innerHTML =
+     '<div class="an-axis">' + ticks + '</div>' +
+     rows.map(function(r) {
+       var x = (r.year - lo) / span * 100;
+       // Bars run from their commencement to the right edge: the obligation
+       // starts in that year and does not stop.
+       var w = 100 - x;
+       return '<div class="an-prow">' +
+         '<span class="pl">' + esc(r.mkName) + ' <b>' + esc(r.name) + '</b></span>' +
+         '<span class="pt"><i style="left:' + x + '%;width:' + Math.max(w, 4) + '%;background:var(' + HUE[r.mk] + ')" ' +
+           'onmousemove="anTip(event,\'' + esc(r.mkName + ' · ' + r.name) + '\',\'First reports ' + r.year +
+           ' &middot; periods from ' + esc(r.from) + '\')" onmouseleave="anTipOff()"></i>' +
+           '<em style="left:calc(' + x + '% + 6px)">' + r.year + '</em></span>' +
+       '</div>';
+     }).join('');
+
+   var alt = document.getElementById('an-phase-alt');
+   if (alt) alt.innerHTML = '<table class="an-alt-t"><thead><tr><th>Market</th><th>Cohort</th>' +
+     '<th>Periods from</th><th style="text-align:right">First reports</th></tr></thead><tbody>' +
+     rows.map(function(r) {
+       return '<tr><td>' + esc(r.mkName) + '</td><td>' + esc(r.name) + '</td>' +
+         '<td>' + esc(r.from) + '</td><td class="n">' + r.year + '</td></tr>';
+     }).join('') + '</tbody></table>';
+ }
+
+ /* Six dimensions across four regimes. More than a handful of classes that all
+    carry meaning belongs in a table, not in more colours — the market hues here
+    are identity chips on the column heads, not an encoding. Every threshold,
+    date and treatment is read from the market files rather than typed in, so a
+    correction to the data corrects this table too. */
  function anRenderMatrix(d, esc) {
    var el = document.getElementById('an-mx');
    if (!el) return;
-   var sc = d.esrs ? d.esrs.scope : null;
-   var tx = d.esrs ? d.esrs.taxonomy : null;
-   var dg = d.esrs ? d.esrs.digital : null;
+   if (!d.esrs || !d.mkt) { el.innerHTML = '<tbody><tr><td class="an-empty">Could not load the market data.</td></tr></tbody>'; return; }
+   var sc = d.esrs.scope, tx = d.esrs.taxonomy, dg = d.esrs.digital;
+   var by = {};
+   d.mkt.markets.forEach(function(m){ by[m.code] = m; });
 
    var MK = [
-     { k:'issb', name:'ISSB', sub:'IFRS S2', hue:'--s-issb' },
-     { k:'au',   name:'Australia', sub:'AASB S2', hue:'--s-au' },
-     { k:'eu',   name:'Europe', sub:'ESRS / CSRD', hue:'--s-eu' }
+     { k:'eu',   name:'Europe',    sub:'ESRS / CSRD', hue:'--s-eu' },
+     { k:'au',   name:'Australia', sub:by.au ? by.au.regime : 'AASB S2', hue:'--s-au' },
+     { k:'sg',   name:'Singapore', sub:by.sg ? by.sg.regime : 'SGX · ACRA', hue:'--s-sg' },
+     { k:'issb', name:'ISSB',      sub:by.issb ? by.issb.regime : 'IFRS S1 / S2', hue:'--s-issb' }
    ];
    var yes = function(t){ return '<span class="an-yes">' + t + '</span>'; };
    var no  = function(t){ return '<span class="an-no">' + t + '</span>'; };
+   var mat = function(code) {
+     var m = by[code];
+     return m && m.materiality === 'double' ? yes('Double — impact or financial') : no('Financial only');
+   };
+   // "at least two of three" versus "both" versus "listing status" is the whole
+   // answer near a threshold, so the row prints the rule and the numbers.
+   var caught = function(code) {
+     var m = by[code];
+     if (!m) return '—';
+     var c = m.cohorts[0], bits = [];
+     if (c.revenue_over_aud_m) bits.push('A$' + c.revenue_over_aud_m + 'mn rev');
+     if (c.assets_over_aud_m)  bits.push('A$' + c.assets_over_aud_m + 'mn assets');
+     if (c.revenue_over_sgd_m) bits.push('S$' + c.revenue_over_sgd_m + 'mn rev');
+     if (c.assets_over_sgd_m)  bits.push('S$' + c.assets_over_sgd_m + 'mn assets');
+     if (c.employees_over)     bits.push(c.employees_over + ' staff');
+     return (bits.length ? c.name + ': ' + bits.join(' · ') : c.name) +
+       '<div class="an-sub">' + esc(m.test) + '</div>';
+   };
+   var field = function(code, key) { var m = by[code]; return m && m[key] ? esc(m[key]) : '—'; };
 
    var DIMS = [
      { d:'Materiality',
-       issb: no('Financial only'), au: no('Financial only'),
-       eu: yes('Double — impact or financial') },
-     { d:'Who is caught',
-       issb:'Set by each adopting jurisdiction',
-       au:'Groups 1–3, phased by size',
-       eu: sc ? ('>' + sc.thresholds.eu_company.employees_over + ' staff AND €' +
-             sc.thresholds.eu_company.net_turnover_over_eur_m + 'mn turnover') : '—' },
+       eu: mat('eu') === undefined ? '' : yes('Double — impact or financial'),
+       au: mat('au'), sg: mat('sg'), issb: mat('issb') },
+     { d:'Who is caught first',
+       eu: '&gt;' + sc.thresholds.eu_company.employees_over + ' staff AND €' +
+           sc.thresholds.eu_company.net_turnover_over_eur_m + 'mn turnover' +
+           '<div class="an-sub">' + esc(sc.thresholds.eu_company.note) + '</div>',
+       au: caught('au'), sg: caught('sg'), issb: caught('issb') },
      { d:'Scope 3',
-       issb:'Required, one-year relief in year one',
-       au:'Required from the second year',
-       eu:'Required, and carved out of the value chain cap' },
+       eu: 'Required, and carved out of the value chain cap',
+       au: field('au','scope3'), sg: field('sg','scope3'), issb: field('issb','scope3') },
      { d:'Green revenue KPIs',
-       issb: no('None'), au: no('None'),
-       eu: tx ? yes('EU Taxonomy Article 8 — turnover, CapEx, OpEx') : yes('EU Taxonomy Article 8') },
+       eu: yes('EU Taxonomy Article 8 — turnover, CapEx, OpEx'),
+       au: no('None'), sg: no('None'), issb: no('None') },
      { d:'Digital tagging',
-       issb: no('Not specified'), au: no('Not specified'),
-       eu: dg ? ('XBRL taxonomy published, mandate ' + esc(dg.status.mandate)) : '—' },
+       eu: 'XBRL taxonomy published, mandate ' + esc(dg.status.mandate),
+       au: no(field('au','digital_tagging')), sg: no(field('sg','digital_tagging')),
+       issb: field('issb','digital_tagging') },
      { d:'Assurance',
-       issb:'Set by the adopting jurisdiction',
-       au:'Reasonable assurance by 2030',
-       eu:'Limited assurance mandatory' }
+       eu: 'Limited assurance mandatory',
+       au: field('au','assurance'), sg: field('sg','assurance'), issb: field('issb','assurance') }
    ];
 
    el.innerHTML = '<thead><tr><th>Dimension</th>' +
      MK.map(function(m) {
        return '<th class="mk"><i style="background:var(' + m.hue + ')"></i>' + esc(m.name) +
-         '<div style="font-family:var(--font-mono);font-size:.55rem;color:var(--ink3);margin-top:.2rem;letter-spacing:.06em">' +
-         esc(m.sub) + '</div></th>';
+         '<div class="an-mksub">' + esc(m.sub) + '</div></th>';
      }).join('') + '</tr></thead><tbody>' +
      DIMS.map(function(r) {
-       return '<tr><td class="dim">' + esc(r.d) + '</td><td>' + r.issb + '</td><td>' + r.au + '</td><td>' + r.eu + '</td></tr>';
+       return '<tr><td class="dim">' + esc(r.d) + '</td>' +
+         MK.map(function(m){ return '<td>' + (r[m.k] || '—') + '</td>'; }).join('') + '</tr>';
      }).join('') + '</tbody>';
+   // Article 8 is the one dimension only Europe has; noting the taxonomy
+   // regulation keeps that claim traceable to the file it came from.
+   var cap = document.getElementById('an-mx-cap');
+   if (cap) cap.innerHTML = 'Thresholds and dates read from <code>knowledge/markets/</code> and ' +
+     '<code>knowledge/esrs/</code>. The Article 8 row reflects ' + esc(tx.simplification.regulation) + '.';
  }
 
  /* Self-initialising, deliberately. The page's DOMContentLoaded handler is
@@ -16250,10 +16391,12 @@ document.addEventListener('DOMContentLoaded', function(){
   }
   var cio = new IntersectionObserver(function(entries){
     entries.forEach(function(e){
-      if(e.isIntersecting){ runCounter(e.target); cio.unobserve(e.target); }
+      if(e.isIntersecting){ e.target.setAttribute('data-counted','1'); runCounter(e.target); cio.unobserve(e.target); }
     });
   }, {threshold:0.5});
   function observeCounters(){ document.querySelectorAll('.count-up').forEach(function(el){ cio.observe(el); }); }
+  // Re-run a counter whose target arrived after it had already animated.
+  window.rgRunCounter = function(el){ if (el) runCounter(el); };
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', observeCounters); else observeCounters();
 })();
 

@@ -35,7 +35,7 @@ const CHROME = (() => {
 const ROOT = new URL('..', import.meta.url).pathname.replace(/\/$/, '');
 const read = f => JSON.parse(readFileSync(`${ROOT}/knowledge/${f}`, 'utf8'));
 const DATA = { esrs: read('esrs.json'), factors: read('factors.json'),
-               standards: read('standards.json'), kb: read('kb.json') };
+               standards: read('standards.json'), kb: read('kb.json'), markets: read('markets.json') };
 
 // What the page must end up showing, computed here from the same files.
 const EXPECT = (() => {
@@ -54,6 +54,9 @@ const EXPECT = (() => {
     gpConditions: DATA.standards.ghgProtocol.requirements.length,
     isoCategories: DATA.standards.iso.part1.categories.length,
     kb: DATA.kb.count,
+    // Every cohort in markets.json plus Europe's waves, which live in the ESRS
+    // scope file so the CSRD thresholds keep one home.
+    cohorts: DATA.markets.markets.reduce((n, m) => n + m.cohorts.length, 0) + DATA.esrs.scope.waves.length,
   };
 })();
 
@@ -62,7 +65,8 @@ const EXPECT = (() => {
 const stub = `<script>(function(){
   var M = ${JSON.stringify({
     'knowledge/esrs.json': DATA.esrs, 'knowledge/factors.json': DATA.factors,
-    'knowledge/standards.json': DATA.standards, 'knowledge/kb.json': DATA.kb })};
+    'knowledge/standards.json': DATA.standards, 'knowledge/kb.json': DATA.kb,
+    'knowledge/markets.json': DATA.markets })};
   var of = window.fetch;
   window.fetch = function(u){ var k = String(u);
     if (M[k]) return Promise.resolve({ json: function(){ return Promise.resolve(M[k]); } });
@@ -95,6 +99,7 @@ const probe = `<script>
         if (Math.abs(s - 100) > 0.5) badBars.push(s.toFixed(2));
       });
       window.anToggle('an-dr-alt', null); window.anToggle('an-fx-alt', null);
+      window.anToggle('an-phase-alt', null);
       var home = document.getElementById('page-home').textContent;
       report({
         kpis: kpis,
@@ -104,6 +109,10 @@ const probe = `<script>
         fxAltRows: q('#an-fx-alt tbody tr').length,
         mxRows: q('#an-mx tbody tr').length,
         mxCols: q('#an-mx thead th').length,
+        phaseRows: q('#an-phase .an-prow').length,
+        phaseAltRows: q('#an-phase-alt tbody tr').length,
+        phaseTicks: q('#an-axis span').length || q('.an-axis span').length,
+        phaseLegend: txt('an-phase-legend').length > 0,
         legends: (txt('an-dr-legend').length > 0) && (txt('an-fx-legend').length > 0),
         footMentionsConfidence: txt('an-foot').indexOf('medium') >= 0,
         badBars: badBars,
@@ -146,21 +155,38 @@ eq(out.kpis['Emission factors published'], EXPECT.factors, 'factor count');
 eq(out.kpis['GHG Protocol conditions checked'], EXPECT.gpConditions, 'GHG Protocol conditions');
 eq(out.kpis['ISO 14064-1 categories'], EXPECT.isoCategories, 'ISO categories');
 eq(out.kpis['Sourced knowledge entries'], EXPECT.kb, 'knowledge base entries');
+eq(out.kpis['Reporting cohorts tracked'], EXPECT.cohorts, 'reporting cohorts');
+eq(out.phaseRows, EXPECT.cohorts, 'phasing chart rows');
+eq(out.phaseAltRows, EXPECT.cohorts, 'phasing table rows');
 eq(out.drRows, EXPECT.drStandards, 'DR chart rows');
 eq(out.drAltRows, EXPECT.drStandards, 'DR table rows');
 eq(out.fxRows, EXPECT.fxCategories, 'factor chart rows');
 eq(out.fxAltRows, EXPECT.fxCategories, 'factor table rows');
 if (out.mxRows < 5) fail.push(`regime matrix has only ${out.mxRows} rows`);
-if (out.mxCols !== 4) fail.push(`regime matrix has ${out.mxCols} columns, expected 4`);
+// Dimension column plus one per market: Europe, Australia, Singapore, ISSB.
+if (out.mxCols !== 5) fail.push(`regime matrix has ${out.mxCols} columns, expected 5`);
+if (!out.phaseLegend) fail.push('the phasing chart is missing its legend');
+if (out.phaseTicks < 2) fail.push(`phasing axis has ${out.phaseTicks} year ticks`);
 if (!out.legends) fail.push('a chart is missing its legend — colour would be carrying identity alone');
 if (!out.footMentionsConfidence) fail.push('the analytics footnote no longer states the confidence grade');
 if (out.badBars.length) fail.push(`${out.badBars.length} stacked bar(s) do not sum to 100%: ${out.badBars.join(', ')}`);
 if (out.rawSlug) fail.push('raw category slugs (scope3_cat15) are reaching the reader');
 if (out.homeIndia) fail.push('the homepage still markets India');
+for (const f of readdirSync(`${ROOT}/guides`))
+  if (/india|brsr/i.test(f)) fail.push(`an India guide is back: guides/${f}`);
 if (!out.homeEurope) fail.push('the homepage no longer leads with ESRS/CSRD');
 /* Checked against the source rather than the rendered page: document.body
    .textContent includes the text of inline scripts, so a probe that greps the
    body matches its own pattern and always "finds" a name. */
+/* The "Deep guides" stat is typed into the page, so it drifts the moment a
+   guide is added or removed — it said 13 while eleven were published. */
+{
+  const guides = (html.match(/id="ed-stat-guides"[^>]*data-target="(\d+)"/) || [])[1];
+  const actual = readdirSync(`${ROOT}/guides`).filter(f => f.endsWith('.html')).length;
+  if (Number(guides) !== actual)
+    fail.push(`homepage claims ${guides} guides, ${actual} are published`);
+}
+
 for (const co of ['HSBC', 'Unilever', 'Reliance Industries', 'Standard Chartered',
                   'JPMorgan', 'Kohlberg', 'KKR', 'Axis Bank', 'European Investment Bank'])
   if (html.includes(co))
@@ -171,4 +197,4 @@ if (fail.length) {
   for (const f of fail) console.error('  - ' + f);
   process.exit(1);
 }
-console.log(`  ✓ homepage analytics — ${Object.keys(out.kpis).length} KPIs, ${out.drRows}+${out.fxRows} chart rows and ${out.mxRows}×${out.mxCols} matrix, all matching the data`);
+console.log(`  ✓ homepage analytics — ${Object.keys(out.kpis).length} KPIs, ${out.drRows}+${out.fxRows}+${out.phaseRows} chart rows and ${out.mxRows}×${out.mxCols} matrix, all matching the data`);
