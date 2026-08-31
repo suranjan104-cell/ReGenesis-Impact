@@ -136,6 +136,10 @@ for (const g of GUIDES) {
 // entry survives until the next regeneration and then reads as drift — which
 // is exactly what broke that workflow. Add research pages here.
 const RESEARCH = [
+  // The product landing page. Highest priority after the homepage: it is the
+  // page shared externally, and the one that carries the SoftwareApplication
+  // and FAQPage schema.
+  { path: 'esrs/', priority: '0.95' },
   { path: 'research/', priority: '0.9' },
   { path: 'research/financed-emissions.html', priority: '0.9' },
   { path: 'research/emission-factor-register.html', priority: '0.9' },
