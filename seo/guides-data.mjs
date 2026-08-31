@@ -28,7 +28,7 @@ export const GUIDES = [
     tool: 'issb', toolHash: 'issb', toolLabel: 'Build your IFRS S2 report free',
     market: 'Global',
     kbIds: ['issb-001', 'issb-002', 'issb-009'],
-    intro: 'IFRS S2 is the ISSB’s climate disclosure standard, now adopted or being adopted in 30+ jurisdictions including Australia, Singapore and (via convergence) India. This guide covers what the standard actually asks for and how to produce a defensible first report.',
+    intro: 'IFRS S2 is the ISSB’s climate disclosure standard, now adopted or being adopted in 30+ jurisdictions including Australia and Singapore, and interoperable with the ESRS on climate. This guide covers what the standard actually asks for and how to produce a defensible first report.',
     faq: [
       ['Is Scope 3 mandatory under IFRS S2?', 'Yes — paragraph 29(a) requires Scope 1, 2 and 3 measured per the GHG Protocol, but a one-year transition relief lets first-time reporters omit Scope 3 in year one.'],
       ['How does IFRS S2 relate to TCFD?', 'IFRS S2 fully incorporates the TCFD architecture (Governance, Strategy, Risk Management, Metrics & Targets), so an existing TCFD report is the natural starting point.'],
@@ -47,20 +47,6 @@ export const GUIDES = [
       ['Which group is my company in?', 'You meet a group if you satisfy any two of its three thresholds. Group 1: revenue ≥ A$500m, assets ≥ A$1bn, employees ≥ 500. Group 2: A$200m / A$500m / 250. Group 3: A$50m / A$25m / 100.'],
       ['What are protected statements?', 'Scope 3, scenario analysis and transition plan statements get a 3-year regime where only ASIC can take action — private litigation is barred for those disclosures.'],
       ['When is reasonable assurance required?', 'Assurance phases from limited (governance + Scope 1–2 first) to reasonable assurance over all climate disclosures for financial years commencing 1 July 2030.'],
-    ],
-  },
-  {
-    slug: 'brsr-core-assurance-india',
-    title: 'BRSR & BRSR Core — India’s ESG Reporting and Assurance Rules',
-    description: 'SEBI BRSR for the top 1,000 listed companies, BRSR Core assured KPIs, value-chain disclosures and how to prepare.',
-    tool: 'issb', toolHash: 'issb', toolLabel: 'Draft your BRSR sections free',
-    market: 'India',
-    kbIds: ['issb-004', 'assurance-005', 'dd-005'],
-    intro: 'SEBI’s Business Responsibility and Sustainability Report applies to India’s top 1,000 listed companies, and BRSR Core adds assured KPIs phasing from the top 150 toward the top 1,000. This guide summarises scope, the KPI set and the assurance requirement.',
-    faq: [
-      ['Who must file BRSR?', 'The top 1,000 listed entities by market capitalisation file BRSR with their annual report; smaller listed companies may adopt voluntarily.'],
-      ['What does BRSR Core add?', 'A defined KPI subset — GHG intensity, water and energy footprint, waste, safety spend, gender pay metrics and more — that requires independent assurance on a phased schedule.'],
-      ['Does BRSR cover the value chain?', 'Yes — SEBI introduced value-chain ESG disclosures for the top 250 companies on a comply-or-explain basis.'],
     ],
   },
   {
@@ -87,7 +73,7 @@ export const GUIDES = [
     intro: 'Every climate disclosure regime builds on a GHG Protocol inventory. This guide covers the decisions that determine whether yours survives assurance: boundary choice, factor vintages, dual Scope 2 reporting and the audit trail.',
     faq: [
       ['What is the difference between location- and market-based Scope 2?', 'Location-based uses the grid-average factor where you consume electricity; market-based reflects your contracts (RECs, PPAs, green tariffs). The Scope 2 Guidance requires reporting both.'],
-      ['Which emission factors should I use?', 'The most recent official set for your geography — e.g. India CEA for grid electricity, UK DEFRA for fuels and travel — and record the vintage of every factor.'],
+      ['Which emission factors should I use?', 'The most recent official set for your geography — e.g. DESNZ for UK fuels and travel, DCCEEW for Australian grid electricity — and record the vintage of every factor.'],
       ['What do verifiers check first?', 'Factor vintages, unit conversions (GJ vs MWh), completeness of the entity list, and certificates behind any market-based claims.'],
     ],
   },
@@ -159,20 +145,6 @@ export const GUIDES = [
       ['What makes a credit high quality?', 'Demonstrated additionality, managed permanence (buffer pools), no leakage, robust MRV, and ideally an ICVCM Core Carbon Principles label.'],
       ['How much should credits cost?', 'Ranges vary hugely by type: REDD+ avoidance ~US$3–10/t, reforestation ~US$15–40/t, blue carbon ~US$20–40/t, durable removals US$100–600+/t. A too-cheap credit is a red flag.'],
       ['Can I use credits to claim net zero?', 'Only for residual emissions (5–10%) after deep reduction under SBTi’s Net-Zero Standard — and IFRS S2 requires disclosing your planned credit use and quality assumptions.'],
-    ],
-  },
-  {
-    slug: 'blue-carbon-credits-india',
-    title: 'Blue Carbon Credits in India — Mangroves, Seagrass and Beyond',
-    description: 'Why coastal ecosystems generate premium carbon credits and where India’s blue carbon opportunity is concentrated.',
-    tool: 'credits', toolHash: 'credits', toolLabel: 'See blue carbon projects',
-    market: 'India',
-    kbIds: ['credits-003', 'credits-002', 'credits-008'],
-    intro: 'Mangroves and seagrass meadows store carbon in sediment for centuries and shield coastlines while doing it — which is why blue carbon trades at a premium. India’s coastline holds some of the world’s largest restoration potential.',
-    faq: [
-      ['Why do blue carbon credits cost more?', 'Higher per-hectare sequestration, long-lived sediment storage, and stacked co-benefits (storm protection, fisheries, biodiversity) that corporate buyers value.'],
-      ['Which methodology covers tidal wetlands?', 'Verra VM0033 is the principal tidal wetland and seagrass restoration methodology; Gold Standard also certifies blue carbon projects.'],
-      ['Where is India’s blue carbon potential?', 'The Sundarbans, Tamil Nadu and Odisha coastlines, and the Andaman Islands — mangrove restoration belts and seagrass meadows.'],
     ],
   },
   {
