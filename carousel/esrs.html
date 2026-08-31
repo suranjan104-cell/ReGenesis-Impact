@@ -1,0 +1,208 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<title>ReGenesis Impact — the European stack</title>
+<style>
+/* Fonts are embedded from board/fonts rather than fetched. The build
+   environment cannot reach fonts.googleapis.com, so a remote link silently
+   renders the whole carousel in a fallback face — which looks fine on screen
+   and wrong the moment it is posted. */
+@font-face{font-family:'Playfair Display';font-weight:700;src:url('../board/fonts/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKeiukDQ.ttf') format('truetype')}
+@font-face{font-family:'Playfair Display';font-weight:900;src:url('../board/fonts/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKfsukDQ.ttf') format('truetype')}
+@font-face{font-family:'DM Sans';font-weight:400;src:url('../board/fonts/rP2tp2ywxg089UriI5-g4vlH9VoD8CmcqZG40F9JadbnoEwAopxhTg.ttf') format('truetype')}
+@font-face{font-family:'DM Sans';font-weight:700;src:url('../board/fonts/rP2tp2ywxg089UriI5-g4vlH9VoD8CmcqZG40F9JadbnoEwARZthTg.ttf') format('truetype')}
+@font-face{font-family:'DM Mono';font-weight:400;src:url('../board/fonts/aFTU7PB1QTsUX8KYhh0.ttf') format('truetype')}
+@font-face{font-family:'DM Mono';font-weight:500;src:url('../board/fonts/aFTR7PB1QTsUX8KYvumzIYQ.ttf') format('truetype')}
+@page{size:1080px 1350px;margin:0}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#04120F}
+.p{width:1080px;height:1350px;position:relative;overflow:hidden;
+  background:#04120F;color:#E4F2EC;font-family:'DM Sans',sans-serif;
+  page-break-after:always;display:flex;flex-direction:column;justify-content:center}
+.p::before{content:'';position:absolute;inset:-20%;
+  background:
+    radial-gradient(58% 44% at 12% 6%,  rgba(22,173,110,.34) 0%, transparent 68%),
+    radial-gradient(64% 48% at 88% 14%, rgba(18,165,165,.40) 0%, transparent 70%),
+    radial-gradient(70% 52% at 50% 78%, rgba(46,143,107,.24) 0%, transparent 72%);
+  filter:blur(60px)}
+.p::after{content:'';position:absolute;inset:0;opacity:.5;
+  background-image:linear-gradient(rgba(228,242,236,.05) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(228,242,236,.05) 1px,transparent 1px);
+  background-size:72px 72px;
+  -webkit-mask-image:radial-gradient(120% 90% at 50% 0%,#000 0%,transparent 78%)}
+.edge{position:absolute;top:0;left:0;width:96px;height:6px;background:#3BE38A;z-index:2}
+.inner{position:relative;z-index:2;padding:0 88px;flex:1;display:flex;
+  flex-direction:column;justify-content:center}
+.foot{position:relative;z-index:2;padding:0 88px 76px;flex:none;display:flex;justify-content:space-between;
+  font-family:'DM Mono',monospace;font-size:19px;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(228,242,236,.55)}
+.kicker{font-family:'DM Mono',monospace;font-size:21px;letter-spacing:.24em;text-transform:uppercase;
+  color:#3BE38A;margin-bottom:40px}
+h2{font-family:'Playfair Display',serif;font-weight:900;font-size:82px;line-height:1.03;
+  letter-spacing:-.02em;margin-bottom:44px}
+h2 em{font-style:italic;color:#3BE38A}
+p{font-size:32px;line-height:1.52;color:rgba(228,242,236,.80);max-width:860px}
+p b{color:#E4F2EC;font-weight:700}
+p em{font-style:italic;color:#7BEDB6}
+.stats{display:flex;gap:28px;margin-top:60px}
+.stats div{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.11);
+  border-radius:18px;padding:36px 32px}
+.stats b{display:block;font-family:'Playfair Display',serif;font-size:76px;line-height:1;color:#E4F2EC}
+.stats span{display:block;font-family:'DM Mono',monospace;font-size:18px;letter-spacing:.15em;
+  color:rgba(228,242,236,.55);margin-top:16px}
+.p.cover h2{font-size:104px}
+.p.cover p{font-size:36px;color:rgba(228,242,236,.86)}
+.p.end h2{font-size:92px}
+.p.end p{font-family:'DM Mono',monospace;font-size:38px;color:#3BE38A;letter-spacing:.02em}
+</style></head><body>
+
+<section class="p cover">
+  <div class="edge"></div>
+  <div class="inner">
+    <div class="kicker">ESRS · CSRD · EU TAXONOMY</div>
+    <h2>The European stack,<br><em>end to end</em></h2>
+    <p>CSRD scoping, double materiality, 82 disclosure requirements and the EU Taxonomy Article 8 KPIs — free, in a browser tab, with nothing uploaded.</p>
+    
+  </div>
+  <div class="foot">
+    <span>ReGenesis Impact</span>
+    <span>regenesisimpact.in/esrs</span>
+  </div>
+</section>
+
+<section class="p ">
+  <div class="edge"></div>
+  <div class="inner">
+    <div class="kicker">01 · SCOPE</div>
+    <h2>The Omnibus made this<br>an <em>AND</em>, not an either/or.</h2>
+    <p>An EU company is caught only above <b>1,000 employees</b> <em>and</em> <b>€450mn net turnover</b>. Both tests. A large number of companies that were in scope no longer are — and some that assume they are out are caught by the non-EU group test on EU-generated turnover.</p>
+    <div class="stats">
+      <div><b>&gt;1,000</b><span>EMPLOYEES</span></div>
+      <div><b>€450mn</b><span>NET TURNOVER</span></div>
+    </div>
+  </div>
+  <div class="foot">
+    <span>ReGenesis Impact</span>
+    <span>01 / 09</span>
+  </div>
+</section>
+
+<section class="p ">
+  <div class="edge"></div>
+  <div class="inner">
+    <div class="kicker">02 · MATERIALITY</div>
+    <h2>Double materiality is<br><em>the whole difference.</em></h2>
+    <p>A topic counts if it is material to the world <em>or</em> material to the company. IFRS S2 asks only the second. So an ISSB materiality assessment, however good, is never sufficient evidence for omitting an ESRS topical standard — and every omission needs a stated reason.</p>
+    
+  </div>
+  <div class="foot">
+    <span>ReGenesis Impact</span>
+    <span>02 / 09</span>
+  </div>
+</section>
+
+<section class="p ">
+  <div class="edge"></div>
+  <div class="inner">
+    <div class="kicker">03 · DISCLOSURES</div>
+    <h2>65 requirements,<br><em>named and tickable.</em></h2>
+    <p>Enumerated across ten of the twelve standards and filtered by your own materiality assessment, so you see what you file rather than the whole of Set 1. ESRS S1 is the exception: its count of 17 is sourced, the individual names are not, and we say so rather than invent them.</p>
+    <div class="stats">
+      <div><b>65</b><span>NAMED</span></div>
+      <div><b>17</b><span>COUNTED, NOT NAMED</span></div>
+    </div>
+  </div>
+  <div class="foot">
+    <span>ReGenesis Impact</span>
+    <span>03 / 09</span>
+  </div>
+</section>
+
+<section class="p ">
+  <div class="edge"></div>
+  <div class="inner">
+    <div class="kicker">04 · EU TAXONOMY</div>
+    <h2>Article 8, through<br><em>all four gates.</em></h2>
+    <p>Turnover, CapEx and OpEx — each a ratio over its own denominator, not over the sum of the activities you listed. Alignment needs eligibility, substantial contribution, do no significant harm, and entity-level minimum safeguards. Fail the safeguards and alignment is zero across all three, whatever the screening criteria say.</p>
+    <div class="stats">
+      <div><b>3</b><span>KPIs</span></div>
+      <div><b>10%</b><span>MATERIALITY FLOOR, PER KPI</span></div>
+    </div>
+  </div>
+  <div class="foot">
+    <span>ReGenesis Impact</span>
+    <span>04 / 09</span>
+  </div>
+</section>
+
+<section class="p ">
+  <div class="edge"></div>
+  <div class="inner">
+    <div class="kicker">05 · DIGITAL TAGGING</div>
+    <h2>The tagging deadline<br><em>you were quoted is gone.</em></h2>
+    <p>Mandatory XBRL tagging of the sustainability statement is <b>suspended</b> by Directive (EU) 2026/470, in force 18 March 2026, until the ESEF Delegated Regulation is amended to cover it — which needs ESMA technical standards nobody has drafted. Any vendor quoting a resumption date is guessing.</p>
+    
+  </div>
+  <div class="foot">
+    <span>ReGenesis Impact</span>
+    <span>05 / 09</span>
+  </div>
+</section>
+
+<section class="p ">
+  <div class="edge"></div>
+  <div class="inner">
+    <div class="kicker">06 · FOUR REGIMES</div>
+    <h2>9 reporting cohorts,<br><em>one timeline.</em></h2>
+    <p>Europe, Australia, Singapore and the ISSB baseline, each with its own commencement date. Two worth knowing: the revised ESRS were adopted 3 July 2026 and apply from FY2027, and Singapore’s large non-listed obligation moved to FY2030 — sources still saying FY2027 are out of date.</p>
+    
+  </div>
+  <div class="foot">
+    <span>ReGenesis Impact</span>
+    <span>06 / 09</span>
+  </div>
+</section>
+
+<section class="p ">
+  <div class="edge"></div>
+  <div class="inner">
+    <div class="kicker">07 · THE NUMBERS</div>
+    <h2>Every figure opens to<br><em>the factor behind it.</em></h2>
+    <p>All 27 emission factors are published with source, vintage and confidence — including the <b>4 we cannot source</b>, which warn you at the point of entry and are named in the assurance pack. The inventory is checked against 9 required GHG Protocol conditions and presented again under the six ISO 14064-1 categories, reconciled to the scope view.</p>
+    <div class="stats">
+      <div><b>27</b><span>FACTORS PUBLISHED</span></div>
+      <div><b>4</b><span>ADMITTED UNSOURCED</span></div>
+    </div>
+  </div>
+  <div class="foot">
+    <span>ReGenesis Impact</span>
+    <span>07 / 09</span>
+  </div>
+</section>
+
+<section class="p ">
+  <div class="edge"></div>
+  <div class="inner">
+    <div class="kicker">08 · WHAT IT IS NOT</div>
+    <h2>The limits are<br><em>printed in the product.</em></h2>
+    <p>It is a self-assessment, not a certification, and not assurance. It does not carry the Taxonomy screening criteria per activity — you assert each gate and it records the assertion. It does not tag XBRL. The regulatory data is graded <b>medium</b> confidence because the primary sources are unreachable from our build. All of that sits beside the comparison against Workiva and Position Green, rather than being left for you to find.</p>
+    
+  </div>
+  <div class="foot">
+    <span>ReGenesis Impact</span>
+    <span>08 / 09</span>
+  </div>
+</section>
+
+<section class="p end">
+  <div class="edge"></div>
+  <div class="inner">
+    <div class="kicker">FREE · NO SIGN-UP · NOTHING UPLOADED</div>
+    <h2>Open it and see<br><em>your own numbers move.</em></h2>
+    <p>regenesisimpact.in/esrs</p>
+    
+  </div>
+  <div class="foot">
+    <span>ReGenesis Impact</span>
+    <span>regenesisimpact.in/esrs</span>
+  </div>
+</section>
+</body></html>

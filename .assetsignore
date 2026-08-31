@@ -16,3 +16,7 @@ seo
 board
 platform-app
 *.md
+
+# carousel build source — the PDF itself is served
+carousel/build.mjs
+carousel/esrs.html

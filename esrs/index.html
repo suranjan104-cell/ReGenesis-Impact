@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free ESRS &amp; CSRD Software — Scoping, Double Materiality, EU Taxonomy Article 8 | ReGenesis Impact</title>
+<meta name="description" content="Free browser-based ESRS and CSRD tool: CSRD scoping against the post-Omnibus thresholds, double materiality across all twelve standards, 65 disclosure requirements tracked, and EU Taxonomy Article 8 turnover, CapEx and OpEx alignment. No sign-up, nothing leaves your browser.">
+<link rel="canonical" href="https://regenesisimpact.in/esrs/">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ReGenesis Impact">
+<meta property="og:title" content="Free ESRS &amp; CSRD software — scoping, double materiality, EU Taxonomy Article 8">
+<meta property="og:description" content="CSRD scoping against the post-Omnibus thresholds, double materiality across twelve standards, 65 disclosure requirements, and the Article 8 alignment KPIs. Free, no sign-up, nothing leaves your browser.">
+<meta property="og:url" content="https://regenesisimpact.in/esrs/">
+<meta property="og:image" content="https://regenesisimpact.in/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"ReGenesis Impact — ESRS & CSRD tool","applicationCategory":"BusinessApplication","applicationSubCategory":"SustainabilityReporting","operatingSystem":"Web browser","url":"https://regenesisimpact.in/esrs/","description":"Browser-based tool for CSRD scoping, ESRS double materiality, disclosure-requirement tracking, EU Taxonomy Article 8 alignment KPIs, digital tagging readiness and ESRS to IFRS S2 interoperability.","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR","description":"Free, no sign-up"},"featureList":["CSRD scoping against the post-Omnibus thresholds","Double materiality across the twelve ESRS","65 disclosure requirements tracked across ten standards","EU Taxonomy Article 8 turnover, CapEx and OpEx alignment","ESRS digital tagging readiness","ESRS to IFRS S2 interoperability mapping"],"creator":{"@type":"Organization","name":"ReGenesis Impact","url":"https://regenesisimpact.in"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ReGenesis Impact","item":"https://regenesisimpact.in/"},{"@type":"ListItem","position":2,"name":"ESRS & CSRD","item":"https://regenesisimpact.in/esrs/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Am I in scope for the CSRD after the Omnibus?","acceptedAnswer":{"@type":"Answer","text":"An EU company is in scope only if it exceeds both 1,000 employees and EUR 450mn net turnover. The Omnibus made this an AND test, not an either/or, which took a large number of previously in-scope companies out. Non-EU parent groups are tested on EU-generated turnover above EUR 450mn."}},
+{"@type":"Question","name":"Which ESRS apply to a 2026 financial year?","acceptedAnswer":{"@type":"Answer","text":"ESRS Set 1, Delegated Regulation (EU) 2023/2772. The revised simplified standards were adopted on 3 July 2026 and cut mandatory datapoints by 61%, but they apply to financial years beginning on or after 1 January 2027, so a FY2026 report is prepared under Set 1."}},
+{"@type":"Question","name":"How are the EU Taxonomy Article 8 KPIs calculated?","acceptedAnswer":{"@type":"Answer","text":"Three KPIs — turnover, CapEx and OpEx — each an aligned numerator over its own denominator. Alignment requires four gates: the activity is Taxonomy-eligible, it substantially contributes to one of the six environmental objectives, it does no significant harm to the other five, and the entity meets minimum safeguards. Minimum safeguards are an entity-level test, so failing them zeroes alignment across all three KPIs."}},
+{"@type":"Question","name":"Do I have to report the OpEx Taxonomy KPI?","acceptedAnswer":{"@type":"Answer","text":"Not necessarily. Commission Delegated Regulation (EU) 2026/73 allows the OpEx KPI to be omitted where it is not material to the business model, disclosing only its total value and why it is not material. The same regulation lets you skip assessing any activity below 10% of a KPI, applied to each KPI independently."}},
+{"@type":"Question","name":"When does XBRL tagging of the sustainability statement become mandatory?","acceptedAnswer":{"@type":"Answer","text":"There is no date. Mandatory tagging is suspended by Directive (EU) 2026/470, in force 18 March 2026, until the ESEF Delegated Regulation (EU) 2019/815 is amended to cover sustainability tagging — which requires ESMA regulatory technical standards that have not been drafted."}},
+{"@type":"Question","name":"Is my IFRS S2 materiality assessment enough for ESRS?","acceptedAnswer":{"@type":"Answer","text":"No. ESRS reports a topic that is material to people and the environment OR material to the company; IFRS S2 covers only the second. The impact side has to be assessed separately, and every omitted topical standard needs a stated reason."}},
+{"@type":"Question","name":"Is the tool free, and where does the data go?","acceptedAnswer":{"@type":"Answer","text":"Free, with no sign-up. Everything runs in the browser and nothing is uploaded, which is why it can be used on live commercial figures before a vendor has been through procurement."}}]}</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#04120F; --bg2:#071A14; --ink:#E4F2EC;
+  --ink2:rgba(228,242,236,.72); --ink3:rgba(228,242,236,.55);
+  --line:rgba(228,242,236,.13); --accent:#3BE38A;
+  --glass:rgba(255,255,255,.045); --glass-line:rgba(255,255,255,.10);
+  --a1:#16AD6E; --a2:#12A5A5; --a3:#2E8F6B;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;
+  line-height:1.65;position:relative;isolation:isolate;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:-20%;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(58% 44% at 12% 6%,  color-mix(in oklab, var(--a1) 34%, transparent) 0%, transparent 68%),
+    radial-gradient(64% 48% at 88% 14%, color-mix(in oklab, var(--a2) 40%, transparent) 0%, transparent 70%),
+    radial-gradient(70% 52% at 50% 60%, color-mix(in oklab, var(--a3) 22%, transparent) 0%, transparent 72%);
+  filter:blur(52px) saturate(125%)}
+body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5;
+  background-image:linear-gradient(rgba(228,242,236,.05) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(228,242,236,.05) 1px,transparent 1px);
+  background-size:64px 64px;
+  -webkit-mask-image:radial-gradient(120% 90% at 50% 0%,#000 0%,transparent 78%);
+  mask-image:radial-gradient(120% 90% at 50% 0%,#000 0%,transparent 78%)}
+.wrap{max-width:920px;margin:0 auto;padding:2.5rem 1.35rem 5rem}
+a{color:var(--accent)}
+.home{display:inline-flex;gap:.5rem;align-items:center;font-size:.82rem;text-decoration:none;
+  margin-bottom:2.4rem;border:1px solid var(--line);border-radius:2rem;padding:.42rem 1rem;color:var(--ink2)}
+.home:hover{border-color:var(--accent);color:var(--accent)}
+.eyebrow{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--accent);display:flex;align-items:center;gap:.6rem;margin-bottom:.9rem}
+.eyebrow::before{content:'';width:26px;height:1px;background:var(--accent)}
+h1{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(2.1rem,6vw,3.3rem);
+  line-height:1.04;letter-spacing:-.02em;margin-bottom:1.1rem}
+h1 em{font-style:italic;color:var(--accent)}
+.lede{font-size:1.14rem;color:var(--ink2);margin-bottom:1.6rem;max-width:44rem}
+.cta-row{display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:1.2rem}
+.cta{display:inline-flex;align-items:center;gap:.5rem;font-weight:600;font-size:.95rem;
+  border-radius:.65rem;padding:.85rem 1.5rem;text-decoration:none}
+.cta.primary{background:var(--accent);color:#04120F}
+.cta.primary:hover{background:#5BEBA0}
+.cta.ghost{border:1px solid var(--line);color:var(--ink)}
+.cta.ghost:hover{border-color:var(--accent);color:var(--accent)}
+.trust{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink3);padding-top:1rem;border-top:1px solid var(--line);margin-bottom:3rem}
+h2{font-family:'Playfair Display',serif;font-weight:700;font-size:1.75rem;line-height:1.15;
+  margin:3rem 0 1rem;letter-spacing:-.01em}
+h3{font-family:'DM Sans',sans-serif;font-size:1.02rem;font-weight:700;margin-bottom:.35rem}
+p{color:var(--ink2);margin-bottom:1rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;margin:1.5rem 0}
+.card{background:var(--glass);border:1px solid var(--glass-line);border-radius:.8rem;padding:1.3rem 1.4rem;
+  backdrop-filter:blur(14px) saturate(130%);-webkit-backdrop-filter:blur(14px) saturate(130%)}
+.card .n{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:.5rem}
+.card p{font-size:.88rem;color:var(--ink3);margin:0;line-height:1.6}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;
+  background:var(--glass-line);border:1px solid var(--glass-line);border-radius:.7rem;overflow:hidden;margin:1.6rem 0 2rem}
+.kpi{background:var(--bg2);padding:1.1rem 1.15rem}
+.kpi b{display:block;font-family:'Playfair Display',serif;font-size:2rem;line-height:1;color:var(--ink)}
+.kpi span{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink3);display:block;margin-top:.45rem}
+details{border-top:1px solid var(--line);padding:.9rem 0}
+details summary{cursor:pointer;font-weight:600;font-size:.98rem;list-style:none;display:flex;
+  justify-content:space-between;gap:1rem;align-items:center}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:'+';color:var(--accent);font-family:'DM Mono',monospace}
+details[open] summary::after{content:'−'}
+details p{margin:.7rem 0 0;font-size:.92rem}
+.note{border-left:3px solid var(--accent);padding:1rem 0 1rem 1.3rem;margin:2.4rem 0 0;
+  font-size:.92rem;color:var(--ink2)}
+.note strong{color:var(--ink)}
+footer{margin-top:3.5rem;padding-top:1.4rem;border-top:1px solid var(--line);
+  font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.08em;color:var(--ink3)}
+footer a{color:var(--ink3)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="home" href="../">&larr; ReGenesis Impact</a>
+
+  <div class="eyebrow">ESRS &middot; CSRD &middot; EU Taxonomy</div>
+  <h1>The European stack,<br><em>end to end and free</em></h1>
+  <p class="lede">
+    CSRD scoping against the post-Omnibus thresholds, double materiality across all twelve
+    standards, 65 disclosure requirements tracked, and the EU Taxonomy Article 8 turnover,
+    CapEx and OpEx alignment KPIs. It runs in your browser, there is no sign-up, and nothing
+    is uploaded &mdash; so you can use it on live figures before a vendor has been through
+    procurement.
+  </p>
+  <div class="cta-row">
+    <a class="cta primary" href="../#esrs">Open the ESRS tool &rarr;</a>
+    <a class="cta ghost" href="../guides/esrs-csrd-reporting-guide.html">Read the guide</a>
+  </div>
+  <div class="trust">Free &middot; No sign-up &middot; Nothing leaves your browser &middot; Every figure sourced</div>
+
+  <div class="kpis">
+    <div class="kpi"><b>12</b><span>ESRS covered</span></div>
+    <div class="kpi"><b>65</b><span>Disclosure requirements</span></div>
+    <div class="kpi"><b>3</b><span>Article 8 KPIs</span></div>
+    <div class="kpi"><b>4</b><span>Alignment gates</span></div>
+  </div>
+
+  <h2>What it does</h2>
+  <div class="grid">
+    <div class="card"><div class="n">01 &middot; Scope</div><h3>Are you caught?</h3>
+      <p>The Omnibus made the EU test an AND, not an either/or: over 1,000 employees <em>and</em>
+      over &euro;450mn net turnover. Non-EU parent groups are tested on EU-generated turnover.</p></div>
+    <div class="card"><div class="n">02 &middot; Materiality</div><h3>Double, not financial</h3>
+      <p>A topic counts if it is material to the world <em>or</em> to the company. An IFRS S2
+      assessment is never sufficient evidence for an ESRS omission.</p></div>
+    <div class="card"><div class="n">03 &middot; Disclosures</div><h3>65 requirements, tracked</h3>
+      <p>Enumerated across ten standards and filtered by your materiality assessment, so you see
+      what you file rather than the whole of Set 1.</p></div>
+    <div class="card"><div class="n">04 &middot; Taxonomy</div><h3>Article 8 alignment</h3>
+      <p>Turnover, CapEx and OpEx computed over entered denominators, through all four gates, with
+      the 10% materiality floor applied per KPI independently.</p></div>
+    <div class="card"><div class="n">05 &middot; Tagging</div><h3>Where the mandate stands</h3>
+      <p>Mandatory XBRL tagging is suspended by Directive (EU) 2026/470. We say so, and score
+      whether your statement could be tagged when it resumes.</p></div>
+    <div class="card"><div class="n">06 &middot; Interop</div><h3>IFRS S2 carry-across</h3>
+      <p>Eleven mappings from the joint IFRS Foundation and EFRAG guidance, so a company already
+      reporting under IFRS S2 or AASB S2 does not rebuild its climate disclosure.</p></div>
+  </div>
+
+  <h2>Why the numbers can be trusted</h2>
+  <p>
+    Every emission factor the calculators apply is published in a public register with its value,
+    source, vintage and confidence grade &mdash; including the four we cannot source, which warn
+    you at the point of entry and are named in the assurance pack. The GHG inventory is checked
+    against twelve GHG Protocol Corporate Standard conditions and presented a second way under the
+    six categories of ISO 14064-1:2018, reconciled to the scope view.
+  </p>
+  <p>
+    The ESRS and standards data are graded <strong>medium</strong> confidence, not high. EUR-Lex,
+    EFRAG, ESMA, ghgprotocol.org and iso.org are unreachable from our build environment, so the
+    thresholds and requirement names rest on professional-firm summaries. That is stated in the
+    product, on every tab, rather than buried here.
+  </p>
+
+  <h2>Questions</h2>
+  <details open><summary>Am I in scope for the CSRD after the Omnibus?</summary>
+    <p>An EU company is in scope only if it exceeds <strong>both</strong> 1,000 employees and
+    &euro;450mn net turnover. The Omnibus made this an AND test, which took a large number of
+    previously in-scope companies out. Non-EU parent groups are tested on EU-generated turnover
+    above &euro;450mn.</p></details>
+  <details><summary>Which ESRS apply to a 2026 financial year?</summary>
+    <p>ESRS Set 1, Delegated Regulation (EU) 2023/2772. The revised simplified standards were
+    adopted on 3 July 2026 and cut mandatory datapoints by 61%, but they apply to financial years
+    beginning on or after 1 January 2027 &mdash; so a FY2026 report is prepared under Set 1.</p></details>
+  <details><summary>How are the EU Taxonomy Article 8 KPIs calculated?</summary>
+    <p>Three KPIs &mdash; turnover, CapEx and OpEx &mdash; each an aligned numerator over its own
+    denominator. Alignment needs four gates: eligible, substantial contribution to one of the six
+    environmental objectives, do no significant harm to the other five, and entity-level minimum
+    safeguards. Safeguards are assessed once and applied to everything, so failing them zeroes
+    alignment across all three KPIs.</p></details>
+  <details><summary>Do I have to report the OpEx KPI?</summary>
+    <p>Not necessarily. Commission Delegated Regulation (EU) 2026/73 allows the OpEx KPI to be
+    omitted where it is not material to the business model, disclosing only its total value and
+    why. The same regulation lets you skip assessing any activity below 10% of a KPI, applied to
+    each KPI independently.</p></details>
+  <details><summary>When does XBRL tagging become mandatory?</summary>
+    <p>There is no date. Mandatory tagging of the sustainability statement is suspended by
+    Directive (EU) 2026/470, in force 18 March 2026, until the ESEF Delegated Regulation is
+    amended to cover it &mdash; which requires ESMA technical standards that have not been
+    drafted. Any vendor quoting you a resumption date is guessing.</p></details>
+  <details><summary>Is my IFRS S2 materiality assessment enough?</summary>
+    <p>No. ESRS reports a topic material to people and the environment <em>or</em> to the company;
+    IFRS S2 covers only the second. The impact side has to be assessed separately, and every
+    omitted topical standard needs a stated reason.</p></details>
+  <details><summary>Is it really free, and where does my data go?</summary>
+    <p>Free, no sign-up. Everything runs in your browser and nothing is uploaded &mdash; which is
+    exactly why it can be used on live commercial figures before a vendor has been cleared.</p></details>
+
+  <div class="note">
+    <strong>On what this is not.</strong> It is a self-assessment tool, not a certification, and
+    not assurance. It does not carry the EU Taxonomy technical screening criteria per activity per
+    objective &mdash; you assert whether each gate is met and it records the assertion. It does not
+    tag XBRL. Those limits are published in the product beside the comparison against Workiva,
+    Position Green and the other platforms, rather than left for you to discover.
+  </div>
+
+  <footer>
+    ReGenesis Impact &middot; <a href="https://regenesisimpact.in/">regenesisimpact.in</a> &middot;
+    <a href="../guides/esrs-csrd-reporting-guide.html">ESRS guide</a> &middot;
+    <a href="../research/">Research</a>
+  </footer>
+</div>
+</body>
+</html>
