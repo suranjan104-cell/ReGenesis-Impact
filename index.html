@@ -11208,6 +11208,7 @@ document.addEventListener('DOMContentLoaded', function() {
     which is the only kind of case study this product can honestly publish. */
  window.esrsCaseLoad = function(id) {
    if (!_esrs || !_esrs.cases) return;
+   var esc0 = function(x){ var d=document.createElement('div'); d.textContent = x==null?'':x; return d.innerHTML; };
    var c = _esrs.cases.cases.filter(function(x){ return x.id === id; })[0];
    if (!c) return;
    var set = function(el, v) { var e = document.getElementById(el); if (e) e.value = String(v); };
@@ -11255,10 +11256,27 @@ document.addEventListener('DOMContentLoaded', function() {
    var el = document.getElementById('es-case-loaded');
    if (el) {
      el.className = 'es-caseload show';
-     el.innerHTML = '<b>' + (c.name || '') + '</b> loaded — the figures on this tab are computed from it. ' +
-       'Expected: ' + (c.expect || '');
+     el.innerHTML = '<button class="es-caseload-x" onclick="esrsCaseClear()" title="Clear this case">&times;</button>' +
+       '<b>' + esc0(c.name || '') + '</b> loaded &mdash; the figures on this tab are computed from it. ' +
+       'Expected: ' + esc0(c.expect || '');
    }
    if (typeof rgTrack === 'function') rgTrack('esrs_case', id);
+ };
+
+ /* Clearing a case puts the tool back to an empty state rather than leaving
+    one entity's inputs behind for someone who has moved on to their own. */
+ window.esrsCaseClear = function() {
+   _esrsTx = []; _esrsTxSeq = 0; _esrsMat = {}; _esrsDr = {};
+   ['es-scope-res','es-dm-res','es-dr-res','es-tx-res','es-tag-res'].forEach(function(p) {
+     var e = document.getElementById(p);
+     if (e) { e.className = 'es-res'; e.innerHTML = ''; }
+   });
+   ['es-emp','es-turn','es-euturn','es-tx-dturn','es-tx-dcapex','es-tx-dopex'].forEach(function(p) {
+     var e = document.getElementById(p); if (e) e.value = '';
+   });
+   var b = document.getElementById('es-case-loaded');
+   if (b) { b.className = 'es-caseload'; b.innerHTML = ''; }
+   esrsRender();
  };
 
  window.esrsCasesRender = function() {
@@ -14703,7 +14721,10 @@ table.es-dm td.n{text-align:center}
   padding-left:.8rem;margin:.6rem 0 .3rem}
 .es-caseload{display:none;border:1px solid rgba(0,232,122,.35);background:rgba(0,232,122,.07);
   padding:.75rem .95rem;margin-bottom:1rem;font-size:.8rem;line-height:1.6;color:rgba(234,255,243,.85)}
-.es-caseload.show{display:block}
+.es-caseload.show{display:block;position:relative;padding-right:2.2rem}
+.es-caseload-x{position:absolute;top:.5rem;right:.6rem;background:none;border:none;color:rgba(234,255,243,.5);
+  font-size:1rem;line-height:1;cursor:pointer;padding:.1rem .3rem}
+.es-caseload-x:hover{color:#00ff9d}
 .es-caseload b{color:#00ff9d}
 .es-foot{margin-top:1.4rem;padding:1rem 1.2rem;border:1px solid rgba(0,232,122,.14);background:rgba(3,14,9,.6);font-size:.75rem;color:rgba(234,255,243,.5);line-height:1.7}
 .es-foot code{font-family:'DM Mono',monospace;color:rgba(10,255,219,.8);font-size:.7rem}
@@ -14796,6 +14817,8 @@ table.es-bm td.us{background:rgba(10,255,219,.045)}
 
   <div class="es-mkt" id="es-mkt"></div>
   <div class="es-alert" id="es-alert"></div>
+
+  <div class="es-caseload" id="es-case-loaded"></div>
 
   <div class="es-tabs" id="es-tabs">
     <button class="on" onclick="esrsTab('scope')">1 &middot; Scope</button>
@@ -14956,7 +14979,6 @@ table.es-bm td.us{background:rgba(10,255,219,.045)}
       calculation, so the figure you land on is the one this tool produced. Every entity here is
       invented on purpose: a worked example attributed to a real company is a fabricated record.
     </div>
-    <div class="es-caseload" id="es-case-loaded"></div>
     <div id="es-cases"></div>
   </div>
   </div>
