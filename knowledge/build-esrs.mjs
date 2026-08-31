@@ -24,6 +24,7 @@ const taxonomy = JSON.parse(readFileSync(join(dir, 'taxonomy.json'), 'utf8'));
 const digital = JSON.parse(readFileSync(join(dir, 'digital.json'), 'utf8'));
 const interop = JSON.parse(readFileSync(join(dir, 'interop.json'), 'utf8'));
 const competitors = JSON.parse(readFileSync(join(dir, 'competitors.json'), 'utf8'));
+const cases = JSON.parse(readFileSync(join(dir, 'cases.json'), 'utf8'));
 
 if (!Array.isArray(standards)) errors.push('standards.json root must be an array');
 // Set 1 has twelve standards. A tool that silently lists eleven misrepresents
@@ -202,6 +203,66 @@ if (!competitors.method) errors.push('competitors.json: method required — say 
 for (const f of [taxonomy, digital, interop, competitors])
   if (!/^\d{4}-\d{2}$/.test(f.reviewed ?? '')) errors.push('every esrs data file needs reviewed as YYYY-MM');
 
+/* ── Worked cases ───────────────────────────────────────────────────────
+   Each case exists to make one rule visible and is loadable into the real
+   engine, so its numbers are computed rather than asserted. Two rules follow.
+   A case with no stated lesson is decoration, so `teaches` and `trap` are
+   mandatory. And a scoping or taxonomy case has to carry the inputs that drive
+   it — a case that cannot be loaded is a story, not a worked example. */
+if (!Array.isArray(cases.cases) || cases.cases.length < 4)
+  errors.push('cases.json: at least four worked cases');
+const caseIds = new Set();
+for (const c of cases.cases || []) {
+  const w = c.id || '<no id>';
+  if (!c.id) errors.push('cases.json: every case needs an id');
+  else if (caseIds.has(c.id)) errors.push(`${w}: duplicate case id`); else caseIds.add(c.id);
+  for (const f of ['name', 'sector', 'teaches', 'trap', 'expect', 'note'])
+    if (!c[f]) errors.push(`${w}: ${f} required`);
+  if (!c.scope && !c.taxonomy) errors.push(`${w}: needs scope or taxonomy inputs, or it cannot be loaded`);
+
+  if (c.scope) {
+    const s2 = c.scope;
+    if (!['eu', 'noneu'].includes(s2.entity)) errors.push(`${w}: scope.entity must be eu|noneu`);
+    for (const f of ['employees', 'turnover', 'euturnover'])
+      if (typeof s2[f] !== 'number' || s2[f] < 0) errors.push(`${w}: scope.${f} must be a non-negative number`);
+    // A non-EU case with no EU turnover cannot demonstrate anything.
+    if (s2.entity === 'noneu' && !(s2.euturnover > 0))
+      errors.push(`${w}: a non-EU case needs EU-generated turnover to be worth loading`);
+  }
+
+  if (c.taxonomy) {
+    const t2 = c.taxonomy;
+    for (const k of ['turnover', 'capex', 'opex'])
+      if (!(t2.denominators?.[k] > 0)) errors.push(`${w}: taxonomy.denominators.${k} must be positive`);
+    if (typeof t2.safeguards !== 'boolean') errors.push(`${w}: taxonomy.safeguards must be true|false`);
+    if (typeof t2.opexMaterial !== 'boolean') errors.push(`${w}: taxonomy.opexMaterial must be true|false`);
+    if (!Array.isArray(t2.activities) || !t2.activities.length)
+      errors.push(`${w}: taxonomy needs at least one activity`);
+    const OBJ = new Set(taxonomy.objectives.map(o => o.code));
+    for (const a of t2.activities || []) {
+      if (!a.name) errors.push(`${w}: every activity needs a name`);
+      if (!OBJ.has(a.obj)) errors.push(`${w}: activity "${a.name}" names objective ${a.obj}, which is not one of the six`);
+      for (const k of ['turnover', 'capex', 'opex'])
+        if (typeof a[k] !== 'number' || a[k] < 0) errors.push(`${w}: activity "${a.name}" needs a non-negative ${k}`);
+      if (typeof a.sc !== 'boolean' || typeof a.dnsh !== 'boolean')
+        errors.push(`${w}: activity "${a.name}" needs sc and dnsh as booleans`);
+      // DNSH is only assessed once an activity substantially contributes.
+      if (a.dnsh && !a.sc) errors.push(`${w}: activity "${a.name}" claims DNSH without substantial contribution`);
+    }
+    // The activities must fit inside the denominators, or the case teaches a
+    // number that cannot occur.
+    for (const k of ['turnover', 'capex', 'opex']) {
+      const sum = (t2.activities || []).reduce((n, a) => n + (a[k] || 0), 0);
+      if (sum > t2.denominators[k] + 1e-9)
+        errors.push(`${w}: activities sum to ${sum} on ${k}, above the denominator ${t2.denominators[k]}`);
+    }
+  }
+
+  for (const std of c.materiality || [])
+    if (!standards.some(s3 => s3.code === std)) errors.push(`${w}: materiality names ${std}, which is not an ESRS`);
+}
+if (!/^\d{4}-\d{2}$/.test(cases.reviewed ?? '')) errors.push('cases.json: reviewed must be YYYY-MM');
+
 if (errors.length) {
   console.error(`✗ ESRS data validation failed (${errors.length} problem${errors.length === 1 ? '' : 's'}):\n`);
   for (const e of errors) console.error('  - ' + e);
@@ -219,6 +280,7 @@ const out = {
   digital,
   interop,
   competitors,
+  cases,
 };
 writeFileSync(join(root, 'esrs.json'), JSON.stringify(out));
 const listed = standards.filter(s => Array.isArray(s.drs));
@@ -229,4 +291,5 @@ console.log(`  scope confidence: ${scope.confidence} · ${scope.sources.length} 
 console.log(`  taxonomy: ${taxonomy.kpis.length} KPIs · ${taxonomy.gates.length} gates · ${taxonomy.objectives.length} objectives · threshold ${taxonomy.simplification.materiality_threshold_percent}%`);
 console.log(`  digital: tagging ${digital.status.mandate}${digital.status.suspended_by ? ' by ' + digital.status.suspended_by : ''}`);
 console.log(`  interop: ${interop.mappings.length} ESRS↔IFRS S2 mappings`);
+console.log(`  cases: ${cases.cases.length} worked examples, ${cases.cases.filter(c => c.taxonomy).length} loadable into the Article 8 engine`);
 console.log(`  benchmark: ${competitors.vendors.length} vendors × ${competitors.capabilities.length} capabilities · ${(competitors.us.honest || []).length} gaps declared against us`);

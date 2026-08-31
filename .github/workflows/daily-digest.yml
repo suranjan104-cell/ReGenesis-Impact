@@ -68,6 +68,8 @@ jobs:
           run_check "Conformance properties hold" node test/simulate-standards.mjs
           run_check "Homepage analytics render"  node test/home-analytics.mjs
           run_check "SEO invariants hold"        node test/seo.mjs
+          run_check "Inline handlers resolve"    node test/handlers.mjs
+          run_check "Worked cases load"          node test/esrs-cases.mjs
           run_check "Knowledge base builds"   node knowledge/build.mjs
           run_check "Guides + sitemap build"  node seo/build-guides.mjs
 
