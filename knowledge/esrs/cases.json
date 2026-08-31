@@ -1,0 +1,204 @@
+{
+  "_comment": [
+    "Worked examples for the ESRS tool. Every one is a fictional entity — the",
+    "product removed seven demo projects that attributed fabricated assessments",
+    "to real companies, and this is not the place to reintroduce that.",
+    "",
+    "Each case exists to make one rule visible, and each is loadable: the inputs",
+    "below drive the real engine, so the number a reader sees is computed rather",
+    "than asserted. That is the difference between a case study and a claim.",
+    "",
+    "The `teaches` field states the rule; `trap` states the mistake the case is",
+    "built to expose. Both are validated as present, because a worked example",
+    "with no stated lesson is decoration."
+  ],
+  "reviewed": "2026-08",
+  "cases": [
+    {
+      "id": "threshold-and",
+      "name": "Nordhavn Marine Systems",
+      "sector": "Industrial manufacturing · Denmark",
+      "teaches": "The Omnibus scope test is an AND. Missing either limb puts you out.",
+      "trap": "Reading 1,200 employees and assuming scope, without checking turnover.",
+      "scope": {
+        "entity": "eu",
+        "employees": 1200,
+        "turnover": 380,
+        "euturnover": 0,
+        "wave": "no"
+      },
+      "expect": "Below the thresholds — 1,200 staff clears the employee test, but €380mn does not clear €450mn, and both are required.",
+      "note": "The most common scoping error we see. An entity over the staff limb often assumes it is caught and starts a programme it does not yet owe. It may still be asked for the data by an in-scope customer or lender, which is a different conversation."
+    },
+    {
+      "id": "non-eu-parent",
+      "name": "Kestrel Pacific Holdings",
+      "sector": "Diversified holdings · Singapore parent",
+      "teaches": "A non-EU parent is tested on EU-generated turnover alone, not on group size.",
+      "trap": "Assuming a non-EU headquarters puts the group outside the CSRD.",
+      "scope": {
+        "entity": "noneu",
+        "employees": 40000,
+        "turnover": 9000,
+        "euturnover": 620,
+        "wave": "no"
+      },
+      "expect": "In scope — €620mn of EU-generated turnover clears the €450mn non-EU group threshold. Headcount and global turnover are not the test.",
+      "note": "Group size is irrelevant here. A large non-EU group with modest EU trade can be out; a mid-sized one with a strong European book can be in."
+    },
+    {
+      "id": "taxonomy-safeguards",
+      "name": "Rheinwerk Energie",
+      "sector": "Renewable generation · Germany",
+      "teaches": "Minimum safeguards are an entity-level gate. Failing them zeroes alignment across all three KPIs, whatever the screening criteria say.",
+      "trap": "Reporting high alignment from strong technical screening while the safeguards assessment is still outstanding.",
+      "taxonomy": {
+        "denominators": {
+          "turnover": 1200,
+          "capex": 340,
+          "opex": 90
+        },
+        "safeguards": false,
+        "opexMaterial": true,
+        "activities": [
+          {
+            "name": "Onshore wind generation",
+            "obj": "CCM",
+            "turnover": 720,
+            "capex": 210,
+            "opex": 48,
+            "sc": true,
+            "dnsh": true
+          },
+          {
+            "name": "Grid-scale storage",
+            "obj": "CCM",
+            "turnover": 180,
+            "capex": 95,
+            "opex": 22,
+            "sc": true,
+            "dnsh": true
+          },
+          {
+            "name": "Legacy gas peaking",
+            "obj": "CCM",
+            "turnover": 240,
+            "capex": 20,
+            "opex": 14,
+            "sc": false,
+            "dnsh": false
+          }
+        ]
+      },
+      "expect": "0% aligned on every KPI despite 75% of turnover sitting in activities that contribute and do no harm — because minimum safeguards are unmet.",
+      "note": "Turn safeguards on in the tool and the turnover KPI moves to 75%. That single switch is the difference between a green report and a zero, which is why it is an entity-level assessment done once rather than an afterthought."
+    },
+    {
+      "id": "taxonomy-threshold",
+      "name": "Lys Grocers Group",
+      "sector": "Food retail · Belgium",
+      "teaches": "The 10% materiality floor is applied to each KPI independently, so the same activity can be excluded from one and assessed in another.",
+      "trap": "Applying one materiality decision across all three KPIs.",
+      "taxonomy": {
+        "denominators": {
+          "turnover": 4200,
+          "capex": 260,
+          "opex": 75
+        },
+        "safeguards": true,
+        "opexMaterial": true,
+        "activities": [
+          {
+            "name": "Retail store operations",
+            "obj": "CCM",
+            "turnover": 3800,
+            "capex": 120,
+            "opex": 40,
+            "sc": false,
+            "dnsh": false
+          },
+          {
+            "name": "Building renovation to near-zero energy",
+            "obj": "CCM",
+            "turnover": 0,
+            "capex": 96,
+            "opex": 26,
+            "sc": true,
+            "dnsh": true
+          },
+          {
+            "name": "Refrigeration transport fleet",
+            "obj": "CCM",
+            "turnover": 180,
+            "capex": 34,
+            "opex": 6,
+            "sc": true,
+            "dnsh": true
+          }
+        ]
+      },
+      "expect": "Turnover reads 0% aligned — the fleet is 4.3% of turnover and falls under the 10% floor, so it is never assessed there. The same renovation is 37% of CapEx and is fully assessed in that KPI, where it drives alignment.",
+      "note": "This is why CapEx alignment usually runs ahead of turnover alignment in a transitioning business: the spend to become aligned counts before the revenue does."
+    },
+    {
+      "id": "opex-exemption",
+      "name": "Aventine Asset Partners",
+      "sector": "Asset management · Luxembourg",
+      "teaches": "The OpEx KPI can be omitted where it is not material to the business model — you disclose the total and why, not a computed ratio.",
+      "trap": "Computing a meaningless OpEx ratio because the template has a box for it.",
+      "taxonomy": {
+        "denominators": {
+          "turnover": 310,
+          "capex": 12,
+          "opex": 4
+        },
+        "safeguards": true,
+        "opexMaterial": false,
+        "activities": [
+          {
+            "name": "Sustainable infrastructure advisory",
+            "obj": "CCM",
+            "turnover": 140,
+            "capex": 5,
+            "opex": 1.5,
+            "sc": true,
+            "dnsh": true
+          },
+          {
+            "name": "General fund management",
+            "obj": "CCM",
+            "turnover": 170,
+            "capex": 7,
+            "opex": 2.5,
+            "sc": false,
+            "dnsh": false
+          }
+        ]
+      },
+      "expect": "OpEx reported as exempt with its total stated; turnover and CapEx computed normally.",
+      "note": "Qualifying OpEx is a narrow definition — research, renovation, short leases, maintenance — not total operating cost. For a services business it is often immaterial, and Delegated Regulation (EU) 2026/73 lets you say so."
+    },
+    {
+      "id": "issb-carryover",
+      "name": "Corrib Data Centres",
+      "sector": "Digital infrastructure · Ireland",
+      "teaches": "An IFRS S2 reporter arriving at CSRD carries the climate inventory across, but not the materiality assessment.",
+      "trap": "Treating an existing ISSB materiality conclusion as evidence for omitting an ESRS topical standard.",
+      "scope": {
+        "entity": "eu",
+        "employees": 1400,
+        "turnover": 890,
+        "euturnover": 0,
+        "wave": "no"
+      },
+      "materiality": [
+        "ESRS E1",
+        "ESRS E3",
+        "ESRS E5",
+        "ESRS S1"
+      ],
+      "expect": "In scope, with E1-6 reading its evidence straight from the GHG inventory already built for IFRS S2 — but E3 water and E5 circularity are new, because impact materiality reaches them and financial materiality did not.",
+      "note": "A data centre is the clearest case: water for cooling and equipment circularity are rarely financially material and are frequently impact-material. That asymmetry is the whole reason double materiality exists."
+    }
+  ]
+}

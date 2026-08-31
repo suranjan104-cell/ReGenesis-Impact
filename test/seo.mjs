@@ -109,6 +109,28 @@ for (const u of [...llms.matchAll(/https:\/\/regenesisimpact\.in\/(\S*?)\)/g)].m
   if (!existsSync(join(ROOT, file))) fail.push(`llms.txt: links to /${u}, which does not exist`);
 }
 
+/* The worked cases on esrs/index.html are generated from cases.json. If the
+   data changes and the page is not rebuilt, the site and the tool describe the
+   same case differently — which is the drift the generated guides already
+   guard against. */
+{
+  const esrsPage = read('esrs/index.html');
+  const cases = JSON.parse(read('knowledge/esrs.json')).cases.cases;
+  for (const c of cases) {
+    if (!esrsPage.includes(c.name)) fail.push(`esrs/index.html: worked case "${c.name}" is not on the page — rerun seo/build-esrs-page.mjs`);
+    if (!esrsPage.includes(c.teaches.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')))
+      fail.push(`esrs/index.html: the lesson for "${c.name}" is stale — rerun seo/build-esrs-page.mjs`);
+  }
+  const faq = (esrsPage.match(/<script type="application\/ld\+json" id="cases-faq">([\s\S]*?)<\/script>/) || [])[1];
+  if (!faq) fail.push('esrs/index.html: the cases FAQ schema block is missing');
+  else {
+    try {
+      const n = JSON.parse(faq).mainEntity.length;
+      if (n !== cases.length) fail.push(`esrs/index.html: FAQ schema has ${n} entries, ${cases.length} cases exist`);
+    } catch (e) { fail.push(`esrs/index.html: cases FAQ schema does not parse — ${e.message}`); }
+  }
+}
+
 // ── the assets the social cards need ──────────────────────────────────
 for (const f of ['og-image.png', 'favicon-32.png', 'sitemap.xml', 'robots.txt', 'llms.txt'])
   if (!existsSync(join(ROOT, f))) fail.push(`${f}: missing`);

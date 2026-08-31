@@ -29,6 +29,8 @@
 {"@type":"Question","name":"Is my IFRS S2 materiality assessment enough for ESRS?","acceptedAnswer":{"@type":"Answer","text":"No. ESRS reports a topic that is material to people and the environment OR material to the company; IFRS S2 covers only the second. The impact side has to be assessed separately, and every omitted topical standard needs a stated reason."}},
 {"@type":"Question","name":"Is the tool free, and where does the data go?","acceptedAnswer":{"@type":"Answer","text":"Free, with no sign-up. Everything runs in the browser and nothing is uploaded, which is why it can be used on live commercial figures before a vendor has been through procurement."}}]}</script>
 
+<script type="application/ld+json" id="cases-faq">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"The Omnibus scope test is an AND. Missing either limb puts you out — worked example","acceptedAnswer":{"@type":"Answer","text":"The Omnibus scope test is an AND. Missing either limb puts you out. Below the thresholds — 1,200 staff clears the employee test, but €380mn does not clear €450mn, and both are required. The most common scoping error we see. An entity over the staff limb often assumes it is caught and starts a programme it does not yet owe. It may still be asked for the data by an in-scope customer or lender, which is a different conversation."}},{"@type":"Question","name":"A non-EU parent is tested on EU-generated turnover alone, not on group size — worked example","acceptedAnswer":{"@type":"Answer","text":"A non-EU parent is tested on EU-generated turnover alone, not on group size. In scope — €620mn of EU-generated turnover clears the €450mn non-EU group threshold. Headcount and global turnover are not the test. Group size is irrelevant here. A large non-EU group with modest EU trade can be out; a mid-sized one with a strong European book can be in."}},{"@type":"Question","name":"Minimum safeguards are an entity-level gate. Failing them zeroes alignment across all three KPIs, whatever the screening criteria say — worked example","acceptedAnswer":{"@type":"Answer","text":"Minimum safeguards are an entity-level gate. Failing them zeroes alignment across all three KPIs, whatever the screening criteria say. 0% aligned on every KPI despite 75% of turnover sitting in activities that contribute and do no harm — because minimum safeguards are unmet. Turn safeguards on in the tool and the turnover KPI moves to 75%. That single switch is the difference between a green report and a zero, which is why it is an entity-level assessment done once rather than an afterthought."}},{"@type":"Question","name":"The 10% materiality floor is applied to each KPI independently, so the same activity can be excluded from one and assessed in another — worked example","acceptedAnswer":{"@type":"Answer","text":"The 10% materiality floor is applied to each KPI independently, so the same activity can be excluded from one and assessed in another. Turnover reads 0% aligned — the fleet is 4.3% of turnover and falls under the 10% floor, so it is never assessed there. The same renovation is 37% of CapEx and is fully assessed in that KPI, where it drives alignment. This is why CapEx alignment usually runs ahead of turnover alignment in a transitioning business: the spend to become aligned counts before the revenue does."}},{"@type":"Question","name":"The OpEx KPI can be omitted where it is not material to the business model — you disclose the total and why, not a computed ratio — worked example","acceptedAnswer":{"@type":"Answer","text":"The OpEx KPI can be omitted where it is not material to the business model — you disclose the total and why, not a computed ratio. OpEx reported as exempt with its total stated; turnover and CapEx computed normally. Qualifying OpEx is a narrow definition — research, renovation, short leases, maintenance — not total operating cost. For a services business it is often immaterial, and Delegated Regulation (EU) 2026/73 lets you say so."}},{"@type":"Question","name":"An IFRS S2 reporter arriving at CSRD carries the climate inventory across, but not the materiality assessment — worked example","acceptedAnswer":{"@type":"Answer","text":"An IFRS S2 reporter arriving at CSRD carries the climate inventory across, but not the materiality assessment. In scope, with E1-6 reading its evidence straight from the GHG inventory already built for IFRS S2 — but E3 water and E5 circularity are new, because impact materiality reaches them and financial materiality did not. A data centre is the clearest case: water for cooling and equipment circularity are rarely financially material and are frequently impact-material. That asymmetry is the whole reason double materiality exists."}}]}</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
@@ -99,6 +101,16 @@ details summary::-webkit-details-marker{display:none}
 details summary::after{content:'+';color:var(--accent);font-family:'DM Mono',monospace}
 details[open] summary::after{content:'−'}
 details p{margin:.7rem 0 0;font-size:.92rem}
+.case{border:1px solid var(--glass-line);background:var(--glass);border-radius:.8rem;
+  padding:1.3rem 1.4rem;margin-bottom:1rem}
+.case h3{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;margin-bottom:.2rem}
+.case-sector{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink3);margin-bottom:.8rem}
+.case p{font-size:.88rem;margin-bottom:.5rem}
+.case p:last-child{margin-bottom:0;color:var(--ink3)}
+.case-teach strong{color:var(--accent)}
+.case-trap strong{color:#FF8A4C}
+.case-res strong{color:var(--ink)}
 .note{border-left:3px solid var(--accent);padding:1rem 0 1rem 1.3rem;margin:2.4rem 0 0;
   font-size:.92rem;color:var(--ink2)}
 .note strong{color:var(--ink)}
@@ -169,6 +181,65 @@ footer a{color:var(--ink3)}
     thresholds and requirement names rest on professional-firm summaries. That is stated in the
     product, on every tab, rather than buried here.
   </p>
+
+  <!-- CASES:START -->
+  <h2>Six worked cases</h2>
+  <p>
+    Each one is a fictional entity built to make a single rule visible, and each is loadable in the
+    tool &mdash; the figures below are what the calculation actually returns, not a description of
+    what it would return. The entities are invented on purpose: a worked example attributed to a
+    real company is a fabricated record.
+  </p>
+  <div class="case">
+    <h3>Nordhavn Marine Systems</h3>
+    <div class="case-sector">Industrial manufacturing · Denmark</div>
+    <p class="case-teach"><strong>Shows:</strong> The Omnibus scope test is an AND. Missing either limb puts you out.</p>
+    <p class="case-trap"><strong>The mistake it exposes:</strong> Reading 1,200 employees and assuming scope, without checking turnover.</p>
+    <p class="case-res"><strong>Result:</strong> Below the thresholds — 1,200 staff clears the employee test, but €380mn does not clear €450mn, and both are required.</p>
+    <p>The most common scoping error we see. An entity over the staff limb often assumes it is caught and starts a programme it does not yet owe. It may still be asked for the data by an in-scope customer or lender, which is a different conversation.</p>
+  </div>
+  <div class="case">
+    <h3>Kestrel Pacific Holdings</h3>
+    <div class="case-sector">Diversified holdings · Singapore parent</div>
+    <p class="case-teach"><strong>Shows:</strong> A non-EU parent is tested on EU-generated turnover alone, not on group size.</p>
+    <p class="case-trap"><strong>The mistake it exposes:</strong> Assuming a non-EU headquarters puts the group outside the CSRD.</p>
+    <p class="case-res"><strong>Result:</strong> In scope — €620mn of EU-generated turnover clears the €450mn non-EU group threshold. Headcount and global turnover are not the test.</p>
+    <p>Group size is irrelevant here. A large non-EU group with modest EU trade can be out; a mid-sized one with a strong European book can be in.</p>
+  </div>
+  <div class="case">
+    <h3>Rheinwerk Energie</h3>
+    <div class="case-sector">Renewable generation · Germany</div>
+    <p class="case-teach"><strong>Shows:</strong> Minimum safeguards are an entity-level gate. Failing them zeroes alignment across all three KPIs, whatever the screening criteria say.</p>
+    <p class="case-trap"><strong>The mistake it exposes:</strong> Reporting high alignment from strong technical screening while the safeguards assessment is still outstanding.</p>
+    <p class="case-res"><strong>Result:</strong> 0% aligned on every KPI despite 75% of turnover sitting in activities that contribute and do no harm — because minimum safeguards are unmet.</p>
+    <p>Turn safeguards on in the tool and the turnover KPI moves to 75%. That single switch is the difference between a green report and a zero, which is why it is an entity-level assessment done once rather than an afterthought.</p>
+  </div>
+  <div class="case">
+    <h3>Lys Grocers Group</h3>
+    <div class="case-sector">Food retail · Belgium</div>
+    <p class="case-teach"><strong>Shows:</strong> The 10% materiality floor is applied to each KPI independently, so the same activity can be excluded from one and assessed in another.</p>
+    <p class="case-trap"><strong>The mistake it exposes:</strong> Applying one materiality decision across all three KPIs.</p>
+    <p class="case-res"><strong>Result:</strong> Turnover reads 0% aligned — the fleet is 4.3% of turnover and falls under the 10% floor, so it is never assessed there. The same renovation is 37% of CapEx and is fully assessed in that KPI, where it drives alignment.</p>
+    <p>This is why CapEx alignment usually runs ahead of turnover alignment in a transitioning business: the spend to become aligned counts before the revenue does.</p>
+  </div>
+  <div class="case">
+    <h3>Aventine Asset Partners</h3>
+    <div class="case-sector">Asset management · Luxembourg</div>
+    <p class="case-teach"><strong>Shows:</strong> The OpEx KPI can be omitted where it is not material to the business model — you disclose the total and why, not a computed ratio.</p>
+    <p class="case-trap"><strong>The mistake it exposes:</strong> Computing a meaningless OpEx ratio because the template has a box for it.</p>
+    <p class="case-res"><strong>Result:</strong> OpEx reported as exempt with its total stated; turnover and CapEx computed normally.</p>
+    <p>Qualifying OpEx is a narrow definition — research, renovation, short leases, maintenance — not total operating cost. For a services business it is often immaterial, and Delegated Regulation (EU) 2026/73 lets you say so.</p>
+  </div>
+  <div class="case">
+    <h3>Corrib Data Centres</h3>
+    <div class="case-sector">Digital infrastructure · Ireland</div>
+    <p class="case-teach"><strong>Shows:</strong> An IFRS S2 reporter arriving at CSRD carries the climate inventory across, but not the materiality assessment.</p>
+    <p class="case-trap"><strong>The mistake it exposes:</strong> Treating an existing ISSB materiality conclusion as evidence for omitting an ESRS topical standard.</p>
+    <p class="case-res"><strong>Result:</strong> In scope, with E1-6 reading its evidence straight from the GHG inventory already built for IFRS S2 — but E3 water and E5 circularity are new, because impact materiality reaches them and financial materiality did not.</p>
+    <p>A data centre is the clearest case: water for cooling and equipment circularity are rarely financially material and are frequently impact-material. That asymmetry is the whole reason double materiality exists.</p>
+  </div>
+  <p><a class="cta ghost" href="../#esrs">Load any of these in the tool &rarr;</a></p>
+<!-- CASES:END -->
 
   <h2>Questions</h2>
   <details open><summary>Am I in scope for the CSRD after the Omnibus?</summary>

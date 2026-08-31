@@ -69,7 +69,9 @@ const stub = `<script>(function(){
     'knowledge/markets.json': DATA.markets })};
   var of = window.fetch;
   window.fetch = function(u){ var k = String(u);
-    if (M[k]) return Promise.resolve({ json: function(){ return Promise.resolve(M[k]); } });
+    // ok:true because production code checks response.ok before parsing; a
+    // stub without it makes every fetch look like a failed request.
+    if (M[k]) return Promise.resolve({ ok: true, status: 200, json: function(){ return Promise.resolve(M[k]); } });
     return of.apply(this, arguments); };
 })();</script>`;
 
