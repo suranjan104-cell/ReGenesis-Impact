@@ -280,6 +280,35 @@ if (!out.footMentionsConfidence) fail.push('the analytics footnote no longer sta
 if (out.badBars.length) fail.push(`${out.badBars.length} stacked bar(s) do not sum to 100%: ${out.badBars.join(', ')}`);
 if (out.rawSlug) fail.push('raw category slugs (scope3_cat15) are reaching the reader');
 if (out.homeIndia) fail.push('the homepage still markets India');
+
+/* The India removal was done page by page and stopped at the homepage. The
+   rest of the file kept it: the ISSB page still read "SINGAPORE · AUSTRALIA ·
+   INDIA"; the physical-risk map was an India map with one zone relabelled
+   "Central Europe" and left plotted at 21°N 81°E, which is central India; the
+   demo asset portfolio was four Indian cities; and the carbon marketplace had
+   had every `loc` rewritten while every `name` and `desc` was left alone, so
+   it offered Rajasthan solar in Kenya, Western Ghats forest in Brazil, Ganga
+   River seagrass in the Philippines and Himalayan watershed in Romania.
+   So the check is the whole file, not one page. */
+for (const term of ['Mumbai', 'Chennai', 'Maharashtra', 'Rajasthan', 'Tamil Nadu',
+                    'Western Ghats', 'Uttarakhand', 'Andaman', 'BRSR', 'SEBI', '₹']) {
+  const n = (html.match(new RegExp(term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g')) || []).length;
+  if (n) fail.push(`"${term}" appears ${n}× — India is not a market this product serves`);
+}
+
+/* And the bug class that produced it: a record whose description names a
+   country it is not in. Every location's country is taken from the data
+   itself, so the list cannot go stale. */
+{
+  const recs = [...html.matchAll(/name:'([^']+)'[^}]*?loc:'([^']+)'[^}]*?desc:'([^']*)'/g)]
+    .map(m => ({ name: m[1], loc: m[2], desc: m[3] }));
+  if (recs.length < 8) fail.push(`only ${recs.length} located records found — the probe is looking in the wrong place`);
+  const countries = [...new Set(recs.map(r => r.loc.split(',').pop().trim()).filter(c => c && !/^[a-z]/.test(c)))];
+  for (const r of recs)
+    for (const c of countries)
+      if (!r.loc.includes(c) && (r.desc.includes(c) || r.name.includes(c)))
+        fail.push(`"${r.name}" is in ${r.loc} but its name or description says ${c}`);
+}
 for (const f of readdirSync(`${ROOT}/guides`))
   if (/india|brsr/i.test(f)) fail.push(`an India guide is back: guides/${f}`);
 if (!out.homeEurope) fail.push('the homepage no longer leads with ESRS/CSRD');

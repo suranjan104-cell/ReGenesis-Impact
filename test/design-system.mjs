@@ -26,6 +26,15 @@ const ROOT = new URL('..', import.meta.url).pathname.replace(/\/$/, '');
 const src = readFileSync(`${ROOT}/index.html`, 'utf8');
 const fail = [];
 
+function styleBlocksForRadius() {
+  const out = [];
+  for (const m of src.matchAll(/(?<=\n)[ \t]*<style(?:\s[^>]*)?>/g)) {
+    const i = m.index + m[0].length, j = src.indexOf('</style>', i);
+    if (j > 0) out.push([i, j]);
+  }
+  return out;
+}
+
 /* ── the token block ─────────────────────────────────────────────────── */
 const tokStart = src.indexOf(':root{', src.indexOf('DESIGN SYSTEM — "Instrument"'));
 if (tokStart < 0) throw new Error('the token block is gone — nothing else here can be checked');
@@ -126,12 +135,55 @@ for (const h of BUILDERS) {
       + `:root, so each one resolves to nothing and the page prints unstyled`);
 }
 
-/* ── the ratchet ─────────────────────────────────────────────────────── */
-const styleBlocks = [];
-for (const m of src.matchAll(/(?<=\n)[ \t]*<style(?:\s[^>]*)?>/g)) {
-  const i = m.index + m[0].length, j = src.indexOf('</style>', i);
-  if (j > 0) styleBlocks.push([i, j]);
+/* ── colour literals in JS that renders into THIS document ───────────
+   Both colour sweeps worked on <style> blocks and style="" attributes, so a
+   declaration assembled by string concatenation — 'color:' + (isError ?
+   '#ff6c3e' : '#00e87a') — came through untouched, keeping its own near-black,
+   its own two greens and a 32px pill. Anything inside the six builders is
+   exempt, because those build a document that never sees our :root. */
+{
+  const scripts = [];
+  for (const m of src.matchAll(/(?<=\n)[ \t]*<script(?:\s[^>]*)?>/g)) {
+    const i = m.index + m[0].length, j = src.indexOf('</script>', i);
+    if (j > 0) scripts.push([i, j]);
+  }
+  const frozen = BUILDERS.map(h => bodySpan(src, h)).filter(Boolean);
+  const decl = /(?:background|background-color|color|border|border-color|border-top|border-left|box-shadow|fill|stroke)\s*:\s*[^;'"]{0,40}?(#[0-9a-fA-F]{3,6}\b|rgba?\(\s*\d+\s*,)/g;
+  const found = [];
+  for (const m of src.matchAll(decl)) {
+    const a = m.index;
+    if (!scripts.some(([i, j]) => i <= a && a < j)) continue;   // markup, covered above
+    if (frozen.some(([i, j]) => i <= a && a < j)) continue;     // standalone document
+    found.push(`line ${src.slice(0, a).split('\n').length}: ${m[0].slice(0, 46)}`);
+  }
+  for (const f of found.slice(0, 6))
+    fail.push(`a colour literal reaches this document from JS — ${f}`);
+  if (found.length > 6) fail.push(`…and ${found.length - 6} more colour literals in JS`);
 }
+
+/* ── the radius scale ────────────────────────────────────────────────
+   55 distinct radius values existed, 62 of them a 32px pill. Circles stay
+   circles; everything else is one of four steps. */
+{
+  const bad = new Set();
+  for (const [i, j] of styleBlocksForRadius()) {
+    for (const m of src.slice(i, j).matchAll(/border(?:-[a-z]+)?-radius:\s*([^;}"']+)/g)) {
+      for (const raw of m[1].split('/')[0].trim().split(/\s+/)) {
+        const part = raw.replace('!important', '').trim();
+        if (!part || part === '0' || part.endsWith('%')) continue;
+        if (part.startsWith('var(') || part.startsWith('calc(') || part === 'inherit') continue;
+        bad.add(part);
+      }
+    }
+  }
+  bad.delete('');
+  if (bad.size)
+    fail.push(`${bad.size} radius value(s) off the scale in stylesheets (${[...bad].slice(0, 5).join(', ')}) `
+      + `— use --r-1/--r-2/--r-3, or 50% for a circle`);
+}
+
+/* ── the ratchet ─────────────────────────────────────────────────────── */
+const styleBlocks = styleBlocksForRadius();
 const distinct = { hex: new Set(), rgb: new Set() };
 let total = 0;
 for (const [i, j] of styleBlocks) {
