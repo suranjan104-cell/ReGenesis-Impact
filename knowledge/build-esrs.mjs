@@ -25,6 +25,7 @@ const digital = JSON.parse(readFileSync(join(dir, 'digital.json'), 'utf8'));
 const interop = JSON.parse(readFileSync(join(dir, 'interop.json'), 'utf8'));
 const competitors = JSON.parse(readFileSync(join(dir, 'competitors.json'), 'utf8'));
 const cases = JSON.parse(readFileSync(join(dir, 'cases.json'), 'utf8'));
+const transition = JSON.parse(readFileSync(join(dir, 'transition.json'), 'utf8'));
 
 if (!Array.isArray(standards)) errors.push('standards.json root must be an array');
 // Set 1 has twelve standards. A tool that silently lists eleven misrepresents
@@ -263,6 +264,54 @@ for (const c of cases.cases || []) {
 }
 if (!/^\d{4}-\d{2}$/.test(cases.reviewed ?? '')) errors.push('cases.json: reviewed must be YYYY-MM');
 
+/* ── FY2026 transition ──────────────────────────────────────────────────
+   Three options, and the arithmetic that matters is that the reliefs count
+   and the named list agree about how many are unaccounted for. Naming a
+   relief a preparer might rely on is not something to guess at, so the gap is
+   carried explicitly rather than closed. */
+if (!CONFIDENCE.includes(transition.confidence)) errors.push('transition.json: confidence must be high|medium|low');
+if (!Array.isArray(transition.sources) || transition.sources.length < 3)
+  errors.push('transition.json: at least three sources — this decides what a live filing is prepared against');
+for (const s2 of transition.sources || [])
+  if (!/^https?:\/\//.test(s2.url ?? '')) errors.push(`transition.json: source url must be a URL (${s2.publisher})`);
+if (!/^\d{4}-\d{2}$/.test(transition.reviewed ?? '')) errors.push('transition.json: reviewed must be YYYY-MM');
+
+const eif = transition.entry_into_force || {};
+if (!['expected', 'in force'].includes(eif.status)) errors.push('transition.json: entry_into_force.status must be expected|in force');
+/* A month, not a day. Published summaries disagree on the day and a tool that
+   picks one is asserting something none of its sources support. */
+if (!/^\d{4}-\d{2}$/.test(eif.expected ?? ''))
+  errors.push('transition.json: entry_into_force.expected must be YYYY-MM — the day is not settled and must not be asserted');
+if (!eif.note) errors.push('transition.json: entry_into_force.note required — say why the day is not stated');
+if (eif.applies_mandatorily_from_fy !== 2027)
+  errors.push('transition.json: the revised standards apply mandatorily from FY2027');
+
+const OPT = ['set1', 'revised-early', 'set1-reliefs'];
+const gotOpt = (transition.options || []).map(o => o.code);
+for (const o of OPT) if (!gotOpt.includes(o)) errors.push(`transition.json: option "${o}" missing — all three routes must be offered`);
+if (gotOpt.length !== OPT.length) errors.push(`transition.json: ${gotOpt.length} options, expected exactly ${OPT.length}`);
+for (const o of transition.options || []) {
+  const w = o.code || '<no code>';
+  for (const f of ['name', 'summary', 'suits', 'cost'])
+    if (!o[f]) errors.push(`transition.json ${w}: ${f} required — an option with no stated cost is a recommendation in disguise`);
+  if (typeof o.reliefs !== 'boolean') errors.push(`transition.json ${w}: reliefs must be true|false`);
+}
+// Exactly one route takes the reliefs; two or none means the middle option is gone.
+if ((transition.options || []).filter(o => o.reliefs).length !== 1)
+  errors.push('transition.json: exactly one option applies the reliefs');
+
+const rel = transition.reliefs || {};
+if (!(rel.count > 0)) errors.push('transition.json: reliefs.count required');
+if (!Array.isArray(rel.named)) errors.push('transition.json: reliefs.named must be an array');
+for (const r of rel.named || []) {
+  if (!r.code || !r.name) errors.push('transition.json: every named relief needs a code and name');
+  if (!r.note) errors.push(`transition.json ${r.code}: note required`);
+}
+if ((rel.named || []).length + (rel.unnamed || 0) !== rel.count)
+  errors.push(`transition.json: ${(rel.named || []).length} named + ${rel.unnamed} unnamed does not equal the stated count of ${rel.count}`);
+if (rel.unnamed > 0 && !rel.unnamed_note)
+  errors.push('transition.json: unnamed reliefs need a note saying why they are not described');
+
 if (errors.length) {
   console.error(`✗ ESRS data validation failed (${errors.length} problem${errors.length === 1 ? '' : 's'}):\n`);
   for (const e of errors) console.error('  - ' + e);
@@ -281,6 +330,7 @@ const out = {
   interop,
   competitors,
   cases,
+  transition,
 };
 writeFileSync(join(root, 'esrs.json'), JSON.stringify(out));
 const listed = standards.filter(s => Array.isArray(s.drs));
@@ -291,5 +341,6 @@ console.log(`  scope confidence: ${scope.confidence} · ${scope.sources.length} 
 console.log(`  taxonomy: ${taxonomy.kpis.length} KPIs · ${taxonomy.gates.length} gates · ${taxonomy.objectives.length} objectives · threshold ${taxonomy.simplification.materiality_threshold_percent}%`);
 console.log(`  digital: tagging ${digital.status.mandate}${digital.status.suspended_by ? ' by ' + digital.status.suspended_by : ''}`);
 console.log(`  interop: ${interop.mappings.length} ESRS↔IFRS S2 mappings`);
+console.log(`  transition: ${transition.options.length} FY2026 routes · ${transition.reliefs.named.length} of ${transition.reliefs.count} reliefs named · in force ${transition.entry_into_force.status} ${transition.entry_into_force.expected}`);
 console.log(`  cases: ${cases.cases.length} worked examples, ${cases.cases.filter(c => c.taxonomy).length} loadable into the Article 8 engine`);
 console.log(`  benchmark: ${competitors.vendors.length} vendors × ${competitors.capabilities.length} capabilities · ${(competitors.us.honest || []).length} gaps declared against us`);
