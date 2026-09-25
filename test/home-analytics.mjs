@@ -325,10 +325,25 @@ for (const a of out.alerts || [])
     fail.push(`homepage claims ${guides} guides, ${actual} are published`);
 }
 
+/* A fabricated assessment must not be attributed to a real company. The list
+   grew after the climate tool was found shipping pre-filled with a real
+   listed steel producer, an invented revenue and an invented carbon
+   intensity, rendering a titled scenario result about it on load — the
+   earlier sweep had only covered demo data files, and these were form
+   defaults. */
 for (const co of ['HSBC', 'Unilever', 'Reliance Industries', 'Standard Chartered',
-                  'JPMorgan', 'Kohlberg', 'KKR', 'Axis Bank', 'European Investment Bank'])
+                  'JPMorgan', 'Kohlberg', 'KKR', 'Axis Bank', 'European Investment Bank',
+                  'Tata Steel', 'Infosys', 'Adani', 'Wipro', 'Mahindra', 'Siemens',
+                  'Nestlé', 'BlackRock', 'Maersk'])
   if (html.includes(co))
     fail.push(`demo data names ${co} — a fabricated assessment must not be attributed to a real company`);
+
+/* And no input may ship pre-filled with a company name at all: a placeholder
+   is an example, a value is an assertion the tool then computes against. */
+for (const m of html.matchAll(/<input[^>]*id="[^"]*(?:name|org|entity|issuer|company)[^"]*"[^>]*>/gi)) {
+  const v = (m[0].match(/\svalue="([^"]+)"/) || [])[1];
+  if (v && v.trim()) fail.push(`an input ships pre-filled with "${v}" — that is a named subject, not an example`);
+}
 
 if (fail.length) {
   console.error(`✗ homepage analytics — ${fail.length} problem${fail.length === 1 ? '' : 's'}:\n`);
