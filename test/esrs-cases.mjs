@@ -57,6 +57,23 @@ const probe = `<script>
   })();
   function run(){
     var out = { cards: document.querySelectorAll('#es-cases .es-case').length, results: {} };
+
+    /* The FY2026 route picker. Three options must be offered, the reliefs
+       route must list the reliefs it can name and admit the ones it cannot,
+       and a route that takes no reliefs must not leave the list on screen. */
+    out.trans = { options: [] };
+    Array.prototype.forEach.call(document.querySelectorAll('.es-trans-opt'), function(b){
+      out.trans.options.push(b.getAttribute('data-code')); });
+    try {
+      esrsTransPick('set1-reliefs');
+      var d = document.getElementById('es-trans-detail');
+      out.trans.detail = !!(d && d.className.indexOf('show') >= 0);
+      out.trans.reliefItems = document.querySelectorAll('#es-trans-detail ul.es-relief li').length;
+      out.trans.admitsGap = (d.textContent || '').indexOf('could not be established') >= 0;
+      esrsTransPick('set1');
+      out.trans.plainRouteItems = document.querySelectorAll('#es-trans-detail ul.es-relief li').length;
+    } catch(e){ out.trans.threw = e.message; }
+
     var shown = function(id){ var e = document.getElementById(id);
       return !!(e && e.className.indexOf('show') >= 0 && (e.textContent || '').trim()); };
     CASES.forEach(function(c){
@@ -110,6 +127,21 @@ for (const c of CASES) {
   if (c.taxonomy && r.rows < c.taxonomy.activities.length)
     fail.push(`${c.id}: ${r.rows} activity rows loaded, ${c.taxonomy.activities.length} defined`);
 }
+const T = DATA.esrs.transition;
+const tr = out.trans || {};
+if (tr.threw) fail.push(`FY2026 route picker threw — ${tr.threw}`);
+for (const o of T.options)
+  if (!(tr.options || []).includes(o.code)) fail.push(`FY2026 route "${o.code}" is not offered in the tool`);
+if (!tr.detail) fail.push('picking a FY2026 route showed no detail');
+if (tr.reliefItems !== T.reliefs.named.length)
+  fail.push(`the reliefs route lists ${tr.reliefItems} reliefs, ${T.reliefs.named.length} are named in the data`);
+/* The unsourced three are the honest part. If the panel ever stops saying so,
+   a preparer reads eight reliefs where we can only stand behind five. */
+if (T.reliefs.unnamed > 0 && !tr.admitsGap)
+  fail.push('the reliefs route no longer admits that some reliefs could not be sourced');
+if (tr.plainRouteItems !== 0)
+  fail.push('a FY2026 route that takes no reliefs is still showing the relief list');
+
 for (const e of out.errs || []) fail.push(`console error while loading cases — ${e}`);
 
 if (fail.length) {
@@ -117,4 +149,4 @@ if (fail.length) {
   for (const f of fail) console.error('  - ' + f);
   process.exit(1);
 }
-console.log(`  ✓ worked cases — all ${CASES.length} load into the real engine, produce their own result, and leave no state behind`);
+console.log(`  ✓ ESRS tool — ${CASES.length} cases load into the real engine and leave no state behind; ${T.options.length} FY2026 routes offered with ${T.reliefs.named.length} of ${T.reliefs.count} reliefs named`);

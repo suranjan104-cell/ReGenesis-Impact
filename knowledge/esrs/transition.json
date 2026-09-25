@@ -1,0 +1,77 @@
+{
+  "_comment": [
+    "What a CSRD reporter actually applies to a FY2026 report — the live",
+    "question as of September 2026, and one the tool could not previously",
+    "answer because it only knew about two states of the world.",
+    "",
+    "The final delegated act adopted 3 July 2026 created a third route. A",
+    "wave-one undertaking preparing FY2026 now chooses between applying ESRS",
+    "Set 1 as it stands, early-adopting the revised set in full, or applying",
+    "Set 1 with a defined group of reliefs taken from the revised standards.",
+    "That middle-ground option is the newest part and the least reported.",
+    "",
+    "Eight reliefs exist. Five are named below from published summaries; the",
+    "other three could not be established from anything reachable here, and",
+    "are left uncounted rather than invented — the same call the register made",
+    "on four unsourced factors and ESRS S1's seventeen requirement names."
+  ],
+  "confidence": "medium",
+  "reviewed": "2026-09",
+  "sources": [
+    { "publisher": "PwC", "title": "Simplified ESRS — final delegated act adopted", "url": "https://viewpoint.pwc.com/gx/en/pwc/in-briefs/2026/ib_int202617.html" },
+    { "publisher": "Grant Thornton", "title": "European Commission adopts revised ESRS and voluntary standard", "url": "https://www.grantthornton.global/en/insights/articles/european-commission-adopts-revised-esrs-and-voluntary-standard/" },
+    { "publisher": "Position Green", "title": "How the simplified ESRS will be adopted: EU process, timeline, and what companies should watch", "url": "https://www.positiongreen.com/insights/articles/how-the-simplified-esrs-will-be-adopted-eu-process-timeline-and-what-companies-should-watch/" },
+    { "publisher": "ISS Corporate", "title": "Revised ESRS: practical considerations for CSRD reporters", "url": "https://www.iss-corporate.com/resources/blog/revised-esrs-practical-considerations-for-csrd-reporters/" },
+    { "publisher": "Deloitte", "title": "EU sustainability reporting — Omnibus legislative developments and revised ESRS", "url": "https://dart.deloitte.com/USDART/home/publications/deloitte/heads-up/2026/eu-sustainability-reporting-omnibus-esrs-revised" }
+  ],
+  "entry_into_force": {
+    "status": "expected",
+    "expected": "2026-11",
+    "note": "Scrutiny by the Parliament and the Council runs two months, extendable by two. Entry into force follows publication in the Official Journal and is widely expected in November 2026, but published summaries disagree on the day — one states 10 November, others say only Q4 2026. The month is stated here and the day deliberately is not.",
+    "applies_mandatorily_from_fy": 2027
+  },
+  "question": "Which ESRS do I apply to a financial year 2026 report?",
+  "options": [
+    {
+      "code": "set1",
+      "name": "Apply ESRS Set 1 unchanged",
+      "summary": "Carry on under Delegated Regulation (EU) 2023/2772 exactly as you did for FY2025.",
+      "suits": "A reporter already deep into a FY2026 process built on Set 1, where reopening scope costs more than the reliefs are worth.",
+      "cost": "You do the full Set 1 disclosure burden for one more year, then move to the revised standards for FY2027 anyway.",
+      "reliefs": false
+    },
+    {
+      "code": "revised-early",
+      "name": "Early-adopt the revised ESRS in full",
+      "summary": "Apply the revised standards a year before they bind, once the delegated act is in force.",
+      "suits": "A reporter who wants the 61% cut in mandatory datapoints now, and whose FY2026 process is not yet locked.",
+      "cost": "Depends on the act being in force in time, and gives you one year of reporting that is not comparable with your own FY2025 statement.",
+      "reliefs": false
+    },
+    {
+      "code": "set1-reliefs",
+      "name": "Apply Set 1 with the reliefs",
+      "summary": "Stay on Set 1 but take a defined group of reliefs carried over from the revised standards.",
+      "suits": "Most wave-one reporters. It is the option added last, and the one least reflected in vendor tooling.",
+      "cost": "You are applying two instruments at once, so the basis of preparation has to say exactly which reliefs were taken.",
+      "reliefs": true
+    }
+  ],
+  "reliefs": {
+    "count": 8,
+    "named": [
+      { "code": "dma-topdown", "name": "Top-down double materiality assessment",
+        "note": "The revised standards' approach to the assessment, available without moving to the revised set in full." },
+      { "code": "taxonomy-appendix", "name": "EU Taxonomy disclosures in a separate appendix",
+        "note": "Presented as an appendix to the sustainability statement rather than woven through it." },
+      { "code": "exec-summary", "name": "Executive summary of the sustainability statement",
+        "note": "An option to lead with the key messages on material impacts, risks and opportunities." },
+      { "code": "value-chain", "name": "Value chain limitations",
+        "note": "The revised limits on what may be required from the value chain." },
+      { "code": "afe-phase", "name": "Extended relief on anticipated financial effects",
+        "note": "Wave-one entities may omit all anticipated financial effects information for financial years before FY2028, and quantitative anticipated financial effects for financial years before FY2030." }
+    ],
+    "unnamed": 3,
+    "unnamed_note": "Three of the eight could not be established from any source reachable from this build environment. They are counted and not described, because naming a relief a preparer might rely on is not something to guess at."
+  }
+}

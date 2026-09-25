@@ -35,7 +35,10 @@ const CHROME = (() => {
 const ROOT = new URL('..', import.meta.url).pathname.replace(/\/$/, '');
 const read = f => JSON.parse(readFileSync(`${ROOT}/knowledge/${f}`, 'utf8'));
 const DATA = { esrs: read('esrs.json'), factors: read('factors.json'),
-               standards: read('standards.json'), kb: read('kb.json'), markets: read('markets.json') };
+               standards: read('standards.json'), kb: read('kb.json'), markets: read('markets.json'),
+               // The regulatory alert bar reads the per-market registers directly.
+               au: read('markets/australia.json'), sg: read('markets/singapore.json'),
+               scope: read('esrs/scope.json') };
 
 // What the page must end up showing, computed here from the same files.
 const EXPECT = (() => {
@@ -57,6 +60,23 @@ const EXPECT = (() => {
     // Every cohort in markets.json plus Europe's waves, which live in the ESRS
     // scope file so the CSRD thresholds keep one home.
     cohorts: DATA.markets.markets.reduce((n, m) => n + m.cohorts.length, 0) + DATA.esrs.scope.waves.length,
+    // The alert bar must name the cohort that is actually in its first
+    // mandatory reporting period today — not the one that was when the
+    // markup was written.
+    alerts: (() => {
+      const today = new Date().toISOString().slice(0, 10);
+      const pick = d => {
+        let live = null, next = null;
+        for (const c of d.cohorts) {
+          if (!c.first_period_from) continue;
+          if (c.first_period_from <= today) {
+            if (!live || c.first_period_from > live.first_period_from) live = c;
+          } else if (!next || c.first_period_from < next.first_period_from) next = c;
+        }
+        return (live || next).name;
+      };
+      return { au: pick(DATA.au), sg: pick(DATA.sg) };
+    })(),
   };
 })();
 
@@ -66,7 +86,9 @@ const stub = `<script>(function(){
   var M = ${JSON.stringify({
     'knowledge/esrs.json': DATA.esrs, 'knowledge/factors.json': DATA.factors,
     'knowledge/standards.json': DATA.standards, 'knowledge/kb.json': DATA.kb,
-    'knowledge/markets.json': DATA.markets })};
+    'knowledge/markets.json': DATA.markets,
+    'knowledge/markets/australia.json': DATA.au, 'knowledge/markets/singapore.json': DATA.sg,
+    'knowledge/esrs/scope.json': DATA.scope })};
   var of = window.fetch;
   window.fetch = function(u){ var k = String(u);
     // ok:true because production code checks response.ok before parsing; a
@@ -81,7 +103,11 @@ const probe = `<script>
   var w = 0;
   (function ready(){
     // Wait for actual content, not for a function to exist.
-    if (document.querySelectorAll('#an-kpis .an-kpi').length) return run();
+    // Both the analytics section and the alert bar have to have finished: the
+    // bar composes its text from a fetch, so reading it too early reads blanks.
+    var bar = document.getElementById('reg-alert-bar');
+    if (document.querySelectorAll('#an-kpis .an-kpi').length &&
+        (!bar || bar.classList.contains('visible') || w > 8000)) return run();
     if ((w += 100) > 15000) return report({ error: 'the analytics section never rendered any content' });
     setTimeout(ready, 100);
   })();
@@ -168,8 +194,20 @@ const probe = `<script>
                         ' — "' + (el.textContent||'').trim().slice(0,32) + '"');
         });
 
+      // Every alert still on screen, with the text it ended up showing.
+      var alerts = [];
+      Array.prototype.forEach.call(q('.rab-item'), function(el){
+        if (el.style.display === 'none') return;
+        alerts.push({ market: el.dataset.market,
+                      text: (el.querySelector('.rab-text').textContent || '').trim() });
+      });
+
       var home = document.getElementById('page-home').textContent;
       report({
+        alerts: alerts,
+        barVisible: !!(document.getElementById('reg-alert-bar') || {}).classList &&
+                    document.getElementById('reg-alert-bar').classList.contains('visible'),
+        barReservesSpace: document.body.classList.contains('rab-on'),
         kpis: kpis,
         drRows: q('#an-dr .an-row').length,
         fxRows: q('#an-fx .an-row').length,
@@ -245,6 +283,26 @@ if (out.homeIndia) fail.push('the homepage still markets India');
 for (const f of readdirSync(`${ROOT}/guides`))
   if (/india|brsr/i.test(f)) fail.push(`an India guide is back: guides/${f}`);
 if (!out.homeEurope) fail.push('the homepage no longer leads with ESRS/CSRD');
+
+/* The regulatory alert bar. It used to carry hand-written cohort dates, which
+   is the kind of claim that rots without anything failing — it was still
+   announcing Australia's Group 1 deadline months after Group 2 had started,
+   and giving Singapore a cohort and a year that the market register
+   contradicts. It now composes its text from those registers, so the gate is
+   that the composed text names the cohort that is live today. */
+if (!out.barVisible) fail.push('the regulatory alert bar never became visible');
+if (!out.barReservesSpace) fail.push('the alert bar did not reserve its height — it overlays the page content');
+const byMarket = Object.fromEntries((out.alerts || []).map(a => [a.market, a.text]));
+for (const [mkt, cohort] of Object.entries(EXPECT.alerts)) {
+  const text = byMarket[mkt];
+  if (!text) { fail.push(`the ${mkt} alert is missing or empty`); continue; }
+  if (!text.includes(cohort))
+    fail.push(`the ${mkt} alert says "${text}" — the register's live cohort is ${cohort}`);
+}
+if (!(byMarket.eu || '').includes(String(DATA.scope.thresholds.eu_company.employees_over)))
+  fail.push(`the EU alert does not carry the CSRD employee threshold: "${byMarket.eu || ''}"`);
+for (const a of out.alerts || [])
+  if (/India|BRSR|SEBI/.test(a.text)) fail.push(`the alert bar still carries India: "${a.text}"`);
 /* Checked against the source rather than the rendered page: document.body
    .textContent includes the text of inline scripts, so a probe that greps the
    body matches its own pattern and always "finds" a name. */

@@ -1564,6 +1564,11 @@ input:focus,select:focus,textarea:focus{border-color:rgba(126,217,87,.5)!importa
 .rab-alerts{display:flex;align-items:center;gap:0;overflow:hidden;position:relative;flex:1;min-height:32px}
 .rab-item{position:absolute;inset:0;display:flex;align-items:center;gap:.75rem;opacity:0;transition:opacity .5s;pointer-events:none}
 .rab-item.rab-active{opacity:1;pointer-events:all}
+/* The bar is fixed under the header. Without this it drops on top of whatever
+   the page opens with — on the tool pages that is the eyebrow line, which
+   simply vanished behind it. Reserve the height instead of overlaying. */
+body.rab-on .page{padding-top:3.1rem;transition:padding-top .4s cubic-bezier(.16,1,.3,1)}
+@media(max-width:720px){body.rab-on .page{padding-top:4.6rem}}
 .rab-flag{font-size:1rem;flex-shrink:0}
 .rab-text{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.04em;color:rgba(240,237,232,.85);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rab-text strong{color:#00e87a;font-weight:700}
@@ -1656,27 +1661,33 @@ function loadPdfJs(){
 </script>
 
 <!-- ═══════════════════════════════════════════════════════════════════════
-     AURORA DESIGN LAYER — 2026 futuristic refresh
-     Dark-glassmorphism + animated aurora gradients + glow interactions,
-     applied as a late-cascade layer so it upgrades every page and tool
-     without touching their structural CSS.
+     INSTRUMENT SURFACE LAYER
+     The shared ground every tool page sits on: one static horizon, a hairline
+     grid for scale, and the card/control treatment. Applied as a late-cascade
+     layer so it upgrades every page without touching their structural CSS.
+     Nothing here animates.
      ═══════════════════════════════════════════════════════════════════════ -->
 <style id="rg-aurora">
-/* ── Ambient aurora field (injected divs, JS at end of body) ─────────── */
-#rg-aurora-field{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;mix-blend-mode:screen}
-.rg-blob{position:absolute;width:55vmax;height:55vmax;border-radius:50%;filter:blur(90px);opacity:.5;will-change:transform}
-.rg-blob-1{background:radial-gradient(circle at 40% 40%,rgba(0,232,122,.16),transparent 65%);top:-18vmax;left:-12vmax;animation:rg-drift-1 34s ease-in-out infinite alternate}
-.rg-blob-2{background:radial-gradient(circle at 55% 45%,rgba(10,255,219,.12),transparent 62%);bottom:-22vmax;right:-14vmax;animation:rg-drift-2 46s ease-in-out infinite alternate}
-.rg-blob-3{background:radial-gradient(circle at 50% 50%,rgba(139,92,246,.09),transparent 60%);top:30%;left:55%;width:38vmax;height:38vmax;animation:rg-drift-3 58s ease-in-out infinite alternate}
-@keyframes rg-drift-1{from{transform:translate(0,0) scale(1)}to{transform:translate(9vmax,7vmax) scale(1.15)}}
-@keyframes rg-drift-2{from{transform:translate(0,0) scale(1.1)}to{transform:translate(-8vmax,-6vmax) scale(.95)}}
-@keyframes rg-drift-3{from{transform:translate(0,0)}to{transform:translate(-10vmax,8vmax)}}
-/* fine engineering grid, barely-there */
-#rg-aurora-field::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(0,232,122,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(0,232,122,.028) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,#000 0%,transparent 75%)}
-/* cursor spotlight — desktop only, screen-blended so it only adds light */
-#rg-spot{position:fixed;width:640px;height:640px;border-radius:50%;pointer-events:none;z-index:0;mix-blend-mode:screen;background:radial-gradient(circle,rgba(0,232,122,.075),rgba(10,255,219,.03) 45%,transparent 70%);transform:translate(-50%,-50%);left:-999px;top:-999px;transition:opacity .4s;opacity:0}
-@media (prefers-reduced-motion: reduce){.rg-blob{animation:none!important}#rg-spot{display:none}}
-@media (max-width: 768px){#rg-spot{display:none}.rg-blob{filter:blur(60px)}}
+/* ── Instrument ground ───────────────────────────────────────────────
+   This was three 55vmax blurred blobs drifting on 34/46/58-second loops plus
+   a cursor spotlight, all screen-blended. It was the same aurora the homepage
+   dropped for reading dated, it fought every chart it sat behind, and three
+   permanently-animating blurred layers is continuous compositing work on every
+   tool page for decoration.
+
+   What replaces it is what the homepage uses: one static horizon so the page
+   has a top, and a hairline grid for scale. No animation, no blend modes, no
+   pointer tracking. */
+#rg-aurora-field{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+#rg-aurora-field::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(120% 78% at 50% -12%, rgba(234,255,243,.05) 0%, transparent 62%)}
+#rg-aurora-field::after{content:'';position:absolute;inset:0;opacity:.55;
+  background-image:linear-gradient(rgba(234,255,243,.035) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(234,255,243,.035) 1px,transparent 1px);
+  background-size:64px 64px;
+  -webkit-mask-image:radial-gradient(120% 90% at 50% 0%,#000 0%,transparent 78%);
+  mask-image:radial-gradient(120% 90% at 50% 0%,#000 0%,transparent 78%)}
+#rg-spot{display:none}
 
 /* ── Global light: selection, scrollbar, focus ───────────────────────── */
 ::selection{background:rgba(0,232,122,.85);color:#020806}
@@ -1819,17 +1830,21 @@ body:not(.rg-editorial) .page{padding-bottom:4.5rem}
   <div class="rab-inner" style="background:rgba(3,10,6,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,232,122,0.1)">
     <div class="rab-dot"></div>
     <div class="rab-alerts" id="rab-alerts">
-      <div class="rab-item rab-active" data-market="au">
+      <!-- The text of each alert is written by rabBuild() from the sourced
+           registers in knowledge/, so a cohort date can never go stale here
+           while the tool below it says something else. An alert whose register
+           will not load is dropped rather than shown with invented wording. -->
+      <div class="rab-item" data-market="au" data-src="knowledge/markets/australia.json">
         <span class="rab-flag">🇦🇺</span>
-        <span class="rab-text"><strong>AASB S2 Mandatory</strong> — Group 1 entities (>$500M) must report from 1 Jan 2025. Are you compliant?</span>
+        <span class="rab-text"></span>
       </div>
-      <div class="rab-item" data-market="sg">
+      <div class="rab-item" data-market="sg" data-src="knowledge/markets/singapore.json">
         <span class="rab-flag">🇸🇬</span>
-        <span class="rab-text"><strong>SGX Climate Reporting</strong> — ISSB S2 mandatory for large-cap SGX-listed companies from FY2024. Deadline active.</span>
+        <span class="rab-text"></span>
       </div>
-      <div class="rab-item" data-market="in">
+      <div class="rab-item" data-market="eu" data-src="knowledge/esrs/scope.json">
         <span class="rab-flag">🇪🇺</span>
-        <span class="rab-text"><strong>CSRD limited assurance</strong> — Mandatory over the ESRS sustainability statement for every in-scope undertaking.</span>
+        <span class="rab-text"></span>
       </div>
     </div>
     <button class="rab-cta" onclick="openLeadModal('regulatory_alert')">Check Compliance →</button>
@@ -8573,27 +8588,95 @@ async function lmSubmit() {
 // ── Regulatory Alert Bar ──────────────────────────────────────
 var _rabTimer=null, _rabIdx=0, _rabItems=[];
 
+// A cohort date written into the markup goes stale silently: nothing fails, the
+// bar just keeps asserting last year's deadline over a tool that knows better.
+// So each alert is composed from the same register the tool reads, at load.
+
+function rabDate(iso) {
+  var d = new Date(iso + 'T00:00:00Z');
+  if (isNaN(d)) return iso;
+  return d.getUTCDate() + ' ' +
+    ['January','February','March','April','May','June','July','August',
+     'September','October','November','December'][d.getUTCMonth()] + ' ' +
+    d.getUTCFullYear();
+}
+
+// The cohort in its first mandatory reporting period today, and the one after
+// it. "Live" is the latest cohort whose first period has already begun.
+function rabCohorts(cohorts) {
+  var today = new Date().toISOString().slice(0, 10);
+  var live = null, next = null;
+  (cohorts || []).forEach(function(c) {
+    if (!c.first_period_from) return;
+    if (c.first_period_from <= today) {
+      if (!live || c.first_period_from > live.first_period_from) live = c;
+    } else if (!next || c.first_period_from < next.first_period_from) next = c;
+  });
+  return { live: live, next: next };
+}
+
+function rabMarketText(d) {
+  var c = rabCohorts(d.cohorts);
+  if (!c.live && !c.next) return null;
+  // One line, one claim. The bar is a headline; the market tool carries the
+  // cohort table, the size tests and the sources.
+  if (c.live) {
+    return '<strong>' + d.name + ': ' + c.live.name + '</strong> — in its first mandatory ' +
+           'reporting period since ' + rabDate(c.live.first_period_from) + '.';
+  }
+  return '<strong>' + d.name + ': ' + c.next.name + '</strong> — reports first from ' +
+         rabDate(c.next.first_period_from) + '.';
+}
+
+function rabScopeText(d) {
+  var t = d.thresholds && d.thresholds.eu_company;
+  var w = (d.waves || []).filter(function(x){ return x.status === 'reporting now'; })[0];
+  if (!t || !w) return null;
+  return '<strong>European Union: ' + w.wave + '</strong> — reporting now. In scope: over ' +
+         t.employees_over + ' employees AND over €' + t.net_turnover_over_eur_m +
+         'mn turnover, both tests.';
+}
+
+function rabFill(el) {
+  var src = el.dataset.src;
+  if (!src) return Promise.resolve(false);
+  return window.rgJson(src).then(function(d) {
+    if (!d) return false;
+    var text = d.cohorts ? rabMarketText(d) : rabScopeText(d);
+    if (!text) return false;
+    el.querySelector('.rab-text').innerHTML = text;
+    return true;
+  }).catch(function(){ return false; });
+}
+
 function initRegAlertBar() {
   if (localStorage.getItem('rab_dismissed')) return;
   var savedMarket = localStorage.getItem('rg_market');
-  _rabItems = Array.from(document.querySelectorAll('.rab-item'));
-  if (!_rabItems.length) return;
+  var items = Array.from(document.querySelectorAll('.rab-item'));
+  if (!items.length) return;
 
   // Filter to user's market if known — show only their alerts
   if (savedMarket && savedMarket !== 'other') {
-    _rabItems.forEach(function(el){
+    items.forEach(function(el){
       if (el.dataset.market !== savedMarket) el.style.display = 'none';
     });
-    _rabItems = _rabItems.filter(function(el){ return el.dataset.market === savedMarket; });
+    items = items.filter(function(el){ return el.dataset.market === savedMarket; });
   }
 
-  if (_rabItems[0]) _rabItems[0].classList.add('rab-active');
-
-  setTimeout(function(){
-    var bar = document.getElementById('reg-alert-bar');
-    if (bar) bar.classList.add('visible');
-    if (_rabItems.length > 1) _rabTimer = setInterval(rotateRabAlert, 5000);
-  }, 2000);
+  Promise.all(items.map(function(el){
+    return rabFill(el).then(function(ok){ if (!ok) el.style.display = 'none'; return ok; });
+  })).then(function(oks) {
+    _rabItems = items.filter(function(el, i){ return oks[i]; });
+    if (!_rabItems.length) return;
+    _rabIdx = 0;
+    _rabItems[0].classList.add('rab-active');
+    setTimeout(function(){
+      var bar = document.getElementById('reg-alert-bar');
+      if (bar) bar.classList.add('visible');
+      document.body.classList.add('rab-on');
+      if (_rabItems.length > 1) _rabTimer = setInterval(rotateRabAlert, 5000);
+    }, 2000);
+  });
 }
 
 function rotateRabAlert() {
@@ -8606,6 +8689,7 @@ function rotateRabAlert() {
 function dismissRegAlertBar() {
   var bar = document.getElementById('reg-alert-bar');
   if (bar) bar.classList.remove('visible');
+  document.body.classList.remove('rab-on');
   if (_rabTimer) clearInterval(_rabTimer);
   localStorage.setItem('rab_dismissed','1');
 }
@@ -9863,6 +9947,7 @@ document.addEventListener('DOMContentLoaded', function() {
    esrsIoRender();
    esrsBenchRender();
    esrsCasesRender();
+   esrsTransRender();
 
    var src = document.getElementById('es-sources');
    if (src) {
@@ -11294,6 +11379,85 @@ document.addEventListener('DOMContentLoaded', function() {
        '<button class="es-btn ghost" onclick="esrsCaseLoad(\'' + c.id + '\')">Load this case &rarr;</button>' +
      '</div>';
    }).join('');
+ };
+
+
+ /* ── FY2026 transition ──────────────────────────────────────────────────
+    Which ESRS a report is actually prepared against. Until the revised set
+    binds for FY2027 there are three answers, and the third — Set 1 with the
+    reliefs — was added in the final delegated act and is the one most tooling
+    has not caught up with. It sits on the scope tab because it decides what
+    every other tab means. */
+ window.esrsTransRender = function() {
+   if (!_esrs || !_esrs.transition) return;
+   var el = document.getElementById('es-trans');
+   if (!el) return;
+   var esc = function(x){ var d=document.createElement('div'); d.textContent = x==null?'':x; return d.innerHTML; };
+   var t = _esrs.transition, r = t.reliefs;
+
+   el.innerHTML =
+     '<div class="es-trans-q">' + esc(t.question) + '</div>' +
+     '<div class="es-trans-opts">' +
+     t.options.map(function(o) {
+       return '<button class="es-trans-opt" data-code="' + o.code + '" onclick="esrsTransPick(\'' + o.code + '\')">' +
+         '<span class="nm">' + esc(o.name) + '</span>' +
+         '<span class="sm">' + esc(o.summary) + '</span>' +
+         (o.reliefs ? '<span class="tag">' + r.named.length + ' of ' + r.count + ' reliefs named</span>' : '') +
+       '</button>';
+     }).join('') + '</div>' +
+     '<div class="es-trans-detail" id="es-trans-detail"></div>';
+ };
+
+ window.esrsTransPick = function(code) {
+   if (!_esrs || !_esrs.transition) return;
+   var esc = function(x){ var d=document.createElement('div'); d.textContent = x==null?'':x; return d.innerHTML; };
+   var t = _esrs.transition, r = t.reliefs;
+   var o = t.options.filter(function(x){ return x.code === code; })[0];
+   if (!o) return;
+
+   Array.prototype.forEach.call(document.querySelectorAll('.es-trans-opt'), function(b) {
+     b.className = 'es-trans-opt' + (b.getAttribute('data-code') === code ? ' on' : '');
+   });
+
+   var d = document.getElementById('es-trans-detail');
+   if (!d) return;
+   d.className = 'es-trans-detail show';
+   d.innerHTML =
+     '<div class="es-kv"><div class="k">Suits</div><div>' + esc(o.suits) + '</div></div>' +
+     '<div class="es-kv"><div class="k">What it costs</div><div>' + esc(o.cost) + '</div></div>' +
+     (o.reliefs
+       ? '<div class="es-kv"><div class="k">The reliefs</div><div>' +
+           '<ul class="es-relief">' + r.named.map(function(x) {
+             return '<li><b>' + esc(x.name) + '</b> ' + esc(x.note) + '</li>';
+           }).join('') + '</ul>' +
+           '<div class="es-note">' + esc(r.unnamed_note) + '</div>' +
+         '</div></div>'
+       : '') +
+     '<div class="es-kv"><div class="k">Timing</div><div>' + esc(t.entry_into_force.note) + '</div></div>' +
+     '<div class="es-kv"><div class="k">Basis of preparation</div><div>' +
+       (o.reliefs
+         ? 'ESRS 2 BP-1 has to name every relief taken. Applying two instruments at once is defensible; leaving a reader to work out which one produced which disclosure is not.'
+         : code === 'revised-early'
+           ? 'State that the revised standards were applied early, and that FY2025 comparatives were prepared under Set 1.'
+           : 'No additional statement beyond the usual Set 1 basis of preparation.') +
+     '</div></div>';
+
+   if (typeof rgLedger !== 'undefined') {
+     rgLedger.put({
+       key: 'esrs-transition', tool: 'ESRS FY2026 basis',
+       title: o.name,
+       period: 'FY2026 · revised ESRS ' + t.entry_into_force.status + ' ' + t.entry_into_force.expected,
+       figures: { option: o.code, takes_reliefs: !!o.reliefs,
+                  reliefs_named: o.reliefs ? r.named.length : 0,
+                  reliefs_total: o.reliefs ? r.count : 0 },
+       dq: null,
+       gaps: o.reliefs && r.unnamed
+         ? [{ line: r.unnamed + ' of the ' + r.count + ' reliefs could not be sourced — confirm against the delegated act before relying on this basis',
+              tCO2e: 0, dq: 5, share: 0 }]
+         : []
+     });
+   }
+   if (typeof rgTrack === 'function') rgTrack('esrs_transition', code);
  };
 
  window.rgLedgerShowPayload = function() {
@@ -14726,6 +14890,26 @@ table.es-dm td.n{text-align:center}
   font-size:1rem;line-height:1;cursor:pointer;padding:.1rem .3rem}
 .es-caseload-x:hover{color:#00ff9d}
 .es-caseload b{color:#00ff9d}
+/* FY2026 route picker */
+.es-trans-q{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.92rem;margin-bottom:.85rem}
+.es-trans-opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.7rem}
+.es-trans-opt{display:flex;flex-direction:column;gap:.35rem;text-align:left;cursor:pointer;
+  background:rgba(0,0,0,.22);border:1px solid rgba(0,232,122,.16);padding:.9rem 1rem;
+  transition:border-color .18s,background .18s}
+.es-trans-opt:hover{border-color:rgba(0,232,122,.4);background:rgba(0,232,122,.05)}
+.es-trans-opt.on{border-color:#00e87a;background:rgba(0,232,122,.1)}
+.es-trans-opt .nm{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.84rem;color:#eafff3}
+.es-trans-opt.on .nm{color:#00ff9d}
+.es-trans-opt .sm{font-size:.74rem;line-height:1.55;color:rgba(234,255,243,.6)}
+.es-trans-opt .tag{align-self:flex-start;font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.09em;
+  text-transform:uppercase;color:#ffb547;border:1px solid rgba(255,181,71,.4);padding:.1rem .38rem;margin-top:.15rem}
+.es-trans-detail{display:none;margin-top:1.1rem;padding-top:1rem;border-top:1px solid rgba(0,232,122,.14)}
+.es-trans-detail.show{display:block}
+ul.es-relief{list-style:none;margin:.1rem 0 .5rem}
+ul.es-relief li{position:relative;padding-left:.95rem;margin-bottom:.42rem;font-size:.79rem;line-height:1.6;
+  color:rgba(234,255,243,.68)}
+ul.es-relief li::before{content:'\2014';position:absolute;left:0;color:#00e87a}
+ul.es-relief b{color:#eafff3;font-weight:500}
 .es-foot{margin-top:1.4rem;padding:1rem 1.2rem;border:1px solid rgba(0,232,122,.14);background:rgba(3,14,9,.6);font-size:.75rem;color:rgba(234,255,243,.5);line-height:1.7}
 .es-foot code{font-family:'DM Mono',monospace;color:rgba(10,255,219,.8);font-size:.7rem}
 .es-foot a{color:rgba(10,255,219,.85);text-decoration:none}
@@ -14833,7 +15017,18 @@ table.es-bm td.us{background:rgba(10,255,219,.045)}
 
   <div class="es-sec on" id="es-sec-scope">
   <div class="es-panel">
-    <div class="es-ptitle">1 &middot; Scope</div>
+    <div class="es-ptitle">1 &middot; Which ESRS apply to FY2026</div>
+    <div class="es-psub">
+      Until the revised standards bind for FY2027 there are three answers, and the third was added
+      in the final delegated act of 3 July 2026 &mdash; Set 1 with a defined group of reliefs carried
+      over from the revised set. It is the newest route and the one least reflected in tooling.
+      Pick one: it decides what every other tab on this page means.
+    </div>
+    <div id="es-trans"></div>
+  </div>
+
+  <div class="es-panel">
+    <div class="es-ptitle">2 &middot; Scope</div>
     <div class="es-psub">Both the employee and turnover tests must be met for an EU company. Non-EU parent groups are tested on EU-generated turnover.</div>
     <div class="es-grid">
       <div class="es-field"><label>Entity</label>
@@ -14848,7 +15043,7 @@ table.es-bm td.us{background:rgba(10,255,219,.045)}
     <div class="es-res" id="es-scope-res"></div>
   </div>
   <div class="es-panel">
-    <div class="es-ptitle">Transitional reliefs and the value chain cap</div>
+    <div class="es-ptitle">3 &middot; Transitional reliefs and the value chain cap</div>
     <div class="es-psub">Two things the Omnibus changed that decide how much of the standard you actually apply in year one, and how much you may ask of your suppliers.</div>
     <div id="es-reliefs"></div>
   </div>
@@ -17226,37 +17421,9 @@ document.addEventListener('DOMContentLoaded', function(){
 })();
 </script>
 
-<!-- ===== AURORA DESIGN LAYER — ambient field + cursor spotlight ===== -->
-<script>
-(function(){
-  var field = document.createElement('div');
-  field.id = 'rg-aurora-field';
-  field.setAttribute('aria-hidden', 'true');
-  field.innerHTML = '<div class="rg-blob rg-blob-1"></div><div class="rg-blob rg-blob-2"></div><div class="rg-blob rg-blob-3"></div>';
-  document.body.appendChild(field);
-
-  // Cursor spotlight: fine pointers only, and never when the visitor
-  // prefers reduced motion. Screen-blended, so it only adds light.
-  if (window.matchMedia('(pointer: fine)').matches &&
-      !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    var spot = document.createElement('div');
-    spot.id = 'rg-spot';
-    spot.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(spot);
-    var x = -999, y = -999, raf = null;
-    document.addEventListener('pointermove', function(e){
-      x = e.clientX; y = e.clientY;
-      spot.style.opacity = '1';
-      if (!raf) raf = requestAnimationFrame(function(){
-        raf = null;
-        spot.style.left = x + 'px';
-        spot.style.top = y + 'px';
-      });
-    }, { passive: true });
-    document.documentElement.addEventListener('pointerleave', function(){ spot.style.opacity = '0'; });
-  }
-})();
-</script>
+<!-- The instrument ground. Both layers are pseudo-elements on this div, so it
+     needs no script and paints once. -->
+<div id="rg-aurora-field" aria-hidden="true"></div>
 
 <div id="rg-rail" aria-live="polite"></div>
 </body>
