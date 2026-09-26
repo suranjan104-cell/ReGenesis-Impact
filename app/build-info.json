@@ -1,0 +1,11 @@
+{
+  "source_sha256": "a46684359040b83a7dff5ca6e8d955d5da9db6418cdf90da0d15b5162e3c932d",
+  "inputs": [
+    "src",
+    "public",
+    "index.html",
+    "package.json",
+    "vite.config.ts",
+    "tsconfig.json"
+  ]
+}

@@ -378,8 +378,10 @@ nav::after{content:'';position:absolute;bottom:-1px;left:0;width:180px;height:1p
 .nav-dropdown-menu{display:none;position:absolute;top:calc(100% + .85rem);left:50%;transform:translateX(-50%);background:rgba(var(--bg-rgb),0.97);border:1px solid rgba(var(--acc-rgb),0.18);border-radius:var(--r-2);padding:.4rem;min-width:235px;z-index:500;box-shadow:0 16px 48px rgba(var(--shadow-rgb),.6),0 0 24px rgba(var(--acc-rgb),.05);list-style:none;backdrop-filter:blur(20px)}
 .nav-dropdown-menu::before{content:'';position:absolute;top:0;left:0;width:24px;height:1px;background:var(--acc)}
 .nav-dropdown-menu.open{display:block;animation:fadeUp .15s ease}
-.nav-dropdown-menu li button{display:flex;width:100%;text-align:left;padding:.6rem .9rem;border-radius:var(--r-2);background:none;border:none;border-left:2px solid transparent;color:var(--ink-1);font-size:.82rem;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .2s;gap:.5rem;align-items:center;white-space:nowrap}
-.nav-dropdown-menu li button:hover{background:rgba(var(--acc-rgb),.08);border-left-color:var(--acc);color:var(--acc)}
+.nl-back.nl-ws{text-decoration:none;margin-right:.4rem;display:inline-flex;align-items:center}
+.nav-dropdown-menu li .nav-dd-link{text-decoration:none;text-transform:none;letter-spacing:0;font-weight:500;color:var(--ink-0);border-bottom:1px solid var(--line-1);margin-bottom:.3rem}
+.nav-dropdown-menu li button,.nav-dropdown-menu li .nav-dd-link{display:flex;width:100%;text-align:left;padding:.6rem .9rem;border-radius:var(--r-2);background:none;border:none;border-left:2px solid transparent;color:var(--ink-1);font-size:.82rem;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .2s;gap:.5rem;align-items:center;white-space:nowrap}
+.nav-dropdown-menu li button:hover,.nav-dropdown-menu li .nav-dd-link:hover{background:rgba(var(--acc-rgb),.08);border-left-color:var(--acc);color:var(--acc)}
 /* HAMBURGER */
 .nav-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:.4rem;z-index:300}
 .nav-hamburger span{display:block;width:22px;height:2px;background:var(--cream);border-radius:var(--r-1);transition:all .3s}
@@ -2157,6 +2159,7 @@ body:not(.rg-editorial) .page{padding-bottom:4.5rem}
 <nav>
   <span class="nav-logo" onclick="showPage('home')">ReGenesis<span> Impact</span></span>
   <ul class="nav-links" id="nl-home">
+    <li><a href="app/" class="nav-workspace">Workspace</a></li>
     <li><button onclick="navTo('features')">Platform</button></li>
     <li><button onclick="navTo('analytics')">Analytics</button></li>
     <li><button onclick="navTo('how-it-works')">How It Works</button></li>
@@ -2164,6 +2167,7 @@ body:not(.rg-editorial) .page{padding-bottom:4.5rem}
     <li class="nav-dropdown-wrap">
       <button class="nav-dropdown-btn" onclick="toggleNavDropdown(event)" id="nb-tools-drop">Tools ▾</button>
       <ul class="nav-dropdown-menu" id="nav-tools-menu">
+        <li><a href="app/" class="nav-dd-link">🧭 Workspace — what applies, and when</a></li>
         <li><button onclick="closeNavDropdown();requireLogin('issb')" id="nb-issb">📋 Sustainability Report</button></li>
         <li><button onclick="closeNavDropdown();requireLogin('ghg')" id="nb-ghg">⚖️ GHG Inventory</button></li>
         <li><button onclick="closeNavDropdown();requireLogin('climate')" id="nb-climate">🌍 Climate Intelligence</button></li>
@@ -2198,14 +2202,14 @@ body:not(.rg-editorial) .page{padding-bottom:4.5rem}
     <span></span><span></span><span></span>
   </button>
   <div class="nl-tool" id="nl-dashboard"><span class="nl-pill" style="background:linear-gradient(135deg,rgba(var(--acc-rgb),.15),rgba(var(--acc-rgb),.08));color:var(--acc)">⚡ ReGenesis Impact · Dashboard</span><button class="nl-back" onclick="authSignOut()" style="color:var(--crit-tx);border-color:var(--crit-tx)">Sign Out</button></div>
-  <div class="nl-tool" id="nl-advisor"><span class="nl-pill">🌿 Sage AI · Live</span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
-  <div class="nl-tool" id="nl-issb"><span class="nl-pill nl-blue">Sustainability Report · IFRS S2 · GRI · AASB S2 · CDP</span><span class="nl-prog-wrap" id="prog-issb"><span class="nl-prog-bar" id="prog-issb-fill"></span><span class="nl-prog-label" id="prog-issb-label">0%</span></span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
-  <div class="nl-tool" id="nl-ghg"><span class="nl-pill nl-amber">GHG Inventory · PCAF Protocol</span><span class="nl-prog-wrap" id="prog-ghg"><span class="nl-prog-bar" id="prog-ghg-fill"></span><span class="nl-prog-label" id="prog-ghg-label">0%</span></span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
-  <div class="nl-tool" id="nl-climate"><span class="nl-pill nl-teal">Climate Intelligence · TCFD · NGFS v5</span><span class="nl-prog-wrap" id="prog-climate"><span class="nl-prog-bar" id="prog-climate-fill"></span><span class="nl-prog-label" id="prog-climate-label">0%</span></span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
-  <div class="nl-tool" id="nl-tools"><span class="nl-pill nl-purple">ESG Due Diligence Suite</span><span class="nl-prog-wrap" id="prog-tools"><span class="nl-prog-bar" id="prog-tools-fill"></span><span class="nl-prog-label" id="prog-tools-label">0%</span></span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
-  <div class="nl-tool" id="nl-esrs"><span class="nl-pill nl-blue">ESRS · CSRD · Double Materiality</span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
-  <div class="nl-tool" id="nl-credits"><span class="nl-pill" style="background:linear-gradient(90deg,#16a34a,#0ea5e9)">🪙 Carbon Credit Exchange · ERC-1155 · Polygon</span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
-  <div class="nl-tool" id="nl-assurance"><span class="nl-pill" style="background:linear-gradient(90deg,rgba(var(--acc-rgb),.18),rgba(var(--acc-rgb),.1));color:var(--acc)">🛡️ Assurance Studio · ISSA 5000 · AASB S2</span><span class="nl-prog-wrap" id="prog-assurance"><span class="nl-prog-bar" id="prog-assurance-fill"></span><span class="nl-prog-label" id="prog-assurance-label">0%</span></span><button class="nl-back" onclick="showPage('home')">← Home</button></div>
+  <div class="nl-tool" id="nl-advisor"><span class="nl-pill">🌿 Sage AI · Live</span><a class="nl-back nl-ws" href="app/">Workspace</a><button class="nl-back" onclick="showPage('home')">← Home</button></div>
+  <div class="nl-tool" id="nl-issb"><span class="nl-pill nl-blue">Sustainability Report · IFRS S2 · GRI · AASB S2 · CDP</span><span class="nl-prog-wrap" id="prog-issb"><span class="nl-prog-bar" id="prog-issb-fill"></span><span class="nl-prog-label" id="prog-issb-label">0%</span></span><a class="nl-back nl-ws" href="app/">Workspace</a><button class="nl-back" onclick="showPage('home')">← Home</button></div>
+  <div class="nl-tool" id="nl-ghg"><span class="nl-pill nl-amber">GHG Inventory · PCAF Protocol</span><span class="nl-prog-wrap" id="prog-ghg"><span class="nl-prog-bar" id="prog-ghg-fill"></span><span class="nl-prog-label" id="prog-ghg-label">0%</span></span><a class="nl-back nl-ws" href="app/">Workspace</a><button class="nl-back" onclick="showPage('home')">← Home</button></div>
+  <div class="nl-tool" id="nl-climate"><span class="nl-pill nl-teal">Climate Intelligence · TCFD · NGFS v5</span><span class="nl-prog-wrap" id="prog-climate"><span class="nl-prog-bar" id="prog-climate-fill"></span><span class="nl-prog-label" id="prog-climate-label">0%</span></span><a class="nl-back nl-ws" href="app/">Workspace</a><button class="nl-back" onclick="showPage('home')">← Home</button></div>
+  <div class="nl-tool" id="nl-tools"><span class="nl-pill nl-purple">ESG Due Diligence Suite</span><span class="nl-prog-wrap" id="prog-tools"><span class="nl-prog-bar" id="prog-tools-fill"></span><span class="nl-prog-label" id="prog-tools-label">0%</span></span><a class="nl-back nl-ws" href="app/">Workspace</a><button class="nl-back" onclick="showPage('home')">← Home</button></div>
+  <div class="nl-tool" id="nl-esrs"><span class="nl-pill nl-blue">ESRS · CSRD · Double Materiality</span><a class="nl-back nl-ws" href="app/">Workspace</a><button class="nl-back" onclick="showPage('home')">← Home</button></div>
+  <div class="nl-tool" id="nl-credits"><span class="nl-pill" style="background:linear-gradient(90deg,#16a34a,#0ea5e9)">🪙 Carbon Credit Exchange · ERC-1155 · Polygon</span><a class="nl-back nl-ws" href="app/">Workspace</a><button class="nl-back" onclick="showPage('home')">← Home</button></div>
+  <div class="nl-tool" id="nl-assurance"><span class="nl-pill" style="background:linear-gradient(90deg,rgba(var(--acc-rgb),.18),rgba(var(--acc-rgb),.1));color:var(--acc)">🛡️ Assurance Studio · ISSA 5000 · AASB S2</span><span class="nl-prog-wrap" id="prog-assurance"><span class="nl-prog-bar" id="prog-assurance-fill"></span><span class="nl-prog-label" id="prog-assurance-label">0%</span></span><a class="nl-back nl-ws" href="app/">Workspace</a><button class="nl-back" onclick="showPage('home')">← Home</button></div>
 </nav>
 
 <!-- MOBILE MENU -->
@@ -2838,8 +2842,8 @@ body.rg-editorial #rg-scrollbar{background:linear-gradient(90deg,var(--emerald),
           Audit-ready GHG inventories checked against the GHG Protocol and presented under ISO 14064-1,
           with every figure opening to the factor behind it. Nothing leaves your browser.</p>
         <div class="ed-cta-row">
-          <button class="ed-btn ed-btn-ink" onclick="showPage('issb')">Start a report — free →</button>
-          <button class="ed-btn ed-btn-ghost" onclick="showPage('advisor')">Ask Sage AI</button>
+          <a class="ed-btn ed-btn-ink" href="app/">What do I owe? Open the workspace →</a>
+          <button class="ed-btn ed-btn-ghost" onclick="showPage('issb')">Start a report</button>
         </div>
         <div class="ed-trust">NO SIGN-UP · 9 INSTRUMENTS · ESRS / AASB S2 / IFRS S2 BUILT IN</div>
       </div>

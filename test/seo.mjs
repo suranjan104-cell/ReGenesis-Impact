@@ -20,6 +20,9 @@ const read = p => readFileSync(join(ROOT, p), 'utf8');
 // ── every indexable page, and what it must carry ──────────────────────
 const PAGES = [
   'index.html', 'esrs/index.html', 'research/index.html',
+  // The built workspace. Its static #root content is what crawlers that do
+  // not run JavaScript read, so it is held to the same bar as every page.
+  'app/index.html',
   'research/financed-emissions.html', 'research/emission-factor-register.html',
   ...readdirSync(join(ROOT, 'guides')).filter(f => f.endsWith('.html')).map(f => `guides/${f}`),
 ];

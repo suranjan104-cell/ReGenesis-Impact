@@ -17,6 +17,10 @@ const dir = join(root, 'markets');
 const CONFIDENCE = ['high', 'medium', 'low'];
 const MATERIALITY = ['financial', 'double'];
 const errors = [];
+// Markets whose applicability the workspace engine decides from `rule`.
+const ENGINE_MARKETS = ['au', 'sg'];
+const COMBINE = ['at_least_2_of_3', 'all', 'listed', 'sti_constituent'];
+const TRIGGERS = ['nger_publication_threshold', 'nger_reporter', 'asset_owner'];
 
 const files = readdirSync(dir).filter(f => f.endsWith('.json')).sort();
 const markets = files.map(f => JSON.parse(readFileSync(join(dir, f), 'utf8')));
@@ -67,6 +71,36 @@ for (const m of markets) {
     if (prev && c.first_period_from < prev)
       errors.push(`${cw}: commences ${c.first_period_from}, before the cohort listed above it (${prev})`);
     prev = c.first_period_from;
+    // The applicability engine reads `rule`, not the prose. So wherever a
+    // market is one the engine decides (Australia, Singapore), every cohort
+    // carries a rule, and the rule is checked against the fields and the
+    // prose beside it — a rule that says "at least two of three" over a cohort
+    // with one threshold, or names a trigger the "also" text does not mention,
+    // would give a preparer a confident wrong answer.
+    if (ENGINE_MARKETS.includes(m.code)) {
+      const r = c.rule;
+      if (!r || !COMBINE.includes(r.combine))
+        errors.push(`${cw}: rule.combine must be one of ${COMBINE.join('|')} — the engine decides this market`);
+      else {
+        const sizeKeys = Object.keys(c).filter(k => /_over(_[a-z]{3}_m)?$/.test(k) && c[k] !== null);
+        if (r.combine === 'at_least_2_of_3' && sizeKeys.length !== 3)
+          errors.push(`${cw}: "at least two of three" needs three size thresholds, found ${sizeKeys.length}`);
+        if (r.combine === 'all' && sizeKeys.length < 1)
+          errors.push(`${cw}: "all" needs at least one size threshold`);
+        if (['listed', 'sti_constituent'].includes(r.combine) && sizeKeys.length)
+          errors.push(`${cw}: a listing-based cohort must not carry size thresholds (${sizeKeys.join(', ')})`);
+        for (const t of r.triggers || [])
+          if (!TRIGGERS.includes(t)) errors.push(`${cw}: unknown trigger "${t}"`);
+        const hasTriggers = (r.triggers || []).length > 0;
+        if (hasTriggers !== (c.also !== null && r.combine === 'at_least_2_of_3'))
+          if (r.combine === 'at_least_2_of_3')
+            errors.push(`${cw}: rule.triggers and "also" disagree — ${hasTriggers ? 'triggers listed but "also" is null' : '"also" names a trigger the rule does not carry'}`);
+        if ((r.triggers || []).includes('asset_owner') && !(r.asset_owner_aum_at_least_aud_bn > 0))
+          errors.push(`${cw}: the asset_owner trigger needs asset_owner_aum_at_least_aud_bn`);
+        if (r.extends && !m.cohorts.some(o => o.code === r.extends))
+          errors.push(`${cw}: extends "${r.extends}", which is not a cohort in this market`);
+      }
+    }
     // Where size thresholds exist they must be positive numbers, not zero or
     // an empty string standing in for "we did not check".
     for (const k of Object.keys(c)) {
