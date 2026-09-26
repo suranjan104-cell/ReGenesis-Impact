@@ -15,37 +15,47 @@
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Do I have to measure all 15 categories?","acceptedAnswer":{"@type":"Answer","text":"No — you must assess all 15 for relevance and justify exclusions. Most companies find 3–6 categories material."}},{"@type":"Question","name":"Spend-based or activity-based?","acceptedAnswer":{"@type":"Answer","text":"Start spend-based (EEIO factors × procurement spend) for coverage, then upgrade the biggest categories to activity- or supplier-specific data."}},{"@type":"Question","name":"When does SBTi require a Scope 3 target?","acceptedAnswer":{"@type":"Answer","text":"When Scope 3 is at least 40% of your total footprint — which is true for most non-extractive sectors."}}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ReGenesis Impact","item":"https://regenesisimpact.in/"},{"@type":"ListItem","position":2,"name":"Scope 3 Emissions — The 15 Categories Explained","item":"https://regenesisimpact.in/guides/scope-3-emissions-guide.html"}]}</script>
+<script>try{var t=localStorage.getItem('rg_ws_theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+<meta name="theme-color" content="#F4F3EF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E1013" media="(prefers-color-scheme: dark)">
+<link rel="preload" href="../fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../fonts/geist.css">
+<link rel="stylesheet" href="../styles/site.css">
 <style>
-:root{color-scheme:dark}
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#030a06;color:#eafff3;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;line-height:1.7;
-background-image:radial-gradient(ellipse 70% 45% at 50% 0%,rgba(0,232,122,.08),transparent 70%)}
-.wrap{max-width:760px;margin:0 auto;padding:2.5rem 1.25rem 4rem}
-a{color:#00e87a}
-.home{display:inline-flex;gap:.5rem;align-items:center;font-size:.85rem;text-decoration:none;margin-bottom:2rem;
-border:1px solid rgba(0,232,122,.25);border-radius:2rem;padding:.4rem 1rem}
-.eyebrow{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(0,232,122,.7);margin-bottom:.6rem;font-family:ui-monospace,monospace}
-h1{font-size:2rem;line-height:1.2;margin-bottom:1rem;letter-spacing:-.01em}
-.intro{color:rgba(234,255,243,.75);font-size:1.02rem;margin-bottom:2rem}
-h2{font-size:1.25rem;margin:2.4rem 0 1rem;color:#00ff9d}
-.fact{background:rgba(3,14,9,.85);border:1px solid rgba(0,232,122,.16);border-radius:.7rem;padding:1.1rem 1.25rem;margin-bottom:1rem;
-box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
-.fact h3{font-size:.95rem;margin-bottom:.5rem}
-.fact ul{padding-left:1.1rem;color:rgba(234,255,243,.8);font-size:.9rem}
+/* The guide's own layout; every colour and face comes from styles/site.css,
+   the same values as the workspace and the instruments. */
+.wrap{max-width:760px;margin:0 auto;padding:0 1.25rem 4rem}
+h1{font-size:clamp(1.9rem,4.4vw,2.6rem);margin:.5rem 0 1rem}
+.intro{color:var(--ink-2);font-size:1.06rem;margin:0 0 2rem}
+h2{font-size:1.3rem;margin:2.6rem 0 1rem}
+.fact{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-3);padding:1.1rem 1.25rem;margin-bottom:1rem}
+.fact h3{font-size:.98rem;margin:0 0 .5rem}
+.fact ul{padding-left:1.1rem;margin:0;color:var(--ink-2);font-size:.93rem}
 .fact li{margin-bottom:.35rem}
-.src{font-size:.72rem;color:rgba(234,255,243,.45);margin-top:.6rem}
-details{background:rgba(3,14,9,.6);border:1px solid rgba(0,232,122,.14);border-radius:.6rem;padding:.85rem 1.1rem;margin-bottom:.7rem}
-summary{cursor:pointer;font-weight:600;font-size:.94rem}
-details p{margin-top:.6rem;color:rgba(234,255,243,.75);font-size:.9rem}
-.cta{display:block;text-align:center;background:linear-gradient(135deg,#00e87a,#0affdb);color:#020806;font-weight:700;
-text-decoration:none;border-radius:.6rem;padding:1rem;margin:2.6rem 0 1rem;box-shadow:0 6px 30px -8px rgba(0,232,122,.5)}
-.foot{margin-top:3rem;padding-top:1.25rem;border-top:1px solid rgba(0,232,122,.12);font-size:.75rem;color:rgba(234,255,243,.4)}
-.foot a{margin-right:1rem}
+.src{font-size:.75rem;color:var(--ink-3);margin-top:.6rem}
+details{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-3);padding:.85rem 1.1rem;margin-bottom:.7rem}
+summary{cursor:pointer;font-weight:600;font-size:.95rem}
+details p{margin:.6rem 0 0;color:var(--ink-2);font-size:.93rem}
+.next{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:2.6rem 0 .8rem}
+.next a{display:flex;flex-direction:column;gap:4px;padding:14px 16px;border:1px solid var(--line);border-radius:var(--r-3);
+  background:var(--surface);text-decoration:none}
+.next a:hover{border-color:var(--ink)}
+.next a.ink{background:var(--ink);color:var(--invert-ink);border-color:var(--ink)}
+.next b{font-weight:600}
+.next span{font-size:.82rem;color:var(--ink-2)}
+.next a.ink span{color:inherit;opacity:.78}
+.aside{font-size:.8rem;color:var(--ink-3);margin:0}
+.foot{margin-top:3rem;padding-top:1.25rem;border-top:1px solid var(--line);font-size:.8rem;color:var(--ink-3)}
+.foot a{margin-right:1rem;color:var(--ink-2)}
+@media(max-width:560px){.next{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <a class="home" href="../">← ReGenesis Impact</a>
+  <header class="site-top">
+    <a class="brand" href="../">ReGenesis Impact</a><span class="sep">/</span><span class="where">Guides</span>
+    <span class="go"><a class="btn ink" href="../app/">What do I owe? →</a></span>
+  </header>
   <div class="eyebrow">Global · Guide · Updated 2026-08-01</div>
   <h1>Scope 3 Emissions — The 15 Categories Explained</h1>
   <p class="intro">Scope 3 is usually 70–95% of a company’s footprint and the hardest part of any inventory. This guide maps the 15 GHG Protocol categories, shows where to start by sector, and explains how supplier engagement upgrades data quality over time.</p>
@@ -72,8 +82,11 @@ text-decoration:none;border-radius:.6rem;padding:1rem;margin:2.6rem 0 1rem;box-s
   <details><summary>Spend-based or activity-based?</summary><p>Start spend-based (EEIO factors × procurement spend) for coverage, then upgrade the biggest categories to activity- or supplier-specific data.</p></details>
   <details><summary>When does SBTi require a Scope 3 target?</summary><p>When Scope 3 is at least 40% of your total footprint — which is true for most non-extractive sectors.</p></details>
 
-  <a class="cta" href="../#ghg">Screen your Scope 3 categories free →</a>
-  <p style="text-align:center;font-size:.78rem;color:rgba(234,255,243,.5)">No sign-up required · AI-assisted · SG / AU / IN frameworks built in</p>
+  <nav class="next" aria-label="Next steps">
+    <a class="ink" href="../app/"><b>Which rules apply to you, and when</b><span>Describe your entity once — every regime decides itself, with sources.</span></a>
+    <a href="../#ghg"><b>Screen your Scope 3 categories free →</b><span>The instrument this guide is about.</span></a>
+  </nav>
+  <p class="aside">No sign-up · runs in your browser · EU, Australian and Singapore frameworks built in</p>
 
   <div class="foot">
     <p>Educational guidance, not professional advice — verify against the cited primary sources.

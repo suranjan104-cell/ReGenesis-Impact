@@ -79,7 +79,7 @@ export function AssignMetricModal({ companyId, onClose, onDone }: {
             {results.map(m => (
               <button key={m.id} type="button" onClick={() => setMetricId(m.id)}
                 style={{
-                  textAlign: 'left', background: 'rgba(0,232,122,.03)', border: '1px solid var(--border)',
+                  textAlign: 'left', background: 'rgba(var(--accent-rgb),.03)', border: '1px solid var(--border)',
                   borderRadius: 'var(--radius-sm)', padding: '0.65rem 0.85rem', cursor: 'pointer', color: 'var(--text)',
                 }}>
                 <div style={{ fontWeight: 600, fontSize: '0.82rem' }}>{m.name}</div>
@@ -94,7 +94,7 @@ export function AssignMetricModal({ companyId, onClose, onDone }: {
         </>
       ) : (
         <>
-          <div style={{ background: 'rgba(0,232,122,.05)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', padding: '0.7rem 0.9rem', marginBottom: '1rem' }}>
+          <div style={{ background: 'rgba(var(--accent-rgb),.05)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', padding: '0.7rem 0.9rem', marginBottom: '1rem' }}>
             <div style={{ fontWeight: 600, fontSize: '0.84rem' }}>{selected.name}</div>
             <div style={{ fontSize: '0.66rem', color: 'var(--text-faint)', fontFamily: 'var(--font-mono)' }}>
               {selected.irisRef ? `IRIS+ ${selected.irisRef}` : 'Custom'} · {selected.unit}

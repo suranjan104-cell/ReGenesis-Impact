@@ -13,7 +13,7 @@
   margin-bottom: 1.8rem;
   position: sticky;
   top: 0;
-  background: rgba(2, 8, 6, 0.95);
+  background: var(--panel);
   backdrop-filter: blur(10px);
   padding: 0.8rem 0;
   z-index: 10;
@@ -46,7 +46,7 @@
   padding: 0.3rem 0.4rem;
   margin: -0.3rem -0.4rem;
 }
-.rpt-narrative:hover { background: rgba(0, 232, 122, 0.04); }
+.rpt-narrative:hover { background: rgba(var(--accent-rgb), 0.04); }
 .rpt-edit-hint { font-size: 0.66rem; color: var(--text-faint); opacity: 0; transition: opacity 0.15s; }
 .rpt-narrative:hover .rpt-edit-hint { opacity: 1; }
 
@@ -62,11 +62,11 @@
   font-size: 0.56rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(0, 232, 122, 0.55);
+  color: rgba(var(--accent-rgb), 0.55);
   padding: 0.4rem 0.6rem;
   border-bottom: 1px solid var(--border);
 }
-.rpt-table td { padding: 0.5rem 0.6rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); vertical-align: middle; }
+.rpt-table td { padding: 0.5rem 0.6rem; border-bottom: 1px solid rgba(var(--ink-rgb), 0.05); vertical-align: middle; }
 .rpt-table .mono { font-family: var(--font-mono); font-size: 0.72rem; }
 
 .rpt-sdg-flex { display: flex; gap: 1.2rem; align-items: flex-start; flex-wrap: wrap; }
@@ -98,16 +98,16 @@
 /* ── Print: light professional document ───────────────── */
 @media print {
   .rpt-page { max-width: none; padding: 0; }
-  .rpt-title { color: #0d291a !important; }
+  .rpt-title { color: #111317 !important; }
   .rpt-meta, .rpt-narrative, .rpt-toc-item p { color: #333 !important; }
-  .rpt-h2 { color: #0a7a45 !important; border-color: #ddd !important; }
-  .rpt-brand-name { color: #0a7a45 !important; }
+  .rpt-h2 { color: #111317 !important; border-color: #ddd !important; }
+  .rpt-brand-name { color: #111317 !important; }
   .rpt-kpi { border-color: #ddd !important; }
-  .rpt-kpi-v { color: #0a7a45 !important; }
+  .rpt-kpi-v { color: #111317 !important; }
   .rpt-kpi-l, .rpt-footer { color: #888 !important; }
-  .rpt-table th { color: #0a7a45 !important; border-color: #ccc !important; }
+  .rpt-table th { color: #111317 !important; border-color: #ccc !important; }
   .rpt-table td { border-color: #eee !important; color: #222 !important; }
-  .rpt-toc-item { border-color: #0a7a45 !important; }
-  .rpt-toc-label { color: #0a7a45 !important; }
+  .rpt-toc-item { border-color: #111317 !important; }
+  .rpt-toc-label { color: #111317 !important; }
   .rpt-section { break-inside: avoid; }
 }

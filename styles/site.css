@@ -1,0 +1,74 @@
+/* The static pages' design: guides, the ESRS landing, research and the demo.
+   The same values as the workspace (/app/) and the instruments (index.html),
+   so a visitor arriving from search lands in the product they will use.
+   Light by default, dark as an equal theme; the saved choice (rg_ws_theme)
+   is shared with the rest of the site. Chrome is ink on paper; colour is for
+   data and status. */
+
+:root {
+  color-scheme: light;
+  --paper: #F4F3EF; --surface: #FBFAF7; --raised: #FFFFFF; --sunk: #ECEAE4;
+  --ink: #111317; --ink-2: #4A4F57; --ink-3: #62676F;
+  --line: #DEDCD6; --line-strong: #C4C1B9;
+  --invert-ink: #FBFAF7;
+  --eu: #2a78d6; --au: #eb6834; --sg: #1baf7a; --neutral: #62676F;
+  --good: #097909; --warn: #70500B; --warn-fill: #FAB219; --crit: #BD3636;
+  --f-ui: 'Geist Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --f-mono: 'Geist Mono Variable', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --r-1: 2px; --r-2: 4px; --r-3: 8px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --paper: #0E1013; --surface: #15171B; --raised: #1C1F24; --sunk: #0A0B0E;
+    --ink: #EDEEF0; --ink-2: #AEB3BB; --ink-3: #8E949D;
+    --line: #262A30; --line-strong: #363B43; --invert-ink: #0E1013;
+    --eu: #3987e5; --au: #d95926; --sg: #199e70; --neutral: #8E949D;
+    --good: #18A818; --warn: #FAB219; --warn-fill: #FAB219; --crit: #DD7272;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #0E1013; --surface: #15171B; --raised: #1C1F24; --sunk: #0A0B0E;
+  --ink: #EDEEF0; --ink-2: #AEB3BB; --ink-3: #8E949D;
+  --line: #262A30; --line-strong: #363B43; --invert-ink: #0E1013;
+  --eu: #3987e5; --au: #d95926; --sg: #199e70; --neutral: #8E949D;
+  --good: #18A818; --warn: #FAB219; --warn-fill: #FAB219; --crit: #DD7272;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font: 400 1rem/1.65 var(--f-ui); font-feature-settings: 'ss01', 'cv11';
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+a { color: var(--ink); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: var(--r-1); }
+::selection { background: var(--ink); color: var(--invert-ink); }
+h1, h2, h3 { color: var(--ink); letter-spacing: -.025em; line-height: 1.15; }
+h1 { font-weight: 650; letter-spacing: -.035em; }
+h1 em, h2 em { font-style: normal; color: var(--ink-3); }
+code, kbd, .mono { font-family: var(--f-mono); }
+
+/* the shared article parts */
+.site-top {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  padding: 14px 0; margin-bottom: 2rem; border-bottom: 1px solid var(--line);
+  font-size: .85rem;
+}
+.site-top .brand { font-weight: 650; text-decoration: none; letter-spacing: -.01em; }
+.site-top .sep { color: var(--ink-3); }
+.site-top .where { color: var(--ink-2); }
+.site-top .go { margin-left: auto; display: inline-flex; gap: 8px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 7px; height: 34px; padding: 0 12px;
+  border: 1px solid var(--line-strong); border-radius: var(--r-2); background: var(--raised);
+  font: 500 .82rem var(--f-ui); color: var(--ink); text-decoration: none; white-space: nowrap;
+}
+.btn:hover { border-color: var(--ink); text-decoration: none; }
+.btn.ink { background: var(--ink); color: var(--invert-ink); border-color: var(--ink); }
+.btn.ink:hover { filter: brightness(1.2); }
+.eyebrow {
+  font: 500 .7rem/1.3 var(--f-mono); letter-spacing: .09em; text-transform: uppercase; color: var(--ink-3);
+}

@@ -6,9 +6,9 @@ import { downloadSvgAsPng } from './exporters'
 import { formatPeriod } from '../domain/periods'
 import { fmtNum } from '../domain/aggregate'
 
-const MONO = 'DM Mono, monospace'
-const DIM = 'rgba(240,237,232,.4)'
-const GRID = 'rgba(0,232,122,.07)'
+const MONO = 'var(--font-mono)'
+const DIM = 'var(--ink-3)'
+const GRID = 'var(--line)'
 
 export function ChartExportButton({ svgRef, name }: { svgRef: React.RefObject<SVGSVGElement | null>; name: string }) {
   return (
@@ -62,7 +62,7 @@ export function DonutChart({ slices, centerLabel, svgRef }: {
         ? <circle cx={cx} cy={cy} r={(R + r) / 2} fill="none" stroke={GRID} strokeWidth={R - r} />
         : paths}
       {centerLabel && (
-        <text x={cx} y={cy + 4} textAnchor="middle" fill="#f0ede8" fontSize="13" fontFamily={MONO}>
+        <text x={cx} y={cy + 4} textAnchor="middle" fill="var(--ink)" fontSize="13" fontFamily={MONO}>
           {centerLabel}
         </text>
       )}
@@ -95,14 +95,14 @@ export function HBarChart({ rows, format = fmtNum, svgRef }: {
         const w = Math.max(2, (r.value / max) * (W - labelW - 70))
         return (
           <g key={i}>
-            <text x={labelW - 8} y={y + 15} textAnchor="end" fill={DIM} fontSize="9.5" fontFamily="DM Sans">
+            <text x={labelW - 8} y={y + 15} textAnchor="end" fill={DIM} fontSize="9.5" fontFamily="var(--font-body)">
               {r.label.length > 20 ? r.label.slice(0, 19) + '…' : r.label}
             </text>
             <rect x={labelW} y={y + 5} width={w} height={14} rx={3}
               fill={r.color ?? 'url(#hbar-grad)'} opacity={0.9}>
               <title>{`${r.label}: ${format(r.value)}`}</title>
             </rect>
-            <text x={labelW + w + 8} y={y + 15} fill="#0affdb" fontSize="9" fontFamily={MONO}>
+            <text x={labelW + w + 8} y={y + 15} fill="var(--ink-2)" fontSize="9" fontFamily={MONO}>
               {format(r.value)}
             </text>
           </g>
@@ -110,8 +110,8 @@ export function HBarChart({ rows, format = fmtNum, svgRef }: {
       })}
       <defs>
         <linearGradient id="hbar-grad" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="#00e87a" />
-          <stop offset="100%" stopColor="#0affdb" />
+          <stop offset="0%" stopColor="var(--series)" />
+          <stop offset="100%" stopColor="var(--series)" />
         </linearGradient>
       </defs>
     </svg>
@@ -148,8 +148,8 @@ export function TrendLine({ series, svgRef, height = 180 }: {
       role="img" aria-label={`Trend line. ${series.map(s => `${formatPeriod(s.period)}: ${fmtNum(s.value)}`).join('; ')}`}>
       <defs>
         <linearGradient id="trend-fill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#00e87a" stopOpacity="0.22" />
-          <stop offset="100%" stopColor="#00e87a" stopOpacity="0.01" />
+          <stop offset="0%" stopColor="var(--series)" stopOpacity="0.22" />
+          <stop offset="100%" stopColor="var(--series)" stopOpacity="0.01" />
         </linearGradient>
       </defs>
       {[0, 0.25, 0.5, 0.75, 1].map(f => (
@@ -161,10 +161,10 @@ export function TrendLine({ series, svgRef, height = 180 }: {
         </g>
       ))}
       <polygon points={area} fill="url(#trend-fill)" />
-      <polyline points={pts} fill="none" stroke="#00e87a" strokeWidth="2.2" strokeLinejoin="round" strokeLinecap="round" />
+      <polyline points={pts} fill="none" stroke="var(--series)" strokeWidth="2.2" strokeLinejoin="round" strokeLinecap="round" />
       {series.map((s, i) => (
         <g key={s.period}>
-          <circle cx={xs(i)} cy={ys(s.value)} r="3.2" fill="#0affdb" stroke="#021008" strokeWidth="1">
+          <circle cx={xs(i)} cy={ys(s.value)} r="3.2" fill="var(--series)" stroke="var(--panel)" strokeWidth="1">
             <title>{`${formatPeriod(s.period)}: ${fmtNum(s.value)}`}</title>
           </circle>
           {(series.length <= 9 || i % 2 === 0) && (
