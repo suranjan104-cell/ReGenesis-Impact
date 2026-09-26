@@ -1,0 +1,87 @@
+/* ── The workspace's design tokens ─────────────────────────────────────
+   Chrome is ink on paper. Colour belongs to data: the three regimes, and
+   status. Nothing in the interface competes with the timeline for the eye.
+
+   Regime hues are the first three slots of the dataviz reference palette,
+   which validate ALL-PAIRS in both modes — any two regimes can sit side by
+   side, not only neighbours. Re-validated against these exact surfaces:
+     light #FBFAF7  worst CVD ΔE 9.2, normal-vision 24.0; aqua 2.7:1 on the
+                    surface, so every lane and marker carries a text label
+     dark  #15171B  worst CVD ΔE 9.4, normal-vision 20.9; all three ≥ 3:1
+   Text never wears a regime colour: labels stay in ink beside a swatch.
+
+   Status steps are the reference palette's fixed set and are not themed.
+   Warning is below 3:1 on paper by design; it always ships with an icon and
+   a word, and text on it is ink. */
+
+:root {
+  color-scheme: light;
+  --paper:        #F4F3EF;   /* page */
+  --surface:      #FBFAF7;   /* panels */
+  --raised:       #FFFFFF;   /* inputs, popovers */
+  --sunk:         #ECEAE4;   /* wells, tracks */
+  --ink:          #111317;
+  --ink-2:        #4A4F57;
+  --ink-3:        #62676F;
+  --line:         #DEDCD6;
+  --line-strong:  #C4C1B9;
+  --invert-ink:   #FBFAF7;   /* text on an ink fill */
+
+  --eu: #2a78d6;  --au: #eb6834;  --sg: #1baf7a;
+
+  --good: #0ca30c;  --warn: #fab219;  --crit: #d03b3b;
+
+  --shadow-pop: 0 1px 0 rgba(17,19,23,.04), 0 18px 48px -18px rgba(17,19,23,.28);
+  --scrim: rgba(17,19,23,.32);   /* always darkens, in either theme */
+
+  --f-ui:   'Geist Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --f-mono: 'Geist Mono Variable', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  --fs-2xs: .6875rem; --fs-xs: .75rem; --fs-sm: .8125rem; --fs-base: .9375rem;
+  --fs-md: 1.0625rem; --fs-lg: 1.375rem; --fs-xl: 1.875rem; --fs-2xl: 2.75rem; --fs-3xl: 3.75rem;
+
+  --r-1: 2px; --r-2: 4px; --r-3: 8px;
+  --gap: 16px;
+  --ease: cubic-bezier(.2,.7,.2,1);
+  --t-1: 120ms; --t-2: 220ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --paper:       #0E1013;
+    --surface:     #15171B;
+    --raised:      #1C1F24;
+    --sunk:        #0A0B0E;
+    --ink:         #EDEEF0;
+    --ink-2:       #AEB3BB;
+    --ink-3:       #8E949D;
+    --line:        #262A30;
+    --line-strong: #363B43;
+    --invert-ink:  #0E1013;
+    --eu: #3987e5;  --au: #d95926;  --sg: #199e70;
+    --shadow-pop: 0 1px 0 rgba(255,255,255,.03), 0 24px 60px -20px rgba(0,0,0,.7);
+    --scrim: rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper:       #0E1013;
+  --surface:     #15171B;
+  --raised:      #1C1F24;
+  --sunk:        #0A0B0E;
+  --ink:         #EDEEF0;
+  --ink-2:       #AEB3BB;
+  --ink-3:       #8E949D;
+  --line:        #262A30;
+  --line-strong: #363B43;
+  --invert-ink:  #0E1013;
+  --eu: #3987e5;  --au: #d95926;  --sg: #199e70;
+  --shadow-pop: 0 1px 0 rgba(255,255,255,.03), 0 24px 60px -20px rgba(0,0,0,.7);
+  --scrim: rgba(0,0,0,.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --t-1: 0ms; --t-2: 0ms; }
+  *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+}

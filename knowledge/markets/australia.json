@@ -24,14 +24,17 @@
   "test": "At least two of the three size tests, on a consolidated basis. An NGER publication-threshold reporter or a qualifying asset owner is caught regardless of size.",
   "cohorts": [
     { "code": "g1", "name": "Group 1", "first_period_from": "2025-01-01", "first_reports": 2026,
+      "rule": {"combine": "at_least_2_of_3", "triggers": ["nger_publication_threshold"]},
       "revenue_over_aud_m": 500, "assets_over_aud_m": 1000, "employees_over": 500,
       "also": "NGER publication-threshold reporters",
       "note": "The largest entities. First annual reporting periods began on or after 1 January 2025, with the first reports lodged for December 2025 year ends." },
     { "code": "g2", "name": "Group 2", "first_period_from": "2026-07-01", "first_reports": 2027,
+      "rule": {"combine": "at_least_2_of_3", "triggers": ["nger_reporter", "asset_owner"], "asset_owner_aum_at_least_aud_bn": 5},
       "revenue_over_aud_m": 200, "assets_over_aud_m": 500, "employees_over": 250,
       "also": "NGER reporters not in Group 1, and asset owners with AUD 5bn or more under management",
       "note": "Entered their first mandatory reporting period on 1 July 2026." },
     { "code": "g3", "name": "Group 3", "first_period_from": "2027-07-01", "first_reports": 2028,
+      "rule": {"combine": "at_least_2_of_3", "triggers": []},
       "revenue_over_aud_m": 50, "assets_over_aud_m": 25, "employees_over": 100,
       "also": null,
       "note": "Financial years beginning on or after 1 July 2027." }

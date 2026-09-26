@@ -11,10 +11,12 @@ worker.js
 #   seo/          -> guides/*.html and sitemap.xml
 #   board/        -> research/the-denominator-problem.pdf
 #   platform-app/ -> platform/
+#   workspace-app/ -> app/   (its node_modules must never be uploaded)
 # knowledge/ is NOT excluded: index.html fetches knowledge/kb.json at runtime.
 seo
 board
 platform-app
+workspace-app
 *.md
 
 # carousel build source — the PDF itself is served

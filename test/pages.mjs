@@ -19,8 +19,10 @@
 
    It runs against the same in-memory data the app fetches, so it is
    deterministic and needs no network. */
-import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync, readdirSync } from 'fs';
-import { execFileSync } from 'child_process';
+import { readFileSync, existsSync, readdirSync } from 'fs';
+import { execFile } from 'child_process';
+import { promisify } from 'util';
+import { serve } from './lib/serve.mjs';
 
 const CHROME = (() => {
   const c = [process.env.CHROME, process.env.PUPPETEER_EXECUTABLE_PATH,
@@ -158,7 +160,14 @@ const probe = (width) => `<script>
 
   var out = { width: ${width}, pages: {} }, i = 0;
   function step(){
-    if (i >= PAGES.length) { out.errors = window.__errs.slice(0, 8); return report(out); }
+    if (i >= PAGES.length) {
+      out.errors = window.__errs.slice(0, 8);
+      // The width actually rendered at, not the one asked for. Chromium will
+      // not make a headless window narrower than ~485px, so without this a
+      // "390px" run can quietly be a 485px run.
+      out.vw = document.documentElement.clientWidth;
+      return report(out);
+    }
     var name = PAGES[i++];
     try { window.showPage(name); } catch (e) { out.pages[name] = { threw: String(e) }; return setTimeout(step, 0); }
     // Give the page's own fetches and renders a beat to land.
@@ -176,27 +185,45 @@ const probe = (width) => `<script>
 })();
 </script>`;
 
-mkdirSync(`${ROOT}/test/.tmp`, { recursive: true });
+/* Each width runs in an iframe of exactly that width, served over http from
+   memory. An iframe's viewport is its own width at any size; a headless
+   window's is not, which is why this gate used to report 390px while
+   measuring at 485px. The page and the probe never touch the disk. */
+const run = promisify(execFile);
 const results = [];
+const withStub = html.replace('</head>', stub + '</head>');
+const anchor = withStub.lastIndexOf('</body>');
+const routes = {};
+for (const width of [1440, 390]) {
+  routes[`/__pages-${width}.html`] = ['text/html', withStub.slice(0, anchor) + probe(width) + withStub.slice(anchor)];
+  routes[`/__frame-${width}.html`] = ['text/html', `<!doctype html><meta charset="utf-8"><body style="margin:0">`
+    + `<iframe id="f" style="border:0;width:${width}px;height:900px" src="/__pages-${width}.html"></iframe>`
+    + `<script src="/__frame.js"></script></body>`];
+}
+routes['/__frame.js'] = ['text/javascript', `(function poll(){
+  var d = document.getElementById('f').contentDocument, v = d && d.body && d.body.getAttribute('data-pages');
+  if (v) document.body.setAttribute('data-pages', v); else setTimeout(poll, 200);
+})();`];
+const srv = await serve(ROOT, { routes });
 try {
   for (const width of [1440, 390]) {
-    const file = `${ROOT}/test/.tmp/pages-${width}.html`;
-    const withStub = html.replace('</head>', stub + '</head>');
-    const anchor = withStub.lastIndexOf('</body>');
-    writeFileSync(file, withStub.slice(0, anchor) + probe(width) + withStub.slice(anchor));
-    const dom = execFileSync(CHROME, ['--headless=new', '--disable-gpu', '--no-sandbox',
-      `--window-size=${width},900`, '--virtual-time-budget=120000', '--dump-dom', `file://${file}`],
-      { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'], maxBuffer: 1 << 28 });
+    const { stdout: dom } = await run(CHROME, ['--headless=new', '--disable-gpu', '--no-sandbox',
+      '--disable-component-update', '--disable-background-networking', '--no-first-run',
+      `--window-size=${Math.max(width + 40, 800)},1000`, '--virtual-time-budget=120000', '--dump-dom',
+      `${srv.origin}/__frame-${width}.html`], { maxBuffer: 1 << 28 });
     const m = dom.match(/data-pages="([A-Za-z0-9+/=]+)"/);
     if (!m) throw new Error(`the ${width}px probe did not report — the page may not have loaded`);
     results.push(JSON.parse(Buffer.from(m[1], 'base64').toString('utf8')));
   }
 } finally {
-  rmSync(`${ROOT}/test/.tmp`, { recursive: true, force: true });
+  await srv.close();
 }
 
 const fail = [];
 for (const r of results) {
+  // A scrollbar may take a few pixels; anything wider than asked is not the width we claim.
+  if (!(r.vw <= r.width && r.vw >= r.width - 20))
+    fail.push(`asked for ${r.width}px but the page rendered at ${r.vw}px — the width in this gate's report would be false`);
   for (const [name, p] of Object.entries(r.pages)) {
     if (p.threw) { fail.push(`${name} @${r.width}px threw while rendering: ${p.threw}`); continue; }
     if (p.missing) { fail.push(`${name} @${r.width}px: no #page-${name} in the document`); continue; }
