@@ -48,6 +48,12 @@ follow that are worth knowing before quoting it:
 
 ## Tools
 
+- [Workspace](https://regenesisimpact.in/app/): one entity in, and which of
+  CSRD/ESRS, AASB S2 and Singapore's SGX/ACRA reporting apply, with the tests,
+  reasons and sources behind each verdict; every obligation on one timeline
+  (exportable to a calendar); and the evidence already held. A value exactly on
+  a threshold is returned as a boundary case rather than decided, because the
+  registers do not settle "more than" against "or more".
 - [ESRS & CSRD](https://regenesisimpact.in/esrs/): scoping, double materiality,
   65 disclosure requirements, EU Taxonomy Article 8, tagging readiness, IFRS S2
   interoperability.

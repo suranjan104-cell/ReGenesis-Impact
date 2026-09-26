@@ -140,6 +140,10 @@ const RESEARCH = [
   // page shared externally, and the one that carries the SoftwareApplication
   // and FAQPage schema.
   { path: 'esrs/', priority: '0.95' },
+  // The workspace: one entity in, every regime's verdict and date out. Its
+  // index.html carries a static, crawlable version of the landing inside the
+  // React root, so crawlers that do not run JavaScript still read it.
+  { path: 'app/', priority: '0.95' },
   { path: 'research/', priority: '0.9' },
   { path: 'research/financed-emissions.html', priority: '0.9' },
   { path: 'research/emission-factor-register.html', priority: '0.9' },
