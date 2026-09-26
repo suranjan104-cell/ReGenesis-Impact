@@ -2,18 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <!-- Theme before first paint; the key is shared with the whole site. -->
+    <script>try{var t=localStorage.getItem('rg_ws_theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="description" content="ReGenesis IMM — Impact Measurement & Management platform for impact investors and funds." />
-    <meta name="theme-color" content="#020806" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; object-src 'none'; base-uri 'self'" />
+    <meta name="theme-color" content="#F4F3EF" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0E1013" media="(prefers-color-scheme: dark)" />
+    <!-- Fonts come from this site now, not Google, so the CSP is same-origin for both. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self'; object-src 'none'; base-uri 'self'" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <title>ReGenesis IMM Platform</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
-    <script type="module" crossorigin src="./assets/index-Chmn-iRN.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-CEDlXfDL.css">
+    <link rel="preload" href="./assets/geist-latin-wght-normal-BgDaEnEv.woff2" as="font" type="font/woff2" crossorigin />
+    <script type="module" crossorigin src="./assets/index-BxyOPMzJ.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-5opgf3Of.css">
   </head>
   <body>
     <div id="root"></div>

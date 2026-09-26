@@ -1,4 +1,40 @@
-# The design system, and why it is a gate rather than a document
+# The design system
+
+**Update — one design, everywhere.** The workspace (`/app/`, see
+`WORKSPACE.md`) set a new direction: ink on paper, colour only for data and
+status, Geist, light by default with an equal dark theme. Every surface now
+follows it:
+
+| Surface | How it gets the design |
+|---|---|
+| `/app/` | its own tokens (`workspace-app/src/styles/tokens.css`) |
+| `index.html` — all 13 routes | the token block below, re-pointed at the workspace's values; a late component layer maps legacy parts to workspace parts |
+| guides, ESRS landing, research, demo | `styles/site.css`, linked by each page; the guides through `seo/build-guides.mjs` |
+| `/platform/` (IMM) | `platform-app/src/styles/tokens.css`, rebuilt |
+
+- **One theme key.** `rg_ws_theme` is shared by every page; each reads it in
+  a pre-paint script, so a choice made anywhere holds everywhere and never
+  flashes the other theme.
+- **The accent is ink.** Former green emphasis, cyan highlight and purple
+  decoration all read as ink. Status keeps its colour, with a text-safe step
+  per theme.
+- **Data hues** are the workspace's regime colours (Europe blue, Australia
+  orange, Singapore aqua), which validate all-pairs in both themes. No fourth
+  hue can, so ISSB, the baseline, is drawn in neutral ink on market charts.
+- **Fonts are served from this site** (`fonts/`, SIL OFL). No page loads
+  anything from Google any more; `test/static-pages.mjs` fails if any static
+  page makes a third-party request at all.
+
+Gates: `test/design-system.mjs` (both themes, and literals in stylesheets,
+inline styles, JS and SVG attributes), `test/pages.mjs` (13 routes × 2
+themes × 2 widths, including nothing fixed inside a page),
+`test/workspace.mjs`, `test/static-pages.mjs` (17 pages × 2 themes × 2
+widths, no third-party requests).
+
+---
+
+The history below is kept because the reasons still apply.
+
 
 ## What was here before
 

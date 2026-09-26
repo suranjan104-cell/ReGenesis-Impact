@@ -7,9 +7,6 @@ html, body, #root { min-height: 100%; }
 body {
   margin: 0;
   background: var(--bg);
-  background-image:
-    radial-gradient(ellipse 70% 45% at 50% -10%, rgba(0, 232, 122, 0.07), transparent),
-    radial-gradient(ellipse 45% 35% at 90% 110%, rgba(10, 255, 219, 0.04), transparent);
   background-attachment: fixed;
   color: var(--text);
   font-family: var(--font-body);
@@ -26,7 +23,7 @@ a:hover { text-decoration: underline; }
 button { font-family: inherit; }
 input, select, textarea { font-family: inherit; font-size: inherit; }
 
-::selection { background: rgba(0, 232, 122, 0.25); }
+::selection { background: rgba(var(--accent-rgb), 0.25); }
 
 :focus-visible {
   outline: 2px solid var(--accent);
@@ -34,9 +31,9 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 }
 
 /* Scrollbars */
-* { scrollbar-width: thin; scrollbar-color: rgba(0, 232, 122, 0.25) transparent; }
+* { scrollbar-width: thin; scrollbar-color: rgba(var(--accent-rgb), 0.25) transparent; }
 *::-webkit-scrollbar { width: 6px; height: 6px; }
-*::-webkit-scrollbar-thumb { background: rgba(0, 232, 122, 0.2); border-radius: 3px; }
+*::-webkit-scrollbar-thumb { background: rgba(var(--accent-rgb), 0.2); border-radius: 3px; }
 *::-webkit-scrollbar-track { background: transparent; }
 
 /* ── Layout shell ─────────────────────────────────────── */
@@ -45,7 +42,7 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 .app-sidebar {
   width: 232px;
   flex-shrink: 0;
-  background: rgba(3, 10, 6, 0.92);
+  background: var(--panel);
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
@@ -67,9 +64,9 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 .app-logo-mark {
   width: 30px; height: 30px;
   border-radius: 8px;
-  background: linear-gradient(135deg, var(--bio), var(--phosphor));
+  background: var(--accent);
   display: grid; place-items: center;
-  color: #021008; font-weight: 800; font-size: 0.95rem;
+  color: var(--paper); font-weight: 800; font-size: 0.95rem;
   font-family: var(--font-mono);
 }
 .app-logo-name { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.02em; }
@@ -80,7 +77,7 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   font-size: 0.55rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(0, 232, 122, 0.45);
+  color: rgba(var(--accent-rgb), 0.45);
   padding: 0.85rem 0.6rem 0.3rem;
 }
 
@@ -96,8 +93,8 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   text-decoration: none;
   transition: background 0.15s, color 0.15s;
 }
-.nav-link:hover { background: rgba(0, 232, 122, 0.06); color: var(--text); text-decoration: none; }
-.nav-link.active { background: rgba(0, 232, 122, 0.1); color: var(--accent); }
+.nav-link:hover { background: rgba(var(--accent-rgb), 0.06); color: var(--text); text-decoration: none; }
+.nav-link.active { background: rgba(var(--accent-rgb), 0.1); color: var(--accent); }
 .nav-link .ico { width: 18px; text-align: center; flex-shrink: 0; }
 
 .app-main {
@@ -121,7 +118,7 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   .app-sidebar.open { transform: translateX(0); box-shadow: var(--shadow); }
   .sidebar-scrim {
     position: fixed; inset: 0; z-index: 55;
-    background: rgba(0, 0, 0, 0.55);
+    background: rgba(17,19,23, 0.4);
   }
   .mobile-topbar {
     display: flex;
@@ -130,7 +127,7 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
     position: sticky;
     top: 0;
     z-index: 50;
-    background: rgba(2, 8, 6, 0.94);
+    background: var(--panel);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
     padding: calc(0.6rem + env(safe-area-inset-top)) 1rem 0.6rem;

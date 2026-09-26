@@ -188,7 +188,7 @@ export default function FundDashboard() {
           </div>
           <div className="kpi-grid" style={{ marginBottom: 0 }}>
             {topMetrics.map(t => (
-              <div className="kpi" key={t.metric!.id} style={{ background: 'rgba(0,232,122,.03)' }}>
+              <div className="kpi" key={t.metric!.id} style={{ background: 'rgba(var(--accent-rgb),.03)' }}>
                 <div className="kpi-value" style={{ fontSize: '1.15rem' }}>{fmtNum(t.total)}<span style={{ fontSize: '0.6rem', color: 'var(--text-faint)' }}> {t.metric!.unit}</span></div>
                 <div className="kpi-label">{t.metric!.name} · {t.companies} cos</div>
               </div>
@@ -250,7 +250,7 @@ export default function FundDashboard() {
           <Tip text="Active-company metric assignments with no value for their most recent complete period. Click one to enter it." />
         </div>
         {gaps.length === 0 ? (
-          <p style={{ fontSize: '0.8rem', color: 'var(--ok, #00e87a)', margin: 0 }}>
+          <p style={{ fontSize: '0.8rem', color: 'var(--ok, var(--accent))', margin: 0 }}>
             ✓ All caught up — every tracked metric has data for its latest period.
           </p>
         ) : (
@@ -264,7 +264,7 @@ export default function FundDashboard() {
                     <strong>{g.company?.name ?? 'Unknown company'}</strong>
                     <span style={{ color: 'var(--text-dim)' }}> · {g.metric?.name ?? g.assignment.metricId}</span>
                   </span>
-                  <span style={{ color: '#ffb547', whiteSpace: 'nowrap' }}>{formatPeriod(g.period)} missing →</span>
+                  <span style={{ color: 'var(--warn)', whiteSpace: 'nowrap' }}>{formatPeriod(g.period)} missing →</span>
                 </Link>
               ))}
             </div>

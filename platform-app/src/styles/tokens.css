@@ -1,45 +1,65 @@
-/* ReGenesis Impact — Mission Control design tokens (shared with main site) */
+/* ReGenesis Impact — the workspace's design, shared with /app/, the
+   instruments and the static pages. Light by default, dark as an equal
+   theme; the saved choice (rg_ws_theme) is shared across the whole site.
+   Chrome is ink on paper; colour is for data and status. The old names
+   below are kept as aliases so the components move with the tokens. */
 :root {
-  /* Brand */
-  --void: #020806;
-  --forest: #030a06;
-  --moss: #0a1f0f;
-  --bio: #00e87a;
-  --phosphor: #0affdb;
-  --amber: #ffb547;
-  --spore: #9d4eff;
-  --alert: #ff5a3c;
-  --cream: #f0ede8;
-  --sand: #e0dac8;
+  color-scheme: light;
+  --paper: #F4F3EF; --panel: #FBFAF7; --raised-1: #FFFFFF; --sunk: #ECEAE4;
+  --ink: #111317; --ink-2: #4A4F57; --ink-3: #62676F;
+  --ink-rgb: 17, 19, 23;
+  --line: #DEDCD6; --line-strong: #C4C1B9;
+  --invert-ink: #FBFAF7;
+  --series: #2a78d6; --series-rgb: 42, 120, 214;
+  --ok-c: #097909; --warn-c: #70500B; --warn-fill: #FAB219; --danger-c: #BD3636;
+  --warn-rgb: 112, 80, 11; --danger-rgb: 189, 54, 54;
 
-  /* Semantic */
-  --bg: var(--void);
-  --surface: rgba(5, 15, 7, 0.75);
-  --surface-raised: rgba(8, 22, 12, 0.92);
-  --border: rgba(0, 232, 122, 0.14);
-  --border-strong: rgba(0, 232, 122, 0.3);
-  --text: var(--cream);
-  --text-dim: rgba(240, 237, 232, 0.62);
-  --text-faint: rgba(240, 237, 232, 0.42);
-  --accent: var(--bio);
-  --accent-2: var(--phosphor);
-  --warn: var(--amber);
-  --danger: var(--alert);
+  /* aliases: the names the components were written against */
+  --void: var(--paper); --forest: var(--paper); --moss: var(--sunk);
+  --bio: var(--ink); --phosphor: var(--ink); --spore: var(--ink-2);
+  --amber: var(--warn-c); --alert: var(--danger-c);
+  --cream: var(--ink); --sand: var(--ink-2);
+  --bg: var(--paper);
+  --surface: var(--panel);
+  --surface-raised: var(--raised-1);
+  --border: var(--line);
+  --border-strong: var(--line-strong);
+  --text: var(--ink); --text-dim: var(--ink-2); --text-faint: var(--ink-3);
+  --accent: var(--ink); --accent-2: var(--ink-2); --accent-rgb: var(--ink-rgb);
+  --accent-ink: var(--invert-ink);
+  --ok: var(--ok-c); --warn: var(--warn-c); --danger: var(--danger-c);
 
-  /* Type */
-  --font-body: 'DM Sans', system-ui, sans-serif;
-  --font-mono: 'DM Mono', ui-monospace, monospace;
-  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Geist Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-display: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
 
-  /* Shape & space */
-  --radius-sm: 0.4rem;
-  --radius: 0.65rem;
-  --radius-lg: 0.9rem;
-  --shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  --radius-sm: 4px; --radius: 8px; --radius-lg: 8px;
+  --shadow: 0 1px 0 rgba(17,19,23,.04), 0 18px 48px -18px rgba(17,19,23,.28);
 
-  /* Data-quality states */
-  --dq-measured: var(--bio);
-  --dq-estimated: var(--amber);
-  --dq-missing: rgba(240, 237, 232, 0.25);
-  --dq-stale: var(--alert);
+  --dq-measured: var(--ok-c);
+  --dq-estimated: var(--warn-c);
+  --dq-missing: var(--ink-3);
+  --dq-stale: var(--danger-c);
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --paper: #0E1013; --panel: #15171B; --raised-1: #1C1F24; --sunk: #0A0B0E;
+    --ink: #EDEEF0; --ink-2: #AEB3BB; --ink-3: #8E949D; --ink-rgb: 237, 238, 240;
+    --line: #262A30; --line-strong: #363B43; --invert-ink: #0E1013;
+    --series: #3987e5; --series-rgb: 57, 135, 229;
+    --ok-c: #18A818; --warn-c: #FAB219; --danger-c: #DD7272;
+    --warn-rgb: 250, 178, 25; --danger-rgb: 221, 114, 114;
+    --shadow: 0 1px 0 rgba(255,255,255,.03), 0 24px 60px -20px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #0E1013; --panel: #15171B; --raised-1: #1C1F24; --sunk: #0A0B0E;
+  --ink: #EDEEF0; --ink-2: #AEB3BB; --ink-3: #8E949D; --ink-rgb: 237, 238, 240;
+  --line: #262A30; --line-strong: #363B43; --invert-ink: #0E1013;
+  --series: #3987e5; --series-rgb: 57, 135, 229;
+  --ok-c: #18A818; --warn-c: #FAB219; --danger-c: #DD7272;
+  --warn-rgb: 250, 178, 25; --danger-rgb: 221, 114, 114;
+  --shadow: 0 1px 0 rgba(255,255,255,.03), 0 24px 60px -20px rgba(0,0,0,.7);
 }

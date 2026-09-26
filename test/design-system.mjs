@@ -38,11 +38,29 @@ function styleBlocksForRadius() {
 /* ── the token block ─────────────────────────────────────────────────── */
 const tokStart = src.indexOf(':root{', src.indexOf('DESIGN SYSTEM — "Instrument"'));
 if (tokStart < 0) throw new Error('the token block is gone — nothing else here can be checked');
-const tokEnd = src.indexOf('\n}', tokStart);
-const tokens = src.slice(tokStart, tokEnd);
-
-const declared = new Map();
-for (const m of tokens.matchAll(/(--[a-z0-9-]+)\s*:\s*([^;]+);/g)) declared.set(m[1], m[2].trim());
+/* Two themes, one system: the light block, then the dark values twice —
+   once under prefers-color-scheme and once under the toggle's stamp. The
+   token region runs to the end of the second, and literals inside it are
+   the system's own values, not strays. */
+const lightEnd = src.indexOf('\n}', tokStart);
+const darkStamp = src.indexOf(':root[data-theme="dark"]{', lightEnd);
+if (darkStamp < 0) fail.push('no :root[data-theme="dark"] block — the dark theme has no values');
+const tokEnd = darkStamp < 0 ? lightEnd : src.indexOf('\n}', darkStamp);
+const tokens = src.slice(tokStart, lightEnd);
+const readBlock = t => { const m = new Map();
+  for (const x of t.matchAll(/(--[a-z0-9-]+)\s*:\s*([^;]+);/g)) m.set(x[1], x[2].trim()); return m; };
+const declared = readBlock(tokens);
+const THEMES = { light: declared };
+if (darkStamp >= 0) THEMES.dark = readBlock(src.slice(darkStamp, tokEnd));
+const darkMedia = src.slice(lightEnd, darkStamp);
+if (darkStamp >= 0) {
+  // The media-query copy and the stamp copy must be the same values, or the
+  // theme a visitor sees would depend on how they arrived at it.
+  const mq = readBlock(darkMedia);
+  for (const [k, v] of THEMES.dark) if (mq.get(k) !== v)
+    fail.push(`dark ${k} is "${v}" under the toggle but "${mq.get(k)}" under prefers-color-scheme`);
+  for (const k of mq.keys()) if (!THEMES.dark.has(k)) fail.push(`dark ${k} is set by the system setting but not by the toggle`);
+}
 
 /* Every custom property in every stylesheet, not just the token block: a
    cycle anywhere silently falls back to whatever was inherited, which is the
@@ -61,23 +79,37 @@ const lum = ([r, g, b]) => {
 };
 const ratio = (a, b) => { const L = lum(a), M = lum(b); return (Math.max(L, M) + 0.05) / (Math.min(L, M) + 0.05); };
 const hex = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
-const grounds = ['--bg-0', '--bg-1', '--bg-2', '--bg-3'].map(n => {
-  const v = declared.get(n);
-  if (!v || !/^#[0-9a-f]{6}$/i.test(v)) fail.push(`${n} is "${v}" — the grounds must be plain hex so contrast can be computed`);
-  return { n, rgb: /^#[0-9a-f]{6}$/i.test(v || '') ? hex(v) : null };
-});
 const over = (fg, bg, a) => fg.map((c, i) => c * a + bg[i] * (1 - a));
+const isHex = v => /^#[0-9a-f]{6}$/i.test(v || '');
 
-for (const step of ['--ink-1', '--ink-2']) {
-  const v = declared.get(step) || '';
-  const m = v.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*([0-9.]+)\)/);
-  if (!m) { fail.push(`${step} is "${v}" — expected an rgba() so its alpha can be checked`); continue; }
-  const fg = [+m[1], +m[2], +m[3]], alpha = parseFloat(m[4]);
-  for (const g of grounds) {
-    if (!g.rgb) continue;
-    const r = ratio(over(fg, g.rgb, alpha), g.rgb);
-    if (r < 4.5) fail.push(`${step} at alpha ${alpha} is ${r.toFixed(2)}:1 on ${g.n} — text needs 4.5:1`);
+/* In each theme: both ink steps, the ink itself, and every status colour
+   used as text clear 4.5:1 on all four grounds; paper-coloured text on the
+   ink fill clears it too. */
+for (const [theme, T] of Object.entries(THEMES)) {
+  const grounds = ['--bg-0', '--bg-1', '--bg-2', '--bg-3'].map(n => {
+    const v = T.get(n);
+    if (!isHex(v)) fail.push(`${theme} ${n} is "${v}" — the grounds must be plain hex so contrast can be computed`);
+    return { n, rgb: isHex(v) ? hex(v) : null };
+  });
+  for (const step of ['--ink-1', '--ink-2']) {
+    const v = T.get(step) || '';
+    const m = v.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*([0-9.]+)\)/);
+    if (!m) { fail.push(`${theme} ${step} is "${v}" — expected an rgba() so its alpha can be checked`); continue; }
+    const fg = [+m[1], +m[2], +m[3]], alpha = parseFloat(m[4]);
+    for (const g of grounds) {
+      if (!g.rgb) continue;
+      const r = ratio(over(fg, g.rgb, alpha), g.rgb);
+      if (r < 4.5) fail.push(`${theme} ${step} at alpha ${alpha} is ${r.toFixed(2)}:1 on ${g.n} — text needs 4.5:1`);
+    }
   }
+  for (const k of ['--ink-0', '--acc', '--ok', '--warn', '--crit', '--crit-tx']) {
+    const v = T.get(k);
+    if (!isHex(v)) { fail.push(`${theme} ${k} is "${v}" — expected plain hex`); continue; }
+    for (const g of grounds) if (g.rgb && ratio(hex(v), g.rgb) < 4.5)
+      fail.push(`${theme} ${k} ${v} is ${ratio(hex(v), g.rgb).toFixed(2)}:1 on ${g.n} — it is used as text`);
+  }
+  if (isHex(T.get('--acc-fill')) && isHex(T.get('--acc-ink')) && ratio(hex(T.get('--acc-fill')), hex(T.get('--acc-ink'))) < 4.5)
+    fail.push(`${theme}: text on the accent fill is below 4.5:1`);
 }
 
 /* ── the paper surface ───────────────────────────────────────────────
@@ -148,7 +180,10 @@ for (const h of BUILDERS) {
     if (j > 0) scripts.push([i, j]);
   }
   const frozen = BUILDERS.map(h => bodySpan(src, h)).filter(Boolean);
-  const decl = /(?:background|background-color|color|border|border-color|border-top|border-left|box-shadow|fill|stroke)\s*:\s*[^;'"]{0,40}?(#[0-9a-fA-F]{3,6}\b|rgba?\(\s*\d+\s*,)/g;
+  /* CSS declarations, and SVG presentation attributes — fill="#f5c242"
+     reached the page through a chart renderer that the declaration pattern
+     alone never saw. */
+  const decl = /(?:(?:background|background-color|color|border|border-color|border-top|border-left|box-shadow|fill|stroke)\s*:\s*[^;'"]{0,40}?|\b(?:fill|stroke|stop-color)=\\?["'])(#[0-9a-fA-F]{3,6}\b|rgba?\(\s*\d+\s*,)/g;
   const found = [];
   for (const m of src.matchAll(decl)) {
     const a = m.index;
@@ -194,6 +229,21 @@ for (const [i, j] of styleBlocks) {
   for (const m of src.slice(i, j).matchAll(/rgba?\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)/g)) {
     if (i + m.index >= tokStart && i + m.index <= tokEnd) continue;
     distinct.rgb.add(m.slice(1, 4).join(',')); total++;
+  }
+}
+/* Inline style="" attributes in the markup count too. Two literal gradients
+   survived in them — a report button and a header pill — because only the
+   stylesheets were being counted. Those inside <script> are covered by the
+   JS check above. */
+{
+  const scriptSpans = [...src.matchAll(/(?<=\n)[ \t]*<script(?:\s[^>]*)?>/g)]
+    .map(m => [m.index + m[0].length, src.indexOf('</script>', m.index)]);
+  for (const m of src.matchAll(/\sstyle="([^"]*)"/g)) {
+    if (scriptSpans.some(([i, j]) => i <= m.index && m.index < j)) continue;
+    for (const c of m[1].matchAll(/#[0-9a-fA-F]{6}\b|#[0-9a-fA-F]{3}\b|rgba?\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)/g)) {
+      total++;
+      if (c[0].startsWith('#')) distinct.hex.add(c[0].toLowerCase()); else distinct.rgb.add(c.slice(1, 4).join(','));
+    }
   }
 }
 /* The ceiling is the count after the collapse, not a round number. Lower it
