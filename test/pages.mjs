@@ -166,6 +166,8 @@ const probe = (width) => `<script>
       // not make a headless window narrower than ~485px, so without this a
       // "390px" run can quietly be a 485px run.
       out.vw = document.documentElement.clientWidth;
+      var bg = (getComputedStyle(document.body).backgroundColor.match(/[\\d.]+/g) || []).map(Number);
+      out.ground = bg.length >= 3 ? (0.2126 * bg[0] + 0.7152 * bg[1] + 0.0722 * bg[2]) : -1;
       return report(out);
     }
     var name = PAGES[i++];
@@ -175,7 +177,19 @@ const probe = (width) => `<script>
       var root = document.getElementById('page-' + name);
       if (!root) { out.pages[name] = { missing: true }; return step(); }
       try {
-        out.pages[name] = { contrast: auditContrast(root).slice(0, 6), overflow: auditOverflow(root) };
+        /* Nothing inside a page is fixed to the viewport. The header, the alert
+           bar, dialogs and the Sage launcher live outside the pages; a fixed
+           element inside one is a page escaping its layout. The climate tool's
+           section list did exactly that — it is a <nav>, so it inherited the
+           header's fixed positioning and sat hidden behind the header. */
+        var fixed = [];
+        Array.prototype.forEach.call(root.querySelectorAll('*'), function(e){
+          var cs = getComputedStyle(e); if (cs.position !== 'fixed') return;
+          var r = e.getBoundingClientRect();
+          if (!r.width || !r.height || cs.display === 'none' || cs.visibility === 'hidden') return;
+          fixed.push(e.tagName.toLowerCase() + '.' + String(e.className).split(' ')[0] + ' at y=' + Math.round(r.y));
+        });
+        out.pages[name] = { contrast: auditContrast(root).slice(0, 6), overflow: auditOverflow(root), fixed: fixed.slice(0, 3) };
       } catch (e) { out.pages[name] = { threw: String(e && e.stack || e) }; }
       step();
     }, 400);
@@ -193,10 +207,16 @@ const run = promisify(execFile);
 const results = [];
 const withStub = html.replace('</head>', stub + '</head>');
 const anchor = withStub.lastIndexOf('</body>');
+/* Every page in both themes. The theme is chosen the way a visitor chooses
+   it — the shared rg_ws_theme key, set before the page loads, read by the
+   pre-paint script — so this audits what a visitor actually sees. */
+const RUNS = [];
+for (const width of [1440, 390]) for (const theme of ['light', 'dark']) RUNS.push({ width, theme });
 const routes = {};
-for (const width of [1440, 390]) {
+for (const { width, theme } of RUNS) {
   routes[`/__pages-${width}.html`] = ['text/html', withStub.slice(0, anchor) + probe(width) + withStub.slice(anchor)];
-  routes[`/__frame-${width}.html`] = ['text/html', `<!doctype html><meta charset="utf-8"><body style="margin:0">`
+  routes[`/__frame-${width}-${theme}.html`] = ['text/html', `<!doctype html><meta charset="utf-8"><body style="margin:0">`
+    + `<script>try{localStorage.setItem('rg_ws_theme','${theme}')}catch(e){}</script>`
     + `<iframe id="f" style="border:0;width:${width}px;height:900px" src="/__pages-${width}.html"></iframe>`
     + `<script src="/__frame.js"></script></body>`];
 }
@@ -206,14 +226,16 @@ routes['/__frame.js'] = ['text/javascript', `(function poll(){
 })();`];
 const srv = await serve(ROOT, { routes });
 try {
-  for (const width of [1440, 390]) {
+  for (const { width, theme } of RUNS) {
     const { stdout: dom } = await run(CHROME, ['--headless=new', '--disable-gpu', '--no-sandbox',
       '--disable-component-update', '--disable-background-networking', '--no-first-run',
       `--window-size=${Math.max(width + 40, 800)},1000`, '--virtual-time-budget=120000', '--dump-dom',
-      `${srv.origin}/__frame-${width}.html`], { maxBuffer: 1 << 28 });
+      `${srv.origin}/__frame-${width}-${theme}.html`], { maxBuffer: 1 << 28 });
     const m = dom.match(/data-pages="([A-Za-z0-9+/=]+)"/);
-    if (!m) throw new Error(`the ${width}px probe did not report — the page may not have loaded`);
-    results.push(JSON.parse(Buffer.from(m[1], 'base64').toString('utf8')));
+    if (!m) throw new Error(`the ${width}px ${theme} probe did not report — the page may not have loaded`);
+    const r = JSON.parse(Buffer.from(m[1], 'base64').toString('utf8'));
+    r.theme = theme;
+    results.push(r);
   }
 } finally {
   await srv.close();
@@ -222,15 +244,20 @@ try {
 const fail = [];
 for (const r of results) {
   // A scrollbar may take a few pixels; anything wider than asked is not the width we claim.
+  // The theme asked for must be the theme that rendered, or the audit below
+  // is measuring the wrong colours.
+  if ((r.theme === 'dark') !== (r.ground >= 0 && r.ground < 128))
+    fail.push(`asked for the ${r.theme} theme but the page ground has luminance ${r.ground}`);
   if (!(r.vw <= r.width && r.vw >= r.width - 20))
     fail.push(`asked for ${r.width}px but the page rendered at ${r.vw}px — the width in this gate's report would be false`);
   for (const [name, p] of Object.entries(r.pages)) {
-    if (p.threw) { fail.push(`${name} @${r.width}px threw while rendering: ${p.threw}`); continue; }
-    if (p.missing) { fail.push(`${name} @${r.width}px: no #page-${name} in the document`); continue; }
-    for (const c of p.contrast || []) fail.push(`${name} @${r.width}px text fails contrast — ${c}`);
-    if (p.overflow) fail.push(`${name} @${r.width}px scrolls sideways — ${p.overflow.what} overhangs by ${p.overflow.over}px`);
+    if (p.threw) { fail.push(`${name} @${r.width}px ${r.theme} threw while rendering: ${p.threw}`); continue; }
+    if (p.missing) { fail.push(`${name} @${r.width}px ${r.theme}: no #page-${name} in the document`); continue; }
+    for (const c of p.contrast || []) fail.push(`${name} @${r.width}px ${r.theme} text fails contrast — ${c}`);
+    for (const f of p.fixed || []) fail.push(`${name} @${r.width}px ${r.theme}: ${f} is fixed to the viewport inside the page`);
+    if (p.overflow) fail.push(`${name} @${r.width}px ${r.theme} scrolls sideways — ${p.overflow.what} overhangs by ${p.overflow.over}px`);
   }
-  for (const e of r.errors || []) fail.push(`@${r.width}px console error: ${e}`);
+  for (const e of r.errors || []) fail.push(`@${r.width}px ${r.theme} console error: ${e}`);
 }
 
 if (fail.length) {
@@ -238,5 +265,5 @@ if (fail.length) {
   for (const f of fail) console.error('  - ' + f);
   process.exit(1);
 }
-console.log(`  ✓ pages — ${PAGES.length} pages at 1440px and 390px: no contrast failures, `
-  + `no horizontal overflow, no console errors`);
+console.log(`  ✓ pages — ${PAGES.length} pages, light and dark, at 1440px and 390px: no contrast failures, `
+  + `no horizontal overflow, nothing escaping its page, no console errors`);

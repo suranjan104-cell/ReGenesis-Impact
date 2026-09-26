@@ -99,8 +99,8 @@ export default function App() {
           {saveError && (
             <div role="alert" style={{
               margin: '0 0 1rem', padding: '0.7rem 1rem', borderRadius: 8,
-              border: '1px solid rgba(255,90,60,.4)', background: 'rgba(255,90,60,.08)',
-              color: '#ff5a3c', fontSize: '0.8rem',
+              border: '1px solid rgba(var(--danger-rgb),.4)', background: 'rgba(var(--danger-rgb),.08)',
+              color: 'var(--danger)', fontSize: '0.8rem',
             }}>
               ⚠ Your latest changes could not be saved — browser storage is full or unavailable.
               Download a backup from Settings before closing this tab.
