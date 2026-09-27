@@ -88,6 +88,15 @@ for (const url of listed) {
 }
 if (new Set(listed).size !== listed.length) fail.push('sitemap: duplicate <loc> entries');
 
+/* A research draft is built noindex until every figure is verified at its
+   source. Listing it in the sitemap would ask search engines to crawl a page
+   that tells them not to index it, and would mean the draft gate was skipped. */
+for (const f of readdirSync(join(ROOT, 'research')).filter(f => f.endsWith('.html'))) {
+  const noindex = /<meta name="robots" content="[^"]*noindex/.test(read(`research/${f}`));
+  if (noindex && listed.includes(`${SITE}/research/${f}`)) fail.push(`sitemap: research/${f} is a noindex draft but is listed`);
+  if (noindex && PAGES.includes(`research/${f}`)) fail.push(`research/${f} is a noindex draft but is in the indexable PAGES list`);
+}
+
 // ── crawler directives ────────────────────────────────────────────────
 const robots = read('robots.txt');
 if (!robots.includes(`Sitemap: ${SITE}/sitemap.xml`)) fail.push('robots.txt: no sitemap reference');

@@ -16,6 +16,10 @@
   --f-ui: 'Geist Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --f-mono: 'Geist Mono Variable', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   --r-1: 2px; --r-2: 4px; --r-3: 8px;
+  /* Charts. --series is the single-hue default; --dq-1..5 is the PCAF data-
+     quality ramp (1 best), validated as an ordinal ramp on this surface. */
+  --series: #2a78d6;
+  --dq-1: #104281; --dq-2: #1c5cab; --dq-3: #2a78d6; --dq-4: #5598e7; --dq-5: #86b6ef;
 }
 @media (prefers-color-scheme: dark) {
   :root:where(:not([data-theme="light"])) {
@@ -25,6 +29,8 @@
     --line: #262A30; --line-strong: #363B43; --invert-ink: #0E1013;
     --eu: #3987e5; --au: #d95926; --sg: #199e70; --neutral: #8E949D;
     --good: #18A818; --warn: #FAB219; --warn-fill: #FAB219; --crit: #DD7272;
+    --series: #3987e5;
+    --dq-1: #cde2fb; --dq-2: #9ec5f4; --dq-3: #6da7ec; --dq-4: #3987e5; --dq-5: #1c5cab;
   }
 }
 :root[data-theme="dark"] {
@@ -34,6 +40,8 @@
   --line: #262A30; --line-strong: #363B43; --invert-ink: #0E1013;
   --eu: #3987e5; --au: #d95926; --sg: #199e70; --neutral: #8E949D;
   --good: #18A818; --warn: #FAB219; --warn-fill: #FAB219; --crit: #DD7272;
+  --series: #3987e5;
+  --dq-1: #cde2fb; --dq-2: #9ec5f4; --dq-3: #6da7ec; --dq-4: #3987e5; --dq-5: #1c5cab;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
