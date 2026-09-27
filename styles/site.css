@@ -65,7 +65,8 @@ code, kbd, .mono { font-family: var(--f-mono); }
   padding: 14px 0; margin-bottom: 2rem; border-bottom: 1px solid var(--line);
   font-size: .85rem;
 }
-.site-top .brand { font-weight: 650; text-decoration: none; letter-spacing: -.01em; }
+.site-top .brand { font-weight: 650; text-decoration: none; letter-spacing: -.01em; display: inline-flex; align-items: center; gap: 8px; }
+.brand .mark { display: block; flex: none; }
 .site-top .sep { color: var(--ink-3); }
 .site-top .where { color: var(--ink-2); }
 .site-top .go { margin-left: auto; display: inline-flex; gap: 8px; }

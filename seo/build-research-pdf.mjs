@@ -19,6 +19,9 @@ import { fileURLToPath } from 'node:url';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { serve } from '../test/lib/serve.mjs';
+import { markSvg } from '../brand/mark.mjs';
+// On the dark cover the loop is paper and the point is the dark-theme blue.
+const COVER_MARK = size => markSvg({ size, ink: '#F4F3EF', dot: '#3987e5', n: 200 });
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const slug = process.argv[2];
@@ -55,7 +58,7 @@ const motif = coverChart ? `<figure class="cv-chart">${coverChart.rows.map(r => 
   return `<div class="cv-bar"><span class="cv-bl">${r.label}</span><span class="cv-bt"><i style="width:${(f.value / top * 100).toFixed(1)}%"></i></span><b>${f.display}</b></div>`;
 }).join('')}<figcaption>${coverChart.title}</figcaption></figure>` : '';
 const cover = `<section class="cover">
-  <div class="cv-top"><span class="cv-brand">ReGenesis Impact</span><span class="cv-kind">Research briefing</span></div>
+  <div class="cv-top"><span class="cv-brand">${COVER_MARK(26)}<span>ReGenesis Impact</span></span><span class="cv-kind">Research briefing</span></div>
   ${motif}
   <div class="cv-main">
     <p class="cv-eyebrow">${eyebrow}</p>
@@ -71,7 +74,7 @@ const figuresNote = `<div class="print-note"><b>About the figures.</b> Every fig
   : 'Each was checked against the publisher’s own document as of ' + asOf + '.'} Educational analysis, not investment or legal advice.</div>`;
 
 const back = `<section class="back">
-  <p class="cv-eyebrow">ReGenesis Impact</p>
+  ${COVER_MARK(56)}
   <h2 class="back-title">Free, browser-only climate compliance tools for ISSB, ESRS, AASB S2 and PCAF.</h2>
   <p>Read this briefing online, with every chart as a table and every source linked:</p>
   <p class="back-url">${onlineUrl.replace('https://', '')}</p>
@@ -124,7 +127,8 @@ p{orphans:3;widows:3}
 /* cover */
 .cover{height:297mm;box-sizing:border-box;padding:22mm 20mm 18mm;background:#0E1013;color:#F4F3EF;display:flex;flex-direction:column;break-after:page}
 .cv-top{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #2c3038;padding-bottom:10pt}
-.cv-brand{font-weight:650;font-size:11pt;letter-spacing:-.01em}
+.cv-brand{font-weight:650;font-size:11pt;letter-spacing:-.01em;display:inline-flex;align-items:center;gap:8pt}
+.cover .mark,.back .mark{display:block}
 .cv-kind,.cv-eyebrow{font:500 7.5pt var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:#a3a8b0}
 .cv-main{margin-top:auto}
 .cv-title{font-size:34pt;line-height:1.04;letter-spacing:-.035em;font-weight:650;margin:10pt 0 14pt;color:#F4F3EF}
@@ -145,7 +149,7 @@ p{orphans:3;widows:3}
 .cv-foot{display:flex;gap:18pt;font:500 8pt var(--f-mono);color:#a3a8b0;border-top:1px solid #2c3038;padding-top:10pt}
 .cv-foot span:last-child{margin-left:auto;color:#F4F3EF}
 /* back page */
-.back{page:back;break-before:page;height:297mm;box-sizing:border-box;padding:0 20mm;background:#0E1013;color:#c7cbd1;display:flex;flex-direction:column;justify-content:center}
+.back{page:back;break-before:page;height:296.9mm;overflow:hidden;box-sizing:border-box;padding:0 20mm;background:#0E1013;color:#c7cbd1;display:flex;flex-direction:column;justify-content:center}
 .back-title{font-size:22pt;line-height:1.15;letter-spacing:-.025em;color:#F4F3EF;margin:10pt 0 18pt;max-width:150mm}
 .back p{font-size:11pt;line-height:1.55;margin:0 0 8pt}
 .back b{color:#F4F3EF}

@@ -63,11 +63,8 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 }
 .app-logo-mark {
   width: 30px; height: 30px;
-  border-radius: 8px;
-  background: var(--accent);
   display: grid; place-items: center;
-  color: var(--paper); font-weight: 800; font-size: 0.95rem;
-  font-family: var(--font-mono);
+  color: var(--text);
 }
 .app-logo-name { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.02em; }
 .app-logo-sub { font-family: var(--font-mono); font-size: 0.55rem; color: var(--text-faint); letter-spacing: 0.12em; text-transform: uppercase; }

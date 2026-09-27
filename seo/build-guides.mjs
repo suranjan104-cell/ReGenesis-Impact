@@ -8,6 +8,8 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { GUIDES } from './guides-data.mjs';
+import { markSvg } from '../brand/mark.mjs';
+const BRAND_MARK = markSvg({ size: 22, dot: 'var(--eu, currentColor)' });
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const kb = JSON.parse(readFileSync(join(root, 'knowledge', 'kb.json'), 'utf8'));
@@ -57,6 +59,7 @@ function page(g) {
 <title>${esc(g.title)} | ReGenesis Impact</title>
 <meta name="description" content="${esc(g.description)}">
 <link rel="canonical" href="${SITE}/guides/${g.slug}.html">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="${esc(g.title)}">
@@ -104,7 +107,7 @@ details p{margin:.6rem 0 0;color:var(--ink-2);font-size:.93rem}
 <body>
 <div class="wrap">
   <header class="site-top">
-    <a class="brand" href="../">ReGenesis Impact</a><span class="sep">/</span><span class="where">Guides</span>
+    <a class="brand" href="../">${BRAND_MARK}<span>ReGenesis Impact</span></a><span class="sep">/</span><span class="where">Guides</span>
     <span class="go"><a class="btn ink" href="../app/">What do I owe? →</a></span>
   </header>
   <div class="eyebrow">${esc(g.market)} · Guide · Updated ${today}</div>
