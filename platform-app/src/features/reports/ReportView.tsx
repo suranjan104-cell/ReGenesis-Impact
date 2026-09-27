@@ -14,6 +14,7 @@ import { FUND_TYPES } from '../../catalog/dimensions'
 import { recentPeriods, formatPeriod } from '../../domain/periods'
 import type { ReportKind, ReportNarratives } from '../../domain/types'
 import './report.css'
+import { BrandMark } from '../../components/BrandMark'
 
 const KIND_TITLES: Record<ReportKind, string> = {
   annual: 'Annual Impact Report',
@@ -99,7 +100,7 @@ export default function ReportView() {
 
       <header className="rpt-header">
         <div className="rpt-brand">
-          <div className="app-logo-mark" aria-hidden>RI</div>
+          <div className="app-logo-mark" aria-hidden><BrandMark size={22} /></div>
           <span className="rpt-brand-name">ReGenesis IMM</span>
         </div>
         <h1 className="rpt-title">{KIND_TITLES[kind]}</h1>

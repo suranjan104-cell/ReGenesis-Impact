@@ -28,6 +28,8 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { bars, grouped, stacked, tiles, esc, CHART_CSS } from './charts.mjs';
+import { markSvg } from '../brand/mark.mjs';
+const BRAND_MARK = markSvg({ size: 22, dot: 'var(--eu, currentColor)' });
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const slug = process.argv[2];
@@ -164,7 +166,8 @@ const html = `<!DOCTYPE html>
 <title>${esc(m.title)} | ReGenesis Impact</title>
 <meta name="description" content="${esc(m.description)}">
 <link rel="canonical" href="${SITE}/research/${slug}.html">
-${isDraft ? '<meta name="robots" content="noindex">\n' : ''}<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+${isDraft ? '<meta name="robots" content="noindex">\n' : ''}<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="${esc(m.title)}">
 <meta property="og:description" content="${esc(m.description)}">
@@ -256,7 +259,7 @@ ${CHART_CSS}
 <body>
 <div class="wrap">
   <header class="site-top">
-    <a class="brand" href="../">ReGenesis Impact</a><span class="sep">/</span><span class="where">Research</span>
+    <a class="brand" href="../">${BRAND_MARK}<span>ReGenesis Impact</span></a><span class="sep">/</span><span class="where">Research</span>
     <span class="go"><a class="btn ink" href="../app/">What do I owe? →</a></span>
   </header>
   ${isDraft ? `<div class="draft" role="note"><b>Draft.</b> ${pending.length} of ${order.length} sources have been checked only against a search excerpt of the publisher's page, not the full document. They are marked below. This page is not indexed until every figure is verified at its source.</div>` : ''}
