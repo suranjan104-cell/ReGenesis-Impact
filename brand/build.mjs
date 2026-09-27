@@ -5,7 +5,8 @@
    Writes, at the site root:  favicon.svg (follows the OS theme), favicon-32.png,
    apple-touch-icon.png, icon-192.png, icon-512.png, icon-maskable-512.png,
    og-image.png. In brand/: mark.svg, mark-dark.svg, logo-light.png,
-   logo-dark.png, logo-light.svg, logo-dark.svg. For the two React apps:
+   logo-dark.png, logo-light.svg, logo-dark.svg, logo-stacked.png and
+   logo-stacked-rounded.png (512×512, leaf over name, for social profiles). For the two React apps:
    src/brand-mark.ts (the geometry) and the IMM platform's favicon.
 
    PNGs are rendered with Playwright's Chromium (element screenshots at exact
@@ -62,6 +63,12 @@ const icon = (px, { pad = 0.14, radius = 0 } = {}) => {
   return `<div id="x" style="width:${px}px;height:${px}px;background:${DARK};border-radius:${radius * px}px;display:flex;align-items:center;justify-content:center"><svg width="${m}" height="${m}" viewBox="0 0 32 32">${svgMark(PAPER, EU_D)}</svg></div>`;
 };
 const lockup = dark => `<div id="x" style="display:inline-flex;align-items:center;gap:28px;padding:48px 60px;background:${dark ? DARK : PAPER}"><svg width="112" height="112" viewBox="0 0 32 32">${svgMark(dark ? INK_D : INK, dark ? EU_D : EU)}</svg><span style="font:400 76px 'Geist Variable';letter-spacing:-.035em;color:${dark ? MUTED_D : MUTED}"><b style="font-weight:640;color:${dark ? INK_D : INK}">ReGenesis</b> Impact</span></div>`;
+/* Stacked lockup for social profiles: the leaf over the name, 512×512 like the
+   app icon. Everything sits inside the inscribed circle, so it survives the
+   circular crop LinkedIn and others apply to profile pictures. */
+const stacked = radius => `<div id="x" style="width:512px;height:512px;background:${DARK};border-radius:${radius}px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;font-family:'Geist Variable'">
+  <svg width="210" height="210" viewBox="0 0 32 32" style="margin-top:-10px">${svgMark(PAPER, EU_D)}</svg>
+  <div style="text-align:center;line-height:1"><div style="font-size:46px;font-weight:640;letter-spacing:-.035em;color:${PAPER}">ReGenesis</div><div style="font-size:30px;font-weight:400;letter-spacing:-.01em;color:${MUTED_D};margin-top:8px">Impact</div></div></div>`;
 const og = `<div id="x" style="width:1200px;height:630px;box-sizing:border-box;padding:72px 80px;background:${PAPER};display:flex;flex-direction:column;font-family:'Geist Variable';color:${INK}">
   <div style="display:flex;align-items:center;gap:18px"><svg width="64" height="64" viewBox="0 0 32 32">${svgMark(INK, EU)}</svg><span style="font-size:40px;letter-spacing:-.03em;color:${MUTED}"><b style="font-weight:640;color:${INK}">ReGenesis</b> Impact</span></div>
   <div style="margin-top:auto;font-size:68px;line-height:1.02;font-weight:640;letter-spacing:-.04em;max-width:960px">Climate disclosure, worked out in your browser.</div>
@@ -87,4 +94,6 @@ try {
   await shot(lockup(false), 'brand/logo-light.png');
   await shot(lockup(true), 'brand/logo-dark.png');
   await shot(og, 'og-image.png');
+  await shot(stacked(0), 'brand/logo-stacked.png');            // full-bleed square: LinkedIn and most profiles
+  await shot(stacked(112), 'brand/logo-stacked-rounded.png');  // rounded, matching the app icon
 } finally { await b.close(); }
