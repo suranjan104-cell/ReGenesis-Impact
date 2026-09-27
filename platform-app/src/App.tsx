@@ -12,6 +12,7 @@ import ScoringPage from './features/scoring/ScoringPage'
 import ReportsPage from './features/reports/ReportsPage'
 import ReportView from './features/reports/ReportView'
 import SettingsPage from './features/settings/SettingsPage'
+import { BrandMark } from './components/BrandMark'
 
 const NAV = [
   { to: '/dashboard', ico: '◳', label: 'Dashboard' },
@@ -61,7 +62,7 @@ export default function App() {
       {menuOpen && <div className="sidebar-scrim" onClick={() => setMenuOpen(false)} />}
       <aside className={`app-sidebar ${menuOpen ? 'open' : ''}`} aria-label="Main navigation">
         <div className="app-logo">
-          <div className="app-logo-mark" aria-hidden>RI</div>
+          <div className="app-logo-mark" aria-hidden><BrandMark size={22} /></div>
           <div>
             <div className="app-logo-name">ReGenesis IMM</div>
             <div className="app-logo-sub">Impact Platform</div>

@@ -8,6 +8,7 @@ import { formatMoneyShort, parseMoney } from '../../domain/money'
 import { FRAMEWORK_INFO, FUND_TYPES, GEOGRAPHIES, SECTORS } from '../../catalog/dimensions'
 import type { Framework, FundType, TheoryOfChange } from '../../domain/types'
 import './onboarding.css'
+import { BrandMark } from '../../components/BrandMark'
 
 const TOC_STEPS: { key: keyof TheoryOfChange; label: string; help: string; placeholder: string }[] = [
   { key: 'inputs', label: 'Inputs', help: 'What you put in: capital, expertise, networks.', placeholder: 'e.g. $50M fund, sector expertise, local partners…' },
@@ -88,7 +89,7 @@ export default function Onboarding() {
     <div className="ob-wrap">
       <div className="ob-card">
         <div className="ob-brand">
-          <div className="app-logo-mark" aria-hidden>RI</div>
+          <div className="app-logo-mark" aria-hidden><BrandMark size={22} /></div>
           <div>
             <div className="app-logo-name">ReGenesis IMM</div>
             <div className="app-logo-sub">Impact Measurement &amp; Management</div>

@@ -11,6 +11,7 @@ import { Timeline } from './views/Timeline';
 import { Evidence } from './views/Evidence';
 import { Palette, type Cmd } from './components/Palette';
 import { Sun, Moon, Search, Download, Upload, Cross, Doc } from './components/Icons';
+import { BrandMark } from './components/BrandMark';
 
 const WORD = ['No', 'One', 'Two', 'Three'];
 const THEME_KEY = 'rg_ws_theme';
@@ -135,7 +136,7 @@ export function App() {
       <a className="skip" href="#main">Skip to the workspace</a>
       <header className="mast">
         <a className="brand" href="../" aria-label="ReGenesis Impact — site home">
-          <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden><path d="M2 16 L16 16 L16 2 Z" fill="currentColor" /></svg>
+          <BrandMark />
           <span>ReGenesis</span>
         </a>
         <span className="mast-sep" aria-hidden>/</span>

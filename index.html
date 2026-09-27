@@ -22,6 +22,7 @@
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="canonical" href="https://regenesisimpact.in/">
 <!-- App icons & install -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -64,7 +65,7 @@
   "@type": "Organization",
   "name": "ReGenesis Impact",
   "url": "https://regenesisimpact.in",
-  "logo": "https://regenesisimpact.in/og-image.png",
+  "logo": "https://regenesisimpact.in/icon-512.png",
   "description": "Free browser-based ESG and climate disclosure platform for ESRS and CSRD, EU Taxonomy Article 8, IFRS S2 and AASB S2. GHG inventories checked against the GHG Protocol Corporate Standard and presented under ISO 14064-1, with a published emission factor register.",
   "email": "info@regenesisimpact.in",
   "areaServed": ["EU", "AU", "SG", "GB", "US"],
@@ -442,7 +443,8 @@ body{background:var(--bg-0);color:var(--ink-0);font-family:var(--font-ui);overfl
 nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:calc(.8rem + env(safe-area-inset-top)) 5% .8rem;display:flex!important;align-items:center;justify-content:space-between;background:rgba(var(--bg-rgb),0.88);backdrop-filter:blur(24px) saturate(160%);border-bottom:1px solid rgba(var(--acc-rgb),0.14)}
 nav::after{content:'';position:absolute;bottom:-1px;left:0;width:180px;height:1px;background:linear-gradient(90deg,var(--acc),transparent)}
 .nav-logo{font-family:var(--font-ui);font-size:1.2rem;font-weight:700;letter-spacing:-.01em;color:var(--acc);cursor:pointer;text-decoration:none;transition:opacity .2s;display:inline-flex;align-items:center;gap:.5rem}
-.nav-logo::before{content:'◢';font-size:.7rem;color:var(--acc)}
+.nav-logo .mark{display:block;flex:none}
+.nav-logo{flex:none;margin-right:1.75rem;white-space:nowrap}
 .nav-logo:hover{opacity:.85}
 .nav-logo span{color:var(--ink-0)}
 .nav-links{display:flex;gap:1.5rem;list-style:none;align-items:center}
@@ -2351,8 +2353,9 @@ body:not(.rg-editorial) .page{padding-bottom:4.5rem}
 </div>
 
 
+<script>var RG_MARK="<svg class=\"mark\" style=\"vertical-align:-5px;margin-right:8px\" width=\"26\" height=\"26\" viewBox=\"0 0 32 32\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M29.40 16.00L29.31 17.41L29.06 18.76L28.66 20.00L28.13 21.09L27.50 21.99L26.80 22.69L26.05 23.20L25.28 23.52L24.51 23.66L23.76 23.65L23.02 23.50L22.32 23.24L21.64 22.87L21.01 22.43L20.40 21.93L19.83 21.37L19.28 20.77L18.77 20.14L18.27 19.48L17.79 18.81L17.33 18.12L16.88 17.42L16.44 16.71L16.00 16.00L15.56 15.29L15.12 14.58L14.67 13.88L14.21 13.19L13.73 12.52L13.23 11.86L12.72 11.23L12.17 10.63L11.60 10.07L10.99 9.57L10.36 9.13L9.68 8.76L8.98 8.50L8.24 8.35L7.49 8.34L6.72 8.48L5.95 8.80L5.20 9.31L4.50 10.01L3.87 10.91L3.34 12.00L2.94 13.24L2.69 14.59L2.60 16.00L2.69 17.41L2.94 18.76L3.34 20.00L3.87 21.09L4.50 21.99L5.20 22.69L5.95 23.20L6.72 23.52L7.49 23.66L8.24 23.65L8.98 23.50L9.68 23.24L10.36 22.87L10.99 22.43L11.60 21.93L12.17 21.37L12.72 20.77L13.23 20.14L13.73 19.48L14.21 18.81L14.67 18.12L15.12 17.42L15.56 16.71L16.00 16.00L16.44 15.29L16.88 14.58L17.33 13.88L17.79 13.19L18.27 12.52L18.77 11.86L19.28 11.23L19.83 10.63L20.40 10.07L21.01 9.57L21.64 9.13L22.32 8.76L23.02 8.50L23.76 8.35L24.51 8.34L25.28 8.48L26.05 8.80L26.80 9.31L27.50 10.01L28.13 10.91L28.66 12.00L29.06 13.24L29.31 14.59Z\" style=\"fill:none;stroke:currentColor;stroke-width:3.4;stroke-linejoin:round\"/><circle cx=\"23.18\" cy=\"8.46\" r=\"3\" style=\"fill:var(--cat-1, currentColor)\"/></svg>";</script>
 <nav>
-  <span class="nav-logo" onclick="showPage('home')">ReGenesis<span> Impact</span></span>
+  <span class="nav-logo" onclick="showPage('home')"><svg class="mark" width="22" height="22" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M29.40 16.00L29.31 17.41L29.06 18.76L28.66 20.00L28.13 21.09L27.50 21.99L26.80 22.69L26.05 23.20L25.28 23.52L24.51 23.66L23.76 23.65L23.02 23.50L22.32 23.24L21.64 22.87L21.01 22.43L20.40 21.93L19.83 21.37L19.28 20.77L18.77 20.14L18.27 19.48L17.79 18.81L17.33 18.12L16.88 17.42L16.44 16.71L16.00 16.00L15.56 15.29L15.12 14.58L14.67 13.88L14.21 13.19L13.73 12.52L13.23 11.86L12.72 11.23L12.17 10.63L11.60 10.07L10.99 9.57L10.36 9.13L9.68 8.76L8.98 8.50L8.24 8.35L7.49 8.34L6.72 8.48L5.95 8.80L5.20 9.31L4.50 10.01L3.87 10.91L3.34 12.00L2.94 13.24L2.69 14.59L2.60 16.00L2.69 17.41L2.94 18.76L3.34 20.00L3.87 21.09L4.50 21.99L5.20 22.69L5.95 23.20L6.72 23.52L7.49 23.66L8.24 23.65L8.98 23.50L9.68 23.24L10.36 22.87L10.99 22.43L11.60 21.93L12.17 21.37L12.72 20.77L13.23 20.14L13.73 19.48L14.21 18.81L14.67 18.12L15.12 17.42L15.56 16.71L16.00 16.00L16.44 15.29L16.88 14.58L17.33 13.88L17.79 13.19L18.27 12.52L18.77 11.86L19.28 11.23L19.83 10.63L20.40 10.07L21.01 9.57L21.64 9.13L22.32 8.76L23.02 8.50L23.76 8.35L24.51 8.34L25.28 8.48L26.05 8.80L26.80 9.31L27.50 10.01L28.13 10.91L28.66 12.00L29.06 13.24L29.31 14.59Z" style="fill:none;stroke:currentColor;stroke-width:3.4;stroke-linejoin:round"/><circle cx="23.18" cy="8.46" r="3" style="fill:var(--cat-1)"/></svg>ReGenesis<span> Impact</span></span>
   <ul class="nav-links" id="nl-home">
     <li><a href="app/" class="nav-workspace">Workspace</a></li>
     <li><button onclick="navTo('features')">Platform</button></li>
@@ -2738,7 +2741,6 @@ body.rg-editorial nav{background:rgba(var(--bg-rgb),.82)!important;backdrop-filt
 body.rg-editorial nav::after{background:linear-gradient(90deg,var(--emerald),transparent)}
 body.rg-editorial .nav-logo{color:var(--ink)}
 body.rg-editorial .nav-logo span{color:var(--emerald)}
-body.rg-editorial .nav-logo::before{color:var(--emerald);filter:drop-shadow(0 0 6px color-mix(in oklab, var(--emerald) 60%, transparent))}
 body.rg-editorial .nav-links a,body.rg-editorial .nav-links button,body.rg-editorial .nav-dropdown-btn{color:var(--ink-1)}
 body.rg-editorial .nav-links a:hover,body.rg-editorial .nav-links button:hover,body.rg-editorial .nav-dropdown-btn:hover{color:var(--emerald)}
 body.rg-editorial #nb-cmdk{border-color:var(--ink-2)!important}
@@ -12719,7 +12721,7 @@ window.srGenerateReport = function(fw) {
     var griHires = v('gri-401-hires'), griTurn = v('gri-401-turnover'), griParental = v('gri-401-parental'), griReturn = v('gri-401-return');
     var griSupp = v('gri-414-screened'), griMgov = v('gri-gov-role'), griMat = v('gri-mat-topics');
     html = '<div class="rpt-page">' +
-    '<div class="rpt-header"><div><div class="rpt-logo">ReGenesis <span>Impact</span></div><div style="font-size:.7rem;color:var(--ink-2);margin-top:.2rem;font-family:var(--font-mono)">SUSTAINABILITY INTELLIGENCE PLATFORM</div></div>' +
+    '<div class="rpt-header"><div><div class="rpt-logo">'+RG_MARK+'ReGenesis <span>Impact</span></div><div style="font-size:.7rem;color:var(--ink-2);margin-top:.2rem;font-family:var(--font-mono)">SUSTAINABILITY INTELLIGENCE PLATFORM</div></div>' +
     '<div class="rpt-meta"><div class="rpt-badge">GRI Standards · Universal + Topic · ' + period + '</div><p>Generated ' + date + '</p><p>GRI-Referenced Report</p></div></div>' +
     '<h1 class="rpt-title">' + (griOrg !== '—' ? griOrg : org) + '</h1>' +
     '<p class="rpt-sub">Sustainability Report — GRI Standards 2021 · ' + period + '</p>' +
@@ -12836,7 +12838,7 @@ window.srGenerateReport = function(fw) {
     var aPhys = v('assb-phys-risk'), aTrans = v('assb-trans-risk'), aS1 = v('assb-s1'), aS2lb = v('assb-s2lb'), aS2mb = v('assb-s2mb');
     var aEnergy = v('assb-energy'), aRe = v('assb-re'), aNz = v('assb-netzero'), aSbti = v('assb-sbti');
     html = '<div class="rpt-page">' +
-    '<div class="rpt-header"><div><div class="rpt-logo">ReGenesis <span>Impact</span></div><div style="font-size:.7rem;color:var(--ink-2);margin-top:.2rem;font-family:var(--font-mono)">SUSTAINABILITY INTELLIGENCE PLATFORM</div></div>' +
+    '<div class="rpt-header"><div><div class="rpt-logo">'+RG_MARK+'ReGenesis <span>Impact</span></div><div style="font-size:.7rem;color:var(--ink-2);margin-top:.2rem;font-family:var(--font-mono)">SUSTAINABILITY INTELLIGENCE PLATFORM</div></div>' +
     '<div class="rpt-meta"><div class="rpt-badge">AASB S2 · ASRS · Mandatory · ' + period + '</div><p>Generated ' + date + '</p><p>Per Australian Sustainability Reporting Standards</p></div></div>' +
     '<h1 class="rpt-title">' + org + '</h1>' +
     '<p class="rpt-sub">Climate-Related Financial Disclosures · AASB S2 · Financial Year ' + period + '</p>' +
@@ -12922,7 +12924,7 @@ window.srGenerateReport = function(fw) {
     var cS1 = v('cdp-c6-s1'), cS2lb = v('cdp-c6-s2lb'), cS2mb = v('cdp-c6-s2mb'), cS3 = v('cdp-c6-s3');
     var cEnergy = v('cdp-c7-total'), cReEnergy = v('cdp-c7-renewable'), cCarbon = v('cdp-c11-price');
     html = '<div class="rpt-page">' +
-    '<div class="rpt-header"><div><div class="rpt-logo">ReGenesis <span>Impact</span></div><div style="font-size:.7rem;color:var(--ink-2);margin-top:.2rem;font-family:var(--font-mono)">SUSTAINABILITY INTELLIGENCE PLATFORM</div></div>' +
+    '<div class="rpt-header"><div><div class="rpt-logo">'+RG_MARK+'ReGenesis <span>Impact</span></div><div style="font-size:.7rem;color:var(--ink-2);margin-top:.2rem;font-family:var(--font-mono)">SUSTAINABILITY INTELLIGENCE PLATFORM</div></div>' +
     '<div class="rpt-meta"><div class="rpt-badge">CDP Climate Change · ' + period + '</div><p>Generated ' + date + '</p><p>CDP Full Corporate Questionnaire Response</p></div></div>' +
     '<h1 class="rpt-title">' + org + '</h1>' +
     '<p class="rpt-sub">CDP Climate Change Response · ' + period + ' Disclosure Cycle</p>' +
@@ -13156,7 +13158,7 @@ window.issb_backToForm = function() {
   var tScopes=v('t-scopes'), tMiles=v('t-milestones'), tCrExt=v('t-credits-extent'), tCrType=v('t-credits-type');
 
   var html = '<div class="rpt-page">' +
-  '<div class="rpt-header"><div><div class="rpt-logo">ReGenesis <span>Impact</span></div>' +
+  '<div class="rpt-header"><div><div class="rpt-logo">'+RG_MARK+'ReGenesis <span>Impact</span></div>' +
   '<div style="font-size:.7rem;color:var(--ink-2);margin-top:.2rem;font-family:var(--font-mono)">SUSTAINABILITY INTELLIGENCE PLATFORM</div></div>' +
   '<div class="rpt-meta"><div class="rpt-badge">IFRS S2 · ISSB · TCFD-Aligned · ' + period + '</div>' +
   '<p>Generated ' + date + '</p><p>Prepared by ReGenesis Impact</p></div></div>' +
