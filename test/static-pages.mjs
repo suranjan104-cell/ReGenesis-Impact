@@ -41,6 +41,7 @@ const CHROME = (() => {
 const PAGES = [
   ...readdirSync(`${ROOT}/guides`).filter(f => f.endsWith('.html')).sort().map(f => `/guides/${f}`),
   '/esrs/', '/research/', '/research/financed-emissions.html', '/research/emission-factor-register.html',
+  '/research/private-markets-climate-ai.html',
   '/demo/how-it-works.html', '/platform/',
 ];
 

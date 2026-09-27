@@ -1,0 +1,236 @@
+<header class="hero">
+  <p class="eyebrow">Research · Private markets · Climate data · AI</p>
+  <h1>Climate risk in private markets: the data gap, and what AI can and can't fix</h1>
+  <p class="dek">Private capital is growing fastest where climate data is thinnest. We read the evidence on how climate risk reaches private portfolios, how AI now fills the missing numbers, how far off those numbers can be, and what GPs and LPs should do about it.</p>
+  <p class="byline">ReGenesis Impact · As of 27 September 2026 · About 20 minutes to read · 64 sources</p>
+</header>
+
+{{tiles:t-hero}}
+
+<section class="takeaways" aria-labelledby="minute-h">
+  <h2 id="minute-h">In one minute</h2>
+  <ul>
+    <li><b>The money is private; the data is not.</b> Alternatives held {{fig:alt-2023}} at end-2023, and {{fig:us-private-share}} of US firms with more than US$100m revenue are private. Most of them publish no emissions.</li>
+    <li><b>So most numbers are guesses.</b> LPs say {{fig:ilpa-estimated}} of the emissions data they get from private funds is estimated.</li>
+    <li><b>The risk is real and already priced.</b> About half of 2025's disaster losses were uninsured, flood-exposed homes sell at a discount, and insurers are leaving exposed areas.</li>
+    <li><b>AI helps, within limits.</b> Machine-learning estimates beat simple averages, but they mostly learn a company's size and sector. They were {{fig:worst-emitters}} less effective at finding the worst emitters, and no study has tested them on private companies.</li>
+    <li><b>Regulators allow estimates, if you say so.</b> What gets punished is calling an estimate a measurement, or overselling the AI behind it.</li>
+    <li><b>The fix is a ladder, not a model.</b> Estimate now, label every number with a quality score, and replace estimates with measured data on a set timetable.</li>
+  </ul>
+</section>
+
+<nav class="toc" aria-label="Contents">
+  <b class="eyebrow">Contents</b>
+  <ol>
+    <li><a href="#size">How big private markets are</a></li>
+    <li><a href="#gap">The data gap, in numbers</a></li>
+    <li><a href="#risk">Why it matters: the risk is already showing up</a></li>
+    <li><a href="#rules">The rules that demand the numbers</a></li>
+    <li><a href="#ai">How AI fills the gaps</a></li>
+    <li><a href="#limits">How wrong can the estimates be?</a></li>
+    <li><a href="#regulators">What regulators expect</a></li>
+    <li><a href="#playbook">A five-step plan for GPs</a></li>
+    <li><a href="#lps">Questions LPs should ask</a></li>
+    <li><a href="#watch">What to watch in the next 12 months</a></li>
+    <li><a href="#faq">Common questions</a></li>
+    <li><a href="#sources-h">Sources</a></li>
+  </ol>
+</nav>
+
+<article>
+
+<h2 id="size">1. How big private markets are</h2>
+<p>"Private markets" means investments that do not trade on a stock exchange. That covers private equity, private credit, infrastructure and real estate. Estimates of their size depend on the definition, so we quote each source with its own.</p>
+<p>Preqin counts all "alternatives", which also include hedge funds and natural resources. It puts them at {{fig:alt-2023}} at end-2023 and forecasts {{fig:alt-2029}} by 2029. Within that, private equity was {{fig:pe-2023}} and private real estate {{fig:pre-2023}}. Preqin's newer report raises the 2030 forecast to {{fig:alt-2030}}. McKinsey, counting only traditional closed-end funds, puts the figure at {{fig:mck-closed}} for 2025.</p>
+
+{{chart:c-size}}
+
+<p>A large share of the real economy is also private. {{fig:us-private-share}} of US companies with more than US$100m in revenue are privately owned. Meanwhile the number of US listed companies fell from more than 8,000 in 1996 to {{fig:us-listed}} by early 2023.</p>
+
+<div class="plain"><b>In plain English</b>Stock-market rules are how most climate data gets published. A growing share of large companies are not on a stock market, so those rules never reach them.</div>
+
+<h2 id="gap">2. The data gap, in numbers</h2>
+<p>The clearest single number comes from the investors in private funds. Members of ILPA, the association of limited partners, say that {{fig:ilpa-estimated}} of the private-fund emissions data they receive has to be estimated, not reported by the company.</p>
+
+<h3>The industry's shared dataset</h3>
+<p>The ESG Data Convergence Initiative (EDCI) is the main effort to fix this. Its members agree to collect the same metrics from their portfolio companies, with Scope 1 and 2 emissions mandatory and Scope 3 optional.{{cite:edci-guidance}}</p>
+
+{{tiles:t-edci}}
+{{chart:c-edci}}
+
+<p>Take care with EDCI's headline numbers. The trillions are the <em>whole</em> balance sheets of the member firms, mostly large LPs and asset managers. They are not the value of private assets that the data covers. Membership grew from 375+ in January 2024{{cite:ilpa-edci}} to 450+ in July 2025{{cite:edci-overview}} and 500+ in 2026.{{cite:edci-faq}}</p>
+
+<p>Joining is not the same as having a plan. Using EDCI data for 2023, BCG found that only a minority of PE-owned companies had a climate strategy or a net-zero target.</p>
+
+{{chart:c-plans}}
+
+<p>EDCI's benchmark of estimated against actual data is shared only with members. <strong>No public figure shows what share of EDCI companies report measured emissions, or how fast that share is rising.</strong> That is the single most useful number this market does not publish.</p>
+
+<h3>Investors themselves report only part of the picture</h3>
+{{chart:c-pri}}
+<p>Outside private markets, {{fig:cdp-total}} companies disclosed through CDP in 2025, {{fig:cdp-sme}} of them through its simpler questionnaire for small and medium-sized firms. CDP does not split them into private and listed companies.</p>
+
+<h3>Scoring the quality of each number</h3>
+<p>PCAF, the Partnership for Carbon Accounting Financials, gives every financed-emissions figure a data-quality score from 1 (best) to 5 (worst). Its standard, now in a third edition covering {{fig:pcaf-classes}} asset classes, is what most banks and investors use.</p>
+
+<div class="ladder" role="list" aria-label="PCAF data-quality scores">
+  <div class="rung" role="listitem"><i style="background:var(--dq-1)"></i><b>Score 1</b><span>Emissions the company reported, checked by an auditor.</span></div>
+  <div class="rung" role="listitem"><i style="background:var(--dq-2)"></i><b>Score 2</b><span>Emissions the company reported, not checked.</span></div>
+  <div class="rung" role="listitem"><i style="background:var(--dq-3)"></i><b>Score 3</b><span>Estimated from what the company physically uses: energy bills, fuel, production.</span></div>
+  <div class="rung" role="listitem"><i style="background:var(--dq-4)"></i><b>Score 4</b><span>Estimated from the company's revenue and its sector's average.</span></div>
+  <div class="rung" role="listitem"><i style="background:var(--dq-5)"></i><b>Score 5</b><span>Estimated from the sector average and the size of the investment alone.</span></div>
+</div>
+<p class="note-s">Scores 1–3 follow PCAF's hierarchy.{{cite:pcaf}} The wording of scores 4 and 5 follows earlier editions and has not yet been checked against the 2025 text.</p>
+
+<p>Most private-markets holdings sit at scores 4–5 in early inventories. The one public asset-owner example we found is the Finnish pension insurer Varma. Its portfolio-weighted score was {{fig:varma-dq}}, with asset classes ranging from {{fig:varma-range}}. No one publishes average PCAF scores by private asset class.</p>
+
+<div class="plain"><b>In plain English</b>A score of 4 or 5 means "we multiplied the company's revenue by an industry average". It tells you how big the company is, not how clean it is.</div>
+
+<h2 id="risk">3. Why it matters: the risk is already showing up</h2>
+
+<h3>Physical risk: losses, insurance and prices</h3>
+{{chart:c-losses}}
+<p>The three estimates differ, but they tell the same story. Aon puts the uninsured share of 2025 losses at {{fig:aon-gap}}, the lowest on record. That low figure is flattered by the US, which accounted for {{fig:aon-us}} of insured losses; elsewhere far less is insured. Swiss Re finds that {{fig:sr-secondary}} of insured losses came from "secondary perils": frequent, local events such as wildfire, storms and floods. Those are exactly the hazards that hit individual buildings, plants and farms.</p>
+<p>In the US, NOAA counted {{fig:noaa-count}} billion-dollar disasters in 2024, costing {{fig:noaa-cost}}. NOAA then retired that database in 2025, so there is no official 2025 figure.{{cite:crs}}</p>
+
+<div class="evidence">
+  <div><b>{{val:sea-discount}}</b><span>discount on US homes exposed to sea-level rise. Still {{fig:sea-distant}} for homes not expected to flood for about a century.</span></div>
+  <div><b>{{val:nonrenew}}</b><span>US counties with the highest insurance non-renewal rates are flood- or wildfire-exposed, according to a Senate committee analysis the industry disputed.{{cite:claims-journal}}</span></div>
+  <div><b>{{val:fs-premium}}</b><span>projected rise in home insurance premiums by 2055, wiping {{fig:fs-value}} off US property values. This is one vendor's model, not an observation.</span></div>
+  <div><b>{{val:green-sale}}</b><span>higher sale prices for green-certified US offices, with rents {{fig:green-rent}} higher.</span></div>
+</div>
+
+<div class="plain"><b>In plain English</b>Climate risk reaches an asset's value through its insurance bill and its buyer before any flood arrives. Real estate and infrastructure feel it first because they cannot move.</div>
+
+<h3>Transition risk: the cost of carbon is rising</h3>
+{{tiles:t-carbon}}
+<p>Carbon pricing is spreading, but it is still partial and cheap on average.{{cite:worldbank}} The central banks' own climate scenarios became more severe in their latest update: NGFS Phase V raised its estimate of 2050 losses from chronic physical risk by {{fig:ngfs-mult}}. Stress tests built on older scenarios probably understate the downside. For fossil fuels, one study puts upstream oil and gas assets at risk of stranding at {{fig:stranded}}, with most of the loss falling on private investors in rich countries, including pension funds.</p>
+
+<h3>High-carbon assets are moving into private hands</h3>
+<p>When listed companies sell polluting plants to meet climate goals, the pollution does not fall; it changes owner. A 2025 study in the <em>Journal of Finance</em> found emissions unchanged after the sale, while the seller's ESG rating improved.{{cite:duchin}} Two advocacy groups have put numbers on the flow. The Environmental Defense Fund counted {{fig:edf-deals}} between 2017 and 2021 that moved oil and gas assets away from net-zero-committed companies. The Private Equity Stakeholder Project found that {{fig:pesp-share}} of the energy companies owned by the 20 largest PE firms were fossil-fuel companies, emitting about {{fig:pesp-emissions}} a year. Neither figure has been independently verified.</p>
+
+<div class="plain"><b>In plain English</b>A private buyer can pick up a brown asset cheaply. It also picks up the stranding risk, and the LP questions that come with it.</div>
+
+<h2 id="rules">4. The rules that demand the numbers</h2>
+<p>By September 2026 the rules had split in two. Rules for <em>managers and asset owners</em> still require portfolio-wide emissions. Rules for <em>companies</em> have mostly been narrowed, except in California.</p>
+
+<div class="tbl"><table class="data">
+  <thead><tr><th scope="col">Rule</th><th scope="col">What it asks of private-markets investors</th><th scope="col">Status, Sep 2026</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">EU SFDR</th><td>Report emissions of investee companies (Scope 1–3) as principal adverse impacts. Where data is missing, "reasonable assumptions" are allowed.{{cite:esas-rts}}</td><td><span class="st ok">In force</span></td></tr>
+    <tr><th scope="row">EU SFDR 2.0</th><td>Three product categories replace Articles 8 and 9. Entity-level impact reporting kept only for firms in CSRD scope.{{cite:ec-sfdr2}}</td><td><span class="st wait">Proposed</span> Council position 24 Jun 2026{{cite:council-sfdr2}}; Parliament committee vote 10 Sep 2026{{cite:ipe-sfdr2}}</td></tr>
+    <tr><th scope="row">EU CSRD after Omnibus</th><td>Only companies with more than 1,000 staff and €450m turnover. Smaller firms can refuse value-chain data requests beyond the voluntary SME standard.{{cite:linklaters}} About 80% of companies leave scope.{{cite:accountancy-eu}}</td><td><span class="st ok">In force</span> 18 Mar 2026</td></tr>
+    <tr><th scope="row">ISSB IFRS S2</th><td>Financed emissions (Scope 3 Category 15) for asset managers, with some categories now excludable.{{cite:ifrs-s2}} Adopted by {{fig:issb-juris}} jurisdictions.</td><td><span class="st ok">Final</span> amendments effective 1 Jan 2027</td></tr>
+    <tr><th scope="row">Australia AASB S2</th><td>Climate statements including financed emissions. Group 2 captures asset owners with at least AUD 5bn.{{cite:aasb}}</td><td><span class="st ok">In force</span> Group 2 from 1 Jul 2026</td></tr>
+    <tr><th scope="row">UK FCA ESG sourcebook</th><td>Entity and product climate reports with emissions and carbon intensity, for managers with at least £5bn, due 30 June each year.{{cite:fca-esg2}}</td><td><span class="st ok">In force</span></td></tr>
+    <tr><th scope="row">US SEC climate rule</th><td>Listed registrants only; never applied to private funds.</td><td><span class="st stop">Stayed</span> rescission proposed 29 May 2026{{cite:sec-rescind}}</td></tr>
+    <tr><th scope="row">California SB 253</th><td>Scope 1, 2 and later 3 for US companies, <strong>public or private</strong>, with more than US$1bn revenue doing business in California.{{cite:carb}}</td><td><span class="st ok">Enforceable</span> first reports due {{fig:sb253-date}}</td></tr>
+    <tr><th scope="row">California SB 261</th><td>Biennial climate-risk reports.</td><td><span class="st stop">Blocked</span> by court order since 18 Nov 2025{{cite:morganlewis}}</td></tr>
+  </tbody>
+</table></div>
+
+<div class="plain"><b>In plain English</b>If you manage EU, UK or large Australian money, you must report your portfolio's emissions whether or not your companies measure them. That is why estimates exist. California's SB 253 is the one rule that makes large private companies measure their own.</div>
+
+<h2 id="ai">5. How AI fills the gaps</h2>
+<p>"AI-estimated emissions" covers four quite different techniques. Each solves a different problem.</p>
+
+<div class="methods">
+  <div class="method"><b>1 · Spend-based and input-output models</b><p>Multiply a company's revenue or spending by an average emissions factor for its sector. This is what most data vendors actually use: Trucost's model has {{fig:trucost-sectors}} sectors. It is simple and covers everyone, but two companies in the same sector with the same revenue always get the same footprint.</p><span>Best for: a first, complete picture. PCAF score 4–5.</span></div>
+  <div class="method"><b>2 · Machine-learning estimates</b><p>Train a model on the thousands of listed companies that do report, using revenue, assets, staff, sector and location, then predict the rest. It beats a plain sector average, but the inputs are still mostly size and sector.</p><span>Best for: ranking a large portfolio. Still an estimate, still score 4–5.</span></div>
+  <div class="method"><b>3 · Language models that read documents</b><p>Pull reported figures out of annual reports, sustainability reports and supplier documents. A benchmark of {{fig:beck-reports}} reports now exists to test them. They find numbers that exist; they cannot create numbers that don't.</p><span>Best for: collecting what companies already disclose. Can reach score 1–2.</span></div>
+  <div class="method"><b>4 · Satellites and location data</b><p>Map physical assets and measure or model their emissions and hazards directly. Climate TRACE tracks {{fig:ct-sources}} emission sources built from {{fig:ct-assets}} assets. Real estate and infrastructure have known coordinates, which is a genuine advantage for private markets.</p><span>Best for: real assets and physical risk.</span></div>
+</div>
+
+<h3>How much better is machine learning?</h3>
+{{chart:c-ml}}
+<p>The gains are real but relative: they are measured against older models, not against the truth. The authors of the Scope 3 study say plainly that "absolute prediction performance is low even with the best models".{{cite:nguyen-2023}} The Scope 1–3 result is from a 2021 study using an ensemble of models.{{cite:nguyen-2021}}</p>
+
+<div class="plain"><b>In plain English</b>An AI estimate is a better-educated guess. It still mostly knows how big a company is and what it does, not how it runs.</div>
+
+<h2 id="limits">6. How wrong can the estimates be?</h2>
+<p>The best test of an estimate is whether independent providers reach the same answer. When companies report, providers agree almost perfectly. When providers estimate, they drift apart, and for Scope 3 they barely agree at all.</p>
+
+{{chart:c-agree}}
+
+<p>The most important finding for investors comes from the same study as the first two bars. Vendor estimates made up {{val:est-share}} of all emissions observations, and they were at least {{val:worst-emitters}} less effective than reported data at identifying the worst emitters.{{cite:kalesnik}} For anyone trying to find the carbon hot-spots in a portfolio, that is the number that matters.</p>
+
+<p>ESG ratings show the same pattern more broadly. A study of six raters found that most of their disagreement comes from measurement, not from different opinions about what matters.</p>
+{{chart:c-berg}}
+
+<p>Physical-risk data is no more settled. GARP compared {{fig:garp-vendors}} physical-risk vendors and found they largely disagreed on which hazard mattered most for the same buildings.</p>
+
+<div class="callout-warn">
+  <b>Three limits to keep in mind</b>
+  <ul>
+    <li><strong>No test on private companies.</strong> We found no study that trained or tested an emissions model on private-company data. Every model learns from listed companies and is then applied to a different population.</li>
+    <li><strong>An estimate can't show progress.</strong> If the number is revenue times a factor, a company that cuts emissions looks the same, and a year-on-year "reduction" may just be a revenue dip or a new factor.</li>
+    <li><strong>Scope 3 is the weakest link.</strong> It is usually the largest share of a footprint and the least predictable.</li>
+  </ul>
+</div>
+
+<h2 id="regulators">7. What regulators expect</h2>
+<p>No regulator we found bans estimates, and none has written rules specifically for AI-estimated emissions. They all ask for the same two things: <strong>say what is estimated, and be able to back up what you claim.</strong></p>
+<ul class="facts">
+  <li><b>ESMA (EU)</b> asked for more transparency on data methods and on <em>the use of estimates</em> in its 2024 greenwashing report.{{cite:esma-gw}}</li>
+  <li><b>The EU ESG Ratings Regulation</b> has applied since 2 July 2026. Rating providers must apply to ESMA for authorisation by 2 November 2026.{{cite:stibbe}}</li>
+  <li><b>IOSCO</b>'s 2026 toolkit for supervising AI asks regulators to check for "hallucination": plausible but made-up outputs.{{cite:iosco}}</li>
+  <li><b>The US SEC</b> fined two advisers, Delphia {{fig:sec-delphia}} and Global Predictions {{fig:sec-gp}}, for claiming AI they did not use. Earlier ESG cases turned on the gap between stated and actual process, including a {{fig:sec-dws-esg}} penalty for DWS.</li>
+</ul>
+
+<div class="plain"><b>In plain English</b>Two separate risks attach to AI-estimated data. Calling an estimate a measurement is greenwashing. Overselling the model behind it is "AI-washing".</div>
+
+<h2 id="playbook">8. A five-step plan for GPs</h2>
+<p>The frameworks below all assume estimates are temporary. Put together, they form a ladder from estimates to measured data. The order is ours; no single body prescribes it.</p>
+<ol class="steps">
+  <li><b>Collect on one template.</b> Use the EDCI metric set, with Scope 1 and 2 mandatory. LPs already recognise it, and its guidance is updated each year.{{cite:edci-guidance}}</li>
+  <li><b>Calculate the same way everywhere.</b> Apply the iCI greenhouse-gas standard for private equity, which applies the GHG Protocol and PCAF to portfolio companies and funds.{{cite:ici-erm}}</li>
+  <li><b>Score every number.</b> Put a PCAF data-quality score on each holding and publish the portfolio average, as Varma does.{{cite:varma}} It shows exactly how much is estimated, which is the transparency ESMA asks for.</li>
+  <li><b>Set a date for each estimate to become a measurement.</b> The IIGCC framework for private equity expects a net-zero ambition within one year of deal close and basic emissions management within two.{{cite:iigcc}} Deal close is the cheapest moment to install meters and data collection. Companies filing under SB 253 will produce measured Scope 1 and 2 from November 2026 anyway, so collect those figures.</li>
+  <li><b>For real assets, work asset by asset.</b> Use location-based physical-risk analysis rather than company-level scores. Run more than one vendor on material assets, feed the results into valuations and insurance plans,{{cite:pri-physical}} and stress-test with NGFS Phase V scenarios.{{cite:ngfs}}</li>
+</ol>
+
+<h3>Using AI safely</h3>
+<ul class="checks">
+  <li>Label every figure as reported or estimated, with its PCAF score.</li>
+  <li>Describe the model as what it is: "sector and revenue-based estimate", not "AI-measured".</li>
+  <li>Keep a trail from each figure back to its inputs, so extraction errors and hallucinations can be caught.</li>
+  <li>Where a company later reports, compare it with your old estimate and publish how far off you were.</li>
+</ul>
+
+<h2 id="lps">9. Questions LPs should ask</h2>
+<p>Use these alongside the ILPA ESG Assessment Framework, updated in 2024 to reference ISSB and EDCI,{{cite:ilpa-framework}} and the PRI/ILPA/iCI Climate Module for due diligence.{{cite:pri-climate-pm}}</p>
+<ol class="qs">
+  <li>What share of the fund's emissions is at PCAF score 4 or 5?</li>
+  <li>Which model produced the estimates, and has it ever been tested on companies like these?</li>
+  <li>Is the year-on-year trend driven by operations, or by revenue and factor changes?</li>
+  <li>By when will each estimate be replaced with measured data?</li>
+  <li>Are high-carbon assets bought from listed sellers covered by a transition plan?</li>
+  <li>For real assets: which physical-risk vendors were used, and did they agree?</li>
+</ol>
+
+<h2 id="watch">10. What to watch in the next 12 months</h2>
+<ul class="watch">
+  <li><time>Oct 2026</time><span>European Parliament plenary vote on SFDR 2.0, then negotiations with the Council. The outcome decides which impact indicators survive at product level.</span></li>
+  <li><time>2 Nov 2026</time><span>Deadline for ESG rating providers to apply for ESMA authorisation.</span></li>
+  <li><time>10 Nov 2026</time><span>First SB 253 filings: the first large sample of measured emissions from private US companies. It is also the first real chance to test AI estimates against private-company actuals.</span></li>
+  <li><time>1 Jan 2027</time><span>IFRS S2 amendments take effect, and relief under AASB S2025-1 begins in Australia.</span></li>
+  <li><time>2027</time><span>SB 253 Scope 3 reporting begins, and EU member states must transpose the Omnibus by March.</span></li>
+</ul>
+
+<div class="plain"><b>Our view</b>AI's lasting value in private markets is not in guessing missing company emissions. It is in two narrower jobs: locating physical risk for real assets, and extracting the data companies already hold. Treat estimates as scaffolding, and take them down on a published schedule. The first GP or vendor to publish a back-test of its estimates against SB 253 filings will turn "AI-estimated" from a disclosure risk into a method others can check.</div>
+
+<h2 id="faq">11. Common questions</h2>
+<details class="faq"><summary>Can AI estimate the emissions of a private company?</summary><p>Yes, but mostly from its revenue, size and sector. Machine-learning models beat simple sector averages by {{fig:ml-mae}} on overall error, and by much less on Scope 3 as a total. No published study has tested them on private companies, so label the output as an estimate and score it PCAF 4 or 5.</p></details>
+<details class="faq"><summary>How much private-markets emissions data is estimated today?</summary><p>ILPA members report that {{fig:ilpa-estimated}} of the emissions data they receive for private funds is estimated.</p></details>
+<details class="faq"><summary>Do regulators allow estimated emissions?</summary><p>Yes. SFDR lets managers use reasonable assumptions where data is missing.{{cite:esas-rts}} What regulators penalise is presenting an estimate as measured, or overstating what an AI model does.</p></details>
+<details class="faq"><summary>What should a GP do first?</summary><p>Collect Scope 1 and 2 on the EDCI template and put a PCAF score on every figure. That alone tells you, and your LPs, how much of your footprint is guesswork.</p></details>
+<details class="faq"><summary>Which rule forces private companies to measure emissions?</summary><p>California's SB 253, for US companies with more than US$1bn revenue doing business in California. First reports are due {{fig:sb253-date}}.</p></details>
+
+</article>
+
+<aside class="related">
+  <b class="eyebrow">Related on ReGenesis Impact</b>
+  <a href="financed-emissions.html">The denominator problem: how financed emissions attribution works, and where it breaks →</a>
+  <a href="../guides/pcaf-financed-emissions-guide.html">PCAF financed emissions guide →</a>
+  <a href="../app/">What do I owe? Check which climate rules apply to you →</a>
+</aside>
