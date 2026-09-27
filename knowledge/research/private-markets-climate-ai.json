@@ -1,236 +1,1383 @@
 {
   "meta": {
     "title": "Climate risk in private markets: the data gap, and what AI can and can't fix",
-    "description": "Private markets hold about US$17tn, and up to 90% of their emissions data is estimated. What the evidence says about climate risk in private portfolios, how AI estimates work, how wrong they can be, and a five-step plan for GPs and LPs.",
+    "description": "Private-markets funds held more than US$16tn in 2025, and up to 90% of their emissions data is estimated. What the evidence says about climate risk in private portfolios, how AI estimates work, how wrong they can be, and a five-step plan for GPs and LPs.",
     "status": "draft",
     "published": "2026-09-27",
     "reviewed": "2026-09-27",
+    "cover_chart": "c-agree",
     "faq": [
-      ["Can AI estimate the emissions of a private company?", "Yes, but mostly from its revenue, size and sector. Studies show machine-learning models beat simple sector averages by up to about 30% on Scope 1 and 2 error, and much less on Scope 3. No published study has tested these models on private companies, so treat the output as an estimate, label it, and score it PCAF data quality 4 or 5."],
-      ["How much private-markets emissions data is estimated today?", "ILPA members report that as much as 90% of the emissions data they receive for private funds has to be estimated rather than reported by the company."],
-      ["Do regulators allow estimated emissions?", "Yes. The EU's SFDR lets managers use reasonable assumptions where data is missing, and no regulator we found bans estimates. What regulators penalise is presenting an estimate as measured, or overstating what an AI model does."],
-      ["What should a GP do first?", "Collect Scope 1 and 2 on the EDCI template, calculate with the iCI standard, put a PCAF data-quality score on every figure, set a date by which each estimate becomes a measured number, and use asset-level geospatial analysis for real assets."],
-      ["Which rule forces private companies to measure emissions?", "California's SB 253. US companies, public or private, with more than US$1bn revenue that do business in California must file Scope 1 and 2 emissions, with the first reports due 10 November 2026."]
+      [
+        "Can AI estimate the emissions of a private company?",
+        "Yes, but mostly from its revenue, size and sector. Studies show machine-learning models beat simple sector averages by up to about 30% on Scope 1 and 2 error, and much less on Scope 3. No published study has tested these models on private companies, so treat the output as an estimate, label it, and score it PCAF data quality 4 or 5."
+      ],
+      [
+        "How much private-markets emissions data is estimated today?",
+        "ILPA members report that as much as 90% of the emissions data they receive for private funds has to be estimated rather than reported by the company."
+      ],
+      [
+        "Do regulators allow estimated emissions?",
+        "Yes. The EU's SFDR lets managers use reasonable assumptions where data is missing, and no regulator we found bans estimates. What regulators penalise is presenting an estimate as measured, or overstating what an AI model does."
+      ],
+      [
+        "What should a GP do first?",
+        "Collect Scope 1 and 2 on the EDCI template, calculate with the iCI standard, put a PCAF data-quality score on every figure, set a date by which each estimate becomes a measured number, and use asset-level geospatial analysis for real assets."
+      ],
+      [
+        "Which rule forces private companies to measure emissions?",
+        "California's SB 253. US companies, public or private, with more than US$1bn revenue that do business in California must file Scope 1 and 2 emissions, with the first reports due 10 November 2026."
+      ]
     ]
   },
   "sources": [
-    { "id": "preqin-2029", "publisher": "Preqin", "title": "Preqin forecasts global alternatives AUM to rise to $29.22tn by 2029", "url": "https://www.preqin.com/insights/research/blogs/preqin-forecasts-global-alternatives-aum-to-rise-to-usd29-22tn-by-2029", "date": "n.d.", "verified": "excerpt", "note": "The page shows no date; it was published around late 2024. \"Alternatives\" includes hedge funds and natural resources." },
-    { "id": "preqin-2030", "publisher": "Preqin", "title": "Preqin releases Private Markets in 2030 report", "url": "https://www.preqin.com/about/press-release/preqin-releases-private-markets-in-2030-report", "date": "2025-10", "verified": "excerpt" },
-    { "id": "mckinsey-gpmr", "publisher": "McKinsey & Company", "title": "Global Private Markets Report 2026", "url": "https://www.mckinsey.com/industries/private-capital/our-insights/global-private-markets-report", "date": "2026-02", "verified": "excerpt", "note": "Covers 2025. Closed-end funds only; McKinsey counts a further US$8–8.5tn in other forms of private capital." },
-    { "id": "apollo", "publisher": "Apollo Academy", "title": "Share of US firms with revenue above $100m that are private (chart)", "url": "https://www.apolloacademy.com/wp-content/uploads/2024/04/042024-Chart_v2.pdf", "date": "2024-04", "verified": "excerpt", "note": "Based on S&P Capital IQ. Other sources using other definitions give lower shares; quote this one with its definition." },
-    { "id": "meketa", "publisher": "Meketa", "title": "The Decreasing Number of Public Companies", "url": "https://meketa.com/wp-content/uploads/2024/09/MEKETA_The-Decreasing-Number-of-Public-Companies_2024.pdf", "date": "2024-09", "verified": "excerpt" },
-    { "id": "ilpa-90", "publisher": "ILPA", "title": "ESG Reporting & Benchmarking", "url": "https://ilpa.org/industry-guidance/environmental-social-governance/esg-roadmap/reporting-and-benchmarking/", "date": "n.d.", "verified": "excerpt", "note": "The page shows no date; the wording suggests 2022–23." },
-    { "id": "ilpa-edci", "publisher": "ILPA", "title": "ESG Data Convergence Initiative", "url": "https://ilpa.org/industry-guidance/environmental-social-governance/data-convergence-initiative/", "date": "2024-01", "verified": "excerpt", "note": "Membership figures stated as of January 2024." },
-    { "id": "edci-overview", "publisher": "ESG Data Convergence Initiative", "title": "Overview of the Initiative for GPs", "url": "https://esgdc-cdn-1.s3.eu-west-2.amazonaws.com/wp-content/uploads/2025/08/20222209/25.07-EDCI-Overview-of-Initiative-for-GPs_website.pdf", "date": "2025-07", "verified": "excerpt" },
-    { "id": "edci-insights", "publisher": "ESG Data Convergence Initiative", "title": "Insights", "url": "https://www.esgdc.org/insights/", "date": "n.d.", "verified": "excerpt", "note": "Undated page describing the latest reporting cycle (2025, likely covering 2024 data)." },
-    { "id": "edci-faq", "publisher": "ESG Data Convergence Initiative", "title": "FAQs", "url": "https://www.esgdc.org/faqs/", "date": "n.d.", "verified": "excerpt", "note": "Undated page, consulted September 2026. Its AUM figure is the total held by member firms, not the assets EDCI data covers." },
-    { "id": "bcg-2024", "publisher": "Boston Consulting Group", "title": "Where Are Private Equity Firms on Their Way to Net Zero?", "url": "https://www.bcg.com/publications/2024/private-equity-firms-net-zero", "date": "2024-10", "verified": "excerpt", "note": "Based on EDCI data for 2023." },
-    { "id": "pri-2025", "publisher": "PRI", "title": "What does 2025 PRI reporting data tell us about investor action on climate?", "url": "https://public.unpri.org/pri-blog/what-does-2025-pri-reporting-data-tell-us-about-investor-action-on-climate/13626.article", "date": "2025", "verified": "excerpt", "note": "All PRI signatories and asset classes, not only private markets." },
-    { "id": "cdp-2025", "publisher": "CDP", "title": "Keeping Pace: Disclosure Data Factsheet 2025", "url": "https://www.cdp.net/en/insights/keeping-pace-disclosure-data-factsheet-2025", "date": "2025", "verified": "excerpt" },
-    { "id": "varma", "publisher": "PRI", "title": "Varma: How we calculate our financed emissions", "url": "https://public.unpri.org/varma-how-we-calculate-our-financed-emissions/13322.article", "date": "n.d.", "verified": "excerpt", "note": "Undated case study; the scores describe Varma's 2024 portfolio." },
-    { "id": "pcaf", "publisher": "PCAF", "title": "The Global GHG Accounting and Reporting Standard, Part A: Financed Emissions, third edition", "url": "https://carbonaccountingfinancials.com/files/standard-launch-2025/PCAF-PartA-2025-Full-Document-Clean.pdf", "date": "2025-12-02", "verified": "excerpt", "note": "Which estimation methods map to scores 4 and 5 is taken from the 2020 and 2022 editions and has not been re-checked against this edition." },
-    { "id": "munichre", "publisher": "Munich Re", "title": "Natural disaster figures 2025", "url": "https://www.munichre.com/en/company/media-relations/media-information-and-corporate-news/media-information/2026/natural-disaster-figures-2025.html", "date": "2026-01-13", "verified": "excerpt", "note": "Figures seen in Artemis and AFP coverage of this release, not on Munich Re's page itself." },
-    { "id": "aon", "publisher": "Aon", "title": "Climate and Catastrophe Insight 2026", "url": "https://www.aon.com/en/insights/reports/climate-and-catastrophe-report", "date": "2026-01-20", "verified": "excerpt" },
-    { "id": "swissre", "publisher": "Swiss Re Institute", "title": "sigma 1/2026: natural catastrophes in 2025", "url": "https://www.swissre.com/institute/research/sigma-research/sigma-2026-01-natcat-2025-wildfire-storm-risk/global-natcat-losses-2025.html", "date": "2026-03", "verified": "excerpt" },
-    { "id": "noaa", "publisher": "NOAA Climate.gov", "title": "2024: An active year of U.S. billion-dollar weather and climate disasters", "url": "https://www.climate.gov/news-features/blogs/beyond-data/2024-active-year-us-billion-dollar-weather-and-climate-disasters", "date": "2025-01", "verified": "excerpt" },
-    { "id": "crs", "publisher": "Congressional Research Service", "title": "NOAA's Billion-Dollar Weather and Climate Disasters Database (IF12944)", "url": "https://www.congress.gov/crs-product/IF12944", "date": "2025", "verified": "excerpt" },
-    { "id": "bernstein", "publisher": "Journal of Financial Economics", "title": "Bernstein, Gustafson & Lewis — Disaster on the horizon: the price effect of sea level rise", "url": "https://www.sciencedirect.com/science/article/abs/pii/S0304405X19300807", "date": "2019-11", "verified": "excerpt" },
-    { "id": "claims-journal", "publisher": "Claims Journal", "title": "Senate Budget Committee report on climate and insurance non-renewals", "url": "https://www.claimsjournal.com/news/national/2024/12/19/327997.htm", "date": "2024-12-19", "verified": "excerpt", "note": "Secondary report of a Senate Budget Committee majority-staff analysis, which the insurance industry disputed." },
-    { "id": "first-street", "publisher": "First Street", "title": "Property Prices in Peril", "url": "https://firststreet.org/research-library/property-prices-in-peril", "date": "2025-02-03", "verified": "excerpt", "note": "A commercial climate-risk data vendor's model projection, not an observed outcome." },
-    { "id": "eichholtz", "publisher": "American Economic Review", "title": "Eichholtz, Kok & Quigley — Doing well by doing good? Green office buildings", "url": "https://eml.berkeley.edu//~webfac/auerbach/quigley.pdf", "date": "2010", "verified": "excerpt", "note": "Working-paper version of AER 100(5)." },
-    { "id": "worldbank", "publisher": "World Bank", "title": "Direct carbon pricing covers nearly one-third of global emissions", "url": "https://www.worldbank.org/en/news/press-release/2026/05/19/direct-carbon-pricing-covers-nearly-one-third-of-global-emissions", "date": "2026-05-19", "verified": "excerpt", "note": "\"Nearly one-third\" includes instruments not yet in force; just over 29% is the current figure." },
-    { "id": "ngfs", "publisher": "NGFS", "title": "NGFS climate scenarios, Phase V: high-level overview", "url": "https://www.ngfs.net/system/files/import/ngfs/media/2024/11/05/ngfs_scenarios_high-level_overview.pdf", "date": "2024-11-05", "verified": "excerpt" },
-    { "id": "semieniuk", "publisher": "Nature Climate Change", "title": "Semieniuk et al. — Stranded fossil-fuel assets translate to major losses for investors in advanced economies", "url": "https://doi.org/10.1038/s41558-022-01356-y", "date": "2022", "verified": "excerpt" },
-    { "id": "duchin", "publisher": "Journal of Finance", "title": "Duchin, Gao & Xu — Sustainability or greenwashing: evidence from the asset market for industrial pollution", "url": "https://onlinelibrary.wiley.com/doi/10.1111/jofi.13412", "date": "2025-04", "verified": "excerpt" },
-    { "id": "edf", "publisher": "Environmental Defense Fund", "title": "Oil majors take climate goals — data shows billions worth of their polluting assets are changing hands", "url": "https://www.edf.org/media/report-oil-majors-take-climate-goals-data-shows-billions-worth-their-polluting-assets-are", "date": "2022-05", "verified": "excerpt", "note": "An advocacy organisation. Figures not independently verified." },
-    { "id": "pesp", "publisher": "Private Equity Stakeholder Project", "title": "Almost 2/3 of top private equity energy portfolio companies are fossil fuel companies", "url": "https://pestakeholder.org/news/almost-2-3-of-top-private-equity-energy-portfolio-companies-are-fossil-fuel-companies/", "date": "2025-02", "verified": "excerpt", "note": "An advocacy organisation, with Americans for Financial Reform Education Fund and Global Energy Monitor. Data as of January 2025." },
-    { "id": "esas-rts", "publisher": "European Supervisory Authorities", "title": "Final Report on draft RTS amending the SFDR Delegated Regulation (JC 2023 55)", "url": "https://www.esma.europa.eu/sites/default/files/2023-12/JC_2023_55_-_Final_Report_SFDR_Delegated_Regulation_amending_RTS.pdf", "date": "2023-12", "verified": "excerpt" },
-    { "id": "ec-sfdr2", "publisher": "European Commission", "title": "Commission proposes improvements to the SFDR", "url": "https://finance.ec.europa.eu/news/commission-proposes-improvements-sfdr-2025-11-21_en", "date": "2025-11-21", "verified": "excerpt" },
-    { "id": "council-sfdr2", "publisher": "Council of the EU", "title": "Council agrees position on simpler transparency rules for sustainable financial products", "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/06/24/council-agrees-position-on-simpler-transparency-rules-for-sustainable-financial-products/", "date": "2026-06-24", "verified": "excerpt" },
-    { "id": "ipe-sfdr2", "publisher": "IPE", "title": "European Parliament votes on SFDR negotiating position", "url": "https://www.ipe.com/news/european-parliament-votes-on-sfdr-negotiating-position/10138413.article", "date": "2026-09", "verified": "excerpt" },
-    { "id": "linklaters", "publisher": "Linklaters", "title": "EU Omnibus I Directive published in the Official Journal of the EU", "url": "https://sustainablefutures.linklaters.com/post/102mkjf/eu-omnibus-i-directive-published-in-the-official-journal-of-the-eu", "date": "2026-03", "verified": "excerpt", "note": "Law-firm summary; the Directive was published on 26 February 2026." },
-    { "id": "accountancy-eu", "publisher": "Accountancy Europe", "title": "Omnibus explained: key changes to the CSRD and CSDDD", "url": "https://accountancyeurope.eu/publications/omnibus-explained-key-changes-to-the-csrd-and-csddd/", "date": "n.d.", "verified": "excerpt", "note": "Undated explainer; the 80% figure is an estimate." },
-    { "id": "ifrs-s2", "publisher": "IFRS Foundation", "title": "ISSB issues targeted amendments to IFRS S2", "url": "https://www.ifrs.org/news-and-events/news/2025/12/issb-issues-targeted-amendments-ifrs-s2/", "date": "2025-12", "verified": "excerpt" },
-    { "id": "issb-ac", "publisher": "IFRS Foundation", "title": "ISSB update to the Advisory Council", "url": "https://www.ifrs.org/content/dam/ifrs/meetings/2026/april/ac/ac5-issb-update.pdf", "date": "2026-04", "verified": "excerpt" },
-    { "id": "aasb", "publisher": "AASB", "title": "AASB S2025-1 Amendments to AASB S2", "url": "https://standards.aasb.gov.au/sites/default/files/2025-12/AASBS2025-1_12-25_0.pdf", "date": "2025-12", "verified": "excerpt" },
-    { "id": "fca-esg2", "publisher": "FCA", "title": "ESG 2: TCFD entity and product reports (FCA Handbook)", "url": "https://handbook.fca.org.uk/handbook/esg2", "date": "n.d.", "verified": "excerpt", "note": "Live Handbook text, in force since PS21/24 (December 2021)." },
-    { "id": "sec-rescind", "publisher": "US SEC", "title": "SEC proposes rescission of climate-related disclosure rules (2026-49)", "url": "https://www.sec.gov/newsroom/press-releases/2026-49-sec-proposes-rescission-climate-related-disclosure-rules", "date": "2026-05-29", "verified": "excerpt" },
-    { "id": "carb", "publisher": "California Air Resources Board", "title": "Corporate climate data disclosure (SB 253 and SB 261)", "url": "https://ww2.arb.ca.gov/our-work/programs/corporate-ghg-reporting/corporate-disclosure-climate-data", "date": "n.d.", "verified": "excerpt", "note": "Live programme page." },
-    { "id": "sidley", "publisher": "Sidley Austin", "title": "SB 253 update: CARB delays reporting deadline to November 2026", "url": "https://environmentalhealthsafetybrief.sidley.com/2026/06/30/sb-253-update-carb-delays-reporting-deadline-to-november-2026-and-proposes-to-clarify-requirements/", "date": "2026-06-30", "verified": "excerpt" },
-    { "id": "morganlewis", "publisher": "Morgan Lewis", "title": "Ninth Circuit enjoins SB 261 enforcement while CARB continues to workshop", "url": "https://www.morganlewis.com/pubs/2025/11/california-climate-disclosure-update-ninth-circuit-enjoins-sb-261-enforcement-while-carb-continues-to-workshop", "date": "2025-11", "verified": "excerpt" },
-    { "id": "trucost", "publisher": "S&P Global Sustainable1", "title": "Trucost Environmental Data Methodology", "url": "https://portal.s1.spglobal.com/survey/documents/SPG_S1_Trucost_Environmental_Data_Methodology.pdf", "date": "2025-11", "verified": "excerpt" },
-    { "id": "nguyen-2021", "publisher": "Energy Economics", "title": "Nguyen, Diaz-Rainey & Kuruppuarachchi — Predicting corporate carbon footprints for climate finance risk analyses: a machine learning approach", "url": "https://econpapers.repec.org/RePEc:eee:eneeco:v:95:y:2021:i:c:s0140988321000347", "date": "2021", "verified": "excerpt" },
-    { "id": "nguyen-2023", "publisher": "PLOS Climate", "title": "Nguyen et al. — Scope 3 emissions: data quality and machine learning prediction accuracy", "url": "https://journals.plos.org/climate/article?id=10.1371%2Fjournal.pclm.0000208", "date": "2023-11", "verified": "excerpt" },
-    { "id": "kalesnik", "publisher": "Journal of Portfolio Management", "title": "Kalesnik, Wilkens & Zink — Do corporate carbon emissions data enable investors to mitigate climate change?", "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3722973", "date": "2022-08", "verified": "excerpt" },
-    { "id": "amundi", "publisher": "Amundi Research Center", "title": "Scope 3 emissions: measurement and data provider comparison", "url": "https://research-center.amundi.com/files/nuxeo/dl/99b740b0-9acc-4e99-a14e-2c3288230446?inline=", "date": "n.d.", "verified": "excerpt", "note": "Undated PDF; publication year not confirmed." },
-    { "id": "berg", "publisher": "Review of Finance", "title": "Berg, Kölbel & Rigobon — Aggregate confusion: the divergence of ESG ratings", "url": "https://academic.oup.com/rof/article/26/6/1315/6590670", "date": "2022", "verified": "excerpt" },
-    { "id": "beck", "publisher": "Scientific Data", "title": "Beck et al. — a benchmark dataset of emissions metrics from sustainability reports", "url": "https://www.nature.com/articles/s41597-025-05664-8", "date": "2025", "verified": "excerpt" },
-    { "id": "climatetrace", "publisher": "Climate TRACE", "title": "Climate TRACE emissions inventory", "url": "https://climatetrace.org/", "date": "n.d.", "verified": "excerpt", "note": "Live homepage; the counts change with each monthly release." },
-    { "id": "garp", "publisher": "GARP", "title": "Why vendors disagree", "url": "https://www.garp.org/risk-intelligence/sustainability-climate/why-vendors-disagree-260630", "date": "2026-06", "verified": "excerpt" },
-    { "id": "esma-gw", "publisher": "ESMA", "title": "Final Report on Greenwashing (ESMA36-287652198-2699)", "url": "https://www.esma.europa.eu/sites/default/files/2024-06/ESMA36-287652198-2699_Final_Report_on_Greenwashing.pdf", "date": "2024-06-04", "verified": "excerpt" },
-    { "id": "stibbe", "publisher": "Stibbe", "title": "ESG ratings and new EU supervision as of 2 July 2026", "url": "https://www.stibbe.com/publications-and-insights/esg-ratings-and-new-eu-supervision-as-of-2-july-2026", "date": "2026", "verified": "excerpt" },
-    { "id": "iosco", "publisher": "IOSCO", "title": "Supervisory Toolkit for Artificial Intelligence (FR/02/2026)", "url": "https://www.iosco.org/library/pubdocs/pdf/IOSCOPD823.pdf", "date": "2026-05-25", "verified": "excerpt" },
-    { "id": "sec-ai", "publisher": "US SEC", "title": "SEC charges two investment advisers with making false and misleading statements about their use of artificial intelligence (2024-36)", "url": "https://www.sec.gov/newsroom/press-releases/2024-36", "date": "2024-03-18", "verified": "excerpt" },
-    { "id": "sec-dws", "publisher": "US SEC", "title": "DWS to pay $25 million for anti-money laundering violations and misstatements regarding ESG investments (2023-194)", "url": "https://www.sec.gov/newsroom/press-releases/2023-194", "date": "2023-09", "verified": "excerpt", "note": "Release date not confirmed; believed to be 25 September 2023." },
-    { "id": "iigcc", "publisher": "IIGCC / Paris Aligned Asset Owners", "title": "Net Zero Investment Framework: private equity component", "url": "https://www.parisalignedassetowners.org/media/2023/05/Net-Zero-Investment-Framework-component-for-the-private-equity-industry.pdf", "date": "2023-05", "verified": "excerpt" },
-    { "id": "edci-guidance", "publisher": "ESG Data Convergence Initiative", "title": "2026 EDCI Metrics Guidance", "url": "https://esgdc-cdn-1.s3.eu-west-2.amazonaws.com/wp-content/uploads/2025/11/04192159/2026-EDCI-Metrics-Guidance_vLive-1.pdf", "date": "2025-11", "verified": "excerpt" },
-    { "id": "ici-erm", "publisher": "ERM / Initiative Climat International", "title": "iCI publishes new standard for GHG accounting and reporting in private equity", "url": "https://www.erm.com/about/news/initiative-climat-international-publishes-new-standard-for-ghg-accounting-and-reporting-in-private-equity/", "date": "2022", "verified": "excerpt" },
-    { "id": "ilpa-framework", "publisher": "ILPA", "title": "Updated ESG Assessment Framework now available", "url": "https://ilpa.org/news/updated-esg-assessment-framework-now-available/", "date": "2024", "verified": "excerpt" },
-    { "id": "pri-climate-pm", "publisher": "PRI", "title": "Climate change for private markets (including the PRI/ILPA/iCI Climate Module)", "url": "https://www.unpri.org/investment-tools/private-markets/climate-change-for-private-markets", "date": "2025", "verified": "excerpt" },
-    { "id": "pri-physical", "publisher": "PRI", "title": "Assessing physical climate risk in private markets: a technical guide", "url": "https://www.unpri.org/climate-change-for-private-markets/assessing-physical-climate-risk-in-private-markets-a-technical-guide/13135.article", "date": "2025-03", "verified": "excerpt" }
+    {
+      "id": "preqin-2030",
+      "publisher": "Preqin",
+      "title": "Preqin releases Private Markets in 2030 report",
+      "url": "https://www.preqin.com/about/press-release/preqin-releases-private-markets-in-2030-report",
+      "date": "2025-10-16",
+      "verified": "excerpt",
+      "note": "\"Alternatives\" includes hedge funds and natural resources as well as private markets."
+    },
+    {
+      "id": "mckinsey-gpmr",
+      "publisher": "McKinsey & Company",
+      "title": "Global Private Markets Report 2026: Clearer view, tougher terrain",
+      "url": "https://www.mckinsey.com/industries/private-capital/our-insights/global-private-markets-report",
+      "date": "2026-02-10",
+      "verified": "excerpt",
+      "note": "The most recent full-year figures, covering 2025. McKinsey counts closed-end funds and other forms of private capital (evergreen funds, separately managed accounts, insurance balance sheets) separately."
+    },
+    {
+      "id": "apollo",
+      "publisher": "Apollo Academy",
+      "title": "Share of US firms with revenue above $100m that are private (chart)",
+      "url": "https://www.apolloacademy.com/wp-content/uploads/2024/04/042024-Chart_v2.pdf",
+      "date": "2024-04",
+      "verified": "excerpt",
+      "note": "Based on S&P Capital IQ. Other sources using other definitions give lower shares; quote this one with its definition."
+    },
+    {
+      "id": "meketa",
+      "publisher": "Meketa",
+      "title": "The Decreasing Number of Public Companies",
+      "url": "https://meketa.com/wp-content/uploads/2024/09/MEKETA_The-Decreasing-Number-of-Public-Companies_2024.pdf",
+      "date": "2024-09",
+      "verified": "excerpt"
+    },
+    {
+      "id": "ilpa-90",
+      "publisher": "ILPA",
+      "title": "ESG Reporting & Benchmarking",
+      "url": "https://ilpa.org/industry-guidance/environmental-social-governance/esg-roadmap/reporting-and-benchmarking/",
+      "date": "n.d.",
+      "verified": "excerpt",
+      "note": "The page shows no date; the wording suggests 2022–23."
+    },
+    {
+      "id": "ilpa-edci",
+      "publisher": "ILPA",
+      "title": "ESG Data Convergence Initiative",
+      "url": "https://ilpa.org/industry-guidance/environmental-social-governance/data-convergence-initiative/",
+      "date": "2024-01",
+      "verified": "excerpt",
+      "note": "Membership figures stated as of January 2024."
+    },
+    {
+      "id": "edci-overview",
+      "publisher": "ESG Data Convergence Initiative",
+      "title": "Overview of the Initiative for GPs",
+      "url": "https://esgdc-cdn-1.s3.eu-west-2.amazonaws.com/wp-content/uploads/2025/08/20222209/25.07-EDCI-Overview-of-Initiative-for-GPs_website.pdf",
+      "date": "2025-07",
+      "verified": "excerpt"
+    },
+    {
+      "id": "edci-insights",
+      "publisher": "ESG Data Convergence Initiative",
+      "title": "Insights",
+      "url": "https://www.esgdc.org/insights/",
+      "date": "n.d.",
+      "verified": "excerpt",
+      "note": "Undated page describing the latest reporting cycle (2025, likely covering 2024 data)."
+    },
+    {
+      "id": "edci-faq",
+      "publisher": "ESG Data Convergence Initiative",
+      "title": "FAQs",
+      "url": "https://www.esgdc.org/faqs/",
+      "date": "n.d.",
+      "verified": "excerpt",
+      "note": "Undated page, consulted September 2026. Its AUM figure is the total held by member firms, not the assets EDCI data covers."
+    },
+    {
+      "id": "bcg-2024",
+      "publisher": "Boston Consulting Group",
+      "title": "Where Are Private Equity Firms on Their Way to Net Zero?",
+      "url": "https://www.bcg.com/publications/2024/private-equity-firms-net-zero",
+      "date": "2024-10",
+      "verified": "excerpt",
+      "note": "Based on EDCI data for 2023."
+    },
+    {
+      "id": "pri-2025",
+      "publisher": "PRI",
+      "title": "What does 2025 PRI reporting data tell us about investor action on climate?",
+      "url": "https://public.unpri.org/pri-blog/what-does-2025-pri-reporting-data-tell-us-about-investor-action-on-climate/13626.article",
+      "date": "2025",
+      "verified": "excerpt",
+      "note": "All PRI signatories and asset classes, not only private markets."
+    },
+    {
+      "id": "cdp-2025",
+      "publisher": "CDP",
+      "title": "Keeping Pace: Disclosure Data Factsheet 2025",
+      "url": "https://www.cdp.net/en/insights/keeping-pace-disclosure-data-factsheet-2025",
+      "date": "2025",
+      "verified": "excerpt"
+    },
+    {
+      "id": "varma",
+      "publisher": "PRI",
+      "title": "Varma: How we calculate our financed emissions",
+      "url": "https://public.unpri.org/varma-how-we-calculate-our-financed-emissions/13322.article",
+      "date": "n.d.",
+      "verified": "excerpt",
+      "note": "Undated case study; the scores describe Varma's 2024 portfolio."
+    },
+    {
+      "id": "pcaf",
+      "publisher": "PCAF",
+      "title": "The Global GHG Accounting and Reporting Standard, Part A: Financed Emissions, third edition",
+      "url": "https://carbonaccountingfinancials.com/files/standard-launch-2025/PCAF-PartA-2025-Full-Document-Clean.pdf",
+      "date": "2025-12-02",
+      "verified": "excerpt",
+      "note": "Which estimation methods map to scores 4 and 5 is taken from the 2020 and 2022 editions and has not been re-checked against this edition."
+    },
+    {
+      "id": "munichre",
+      "publisher": "Munich Re",
+      "title": "Natural disaster figures 2025",
+      "url": "https://www.munichre.com/en/company/media-relations/media-information-and-corporate-news/media-information/2026/natural-disaster-figures-2025.html",
+      "date": "2026-01-13",
+      "verified": "excerpt",
+      "note": "Figures seen in Artemis and AFP coverage of this release, not on Munich Re's page itself."
+    },
+    {
+      "id": "aon",
+      "publisher": "Aon",
+      "title": "Climate and Catastrophe Insight 2026",
+      "url": "https://www.aon.com/en/insights/reports/climate-and-catastrophe-report",
+      "date": "2026-01-20",
+      "verified": "excerpt"
+    },
+    {
+      "id": "swissre",
+      "publisher": "Swiss Re Institute",
+      "title": "sigma 1/2026: natural catastrophes in 2025",
+      "url": "https://www.swissre.com/institute/research/sigma-research/sigma-2026-01-natcat-2025-wildfire-storm-risk/global-natcat-losses-2025.html",
+      "date": "2026-03",
+      "verified": "excerpt"
+    },
+    {
+      "id": "noaa",
+      "publisher": "NOAA Climate.gov",
+      "title": "2024: An active year of U.S. billion-dollar weather and climate disasters",
+      "url": "https://www.climate.gov/news-features/blogs/beyond-data/2024-active-year-us-billion-dollar-weather-and-climate-disasters",
+      "date": "2025-01",
+      "verified": "excerpt"
+    },
+    {
+      "id": "crs",
+      "publisher": "Congressional Research Service",
+      "title": "NOAA's Billion-Dollar Weather and Climate Disasters Database (IF12944)",
+      "url": "https://www.congress.gov/crs-product/IF12944",
+      "date": "2025",
+      "verified": "excerpt"
+    },
+    {
+      "id": "bernstein",
+      "publisher": "Journal of Financial Economics",
+      "title": "Bernstein, Gustafson & Lewis — Disaster on the horizon: the price effect of sea level rise",
+      "url": "https://www.sciencedirect.com/science/article/abs/pii/S0304405X19300807",
+      "date": "2019-11",
+      "verified": "excerpt"
+    },
+    {
+      "id": "claims-journal",
+      "publisher": "Claims Journal",
+      "title": "Senate Budget Committee report on climate and insurance non-renewals",
+      "url": "https://www.claimsjournal.com/news/national/2024/12/19/327997.htm",
+      "date": "2024-12-19",
+      "verified": "excerpt",
+      "note": "Secondary report of a Senate Budget Committee majority-staff analysis, which the insurance industry disputed."
+    },
+    {
+      "id": "first-street",
+      "publisher": "First Street",
+      "title": "Property Prices in Peril",
+      "url": "https://firststreet.org/research-library/property-prices-in-peril",
+      "date": "2025-02-03",
+      "verified": "excerpt",
+      "note": "A commercial climate-risk data vendor's model projection, not an observed outcome."
+    },
+    {
+      "id": "eichholtz",
+      "publisher": "American Economic Review",
+      "title": "Eichholtz, Kok & Quigley — Doing well by doing good? Green office buildings",
+      "url": "https://eml.berkeley.edu//~webfac/auerbach/quigley.pdf",
+      "date": "2010",
+      "verified": "excerpt",
+      "note": "Working-paper version of AER 100(5)."
+    },
+    {
+      "id": "worldbank",
+      "publisher": "World Bank",
+      "title": "Direct carbon pricing covers nearly one-third of global emissions",
+      "url": "https://www.worldbank.org/en/news/press-release/2026/05/19/direct-carbon-pricing-covers-nearly-one-third-of-global-emissions",
+      "date": "2026-05-19",
+      "verified": "excerpt",
+      "note": "\"Nearly one-third\" includes instruments not yet in force; just over 29% is the current figure."
+    },
+    {
+      "id": "ngfs",
+      "publisher": "NGFS",
+      "title": "NGFS climate scenarios, Phase V: high-level overview",
+      "url": "https://www.ngfs.net/system/files/import/ngfs/media/2024/11/05/ngfs_scenarios_high-level_overview.pdf",
+      "date": "2024-11-05",
+      "verified": "excerpt"
+    },
+    {
+      "id": "semieniuk",
+      "publisher": "Nature Climate Change",
+      "title": "Semieniuk et al. — Stranded fossil-fuel assets translate to major losses for investors in advanced economies",
+      "url": "https://doi.org/10.1038/s41558-022-01356-y",
+      "date": "2022",
+      "verified": "excerpt"
+    },
+    {
+      "id": "duchin",
+      "publisher": "Journal of Finance",
+      "title": "Duchin, Gao & Xu — Sustainability or greenwashing: evidence from the asset market for industrial pollution",
+      "url": "https://onlinelibrary.wiley.com/doi/10.1111/jofi.13412",
+      "date": "2025-04",
+      "verified": "excerpt"
+    },
+    {
+      "id": "edf",
+      "publisher": "Environmental Defense Fund",
+      "title": "Oil majors take climate goals — data shows billions worth of their polluting assets are changing hands",
+      "url": "https://www.edf.org/media/report-oil-majors-take-climate-goals-data-shows-billions-worth-their-polluting-assets-are",
+      "date": "2022-05",
+      "verified": "excerpt",
+      "note": "An advocacy organisation. Figures not independently verified."
+    },
+    {
+      "id": "pesp",
+      "publisher": "Private Equity Stakeholder Project",
+      "title": "Almost 2/3 of top private equity energy portfolio companies are fossil fuel companies",
+      "url": "https://pestakeholder.org/news/almost-2-3-of-top-private-equity-energy-portfolio-companies-are-fossil-fuel-companies/",
+      "date": "2025-02",
+      "verified": "excerpt",
+      "note": "An advocacy organisation, with Americans for Financial Reform Education Fund and Global Energy Monitor. Data as of January 2025."
+    },
+    {
+      "id": "esas-rts",
+      "publisher": "European Supervisory Authorities",
+      "title": "Final Report on draft RTS amending the SFDR Delegated Regulation (JC 2023 55)",
+      "url": "https://www.esma.europa.eu/sites/default/files/2023-12/JC_2023_55_-_Final_Report_SFDR_Delegated_Regulation_amending_RTS.pdf",
+      "date": "2023-12",
+      "verified": "excerpt"
+    },
+    {
+      "id": "ec-sfdr2",
+      "publisher": "European Commission",
+      "title": "Commission proposes improvements to the SFDR",
+      "url": "https://finance.ec.europa.eu/news/commission-proposes-improvements-sfdr-2025-11-21_en",
+      "date": "2025-11-21",
+      "verified": "excerpt"
+    },
+    {
+      "id": "council-sfdr2",
+      "publisher": "Council of the EU",
+      "title": "Council agrees position on simpler transparency rules for sustainable financial products",
+      "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/06/24/council-agrees-position-on-simpler-transparency-rules-for-sustainable-financial-products/",
+      "date": "2026-06-24",
+      "verified": "excerpt"
+    },
+    {
+      "id": "ipe-sfdr2",
+      "publisher": "IPE",
+      "title": "European Parliament votes on SFDR negotiating position",
+      "url": "https://www.ipe.com/news/european-parliament-votes-on-sfdr-negotiating-position/10138413.article",
+      "date": "2026-09",
+      "verified": "excerpt"
+    },
+    {
+      "id": "linklaters",
+      "publisher": "Linklaters",
+      "title": "EU Omnibus I Directive published in the Official Journal of the EU",
+      "url": "https://sustainablefutures.linklaters.com/post/102mkjf/eu-omnibus-i-directive-published-in-the-official-journal-of-the-eu",
+      "date": "2026-03",
+      "verified": "excerpt",
+      "note": "Law-firm summary; the Directive was published on 26 February 2026."
+    },
+    {
+      "id": "accountancy-eu",
+      "publisher": "Accountancy Europe",
+      "title": "Omnibus explained: key changes to the CSRD and CSDDD",
+      "url": "https://accountancyeurope.eu/publications/omnibus-explained-key-changes-to-the-csrd-and-csddd/",
+      "date": "n.d.",
+      "verified": "excerpt",
+      "note": "Undated explainer; the 80% figure is an estimate."
+    },
+    {
+      "id": "ifrs-s2",
+      "publisher": "IFRS Foundation",
+      "title": "ISSB issues targeted amendments to IFRS S2",
+      "url": "https://www.ifrs.org/news-and-events/news/2025/12/issb-issues-targeted-amendments-ifrs-s2/",
+      "date": "2025-12",
+      "verified": "excerpt"
+    },
+    {
+      "id": "issb-ac",
+      "publisher": "IFRS Foundation",
+      "title": "ISSB update to the Advisory Council",
+      "url": "https://www.ifrs.org/content/dam/ifrs/meetings/2026/april/ac/ac5-issb-update.pdf",
+      "date": "2026-04",
+      "verified": "excerpt"
+    },
+    {
+      "id": "aasb",
+      "publisher": "AASB",
+      "title": "AASB S2025-1 Amendments to AASB S2",
+      "url": "https://standards.aasb.gov.au/sites/default/files/2025-12/AASBS2025-1_12-25_0.pdf",
+      "date": "2025-12",
+      "verified": "excerpt"
+    },
+    {
+      "id": "fca-esg2",
+      "publisher": "FCA",
+      "title": "ESG 2: TCFD entity and product reports (FCA Handbook)",
+      "url": "https://handbook.fca.org.uk/handbook/esg2",
+      "date": "n.d.",
+      "verified": "excerpt",
+      "note": "Live Handbook text, in force since PS21/24 (December 2021)."
+    },
+    {
+      "id": "sec-rescind",
+      "publisher": "US SEC",
+      "title": "SEC proposes rescission of climate-related disclosure rules (2026-49)",
+      "url": "https://www.sec.gov/newsroom/press-releases/2026-49-sec-proposes-rescission-climate-related-disclosure-rules",
+      "date": "2026-05-29",
+      "verified": "excerpt"
+    },
+    {
+      "id": "carb",
+      "publisher": "California Air Resources Board",
+      "title": "Corporate climate data disclosure (SB 253 and SB 261)",
+      "url": "https://ww2.arb.ca.gov/our-work/programs/corporate-ghg-reporting/corporate-disclosure-climate-data",
+      "date": "n.d.",
+      "verified": "excerpt",
+      "note": "Live programme page."
+    },
+    {
+      "id": "sidley",
+      "publisher": "Sidley Austin",
+      "title": "SB 253 update: CARB delays reporting deadline to November 2026",
+      "url": "https://environmentalhealthsafetybrief.sidley.com/2026/06/30/sb-253-update-carb-delays-reporting-deadline-to-november-2026-and-proposes-to-clarify-requirements/",
+      "date": "2026-06-30",
+      "verified": "excerpt"
+    },
+    {
+      "id": "morganlewis",
+      "publisher": "Morgan Lewis",
+      "title": "Ninth Circuit enjoins SB 261 enforcement while CARB continues to workshop",
+      "url": "https://www.morganlewis.com/pubs/2025/11/california-climate-disclosure-update-ninth-circuit-enjoins-sb-261-enforcement-while-carb-continues-to-workshop",
+      "date": "2025-11",
+      "verified": "excerpt"
+    },
+    {
+      "id": "trucost",
+      "publisher": "S&P Global Sustainable1",
+      "title": "Trucost Environmental Data Methodology",
+      "url": "https://portal.s1.spglobal.com/survey/documents/SPG_S1_Trucost_Environmental_Data_Methodology.pdf",
+      "date": "2025-11",
+      "verified": "excerpt"
+    },
+    {
+      "id": "nguyen-2021",
+      "publisher": "Energy Economics",
+      "title": "Nguyen, Diaz-Rainey & Kuruppuarachchi — Predicting corporate carbon footprints for climate finance risk analyses: a machine learning approach",
+      "url": "https://econpapers.repec.org/RePEc:eee:eneeco:v:95:y:2021:i:c:s0140988321000347",
+      "date": "2021",
+      "verified": "excerpt"
+    },
+    {
+      "id": "nguyen-2023",
+      "publisher": "PLOS Climate",
+      "title": "Nguyen et al. — Scope 3 emissions: data quality and machine learning prediction accuracy",
+      "url": "https://journals.plos.org/climate/article?id=10.1371%2Fjournal.pclm.0000208",
+      "date": "2023-11",
+      "verified": "excerpt"
+    },
+    {
+      "id": "kalesnik",
+      "publisher": "Journal of Portfolio Management",
+      "title": "Kalesnik, Wilkens & Zink — Do corporate carbon emissions data enable investors to mitigate climate change?",
+      "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3722973",
+      "date": "2022-08",
+      "verified": "excerpt"
+    },
+    {
+      "id": "amundi",
+      "publisher": "Amundi Research Center",
+      "title": "Scope 3 emissions: measurement and data provider comparison",
+      "url": "https://research-center.amundi.com/files/nuxeo/dl/99b740b0-9acc-4e99-a14e-2c3288230446?inline=",
+      "date": "n.d.",
+      "verified": "excerpt",
+      "note": "Undated PDF; publication year not confirmed."
+    },
+    {
+      "id": "berg",
+      "publisher": "Review of Finance",
+      "title": "Berg, Kölbel & Rigobon — Aggregate confusion: the divergence of ESG ratings",
+      "url": "https://academic.oup.com/rof/article/26/6/1315/6590670",
+      "date": "2022",
+      "verified": "excerpt"
+    },
+    {
+      "id": "beck",
+      "publisher": "Scientific Data",
+      "title": "Beck et al. — a benchmark dataset of emissions metrics from sustainability reports",
+      "url": "https://www.nature.com/articles/s41597-025-05664-8",
+      "date": "2025",
+      "verified": "excerpt"
+    },
+    {
+      "id": "climatetrace",
+      "publisher": "Climate TRACE",
+      "title": "Climate TRACE emissions inventory",
+      "url": "https://climatetrace.org/",
+      "date": "n.d.",
+      "verified": "excerpt",
+      "note": "Live homepage; the counts change with each monthly release."
+    },
+    {
+      "id": "garp",
+      "publisher": "GARP",
+      "title": "Why vendors disagree",
+      "url": "https://www.garp.org/risk-intelligence/sustainability-climate/why-vendors-disagree-260630",
+      "date": "2026-06",
+      "verified": "excerpt"
+    },
+    {
+      "id": "esma-gw",
+      "publisher": "ESMA",
+      "title": "Final Report on Greenwashing (ESMA36-287652198-2699)",
+      "url": "https://www.esma.europa.eu/sites/default/files/2024-06/ESMA36-287652198-2699_Final_Report_on_Greenwashing.pdf",
+      "date": "2024-06-04",
+      "verified": "excerpt"
+    },
+    {
+      "id": "stibbe",
+      "publisher": "Stibbe",
+      "title": "ESG ratings and new EU supervision as of 2 July 2026",
+      "url": "https://www.stibbe.com/publications-and-insights/esg-ratings-and-new-eu-supervision-as-of-2-july-2026",
+      "date": "2026",
+      "verified": "excerpt"
+    },
+    {
+      "id": "iosco",
+      "publisher": "IOSCO",
+      "title": "Supervisory Toolkit for Artificial Intelligence (FR/02/2026)",
+      "url": "https://www.iosco.org/library/pubdocs/pdf/IOSCOPD823.pdf",
+      "date": "2026-05-25",
+      "verified": "excerpt"
+    },
+    {
+      "id": "sec-ai",
+      "publisher": "US SEC",
+      "title": "SEC charges two investment advisers with making false and misleading statements about their use of artificial intelligence (2024-36)",
+      "url": "https://www.sec.gov/newsroom/press-releases/2024-36",
+      "date": "2024-03-18",
+      "verified": "excerpt"
+    },
+    {
+      "id": "sec-dws",
+      "publisher": "US SEC",
+      "title": "DWS to pay $25 million for anti-money laundering violations and misstatements regarding ESG investments (2023-194)",
+      "url": "https://www.sec.gov/newsroom/press-releases/2023-194",
+      "date": "2023-09",
+      "verified": "excerpt",
+      "note": "Release date not confirmed; believed to be 25 September 2023."
+    },
+    {
+      "id": "iigcc",
+      "publisher": "IIGCC / Paris Aligned Asset Owners",
+      "title": "Net Zero Investment Framework: private equity component",
+      "url": "https://www.parisalignedassetowners.org/media/2023/05/Net-Zero-Investment-Framework-component-for-the-private-equity-industry.pdf",
+      "date": "2023-05",
+      "verified": "excerpt"
+    },
+    {
+      "id": "edci-guidance",
+      "publisher": "ESG Data Convergence Initiative",
+      "title": "2026 EDCI Metrics Guidance",
+      "url": "https://esgdc-cdn-1.s3.eu-west-2.amazonaws.com/wp-content/uploads/2025/11/04192159/2026-EDCI-Metrics-Guidance_vLive-1.pdf",
+      "date": "2025-11",
+      "verified": "excerpt"
+    },
+    {
+      "id": "ici-erm",
+      "publisher": "ERM / Initiative Climat International",
+      "title": "iCI publishes new standard for GHG accounting and reporting in private equity",
+      "url": "https://www.erm.com/about/news/initiative-climat-international-publishes-new-standard-for-ghg-accounting-and-reporting-in-private-equity/",
+      "date": "2022",
+      "verified": "excerpt"
+    },
+    {
+      "id": "ilpa-framework",
+      "publisher": "ILPA",
+      "title": "Updated ESG Assessment Framework now available",
+      "url": "https://ilpa.org/news/updated-esg-assessment-framework-now-available/",
+      "date": "2024",
+      "verified": "excerpt"
+    },
+    {
+      "id": "pri-climate-pm",
+      "publisher": "PRI",
+      "title": "Climate change for private markets (including the PRI/ILPA/iCI Climate Module)",
+      "url": "https://www.unpri.org/investment-tools/private-markets/climate-change-for-private-markets",
+      "date": "2025",
+      "verified": "excerpt"
+    },
+    {
+      "id": "pri-physical",
+      "publisher": "PRI",
+      "title": "Assessing physical climate risk in private markets: a technical guide",
+      "url": "https://www.unpri.org/climate-change-for-private-markets/assessing-physical-climate-risk-in-private-markets-a-technical-guide/13135.article",
+      "date": "2025-03",
+      "verified": "excerpt"
+    }
   ],
   "figures": [
-    { "id": "alt-2023", "value": 16.78, "display": "US$16.78tn", "source": "preqin-2029", "refers_to": "Global alternatives AUM, end-2023" },
-    { "id": "alt-2029", "value": 29.22, "display": "US$29.22tn", "source": "preqin-2029", "refers_to": "Preqin forecast of alternatives AUM, end-2029" },
-    { "id": "pe-2023", "value": 5.8, "display": "US$5.8tn", "source": "preqin-2029", "refers_to": "Private equity AUM, end-2023" },
-    { "id": "pe-2029", "value": 12.0, "display": "US$12.0tn", "source": "preqin-2029", "refers_to": "Private equity AUM forecast, 2029" },
-    { "id": "pre-2023", "value": 1.61, "display": "US$1.61tn", "source": "preqin-2029", "refers_to": "Private real estate AUM, 2023" },
-    { "id": "pre-2029", "value": 2.66, "display": "US$2.66tn", "source": "preqin-2029", "refers_to": "Private real estate AUM forecast, 2029" },
-    { "id": "alt-2030", "display": "about US$32tn", "source": "preqin-2030", "refers_to": "Preqin forecast of alternatives AUM, 2030 (October 2025 report)" },
-    { "id": "mck-closed", "display": "US$16–16.5tn", "source": "mckinsey-gpmr", "refers_to": "Closed-end private-markets AUM, 2025" },
-    { "id": "us-private-share", "display": "87%", "source": "apollo", "refers_to": "Share of US firms with revenue above US$100m that are private, 2024" },
-    { "id": "us-listed", "display": "4,572", "source": "meketa", "refers_to": "US domestic listed companies, Q1 2023" },
-    { "id": "ilpa-estimated", "display": "as much as 90%", "source": "ilpa-90", "refers_to": "Share of private-fund emissions data LPs must estimate" },
-    { "id": "edci-aum-2024", "value": 28, "display": "~US$28tn", "source": "ilpa-edci", "refers_to": "Total AUM of EDCI members, January 2024 (375+ members)" },
-    { "id": "edci-aum-2025", "value": 38, "display": ">US$38tn", "source": "edci-overview", "refers_to": "Total AUM of EDCI members, July 2025 (450+ members)" },
-    { "id": "edci-aum-2026", "value": 59, "display": "~US$59tn", "source": "edci-faq", "refers_to": "Total AUM of EDCI members, 2026 (500+ members)" },
-    { "id": "edci-members-2026", "display": "500+", "source": "edci-faq", "refers_to": "EDCI members, 2026 (about 350 GPs and 150 LPs)" },
-    { "id": "edci-cos", "display": "9,000", "source": "edci-insights", "refers_to": "Portfolio companies in the latest EDCI cycle" },
-    { "id": "edci-points", "display": "230,000+", "source": "edci-insights", "refers_to": "Data points in the latest EDCI cycle" },
-    { "id": "bcg-strategy", "value": 22, "display": "22%", "source": "bcg-2024", "refers_to": "PE-owned companies in EDCI with a decarbonisation strategy, 2023 data" },
-    { "id": "bcg-netzero", "value": 17, "display": "17%", "source": "bcg-2024", "refers_to": "PE-owned companies in EDCI with a 2050 net-zero commitment, 2023 data" },
-    { "id": "bcg-renew", "value": 30, "display": "30%", "source": "bcg-2024", "refers_to": "Median renewable share of electricity, EDCI companies, 2023" },
-    { "id": "pri-carbon-24", "value": 50, "display": "50%", "source": "pri-2025", "refers_to": "PRI signatories reporting total carbon emissions, 2024" },
-    { "id": "pri-carbon-25", "value": 56, "display": "56%", "source": "pri-2025", "refers_to": "PRI signatories reporting total carbon emissions, 2025" },
-    { "id": "pri-waci-24", "value": 36, "display": "36%", "source": "pri-2025", "refers_to": "PRI signatories reporting WACI, 2024" },
-    { "id": "pri-waci-25", "value": 41, "display": "41%", "source": "pri-2025", "refers_to": "PRI signatories reporting WACI, 2025" },
-    { "id": "pri-phys-23", "value": 29, "display": "29%", "source": "pri-2025", "refers_to": "PRI signatories reporting physical-risk exposure, 2023" },
-    { "id": "pri-phys-25", "value": 32, "display": "32%", "source": "pri-2025", "refers_to": "PRI signatories reporting physical-risk exposure, 2025" },
-    { "id": "cdp-total", "display": "22,000+", "source": "cdp-2025", "refers_to": "Companies disclosing through CDP, 2025" },
-    { "id": "cdp-sme", "display": "nearly 11,000", "source": "cdp-2025", "refers_to": "Of which used the SME questionnaire, 2025" },
-    { "id": "varma-dq", "display": "2.96", "source": "varma", "refers_to": "Varma's portfolio-weighted PCAF data-quality score, 2024" },
-    { "id": "varma-range", "display": "1.32 to 5.0", "source": "varma", "refers_to": "Range of Varma's PCAF scores across asset classes, 2024" },
-    { "id": "pcaf-classes", "display": "ten", "source": "pcaf", "refers_to": "Asset classes covered by PCAF Part A, third edition" },
-    { "id": "mr-econ", "value": 224, "display": "US$224bn", "source": "munichre", "refers_to": "Economic losses from natural disasters, 2025" },
-    { "id": "mr-ins", "value": 108, "display": "US$108bn", "source": "munichre", "refers_to": "Insured losses from natural disasters, 2025" },
-    { "id": "aon-econ", "value": 260, "display": "US$260bn", "source": "aon", "refers_to": "Economic losses from natural disasters, 2025" },
-    { "id": "aon-ins", "value": 127, "display": "US$127bn", "source": "aon", "refers_to": "Insured losses from natural disasters, 2025" },
-    { "id": "aon-gap", "display": "51%", "source": "aon", "refers_to": "Share of 2025 economic losses not insured (protection gap)" },
-    { "id": "aon-us", "display": "81%", "source": "aon", "refers_to": "US share of global insured losses, 2025" },
-    { "id": "sr-ins", "value": 107, "display": "US$107bn", "source": "swissre", "refers_to": "Insured losses from natural catastrophes, 2025" },
-    { "id": "sr-secondary", "display": "92%", "source": "swissre", "refers_to": "Share of 2025 insured losses from secondary perils" },
-    { "id": "noaa-count", "display": "27", "source": "noaa", "refers_to": "US billion-dollar disasters, 2024" },
-    { "id": "noaa-cost", "display": "US$182.7bn", "source": "noaa", "refers_to": "Cost of US billion-dollar disasters, 2024" },
-    { "id": "sea-discount", "display": "about 7%", "source": "bernstein", "refers_to": "Price discount on US homes exposed to sea-level rise" },
-    { "id": "sea-distant", "display": "about 4%", "source": "bernstein", "refers_to": "Discount on exposed homes not projected to flood for about a century" },
-    { "id": "nonrenew", "display": "48 of the 50", "source": "claims-journal", "refers_to": "US counties with the highest 2023 non-renewal rates that are flood- or wildfire-exposed" },
-    { "id": "fs-premium", "display": "29.4%", "source": "first-street", "refers_to": "Projected rise in average US home insurance premiums by 2055" },
-    { "id": "fs-value", "display": "US$1.47tn", "source": "first-street", "refers_to": "Projected loss of US property value by 2055" },
-    { "id": "green-rent", "display": "about 3%", "source": "eichholtz", "refers_to": "Rent premium for green-certified US offices" },
-    { "id": "green-sale", "display": "about 16%", "source": "eichholtz", "refers_to": "Sale-price premium for green-certified US offices" },
-    { "id": "cp-coverage", "display": "29%", "source": "worldbank", "refers_to": "Share of global emissions covered by direct carbon pricing, 2026 (just over 29%)" },
-    { "id": "cp-instruments", "display": "87", "source": "worldbank", "refers_to": "Carbon-pricing instruments in force, 2026 (47 taxes, 40 ETSs)" },
-    { "id": "cp-revenue", "display": ">US$107bn", "source": "worldbank", "refers_to": "Carbon-pricing revenue, 2025" },
-    { "id": "cp-price", "display": "~US$21/t", "source": "worldbank", "refers_to": "Average carbon price, 2026" },
-    { "id": "ngfs-mult", "display": "2 to 4 times", "source": "ngfs", "refers_to": "Increase in estimated 2050 chronic physical-risk losses, NGFS Phase V vs earlier vintages" },
-    { "id": "stranded", "display": "more than US$1tn", "source": "semieniuk", "refers_to": "Present value of upstream oil and gas assets at risk of stranding" },
-    { "id": "edf-deals", "display": "155 deals worth US$86.4bn", "source": "edf", "refers_to": "Oil and gas deals moving assets away from net-zero-committed companies, 2017–2021" },
-    { "id": "pesp-share", "display": "65%", "source": "pesp", "refers_to": "Share of energy portfolio companies of the 20 largest PE firms that are fossil-fuel companies, January 2025 (264 of 407)" },
-    { "id": "pesp-emissions", "display": "1.17bn tCO2e", "source": "pesp", "refers_to": "Annual emissions of those fossil-fuel assets" },
-    { "id": "omnibus-out", "display": "about 80%", "source": "accountancy-eu", "refers_to": "Share of companies removed from CSRD scope by the Omnibus" },
-    { "id": "issb-juris", "display": "28", "source": "issb-ac", "refers_to": "Jurisdictions that had adopted ISSB standards, 22 April 2026" },
-    { "id": "sb253-date", "display": "10 Nov 2026", "source": "sidley", "refers_to": "Deadline for first SB 253 Scope 1 and 2 reports" },
-    { "id": "trucost-sectors", "display": "about 500", "source": "trucost", "refers_to": "Sectors in Trucost's input-output model" },
-    { "id": "ml-mae", "value": 30, "display": "up to 30%", "source": "nguyen-2021", "refers_to": "Improvement in mean absolute error, Scope 1–3, ML ensemble vs earlier models" },
-    { "id": "ml-s3-cat", "value": 25, "display": "up to 25%", "source": "nguyen-2023", "refers_to": "Improvement in Scope 3 accuracy when categories are modelled separately" },
-    { "id": "ml-s3-agg", "value": 6, "display": "up to 6%", "source": "nguyen-2023", "refers_to": "Improvement in aggregate Scope 3 accuracy" },
-    { "id": "worst-emitters", "display": "2.4×", "source": "kalesnik", "refers_to": "How much less effective estimated data were at finding the worst emitters (at least)" },
-    { "id": "est-share", "display": "more than half", "source": "kalesnik", "refers_to": "Share of vendor emissions observations that are estimates" },
-    { "id": "corr-rep", "value": 0.97, "display": "0.97", "source": "kalesnik", "refers_to": "Correlation between providers, Scope 1, company-reported" },
-    { "id": "corr-est", "value": 0.85, "display": "0.85", "source": "kalesnik", "refers_to": "Correlation between providers, Scope 1, vendor-estimated" },
-    { "id": "corr-s12", "value": 0.74, "display": "0.74", "source": "amundi", "refers_to": "Correlation, Trucost vs MSCI, Scope 1+2 (reported as 74%)" },
-    { "id": "corr-s3down", "value": 0.25, "display": "0.25", "source": "amundi", "refers_to": "Correlation, Trucost vs MSCI, downstream Scope 3 (reported as 25%)" },
-    { "id": "corr-s3", "value": 0.16, "display": "0.16", "source": "amundi", "refers_to": "Correlation, ISS vs Trucost, Scope 3 (reported as 16%)" },
-    { "id": "berg-meas", "value": 56, "display": "56%", "source": "berg", "refers_to": "Share of ESG-rating divergence from measurement" },
-    { "id": "berg-scope", "value": 38, "display": "38%", "source": "berg", "refers_to": "Share of ESG-rating divergence from scope" },
-    { "id": "berg-weight", "value": 6, "display": "6%", "source": "berg", "refers_to": "Share of ESG-rating divergence from weights" },
-    { "id": "beck-reports", "display": "139", "source": "beck", "refers_to": "Sustainability reports in the extraction benchmark" },
-    { "id": "ct-sources", "display": "2,765,771", "source": "climatetrace", "refers_to": "Emission sources in the Climate TRACE inventory" },
-    { "id": "ct-assets", "display": "744,678,997", "source": "climatetrace", "refers_to": "Assets summarised in the Climate TRACE inventory" },
-    { "id": "garp-vendors", "display": "13", "source": "garp", "refers_to": "Physical-risk vendors benchmarked" },
-    { "id": "sec-delphia", "display": "US$225,000", "source": "sec-ai", "refers_to": "Delphia penalty for AI-washing" },
-    { "id": "sec-gp", "display": "US$175,000", "source": "sec-ai", "refers_to": "Global Predictions penalty for AI-washing" },
-    { "id": "sec-dws-esg", "display": "US$19m", "source": "sec-dws", "refers_to": "DWS penalty for ESG misstatements (of US$25m in total)" }
+    {
+      "id": "alt-2030",
+      "display": "about US$32tn",
+      "source": "preqin-2030",
+      "refers_to": "Preqin forecast of alternatives AUM, 2030 (October 2025 report)",
+      "value": 32
+    },
+    {
+      "id": "mck-closed",
+      "display": "US$16–16.5tn",
+      "source": "mckinsey-gpmr",
+      "refers_to": "Traditional closed-end private-markets fund AUM, 2025 (bar drawn at the midpoint)",
+      "value": 16.25
+    },
+    {
+      "id": "mck-other",
+      "value": 8.25,
+      "display": "US$8–8.5tn",
+      "source": "mckinsey-gpmr",
+      "refers_to": "Private capital in other forms (evergreen funds, SMAs, insurance balance sheets), 2025 (bar drawn at the midpoint)"
+    },
+    {
+      "id": "mck-pe-deals",
+      "display": "US$2.6tn",
+      "source": "mckinsey-gpmr",
+      "refers_to": "Private equity deal value in 2025, up 19%"
+    },
+    {
+      "id": "credit-2030",
+      "value": 4.5,
+      "display": "US$4.5tn",
+      "source": "preqin-2030",
+      "refers_to": "Preqin forecast of private credit AUM, 2030"
+    },
+    {
+      "id": "infra-2030",
+      "value": 3,
+      "display": "nearly US$3tn",
+      "source": "preqin-2030",
+      "refers_to": "Preqin forecast of infrastructure AUM, 2030"
+    },
+    {
+      "id": "us-private-share",
+      "display": "87%",
+      "source": "apollo",
+      "refers_to": "Share of US firms with revenue above US$100m that are private, 2024"
+    },
+    {
+      "id": "us-listed",
+      "display": "4,572",
+      "source": "meketa",
+      "refers_to": "US domestic listed companies, Q1 2023"
+    },
+    {
+      "id": "ilpa-estimated",
+      "display": "as much as 90%",
+      "source": "ilpa-90",
+      "refers_to": "Share of private-fund emissions data LPs must estimate"
+    },
+    {
+      "id": "edci-aum-2024",
+      "value": 28,
+      "display": "~US$28tn",
+      "source": "ilpa-edci",
+      "refers_to": "Total AUM of EDCI members, January 2024 (375+ members)"
+    },
+    {
+      "id": "edci-aum-2025",
+      "value": 38,
+      "display": ">US$38tn",
+      "source": "edci-overview",
+      "refers_to": "Total AUM of EDCI members, July 2025 (450+ members)"
+    },
+    {
+      "id": "edci-aum-2026",
+      "value": 59,
+      "display": "~US$59tn",
+      "source": "edci-faq",
+      "refers_to": "Total AUM of EDCI members, 2026 (500+ members)"
+    },
+    {
+      "id": "edci-members-2026",
+      "display": "500+",
+      "source": "edci-faq",
+      "refers_to": "EDCI members, 2026 (about 350 GPs and 150 LPs)"
+    },
+    {
+      "id": "edci-cos",
+      "display": "9,000",
+      "source": "edci-insights",
+      "refers_to": "Portfolio companies in the latest EDCI cycle"
+    },
+    {
+      "id": "edci-points",
+      "display": "230,000+",
+      "source": "edci-insights",
+      "refers_to": "Data points in the latest EDCI cycle"
+    },
+    {
+      "id": "bcg-strategy",
+      "value": 22,
+      "display": "22%",
+      "source": "bcg-2024",
+      "refers_to": "PE-owned companies in EDCI with a decarbonisation strategy, 2023 data"
+    },
+    {
+      "id": "bcg-netzero",
+      "value": 17,
+      "display": "17%",
+      "source": "bcg-2024",
+      "refers_to": "PE-owned companies in EDCI with a 2050 net-zero commitment, 2023 data"
+    },
+    {
+      "id": "bcg-renew",
+      "value": 30,
+      "display": "30%",
+      "source": "bcg-2024",
+      "refers_to": "Median renewable share of electricity, EDCI companies, 2023"
+    },
+    {
+      "id": "pri-carbon-24",
+      "value": 50,
+      "display": "50%",
+      "source": "pri-2025",
+      "refers_to": "PRI signatories reporting total carbon emissions, 2024"
+    },
+    {
+      "id": "pri-carbon-25",
+      "value": 56,
+      "display": "56%",
+      "source": "pri-2025",
+      "refers_to": "PRI signatories reporting total carbon emissions, 2025"
+    },
+    {
+      "id": "pri-waci-24",
+      "value": 36,
+      "display": "36%",
+      "source": "pri-2025",
+      "refers_to": "PRI signatories reporting WACI, 2024"
+    },
+    {
+      "id": "pri-waci-25",
+      "value": 41,
+      "display": "41%",
+      "source": "pri-2025",
+      "refers_to": "PRI signatories reporting WACI, 2025"
+    },
+    {
+      "id": "pri-phys-23",
+      "value": 29,
+      "display": "29%",
+      "source": "pri-2025",
+      "refers_to": "PRI signatories reporting physical-risk exposure, 2023"
+    },
+    {
+      "id": "pri-phys-25",
+      "value": 32,
+      "display": "32%",
+      "source": "pri-2025",
+      "refers_to": "PRI signatories reporting physical-risk exposure, 2025"
+    },
+    {
+      "id": "cdp-total",
+      "display": "22,000+",
+      "source": "cdp-2025",
+      "refers_to": "Companies disclosing through CDP, 2025"
+    },
+    {
+      "id": "cdp-sme",
+      "display": "nearly 11,000",
+      "source": "cdp-2025",
+      "refers_to": "Of which used the SME questionnaire, 2025"
+    },
+    {
+      "id": "varma-dq",
+      "display": "2.96",
+      "source": "varma",
+      "refers_to": "Varma's portfolio-weighted PCAF data-quality score, 2024"
+    },
+    {
+      "id": "varma-range",
+      "display": "1.32 to 5.0",
+      "source": "varma",
+      "refers_to": "Range of Varma's PCAF scores across asset classes, 2024"
+    },
+    {
+      "id": "pcaf-classes",
+      "display": "ten",
+      "source": "pcaf",
+      "refers_to": "Asset classes covered by PCAF Part A, third edition"
+    },
+    {
+      "id": "mr-econ",
+      "value": 224,
+      "display": "US$224bn",
+      "source": "munichre",
+      "refers_to": "Economic losses from natural disasters, 2025"
+    },
+    {
+      "id": "mr-ins",
+      "value": 108,
+      "display": "US$108bn",
+      "source": "munichre",
+      "refers_to": "Insured losses from natural disasters, 2025"
+    },
+    {
+      "id": "aon-econ",
+      "value": 260,
+      "display": "US$260bn",
+      "source": "aon",
+      "refers_to": "Economic losses from natural disasters, 2025"
+    },
+    {
+      "id": "aon-ins",
+      "value": 127,
+      "display": "US$127bn",
+      "source": "aon",
+      "refers_to": "Insured losses from natural disasters, 2025"
+    },
+    {
+      "id": "aon-gap",
+      "display": "51%",
+      "source": "aon",
+      "refers_to": "Share of 2025 economic losses not insured (protection gap)"
+    },
+    {
+      "id": "aon-us",
+      "display": "81%",
+      "source": "aon",
+      "refers_to": "US share of global insured losses, 2025"
+    },
+    {
+      "id": "sr-ins",
+      "value": 107,
+      "display": "US$107bn",
+      "source": "swissre",
+      "refers_to": "Insured losses from natural catastrophes, 2025"
+    },
+    {
+      "id": "sr-secondary",
+      "display": "92%",
+      "source": "swissre",
+      "refers_to": "Share of 2025 insured losses from secondary perils"
+    },
+    {
+      "id": "noaa-count",
+      "display": "27",
+      "source": "noaa",
+      "refers_to": "US billion-dollar disasters, 2024"
+    },
+    {
+      "id": "noaa-cost",
+      "display": "US$182.7bn",
+      "source": "noaa",
+      "refers_to": "Cost of US billion-dollar disasters, 2024"
+    },
+    {
+      "id": "sea-discount",
+      "display": "about 7%",
+      "source": "bernstein",
+      "refers_to": "Price discount on US homes exposed to sea-level rise"
+    },
+    {
+      "id": "sea-distant",
+      "display": "about 4%",
+      "source": "bernstein",
+      "refers_to": "Discount on exposed homes not projected to flood for about a century"
+    },
+    {
+      "id": "nonrenew",
+      "display": "48 of the 50",
+      "source": "claims-journal",
+      "refers_to": "US counties with the highest 2023 non-renewal rates that are flood- or wildfire-exposed"
+    },
+    {
+      "id": "fs-premium",
+      "display": "29.4%",
+      "source": "first-street",
+      "refers_to": "Projected rise in average US home insurance premiums by 2055"
+    },
+    {
+      "id": "fs-value",
+      "display": "US$1.47tn",
+      "source": "first-street",
+      "refers_to": "Projected loss of US property value by 2055"
+    },
+    {
+      "id": "green-rent",
+      "display": "about 3%",
+      "source": "eichholtz",
+      "refers_to": "Rent premium for green-certified US offices"
+    },
+    {
+      "id": "green-sale",
+      "display": "about 16%",
+      "source": "eichholtz",
+      "refers_to": "Sale-price premium for green-certified US offices"
+    },
+    {
+      "id": "cp-coverage",
+      "display": "29%",
+      "source": "worldbank",
+      "refers_to": "Share of global emissions covered by direct carbon pricing, 2026 (just over 29%)"
+    },
+    {
+      "id": "cp-instruments",
+      "display": "87",
+      "source": "worldbank",
+      "refers_to": "Carbon-pricing instruments in force, 2026 (47 taxes, 40 ETSs)"
+    },
+    {
+      "id": "cp-revenue",
+      "display": ">US$107bn",
+      "source": "worldbank",
+      "refers_to": "Carbon-pricing revenue, 2025"
+    },
+    {
+      "id": "cp-price",
+      "display": "~US$21/t",
+      "source": "worldbank",
+      "refers_to": "Average carbon price, 2026"
+    },
+    {
+      "id": "ngfs-mult",
+      "display": "2 to 4 times",
+      "source": "ngfs",
+      "refers_to": "Increase in estimated 2050 chronic physical-risk losses, NGFS Phase V vs earlier vintages"
+    },
+    {
+      "id": "stranded",
+      "display": "more than US$1tn",
+      "source": "semieniuk",
+      "refers_to": "Present value of upstream oil and gas assets at risk of stranding"
+    },
+    {
+      "id": "edf-deals",
+      "display": "155 deals worth US$86.4bn",
+      "source": "edf",
+      "refers_to": "Oil and gas deals moving assets away from net-zero-committed companies, 2017–2021"
+    },
+    {
+      "id": "pesp-share",
+      "display": "65%",
+      "source": "pesp",
+      "refers_to": "Share of energy portfolio companies of the 20 largest PE firms that are fossil-fuel companies, January 2025 (264 of 407)"
+    },
+    {
+      "id": "pesp-emissions",
+      "display": "1.17bn tCO2e",
+      "source": "pesp",
+      "refers_to": "Annual emissions of those fossil-fuel assets"
+    },
+    {
+      "id": "omnibus-out",
+      "display": "about 80%",
+      "source": "accountancy-eu",
+      "refers_to": "Share of companies removed from CSRD scope by the Omnibus"
+    },
+    {
+      "id": "issb-juris",
+      "display": "28",
+      "source": "issb-ac",
+      "refers_to": "Jurisdictions that had adopted ISSB standards, 22 April 2026"
+    },
+    {
+      "id": "sb253-date",
+      "display": "10 Nov 2026",
+      "source": "sidley",
+      "refers_to": "Deadline for first SB 253 Scope 1 and 2 reports"
+    },
+    {
+      "id": "trucost-sectors",
+      "display": "about 500",
+      "source": "trucost",
+      "refers_to": "Sectors in Trucost's input-output model"
+    },
+    {
+      "id": "ml-mae",
+      "value": 30,
+      "display": "up to 30%",
+      "source": "nguyen-2021",
+      "refers_to": "Improvement in mean absolute error, Scope 1–3, ML ensemble vs earlier models"
+    },
+    {
+      "id": "ml-s3-cat",
+      "value": 25,
+      "display": "up to 25%",
+      "source": "nguyen-2023",
+      "refers_to": "Improvement in Scope 3 accuracy when categories are modelled separately"
+    },
+    {
+      "id": "ml-s3-agg",
+      "value": 6,
+      "display": "up to 6%",
+      "source": "nguyen-2023",
+      "refers_to": "Improvement in aggregate Scope 3 accuracy"
+    },
+    {
+      "id": "worst-emitters",
+      "display": "2.4×",
+      "source": "kalesnik",
+      "refers_to": "How much less effective estimated data were at finding the worst emitters (at least)"
+    },
+    {
+      "id": "est-share",
+      "display": "more than half",
+      "source": "kalesnik",
+      "refers_to": "Share of vendor emissions observations that are estimates"
+    },
+    {
+      "id": "corr-rep",
+      "value": 0.97,
+      "display": "0.97",
+      "source": "kalesnik",
+      "refers_to": "Correlation between providers, Scope 1, company-reported"
+    },
+    {
+      "id": "corr-est",
+      "value": 0.85,
+      "display": "0.85",
+      "source": "kalesnik",
+      "refers_to": "Correlation between providers, Scope 1, vendor-estimated"
+    },
+    {
+      "id": "corr-s12",
+      "value": 0.74,
+      "display": "0.74",
+      "source": "amundi",
+      "refers_to": "Correlation, Trucost vs MSCI, Scope 1+2 (reported as 74%)"
+    },
+    {
+      "id": "corr-s3down",
+      "value": 0.25,
+      "display": "0.25",
+      "source": "amundi",
+      "refers_to": "Correlation, Trucost vs MSCI, downstream Scope 3 (reported as 25%)"
+    },
+    {
+      "id": "corr-s3",
+      "value": 0.16,
+      "display": "0.16",
+      "source": "amundi",
+      "refers_to": "Correlation, ISS vs Trucost, Scope 3 (reported as 16%)"
+    },
+    {
+      "id": "berg-meas",
+      "value": 56,
+      "display": "56%",
+      "source": "berg",
+      "refers_to": "Share of ESG-rating divergence from measurement"
+    },
+    {
+      "id": "berg-scope",
+      "value": 38,
+      "display": "38%",
+      "source": "berg",
+      "refers_to": "Share of ESG-rating divergence from scope"
+    },
+    {
+      "id": "berg-weight",
+      "value": 6,
+      "display": "6%",
+      "source": "berg",
+      "refers_to": "Share of ESG-rating divergence from weights"
+    },
+    {
+      "id": "beck-reports",
+      "display": "139",
+      "source": "beck",
+      "refers_to": "Sustainability reports in the extraction benchmark"
+    },
+    {
+      "id": "ct-sources",
+      "display": "2,765,771",
+      "source": "climatetrace",
+      "refers_to": "Emission sources in the Climate TRACE inventory"
+    },
+    {
+      "id": "ct-assets",
+      "display": "744,678,997",
+      "source": "climatetrace",
+      "refers_to": "Assets summarised in the Climate TRACE inventory"
+    },
+    {
+      "id": "garp-vendors",
+      "display": "13",
+      "source": "garp",
+      "refers_to": "Physical-risk vendors benchmarked"
+    },
+    {
+      "id": "sec-delphia",
+      "display": "US$225,000",
+      "source": "sec-ai",
+      "refers_to": "Delphia penalty for AI-washing"
+    },
+    {
+      "id": "sec-gp",
+      "display": "US$175,000",
+      "source": "sec-ai",
+      "refers_to": "Global Predictions penalty for AI-washing"
+    },
+    {
+      "id": "sec-dws-esg",
+      "display": "US$19m",
+      "source": "sec-dws",
+      "refers_to": "DWS penalty for ESG misstatements (of US$25m in total)"
+    }
   ],
   "tiles": [
-    { "id": "t-hero", "items": [
-      { "fig": "alt-2023", "label": "held in alternatives worldwide at end-2023" },
-      { "fig": "ilpa-estimated", "label": "of private-fund emissions data that LPs have to estimate" },
-      { "fig": "worst-emitters", "label": "less effective: estimated data at spotting the worst emitters" },
-      { "fig": "sb253-date", "label": "first measured emissions due from large private US companies" }
-    ]},
-    { "id": "t-edci", "items": [
-      { "fig": "edci-members-2026", "label": "GPs and LPs in the ESG Data Convergence Initiative" },
-      { "fig": "edci-cos", "label": "portfolio companies in the latest data cycle" },
-      { "fig": "edci-points", "label": "data points collected" }
-    ]},
-    { "id": "t-carbon", "items": [
-      { "fig": "cp-coverage", "label": "of global emissions now carry a direct carbon price" },
-      { "fig": "cp-instruments", "label": "carbon taxes and trading schemes in force" },
-      { "fig": "cp-price", "label": "average price per tonne of CO₂e" },
-      { "fig": "cp-revenue", "label": "raised by carbon pricing in 2025" }
-    ]}
+    {
+      "id": "t-hero",
+      "items": [
+        {
+          "fig": "mck-closed",
+          "label": "in private-markets funds in 2025, plus US$8–8.5tn in other private capital"
+        },
+        {
+          "fig": "ilpa-estimated",
+          "label": "of private-fund emissions data that LPs have to estimate"
+        },
+        {
+          "fig": "worst-emitters",
+          "label": "less effective: estimated data at spotting the worst emitters"
+        },
+        {
+          "fig": "sb253-date",
+          "label": "first measured emissions due from large private US companies"
+        }
+      ]
+    },
+    {
+      "id": "t-edci",
+      "items": [
+        {
+          "fig": "edci-members-2026",
+          "label": "GPs and LPs in the ESG Data Convergence Initiative"
+        },
+        {
+          "fig": "edci-cos",
+          "label": "portfolio companies in the latest data cycle"
+        },
+        {
+          "fig": "edci-points",
+          "label": "data points collected"
+        }
+      ]
+    },
+    {
+      "id": "t-carbon",
+      "items": [
+        {
+          "fig": "cp-coverage",
+          "label": "of global emissions now carry a direct carbon price"
+        },
+        {
+          "fig": "cp-instruments",
+          "label": "carbon taxes and trading schemes in force"
+        },
+        {
+          "fig": "cp-price",
+          "label": "average price per tonne of CO₂e"
+        },
+        {
+          "fig": "cp-revenue",
+          "label": "raised by carbon pricing in 2025"
+        }
+      ]
+    }
   ],
   "charts": [
-    { "id": "c-size", "type": "grouped", "title": "Private capital is on course to nearly double", "caption": "Assets under management, US$ trillion. End-2023 actual against Preqin's 2029 forecast.",
-      "series": [ { "key": "a", "label": "2023", "color": "var(--neutral)" }, { "key": "f", "label": "2029 forecast", "color": "var(--eu)" } ],
+    {
+      "id": "c-size",
+      "type": "bars",
+      "title": "Private capital today, and where it is heading",
+      "caption": "US$ trillion. 2025 figures are McKinsey's, drawn at the midpoint of each range. 2030 figures are Preqin's forecasts, which also count hedge funds and natural resources. The two use different definitions, so do not add them together.",
+      "legend": [
+        {
+          "label": "2025, McKinsey",
+          "color": "var(--eu)"
+        },
+        {
+          "label": "2030 forecast, Preqin",
+          "color": "var(--neutral)"
+        }
+      ],
       "rows": [
-        { "label": "All alternatives", "values": { "a": "alt-2023", "f": "alt-2029" } },
-        { "label": "Private equity", "values": { "a": "pe-2023", "f": "pe-2029" } },
-        { "label": "Private real estate", "values": { "a": "pre-2023", "f": "pre-2029" } }
-      ] },
-    { "id": "c-edci", "type": "bars", "title": "The industry's shared dataset keeps growing", "caption": "Total assets managed by firms that belong to the ESG Data Convergence Initiative, US$ trillion. This is the members' whole balance sheet, not the private assets the data covers.",
+        {
+          "label": "Closed-end private-markets funds, 2025",
+          "fig": "mck-closed",
+          "color": "var(--eu)"
+        },
+        {
+          "label": "Evergreen funds, separate accounts and insurance capital, 2025",
+          "fig": "mck-other",
+          "color": "var(--eu)"
+        },
+        {
+          "label": "All alternatives, 2030 forecast",
+          "fig": "alt-2030",
+          "color": "var(--neutral)"
+        },
+        {
+          "label": "Private credit, 2030 forecast",
+          "fig": "credit-2030",
+          "color": "var(--neutral)"
+        },
+        {
+          "label": "Infrastructure, 2030 forecast",
+          "fig": "infra-2030",
+          "color": "var(--neutral)"
+        }
+      ]
+    },
+    {
+      "id": "c-edci",
+      "type": "bars",
+      "title": "The industry's shared dataset keeps growing",
+      "caption": "Total assets managed by firms that belong to the ESG Data Convergence Initiative, US$ trillion. This is the members' whole balance sheet, not the private assets the data covers.",
       "rows": [
-        { "label": "January 2024 · 375+ members", "fig": "edci-aum-2024" },
-        { "label": "July 2025 · 450+ members", "fig": "edci-aum-2025" },
-        { "label": "2026 · 500+ members", "fig": "edci-aum-2026" }
-      ] },
-    { "id": "c-plans", "type": "bars", "title": "Few PE-owned companies have a climate plan", "caption": "Share of companies in the EDCI dataset, 2023 data. Full bar = 100%.", "max": 100,
+        {
+          "label": "January 2024 · 375+ members",
+          "fig": "edci-aum-2024"
+        },
+        {
+          "label": "July 2025 · 450+ members",
+          "fig": "edci-aum-2025"
+        },
+        {
+          "label": "2026 · 500+ members",
+          "fig": "edci-aum-2026"
+        }
+      ]
+    },
+    {
+      "id": "c-plans",
+      "type": "bars",
+      "title": "Few PE-owned companies have a climate plan",
+      "caption": "Share of companies in the EDCI dataset, 2023 data. Full bar = 100%.",
+      "max": 100,
       "rows": [
-        { "label": "Have a decarbonisation strategy", "fig": "bcg-strategy" },
-        { "label": "Committed to net zero by 2050", "fig": "bcg-netzero" },
-        { "label": "Median share of renewable electricity", "fig": "bcg-renew" }
-      ] },
-    { "id": "c-pri", "type": "grouped", "title": "Investors report more climate metrics each year, but not most of them", "caption": "Share of PRI signatories reporting each metric. Full bar = 100%. The earlier year is 2024, except physical risk (2023).", "max": 100,
-      "series": [ { "key": "a", "label": "Earlier year", "color": "var(--neutral)" }, { "key": "b", "label": "2025", "color": "var(--eu)" } ],
+        {
+          "label": "Have a decarbonisation strategy",
+          "fig": "bcg-strategy"
+        },
+        {
+          "label": "Committed to net zero by 2050",
+          "fig": "bcg-netzero"
+        },
+        {
+          "label": "Median share of renewable electricity",
+          "fig": "bcg-renew"
+        }
+      ]
+    },
+    {
+      "id": "c-pri",
+      "type": "grouped",
+      "title": "Investors report more climate metrics each year, but not most of them",
+      "caption": "Share of PRI signatories reporting each metric. Full bar = 100%. The earlier year is 2024, except physical risk (2023).",
+      "max": 100,
+      "series": [
+        {
+          "key": "a",
+          "label": "Earlier year",
+          "color": "var(--neutral)"
+        },
+        {
+          "key": "b",
+          "label": "2025",
+          "color": "var(--eu)"
+        }
+      ],
       "rows": [
-        { "label": "Total carbon emissions", "values": { "a": "pri-carbon-24", "b": "pri-carbon-25" } },
-        { "label": "Weighted average carbon intensity", "values": { "a": "pri-waci-24", "b": "pri-waci-25" } },
-        { "label": "Physical-risk exposure", "values": { "a": "pri-phys-23", "b": "pri-phys-25" } }
-      ] },
-    { "id": "c-losses", "type": "grouped", "title": "About half of 2025's disaster losses were not insured", "caption": "Natural-catastrophe losses in 2025, US$ billion, as estimated by three firms. Each uses its own method; do not average them. Swiss Re's economic total was not available.",
-      "series": [ { "key": "e", "label": "Economic losses", "color": "var(--neutral)" }, { "key": "i", "label": "Insured losses", "color": "var(--au)" } ],
+        {
+          "label": "Total carbon emissions",
+          "values": {
+            "a": "pri-carbon-24",
+            "b": "pri-carbon-25"
+          }
+        },
+        {
+          "label": "Weighted average carbon intensity",
+          "values": {
+            "a": "pri-waci-24",
+            "b": "pri-waci-25"
+          }
+        },
+        {
+          "label": "Physical-risk exposure",
+          "values": {
+            "a": "pri-phys-23",
+            "b": "pri-phys-25"
+          }
+        }
+      ]
+    },
+    {
+      "id": "c-losses",
+      "type": "grouped",
+      "title": "About half of 2025's disaster losses were not insured",
+      "caption": "Natural-catastrophe losses in 2025, US$ billion, as estimated by three firms. Each uses its own method; do not average them. Swiss Re's economic total was not available.",
+      "series": [
+        {
+          "key": "e",
+          "label": "Economic losses",
+          "color": "var(--neutral)"
+        },
+        {
+          "key": "i",
+          "label": "Insured losses",
+          "color": "var(--au)"
+        }
+      ],
       "rows": [
-        { "label": "Munich Re", "values": { "e": "mr-econ", "i": "mr-ins" } },
-        { "label": "Aon", "values": { "e": "aon-econ", "i": "aon-ins" } },
-        { "label": "Swiss Re Institute", "values": { "i": "sr-ins" } }
-      ] },
-    { "id": "c-ml", "type": "bars", "title": "Machine learning helps most where it matters least", "caption": "Best reported improvement over earlier estimation models. Scope 3 — the supply chain, usually the biggest share — gains least.",
+        {
+          "label": "Munich Re",
+          "values": {
+            "e": "mr-econ",
+            "i": "mr-ins"
+          }
+        },
+        {
+          "label": "Aon",
+          "values": {
+            "e": "aon-econ",
+            "i": "aon-ins"
+          }
+        },
+        {
+          "label": "Swiss Re Institute",
+          "values": {
+            "i": "sr-ins"
+          }
+        }
+      ]
+    },
+    {
+      "id": "c-ml",
+      "type": "bars",
+      "title": "Machine learning helps most where it matters least",
+      "caption": "Best reported improvement over earlier estimation models. Scope 3 — the supply chain, usually the biggest share — gains least.",
       "rows": [
-        { "label": "Scope 1–3, mean absolute error", "fig": "ml-mae" },
-        { "label": "Scope 3, category by category", "fig": "ml-s3-cat" },
-        { "label": "Scope 3, as one total", "fig": "ml-s3-agg" }
-      ] },
-    { "id": "c-agree", "type": "bars", "title": "Data providers agree on reported numbers, and not on estimates", "caption": "Correlation between two providers' figures for the same companies. 1.0 = identical ranking, 0 = no relationship. Amundi reports its correlations as percentages (74%, 25%, 16%).", "max": 1,
+        {
+          "label": "Scope 1–3, mean absolute error",
+          "fig": "ml-mae"
+        },
+        {
+          "label": "Scope 3, category by category",
+          "fig": "ml-s3-cat"
+        },
+        {
+          "label": "Scope 3, as one total",
+          "fig": "ml-s3-agg"
+        }
+      ]
+    },
+    {
+      "id": "c-agree",
+      "type": "bars",
+      "title": "Data providers agree on reported numbers, and not on estimates",
+      "caption": "Correlation between two providers' figures for the same companies. 1.0 = identical ranking, 0 = no relationship. Amundi reports its correlations as percentages (74%, 25%, 16%).",
+      "max": 1,
       "rows": [
-        { "label": "Scope 1, reported by the company", "fig": "corr-rep" },
-        { "label": "Scope 1, estimated by the provider", "fig": "corr-est" },
-        { "label": "Scope 1+2, Trucost vs MSCI", "fig": "corr-s12" },
-        { "label": "Downstream Scope 3, Trucost vs MSCI", "fig": "corr-s3down" },
-        { "label": "Scope 3, ISS vs Trucost", "fig": "corr-s3" }
-      ] },
-    { "id": "c-berg", "type": "stacked", "title": "Why ESG ratings disagree", "caption": "Share of the disagreement between six ESG raters explained by each cause.",
-      "segments": [ { "key": "m", "label": "Measuring the same thing differently", "color": "var(--eu)" }, { "key": "s", "label": "Measuring different things", "color": "var(--au)" }, { "key": "w", "label": "Weighting them differently", "color": "var(--sg)" } ],
-      "rows": [ { "label": "Six raters, 2022 study", "parts": { "m": "berg-meas", "s": "berg-scope", "w": "berg-weight" } } ] }
+        {
+          "label": "Scope 1, reported by the company",
+          "fig": "corr-rep"
+        },
+        {
+          "label": "Scope 1, estimated by the provider",
+          "fig": "corr-est"
+        },
+        {
+          "label": "Scope 1+2, Trucost vs MSCI",
+          "fig": "corr-s12"
+        },
+        {
+          "label": "Downstream Scope 3, Trucost vs MSCI",
+          "fig": "corr-s3down"
+        },
+        {
+          "label": "Scope 3, ISS vs Trucost",
+          "fig": "corr-s3"
+        }
+      ]
+    },
+    {
+      "id": "c-berg",
+      "type": "stacked",
+      "title": "Why ESG ratings disagree",
+      "caption": "Share of the disagreement between six ESG raters explained by each cause.",
+      "segments": [
+        {
+          "key": "m",
+          "label": "Measuring the same thing differently",
+          "color": "var(--eu)"
+        },
+        {
+          "key": "s",
+          "label": "Measuring different things",
+          "color": "var(--au)"
+        },
+        {
+          "key": "w",
+          "label": "Weighting them differently",
+          "color": "var(--sg)"
+        }
+      ],
+      "rows": [
+        {
+          "label": "Six raters, 2022 study",
+          "parts": {
+            "m": "berg-meas",
+            "s": "berg-scope",
+            "w": "berg-weight"
+          }
+        }
+      ]
+    }
   ]
 }
