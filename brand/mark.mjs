@@ -1,35 +1,38 @@
-/* The ReGenesis Impact mark: an infinity loop with one blue data point on it.
-   The loop is ink and the point is the site's first data colour, which follows
-   the design rule everywhere else: the brand is ink, and colour is for data.
+/* The ReGenesis Impact mark: a neural leaf. A leaf outline whose veins are a
+   small network (nodes on the midrib, edges out to the margin) with the tip
+   lit in the first data colour. Climate and machine learning in one shape,
+   and it follows the design rule everywhere else: the brand is ink, and
+   colour is for data.
 
-   The curve is a lemniscate of Bernoulli stretched vertically (K) so the loops
-   are round and the crossing is gentle rather than a sharp X. Every copy of the
-   mark (inline in page headers, the favicon, app icons, the social image, the
-   PDF cover) is generated from this one function, so they can never drift. */
+   Every copy of the mark (inline in page headers, the favicon, app icons, the
+   social image, the PDF cover, the two React apps) is generated from MARK, so
+   they can never drift. Coordinates are in a 32×32 box. */
 
-const A = 13.4, K = 1.62, CX = 16, CY = 16;
-export const STROKE = 3.4;
-export const DOT_R = 3;
+export const MARK = {
+  /** Stroked paths: the leaf outline, then the midrib and four veins. */
+  strokes: [
+    { d: 'M16 3.2C24.8 8.4 27.2 19 16 28.8C4.8 19 7.2 8.4 16 3.2Z', w: 2.2 },
+    { d: 'M16 28.8L16 11.5M16 22L22.6 16.6M16 22L9.4 16.6M16 15.5L21.4 10.4M16 15.5L10.6 10.4', w: 1.8 },
+  ],
+  /** The network's nodes on the midrib, in ink: [cx, cy, r]. */
+  nodes: [[16, 22, 1.9], [16, 15.5, 1.9]],
+  /** The lit node at the tip, in the data colour. */
+  dot: [16, 8.9, 3.3],
+};
 
-const pt = t => { const d = 1 + Math.sin(t) ** 2; return [CX + A * Math.cos(t) / d, CY + K * A * Math.sin(t) * Math.cos(t) / d]; };
-
-/** The loop as an SVG path in a 32×32 box. `n` points; more for large renders. */
-export function loopPath(n = 96) {
-  let d = '';
-  for (let i = 0; i < n; i++) {
-    const [x, y] = pt((2 * Math.PI * i) / n);
-    d += (i ? 'L' : 'M') + x.toFixed(2) + ' ' + y.toFixed(2);
-  }
-  return d + 'Z';
+/** The mark's elements with literal colours, for files that leave the site. */
+export function markElements(ink, dot) {
+  return MARK.strokes.map(s => `<path d="${s.d}" fill="none" stroke="${ink}" stroke-width="${s.w}" stroke-linecap="round" stroke-linejoin="round"/>`).join('')
+    + MARK.nodes.map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${ink}"/>`).join('')
+    + `<circle cx="${MARK.dot[0]}" cy="${MARK.dot[1]}" r="${MARK.dot[2]}" fill="${dot}"/>`;
 }
 
-/** Where the data point sits: on the right-hand loop, upper side. */
-export const DOT = pt(-Math.PI / 4 + 0.08).map(v => +v.toFixed(2));
-
-/** Inline SVG. `ink` and `dot` are CSS colour expressions (currentColor, var(--eu)),
-    written as style so custom properties resolve and theme switches follow. */
-export function markSvg({ size = 22, cls = 'mark', ink = 'currentColor', dot = 'var(--eu)', n = 96, title } = {}) {
+/** Inline SVG for pages. `ink` and `dot` are CSS colour expressions
+    (currentColor, var(--eu)), written as style so custom properties resolve
+    and theme switches follow. */
+export function markSvg({ size = 22, cls = 'mark', ink = 'currentColor', dot = 'var(--eu)', title } = {}) {
   return `<svg class="${cls}" width="${size}" height="${size}" viewBox="0 0 32 32" ${title ? `role="img" aria-label="${title}"` : 'aria-hidden="true"'} focusable="false">`
-    + `<path d="${loopPath(n)}" style="fill:none;stroke:${ink};stroke-width:${STROKE};stroke-linejoin:round"/>`
-    + `<circle cx="${DOT[0]}" cy="${DOT[1]}" r="${DOT_R}" style="fill:${dot}"/></svg>`;
+    + MARK.strokes.map(s => `<path d="${s.d}" style="fill:none;stroke:${ink};stroke-width:${s.w};stroke-linecap:round;stroke-linejoin:round"/>`).join('')
+    + MARK.nodes.map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" style="fill:${ink}"/>`).join('')
+    + `<circle cx="${MARK.dot[0]}" cy="${MARK.dot[1]}" r="${MARK.dot[2]}" style="fill:${dot}"/></svg>`;
 }

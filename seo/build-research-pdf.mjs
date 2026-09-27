@@ -20,8 +20,8 @@ import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { serve } from '../test/lib/serve.mjs';
 import { markSvg } from '../brand/mark.mjs';
-// On the dark cover the loop is paper and the point is the dark-theme blue.
-const COVER_MARK = size => markSvg({ size, ink: '#F4F3EF', dot: '#3987e5', n: 200 });
+// On the dark cover the leaf is paper and its lit tip is the dark-theme blue.
+const COVER_MARK = size => markSvg({ size, ink: '#F4F3EF', dot: '#3987e5' });
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const slug = process.argv[2];
